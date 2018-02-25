@@ -1,0 +1,6 @@
+<aura:component >
+	<aura:attribute name="mapObject" type="SObject" />
+    <aura:attribute name="fieldSetMember" type="Object" />	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <ui:outputText aura:Id="outputTextId" />
+</aura:component>

@@ -1,0 +1,87 @@
+<aura:component controller="ToroPricingProgramController" >
+	<aura:attribute name="quoteId" type="String" />
+    <aura:attribute name="fields" type="Object[]" />
+    <aura:attribute name="fieldsSub" type="Object[]" />
+    <aura:attribute name="fieldsSummary" type="Object[]" />
+    <aura:attribute name="quoteItems" type="SObject[]" />
+    <aura:attribute name="quoteItemMap" type="Object" />
+    <aura:attribute name="selectedPricingProgram" type="String"/>
+    <aura:attribute name="selectedPricingMethod" type="String"/>
+    <aura:attribute name="sublineMap" type="Object" />
+    <aura:attribute name="selectedQuoteItem" type="String" />
+    <aura:attribute name="IsSpinner" type="Boolean"/>
+    <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
+    <aura:registerEvent name="refreshInfoBoxEvent" type="c:RefreshInfoBoxEvent"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+	<aura:method name="setPricingProgramSvc"
+      description="This method makes an aura call to set pricing program at quote item">
+        <aura:attribute name="selectedPricingProgram" type="String" />
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+    <aura:method name="calculate"
+      description="This method makes an aura call to update quote">
+        <aura:attribute name="pricingProgram" type="String" />
+        <aura:attribute name="pricingMethod" type="String" />
+    </aura:method>
+    <aura:method name="saveQuote"
+      description="This method makes an aura call to update quote">
+        <aura:attribute name="pricingProgram" type="String" />
+        <aura:attribute name="pricingMethod" type="String" />
+    </aura:method>
+    <aura:method name="setPricingMethodSvc"
+      description="This method makes an aura call to set pricing method at quote item">
+        <aura:attribute name="selectedPricingProgram" type="String" />
+        <aura:attribute name="selectedPricingMethod" type="String" />
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+    
+    <aura:method name="setPMTotalAwardDollars"
+      description="This method makes an aura call to set value of Total Award $ of Pricing Method">
+        <aura:attribute name="pricingProgram" type="String" />
+        <aura:attribute name="pricingMethod" type="String" />
+        <aura:attribute name="awardPrice" type="decimal" />
+    </aura:method>
+    <aura:method name="setPMGPPercent"
+      description="This method makes an aura call to set value of GP % of Pricing Method">
+        <aura:attribute name="pricingProgram" type="String" />
+        <aura:attribute name="pricingMethod" type="String" />
+        <aura:attribute name="gpPercent" type="decimal" />
+    </aura:method>
+    
+    
+    <aura:method name="setPricingProgram"
+      description="set quote item pricing program">
+        <aura:attribute name="newPricingProgram" type="String" />
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+    
+    <aura:method name="setPricingMethod"
+      description="set quote item pricing method">
+        <aura:attribute name="newPricingMethod" type="String" />
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+    
+    <div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
+        <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+    
+    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout slds-is-relative">
+	<thead>
+		<tr class="slds-text-heading--label">
+            <th scope="col" class="chevron-cell">
+                <span class="chevron right" onclick="{!c.toggleChevron}"></span>
+            </th>
+			<aura:iteration items="{!v.fields}" var="fld">
+				<th scope="col" class="{!'type-'+fld.type+' '+fld.fieldPath}"><div class="{!'slds-truncate slds-cell-wrap '+fld.fieldPath}" title="{!fld.label}">{!fld.label}</div></th>
+			</aura:iteration>
+		</tr>
+	</thead>
+	<tbody id="quoteItems">
+    </tbody>
+    </table>    
+</aura:component>

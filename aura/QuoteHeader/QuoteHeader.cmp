@@ -1,0 +1,94 @@
+<aura:component controller="ToroPricingProgramController" >
+	<aura:attribute name="quoteId" type="String" />
+    <aura:attribute name="fields" type="Object[]" />
+    <aura:attribute name="quote" type="SObject" />
+    <aura:attribute name="pricingProgramOptions" type="List"/>
+    <aura:attribute name="selectedPricingProgram" type="String"/>
+    <aura:attribute name="pricingMethodOptions" type="List"/>
+    <aura:attribute name="selectedPricingMethod" type="String"/>
+    <aura:attribute name="displayPerformancePart" type="Boolean"/>
+    <aura:registerEvent name="pricingProgramEvent" type="c:PricingProgramChangeEvent"/>
+    <aura:registerEvent name="pricingMethodEvent" type="c:PricingMethodChangeEvent"/>
+    <aura:registerEvent name="pricingProgramSetEvent" type="c:PricingProgramSetFromDBEvent"/>
+    <aura:registerEvent name="pricingMethodSetEvent" type="c:PricingMethodSetFromDBEvent"/>
+    <aura:registerEvent name="PMAwardPriceChangeEvent" type="c:PricingMethodAwardPriceChangeEvent"/>
+    <aura:registerEvent name="PMGPPercentChangeEvent" type="c:PricingMethodGPPercentChangeEvent"/>
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+	<aura:handler name="change" value="{!v.selectedPricingProgram}" action="{!c.handlePricingProgramChange}"/>
+    <aura:handler name="change" value="{!v.selectedPricingMethod}" action="{!c.handlePricingMethodChange}"/>
+	<aura:method name="getPricingProgramMethod"
+      description="This method makes an aura call to set pricing program at quote item">
+    </aura:method>
+    <aura:method name="savePricingProgramMethod"
+      description="This method makes an aura call to set pricing program at quote item">
+    </aura:method>
+    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
+	<thead>
+		<tr class="slds-text-heading--label">
+			<aura:iteration items="{!v.fields}" var="fld">
+				<th scope="col"><div class="slds-truncate" title="{!fld.label}">{!fld.label}</div></th>
+			</aura:iteration>
+		</tr>
+	</thead>
+	<tbody id="quoteHeader">
+    </tbody>
+	</table>
+	
+    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout slds-size--8-of-12">
+	<tbody >
+        <tr class="slds-text-heading--label">
+			<td scope="col">
+                <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Programs">Pricing Programs</div>
+                <div>
+                <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}"  >
+                    <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingProgram}" />
+                    <aura:iteration items="{!v.pricingProgramOptions}" var="item">
+                        <ui:inputSelectOption text="{!item.value}" label="{!item.label}" value="{!item.value==v.selectedPricingProgram}"/>
+                     </aura:iteration>               
+                </ui:inputSelect>
+                </div>
+            </td>
+            
+            <td scope="col">
+                <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Pricing Methods</div>
+                <div>
+                <ui:inputSelect class="slds-select" aura:id="pricingMethod" value="{!v.selectedPricingMethod}" change="{!c.onPricingMethodSelectChange}"  >
+                    <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingMethod}" />                   
+                    <aura:iteration items="{!v.pricingMethodOptions}" var="item2">
+                        <ui:inputSelectOption text="{!item2.value}" label="{!item2.label}" value="{!item2.value==v.selectedPricingMethod}"/>
+                     </aura:iteration>               
+                </ui:inputSelect>
+               </div>
+            </td>
+            <aura:if isTrue="{!v.selectedPricingMethod == 'Total Award $'}"> 
+            	<td scope="col" class="pricing-method">  
+                    <div class="slds-truncate slds-p-bottom_x-small" title="Total Award $">Total Award $</div>
+                    <div>
+                        <input type="text" value="{!v.quote.TotalAwardDollars__c}" onchange="{!c.onTotalAwardPriceChange}"/>              	
+                    </div>
+            	</td>
+                <aura:set attribute="else">
+                    <td scope="col" class="pricing-method"> 
+                    <aura:if isTrue="{!v.selectedPricingMethod == 'Gross Profit %'}">
+                        <div class="slds-truncate slds-p-bottom_x-small" title="Gross Profit %">Gross Profit %</div>
+                        <div>
+                            <input type="text" value="{!v.quote.Gross_Profit_Percent__c}" onchange="{!c.onGpPercentChange}"/>
+                        </div>
+                    </aura:if>
+                    </td>
+    			</aura:set>     
+            </aura:if>
+            <aura:if isTrue="{!v.displayPerformancePart}"> 
+            	<td scope="col" class="performance-part">  
+                    <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Performance Part</div>
+                    <div>
+                    <ui:inputCheckbox value="{!v.quote.Performance_Part__c}"/> 
+                        </div>
+            	</td>
+            </aura:if>
+            
+		</tr>
+    </tbody>
+	</table>
+</aura:component>

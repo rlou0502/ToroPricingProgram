@@ -1,0 +1,30 @@
+<apex:page controller="ToroPricingProgramController">
+    <apex:includeLightning />
+    <div id="lightning" ></div>
+    <script>
+        $Lightning.use("c:PricingProgramVFApp", function() {
+          $Lightning.createComponent("c:PricingProgram",
+          { label : "Pricing Program",
+            quoteId : "{!quoteId}" },
+          "lightning",
+          function(cmp) {
+            $A.eventService.addHandler({
+			      event: 'force:navigateToSObject',
+			      handler: function(event) {
+			      
+			      debugger;
+			      
+			      if( (typeof sforce != 'undefined') && sforce && (!!sforce.one) ) {
+			        
+			          // VF page in S1 or Lightning Exp
+			        	//sforce.one.navigateToSObject(event.$params$.recordId);
+			        } else {
+			        	var qid = event.getParam("recordId");
+			          	window.location = "/"+qid;	
+			        }
+			      }
+			    });
+          });
+        });
+    </script>
+</apex:page>

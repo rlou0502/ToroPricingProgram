@@ -1,0 +1,15 @@
+<aura:component controller="ToroPricingProgramInfoBoxController"  >
+    <aura:attribute name="fields" type="Object[]" />
+    <aura:attribute name="sObject" type="SObject" />
+    <aura:method name="refreshInfoBox"
+      description="">
+        <aura:attribute name="ObjId" type="String" />
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+    <div aura:id="infoContainer" >
+        <table >
+        <tbody id="infoBox">
+    	</tbody>
+        </table>
+        </div>
+</aura:component>

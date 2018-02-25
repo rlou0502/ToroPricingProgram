@@ -1,0 +1,25 @@
+<aura:component >
+	<aura:attribute name="supportPlusList" type="Support_Plus_Holder__c[]" />
+    <aura:registerEvent name="supportPlusAddNewEvent" type="c:ToroSPAddNewEvent"/>
+	<div>{!$Label.c.SP_Add_New}</div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>SP Qty</th>
+                    <th>Model</th>
+                    <th>Description</th>
+                    <th>Disti Resp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text"></input></td>
+                    <td><input type="text"></input></td>
+                    <td><span id="description"></span></td>
+                    <td><input type="text" id="disti-resp"></input></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</aura:component>

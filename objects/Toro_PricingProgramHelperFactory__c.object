@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Pricing Program Factory</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>ClassName__c</fullName>
+        <externalId>false</externalId>
+        <label>Class Name</label>
+        <length>127</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PricingProgramName__c</fullName>
+        <externalId>false</externalId>
+        <label>Pricing Program Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Pricing Program Helper</label>
+    <visibility>Public</visibility>
+</CustomObject>

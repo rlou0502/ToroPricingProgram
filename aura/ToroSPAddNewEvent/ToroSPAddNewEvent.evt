@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="supportPlusQty" type="decimal"/>
+    <aura:attribute name="supportPlusContribution" type="decimal"/>
+</aura:event>

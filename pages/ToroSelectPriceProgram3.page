@@ -1,0 +1,286 @@
+<apex:page controller="ToroSelectPriceProgramController"  docType="html-5.0" >
+	<apex:includeScript value="{!URLFOR($Resource.DA, '/bower_components/jquery/dist/jquery.min.js')}"/>
+	<script type="text/javascript">
+        j$ = jQuery.noConflict();
+        var pricingProgramTypes={};
+	    <apex:repeat value="{!pricingProgramTypes}" var="myKey">
+			pricingProgramTypes["{!JSENCODE(myKey)}"] = "{!pricingProgramTypes[myKey]}";
+	    </apex:repeat>
+	    var quoteId = "{!quoteId}";
+        j$(document).ready(function() {
+        	/*
+        	j$( ".quoteItemPanel" ).each(function( index ) {
+        		console.log('this.id = ' + this.id);
+		        twistSection(document.getElementById(this.id).childNodes[0].childNodes[0]);
+		    });
+
+		    //rebindShowHideSection();
+		    console.log(j$(".quoteItemPanel img"));
+		    */
+		    j$(".quoteItemPanel img").click(function(e) {
+        		console.log('--------------------');	
+        	});
+
+		    //rebindShowHideSection();
+        	handlePriceMethodChange();	
+        	j$('select.pricingProgram').trigger("change");
+        	
+        });
+
+        var rebindShowHideSection = function() {
+        	j$(".quoteItemPanel img").click(function(e) {
+        		console.log('--------------------');
+		    	if(this.title.startsWith("Hide")) {
+		    		var currentId = j$(this).closest(".quoteItemPanel")[0].id;
+		    		console.log('----currentId---' + currentId);
+		    		console.log('----this.title---' + this.title);
+		    		
+		    		j$( ".quoteItemPanel" ).each(function( index ) {
+		        		//console.log('this.id = ' + this.id);
+		        		//console.log('currentQuoteItem id = ' + j$("."+ currentQuoteItem)[0].id);
+		        		
+		        		if(currentId !=  this.id) {
+		        			console.log('-------twist =' + this.id);
+		        			twistSection(document.getElementById(this.id).childNodes[0].childNodes[0]);	
+		        		} 
+				    });
+
+		    	}
+        		
+        	});
+        }
+        var handlePriceMethodChange = function() {
+        	j$("input.percentage").keypress(function(event){
+				console.log(event.which);
+				var key = String.fromCharCode(event.which);
+		       if(event.which != 8 && event.which != 0 && key != "." && isNaN(String.fromCharCode(event.which))){
+		           event.preventDefault(); //stop character from entering input
+		       }
+		
+		   });
+		    
+        	j$( ".returnToQuote" ).click(function(e) {
+        		window.top.location = '/'+quoteId; 
+        	});
+        	
+        	j$('input.dNetMsrpVal').change(function() {
+        		var sfdcId = j$(this).data('sfdc-id');
+        		var priceMethod = j$(this).data('price-method');
+        		var newVal = parseFloat(j$(this).val());
+        		var oldVal = parseFloat(j$(this).data('original-value'));
+        		console.log('-------------newVal =' + newVal);
+        		console.log('-------------oldVal =' + oldVal);
+        		if(newVal > oldVal) {
+        			alert("Please enter a value lower than " + oldVal);
+        			j$(this).val(oldVal).focus();
+        			return false;
+        		} else {
+        			updateStateContractQuoteItem(sfdcId, priceMethod, newVal, oldVal);
+        		}
+              });
+
+        	j$('select.pricingMethod').change(function() {
+        		console.log('-------------');
+        		var priceMethod = j$(this).val();
+        		console.log(j$(this).val());
+        		/*
+        		if(j$(this).val() === "% of DNET") {
+        			j$(".dNetMsrpLabel").text("Award Percent of DN");
+        		} else if(j$(this).val() === "% of MSRP") {
+        			j$(".dNetMsrpLabel").text("Percent Off MSRP");
+        		}
+        		*/
+        		var pp = j$(this).closest("td").siblings("td").find("select.pricingProgram").val();  
+        		console.log('price program name =' + pp);
+        		var ppt = pricingProgramTypes[pp];    
+        		console.log('price program type =' + ppt);  
+        		if(ppt === "State Contract") {
+        			j$(".dNetMsrpValQuote").prop("disabled", true);
+        			updateStateContractQuote(pp, priceMethod);      			
+        		}  
+        		//j$(".dNetMsrpValQuote").prop("disabled", false);   
+              });
+
+
+              j$("select.pricingProgram").change(function() {
+              	
+        		console.log('-------------');
+        		var pricingProgram = j$(this).val();
+        		var pm = j$(this).closest("td").siblings("td").find("select.pricingMethod").val();  
+        		console.log('price program name =' + pm);
+        		var ppt = pricingProgramTypes[pricingProgram];    
+        		console.log('price program type =' + ppt);  
+        		
+        		
+        		if(ppt === "State Contract") {
+        			updateStateContractQuote(pricingProgram, pm);
+        			j$(".dNetMsrpValQuote").prop("disabled", true);
+        			
+        		} else if (ppt === "Large package") {
+        			
+        		}  
+        		
+        		//j$(".dNetMsrpValQuote").prop("disabled", false);  
+              });
+              j$(".dNetMsrpValQuote").val(null).prop("disabled", true);
+        };
+    </script>
+	<apex:form id="toroPricing">
+		<apex:actionFunction name="updateStateContractQuote" action="{!updateStateContractQuote}" rerender="quoteDetails" oncomplete="handlePriceMethodChange();" status="status">
+			<apex:param name="priceProgram" value=""/>
+			<apex:param name="priceMethod" value=""/>
+		</apex:actionFunction>
+		<apex:actionFunction name="updateStateContractQuoteItem" action="{!updateStateContractQuoteItem}" rerender="quoteDetails" oncomplete="handlePriceMethodChange();" status="status">
+			<apex:param name="sfdc_id" value=""/>
+			<apex:param name="priceMethod" value=""/>
+			<apex:param name="newVal" value=""/>
+			<apex:param name="originalVal" value=""/>
+		</apex:actionFunction>
+		<apex:slds />
+        <apex:actionStatus id="status">
+            <apex:facet name="start">
+                <div class="slds-spinner_container" style="position: fixed;" >
+                    <div role="status" class="slds-spinner slds-spinner--large slds-spinner--brand">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        <!-- / SPINNER -->
+		<apex:pageBlock title="Quote Details" id="quoteDetails" tabStyle="Account">
+		<script type="text/javascript">
+			var currentQuoteItem = "{!currentQuoteItem}";
+		</script>
+			<apex:pageBlockButtons >
+	            <input type="button" id="returnToQuote" class="btn returnToQuote" value="Return To Quote" />
+	            <!--apex:commandButton action="{!returnToQuote}" value="Return To Quote" / -->  
+	        </apex:pageBlockButtons>
+			<apex:pageBlockSection title="Quote Header" >
+				<apex:pageBlockTable value="{!quotes}" var="item" >
+					<apex:repeat value="{!QuoteFields}" var="qf">
+						<apex:column >
+							<apex:facet name="header"><div align="center">{!qf.label}</div></apex:facet>
+	                        <apex:outputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteFieldsUpdatable[lower(qf.fieldPath)], false, true)}"/>
+	                        <apex:inputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteFieldsUpdatable[lower(qf.fieldPath)], true, false)}"/>
+	                    </apex:column>
+              		</apex:repeat>
+          		</apex:pageBlockTable>
+          	</apex:pageBlockSection>
+          	
+	          	<apex:pageBlockSection title="Choose Pricing Program" id="dNetMsrf">
+					<apex:pageBlockTable value="{!pricingProgramSelectors}" var="item" >
+						<apex:column >
+							<apex:facet name="header"><div align="center">Pricing Programs</div></apex:facet>
+	                        <apex:selectList value="{!item.pricingProgram}" multiselect="false" size="1" styleClass="pricingProgram">
+	                        	<apex:selectOptions value="{!pricingProgramOptions}"/>
+	                        </apex:selectList>
+	                    </apex:column>
+	                    <apex:column >
+							<apex:facet name="header"><div align="center" >Pricing Methods</div></apex:facet>
+	                        <apex:selectList value="{!item.pricingMethod}" multiselect="false" size="1" styleClass="pricingMethod">
+	                        	<apex:selectOptions value="{!priceMethodOptions}"/>
+	                        	<!--<apex:actionSupport event="onchange" action="{!switchDNetMsrf}" reRender="dNetMsrf"></apex:actionSupport>-->
+	                        </apex:selectList>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" class="dNetMsrpLabel" >{!pricingMethodLabel}</div></apex:facet>
+	                    	
+	                    	<apex:outputPanel rendered="{!IF(item.pricingMethod = '% of MSRP', true, false)}">
+	                        	<apex:inputText value="{!item.percentOffMSRP}" styleClass="dNetMsrpValQuote">
+		                        </apex:inputText>
+	                    	</apex:outputPanel>
+							<apex:outputPanel rendered="{!IF(item.pricingMethod = '% of DNET', true, false)}">
+	                        	<apex:inputText value="{!item.awardPercentOfDNet}" styleClass="dNetMsrpValQuote">
+		                        </apex:inputText>
+	                    	</apex:outputPanel>
+	                    </apex:column>
+	          		</apex:pageBlockTable>
+	          	</apex:pageBlockSection>
+          	
+
+  			<apex:pageBlockSection title="Quote Items" columns="1" id="quoteItemList">
+  			<apex:repeat value="{!quoteItemWrapperList}" var="qouteItem" >
+  				<apex:pageBlockSection id="pbs" title="{!qouteItem.qi.REVVY__Product_Name_F__c}({!qouteItem.qi.REVVY__Product_ID_F__c})" columns="1" html-class="quoteItemPanel {!qouteItem.qi.Id}" collapsible="true">
+					<apex:pageBlockTable value="{!qouteItem.qi}" var="item" >
+						<apex:repeat value="{!QuoteItemFields}" var="qf">
+							<apex:column >
+								<apex:facet name="header"><div align="center">{!qf.label}</div></apex:facet>
+		                        <apex:outputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteItemFieldsUpdatable[lower(qf.fieldPath)], false, true)}"/>
+		                        <apex:inputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteItemFieldsUpdatable[lower(qf.fieldPath)], true, false)}"/>
+		                    </apex:column>
+	              		</apex:repeat>
+	          		</apex:pageBlockTable>
+	          		<apex:pageBlockSection columns="2" id="qiPPSelectorSection"> 
+					<apex:pageBlockTable value="{!qouteItem.ppSelectors}" var="item" id="qiPPSelectorTable">
+						<apex:column >
+							<apex:facet name="header"><div align="center">Pricing Programs</div></apex:facet>
+							<apex:outputText value="{!item.pricingProgram}" />
+							<!--
+	                        <apex:selectList value="{!item.pricingProgram}" multiselect="false" size="1" styleClass="pricingProgram">
+	                        	<apex:selectOptions value="{!pricingProgramOptions}"/>
+	                        </apex:selectList>
+	                    -->
+	                    </apex:column>
+	                    <apex:column >
+							<apex:facet name="header"><div align="center" >Pricing Methods</div></apex:facet>
+							<apex:outputText value="{!item.pricingMethod}" />
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" class="dNetMsrpLabel" >{!pricingMethodLabel}</div></apex:facet>
+	                    	
+	                    	<apex:outputPanel rendered="{!IF(item.pricingMethod = '% of MSRP', true, false)}">
+	                        	<apex:input type="number" value="{!item.percentOffMSRP}" styleClass="dNetMsrpVal" html-data-original-value="{!item.originalPercentOffMSRP}" html-data-sfdc-id="{!item.sfdcId}" 
+	                        	html-data-price-method="{!item.pricingMethod}"/>
+		                        
+	                    	</apex:outputPanel>
+							<apex:outputPanel rendered="{!IF(item.pricingMethod = '% of DNET', true, false)}">
+	                        	<apex:input type="number" value="{!item.awardPercentOfDNet}" styleClass="dNetMsrpVal" html-data-original-value="{!item.awardPercentOfDNet}" html-data-sfdc-id="{!item.sfdcId}"
+	                        	html-data-price-method="{!item.pricingMethod}"/>
+		                        
+	                    	</apex:outputPanel>
+	                    </apex:column>
+	          		</apex:pageBlockTable>
+	          		</apex:pageBlockSection>
+	          		<apex:pageBlockSection columns="1">
+	          		<apex:pageBlockTable value="{!qouteItem.qislList}" var="item" id="quoteItemSublineTb">
+	          		<apex:repeat value="{!QuoteItemSublineFields}" var="qf">
+							<apex:column >
+								<apex:facet name="header"><div align="center">{!qf.label}</div></apex:facet>
+		                        <apex:outputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteItemSublineFieldsUpdatable[lower(qf.fieldPath)], false, true)}"/>
+		                        <apex:inputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteItemSublineFieldsUpdatable[lower(qf.fieldPath)], true, false)}"/>
+		                    </apex:column>
+	              	</apex:repeat>
+	              	<!--  
+	              	<apex:column > 
+	              		<apex:facet name="header"><div>{!item.MSRP_DNet_Label__c}</div></apex:facet>
+                    	<apex:outputPanel rendered="{!IF(item.revvy__QuoteItem__r.Select_a_Price_Method__c = '% of MSRP', true, false)}">                  		
+                    		<apex:outputPanel rendered="{!IF(isPricingEditable, true, false)}">
+	                        	<input type="text" value="{!item.Percent_Off_MSRP__c}" class="dNetMsrpVal percentage"  data-sfdc-id="{!item.id}" 
+	                        		data-price-method="{!item.revvy__QuoteItem__r.Select_a_Price_Method__c}"/>
+	                        </apex:outputPanel>
+	                        <apex:outputPanel rendered="{!IF(isPricingEditable, false, true)}">
+	                        	<apex:outputText value="{!item.Percent_Off_MSRP__c}" />
+	                        </apex:outputPanel>
+                    	</apex:outputPanel>
+						<apex:outputPanel rendered="{!IF(item.revvy__QuoteItem__r.Select_a_Price_Method__c = '% of DNET', true, false)}">													
+							<apex:outputPanel rendered="{!IF(isPricingEditable, true, false)}">
+                        	<input type="text" value="{!item.Percent_of_DNet__c}" class="dNetMsrpVal percentage" data-sfdc-id="{!item.id}"
+                        		data-price-method="{!item.revvy__QuoteItem__r.Select_a_Price_Method__c}"/>		                        
+                    		</apex:outputPanel>
+                    		<apex:outputPanel rendered="{!IF(isPricingEditable, false, true)}">
+                    			<apex:outputText value="{!item.Percent_of_DNet__c}" />
+                    		</apex:outputPanel>
+                    	</apex:outputPanel>
+                    	</apex:column >
+                    	-->
+	          		</apex:pageBlockTable>
+	          	</apex:pageBlockSection>
+          		</apex:pageBlockSection>
+          		<br/>
+          	</apex:repeat>
+          	</apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form> 
+
+</apex:page>

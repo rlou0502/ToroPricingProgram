@@ -1,0 +1,1108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fieldSets>
+        <fullName>Large_Package_Quote_Line_Cols</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>Product_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Product_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Quantity__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>PricingMethodValue__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_MSRP_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Support_Plus_Item__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Performance_Parts_Product__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Rebate_as_a_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Large Package Quote Line Cols</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Large_Package_Quote_Line_Updatable_Cols</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>PricingMethodValue__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Large Package Quote Line Updatable Cols</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Price_Program_Line_Info_Cols</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>FreezePricing__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Product_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Product_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Quantity__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_MSRP_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Support_Plus_Item__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Performance_Parts_Product__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Off_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Rebate_as_a_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Price Program Line Info Cols</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Price_Program_Quote_Line_Cols</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>Product_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Product_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Quantity__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_MSRP_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Performance_Parts_Product__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Price Program Quote Line Cols</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Price_Program_Quote_Summary</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>Product_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Product_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Quantity__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Extended_MSRP_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Unit_Award__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Extended_Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Gross_Profit_Value__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Rebate_as_a_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Setup_Fees__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Price Program Quote Summary</label>
+    </fieldSets>
+    <fields>
+        <fullName>Approval_Reason__c</fullName>
+        <externalId>false</externalId>
+        <label>Approval Reason</label>
+        <length>250</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AwardPercent__c</fullName>
+        <description>% of Total Award Dollars. This field is used in &quot;Total Award Dollars&quot; pricing method calculation only.</description>
+        <externalId>false</externalId>
+        <label>Award %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Award_of_DN__c</fullName>
+        <description>Store percentage entered by user. This value will be used in calculating award price when price method is &quot;% of DNet&quot;</description>
+        <externalId>false</externalId>
+        <label>Award % of DN</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>DNet_Price_2__c</fullName>
+        <description>This field is the same as Revvy_Suggested_Price and populated via trigger.</description>
+        <externalId>false</externalId>
+        <label>DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>DNet_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>DNet Price Do not use</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <description>Store product name/description during support plus process</description>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Distributor_Net__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor Net</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>External_Id__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <externalId>true</externalId>
+        <label>External_Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Fee_Percentage__c</fullName>
+        <description>Setup Fee Percentage for National Account</description>
+        <externalId>false</externalId>
+        <label>Setup Fee Percentage</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>FreezePricing__c</fullName>
+        <externalId>false</externalId>
+        <formula>QuoteItem__r.REVVY__FreezePricing__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Freeze Pricing</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>MSRP_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Misc_Style__c</fullName>
+        <externalId>false</externalId>
+        <label>Misc Style</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mn_Quote__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>MN Quote</label>
+        <referenceTo>REVVY__MnQuote__c</referenceTo>
+        <relationshipLabel>Toro Quote Item</relationshipLabel>
+        <relationshipName>Toro_Quote_Item</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Off_MSRP__c</fullName>
+        <description>Store value of &quot;% off MSRP&quot; entered by user in pricing program page.</description>
+        <externalId>false</externalId>
+        <label>Percent Off MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Original_off_MSRP__c</fullName>
+        <description>Store the original percent of MSRP</description>
+        <externalId>false</externalId>
+        <label>Original % off MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Oroginal_of_DNet__c</fullName>
+        <description>Original % of DNet</description>
+        <externalId>false</externalId>
+        <label>Oroginal % of DNet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Part_Percentage__c</fullName>
+        <externalId>false</externalId>
+        <label>Part Percentage</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Performance_Parts_Product__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Performance Parts</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>PricingMethodValue__c</fullName>
+        <description>Store pricing method value user enters. Pricing Method could be one of % off MSRP, % of DNet, Total award price, GP$, and GP%.</description>
+        <externalId>false</externalId>
+        <label>Pricing Method Value</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Pricing_Program__c</fullName>
+        <description>Store value of &quot;Pricing Program&quot; selected by user from &quot;Choose Pricing Program&quot; page. This value is applied to all quote items in this quote.</description>
+        <externalId>false</externalId>
+        <label>Pricing Program</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Id__c</fullName>
+        <externalId>false</externalId>
+        <formula>QuoteItem__r.REVVY__Catalog_Node__r.REVVY__Id__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Model</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>QuoteItem__r.REVVY__Catalog_Node__r.REVVY__LocaleName_F__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Product Name</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Product</label>
+        <referenceTo>REVVY__MnCatalogNode__c</referenceTo>
+        <relationshipLabel>Toro Quote Item</relationshipLabel>
+        <relationshipName>Toro_Quote_Item</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Quantity__c</fullName>
+        <externalId>false</externalId>
+        <formula>QuoteItem__r.REVVY__Quantity__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>QTY</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>QuoteItem__c</fullName>
+        <externalId>false</externalId>
+        <label>QuoteItem</label>
+        <referenceTo>REVVY__MnQuoteItem__c</referenceTo>
+        <relationshipLabel>Toro Quote Item</relationshipLabel>
+        <relationshipName>Toro_Quote_Item</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Rebate_as_a_of_DN__c</fullName>
+        <description>Store value retrieved from Pricing Program table based on a value of either &quot;% off MSRP&quot; or &quot;% of DNet&quot; entered by a user on &quot;Choose Pricing Program&quot; page.</description>
+        <externalId>false</externalId>
+        <label>Rebate as a % of DN</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Select_Price_Program_Type__c</fullName>
+        <description>@Deprecated</description>
+        <externalId>false</externalId>
+        <label>Select Price Program Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Market Support Chart A</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Market Support Chart B</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Market Support Chart Large Package</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Contract Price Minnesota State</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>------------</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Select_a_Price_Method__c</fullName>
+        <externalId>false</externalId>
+        <label>Select a Price Method</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>% of DNET</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>% off MSRP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>% of Gross Profit Margin</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Selected_Off_MSRP__c</fullName>
+        <description>Percent Off MSRP selected from price program. This is used to store original percent off MSRP.</description>
+        <externalId>false</externalId>
+        <label>Selected Percent Off MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Standard_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Standard Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>6</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Item__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checks if quote item is applied to support plus</description>
+        <externalId>false</externalId>
+        <label>Support Plus Item</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Quantity__c</fullName>
+        <defaultValue>0</defaultValue>
+        <description>Store value entered by distributor during support plus process</description>
+        <externalId>false</externalId>
+        <label>Support Plus Quantity</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Support_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Support (Price)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Blend_Of_DN__c</fullName>
+        <externalId>false</externalId>
+        <label>Blend Of DN</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Toro_DNetWOTPPAllied__c</fullName>
+        <externalId>false</externalId>
+        <label>DNet Without TPP and Allied</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_DNet_Price__c</fullName>
+        <description>[Extended DNet price including children rollup extended DNet price. ]</description>
+        <externalId>false</externalId>
+        <label>Total Ext DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Distributor_Responsibility__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor Responsibility</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Extended_Award_DNet_Price__c</fullName>
+        <description>This is the award price for a quote item when price method is &quot;% of DNet&quot;.</description>
+        <externalId>false</externalId>
+        <label>Extended Award DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Extended_Award_MSRP_Price__c</fullName>
+        <description>This is the award price for a quote item when price method is &quot;% off MSRP&quot;.</description>
+        <externalId>false</externalId>
+        <label>Extended Award MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Extended_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Extended Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Extended_DNet_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Extended DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Extended_MSRP_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Extended MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Fee_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Setup Fee Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Gross_Profit_Percent__c</fullName>
+        <externalId>false</externalId>
+        <label>Gross Profit %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Gross_Profit_Value__c</fullName>
+        <externalId>false</externalId>
+        <label>Gross Profit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Product_Tier__c</fullName>
+        <externalId>false</externalId>
+        <formula>QuoteItem__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c</formula>
+        <label>Toro Product Tier</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Toro_Quantity__c</fullName>
+        <externalId>false</externalId>
+        <label>Qty</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Toro_QuoteItemSubline_Rebate_as_of_Dnet__c</fullName>
+        <externalId>false</externalId>
+        <label>Subline Rebate as % of Dnet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Award_DNet_Price__c</fullName>
+        <description>This value is used in formula field Extended_Award_DNet_Price__c.</description>
+        <externalId>false</externalId>
+        <label>Rollup Award DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Award_MSRP_Price__c</fullName>
+        <description>This field is used in formula field Extended_Award_MSRP_Price__c.</description>
+        <externalId>false</externalId>
+        <label>Rollup Award MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_DNet_Price__c</fullName>
+        <description>This field is used in formula field DNet_Price__c which is used in rebate calculation.</description>
+        <externalId>false</externalId>
+        <label>Rollup DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_DNet_for_TPP__c</fullName>
+        <description>Rollup of Dnet  for QuoteItem subline for TPP products</description>
+        <externalId>false</externalId>
+        <label>Rollup DNet for TPP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Extended_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Extended Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_MSRP_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Num_of_SubLines_for_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Num of SubLines for Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Partner_Products__c</fullName>
+        <description>Roll up partner products whose product Id starts with &quot;L&quot;</description>
+        <externalId>false</externalId>
+        <label>Rollup Partner Products</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Setup_Fees_Sub_Line__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Setup Fees Sub_Line</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Subline_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Subline Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Sum_percent_Rebate_of_Dnet__c</fullName>
+        <description>Rollup - Sum percentage of all Sublines Rebate  as a % of DNet; used to get Rebate % of Dnet for quoteitem</description>
+        <externalId>false</externalId>
+        <label>Rollup Sum percent Rebate of Dnet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_TPP__c</fullName>
+        <description>Roll up on Toro sub lines whose product Id starts with &quot;TPP&quot;</description>
+        <externalId>false</externalId>
+        <label>Rollup TPP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Award_price__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Award price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Extended_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Extended Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Extended_MSRP_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Ext MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Setup_Fees__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Setup Fees</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Unit_Award__c</fullName>
+        <externalId>false</externalId>
+        <label>Unit Award</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Trade_In_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Trade In Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Unit_Award_Overridden__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>To indicate that Unit Award has been overridden by user</description>
+        <externalId>false</externalId>
+        <label>Unit Award Overridden</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Toro Quote Item</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>TQ-{0000000}</displayFormat>
+        <label>Toro Quote Item Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Toro Quote Item</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

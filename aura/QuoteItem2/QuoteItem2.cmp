@@ -1,0 +1,9 @@
+<aura:component controller="ToroPricingProgramController">
+	<aura:attribute name="fields" type="Object[]" />
+	<aura:attribute name="fieldsSub" type="Object[]" />
+    <aura:attribute name="quoteItem" type="SObject" />	
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <tr id="{!'quoteItem' + v.quoteItem.Id}" >  
+        <td></td>
+    </tr>
+</aura:component>

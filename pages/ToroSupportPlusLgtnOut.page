@@ -1,0 +1,15 @@
+<apex:page controller="ToroSupportPlusController">
+<apex:includeLightning />
+    <div id="supportplus" ></div>
+    <script>
+        $Lightning.use("c:ToroSupportPlusVFApp", function() {
+          $Lightning.createComponent("c:ToroSupportPlus",
+          { label : "Support Plus",
+            quoteId : "{!quoteId}" },
+          "supportplus",
+          function(cmp) {
+            // do some stuff
+          });
+        });
+    </script>
+</apex:page> 

@@ -1,0 +1,333 @@
+<apex:page controller="ToroSupportPlusController" docType="html-5.0" action="{!init}" >
+<apex:slds />   
+<apex:includeScript value="{!URLFOR($Resource.DA2, '/bower_components/jquery/dist/jquery.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.DA2, '/bower_components/jquery/dist/jquery-ui.min.js')}"/>
+<apex:styleSheet value="{!URLFOR($Resource.DA2, '/css/jquery-ui.min.css')}" />
+<style type="text/css">
+        
+        .autocomplete{
+            border-color: #929292 #D5D5D5 #D5D5D5 #929292 !important;
+            border-style: solid;border-width: 1px !important;
+            height: 18px !important;
+            padding: 3px 10px;width: 200px !important;
+        }
+        
+    </style> 
+
+	<script type="text/javascript">
+        j$ = jQuery.noConflict(); 
+        
+        j$('input').on("keypress", function(e) {
+	            /* ENTER PRESSED*/
+	            if (e.keyCode == 13) {
+	                /* FOCUS ELEMENT */
+	                var inputs = j$(this).parents("form").eq(0).find(":input");
+	                var idx = inputs.index(this);
+	
+	                if (idx == inputs.length - 1) {
+	                    inputs[0].select()
+	                } else {
+	                    inputs[idx + 1].focus(); //  handles submit buttons
+	                    inputs[idx + 1].select();
+	                }
+	                return false;
+	            }
+	        });
+	        
+        var PLACEHOLDER = 'Enter Product Code Here'; 
+    	var priceLineObjects;
+    
+    	
+        
+        var calculateSupportPlusSummaryInfo = function() {
+        	var totalDNet = "{!quote.SP_Total_Extended_DNET__c}";
+        	console.log("totalDNet----" + totalDNet);
+      		totalDNet = totalDNet ? parseFloat(totalDNet) : 0;
+        	var totalRebate = "{!quote.Support_Plus_Rebate__c}";
+        	totalRebate = totalRebate ? parseFloat(totalRebate) : 0;
+       		var totalResponsibility = "{!quote.SP_Ext_Dist_Responsibility__c}";
+       		totalResponsibility = totalResponsibility ? parseFloat(totalResponsibility):0;
+			j$("input.supportPlusQuantity").each(function(){
+				var qty = j$(this).val();
+				console.log("qty======" + qty);
+				if(qty == undefined) {
+					this.value = 0;
+					qty=0;
+				}
+				var parentQty=j$(this).data("parent-qty");
+				console.log('parentQty =' + parentQty);
+				if(parentQty == undefined) {
+					parentQty=1;
+				}
+				
+				qty = parentQty * qty;
+				console.log('qty=' + qty);
+				var dnet = j$(this).closest("td").siblings("td").find("input.dnetPrice").val();
+	
+				console.log("dnet=" + dnet);
+				totalDNet = totalDNet + qty * dnet;
+				console.log("totalDNet=" + totalDNet);
+				var responsibility = j$(this).closest("td").siblings("td").find("input.distributorResponsibility").val();
+				console.log("responsibility=" + responsibility);
+				totalResponsibility = totalResponsibility + qty * dnet * responsibility/100;
+				
+			});
+			j$(".Extended_Total_DNET").text("USD "+ totalDNet.toLocaleString());
+			j$(".Extended_Distributor_Responsibility").text("USD "+ totalResponsibility.toLocaleString());
+			j$(".Support_Plus_Rebate").text("USD "+ totalResponsibility.toLocaleString());
+			j$("input.Extended_Total_DNET").val(totalDNet);
+			j$("input.Extended_Distributor_Responsibility").val(totalResponsibility);
+			j$("input.Support_Plus_Rebate").val(totalResponsibility);
+			var allowance = j$("input.Allowance").val();
+			if(totalResponsibility > allowance) {
+				alert("Extended total dnet is greater than allowance");
+			}
+        };
+        
+        j$(document).ready(function() {
+	        var autoCompleteTextBoxId = "input[id$='productCodeTextBoxId']";
+	        var queryTerm;
+	        //auto complete method
+	        j$(autoCompleteTextBoxId).autocomplete({
+	            minLength: 2,
+	            position: {
+			        my: "left bottom",
+			        at: "left top"
+			    },
+	            source: function(request, response) {
+	                        queryTerm = request.term;
+	                        var sObjects;
+	                        var searchText = j$(autoCompleteTextBoxId).val();
+	                        ToroSupportPlusController.getProductCodes(searchText,function(result, event){
+	                            if(event.type == 'exception') {
+	                                  alert(event.message);
+	                            } else {
+	                                 sObjects = result;
+	                                 console.log(sObjects);
+	                                 response(sObjects);
+	                            }
+	                        });
+	                   },
+	            focus: function( event, ui ) {
+	                    j$(this).val( ui.item.REVVY__Product__r.REVVY__Id__c );
+	                    return false;
+	                    },
+	            select: function( event, ui ) {
+	            		j$(this).val(ui.item.REVVY__Product__r.REVVY__Id__c);
+	            		console.log(ui.item.REVVY__Product__r.Name);
+	            		j$(this).closest("td").siblings("td").find("input.description").val(ui.item.REVVY__Product__r.Name);
+	            		j$(this).closest("td").siblings("td").find("input.dnetPrice").val(ui.item.REVVY__SuggestedPrice__c);
+	            		//j$(this).closest("td").siblings("td").find("input.description").val(ui.item.REVVY__Product__r.name);
+	            		j$(this).closest("td").find("input.priceListLine").val(ui.item.Id);  
+	            		j$(this).closest("td").find("input.productId").val(ui.item.REVVY__Product__c); 
+	            		j$(this).closest("td").siblings("td").find("input.supportPlusQuantity").trigger("change");
+	            		                            
+	                        return false;
+	                    },
+	         })
+	         .autocomplete( "instance" )._renderItem = function( ul, item ) {
+	            var entry = "<a>" + item.REVVY__Product__r.REVVY__Id__c;
+	            
+	            entry = entry + "</a>";
+	            entry = entry.replace(queryTerm, "<b>" + queryTerm + "</b>");
+	            return j$( "<li></li>" )
+	                .data( "item.autocomplete", item )
+	                .append( entry )
+	                .appendTo( ul );
+	        };
+        
+        	if(j$("input:checkbox.agreeSupportPlus").is(':checked')) {
+        		j$("[id $= 'submitSupportPlus']").show();
+        	} else {
+        		j$("[id $= 'submitSupportPlus']").hide();
+        	}
+        	
+			j$("input:checkbox.agreeSupportPlus").change(function() {
+				if(j$(this).is(':checked')) {
+					j$("[id $= 'submitSupportPlus']").show();
+				} else {
+					j$("[id $= 'submitSupportPlus']").hide();
+				}
+        	});
+        	
+        	j$("input.supportPlusQuantity").change(function() {
+        		var qty = j$(this).val();
+        		console.log('----------qty = ' + qty);
+        		calculateSupportPlusSummaryInfo();
+        	});
+        	j$("input.dnetPrice").change(function() {
+        		calculateSupportPlusSummaryInfo();
+        	});
+        	
+        	
+    		calculateSupportPlusSummaryInfo();
+        	
+        });
+    </script>
+    <style>
+    div.button-group {
+    	float: right;
+    	padding-right: 25px;
+    }
+    div.button-group .btn{
+    	margin: 5px;
+    }
+	.summary-block-table {
+		margin-left: 10px;
+	}
+    </style>
+<apex:form id="toroPricing">
+<div class="slds-docked-form-footer summary-block">
+	<table class="summary-block-table">
+		<tr>
+		<td>
+ 	<table>
+ 	<tr>
+	<td>Support Plus Allowance</td>
+	<td><apex:outputField styleClass="Allowance" value="{!quote.Toro_Support_Plus_Allowance__c}" />
+	<apex:inputHidden html-class="Allowance" value="{!quote.Toro_Support_Plus_Allowance__c}" /></td>
+	</tr>
+	<tr>
+	<td><apex:outputText value="{!$Label.SP_Extended_Total_DNET_Price}" /></td>
+	<td><apex:outputText styleClass="Extended_Total_DNET" value="{!quote.SP_Total_Extended_DNET__c}"></apex:outputText>
+	<apex:inputHidden html-class="Extended_Total_DNET" value="{!quote.SP_Total_Extended_DNET__c}" /></td>
+	</tr>
+	<tr>
+	<td><apex:outputText value="{!$Label.SP_Extended_Total_Distributor_Responsibility_Price}" /></td>
+	<td><apex:outputText styleClass="Extended_Distributor_Responsibility" value="{!quote.SP_Ext_Dist_Responsibility__c}"></apex:outputText>
+	<apex:inputHidden html-class="Extended_Distributor_Responsibility" value="{!quote.SP_Ext_Dist_Responsibility__c}" />
+	</td>
+	</tr>
+	<tr>
+	<td><apex:outputText value="{!$Label.SP_Support_Plus_Rebate}" /></td>
+	<td>
+	<apex:outputText styleClass="Support_Plus_Rebate" value="$ {!quote.Support_Plus_Rebate__c}" ></apex:outputText>
+	<apex:inputHidden html-class="Support_Plus_Rebate" value="{!quote.Support_Plus_Rebate__c}" />
+	</td>
+	</tr>
+	</table>
+	</td>
+	<td>
+		<div class="button-group">
+		<input type="checkbox" class="agreeSupportPlus"  /> &nbsp; {!$Label.SP_Term_And_Condition}
+		<br/>
+		<apex:commandButton action="{!submitSupportPlus}" value="Submit" id="submitSupportPlus" /> 
+		<apex:commandButton action="{!returnToPricingPage}" value="Return to Pricing Page" id="returnToPricingPage" />
+		</div>
+	</td>
+	</tr>
+	</table>
+</div>
+<apex:pageBlock title="{!$Label.SP_Support_Plus}" id="quoteDetails" tabStyle="Account">
+<apex:pageBlockSection columns="1" >
+ <ul>
+  <li class="slds-list--dotted slds-text-color_error">{!$Label.SP_Condition_1}</li>
+  <li class="slds-list--dotted slds-text-color_error">{!$Label.SP_Condition_2}</li>
+  <li class="slds-list--dotted slds-text-color_error">{!$Label.SP_Condition_3}</li>
+</ul> 
+</apex:pageBlockSection>
+<apex:pageBlockSection columns="1" >
+</apex:pageBlockSection>
+<apex:pageBlockSection title="{!$Label.SP_Select_Support_Plus} {!$Label.SP_From_Quote} {!quotes[0].name}" columns="1" id="quoteItemList" collapsible="false">
+<apex:repeat value="{!quoteItemWrapperList}" var="qouteItem" >
+	<apex:pageBlockSection id="pbs" title="{!qouteItem.qi.REVVY__Product_Name_F__c}({!qouteItem.qi.REVVY__Product_ID_F__c})" columns="1" 
+			 html-class="quoteItemPanel {!qouteItem.qi.Id}" collapsible="false">
+		<apex:pageBlockTable value="{!qouteItem.qi}" var="item" >
+			<apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItem__c.Fields.REVVY__Quantity__c.Label}</div></apex:facet>
+                     <apex:outputField value="{!item.REVVY__Quantity__c}" html-data-qty="{!item.REVVY__Quantity__c}"/>
+            </apex:column>
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItem__c.Fields.Support_Plus_Quantity__c.Label}</div></apex:facet>
+                <apex:inputField value="{!item.Support_Plus_Quantity__c}" id="supportPlusQuantity" styleClass="supportPlusQuantity"/>
+            </apex:column>
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItem__c.Fields.REVVY__Product_ID_F__c.Label}</div></apex:facet>
+                <apex:outputField value="{!item.REVVY__Product_ID_F__c}" />
+            </apex:column>
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItem__c.Fields.Description__c.Label}</div></apex:facet>
+                <apex:outputField value="{!item.Description__c}" />
+            </apex:column>
+            
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItem__c.Fields.Distributor_Responsibility__c.Label}</div></apex:facet>
+				<apex:inputHidden value="{!item.Distributor_Responsibility__c}" html-class="distributorResponsibility" />
+                <apex:outputField value="{!item.Distributor_Responsibility__c}" id="distributorResponsibility" />
+            </apex:column>
+              
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItem__c.Fields.DNet_Price_2__c.Label}</div></apex:facet>
+				<apex:inputHidden value="{!item.DNet_Price_2__c}" html-class="dnetPrice" />
+                <apex:outputField value="{!item.DNet_Price_2__c}" id="dnetPrice" />
+            </apex:column>
+              
+		</apex:pageBlockTable>
+	</apex:pageBlockSection>
+	<apex:pageBlockSection id="pbsqis" columns="1"  >
+    <apex:pageBlockTable value="{!qouteItem.qislList}" var="item" id="quoteItemSublineTb">
+    	<apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItemSubLine__c.Fields.REVVY__Quantity__c.Label}</div></apex:facet>
+                     <apex:outputField value="{!item.REVVY__Quantity__c}" html-data-qty="{!item.REVVY__Quantity__c}" />
+            </apex:column>
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItemSubLine__c.Fields.Support_Plus_Quantity__c.Label}</div></apex:facet>
+                <apex:inputField value="{!item.Support_Plus_Quantity__c}" id="supportPlusQuantity" styleClass="supportPlusQuantity" html-data-parent-qty="{!qouteItem.qi.REVVY__Quantity__c}"/>
+            </apex:column>
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItemSubLine__c.Fields.Product_ID2__c.Label}</div></apex:facet>
+                <apex:outputField value="{!item.Product_ID2__c}" />
+            </apex:column>
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItemSubLine__c.Fields.Description__c.Label}</div></apex:facet>
+                <apex:outputField value="{!item.Description__c}" />
+            </apex:column>
+            
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItemSubLine__c.Fields.Distributor_Responsibility__c.Label}</div></apex:facet>
+                <apex:inputHidden value="{!item.Distributor_Responsibility__c}" html-class="distributorResponsibility" />
+                <apex:outputField value="{!item.Distributor_Responsibility__c}" id="distributorResponsibility" />
+            </apex:column>
+            
+            <apex:column >
+				<apex:facet name="header"><div align="center">{!$ObjectType.REVVY__MnQuoteItemSubLine__c.Fields.DNet_Price__c.Label}</div></apex:facet>
+                <apex:inputHidden value="{!item.DNet_Price_2__c}" html-class="dnetPrice" />
+                <apex:outputField value="{!item.DNet_Price_2__c }" id="dnetPrice" html-class="dnetPrice" />
+            </apex:column>	
+    </apex:pageBlockTable>
+    </apex:pageBlockSection>
+	          	
+</apex:repeat>
+</apex:pageBlockSection>
+<apex:pageBlockSection title="{!$Label.SP_Add_New}" >
+<apex:pageBlockTable value="{!supportPlusList}" var="item" >
+<apex:column >
+	<apex:facet name="header"><div align="center">{!$ObjectType.Support_Plus_Holder__c.Fields.Support_Plus_Quantity__c.Label}</div></apex:facet>
+	<apex:inputField value="{!item.Support_Plus_Quantity__c}" styleClass="supportPlusQuantity" />
+</apex:column>
+<apex:column >
+	<apex:facet name="header"><div align="center">{!$ObjectType.Support_Plus_Holder__c.Fields.Product__c.Label}</div></apex:facet>
+	<apex:inputText id="productCodeTextBoxId" value="{!searchTerm}" styleClass=" autocomplete"/>
+	<apex:inputHidden value="{!item.Product__c}" html-class="productId"/>
+	<apex:inputHidden value="{!item.PriceListLine__c}" html-class="priceListLine" />
+	            		
+</apex:column>
+<apex:column >
+	<apex:facet name="header"><div align="center">{!$ObjectType.Support_Plus_Holder__c.Fields.Description__c.Label}</div></apex:facet>
+	<apex:inputField value="{!item.Description__c}" styleClass="description"/>
+</apex:column>
+<apex:column >
+	<apex:facet name="header"><div align="center">{!$ObjectType.Support_Plus_Holder__c.Fields.Distributor_Responsibility__c.Label}</div></apex:facet>
+	<apex:outputField value="{!item.Distributor_Responsibility__c}" styleClass="distributorResponsibility"/>
+	<apex:inputHidden value="{!item.Distributor_Responsibility__c}" html-class="distributorResponsibility"/>
+</apex:column>
+<apex:column >
+	<apex:facet name="header"><div align="center">{!$ObjectType.Support_Plus_Holder__c.Fields.DNet__c.Label}</div></apex:facet>
+	<apex:inputField value="{!item.DNet__c}" styleClass="dnetPrice" />
+	
+</apex:column>
+</apex:pageBlockTable>	
+</apex:pageBlockSection>				
+</apex:pageBlock>
+</apex:form>
+</apex:page>

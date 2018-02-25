@@ -1,0 +1,41 @@
+.THIS .scrollable {
+    position: fixed;
+    top:140px;
+    right:2px;
+}
+
+.THIS.popoverclass {
+    min-height: 100px;
+}
+
+.THIS #popover-header {
+    padding: 10px;
+    padding-top: 1px;
+    cursor: move;
+    z-index: 1;
+    /*background-color: #2196F3;
+    color: #fff;
+    */
+}
+
+.THIS #close-info-box {
+    float: right;
+}
+
+.THIS .icon_container {
+	float: right;  
+    z-index: 1;
+}
+.THIS#popover-root {
+	display: none; /* Hidden by default */
+    position: fixed;  /* Stay in place */
+    z-index: 1; /* Sit on top */
+    right: 5px;
+    top: 20;
+    padding-top:1px;
+    width: 25%; /* Full width */
+    height: 50%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(255,255,255); /* Fallback color */
+    background-color: rgba(200,200,200); /* Black w/ opacity */  
+}

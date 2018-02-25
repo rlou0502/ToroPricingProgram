@@ -1,0 +1,43 @@
+.THIS .type-BOOLEAN  {
+    width: 50px;
+}
+
+.THIS tr.noBorder td {
+  border: 0;
+}
+
+.THIS th.Product_Name__c {
+    width:20%;
+}
+.THIS input[type=text] {
+    width:100%;
+}
+.THIS .chevron::before {
+	border-style: solid;
+	border-width: 0.25em 0.25em 0 0;
+	content: '';
+	display: inline-block;
+	height: 0.75em;
+	left: 0.15em;
+	position: relative;
+	top: 0.15em;
+	transform: rotate(-45deg);
+	vertical-align: top;
+	width: 0.75em;
+    cursor: pointer;
+}
+
+.THIS .chevron.right:before {
+	left: 0;
+	transform: rotate(45deg);
+}
+
+.THIS .chevron.bottom:before {
+	top: 0;
+	transform: rotate(135deg);
+}
+
+.THIS .chevron.left:before {
+	left: 0.25em;
+	transform: rotate(-135deg);
+}

@@ -1,0 +1,75 @@
+<aura:component controller="ToroPricingProgramInfoBoxController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+	<aura:attribute name="quoteId" type="String" />
+    <aura:attribute name="quote" type="REVVY__MnQuote__c" />
+    <aura:attribute name="forwardUrl" type="string" />
+    <aura:attribute name="fields" type="Object[]" />
+    <aura:attribute name="sObject" type="SObject" />
+    <aura:handler name="pricingProgramEvent" event="c:PricingProgramChangeEvent" action="{!c.handlePricingProgramChange}"/>
+    <aura:handler name="pricingMethodEvent" event="c:PricingMethodChangeEvent" action="{!c.handlePricingMethodChange}"/>
+    <aura:handler name="pricingProgramSetEvent" event="c:PricingProgramSetFromDBEvent" action="{!c.handleSetPricingProgram}"/>
+    <aura:handler name="pricingMethodSetEvent" event="c:PricingMethodSetFromDBEvent" action="{!c.handleSetPricingMethod}"/>
+    <aura:handler name="refreshInfoBoxEvent" event="c:RefreshInfoBoxEvent" action="{!c.handleRefeshInfoBox}"/>
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler name="PMAwardPriceChangeEvent" event="c:PricingMethodAwardPriceChangeEvent" action="{!c.handleAwardPriceChange}"/>
+    <aura:handler name="PMGPPercentChangeEvent" event="c:PricingMethodGPPercentChangeEvent" action="{!c.handleGPPercentChange}"/>
+    <input type="hidden" id="xOffset" /> 
+    <input type="hidden" id="yOffset" />
+    <input type="hidden" id="xCurrent" /> 
+    <input type="hidden" id="yCurrent" />
+    <div aura:id="ModalDialogPlaceholder" />
+   
+    <div  id="popover-root" draggable="true" class="slds-float_right slds-box" style="display:none">
+        <div id="popover-header">
+            <button id="close-info-box" class="slds-button " title="Close" onclick="{!c.closeInfoBox}">
+            X
+            <span class="slds-assistive-text">Close</span>
+            </button>
+        </div>
+        <div id="popover-body"></div>
+    </div>
+
+    <div class="slds-page-header  s1FixedTop forceHighlightsStencilDesktop">
+        <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__figure">
+                        <lightning:icon iconName="utility:opportunity" size="x-small" />
+                    </div>
+                    <div class="slds-media__body">
+                        <nav>
+                            <ol class="slds-breadcrumb slds-line-height_reset">
+                                <li class="slds-breadcrumb__item">
+                                    <span>{!$Label.c.PP_QuoteHeaderLabel}</span>
+                                </li>
+                            </ol>
+                        </nav>
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!v.quote.Name}">{!v.quote.Name}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                <div class="slds-button-group" role="group">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.returnToQuote}">{!$Label.c.PP_ReturnToQuote}</button>
+                    <button class="slds-button slds-button_neutral" onclick="{!c.calculate}">{!$Label.c.PP_UpdateQuote}</button>
+                    <button class="slds-button slds-button_neutral" onclick="{!c.saveAndClose}">{!$Label.c.PP_SaveAndClose}</button>
+                    <button class="slds-button slds-button_neutral" onclick="{!c.manageProduct}">{!$Label.c.PP_ManageProducts}</button>                
+                    <button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}">{!$Label.c.PP_SupportPlus}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-grid" id="ppContainer">
+        <div class="slds-col slds-size--6-of-6">
+            <c:QuoteHeader aura:id="cmpQuoteHeader" quoteId="{!v.quoteId}" /> 
+			<c:QuoteItem aura:id="cmpQuoteItem" quoteId="{!v.quoteId}" />
+        </div>
+        <!--
+        <div class="slds-col scrollable" id="infoBox">
+            
+            <c:PricingProgramInfoBox aura:id="cmpInfoBox"/>
+
+        </div>
+		-->
+    </div>
+    
+</aura:component>

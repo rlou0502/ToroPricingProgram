@@ -1,0 +1,15 @@
+<aura:component access="global">
+	<table class="slds-table slds-table_bordered slds-table--striped slds-table--cell-buffer">
+    	<tr>
+            <td>
+            	<div class="slds-truncate slds-p-bottom_x-small" title="Pricing Programs">Pricing Programs</div>
+                <div>
+                <ui:inputSelect class="slds-select" aura:id="pricingProgram" change="{!c.onPricingProgramSelectChange}"  >
+                    <ui:inputSelectOption text="Market Support Chart Large Package" label="Market Support Chart Large Package" />
+                    <ui:inputSelectOption text="Demo" label="Demo" />              
+                </ui:inputSelect>
+                </div>
+            </td>
+        </tr>
+    </table>	
+</aura:component>

@@ -1,0 +1,488 @@
+<apex:page controller="ToroSelectPriceProgramController"  docType="html-5.0"  >
+	<apex:includeScript value="{!URLFOR($Resource.DA, '/bower_components/jquery/dist/jquery.min.js')}"/>
+	<style>
+		input.subline.Percent_Off_MSRP__c {
+			width: 70px;
+		}
+		input.subline.Percent_of_DNet__c {
+			width: 100px;
+		}
+		
+		input.subline.Award_Price__c {
+			width: 100px;
+		}
+		
+		.modified-unit-award {
+			background-color: #ADD8E6;
+		}
+		.normal-unit-award {
+			background-color: white;
+		}
+	</style>
+	<script type="text/javascript">
+        j$ = jQuery.noConflict();
+        var pricingProgramTypes={};
+	    <apex:repeat value="{!pricingProgramTypes}" var="myKey">
+			pricingProgramTypes["{!JSENCODE(myKey)}"] = "{!pricingProgramTypes[myKey]}";
+	    </apex:repeat>
+	    var quoteId = "{!quoteId}";
+	    var pricingProgramType = "{!prcingProgramType}";
+        j$(document).ready(function() {
+        	/*
+        	j$( ".quoteItemPanel" ).each(function( index ) {
+        		console.log('this.id = ' + this.id);
+		        twistSection(document.getElementById(this.id).childNodes[0].childNodes[0]);
+		    });
+
+		    //rebindShowHideSection();
+		    console.log(j$(".quoteItemPanel img"));
+		    */
+		    j$(".Extended_MSRP_Price__c.NoCharge").next("span").text("No Charge").css('color', 'red');
+		    j$(".Extended_MSRP_Price__c.NoCharge").closest("td").siblings("td").find(".subline.Award_Price__c").prop("disabled", true);
+		    
+			
+		    
+		    j$("input:checkbox.subline.Performance_Part__c").each(function() {
+        		j$(this).closest("td").siblings("td").find(".subline.REVVY__FreezePricing__c,.subline.Percent_Off_MSRP__c,.subline.Percent_of_DNet__c,.subline.Support_Plus_Quantity__c,.subline.Apply_Support_Plus__c").prop("disabled", j$(this).is(':checked'));      
+				j$(this).prop("disabled", j$("[id $= 'btnPerformancePart']").is(':checked'));
+			});
+			
+			j$("input:checkbox.quoteItem.Performance_Parts_Product__c").each(function() {
+				j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", j$(this).is(':checked'));
+				j$(this).closest("td").siblings("td").find(".quoteItem.revvy__freezepricing__c").prop("disabled", j$(this).is(':checked'));      
+        		j$(this).prop("disabled", j$("[id $= 'btnPerformancePart']").is(':checked'));       
+			});
+			
+        	j$("input:checkbox.quoteItem.REVVY__FreezePricing__c").each(function() {
+        		if(j$(this).is(':checked')) {
+        			j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", true);
+        		} else {
+        			j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", false);
+        		}
+        		j$(this).closest("[id $= 'pbs']").find(".quoteItem.Award_Price__c").prop("disabled", j$(this).is(':checked'));
+        		          
+			});
+        	j$("input:checkbox.subline.REVVY__FreezePricing__c").each(function() {  
+        		j$(this).closest("td").siblings("td").find(".subline.Percent_Off_MSRP__c,.subline.Percent_of_DNet__c,.subline.Award_Price__c").prop("disabled", j$(this).is(':checked'));
+			});
+			
+        	handlePriceMethodChange();	
+        	//j$('select.pricingProgram').trigger("change");
+        	
+        });
+
+        var handlePriceMethodChange = function() {
+        	j$("select.pricingProgram").change(function() {
+        		var pricingProgram = j$(this).val();
+        		if(pricingProgram !== "Please select a Pricing Program") {
+	        		var pm = j$(this).closest("td").siblings("td").find("select.pricingMethod").val();  
+	        		console.log('price program name =' + pricingProgram);
+	        		var ppt = pricingProgramTypes[pricingProgram];    
+	        		console.log('price program type =' + ppt);  
+	        		if(ppt === "State Contract" || ppt === "National Account") {
+	        			updateStateContractQuote(pricingProgram, pm);
+	        			//j$(".dNetMsrpValQuote").prop("disabled", true);	
+	        		} else {
+	        		    console.log('>>> switchinPricingProgram pricingProgram='+pricingProgram + ' - pm='+pm);
+	        			switchPricingProgram(pricingProgram, pm);
+	        		}
+        		}
+            });
+              	    
+        	j$( ".returnToQuote" ).click(function(e) {
+        		window.top.location = '/'+quoteId; 
+        	});
+        	
+        	j$( ".addSupportPlus" ).click(function(e) {
+        		window.top.location ='/apex/ToroSupportPlus?id='+quoteId;
+        	});
+        	
+        	
+        	j$("[id $= 'btnPerformancePart']").change(function(){
+        		if(j$(this).is(':checked')) {
+        			updatePerformanceParts("true");
+        		} else {
+        			updatePerformanceParts("false");
+        		}
+        	});
+        	
+        	
+        	j$('input').on("keypress", function(e) {
+	            /* ENTER PRESSED*/
+	            if (e.keyCode == 13) {
+	                /* FOCUS ELEMENT */
+	                var inputs = j$(this).parents("form").eq(0).find(":input");
+	                var idx = inputs.index(this);
+	
+	                if (idx == inputs.length - 1) {
+	                    inputs[0].select()
+	                } else {
+	                    inputs[idx + 1].focus(); //  handles submit buttons
+	                    inputs[idx + 1].select();
+	                }
+	                return false;
+	            }
+	        });
+        	
+        	j$("input.quoteItem.Award_Price__c,input.subline.Award_Price__c").change(function() {
+        	
+        		j$(this).closest("td").siblings("td").find(".unit-award-override").prop("checked", true);	
+        		j$(this).closest("td").siblings("td").find(".unit-award-override").val(true);
+        		j$(this).addClass("modified-unit-award");
+        		
+        	});
+        	j$("input.quoteItem.Award_Price__c,input.subline.Award_Price__c").each(function() {
+        		if(j$(this).closest("td").siblings("td").find(".unit-award-override").val()=="true") {
+        			j$(this).addClass("modified-unit-award");
+        		} else {
+        			j$(this).removeClass("modified-unit-award");
+        		}
+        		
+        	});
+        	j$("input:checkbox.quoteItem.REVVY__FreezePricing__c").change(function() {
+        		console.log("input:checkbox.quoteItem.REVVY__FreezePricing__c");
+        		if(j$(this).is(':checked')) {
+        			j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", true);
+        			j$(this).closest("[id $= 'pbs']").find("input:checkbox.subline.REVVY__FreezePricing__c").prop("checked", true);
+        		} else {
+        			j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", false);
+        			j$(this).closest("[id $= 'pbs']").find("input:checkbox.subline.REVVY__FreezePricing__c").prop("checked", false);
+        		}
+        		j$(this).closest("[id $= 'pbs']").find(".quoteItem.Award_Price__c").prop("disabled", j$(this).is(':checked'));
+        		j$(this).closest("[id $= 'pbs']").find("input:checkbox.subline.REVVY__FreezePricing__c").trigger("change");
+        	});
+        	
+        	j$("input:checkbox.subline.REVVY__FreezePricing__c").change(function() {
+        		j$(this).closest("td").siblings("td").find(".subline.Percent_Off_MSRP__c,.subline.Percent_of_DNet__c,.subline.Award_Price__c").prop("disabled", j$(this).is(':checked'));
+        	});
+
+        	j$('select.pricingMethod').change(function() {
+        		console.log('------------- pricingMethod');
+        		var priceMethod = j$(this).val();
+        		console.log(j$(this).val());
+        		/*
+        		if(j$(this).val() === "% of DNET") {
+        			j$(".dNetMsrpLabel").text("Award Percent of DN");
+        		} else if(j$(this).val() === "% off MSRP") {
+        			j$(".dNetMsrpLabel").text("Percent Off MSRP");
+        		}
+        		*/
+        		var pp = j$(this).closest("td").siblings("td").find("select.pricingProgram").val();  
+        		if(pp !== "Please select a Pricing Program") {
+	        		console.log('price program name =' + pp);
+	        		var ppt = pricingProgramTypes[pp];    
+	        		console.log('price program type =' + ppt);  
+	        		if(ppt === "State Contract" || ppt === "National Account") {
+	        			//j$(".dNetMsrpValQuote").prop("disabled", true);
+	        			updateStateContractQuote(pp, priceMethod);      			
+	        		} else  {
+	        			switchPricingMethod(pp, priceMethod);
+	        		}   
+        		}
+        		//j$(".dNetMsrpValQuote").prop("disabled", false);   
+              });
+
+			  j$(".dNetMsrpValQuote").change(function() {
+			  	j$(".dNetMsrpVal").val(j$(this).val()).trigger("change");
+			  });
+			 
+			  j$('input.dNetMsrpVal').change(function() {
+        		var sfdcId = j$(this).data('sfdc-id');
+        		
+        		var priceMethod = j$(this).data('price-method');
+        		if(pricingProgramType === "State Contract") {
+	        		var newVal = parseFloat(j$(this).val());
+	        		var oldVal = parseFloat(j$(this).data('original-value'));
+	        		console.log('-------------newVal =' + newVal);
+	        		console.log('-------------oldVal =' + oldVal);
+	        		if(newVal < oldVal) {
+	        			alert("Please enter a value higher than " + oldVal);
+	        			j$(this).val(oldVal).focus();
+	        			return false;
+	        		} else {
+	        			updateStateContractQuoteItem(sfdcId, priceMethod, newVal, oldVal);
+	        		}
+        		} else {
+        			var newVal = j$(this).val();
+        			if(j$(this).data("price-method") == "% off MSRP") {
+	        			j$(this).closest("[id $= 'pbs']").find(".Percent_Off_MSRP__c").each(function() {
+	        				
+	        				var freezing = j$(this).closest("td").siblings("td").find("input.subline.REVVY__FreezePricing__c"); 
+	        				console.log(freezing.is(':checked'));
+	        				if(!freezing.is(':checked')) {
+	        					j$(this).val(newVal);
+	        				}        				
+	        			});
+				  	} else {
+				  		j$(this).closest("[id $= 'pbs']").find(".Percent_of_DNet__c").each(function() {
+				  			
+	        				var freezing = j$(this).closest("td").siblings("td").find("input.subline.REVVY__FreezePricing__c"); 
+	        				if(!freezing.is(':checked')) {
+	        					j$(this).val(newVal);
+	        				}     				
+	        			});
+	        			
+				  	}
+        		}
+              });
+              
+            j$(".Extended_MSRP_Price__c.NoCharge").next("span").text("No Charge").css('color', 'red');
+            j$(".Extended_MSRP_Price__c.NoCharge").closest("td").siblings("td").find(".quoteItem.Award_Price__c").prop("disabled", true);
+		    j$("input:checkbox.subline.Performance_Part__c").each(function() {
+        		j$(this).closest("td").siblings("td").find(".subline.REVVY__FreezePricing__c,.subline.Percent_Off_MSRP__c,.subline.Percent_of_DNet__c,.subline.Support_Plus_Quantity__c,.subline.Apply_Support_Plus__c").prop("disabled", j$(this).is(':checked'));      
+				j$(this).prop("disabled", j$("[id $= 'btnPerformancePart']").is(':checked'));
+			});
+			
+			j$("input:checkbox.quoteItem.Performance_Parts_Product__c").each(function() {
+				j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", j$(this).is(':checked'));
+				j$(this).closest("td").siblings("td").find(".quoteItem.revvy__freezepricing__c").prop("disabled", j$(this).is(':checked'));      
+        		j$(this).prop("disabled", j$("[id $= 'btnPerformancePart']").is(':checked'));       
+			});
+			
+        	j$("input:checkbox.quoteItem.REVVY__FreezePricing__c").each(function() {
+        		if(j$(this).is(':checked')) {
+        			j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", true);
+        		} else {
+        			j$(this).closest("[id $= 'pbs']").find(".dNetMsrpVal").prop("disabled", false);
+        		}
+        		j$(this).closest("[id $= 'pbs']").find(".quoteItem.Award_Price__c").prop("disabled", j$(this).is(':checked'));
+        		          
+			});
+        	j$("input:checkbox.subline.REVVY__FreezePricing__c").each(function() {  
+        		j$(this).closest("td").siblings("td").find(".subline.Percent_Off_MSRP__c,.subline.Percent_of_DNet__c,.subline.Award_Price__c").prop("disabled", j$(this).is(':checked'));
+			});
+			
+            var pm = j$(".pricingMethod").val();
+              if(pm == '% off MSRP') {
+              console.log('------------% off MSRP');
+              	j$("table[id $= 'qiPPSelectorTable'] tr th:nth-child(3), table[id $= 'qiPPSelectorTable'] tr td:nth-child(3)").show();
+              	j$("table[id $= 'qiPPSelectorTable'] tr th:nth-child(4), table[id $= 'qiPPSelectorTable'] tr td:nth-child(4)").hide();
+              } else if(pm == '% of DNET') {
+              console.log('------------% of DNET');
+              	j$("table[id $= 'qiPPSelectorTable'] tr th:nth-child(3), table[id $= 'qiPPSelectorTable'] tr td:nth-child(3)").hide();
+              	j$("table[id $= 'qiPPSelectorTable'] tr th:nth-child(4), table[id $= 'qiPPSelectorTable'] tr td:nth-child(4)").show();
+              }      
+        };
+    </script>
+	<apex:form id="toroPricing">
+		<apex:actionFunction name="updatePerformanceParts" action="{!updatePerformanceParts}" rerender="quoteDetails" oncomplete="handlePriceMethodChange();" status="status">
+			<apex:param name="setPerformancePart" value=""/>
+		</apex:actionFunction>
+		<apex:actionFunction name="switchPricingMethod" action="{!switchPricingMethod}" rerender="quoteDetails" oncomplete="handlePriceMethodChange();" status="status">
+			<apex:param name="priceProgram" value=""/>
+			<apex:param name="priceMethod" value=""/>
+		</apex:actionFunction>
+		<apex:actionFunction name="switchPricingProgram" action="{!switchPricingProgram}" rerender="quoteDetails" oncomplete="handlePriceMethodChange();" status="status">
+			<apex:param name="priceProgram" value=""/>
+			<apex:param name="priceMethod" value=""/>
+		</apex:actionFunction>
+		<apex:actionFunction name="updateStateContractQuote" action="{!updateStateContractQuote}" rerender="quoteDetails" oncomplete="handlePriceMethodChange();" status="status">
+			<apex:param name="priceProgram" value=""/>
+			<apex:param name="priceMethod" value=""/>
+		</apex:actionFunction>
+		<apex:actionFunction name="updateStateContractQuoteItem" action="{!updateStateContractQuoteItem}" rerender="quoteDetails" oncomplete="handlePriceMethodChange();" status="status">
+			<apex:param name="sfdc_id" value=""/>
+			<apex:param name="priceMethod" value=""/>
+			<apex:param name="newVal" value=""/>
+			<apex:param name="originalVal" value=""/>
+		</apex:actionFunction>
+		<apex:slds />
+        <apex:actionStatus id="status">
+            <apex:facet name="start">
+                <div class="slds-spinner_container" style="position: fixed;" >
+                    <div role="status" class="slds-spinner slds-spinner--large slds-spinner--brand">
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </apex:facet>
+        </apex:actionStatus>
+        <!-- / SPINNER -->
+		<apex:pageBlock title="Quote Details" id="quoteDetails" tabStyle="Account">
+		<script type="text/javascript">
+			var currentQuoteItem = "{!currentQuoteItem}";
+			var pricingProgramType = "{!prcingProgramType}";
+		</script>
+			<apex:pageBlockButtons >
+	            <input type="button" id="returnToQuote" class="btn returnToQuote" value="Return To Quote" />
+	            <apex:commandButton action="{!updateQuote}" value="Update Quote"  oncomplete="handlePriceMethodChange();" status="status" rerender="quoteDetails"/>	
+	            <apex:commandButton action="{!manageProducts}" value="Manage Products" />  
+	            <apex:commandButton action="{!addSupportPlus}" onclick="window.location.href = '/apex/ToroSupportPlus?id='+quoteId;" value="Add Support Plus" rendered="{!IF(prcingProgramType=='Large package', true, false)}"/>   
+	    
+	        </apex:pageBlockButtons>
+			<apex:pageBlockSection title="Quote Header" collapsible="false">
+				<apex:pageBlockTable value="{!quotes}" var="item" >
+					<apex:repeat value="{!QuoteFields}" var="qf">
+						<apex:column >
+							<apex:facet name="header"><div align="center">{!qf.label}</div></apex:facet>
+	                        <apex:outputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteFieldsUpdatable[lower(qf.fieldPath)], false, true)}"/>
+	                        <apex:inputField value="{!item[qf.fieldPath]}" styleClass="{!qf.fieldPath}" rendered="{!IF(quoteFieldsUpdatable[lower(qf.fieldPath)], true, false)}"/>
+	                    </apex:column>
+              		</apex:repeat>
+          		</apex:pageBlockTable>
+          	</apex:pageBlockSection>
+          	
+	          	<apex:pageBlockSection title="Choose Pricing Program" columns="2" id="dNetMsrf" collapsible="false">
+					<apex:pageBlockTable value="{!pricingProgramSelectors}" var="item" >
+						<apex:column >
+							<apex:facet name="header"><div align="center">Pricing Programs</div></apex:facet>
+	                        <apex:selectList value="{!selectedPricingProgram}" multiselect="false" size="1" styleClass="pricingProgram">
+	                        	<apex:selectOptions value="{!pricingProgramOptions}"/>
+	                        </apex:selectList>
+	                    </apex:column>
+	                    <apex:column >
+							<apex:facet name="header"><div align="center" >Pricing Methods</div></apex:facet>
+	                        <apex:selectList value="{!selectedPricingMethod}" multiselect="false" size="1" styleClass="pricingMethod">
+	                        	<apex:selectOptions value="{!priceMethodOptions}"/>
+	                        	<!--<apex:actionSupport event="onchange" action="{!switchDNetMsrf}" reRender="dNetMsrf"></apex:actionSupport>-->
+	                        </apex:selectList>
+	                    </apex:column>
+	                    
+	                    <apex:column rendered="{!bdisplayPerformancePart}">
+							<apex:facet name="header"><div align="center" >Performance Part</div></apex:facet>
+							<apex:inputCheckbox value="{!quotes[0].Performance_Part__c}" style="text-align:center;"  id="btnPerformancePart"/>
+                            </apex:column>
+	          		</apex:pageBlockTable>
+	          	</apex:pageBlockSection>
+          	
+
+  			<apex:pageBlockSection title="Quote Items" columns="1" id="quoteItemList" collapsible="false">
+  			<apex:repeat value="{!quoteItemWrapperList}" var="qouteItem" id="qiRepeater" >
+  				<apex:pageBlockSection id="pbs" title="{!qouteItem.qi.REVVY__Product_Name_F__c}({!qouteItem.qi.REVVY__Product_ID_F__c})" columns="1" html-class="quoteItemPanel {!qouteItem.qi.Id}" collapsible="false">
+					<apex:pageBlockTable value="{!qouteItem.qi}" var="item" >
+						<apex:repeat value="{!QuoteItemFields}" var="qf">
+							<apex:column >
+								<apex:facet name="header"><div align="center">{!qf.label}</div></apex:facet>
+								<apex:inputHidden value="{!item[qf.fieldPath]}" html-data-sku="{!item['revvy__catalog_node__r.revvy__Id__c']}" html-data-value="{!item[qf.fieldPath]}" html-class="{!qf.fieldPath} {!item['misc_style__c']} "/>
+		                        <apex:outputField value="{!item[qf.fieldPath]}" rendered="{!IF(quoteItemFieldsUpdatable[lower(qf.fieldPath)], false, true)}"/>
+		                        <apex:inputField value="{!item[qf.fieldPath]}" styleClass="quoteItem {!qf.fieldPath}" rendered="{!IF(quoteItemFieldsUpdatable[lower(qf.fieldPath)], true, false)}"/>
+		                    </apex:column>
+	              		</apex:repeat>
+	              		<apex:column >
+	              				<apex:inputHidden html-class="unit-award-override" value="{!item.Unit_Award_Overridden__c}"/>
+	              			</apex:column>
+	          		</apex:pageBlockTable>
+	          		<apex:pageBlockSection columns="2" id="qiPPSelectorSection" collapsible="false"> 
+					<apex:pageBlockTable value="{!qouteItem.qi}" var="item" id="qiPPSelectorTable">
+						<apex:column >
+							<apex:facet name="header"><div align="center">Pricing Programs</div></apex:facet>
+							<span >{!item.Pricing_Program__c}</span>
+	                    </apex:column>
+	                    <apex:column >
+							<apex:facet name="header"><div align="center" >Pricing Methods</div></apex:facet>
+							<apex:outputText value="{!item.Select_a_Price_Method__c}" styleClass="selectPriceMethod"/>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" class="dNetMsrpLabel" >% off MSRP</div></apex:facet>
+	                    	<apex:inputField value="{!item.Off_MSRP__c}" styleClass="dNetMsrpVal" html-data-original-value="{!item.Original_off_MSRP__c}" 
+	                    		html-data-sfdc-id="{!item.id}" html-data-price-method="{!item.Select_a_Price_Method__c}"/>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" class="dNetMsrpLabel" >% of DNET</div></apex:facet>
+	                    	<apex:inputField value="{!item.Award_of_DN__c}" styleClass="dNetMsrpVal" html-data-original-value="{!item.Oroginal_of_DNet__c}" 
+	                    		html-data-sfdc-id="{!item.id}" html-data-price-method="{!item.Select_a_Price_Method__c}"/>
+	                    </apex:column>
+	          		</apex:pageBlockTable>
+	          		
+	          		</apex:pageBlockSection>
+	          		<apex:pageBlockSection title="Configuration" columns="1" collapsible="false" rendered="{!qouteItem.qislList <> null}">
+	          		<apex:pageBlockTable value="{!qouteItem.qislList}" var="item" id="quoteItemSublineTb"> 	          			
+	          			<apex:column >
+	                    	<apex:facet name="header"><div align="center" >Freeze</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.REVVY__FreezePricing__c}" html-data-sku="{!item.Product_ID2__c}" html-class="REVVY__FreezePricing__c {!item.Misc_Style__c}" value="{!item.REVVY__FreezePricing__c}"/>
+							<apex:inputField styleClass="subline REVVY__FreezePricing__c"  value="{!item.REVVY__FreezePricing__c}"/>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Model</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.Product_ID_F__c}" html-data-sku="{!item.Product_ID2__c}" html-class="Product_ID_F__c {!item.Misc_Style__c}" value="{!item.Product_ID_F__c}"/>
+							<apex:outputField value="{!item.Product_ID_F__c}"/>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Name</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.Product_Name_F__c}" html-data-sku="{!item.Product_ID2__c}" html-class="Product_Name_F__c {!item.Misc_Style__c}" value="{!item.Product_Name_F__c}"/>
+							<apex:outputField value="{!item.Product_Name_F__c}"/>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Qty</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.REVVY__Quantity__c}" html-data-sku="{!item.Product_ID2__c}" html-class="REVVY__Quantity__c {!item.Misc_Style__c}" value="{!item.REVVY__Quantity__c}"/>
+							<apex:outputField value="{!item.REVVY__Quantity__c}"/>
+	                    </apex:column>
+	<!--                   
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Qty</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.REVVY__Quantity__c}" html-data-sku="{!item.Product_ID2__c}" html-class="REVVY__Quantity__c {!item.Misc_Style__c}" value="{!item.REVVY__Quantity__c}">
+							<apex:outputField value="{!item.REVVY__Quantity__c}">
+	                    </apex:column>
+	                    
+	                    
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Qty</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.REVVY__Quantity__c}" html-data-sku="{!item.Product_ID2__c}" html-class="REVVY__Quantity__c {!item.Misc_Style__c}" value="{!item.REVVY__Quantity__c}">
+							<apex:outputField value="{!item.REVVY__Quantity__c}">
+	                    </apex:column>
+	 -->                      
+	                  	<apex:column >
+	                    	<apex:facet name="header"><div align="center" >DNet Price</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.DNet_Price_2__c}" html-data-sku="{!item.Product_ID2__c}" html-class="DNet_Price_2__c {!item.Misc_Style__c}" value="{!item.DNet_Price_2__c}"/>
+							<apex:outputField value="{!item.DNet_Price_2__c}"/>
+	                    </apex:column>  
+	                    
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Extended DNet Price</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.DNet_Price__c}" html-data-sku="{!item.Product_ID2__c}" html-class="DNet_Price__c {!item.Misc_Style__c}" value="{!item.DNet_Price__c}"/>
+							<apex:outputField value="{!item.DNet_Price__c}"/>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >MSRP</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.REVVY__Price__c}" html-data-sku="{!item.Product_ID2__c}" html-class="REVVY__Price__c {!item.Misc_Style__c}" value="{!item.REVVY__Price__c}"/>
+							<apex:outputField value="{!item.REVVY__Price__c}"/>
+	                    </apex:column>
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Extended MSRP Price</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.Extended_MSRP_Price__c}" html-data-sku="{!item.Product_ID2__c}" html-class="Extended_MSRP_Price__c {!item.Misc_Style__c}" value="{!item.Extended_MSRP_Price__c}"/>
+							<apex:outputField value="{!item.Extended_MSRP_Price__c}"/>
+	                    </apex:column>
+	                    
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Support Plus</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.Apply_Support_Plus__c}" html-data-sku="{!item.Product_ID2__c}" html-class="Apply_Support_Plus__c {!item.Misc_Style__c}" value="{!item.Apply_Support_Plus__c}"/>
+							<apex:outputField value="{!item.Apply_Support_Plus__c}" />
+	                    </apex:column>
+	                   
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Performance Part</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.Performance_Part__c}" html-data-sku="{!item.Product_ID2__c}" html-class="Performance_Part__c {!item.Misc_Style__c}" value="{!item.Performance_Part__c}" />
+							<apex:inputField styleClass="subline Performance_Part__c"  value="{!item.Performance_Part__c}" />							
+	                    </apex:column>
+	                      
+	                    <apex:column >
+	                    	<apex:facet name="header"><div align="center" >Unit Award</div></apex:facet>
+	                    	<apex:inputHidden html-data-value="{!item.Award_Price__c}" html-data-sku="{!item.Product_ID2__c}" html-class="Award_Price__c {!item.Misc_Style__c}" value="{!item.Award_Price__c}"/>
+							<apex:inputField styleClass="subline Award_Price__c"  value="{!item.Award_Price__c}" />
+	                    </apex:column>
+	          		
+	              	<apex:column >
+	              			<apex:inputHidden html-class="unit-award-override" value="{!item.Unit_Award_Overridden__c}"/>
+	              		</apex:column>
+	          		</apex:pageBlockTable>
+	          	</apex:pageBlockSection> 
+          		<apex:pageBlockSection title="Summary" columns="1" collapsible="false">
+          		<apex:pageBlockTable value="{!qouteItem.qi}" var="item" >
+						<apex:repeat value="{!QuoteItemSummaryFields}" var="qf">
+							<apex:column >
+								<apex:facet name="header"><div align="center">{!qf.label}</div></apex:facet>
+		                        <apex:outputField value="{!item[qf.fieldPath]}" />
+		                    </apex:column>
+	              		</apex:repeat>
+	              		
+	          	</apex:pageBlockTable>
+	          	</apex:pageBlockSection>
+	          	</apex:pageBlockSection>
+          		<br/>
+          		
+          	</apex:repeat>
+          	</apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form> 
+
+</apex:page>

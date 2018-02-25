@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Toro_Pricing_Program_Record_Page2</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>AllowSupportPlus__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Allow Support Plus</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ApplicableProducts__c</fullName>
+        <externalId>false</externalId>
+        <label>Applicable Products</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Corporate_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Corporate Account</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Account.Type_Commercial__c</field>
+                <operation>equals</operation>
+                <value>Management Company</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Toro Pricing Programs</relationshipLabel>
+        <relationshipName>Toro_Pricing_Programs</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>CurrentDate__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Exclude__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Exclude From Display</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Exclude From Display</inlineHelpText>
+        <label>Exclude</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ExternalId__c</fullName>
+        <externalId>true</externalId>
+        <label>External Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IsFirstTee__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Is this a first tee pricing program?  This flag is used in pricing program eligibility logic.</description>
+        <externalId>false</externalId>
+        <label>Is First Tee</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>IsTaxSupported__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Is this a tax supported pricing program? This flag is used in pricing program eligibility logic.</description>
+        <externalId>false</externalId>
+        <label>Is Tax Supported</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>MinimumThreshold__c</fullName>
+        <description>Minimum threshold for a pricing program to be seen in pricing program pick list.</description>
+        <externalId>false</externalId>
+        <label>Large Package Minimum Threshold</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>MinimumTractionUnits__c</fullName>
+        <description>Used by Small Package Restriction:
+Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</description>
+        <externalId>false</externalId>
+        <label>Minimum Traction Units</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OutCrossThreshold__c</fullName>
+        <description>Minimum dollar amount threshold for Large Package that has Out Cross.</description>
+        <externalId>false</externalId>
+        <label>Out Cross Threshold</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>OverriddenPriceList__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Overridden Price List</label>
+        <referenceTo>REVVY__MnPriceList__c</referenceTo>
+        <relationshipLabel>Toro Pricing Programs</relationshipLabel>
+        <relationshipName>Toro_Pricing_Programs</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PricingProgramStyle__c</fullName>
+        <externalId>false</externalId>
+        <label>Pricing Program Style</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>PricingProgramType__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Base</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Base_w_no_Price_Increase</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Base_w_Qty_Pricing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Base_w_Support_Plus</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Chart</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Price_List</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Base_w_Model_Pricing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Standard</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Standrad_w_Exception</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Standard_w_TPP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GSA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Army</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NAF</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Large_Package</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New_Construction_Renovation_LP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Market_Chart</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Small_Package</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Demo</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Southern_Demo</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>First_Tee</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Equipment_Partnership_0-6_Months</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Equipment_Partnership_7-9_Months</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Equipment_Partnership_10-18_Months</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Stock_Order_Demo_Program</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Large_Package</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>New_Construction_Renovation_LP</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Market_Chart</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Small_Package</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Demo</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Southern_Demo</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>First_Tee</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Equipment_Partnership_0-6_Months</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Equipment_Partnership_7-9_Months</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Equipment_Partnership_10-18_Months</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Stock_Order_Demo_Program</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <valueName>Standard</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <valueName>Standrad_w_Exception</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <valueName>Standard_w_TPP</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <valueName>GSA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <valueName>Army</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <valueName>NAF</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PricingProgramType__c</fullName>
+        <externalId>false</externalId>
+        <label>Pricing Program Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Support Chart</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Corporate Account</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Performance Part</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>State Contract</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>SelectProduct__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>This field is used to lookup a product</description>
+        <externalId>false</externalId>
+        <label>Select Product</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>Enter the Traction unit name or ID</errorMessage>
+            <filterItems>
+                <field>REVVY__MnCatalogNode__c.REVVY__Type__c</field>
+                <operation>equals</operation>
+                <value>Product</value>
+            </filterItems>
+            <filterItems>
+                <field>REVVY__MnCatalogNode__c.Toro_Product_Type__c</field>
+                <operation>equals</operation>
+                <value>Finished Good</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>REVVY__MnCatalogNode__c</referenceTo>
+        <relationshipLabel>Pricing Programs</relationshipLabel>
+        <relationshipName>PricingPrograms</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Setup_Fee__c</fullName>
+        <externalId>false</externalId>
+        <label>Setup Fee</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>StateProvince__c</fullName>
+        <externalId>false</externalId>
+        <label>StateProvince</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Toro Pricing Program</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>PricingProgramType__c</columns>
+        <columns>PricingProgramStyle__c</columns>
+        <columns>OverriddenPriceList__c</columns>
+        <columns>StateProvince__c</columns>
+        <columns>Exclude__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <language>en_US</language>
+    </listViews>
+    <nameField>
+        <label>Toro Pricing Program Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Toro Pricing Programs</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>Select_Applicable_Product</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Select Applicable Products</masterLabel>
+        <openType>noSidebar</openType>
+        <page>ToroPricingProgramSelector</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

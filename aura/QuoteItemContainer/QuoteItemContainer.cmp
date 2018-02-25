@@ -1,0 +1,21 @@
+<aura:component controller="ToroPricingProgramController">
+	<aura:attribute name="quoteId" type="String" />
+    <aura:attribute name="fields" type="Object[]" />
+    <aura:attribute name="fieldsSub" type="Object[]" /> 
+    <aura:attribute name="quoteItems" type="SObject[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
+	<thead>
+		<tr class="slds-text-heading--label">
+			<aura:iteration items="{!v.fields}" var="fld">
+				<th scope="col"><div class="slds-truncate" title="ID">{!fld.label}</div></th>
+			</aura:iteration>
+		</tr>
+	</thead>
+	<tbody id="quoteItemContainer">
+        <aura:iteration items="{!v.quoteItems}" var="item">
+            <c:QuoteItem2 quoteItem="{!item}" fields="{!v.fields}"/>
+        </aura:iteration>
+    </tbody>
+    </table>
+</aura:component>

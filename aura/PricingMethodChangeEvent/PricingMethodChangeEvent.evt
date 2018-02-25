@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Pricing Method selection change event" >
+    <aura:attribute name="selectedPricingMethod" type="String"/>
+    <aura:attribute name="selectedPricingProgram" type="String"/>
+</aura:event>

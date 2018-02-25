@@ -1,0 +1,10 @@
+<apex:page id="pg" standardStylesheets="false" controller="TR_BOMExcelExportController" contentType="application/vnd.ms-excel#SalesForceExport.xls" cache="true">
+<apex:pageBlock >
+	<apex:pageBlockSection title="Price List Info">
+    	<apex:pageBlockSectionItem >
+         	<apex:outputLabel value="Effective Start Date:" />
+            <apex:outputText value="11/22/2017"/> 
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:page>
