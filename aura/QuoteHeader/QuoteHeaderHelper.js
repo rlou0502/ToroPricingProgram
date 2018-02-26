@@ -17,8 +17,10 @@
 	                var retResponse = response.getReturnValue();
 	                debugger;
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
-					component.set('v.displayPerformancePart', retResponse.displayPerformancePart);   
-                    component.find("pricingMethod").set("v.value", "");
+					component.set('v.displayPerformancePart', retResponse.displayPerformancePart); 
+                    component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
+                    
+                    //component.find("pricingMethod").set("v.value", "");
                     
                     //selectedPricingMethod
 	            }

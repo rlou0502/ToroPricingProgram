@@ -27,6 +27,8 @@ public class ToroPricingProgramController {
 		rs.pricingMethodOptions = options;
 		if(options.size() == 1) {
 			rs.selectedPricingMethod = options[0].value;	
+		} else {
+			rs.selectedPricingMethod = null;
 		}
 		
     	return rs;
