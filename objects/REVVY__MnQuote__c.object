@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <fields>
+        <fullName>Account_Manager__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Account Manager</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Toro_Quotes</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Agree_to_Support_Plus_T_C__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Agree to Support Plus Terms &amp; Conditions</description>
+        <externalId>false</externalId>
+        <label>Agree to Support Plus T &amp; C</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Blended_Percent_of_DN__c</fullName>
+        <externalId>false</externalId>
+        <formula>Rollup_Award_Price__c /  Rollup_DNET__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Blended % of DN</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Currency2__c</fullName>
+        <description>Third Currency to break SFDC currency iso code and REVVY currency dependency
+
+CustomerCurrency_ISOCurrency</description>
+        <externalId>false</externalId>
+        <label>Currency</label>
+        <picklist>
+            <controllingField>REVVY__Segment__c</controllingField>
+            <picklistValues>
+                <fullName>USD_USD</fullName>
+                <default>true</default>
+                <controllingFieldValues>Commercial</controllingFieldValues>
+                <controllingFieldValues>FY17 EMEA CE - EURO</controllingFieldValues>
+                <controllingFieldValues>FY17 EMEA CE - USD</controllingFieldValues>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EUR_EUR</fullName>
+                <default>false</default>
+                <controllingFieldValues>FY17 EMEA CE - EURO</controllingFieldValues>
+                <controllingFieldValues>FY17 EMEA CE - USD</controllingFieldValues>
+            </picklistValues>
+            <picklistValues>
+                <fullName>CAD_USD</fullName>
+                <default>false</default>
+                <controllingFieldValues>Commercial</controllingFieldValues>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Currency_Conversion_Rate__c</fullName>
+        <description>This the currency conversion rate that the distributor can use</description>
+        <externalId>false</externalId>
+        <label>Currency Conversion Rate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DSM_Approved_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>DSM Approved Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Distributor_Contribution__c</fullName>
+        <externalId>false</externalId>
+        <label>Distributor Contribution</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Distributor_Responsibility__c</fullName>
+        <description>Distributor Responsibility on Support Plus</description>
+        <externalId>false</externalId>
+        <label>Distributor Responsibility</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Favorite__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Favorite</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Freight_Delivery__c</fullName>
+        <externalId>false</externalId>
+        <label>Freight &amp; Delivery</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Gross_Profit_Percent__c</fullName>
+        <description>Hold value of Pricing Method &quot;Gross Profit Percent&quot; user entered.</description>
+        <externalId>false</externalId>
+        <label>Gross Profit Percent</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Non_Vehicle_Total__c</fullName>
+        <externalId>false</externalId>
+        <label>Non-Vehicle Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Performance_Part__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Performance Part</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Price_Method__c</fullName>
+        <description>Store Price Method selected in pricing page</description>
+        <externalId>false</externalId>
+        <label>Price Method</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Pricing_Program_Name__c</fullName>
+        <description>Store the name of Pricing Program selected in Pricing Page</description>
+        <externalId>false</externalId>
+        <label>Pricing Program Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Pricing_Program_Type__c</fullName>
+        <description>The type of Pricing Program selected in pricing page</description>
+        <externalId>false</externalId>
+        <label>Pricing Program Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Probability_Goes_Toro__c</fullName>
+        <description>Commercial. Probability that the opportunity closes in Toro&apos;s favor</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Probability that the opportunity closes in Toro&apos;s favor</inlineHelpText>
+        <label>Probability Goes Toro (%)</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Project_Probability__c</fullName>
+        <description>Probability that the project will complete</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Probability that the project will complete by Close Date</inlineHelpText>
+        <label>Project Probability (%)</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Award Price</label>
+        <summarizedField>REVVY__MnQuoteItem__c.Total_Extended_Award_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_DNET__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup DNET</label>
+        <summarizedField>REVVY__MnQuoteItem__c.DNet_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_DNetWOTPPAllied__c</fullName>
+        <description>Rollup over field &quot;DNet Without TPP and Allied&quot; on Quote Item</description>
+        <externalId>false</externalId>
+        <label>Total Toro DNet Price</label>
+        <summarizedField>REVVY__MnQuoteItem__c.DNetWOTPPAllied__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>SP_Ext_Dist_Responsibility__c</fullName>
+        <description>Extended Distributor Responsibility is used in support plus page</description>
+        <externalId>false</externalId>
+        <label>SP Ext Dist Responsibility</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>SP_Total_Extended_DNET__c</fullName>
+        <description>Field &quot;Support Plus Total Extended DNET&quot; is used in support plus page</description>
+        <externalId>false</externalId>
+        <label>Support Plus Total Extended DNET</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Tax_Percent__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Tax Percent</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Setup_Fee__c</fullName>
+        <externalId>false</externalId>
+        <label>Setup Fee</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Quantity__c</fullName>
+        <externalId>false</externalId>
+        <label>Support Plus Quantity</label>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItem__c.Support_Plus_Items__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>1</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Rebate__c</fullName>
+        <description>Support Plus Rebate</description>
+        <externalId>false</externalId>
+        <label>Support Plus Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Support Plus Applied</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Territory__c</fullName>
+        <defaultValue>IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;North_America&quot;, &quot;International&quot;)</defaultValue>
+        <externalId>false</externalId>
+        <label>Territory</label>
+        <picklist>
+            <picklistValues>
+                <fullName>North_America</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>International</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Blended_Percent_of_DN__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Blended % of DN</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Contribution__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Contribution</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Rollup Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_DNET__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Rollup DNET</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_DNetWOTPPAllied__c</fullName>
+        <description>Rollup over field &quot;DNet Without TPP and Allied&quot; on Quote Item</description>
+        <externalId>false</externalId>
+        <label>Toro Total Toro DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Rollup_Setup_Fees__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Rollup Setup Fees</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Support_Plus_Allowance__c</fullName>
+        <description>Toro Support Plus Allowance</description>
+        <externalId>false</externalId>
+        <label>Toro Support Plus Allowance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Award_of_DNET__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Total Award % of DNET</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_DNet__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Total DNet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Quote_Gross_Profit_Percent__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Total Quote Gross Profit %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Quote_Gross_Profit__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Total Quote Gross Profit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Quote_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Total Quote Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_Rebate__c</fullName>
+        <description>Roll up of Total Rebate from Quote Item</description>
+        <externalId>false</externalId>
+        <label>Toro Total Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>TotalAwardDollars__c</fullName>
+        <description>Hold value of Pricing Method of Total Award Dollars entered by user</description>
+        <externalId>false</externalId>
+        <label>Total Award Dollars</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_Award_Price_Alternate_Currency__c</fullName>
+        <externalId>false</externalId>
+        <formula>Currency_Conversion_Rate__c *  REVVY__One_Time_Total_Value_S__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Award Price Alternate Currency</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Total_Award_of_DNET__c</fullName>
+        <externalId>false</externalId>
+        <formula>REVVY__OneTimeTotalAfterAdjustmentDisplay_F__c   /  Total_DNet__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Award % of DNET</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Total_DNet__c</fullName>
+        <externalId>false</externalId>
+        <label>Total DNet</label>
+        <summarizedField>REVVY__MnQuoteItem__c.DNet_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Total_Extended_DNet__c</fullName>
+        <description>Total Extended Dnet Prices</description>
+        <externalId>false</externalId>
+        <label>Total Extended DNet</label>
+        <summarizedField>REVVY__MnQuoteItem__c.DNet_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Total_Quote_Award_Price_Alt_Currency__c</fullName>
+        <externalId>false</externalId>
+        <formula>Currency_Conversion_Rate__c *  Total_Quote_Award_Price__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Quote Award Price Alt Currency</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Total_Quote_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Quote Award Price</label>
+        <summarizedField>REVVY__MnQuoteItem__c.Total_Award_price__c</summarizedField>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItem__c.Total_Award_price__c</field>
+            <operation>notEqual</operation>
+            <value>2500</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Total_Quote_Gross_Profit_Percent__c</fullName>
+        <externalId>false</externalId>
+        <formula>Total_Quote_Gross_Profit__c /Total_Quote_Award_Price__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Quote Gross Profit %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Total_Quote_Gross_Profit__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Quote Gross Profit</label>
+        <summarizedField>REVVY__MnQuoteItem__c.Gross_Profit_Value__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Total_Quote_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Quote Rebate</label>
+        <summarizedField>REVVY__MnQuoteItem__c.Total_Rebate__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Total_Rebate__c</fullName>
+        <description>Roll up of Total Rebate from Quote Item</description>
+        <externalId>false</externalId>
+        <label>Total Rebate</label>
+        <summarizedField>REVVY__MnQuoteItem__c.Total_Rebate__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Vehicle_Total__c</fullName>
+        <externalId>false</externalId>
+        <label>Vehicle Total</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+</CustomObject>

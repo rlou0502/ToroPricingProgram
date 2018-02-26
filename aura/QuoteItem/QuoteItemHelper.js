@@ -262,14 +262,17 @@
         childTable.appendChild(childTableHeader);
         tableCol.appendChild(childTable);
 		var childTableBody = document.createElement('tbody');
-        sublines.forEach(function(s) {
-            var subLineTableRow = document.createElement('tr');
-            subLineTableRow.className += " quoteItemSubline ";
-            subLineTableRow.id = s["Id"];
-            //subLineTableRow.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, subLineTableRow.id);}, false);
-            self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem);           
-            childTableBody.appendChild(subLineTableRow);
-        });
+        if(sublines) {
+        	sublines.forEach(function(s) {
+                var subLineTableRow = document.createElement('tr');
+                subLineTableRow.className += " quoteItemSubline ";
+                subLineTableRow.id = s["Id"];
+                //subLineTableRow.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, subLineTableRow.id);}, false);
+                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem);           
+                childTableBody.appendChild(subLineTableRow);
+            });    
+        }
+        
         childTable.appendChild(childTableBody);
         var target = document.getElementById(selectedQuoteItem);
     	target.parentNode.insertBefore(tableRow, target.nextSibling );
@@ -314,7 +317,9 @@
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
-            self.populateQuoteItemSubLine(component, sublines, fields, sublineFields, qiId);  
+            if(sublines) {
+            	self.populateQuoteItemSubLine(component, sublines, fields, sublineFields, qiId); 
+            }
             self.renderQuoteItemPricingProgramSection(component, fields, qiId);  
         });
         self.hideSpinner();
@@ -352,6 +357,7 @@
                     
                     var sublineMap = {};  
                     var quoteItemMap={};
+                    debugger;
 	                retRecords.forEach(function(s) {
 	                	quoteItemMap[s["Id"]]=s;
                         if(s["Toro_Quote_Item_Sub_Lines__r"]) {

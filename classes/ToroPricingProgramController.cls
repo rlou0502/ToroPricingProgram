@@ -9,6 +9,14 @@ public class ToroPricingProgramController {
     }
     
     @AuraEnabled
+    public static void svc_clearDirtyQuoteItem(Id quoteId) {
+    	System.debug('>>> svc_clearDirtyQuoteItem 111 quoteId='+quoteId);
+    	delete [Select Id From REVVY__MnQuoteItem__c where REVVY__Quote__c =:quoteId and Dirty__c = true];
+    	System.debug('>>> svc_clearDirtyQuoteItem 222 quoteId='+quoteId);
+    }
+    
+    
+    @AuraEnabled
     public static ToroSObjectResultSet svc_getPricingMethodOptions(Id quoteId, String pricingProgram) {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=true;

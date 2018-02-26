@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>CMnPostConfigPricingHook</members>
@@ -22,9 +22,17 @@
         <members>ToroNationalAccountPricingProgramHelper</members>
         <members>ToroPerformancePartPricingProgramHelper</members>
         <members>ToroPriceProgramFactory</members>
+        <members>ToroPricingMethodData</members>
+        <members>ToroPricingMethodTest2</members>
+        <members>ToroPricingMethodUtil</members>
+        <members>ToroPricingMethodUtilTest</members>
         <members>ToroPricingProgram</members>
         <members>ToroPricingProgramController</members>
+        <members>ToroPricingProgramData</members>
+        <members>ToroPricingProgramEligibility</members>
+        <members>ToroPricingProgramEligibilityTest</members>
         <members>ToroPricingProgramInfoBoxController</members>
+        <members>ToroPricingProgramProductSelector</members>
         <members>ToroProductEligibilityPlugin</members>
         <members>ToroQIExtensionCreatedBatch</members>
         <members>ToroQISLExtensionCreatedBatch</members>
@@ -35,14 +43,6 @@
         <members>ToroStateContractPricingProgramHelper</members>
         <members>ToroSupportPlusController</members>
         <members>ToroSupportPlusData</members>
-        <members>ToroPricingMethodData</members>
-        <members>ToroPricingMethodTest2</members>
-        <members>ToroPricingMethodUtil</members>
-        <members>ToroPricingMethodUtilTest</members>
-        <members>ToroPricingProgramData</members>
-        <members>ToroPricingProgramEligibility</members>
-        <members>ToroPricingProgramEligibilityTest</members>
-        <members>ToroPricingProgramProductSelector</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -61,6 +61,10 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
+        <members>CustomLabels</members>
+        <name>CustomLabels</name>
+    </types>
+    <types>
         <members>Toro_PricingProgramEligibility__c</members>
         <members>Toro_PricingProgramHelperFactory__c</members>
         <members>Toro_PricingProgramLine__c</members>
@@ -68,15 +72,6 @@
         <members>Toro_QuoteItem_SubLine__c</members>
         <members>Toro_QuoteItem__c</members>
         <name>CustomObject</name>
-    </types>
-    <types>
-        <members>QuoteLineItem</members>
-        <members>Quote</members>
-        <name>Workflow</name>
-    </types>
-    <types>
-        <members>CustomLabels</members>
-        <name>CustomLabels</name>
     </types>
     <types>
         <members>TestData_PP_CorporateAccount</members>
@@ -87,6 +82,11 @@
         <members>TestData_PP_ToroQuoteItem_1</members>
         <members>TestData_PP_ToroQuoteSubline_1</members>
         <name>StaticResource</name>
+    </types>
+    <types>
+        <members>Quote</members>
+        <members>QuoteLineItem</members>
+        <name>Workflow</name>
     </types>
     <version>38.0</version>
 </Package>

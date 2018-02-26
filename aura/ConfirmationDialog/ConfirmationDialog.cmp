@@ -1,4 +1,4 @@
-<aura:component >
+<aura:component controller="ToroPricingProgramController">
 <aura:attribute name="quoteId" type="String" />
 <aura:attribute name="forwardUrl" type="String" />
     
