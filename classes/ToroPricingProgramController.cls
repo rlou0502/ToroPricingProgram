@@ -25,6 +25,9 @@ public class ToroPricingProgramController {
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
     	List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
 		rs.pricingMethodOptions = options;
+		if(options.size() == 1) {
+			rs.selectedPricingMethod = options[0].value;	
+		}
 		
     	return rs;
     }

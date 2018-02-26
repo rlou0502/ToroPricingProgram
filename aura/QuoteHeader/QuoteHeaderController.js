@@ -22,6 +22,7 @@
         cmpEvent.fire();
     },
     onGpPercentChange: function(cmp, event, helper){
+        debugger;
         var changedValue = event.currentTarget.value;
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
@@ -147,7 +148,7 @@
             });
             getAction.setCallback(this, 
             		function(response) {
-                        
+                        debugger;
                         var state = response.getState();
                         if (cmp.isValid() && state === "SUCCESS") {  
                             

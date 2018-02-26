@@ -15,6 +15,7 @@
 	            if (component.isValid() && state === "SUCCESS") {  
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
+	                debugger;
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
 					component.set('v.displayPerformancePart', retResponse.displayPerformancePart);   
                     component.find("pricingMethod").set("v.value", "");
