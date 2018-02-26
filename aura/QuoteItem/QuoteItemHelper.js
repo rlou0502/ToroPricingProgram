@@ -331,7 +331,7 @@
         */
     },
 	populateQuoteItems : function(component) {
-        debugger;
+        
 		var quoteId = component.get('v.quoteId');
 		var pricingProgram = component.get('v.selectedPricingProgram');
         console.log('populateQuoteItems.pricingProgram =' + pricingProgram);
@@ -357,7 +357,7 @@
                     
                     var sublineMap = {};  
                     var quoteItemMap={};
-                    debugger;
+                    
 	                retRecords.forEach(function(s) {
 	                	quoteItemMap[s["Id"]]=s;
                         if(s["Toro_Quote_Item_Sub_Lines__r"]) {

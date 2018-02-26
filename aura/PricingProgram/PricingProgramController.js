@@ -21,7 +21,6 @@
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getPricingProgramMethod();
     	var childCmp = component.find("cmpQuoteItem");
-        debugger;
 		childCmp.saveQuote(result.PricingProgram, result.PricingMethod); 
         quoteHeaderCmp.savePricingProgramMethod();
     },
@@ -45,7 +44,6 @@
 		childCmp.setPMTotalAwardDollars(pricingProgram, pricingMethod, awardPrice);    
     },
     handleGPPercentChange: function(component, event, helper) {
-        debugger;
     	var pricingProgram=event.getParam("pricingProgram");
         var pricingMethod=event.getParam("pricingMethod");
         var gpPercent=event.getParam("gpPercent");
