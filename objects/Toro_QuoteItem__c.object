@@ -1118,6 +1118,16 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Traction_Unit__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT( QuoteItem__r.Traction_Unit__c )</formula>
+        <label>Traction Unit</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Trade_In_Price__c</fullName>
         <externalId>false</externalId>
         <label>Trade In Price</label>

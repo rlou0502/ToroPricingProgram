@@ -45,6 +45,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		system.debug(logginglevel.info, '+++++++++++++++++ NAT priceProgramExternalId = ' + priceMethod);
 		quote.Performance_Part__c=false;		
 		Map<String,Toro_PricingProgramLine__c> tierMap = retrieveNationalAccount( priceProgramExternalId);
+		Map<String,String> tractionUnitMap = retrieveTractionUnit();
 		system.debug(logginglevel.info, 'tierMap=' + tierMap);
 		
 		//Exception
@@ -72,7 +73,27 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			//ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, null);
 			System.debug(logginglevel.info,'>>> NAT qi.REVVY__Product_ID_F__c ='+qi.Product_Id__c);
 			System.debug('>>> +++++++++++++++++ NAT 115 =');
-			if(tierMap.containsKey(qi.Toro_Product_Tier__c)) {
+			if(String.isEmpty(qi.Toro_Product_Tier__c) && !String.isEmpty(qi.Traction_Unit__c) && tractionUnitMap.containsKey(qi.Traction_Unit__c)) {
+				String stier = tractionUnitMap.get(qi.Traction_Unit__c);
+				Toro_PricingProgramLine__c rb = tierMap.get(qi.Toro_Product_Tier__c);
+				System.debug('>>> +++++++++++++++++ NAT 116 =  rb='+rb);
+				qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
+				//qi.Award_of_DN__c = CMnQuoteUtil.defaultDecimal(rb.Award_Price_as_a_Percent_of_DN__c);
+				qi.Award_of_DN__c =0;
+				qi.Rebate_as_a_of_DN__c = CMnQuoteUtil.defaultDecimal(rb.Rebate_as_a_Percent_of_DN__c);
+				qi.Fee_Percentage__c = CMnQuoteUtil.defaultDecimal(rb.Fee_Percentage__c);
+				qi.Part_Percentage__c = CMnQuoteUtil.defaultDecimal(rb.Part_Percentage__c);
+				if(rb.Part_Percentage__c !=null && rb.Part_Percentage__c >0) {
+					System.debug('>>> +++++++++++++++++ NAT 117 =  rb='+rb);
+					qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Part_Percentage__c);
+				}
+				//qi.Award_Price__c = qi.MSRP_Price__c * (1-qi.Off_MSRP__c/100);
+				qi.Award_Price__c = qi.MSRP_Price__c * (1-qi.Off_MSRP__c/100);
+				System.debug('>>> +++++++++++++++++ NAT 116 AAA =  qi='+qi);
+				qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);
+				//qi.Award_of_DN__c = rb.Award_Price_as_a_Percent_of_DN__c;				
+				
+			} else if(tierMap.containsKey(qi.Toro_Product_Tier__c)) {
 				Toro_PricingProgramLine__c rb = tierMap.get(qi.Toro_Product_Tier__c);
 				System.debug('>>> +++++++++++++++++ NAT 116 =  rb='+rb);
 				qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
@@ -217,4 +238,14 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		}
 		return ppMap;
 	}	
+	
+	public static Map<String,String> retrieveTractionUnit() {
+		Map<String,String> tractionUnitMap = new Map<String,String>();
+		for(Toro_Traction_Unit_Tier__mdt tu:[Select MasterLabel,DeveloperName,Tier__c From Toro_Traction_Unit_Tier__mdt limit 5000]) {
+			System.debug('>>> mdt masterLabel='+tu.Masterlabel + ' DeveloperName=' + tu.DeveloperName + ' Tier=' + tu.Tier__c);
+			tractionUnitMap.put(tu.MasterLabel,tu.Tier__c);
+		}
+		return tractionUnitMap;
+				
+	}
 }

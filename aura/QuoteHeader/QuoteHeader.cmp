@@ -84,7 +84,7 @@
             	<td scope="col" class="setup-fee">  
                     <div class="slds-truncate slds-p-bottom_x-small" title="Setup Fee">Setup Fee %</div>
                     <div>
-                    <input type="text" onchange="{!c.onSetupFeeChange}"/> 
+                    <input type="text" value="{!v.quote.Setup_Fee__c}" onchange="{!c.onSetupFeeChange}"/> 
                         </div>
             	</td>
             </aura:if>

@@ -395,6 +395,15 @@ public class ToroPricingProgramController {
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getQuoteUpdatableFields(); 
     	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
     	pp.initializeQuoteHeader(objId);
+    	if(pp.displaySetupFee() && pp.quote.Setup_Fee__c == null) {
+    		List<Toro_PricingProgram__c> pps = [SELECT Id, Name, Setup_Fee__c FROM Toro_PricingProgram__c where externalID__c = :ppd.externalId];	
+    		for(Toro_PricingProgram__c ppi : pps) { 
+    			pp.quote.Setup_Fee__c = ppi.Setup_Fee__c;
+    			if(!Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedSetupFee)){
+		    		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedSetupFee, pp.quote.Setup_Fee__c);		
+		    	}
+    		}
+    	}
     	rs.values =  new List<SObject> {pp.quote};
     	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
     	//rs.pricingProgramOptions = pp.retrievePricingProgramOptions();
