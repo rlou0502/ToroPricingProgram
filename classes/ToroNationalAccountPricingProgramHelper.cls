@@ -75,7 +75,9 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			System.debug('>>> +++++++++++++++++ NAT 115 =');
 			if(String.isEmpty(qi.Toro_Product_Tier__c) && !String.isEmpty(qi.Traction_Unit__c) && tractionUnitMap.containsKey(qi.Traction_Unit__c)) {
 				String stier = tractionUnitMap.get(qi.Traction_Unit__c);
-				Toro_PricingProgramLine__c rb = tierMap.get(qi.Toro_Product_Tier__c);
+				System.debug(logginglevel.info, '>>> +++++++++++++++++ NAT 116 =  tierMap='+tierMap);
+				System.debug(logginglevel.info, '>>> +++++++++++++++++ NAT 116 =  stier='+stier);
+				Toro_PricingProgramLine__c rb = tierMap.get(stier);
 				System.debug('>>> +++++++++++++++++ NAT 116 =  rb='+rb);
 				qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
 				//qi.Award_of_DN__c = CMnQuoteUtil.defaultDecimal(rb.Award_Price_as_a_Percent_of_DN__c);
@@ -195,9 +197,9 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 
 			
 		}
-		
-
-		System.debug('>>> +++++++++++++++++ NAT 200=');
+		decimal fee = ToroCacheManager.getSetupFee();
+		System.debug(logginglevel.info, '>>> Setup fee from cache=' + fee);
+		System.debug(logginglevel.info, '>>> +++++++++++++++++ NAT 200=' + fee);
 		
 		delete [Select Id From Toro_QuoteItem__c where Id in :deleteSetupFeeLineItemId];
 		delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];

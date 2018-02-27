@@ -20,9 +20,12 @@ public class ToroPricingProgramController {
     public static ToroSObjectResultSet svc_setupFeeChange(decimal setupFee) {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=true;
-    	if(!Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedSetupFee)){
+    	system.debug(logginglevel.info, 'setup fee=' + setupFee);
+    	if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName) != null){
+    		system.debug(logginglevel.info, 'set setup fee to cache=' + setupFee);
     		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedSetupFee, setupFee);		
     	}  	
+    	system.debug(logginglevel.info, 'get it from cache setup fee=' + Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedSetupFee));
     	return rs;
     }
     
@@ -399,9 +402,7 @@ public class ToroPricingProgramController {
     		List<Toro_PricingProgram__c> pps = [SELECT Id, Name, Setup_Fee__c FROM Toro_PricingProgram__c where externalID__c = :ppd.externalId];	
     		for(Toro_PricingProgram__c ppi : pps) { 
     			pp.quote.Setup_Fee__c = ppi.Setup_Fee__c;
-    			if(!Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedSetupFee)){
-		    		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedSetupFee, pp.quote.Setup_Fee__c);		
-		    	}
+    			ToroCacheManager.setSetupFee(ppi.Setup_Fee__c);
     		}
     	}
     	rs.values =  new List<SObject> {pp.quote};
