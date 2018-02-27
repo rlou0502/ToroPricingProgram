@@ -132,13 +132,8 @@
         <label>Large Package Quote Line Updatable Cols</label>
     </fieldSets>
     <fieldSets>
-        <fullName>Price_Program_Line_Info_Cols</fullName>
+        <fullName>National_Account_Quote_Line_Cols</fullName>
         <description>Pricing Program</description>
-        <displayedFields>
-            <field>FreezePricing__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -155,17 +150,32 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>MSRP_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>PricingMethodValue__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Off_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Toro_Extended_Award_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Toro_Extended_Award_MSRP_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Support_Plus_Item__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -190,16 +200,26 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Off_MSRP__c</field>
+            <field>Toro_Fee_Amount__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Rebate_as_a_of_DN__c</field>
+            <field>Fee_Percentage__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Price Program Line Info Cols</label>
+        <label>National Account Quote Line Cols</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>National_Account_Quote_Line_Updtbl_Cols</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>PricingMethodValue__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>National Account Quote Line Updatable Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Quote_Line_Cols</fullName>
@@ -216,6 +236,11 @@
         </displayedFields>
         <displayedFields>
             <field>Quantity__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -260,6 +285,16 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <label>Price Program Quote Line Cols</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Price_Program_Quote_Line_Updatable_Cols</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>PricingMethodValue__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Price Program Quote Line Updatable Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Quote_Summary</fullName>
@@ -372,7 +407,7 @@
         <fullName>DNet_Price_2__c</fullName>
         <description>This field is the same as Revvy_Suggested_Price and populated via trigger.</description>
         <externalId>false</externalId>
-        <label>DNet Price</label>
+        <label>DNet Price Do Not Use</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -382,7 +417,7 @@
     <fields>
         <fullName>DNet_Price__c</fullName>
         <externalId>false</externalId>
-        <label>DNet Price Do not use</label>
+        <label>DNet Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

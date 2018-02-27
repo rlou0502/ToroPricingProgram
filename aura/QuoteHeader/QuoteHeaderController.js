@@ -8,6 +8,23 @@
         var pm = cmp.get("v.selectedPricingMethod");
         return {"PricingProgram" : pp, "PricingMethod" : pm};
     },
+    onSetupFeeChange: function(cmp, event, helper) { 
+        var changedValue = event.currentTarget.value;
+        var getAction = cmp.get('c.svc_setupFeeChange');
+        
+        getAction.setParams({
+            setupFee: parseFloat (changedValue),
+        });
+        getAction.setCallback(this, 
+        	function(response) {
+                debugger;
+                var state = response.getState();
+                if (cmp.isValid() && state === "SUCCESS") {  
+                    
+                }
+            });
+        $A.enqueueAction(getAction);
+    },
     onTotalAwardPriceChange: function(cmp, event, helper) {
         
     	var changedValue = event.currentTarget.value; 

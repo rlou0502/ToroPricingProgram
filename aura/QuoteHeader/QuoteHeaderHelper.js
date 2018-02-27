@@ -19,7 +19,7 @@
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
 					component.set('v.displayPerformancePart', retResponse.displayPerformancePart); 
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
-                    
+                    component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     //component.find("pricingMethod").set("v.value", "");
                     
                     //selectedPricingMethod
@@ -52,6 +52,7 @@
                     component.set('v.selectedPricingProgram', retRecords[0]["Pricing_Program_Name__c"]);
                     component.set('v.selectedPricingMethod', retRecords[0]["Price_Method__c"]);
                     component.set('v.quote', retRecords[0]);
+                    component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     //console.log(component.get('v.selectedPricingProgram'));
                     //console.log(component.get('v.selectedPricingMethod'));
                     /*

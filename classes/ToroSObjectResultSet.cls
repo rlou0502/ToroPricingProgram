@@ -23,4 +23,8 @@ public with sharing class ToroSObjectResultSet {
     public boolean displayPerformancePart { get;set; }
     @AuraEnabled
     public Id currentQuoteItem { get;set; }
+    @AuraEnabled
+    public decimal setupFee { get;set; }
+    @AuraEnabled
+    public boolean displaySetupFee { get;set; }
 }

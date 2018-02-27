@@ -102,9 +102,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		//Map<String,Decimal> ppMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
 		system.debug(logginglevel.info, 'checkpoint 1 pp='+ priceProgram + ' pm=' + priceMethod);
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-			return ToroPricingMethodUtil.applyTotalAwordDollors(priceProgram, quoteItemList, null);	
+			return ToroPricingMethodUtil.applyTotalAwordDollors(priceProgram, quoteItemList, null);
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
-			return ToroPricingMethodUtil.applyGPPercent(priceProgram, quoteItemList, null);	
+			return ToroPricingMethodUtil.applyGPPercent(priceProgram, quoteItemList, null);
 		}
 		system.debug(logginglevel.info, 'priceProgram =' + priceProgram + ' priceMethod=' + priceMethod);
 		List<Toro_PricingProgram__c> rebates = [Select r.Name, r.ExternalId__c, r.ApplicableProducts__c,
@@ -172,7 +172,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						qi.Award_of_DN__c = Math.max(qi.Award_of_DN__c, dnetMin);
 						Toro_PricingProgramLine__c l = dnetLineMap.get(qi.Award_of_DN__c);
 						if(l != null) {
-							
+
 							qi.Award_of_DN__c = l.Award_Price_as_a_Percent_of_DN__c;
 							qi.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
 							system.debug(logginglevel.info,'inside rebate-------------------qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
@@ -689,17 +689,17 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		// quotes that contain outcross items have a separate threshold
 		if (containsOutCross && quote.Total_Extended_DNet__c < pricingProgram.OutCrossThreshold__c) {
 			quote.Toro_ApprovalRequired__c = true;
-			quote.Toro_ApprovalReason__c = '<below outcross threshold - placeholder - use custom label>';
+			quote.Toro_ApprovalReason__c = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c;
 		}
 
 		else if (!containsOutcross && quote.Total_Extended_DNet__c < pricingProgram.MinimumThreshold__c) {
 			quote.Toro_ApprovalRequired__c = true;
-			quote.Toro_ApprovalReason__c = '<below minimum threshold - placeholder - use custom label>';
+			quote.Toro_ApprovalReason__c = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c;
 		}
 
 		else if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
 			quote.Toro_ApprovalRequired__c = true;
-			quote.Toro_ApprovalReason__c = '<below minimum traction units - placeholder - use custom label>';
+			quote.Toro_ApprovalReason__c = 'Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s).' ;
 		}
 
 		if (quote.Toro_ApprovalRequired__c) update quote;
@@ -716,16 +716,33 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	 */
 	public Integer getNumberOfTractionUnits(List<Toro_QuoteItem__c> quoteItemList) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
+		Integer count = 0;
 		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
 		final List<Id> quoteItemIds = new List<Id>();
 		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
-
+			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
+				count++;
+			}
 		}
 
-		return 0;
+		return count;
 	}
 
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
 	public Boolean checkForOutCrossProducts(List<Toro_QuoteItem__c> quoteItemList) {
+		System.debug('\n\n@@checkForOutCrossProducts quoteItemList: ' + quoteItemList + '\n\n');
+		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
+			if (quoteItem.Product__r.Name.startsWithIgnorecase('OUTCROSS')) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 }

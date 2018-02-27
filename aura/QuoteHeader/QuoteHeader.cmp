@@ -7,6 +7,7 @@
     <aura:attribute name="pricingMethodOptions" type="List"/>
     <aura:attribute name="selectedPricingMethod" type="String"/>
     <aura:attribute name="displayPerformancePart" type="Boolean"/>
+    <aura:attribute name="displaySetupFee" type="Boolean"/>
     <aura:registerEvent name="pricingProgramEvent" type="c:PricingProgramChangeEvent"/>
     <aura:registerEvent name="pricingMethodEvent" type="c:PricingMethodChangeEvent"/>
     <aura:registerEvent name="pricingProgramSetEvent" type="c:PricingProgramSetFromDBEvent"/>
@@ -78,6 +79,14 @@
                     </aura:if>
                     </td>
     			</aura:set>     
+            </aura:if>
+            <aura:if isTrue="{!v.displaySetupFee}"> 
+            	<td scope="col" class="setup-fee">  
+                    <div class="slds-truncate slds-p-bottom_x-small" title="Setup Fee">Setup Fee %</div>
+                    <div>
+                    <input type="text" onchange="{!c.onSetupFeeChange}"/> 
+                        </div>
+            	</td>
             </aura:if>
             <aura:if isTrue="{!v.displayPerformancePart}"> 
             	<td scope="col" class="performance-part">  

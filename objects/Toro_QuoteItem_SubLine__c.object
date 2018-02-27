@@ -147,13 +147,8 @@
         <label>Large Package Quote SubLine Updatable Cols</label>
     </fieldSets>
     <fieldSets>
-        <fullName>Price_Program_Line_Info_Cols</fullName>
-        <description>Pricing Program</description>
-        <displayedFields>
-            <field>FreezePricing__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
+        <fullName>National_Account_Quote_SubLine_Cols</fullName>
+        <description>Price Program</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -170,22 +165,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Percent_of_DNet__c</field>
+            <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Percent_Off_MSRP__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>DNet_Price_2__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_DNet_Price__c</field>
+            <field>DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -200,7 +185,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Apply_Support_Plus__c</field>
+            <field>Toro_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -225,6 +210,16 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Percent_of_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Percent_Off_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Rebate_as_of_DNet__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -234,7 +229,12 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Price Program Line Info Cols</label>
+        <displayedFields>
+            <field>FreezePricing__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>National Account Quote SubLine Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Quote_SubLine_Cols</fullName>
@@ -260,17 +260,17 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Toro_Extended_MSRP_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>DNet_Price_2__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -314,7 +314,7 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Price Program Quote SubLine Cols</label>
+        <label>Price Program Quote Subline Cols</label>
     </fieldSets>
     <fields>
         <fullName>Apply_Support_Plus__c</fullName>
