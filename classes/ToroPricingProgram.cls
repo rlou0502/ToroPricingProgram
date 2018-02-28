@@ -2,16 +2,9 @@ public abstract class ToroPricingProgram {
 	public Revvy__MnQuote__c quote { get; set; }
 	public List<Toro_QuoteItem__c> quoteItems { get; set; }
 	public boolean performancePartFlag { get; set; }
-	public abstract List<Schema.FieldSetMember> getQuoteItemSublineFields();
-	public abstract List<Schema.FieldSetMember> getQuoteItemFields();
+	//public abstract List<Schema.FieldSetMember> getQuoteItemSublineFields();
+	//public abstract List<Schema.FieldSetMember> getQuoteItemFields();
 	public abstract List<Schema.FieldSetMember> getQuoteFields() ;
-	public virtual List<Schema.FieldSetMember> getQuoteItemSublineUpdatableFields() {
-		return null;
-	}
-	public virtual List<Schema.FieldSetMember> getQuoteItemUpdatableFields() {
-		system.debug('--------------------getQuoteItemUpdatableFields --- ToroPricingProgram' + SObjectType.Revvy__MnQuoteItem__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields());
-		return null;
-	}
 	public virtual List<Schema.FieldSetMember> getQuoteUpdatableFields() {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.Quote_Header_Updatable_Fields.getFields();
 	}
@@ -32,7 +25,7 @@ public abstract class ToroPricingProgram {
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
 	}
-	
+
 	public virtual List<FieldSetMember> addUpdatableFieldSetMember(List<Schema.FieldSetMember> fieldSet, List<Schema.FieldSetMember> updatableFieldSet) {
 		set<String> updatableFields = new set<String>();
 		if(updatableFieldSet != null) {
@@ -83,9 +76,12 @@ public abstract class ToroPricingProgram {
 	public virtual boolean displaySetupFee() {
 		return false;
 	}
-	public abstract List<Revvy__MnQuoteItem__c> calculateRebateAndMargin(Id quoteId, String priceProgramExternalId,
-															String priceMethod, List<QuoteItem> quoteItemWrapperList );
+
 	public virtual List<Toro_QuoteItem__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+		return 	quoteItemList;
+	}
+	public virtual List<Toro_QuoteItem__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		return 	quoteItemList;
 	}
@@ -99,23 +95,27 @@ public abstract class ToroPricingProgram {
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl =' + priceProgram + ' -- ' + quoteItemList);
 		List<Toro_QuoteItem__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
-		
+
 		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
 
 		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateExtendedFields took ' + (System.limits.getCpuTime()-perfStart));
+
+		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
+		system.debug(logginglevel.info,'calling preSaveCalculateRebateMargin');
+		
 		system.debug(logginglevel.info,'calling saveQuoteItemList');
 		if(save) {
 			lQuoteItemList = saveQuoteItemList(lQuoteItemList);
 			lQuoteItemList = postCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		}
-		
+
 
 		system.debug(logginglevel.info,'calling saveQuoteItemList took ' + (System.limits.getCpuTime()-perfStart));
 		return lQuoteItemList;
 	}
-	
+
 	/*
 	public virtual List<Toro_QuoteItem__c> updateQuote(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
@@ -150,14 +150,15 @@ public abstract class ToroPricingProgram {
 					qis.Toro_Extended_Award_MSRP_Price__c = qis.MSRP_Price__c * extQty * (1 - CMnQuoteUtil.defaultDecimal(qis.Percent_Off_MSRP__c/100));
 					system.debug(logginglevel.info,'------Percent_of_DNet__c  =' + qis.Percent_of_DNet__c);
 					system.debug(logginglevel.info,'------Percent_Off_MSRP__c  =' + qis.Percent_Off_MSRP__c);
-					
+
 					//ask lance
 					qis.Toro_Extended_Award_Price__c      = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)  * extQty;
 					//do we need this//allied product will always dnet as 0
 					qis.Toro_DNet_Price__c                = (qis.TPP_Line_Item__c == true) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
-					//???? need clarification // 
+					//???? need clarification //
 					qis.Toro_Extended_MSRP_Price__c       = (qis.Performance_Part__c == true) ? (qis.Quote_Item_Sub_Line__r.REVVY__Unit_Price__c * extQty) : (CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * extQty);
 
+					System.debug('\n\n@@qis.Fee_Percentage__c: ' + qis.Fee_Percentage__c + '\n\n');
 					if (qis.Fee_Percentage__c != null) {
 						qis.Toro_Fee_Amount__c = qis.Toro_Extended_Award_Price__c * qis.Fee_Percentage__c/100;
 					}
@@ -170,8 +171,9 @@ public abstract class ToroPricingProgram {
 					qi.Toro_Rollup_Award_Price__c                += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					//????????????
 					if(qis.TPP_Line_Item__c) {
-						qi.Toro_Rollup_DNet_for_TPP__c               += CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c);
+						qi.Toro_Rollup_DNet_for_TPP__c += CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c);
 					}
+
 					qi.Toro_Rollup_DNet_Price__c                 += CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c);
 					qi.Toro_Rollup_Extended_Award_Price__c       += qis.Toro_Extended_Award_Price__c;
 					qi.Toro_Rollup_MSRP_Price__c                 += qis.Toro_Extended_MSRP_Price__c;
@@ -180,6 +182,7 @@ public abstract class ToroPricingProgram {
 					if (qis.Toro_Fee_Amount__c != null) {
 						qi.Toro_Rollup_Setup_Fees_Sub_Line__c += qis.Toro_Fee_Amount__c;
 					}
+					System.debug('\n\n@@qi.Toro_Rollup_Setup_Fees_Sub_Line__c: ' + qi.Toro_Rollup_Setup_Fees_Sub_Line__c + '\n\n');
 
 					qi.Toro_Rollup_Subline_Rebate__c             += qis.Toro_Subline_Rebate__c;
 					//??do we need this - need more input from nalee, nalee has a better way to do this
@@ -198,7 +201,7 @@ public abstract class ToroPricingProgram {
 				qi.Toro_Extended_Award_DNet_Price__c = (CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qty * qi.Award_of_DN__c/100) + qi.Toro_Rollup_Award_DNet_Price__c;
 			}
 
-					
+
 			if (qi.Off_MSRP__c != null) {
 				system.debug(logginglevel.info,'------qi.Off_MSRP__c  =' +qi.Off_MSRP__c);
 				qi.Toro_Extended_Award_MSRP_Price__c = (CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * qty * (1 - qi.Off_MSRP__c/100)) + CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_Award_MSRP_Price__c);
@@ -237,7 +240,7 @@ public abstract class ToroPricingProgram {
 												: qi.MSRP_Price__c * qty;
 
 			if (qi.Fee_Percentage__c != null) {
-				qi.Toro_Fee_Amount__c = qi.Toro_Total_Extended_Award_Price__c * qi.Fee_Percentage__c/100;
+				qi.Toro_Fee_Amount__c = (qi.Toro_Total_Extended_Award_Price__c * qi.Fee_Percentage__c/100) + qi.Toro_Rollup_Setup_Fees_Sub_Line__c;
 			}
 
 			if (qi.Rebate_as_a_of_DN__c != null) {
@@ -274,7 +277,7 @@ public abstract class ToroPricingProgram {
 	}
 /*
 	private void debugCalculatedValues(List<Toro_QuoteItem__c> quoteItemList) {
-		
+
 		String output = '\n\nCHECK CALCULATED VALUES\n\n';
 		output += '\n<FIELD_NAME>: <TORO VALUE>, <ORIGINAL VALUE>\n';
 		final Set<String> toroQuoteItemFieldNames = new Set<String>();
@@ -318,7 +321,7 @@ public abstract class ToroPricingProgram {
 			}
 		}
 		System.debug(output);
-		
+
 	}
 */
 	// initializes the quote item and quote item subline calculated fields to 0
@@ -356,7 +359,7 @@ public abstract class ToroPricingProgram {
 				qi.Toro_Total_Rebate__c                       = 0;
 				qi.Toro_Total_Setup_Fees__c                   = 0;
 				qi.Toro_Total_Unit_Award__c                   = 0;
-	
+
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						qis.Toro_Extended_Qty__c                     = 0;
@@ -382,11 +385,11 @@ public abstract class ToroPricingProgram {
 				}
 			}
 		}
-		
+
 	}
 /*
 	public void saveToroQuoteItemList(List<Toro_QuoteItem__c> quoteItemList ){
-		
+
 		List<Toro_QuoteItem__c> toroQuoteItems = new List<Toro_QuoteItem__c>();
 		List<Toro_QuoteItem_SubLine__c> toroSublines = new List<Toro_QuoteItem_SubLine__c>();
 		for(Toro_QuoteItem__c qi : quoteItemList) {
@@ -464,18 +467,18 @@ public abstract class ToroPricingProgram {
 		}
 		upsert toroQuoteItems External_Id__c;
 		upsert toroSublines External_Id__c;
-		
+
 	}
 	*/
 	//Method saveQuoteItemList is a template method called by calculateRebateMargin
 	public virtual List<Toro_QuoteItem__c> saveQuoteItemList(List<Toro_QuoteItem__c> quoteItemList ){
-		
+
 		system.debug(logginglevel.info,'inside base saveQuoteItemList');
 		//saveToroQuoteItemList(quoteItemList);
 
 		List<Toro_QuoteItem__c> updateQuoteItems = new List<Toro_QuoteItem__c>();
 		List<Toro_QuoteItem_SubLine__c> updateQuoteItemSublines = new List<Toro_QuoteItem_SubLine__c>();
-				
+
 		for(Toro_QuoteItem__c qi : quoteItemList) {
 			updateQuoteItems.add(qi);
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -484,14 +487,14 @@ public abstract class ToroPricingProgram {
 				}
 			}
 		}
-		
+
 		if(updateQuoteItems.size() > 0) {
 			database.update(updateQuoteItems, false);
 		}
 		if(updateQuoteItemSublines.size() > 0) {
 			update updateQuoteItemSublines;
 		}
-		
+
 		return quoteItemList;
 	}
 
@@ -509,8 +512,8 @@ public abstract class ToroPricingProgram {
 	}
 	public virtual void initialize(Id quoteId) {
 		initializeQuoteHeader(quoteId);
-		
-		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name,Select_Price_Program_Type__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
+
+		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name,Select_Price_Program_Type__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
 		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Toro_QuoteItem__c where Mn_Quote__c = :quoteId';
 		System.debug('88888888888888888888=' + quoteLineQuery);
@@ -576,39 +579,8 @@ public abstract class ToroPricingProgram {
 		return ret;
 	}
 
-	public virtual Map<String, boolean> getQuoteFieldsUpdatable() {
-		Set<String> fs = new Set<String>();
-		Map<String, boolean> ret = new Map<String, boolean>();
-		for(String s : getQuoteFieldAPINames()) {
-			fs.add(s.toLowerCase());
-			ret.put(s.toLowerCase(), false);
-		}
-		system.debug(fs);
-		return ret;
-	}
-
-	public virtual Map<String, boolean> getQuoteItemFieldsUpdatable() {
-		Map<String, boolean> ret = new Map<String, boolean>();
-		Set<String> fs = new Set<String>();
-		for(String s : getQuoteItemFieldAPINames()) {
-			fs.add(s.toLowerCase());
-			ret.put(s.toLowerCase(), false);
-		}
-		return ret;
-	}
-
-	public virtual Map<String, boolean> getQuoteItemSublineFieldsUpdatable(string pricingMethod) {
-		Map<String, boolean> ret = new Map<String, boolean>();
-		Set<String> fs = new Set<String>();
-		for(String s : getQuoteItemSublineFieldAPINames()) {
-			fs.add(s.toLowerCase());
-			ret.put(s.toLowerCase(), false);
-		}
-		return ret;
-	}
-
 	private String CombineSelectClauses(List<String> fieldListFromFS, String extraFields ) {
-		String extraFieldWOSpaces = extraFields.replaceAll( '\\s+', '');
+		String extraFieldWOSpaces = extraFields.replaceAll( '\\s+', '').toLowerCase();
 		String[] extras = extraFieldWOSpaces.split(',');
 		Set<String> nameSet = new Set<String>(extras);
 		nameSet.addAll(fieldListFromFS);
@@ -630,67 +602,33 @@ public abstract class ToroPricingProgram {
 	protected virtual String getToroQuoteFieldAPINameQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
 		for(Schema.FieldSetMember fs : getToroQuoteItemFields()) {
-			fieldNames.add(fs.getFieldPath());
+			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
 		for(Schema.FieldSetMember fs : getToroQuoteItemSummaryFields()) {
-			fieldNames.add(fs.getFieldPath());
+			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
 		return CombineSelectClauses(getQuoteFieldAPINames(), extraFields);
 	}
-	
+
 	protected virtual String getToroQuoteItemFieldAPINamesQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
 		for(Schema.FieldSetMember fs : getToroQuoteItemFields()) {
-			fieldNames.add(fs.getFieldPath());
+			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
 		for(Schema.FieldSetMember fs : getToroQuoteItemSummaryFields()) {
-			fieldNames.add(fs.getFieldPath());
+			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
 		return CombineSelectClauses(fieldNames, extraFields);
 	}
-	
+
 	protected virtual String getToroQuoteItemSublineFieldAPINamesQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
 		for(Schema.FieldSetMember fs : getToroQuoteItemSublineFields()) {
-			fieldNames.add(fs.getFieldPath());
+			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
 		return CombineSelectClauses(fieldNames, extraFields);
 	}
-	
-	protected virtual List<String> getQuoteItemFieldAPINames() {
-		List<String> fieldNames = new List<String>();
-		for(Schema.FieldSetMember fs : getQuoteItemFields()) {
-			fieldNames.add(fs.getFieldPath());
-		}
-		return fieldNames;
-	}
-	
 
-	protected virtual List<String> getQuoteItemSummaryFieldAPINames() {
-		List<String> fieldNames = new List<String>();
-		for(Schema.FieldSetMember fs : getQuoteItemSummaryFields()) {
-			fieldNames.add(fs.getFieldPath());
-		}
-		return fieldNames;
-	}
-
-	protected virtual String getQuoteItemFieldAPINamesQuery(String extraFields) {
-		List<String> fieldNames = new List<String>(getQuoteItemFieldAPINames());
-		fieldNames.addAll(getQuoteItemSummaryFieldAPINames());
-		return CombineSelectClauses(fieldNames, extraFields);
-	}
-
-	protected virtual List<String> getQuoteItemSublineFieldAPINames() {
-		List<String> fieldNames = new List<String>();
-		for(Schema.FieldSetMember fs : getQuoteItemSublineFields()) {
-			fieldNames.add(fs.getFieldPath());
-		}
-		return fieldNames;
-	}
-
-	protected virtual String getQuoteItemSublineFieldAPINamesQuery(String extraFields) {
-		return CombineSelectClauses(getQuoteItemSublineFieldAPINames(), extraFields);
-	}
 
 	protected Map<String, Schema.SObjectField> quoteFieldMap { get; set; }
 	protected Map<String, Schema.SObjectField> quoteItemFieldMap { get; set; }

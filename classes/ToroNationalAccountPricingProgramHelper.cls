@@ -1,10 +1,5 @@
 public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram {
- 	public override List<Schema.FieldSetMember> getQuoteItemSublineFields() {
-		return SObjectType.Revvy__MnQuoteItemSubline__c.FieldSets.Price_Program_Quote_SubLine_Cols.getFields();
-	}
-	public override List<Schema.FieldSetMember> getQuoteItemFields() {
-		return SObjectType.Revvy__MnQuoteItem__c.FieldSets.Price_Program_Quote_Line_Cols.getFields();
-	}
+
 	public override List<Schema.FieldSetMember> getQuoteFields() {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
 	} 
@@ -30,13 +25,12 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
 	}
 	
-	public override List<Revvy__MnQuoteItem__c> calculateRebateAndMargin(Id quoteId, String priceProgramExternalId, String priceMethod, List<QuoteItem> quoteItemWrapperList) {
-		
-		return null;	
-	}  
 	public override boolean displaySetupFee() {
 		return true;
 	}      
+	public override boolean displayPerformancePart() {
+		return true;
+	}
 	
 	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgramExternalId,
 		 				String priceMethod, List<Toro_QuoteItem__c> quoteItemWrapperList) {
@@ -64,16 +58,15 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 				
 		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
 		List<Toro_QuoteItem__c> updatedQuoteItems = new List<Toro_QuoteItem__c>();
-		Decimal dtoroTotalSetupFees = 0;
 		for(Toro_QuoteItem__c qi : quoteItemWrapperList) {
 			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
 				deleteSetupFeeLineItemId.add(qi.Id);
 				deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
 			}
-			Decimal dextendedAwardPrice = 0;
+			Decimal dsetupFeesQIS = 0;
 			
-						
-			//ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, null);
+			//Performance Part			
+			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, null);
 			System.debug(logginglevel.info,'>>> NAT qi.REVVY__Product_ID_F__c ='+qi.Product_Id__c);
 			System.debug('>>> +++++++++++++++++ NAT 115 =');
 			if(String.isEmpty(qi.Toro_Product_Tier__c) && !String.isEmpty(qi.Traction_Unit__c) && tractionUnitMap.containsKey(qi.Traction_Unit__c)) {
@@ -82,33 +75,32 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 				System.debug(logginglevel.info, '>>> +++++++++++++++++ NAT 116 =  stier='+stier);
 				Toro_PricingProgramLine__c rb = tierMap.get(stier);
 				System.debug('>>> +++++++++++++++++ NAT 116 AAA =  rb='+rb);
-				applyQIPercentage(qi,rb);				
+				applyQIPercentage(qi,rb,dSetupFeeHeader);				
 				
 			} else if(tierMap.containsKey(qi.Toro_Product_Tier__c)) {
 				Toro_PricingProgramLine__c rb = tierMap.get(qi.Toro_Product_Tier__c);
 				System.debug('>>> +++++++++++++++++ NAT 116 BBB =  rb='+rb);
-				applyQIPercentage(qi,rb);				
+				applyQIPercentage(qi,rb,dSetupFeeHeader);				
 			}
 			
 			//Run Exception
 			if(exceptionSkuSet.size() > 0 && exceptionSkuSet.contains(qi.Product_Id__c)) {
 				Toro_PricingProgramLine__c rb = tierMap.get(qi.Toro_Product_Tier__c);
 				System.debug('>>> +++++++++++++++++ NAT 118 =  rb='+rb);
-				applyQIPercentage(qi,rb);	
+				applyQIPercentage(qi,rb,dSetupFeeHeader);	
 			}
 			
 
-			System.debug('>>> +++++++++++++++++ NAT 121 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
 			System.debug('>>> +++++++++++++++++ NAT 112 = qi  % off percent_off_msrp__c='+qi.Off_MSRP__c);
 			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
 				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					//todo
-					//ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(quote.Performance_Part__c, qis, null);
+					//Performance Part
+					ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(quote.Performance_Part__c, qis, null);
 					System.debug('>>> +++++++++++++++++ NAT 000');
 					if(tierMap.containsKey(qis.Toro_Product_Tier__c)) {
 						Toro_PricingProgramLine__c rb = tierMap.get(qis.Toro_Product_Tier__c);
 						System.debug('>>> +++++++++++++++++ NAT 111 =  rb='+rb);
-						applyQISLPercentage(qis,rb);
+						applyQISLPercentage(qis,rb,dSetupFeeHeader);
 						
 					} else {
 						qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;
@@ -122,20 +114,22 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 					if(exceptionSkuSet.size() > 0 && exceptionSkuSet.contains(qi.Product_Id__c)) {
 						Toro_PricingProgramLine__c rb = tierMap.get(qis.Toro_Product_Tier__c);
 						System.debug('>>> +++++++++++++++++ NAT 113 =  rb='+rb);
-						applyQISLPercentage(qis,rb);
+						applyQISLPercentage(qis,rb,dSetupFeeHeader);
 					}
-
+					qis.Fee_Percentage__c = qi.Fee_Percentage__c;
 					//Calculate extended award price 
-					dextendedAwardPrice += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
+					// Extended award price * setup fee perctange
+					//dsetupFeesQIS += (CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)  * qi.Quantity__c * qis.Quantity__c) * (CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c) /100);
 					System.debug('>>> +++++++++++++++++ NAT 112 = qis  % off percent_off_msrp__c='+qis.percent_off_msrp__c);
+					//System.debug('>>> +++++++++++++++++ NAT 112 = dsetupFeesQIS='+dsetupFeesQIS);
 				}
 			}			
 			
-			System.debug('>>> +++++++++++++++++ NAT 120 ');
 			//calculate total setup fees
-			dtoroTotalSetupFees += CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * 
-								CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(dextendedAwardPrice);
-
+			//
+			//dtoroTotalSetupFees += (CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * qi.Quantity__c * (CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100)) +  dsetupFeesQIS;
+			//System.debug('>>> +++++++++++++++++ NAT 120 qi.Award_Price__c=' + qi.Award_Price__c + ' Quantity__c='+qi.Quantity__c + ' Fee_Percentage__c='+qi.Fee_Percentage__c);
+			//System.debug('>>> +++++++++++++++++ NAT 120 qi.Product_Id__c=' + qi.Product_Id__c + ' dtoroTotalSetupFees='+dtoroTotalSetupFees + ' dsetupFeesQIS='+dsetupFeesQIS);
 			
 		}
 
@@ -143,15 +137,34 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		
 		delete [Select Id From Toro_QuoteItem__c where Id in :deleteSetupFeeLineItemId];
 		delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];
+		
+		return quoteItemWrapperList;	
+	}        
+	
+	public override List<Toro_QuoteItem__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+
+		Decimal dtoroTotalSetupFees = 0;
+
+		for(Toro_QuoteItem__c qi : quoteItemList) {
+			Decimal dsetupFeesQIS = 0;
+			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
+				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					dsetupFeesQIS += CMnQuoteUtil.defaultDecimal(qis.Toro_Fee_Amount__c);
+				}
+			}
+			dtoroTotalSetupFees += CMnQuoteUtil.defaultDecimal(qi.Toro_Fee_Amount__c);
+		}
+
 		REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
 		if(dtoroTotalSetupFees > 0) {
 			//Create Setup Fee Line Item
 			System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
 			addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
 		}		
-		
-		return quoteItemWrapperList;	
-	}        
+
+		return 	quoteItemList;
+	}	
 	
 	//@future
     public static void addSetupFeeFuture(String quoteId, String productId, decimal price, decimal unitPrice, decimal qty) {
@@ -191,12 +204,12 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 				
 	}
 	
-	public void applyQIPercentage(Toro_QuoteItem__c qi, Toro_PricingProgramLine__c rb) {
+	public void applyQIPercentage(Toro_QuoteItem__c qi, Toro_PricingProgramLine__c rb, decimal dsetupFeeHeader) {
 
 		qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
 		qi.Award_of_DN__c =0;
 		qi.Rebate_as_a_of_DN__c = CMnQuoteUtil.defaultDecimal(rb.Rebate_as_a_Percent_of_DN__c);
-		qi.Fee_Percentage__c = CMnQuoteUtil.defaultDecimal(rb.Fee_Percentage__c);
+		qi.Fee_Percentage__c = getSetupFeePercentage(dsetupFeeHeader, CMnQuoteUtil.defaultDecimal(rb.Fee_Percentage__c));
 		qi.Part_Percentage__c = CMnQuoteUtil.defaultDecimal(rb.Part_Percentage__c);
 		if(rb.Part_Percentage__c !=null && rb.Part_Percentage__c >0) {
 			qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Part_Percentage__c);
@@ -206,12 +219,12 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		
 	}
 
-	public void applyQISLPercentage(Toro_QuoteItem_SubLine__c qis, Toro_PricingProgramLine__c rb) {
+	public void applyQISLPercentage(Toro_QuoteItem_SubLine__c qis, Toro_PricingProgramLine__c rb, decimal dsetupFeeHeader) {
 
 		qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(rb.Rebate_as_a_Percent_of_DN__c);
 		qis.percent_off_msrp__c =  CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
 		
-		qis.Fee_Percentage__c = CMnQuoteUtil.defaultDecimal(rb.Fee_Percentage__c);
+		qis.Fee_Percentage__c = getSetupFeePercentage(dsetupFeeHeader, CMnQuoteUtil.defaultDecimal(rb.Fee_Percentage__c));
 		qis.Part_Percentage__c = CMnQuoteUtil.defaultDecimal(rb.Part_Percentage__c);
 		if(rb.Part_Percentage__c !=null && rb.Part_Percentage__c >0) {
 			System.debug('>>> +++++++++++++++++ NAT 112 =  rb='+rb);

@@ -225,6 +225,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Toro_Fee_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Exclude_from_Rebate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>

@@ -1,25 +1,7 @@
 public class ToroPriceProgramFactory {
 	public static final string constPartitionName='local.PricingProgram';
 	public static final string constPricingProgramKey='pricingProgramHelpers';
-	public static Map<String, String> pricingProgramClassMap = new Map<String, String> {
-		'Large package' => 'ToroLargePackagePricingProgramHelper',
-		'State Contract' => 'ToroStateContractPricingProgramHelper',
-		'National Account' => 'ToroNationalAccountPricingProgramHelper'
-	};
-	public static ToroPricingProgram createPricingProgram(String pricingProgram) {
-		ToroPricingProgram pp = null;
-		if(pricingProgram != null) {
-			String classname = pricingProgramClassMap.get(pricingProgram);
-			if(string.isNotBlank(classname)) {
-				Type t = Type.forName(classname);
-	        	pp = (ToroPricingProgram)t.newInstance();	
-			}
-		} else {
-			pp = new ToroDefaultPricingProgramHelper();
-		}
-        
-		return pp;	
-	}
+	
 	public static ToroPricingProgram newPricingProgramInstance(String className) {
 		ToroPricingProgram pp = null;
 		if(String.isNotBlank(classname)) {
@@ -29,7 +11,7 @@ public class ToroPriceProgramFactory {
 			pp = new ToroDefaultPricingProgramHelper();
 		}
 		return pp;	
-	}
+	} 
 	public static void removeAllPricingProgramHelpers() {
 		//Toro_PricingProgramHelperFactory__c
 		Cache.OrgPartition orgPart = Cache.Org.getPartition(constPartitionName);
@@ -52,7 +34,7 @@ public class ToroPriceProgramFactory {
 			ToroPricingProgram tpp = ToroPriceProgramFactory.newPricingProgramInstance(pp.ClassName__c);
 			pricingProgramHelperMap.put(pp.PricingProgramName__c, tpp);				
 				
-		}
+		} 
 		pricingProgramHelperMap.put('defaultPricingProgram', new ToroDefaultPricingProgramHelper());	
 			
 		orgPart.put(constPricingProgramKey, pricingProgramHelperMap);	

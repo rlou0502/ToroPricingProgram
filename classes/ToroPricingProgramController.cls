@@ -21,11 +21,20 @@ public class ToroPricingProgramController {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=true;
     	system.debug(logginglevel.info, 'setup fee=' + setupFee);
-    	if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName) != null){
-    		system.debug(logginglevel.info, 'set setup fee to cache=' + setupFee);
-    		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedSetupFee, setupFee);		
-    	}  	
-    	system.debug(logginglevel.info, 'get it from cache setup fee=' + Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedSetupFee));
+    	ToroCacheManager.setSetupFee(setupFee);
+    	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName) != null){
+    	//	system.debug(logginglevel.info, 'set setup fee to cache=' + setupFee);
+    	//	Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedSetupFee, setupFee);		
+    	//}  	
+    	//system.debug(logginglevel.info, 'get it from cache setup fee=' + Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedSetupFee));
+    	return rs;
+    }
+    
+     @AuraEnabled
+    public static ToroSObjectResultSet svc_performancePartChange(boolean performancePart) {
+    	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
+    	rs.result=true;
+    	ToroCacheManager.setPerformancePart(performancePart);
     	return rs;
     }
     

@@ -13,7 +13,24 @@
         var getAction = cmp.get('c.svc_setupFeeChange');
         
         getAction.setParams({
-            setupFee: parseFloat (changedValue),
+            setupFee: parseFloat(changedValue),
+        });
+        getAction.setCallback(this, 
+        	function(response) {
+                debugger;
+                var state = response.getState();
+                if (cmp.isValid() && state === "SUCCESS") {  
+                    
+                }
+            });
+        $A.enqueueAction(getAction);
+    },
+    onPerformancePartChange: function(cmp, event, helper) { 
+        var checked = cmp.find("performancePart").get("v.value");
+        var getAction = cmp.get('c.svc_performancePartChange');
+        
+        getAction.setParams({
+            performancePart: checked,
         });
         getAction.setCallback(this, 
         	function(response) {

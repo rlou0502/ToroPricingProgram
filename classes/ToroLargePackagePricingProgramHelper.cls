@@ -1,18 +1,5 @@
 public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
-	public override List<Schema.FieldSetMember> getQuoteItemSublineFields() {
-		system.debug('ToroLargePackagePricingProgramHelper --- getQuoteItemSublineFields');
-		return SObjectType.Revvy__MnQuoteItemSubline__c.FieldSets.Large_Package_Price_Program_Quote_SubLin.getFields();
-	}
-	public override List<Schema.FieldSetMember> getQuoteItemFields() {
-		system.debug('ToroLargePackagePricingProgramHelper --- getQuoteItemFields');
-		return SObjectType.Revvy__MnQuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
-	}
-	public override List<Schema.FieldSetMember> getQuoteItemUpdatableFields() {
-		return SObjectType.Revvy__MnQuoteItem__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields();
-	}
-	public override List<Schema.FieldSetMember> getQuoteItemSublineUpdatableFields() {
-		return SObjectType.Revvy__MnQuoteItemSubline__c.FieldSets.Large_Package_Quote_SubLine_Updatable_Co.getFields();
-	}
+	
 	public override List<Schema.FieldSetMember> getQuoteFields() {
 		system.debug('ToroLargePackagePricingProgramHelper --- getQuoteFields');
 		return SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
@@ -192,8 +179,11 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						if(qi.Unit_Award_Overridden__c) {
 							qi.Off_MSRP__c = 100 - (qi.Award_Price__c/qi.MSRP_Price__c)*100.0;
 						}
-						qi.Off_MSRP__c = Math.min(qi.Off_MSRP__c, msrpMax);
-						qi.Off_MSRP__c = Math.max(qi.Off_MSRP__c, msrpMin);
+						if(qi.Off_MSRP__c != null) {
+							qi.Off_MSRP__c = Math.min(qi.Off_MSRP__c, msrpMax);
+							qi.Off_MSRP__c = Math.max(qi.Off_MSRP__c, msrpMin);
+						}
+
 						Toro_PricingProgramLine__c l = msrpLineMap.get(qi.Off_MSRP__c);
 						if(l != null) {
 						system.debug('Unit_Award_Overridden__c=' + qi.Unit_Award_Overridden__c );
@@ -364,294 +354,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return quoteItemList;
 	}
 
-	//system.debug(logginglevel.info, '%%%%%%%%%%%%%%%%%%%%' + qis.Unit_Award_Overridden__c);
-	public override List<Revvy__MnQuoteItem__c> calculateRebateAndMargin(Id quoteId, String priceProgramExternalId, String priceMethod, List<QuoteItem> quoteItemWrapperList) {
-		Map<String,Decimal> ppMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
-
-		List<REVVY__MnQuoteItem__c> updatedQuoteItems = new List<REVVY__MnQuoteItem__c>();
-		List<REVVY__MnQuoteItemSubline__c> updatedQuoteItemSublines = new List<REVVY__MnQuoteItemSubline__c>();
-		List<Toro_PricingProgram__c> rebates = [Select r.Name, r.ExternalId__c, r.ApplicableProducts__c,
-				(Select Off_Mfg_Sugg_Ttl__c, Award_Price_as_a_Percent_of_DN__c, Rebate_as_a_Percent_of_DN__c,
-				Distributor_Margin__c, ApplicableProducts__c From PricingProgramLines__r) From Toro_PricingProgram__c r where ExternalId__c = :priceProgramExternalId];
-		map<string, Toro_PricingProgram__c> rebateMap = new map<string, Toro_PricingProgram__c>();
-		map<string, set<String>> rebateApplicableProducts = new map<string, set<String>>();
-		map<decimal, Toro_PricingProgramLine__c> msrpLineMap = new map<decimal, Toro_PricingProgramLine__c>();
-		map<decimal, Toro_PricingProgramLine__c> dnetLineMap = new map<decimal, Toro_PricingProgramLine__c>();
-		decimal msrpMin = 999;
-		decimal msrpMax = 0;
-		decimal dnetMin = 999;
-		decimal dnetMax = 0;
-		//system.debug('header size = ' , rebates.size());
-		for(Toro_PricingProgram__c rh : rebates) {
-			rebateMap.put(rh.ExternalId__c, rh);
-			if(!rebateApplicableProducts.containsKey(rh.ExternalId__c)) {
-				rebateApplicableProducts.put(rh.ExternalId__c, new set<String>());
-			}
-			if(string.isNotBlank(rh.ApplicableProducts__c)) {
-				String[] parts = rh.ApplicableProducts__c.split(',');
-				rebateApplicableProducts.get(rh.ExternalId__c).addAll(parts);
-			}
-			for(Toro_PricingProgramLine__c l : rh.PricingProgramLines__r) {
-				msrpLineMap.put(l.Off_Mfg_Sugg_Ttl__c, l);
-				dnetLineMap.put(l.Award_Price_as_a_Percent_of_DN__c, l);
-				msrpMin = Math.min(msrpMin, l.Off_Mfg_Sugg_Ttl__c);
-				msrpMax = Math.max(msrpMax, l.Off_Mfg_Sugg_Ttl__c);
-				dnetMin = Math.min(dnetMin, l.Award_Price_as_a_Percent_of_DN__c);
-				dnetMax = Math.max(dnetMax, l.Award_Price_as_a_Percent_of_DN__c);
-			}
-		}
-
-		List<Toro_PricingProgramLine__c> dNetLineList = new List<Toro_PricingProgramLine__c>();
-		for(decimal key : dnetLineMap.keyset()){
-			dNetLineList.add(dnetLineMap.get(key));
-		}
-		system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper.msrpMin ' + msrpMin);
-		system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper.msrpMax ' + msrpMax);
-		system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper.dnetMin ' + dnetMin);
-		system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper.dnetMax ' + dnetMax);
-		system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper.msrpLineMap ' + msrpLineMap);
-		system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper.dnetLineMap ' + dnetLineMap);
-
-		for(QuoteItem qItem : quoteItemWrapperList) {
-			REVVY__MnQuoteItem__c qi = qItem.qi;
-			Toro_PricingProgram__c rh = rebateMap.get(qi.Pricing_Program__c);
-
-			//Performance Part
-			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, ppMap);
-			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part  QuoteItem 222');
-			if(rh != null) {
-				if(qi.REVVY__Product_ID_F__c.startsWith('TPP') || qi.REVVY__Product_ID_F__c.startsWith('L')) {
-					qi.Award_Price__c = qi.DNet_Price__c;
-				}
-				if(!qi.REVVY__Product_ID_F__c.startsWith('TPP') && !qi.REVVY__Product_ID_F__c.startsWith('L')) {
-				if(rebateApplicableProducts.get(qi.Pricing_Program__c).contains('All') ||
-						rebateApplicableProducts.get(qi.Pricing_Program__c).contains(qi.revvy__Product_Id_F__c)) {
-					system.debug('inside rebate-------------------qi.Off_MSRP__c =' + qi.Off_MSRP__c);
-					decimal rebateValue = 0.0;
-					decimal basePrice = qi.revvy__Price__c;
-					decimal grossProfit = 0.0;
-					qi.Distributor_Net__c = qi.revvy__Price__c;
-					if('% of DNET'.equalsIgnoreCase(qi.Select_a_Price_Method__c) && !qi.Performance_Parts_Product__c) {
-						if(qi.Unit_Award_Overridden__c) {
-							qi.Award_of_DN__c = qi.Award_Price__c * 100/qi.REVVY__SuggestedPrice__c;
-						}
-						qi.Award_of_DN__c = Math.min(qi.Award_of_DN__c, dnetMax);
-						qi.Award_of_DN__c = Math.max(qi.Award_of_DN__c, dnetMin);
-						Toro_PricingProgramLine__c l = dnetLineMap.get(qi.Award_of_DN__c);
-						if(l != null) {
-							qi.Award_of_DN__c = l.Award_Price_as_a_Percent_of_DN__c;
-							qi.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
-							if(!qi.Unit_Award_Overridden__c) {
-								qi.Award_Price__c = qi.REVVY__SuggestedPrice__c * qi.Award_of_DN__c/100;
-							}
-							qi.Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
-						} else if(qi.Award_of_DN__c <= dnetMax &&  qi.Award_of_DN__c >= dnetMin) {
-							qi.Rebate_as_a_of_DN__c=lookupRebateAsPercentOfDNet(qi.Award_of_DN__c,dNetLineList);
-							if(!qi.Unit_Award_Overridden__c) {
-								qi.Award_Price__c = qi.REVVY__SuggestedPrice__c * qi.Award_of_DN__c/100;
-							}
-							qi.Off_MSRP__c = (qi.REVVY__Price__c-qi.Award_Price__c)/qi.REVVY__Price__c;
-						}
-					} else if('% off MSRP'.equalsIgnoreCase(qi.Select_a_Price_Method__c) && !qi.Performance_Parts_Product__c)  {
-						if(qi.Unit_Award_Overridden__c) {
-							qi.Off_MSRP__c = 100 - (qi.Award_Price__c/qi.Revvy__Price__c)*100.0;
-						}
-						qi.Off_MSRP__c = Math.min(qi.Off_MSRP__c, msrpMax);
-						qi.Off_MSRP__c = Math.max(qi.Off_MSRP__c, msrpMin);
-						Toro_PricingProgramLine__c l = msrpLineMap.get(qi.Off_MSRP__c);
-						if(l != null) {
-							qi.Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
-							qi.Award_of_DN__c = l.Award_Price_as_a_Percent_of_DN__c;
-							qi.Selected_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
-							if(!qi.Unit_Award_Overridden__c) {
-								qi.Award_Price__c = qi.Revvy__Price__c * (100-qi.Off_MSRP__c)/100;
-							}
-							qi.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
-						} else if(qi.Off_MSRP__c <= msrpMax &&  qi.Off_MSRP__c >= msrpMin) {
-							system.debug('lookupRebateAsPercentOfDNet--- qi.Revvy__Price__c' + qi.Revvy__Price__c);
-							system.debug('lookupRebateAsPercentOfDNet--- qi.Off_MSRP__c' + qi.Off_MSRP__c);
-							if(!qi.Unit_Award_Overridden__c) {
-								qi.Award_Price__c = qi.Revvy__Price__c * (1-(qi.Off_MSRP__c/100));
-							}
-							system.debug('lookupRebateAsPercentOfDNet--- qi.Award_Price__c' + qi.Award_Price__c);
-							qi.Award_of_DN__c = qi.Award_Price__c/qi.REVVY__SuggestedPrice__c * 100;
-							system.debug('lookupRebateAsPercentOfDNet--- qi.REVVY__SuggestedPrice__c' + qi.REVVY__SuggestedPrice__c);
-							system.debug('lookupRebateAsPercentOfDNet--- qi.Award_of_DN__c' + qi.Award_of_DN__c);
-							qi.Rebate_as_a_of_DN__c=lookupRebateAsPercentOfDNet(qi.Award_of_DN__c,dNetLineList);
-						}
-					}
-				}
-				//if(excludedFromMSRP(qi)) {
-				//	qi.Off_MSRP__c = 0;
-				//}
-				updatedQuoteItems.add(qi);
-				}
-				List<REVVY__MnQuoteItemSubLine__c> qiSub = qItem.qislList;
-				system.debug('----------------------' + qi);
-				if(qiSub!=null && qiSub.size()>0) {
-				//system.debug('product name=' + qi.revvy__Product_name_f__c + ' Percent off MSRP=' + qi.Off_MSRP__c + ' off DN=' + qi.Award_of_DN__c);
-				for(REVVY__MnQuoteItemSubline__c qis : qiSub) {
-
-					//Performance Part
-					system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
-					system.debug('-------------++++++++qis' + qis);
-					ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(quote.Performance_Part__c, qis, ppMap);
-					system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 444');
-					if(qis.Product_ID2__c.startsWith('TPP') || qis.Product_ID2__c.startsWith('L')) {
-						qis.Award_Price__c = qis.Revvy__Price__c;
-					}
-					if(!qis.Performance_Part__c && !qis.Product_ID2__c.startsWith('TPP') && !qis.Product_ID2__c.startsWith('L')) {
-					if(rebateApplicableProducts.get(qi.Pricing_Program__c).contains('All') ||
-						rebateApplicableProducts.get(qi.Pricing_Program__c).contains(qis.Product_ID2__c)) {
-						system.debug('inside rebate-------------------' );
-						decimal rebateValue = 0.0;
-						decimal basePrice = qis.revvy__Price__c;
-						decimal grossProfit = 0.0;
-						//qis.Distributor_Net__c = qis.revvy__Price__c;
-							System.debug('>>> inside rebate MSRP --- qis.Performance_Part__c='+qis.Performance_Part__c);
-						if('% of DNET'.equalsIgnoreCase(qi.Select_a_Price_Method__c) && !qis.Performance_Part__c) {
-							if(qis.Unit_Award_Overridden__c) {
-								qis.Percent_of_DNet__c = qis.Award_Price__c * 100/qis.REVVY__SuggestedPrice__c;
-							}
-							qis.Percent_of_DNet__c = Math.min(qis.Percent_of_DNet__c, dnetMax);
-							qis.Percent_of_DNet__c = Math.max(qis.Percent_of_DNet__c, dnetMin);
-							Toro_PricingProgramLine__c l = dnetLineMap.get(qis.Percent_of_DNet__c);
-							if(l != null) {
-								qis.Percent_of_DNet__c = l.Award_Price_as_a_Percent_of_DN__c;
-								qis.Percent_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
-								if(!qis.Product_ID2__c.startsWith('TPP') && !qis.Product_ID2__c.startsWith('L')) {
-									qis.Rebate_as_of_DNet__c = l.Rebate_as_a_Percent_of_DN__c;
-								}
-								//qis.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
-								if(!qis.Unit_Award_Overridden__c) {
-									qis.Award_Price__c = qis.Revvy__SuggestedPrice__c * qis.Percent_of_DNet__c/100;
-								}
-							} else if(qis.Percent_of_DNet__c <= dnetMax &&  qis.Percent_of_DNet__c >= dnetMin) {
-								if(!qis.Product_ID2__c.startsWith('TPP') && !qis.Product_ID2__c.startsWith('L')) {
-									qis.Rebate_as_of_DNet__c=lookupRebateAsPercentOfDNet(qis.Percent_of_DNet__c,dNetLineList);
-								}
-								if(!qis.Unit_Award_Overridden__c) {
-									qis.Award_Price__c = qis.REVVY__SuggestedPrice__c * qis.Percent_of_DNet__c/100;
-								}
-								qis.Percent_Off_MSRP__c = ((qi.REVVY__Price__c-qi.Award_Price__c)/qi.REVVY__Price__c)*100;
-							}
-						} else if('% off MSRP'.equalsIgnoreCase(qi.Select_a_Price_Method__c) && !qis.Performance_Part__c)  {
-							if(qis.Unit_Award_Overridden__c) {
-								qis.Percent_Off_MSRP__c = 100 - (qis.Award_Price__c/qis.Revvy__Price__c)*100.0;
-							}
-							system.debug('1-----qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
-							qis.Percent_Off_MSRP__c = Math.min(qis.Percent_Off_MSRP__c, msrpMax);
-							qis.Percent_Off_MSRP__c = Math.max(qis.Percent_Off_MSRP__c, msrpMin);
-							system.debug('2------qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
-							Toro_PricingProgramLine__c l = msrpLineMap.get(qis.Percent_Off_MSRP__c);
-							System.debug('>>> inside rebate MSRP --- l='+l + ' - qis.Percent_Off_MSRP__c='+qis.Percent_Off_MSRP__c);
-							if(l != null) {
-								qis.Percent_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
-								system.debug('3------qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
-								qis.Percent_of_DNet__c = l.Award_Price_as_a_Percent_of_DN__c;
-								if(!qis.Product_ID2__c.startsWith('TPP') && !qis.Product_ID2__c.startsWith('L')) {
-									qis.Rebate_as_of_DNet__c = l.Rebate_as_a_Percent_of_DN__c;
-								}
-								//qis.Selected_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
-								if(!qis.Unit_Award_Overridden__c) {
-									qis.Award_Price__c = qis.Revvy__Price__c * (1-(qis.Percent_Off_MSRP__c/100));
-								}
-								System.debug('>>> inside rebate MSRP --- l qis.Award_Price__c='+qis.Award_Price__c + ' - Id ='+ qis.Product_ID2__c);
-								//qis.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
-							} else if(qis.Percent_Off_MSRP__c <= msrpMax &&  qis.Percent_Off_MSRP__c >= msrpMin) {
-								if(!qis.Unit_Award_Overridden__c) {
-									qis.Award_Price__c = qis.Revvy__Price__c * (1-(qis.Percent_Off_MSRP__c/100));
-								}
-								qis.Percent_of_DNet__c = qis.Award_Price__c/qis.REVVY__SuggestedPrice__c*100;
-								//qi.Rebate_as_a_of_DN__c=lookupRebateAsPercentOfDNet(qi.Award_of_DN__c,dNetLineList);
-								if(!qis.Product_ID2__c.startsWith('TPP') && !qis.Product_ID2__c.startsWith('L')) {
-									qis.Rebate_as_of_DNet__c = lookupRebateAsPercentOfDNet(qi.Award_of_DN__c,dNetLineList);
-								}
-							}
-						}
-					}
-					//if(excludedFromMSRP(qis)) {
-					//	qis.Percent_Off_MSRP__c = 0;
-					//}
-					}
-					if(!qis.Exclude_from_Rebate__c) {
-						qis.Extended_Rebate__c = qis.Rebate_as_of_DNet__c * qis.REVVY__SuggestedPrice__c* qis.revvy__quantity__c*qi.revvy__quantity__c;
-					}
-					updatedQuoteItemSublines.add(qis);
-				}
-				}
-
-				//system.debug('--++--++--++='  + qis.percent_off_msrp__c + ' off DN=' + qis.percent_of_dnet__c);
-			}
-		}
-
-		Long perfStart = System.limits.getCpuTime();
-		update updatedQuoteItems;
-		update updatedQuoteItemSublines;
-        update quote; // ??? why update quote here ??
-		system.debug('perf------updateQuote quote items------------ = ' + (System.limits.getCpuTime() - perfStart));
-
-        Revvy__MnQuote__c tmpQ = [select Rollup_DNetWOTPPAllied__c from Revvy__MnQuote__c where id = :quoteId];
-        List<Support_Plus_Plan__c> plans = [select Total_DNet_Low__c, Total_DNet_High__c, Maximum_Support__c from Support_Plus_Plan__c order by Total_DNet_Low__c];
-        for(Support_Plus_Plan__c sp : plans) {
-        	if((tmpQ.Rollup_DNetWOTPPAllied__c >= sp.Total_DNet_Low__c) && (tmpQ.Rollup_DNetWOTPPAllied__c < sp.Total_DNet_High__c)) {
-        		tmpQ.Toro_Support_Plus_Allowance__c = sp.Maximum_Support__c;
-        		break;
-        	}
-        }
-        //update quote;
-        update tmpQ;
-
-		//delete setup fees
-		delete [Select Id From REVVY__MnQuoteItem__c where REVVY__Product_ID_F__c = 'S00001' and REVVY__Quote__c = :quoteId];
-
-		return null;
-	}
-	//Apply_Support_Plus__c
-	//Support_Plus_Quantity__c
-	public override Map<String, boolean> getQuoteItemSublineFieldsUpdatable(String pricingMethod) {
-		system.debug('++++++ToroLargePackagePricingProgramHelper =' + pricingMethod);
-		Map<String, boolean> ret = new Map<String, boolean>();
-		Set<String> fs = new Set<String>();
-		for(String s : getQuoteItemSublineFieldAPINames()) {
-			fs.add(s.toLowerCase());
-			system.debug('++++++ToroLargePackagePricingProgramHelper s.toLowerCase() =' + s.toLowerCase() + ' pricingMethod='+pricingMethod);
-			if('percent_off_msrp__c'.equalsIgnoreCase(s.toLowerCase()) && '% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-				system.debug('-----------' + s.toLowerCase() + ' is updatable ');
-				ret.put(s.toLowerCase(), true);
-			} else if('percent_of_dnet__c'.equalsIgnoreCase(s.toLowerCase()) && '% of DNET'.equalsIgnoreCase(pricingMethod)) {
-				system.debug('-----------' + s.toLowerCase() + ' is updatable ');
-				ret.put(s.toLowerCase(), true);
-			} else if('revvy__freezepricing__c'.equalsIgnoreCase(s.toLowerCase())) {
-				ret.put(s.toLowerCase(), true);
-			} else if('performance_part__c'.equalsIgnoreCase(s.toLowerCase())) {
-				ret.put(s.toLowerCase(), true);
-			} else if('award_price__c'.equalsIgnoreCase(s.toLowerCase())) {
-				ret.put(s.toLowerCase(), true);
-			} else {
-				ret.put(s.toLowerCase(), false);
-			}
-		}
-		return ret;
-	}
-	public override Map<String, boolean> getQuoteItemFieldsUpdatable() {
-		Map<String, boolean> ret = new Map<String, boolean>();
-		Set<String> fs = new Set<String>();
-		for(String s : getQuoteItemFieldAPINames()) {
-			if('revvy__product_id_f__cc'.equalsIgnoreCase(s.toLowerCase())) {
-				continue;
-			}
-			fs.add(s.toLowerCase());
-			if('revvy__freezepricing__c'.equalsIgnoreCase(s.toLowerCase())) {
-				ret.put(s.toLowerCase(), true);
-			} else if('award_price__c'.equalsIgnoreCase(s.toLowerCase())) {
-				ret.put(s.toLowerCase(), true);
-			} else {
-				ret.put(s.toLowerCase(), false);
-			}
-		}
-		return ret;
-	}
+	
 
 	/**
 	 *
@@ -709,36 +412,36 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 	/**
 	 *
-	 * description
+	 * returns the number of Traction Units in a quote
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  quoteItemList    the list of Toro Quote Items
+	 * @return count of traction units
 	 */
 	public Integer getNumberOfTractionUnits(List<Toro_QuoteItem__c> quoteItemList) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
 		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
-		final List<Id> quoteItemIds = new List<Id>();
 		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
 			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
 				count++;
 			}
 		}
-
+		System.debug('\n\n@@count: ' + count + '\n\n');
 		return count;
 	}
 
 	/**
 	 *
-	 * description
+	 * check if the quote items contain an Out-Cross unit
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  quoteItemList    the list of Toro Quote Items
+	 * @return true/false
 	 */
 	public Boolean checkForOutCrossProducts(List<Toro_QuoteItem__c> quoteItemList) {
 		System.debug('\n\n@@checkForOutCrossProducts quoteItemList: ' + quoteItemList + '\n\n');
 		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
-			if (quoteItem.Product__r.Name.startsWithIgnorecase('OUTCROSS')) {
+			if (quoteItem.Product_Name__c.startsWithIgnorecase('OUTCROSS')) {
+				System.debug('\n\n@@contains outcross\n\n');
 				return true;
 			}
 		}
