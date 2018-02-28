@@ -13,15 +13,17 @@
     },
     calculate : function(component, event, helper) {
         var quoteHeaderCmp = component.find("cmpQuoteHeader");
-        var result = quoteHeaderCmp.getPricingProgramMethod();
+        var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");
-		childCmp.calculate(result.PricingProgram, result.PricingMethod);        
+		childCmp.calculate(result.PricingProgram, result.PricingMethod, 
+                           result.SetupFeePercent, result.PerformancePart);        
     },
     saveAndClose: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
-        var result = quoteHeaderCmp.getPricingProgramMethod();
+        var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");
-		childCmp.saveQuote(result.PricingProgram, result.PricingMethod); 
+		childCmp.saveQuote(result.PricingProgram, result.PricingMethod, 
+                           result.SetupFeePercent, result.PerformancePart); 
         quoteHeaderCmp.savePricingProgramMethod();
     },
     addSupportPlus: function(component, event, helper) {

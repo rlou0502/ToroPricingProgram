@@ -595,7 +595,7 @@
 		$A.enqueueAction(getAction);
         
     },
-    updateSaveQuote: function(component, pricingProgram, pricingMethod, save) {
+    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save) {
     	//console.log('updateQuote'); 
     	var self = this;
         var quoteItemsData = {};
@@ -640,49 +640,53 @@
         
         console.log('populateQuoteItems.pricingProgram =' + pricingProgram);
         console.log('populateQuoteItems.pricingMethod =' + pricingMethod);
-        var getAction = component.get('c.svc_updateQuoteData');
+        var getAction = component.get('c.svc_updateQuoteData2');
        
         getAction.setParams({
-            pricingProgram: pricingProgram,
-            pricingMethod: pricingMethod,
+            values: {
+                quoteId: quoteId,
+                pricingProgram: pricingProgram,
+                pricingMethod: pricingMethod,
+                setupFeePercent: setupFeePercent, 
+                performancePart: performancePart
+            },      
             quoteItemsDataJSON: quoteItemsDataJSON,
             qiSublinesDataJSON : qiSublinesDataJSON,
-            quoteId: quoteId,
             save: save
         });
         getAction.setCallback(this, 
-                              function(response) {
-                                  var state = response.getState();
-                                  if (component.isValid() && state === "SUCCESS") { 
-                                      if(save) {
-                                          document.location = "/"+quoteId;
-                                      }
-                                      var data = response.getReturnValue();
-                                      var retResponse = response.getReturnValue();
-                                      var retRecords = retResponse.values;
-                                      var fields = retResponse.fieldSetMembers;
-                                      component.set('v.fields', fields);
-                                      component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
-                                      component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
-                                      component.set('v.quoteItems', retRecords);
+        	function(response) {
+            	var state = response.getState();
+                if (component.isValid() && state === "SUCCESS") { 
+                    if(save) {
+                        document.location = "/"+quoteId;
+                    }
+                    var data = response.getReturnValue();
+                    var retResponse = response.getReturnValue();
+                    var retRecords = retResponse.values;
+                    var fields = retResponse.fieldSetMembers;
+                    component.set('v.fields', fields);
+                    component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
+                    component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
+                    component.set('v.quoteItems', retRecords);
                                       
-                                      var sublineMap = {};  
-                                      var quoteItemMap={};
-                                      retRecords.forEach(function(s) {
-                                          quoteItemMap[s["Id"]]=s;
-                                          if(s["Toro_Quote_Item_Sub_Lines__r"]) {
-                                              sublineMap[s["Id"]]= s["Toro_Quote_Item_Sub_Lines__r"];  
-                                          }
-                                      });
-                                      component.set('v.sublineMap', sublineMap);
-                                      component.set('v.quoteItemMap', quoteItemMap);
-                                      self.hideSpinner();
-                                      var items = document.getElementById("quoteItems");
-                                      self.cleanInnerNodes(items);
-                                      self.renderQuoteItems(component);
-                                  }
-                              }
-                             );
+                    var sublineMap = {};  
+                    var quoteItemMap={};
+                    retRecords.forEach(function(s) {
+                        quoteItemMap[s["Id"]]=s;
+                        if(s["Toro_Quote_Item_Sub_Lines__r"]) {
+                            sublineMap[s["Id"]]= s["Toro_Quote_Item_Sub_Lines__r"];  
+                        }
+                    });
+                    component.set('v.sublineMap', sublineMap);
+                    component.set('v.quoteItemMap', quoteItemMap);
+                    self.hideSpinner();
+                    var items = document.getElementById("quoteItems");
+                    self.cleanInnerNodes(items);
+                    self.renderQuoteItems(component);
+                }
+            }
+        );
         $A.enqueueAction(getAction);
     }
 })

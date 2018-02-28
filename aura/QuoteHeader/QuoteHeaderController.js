@@ -8,39 +8,15 @@
         var pm = cmp.get("v.selectedPricingMethod");
         return {"PricingProgram" : pp, "PricingMethod" : pm};
     },
-    onSetupFeeChange: function(cmp, event, helper) { 
-        var changedValue = event.currentTarget.value;
-        var getAction = cmp.get('c.svc_setupFeeChange');
-        
-        getAction.setParams({
-            setupFee: parseFloat(changedValue),
-        });
-        getAction.setCallback(this, 
-        	function(response) {
-                debugger;
-                var state = response.getState();
-                if (cmp.isValid() && state === "SUCCESS") {  
-                    
-                }
-            });
-        $A.enqueueAction(getAction);
-    },
-    onPerformancePartChange: function(cmp, event, helper) { 
-        var checked = cmp.find("performancePart").get("v.value");
-        var getAction = cmp.get('c.svc_performancePartChange');
-        
-        getAction.setParams({
-            performancePart: checked,
-        });
-        getAction.setCallback(this, 
-        	function(response) {
-                debugger;
-                var state = response.getState();
-                if (cmp.isValid() && state === "SUCCESS") {  
-                    
-                }
-            });
-        $A.enqueueAction(getAction);
+    getQuoteInfo: function(cmp, event, helper) {
+        var pp = cmp.get("v.selectedPricingProgram");
+        var pm = cmp.get("v.selectedPricingMethod");
+        var setupFeePercent = cmp.find("setupFeePercent").get("v.value");
+        var performancePart = cmp.find("performancePart").get("v.value");
+        return {"PricingProgram" : pp, 
+                "PricingMethod" : pm,
+                "SetupFeePercent" : setupFeePercent,
+                "PerformancePart" : performancePart};
     },
     onTotalAwardPriceChange: function(cmp, event, helper) {
         
@@ -173,11 +149,16 @@
             var quoteId = cmp.get('v.quoteId');
             var pp = cmp.get("v.selectedPricingProgram");
         	var pm = cmp.get("v.selectedPricingMethod");
+            var setupFeePercent = cmp.find("setupFeePercent").get("v.value");
+        	var performancePart = cmp.find("performancePart").get("v.value");
+            
             var getAction = cmp.get('c.savePricingProgramMethodRemote');
         
             getAction.setParams({
                 pricingProgram: pp,
                 pricingMethod: pm,
+                setupFeePercent: setupFeePercent,
+                performancePart: performancePart,
                 quoteId: quoteId
             });
             getAction.setCallback(this, 

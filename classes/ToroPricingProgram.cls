@@ -2,6 +2,7 @@ public abstract class ToroPricingProgram {
 	public Revvy__MnQuote__c quote { get; set; }
 	public List<Toro_QuoteItem__c> quoteItems { get; set; }
 	public boolean performancePartFlag { get; set; }
+	public decimal setupFeePercentage { get; set; }
 	//public abstract List<Schema.FieldSetMember> getQuoteItemSublineFields();
 	//public abstract List<Schema.FieldSetMember> getQuoteItemFields();
 	public abstract List<Schema.FieldSetMember> getQuoteFields() ;

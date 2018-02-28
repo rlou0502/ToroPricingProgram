@@ -215,7 +215,7 @@
         <fullName>National_Account_Quote_Line_Updtbl_Cols</fullName>
         <description>Pricing Program</description>
         <displayedFields>
-            <field>PricingMethodValue__c</field>
+            <field>Award_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -385,7 +385,7 @@
     <fields>
         <fullName>Award_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Award Price</label>
+        <label>AWARD</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -479,7 +479,7 @@
     <fields>
         <fullName>MSRP_Price__c</fullName>
         <externalId>false</externalId>
-        <label>MSRP Price</label>
+        <label>MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -555,7 +555,7 @@
         <fullName>Performance_Parts_Product__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>Performance Parts</label>
+        <label>PP</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -586,7 +586,7 @@
         <externalId>false</externalId>
         <formula>QuoteItem__r.REVVY__Catalog_Node__r.REVVY__Id__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Model</label>
+        <label>MODEL</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -597,7 +597,7 @@
         <externalId>false</externalId>
         <formula>QuoteItem__r.REVVY__Catalog_Node__r.REVVY__LocaleName_F__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Product Name</label>
+        <label>DESCRIPTION</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -645,7 +645,7 @@
         <fullName>Rebate_as_a_of_DN__c</fullName>
         <description>Store value retrieved from Pricing Program table based on a value of either &quot;% off MSRP&quot; or &quot;% of DNet&quot; entered by a user on &quot;Choose Pricing Program&quot; page.</description>
         <externalId>false</externalId>
-        <label>Rebate as a % of DN</label>
+        <label>RBT%</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -739,7 +739,7 @@
         <defaultValue>false</defaultValue>
         <description>Checks if quote item is applied to support plus</description>
         <externalId>false</externalId>
-        <label>Support Plus Item</label>
+        <label>SP</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -832,7 +832,7 @@
     <fields>
         <fullName>Toro_Extended_Award_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Extended Award Price</label>
+        <label>EXT AWARD</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -842,7 +842,7 @@
     <fields>
         <fullName>Toro_Extended_DNet_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Extended DNet Price</label>
+        <label>EXT  DNET</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -852,7 +852,7 @@
     <fields>
         <fullName>Toro_Extended_MSRP_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Extended MSRP Price</label>
+        <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -872,7 +872,7 @@
     <fields>
         <fullName>Toro_Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>Gross Profit %</label>
+        <label>GP%</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

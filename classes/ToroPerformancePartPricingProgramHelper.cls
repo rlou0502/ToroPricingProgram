@@ -83,8 +83,8 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
         	qi.Award_Price__c=0; //qi.REVVY__Unit_Price__c = qi.Revvy__Price__c; 
 		}
         //qi.revvy__freezepricing__c=false;
-		system.debug('+++++++++++++++++ PP QuoteItem bperformancePart=' + bperformancePart);
 		bperformancePart = ToroCacheManager.getPerformancePart();
+		system.debug('+++++++++++++++++ PP QuoteItem bperformancePart=' + bperformancePart);
 		if(bperformancePart!=null && bperformancePart
 		&& ppMap !=null && ppMap.containsKey(qi.Product_Id__c)) {
 			qi.MSRP_Price__c = ppMap.get(qi.Product_Id__c);

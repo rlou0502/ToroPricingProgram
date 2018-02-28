@@ -325,7 +325,7 @@
         <fullName>Apply_Support_Plus__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>Support Plus</label>
+        <label>PP</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -343,7 +343,7 @@
     <fields>
         <fullName>Award_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Award Price</label>
+        <label>AWARD</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -364,7 +364,7 @@
     <fields>
         <fullName>DNet_Price__c</fullName>
         <externalId>false</externalId>
-        <label>DNet Price</label>
+        <label>DNET</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -387,7 +387,7 @@
         <defaultValue>false</defaultValue>
         <description>Exlcude Sublines from Rebate calculations</description>
         <externalId>false</externalId>
-        <label>Exclude from Rebate</label>
+        <label>EXC RBT</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -423,7 +423,7 @@
     <fields>
         <fullName>Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>Gross Profit %</label>
+        <label>GP%</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -433,7 +433,7 @@
     <fields>
         <fullName>MSRP_Price__c</fullName>
         <externalId>false</externalId>
-        <label>MSRP Price</label>
+        <label>MSRP</label>
         <precision>8</precision>
         <required>false</required>
         <scale>2</scale>
@@ -488,7 +488,7 @@
         <fullName>Performance_Part__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>Performance Part</label>
+        <label>PP</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -517,7 +517,7 @@
         <externalId>false</externalId>
         <formula>Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.REVVY__Id__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Model</label>
+        <label>MODEL</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -528,7 +528,7 @@
         <externalId>false</externalId>
         <formula>Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.REVVY__LocaleName_F__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Product Name</label>
+        <label>DESCRIPTION</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -577,7 +577,7 @@
         <fullName>Rebate_as_of_DNet__c</fullName>
         <description>Rebate as % of DNet</description>
         <externalId>false</externalId>
-        <label>Rebate as % of DNet</label>
+        <label>RBT%</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -627,7 +627,7 @@
     <fields>
         <fullName>Toro_DNet_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Extended DNet Price</label>
+        <label>EXT  DNET</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -657,7 +657,7 @@
     <fields>
         <fullName>Toro_Extended_Award_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Extended Award Price</label>
+        <label>EXT AWARD</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -667,7 +667,7 @@
     <fields>
         <fullName>Toro_Extended_MSRP_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Extended MSRP Price</label>
+        <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

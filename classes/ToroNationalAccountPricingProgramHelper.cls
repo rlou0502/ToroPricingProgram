@@ -37,12 +37,16 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		system.debug(logginglevel.info, '+++++++++++++++++ NAT = ' + quoteItemWrapperList);
 		system.debug(logginglevel.info, '+++++++++++++++++ NAT priceProgramExternalId = ' + priceProgramExternalId);
 		system.debug(logginglevel.info, '+++++++++++++++++ NAT priceProgramExternalId = ' + priceMethod);
-		quote.Performance_Part__c=false;		
+		system.debug(logginglevel.info, '+++++++++++++++++ NAT performancePartFlag = ' + performancePartFlag);
+		system.debug(logginglevel.info, '+++++++++++++++++ NAT setupFeePercentage = ' + setupFeePercentage);
+		
+		quote.Performance_Part__c=performancePartFlag;		
 		Map<String,Toro_PricingProgramLine__c> tierMap = retrieveNationalAccount( priceProgramExternalId);
 		Map<String,String> tractionUnitMap = retrieveTractionUnit();
 		system.debug(logginglevel.info, 'tierMap=' + tierMap);
 
-		decimal dSetupFeeHeader = ToroCacheManager.getSetupFee();
+		//decimal dSetupFeeHeader = ToroCacheManager.getSetupFee();
+		decimal dSetupFeeHeader = setupFeePercentage;
 		System.debug(logginglevel.info, '>>> Setup fee from cache=' + dSetupFeeHeader);
 		
 		//Exception

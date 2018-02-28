@@ -58,6 +58,149 @@ public class ToroPricingProgramController {
     }
     
     @AuraEnabled
+    public static ToroSObjectResultSet svc_updateQuoteData2(Map<String, Object> values, String quoteItemsDataJSON, String qiSublinesDataJSON, boolean save) {
+    	//Id quoteId, Id qiId, String pricingProgram, 
+    	//String pricingMethod, decimal setupFeePercent, boolean performancePart,   			
+    	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
+    	rs.result=true;
+    	if(values == null) {
+    		rs.result=false;
+    		return rs;	
+    	}
+    	String pricingMethod = (String) values.get('pricingMethod');
+    	String pricingProgram = (String) values.get('pricingProgram'); 
+    	rs.selectedPricingMethod = pricingMethod;
+    	rs.selectedPricingProgram = pricingProgram; 
+    	Id quoteId = (Id) values.get('quoteId'); 
+    	Id qiId = (Id) values.get('qiId');
+    	decimal setupFeePercent = null;
+    	if(values.get('setupFeePercent') != null) {
+    		setupFeePercent = (Decimal)values.get('setupFeePercent'); 
+    	}
+    	boolean performancePart = false;
+    	if(values.get('performancePart') != null) {
+    		performancePart = (Boolean)values.get('performancePart'); 
+    	}
+    	ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
+    	rs.currentQuoteItem = qiId;
+		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+		pp.performancePartFlag = performancePart;
+		pp.setupFeePercentage = setupFeePercent;
+		System.debug('pricingProgram=' +pricingProgram);
+		System.debug('pricingMethod=' +pricingMethod);
+		System.debug('quoteItemsDataJSON=' +quoteItemsDataJSON);
+		System.debug('qiSublinesDataJSON=' +qiSublinesDataJSON);
+		Map<String, object> quoteItemsData = (Map<String, object>) JSON.deserializeUntyped(quoteItemsDataJSON);
+		for(String key : quoteItemsData.keyset()) {
+			Map<String, Object>	data1 = (Map<String, Object>) quoteItemsData.get(key);
+			system.debug('key =' + key + ' obj =' + data1);
+			for(String key2 : data1.keyset()) {
+				String	data2 = (String) data1.get(key2);
+				system.debug('key2 =' + key2 + ' obj =' + data2);
+			}
+		}
+		Map<String, object> qiSublinesData = (Map<String, object>) JSON.deserializeUntyped(qiSublinesDataJSON);
+
+		system.debug('quoteItemsData=' + quoteItemsData);
+		system.debug('qiSublinesData=' + qiSublinesData);
+		system.debug('setPricingMethodValueRemote pp=' + pp);	
+		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
+		rs.pricingMethodOptions = options;
+		system.debug('setPricingMethodValueRemote options=' + options);	
+		//if there is only one pricing method + "Please select" item, auto apply it
+		pp.initialize(quoteId);
+		
+		for(Toro_QuoteItem__c qi : pp.quoteItems) {
+			Map<String, Object> qiUpdateData = 	(Map<String, Object>) quoteItemsData.get(qi.Id);
+			system.debug(logginglevel.info, 'qiUpdateData =' + qiUpdateData);	
+			if(qiUpdateData != null) {
+				for(String key : qiUpdateData.keyset()) {
+					system.debug(logginglevel.info, 'key =' + key);
+					String strVal = (String)qiUpdateData.get(key);
+					system.debug(logginglevel.info, '1 strVal =' + strVal);
+					if(String.isNotBlank(strVal)) {
+						system.debug(logginglevel.info, '2 strVal =' + strVal);
+						if('PricingMethodValue__c'.equalsIgnoreCase(key)){
+							system.debug(logginglevel.info, '3 key =' + key);
+							qi.PricingMethodValue__c = strVal;
+							system.debug(logginglevel.info, '3 pricingMethod =' + pricingMethod);
+							if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+								
+				    			qi.Award_of_DN__c = Double.valueOf(strVal);
+				    			system.debug(logginglevel.info, '3 % of DNET =' + qi.Award_of_DN__c);
+				    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Off_MSRP__c = Double.valueOf(strVal);
+				    			system.debug(logginglevel.info, '3 qi.Off_MSRP__c =' + qi.Off_MSRP__c);
+				    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Toro_Gross_Profit_Percent__c = Double.valueOf(strVal);
+				    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Award_Price__c = decimal.valueOf(strVal);		
+				    		}	
+						} else if('Award_Price__c'.equalsIgnoreCase(key)){
+							system.debug('---------------Award_Price__c =' + strVal);
+							qi.Award_Price__c = decimal.valueOf(strVal);	
+						} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
+							qi.Unit_Award_Overridden__c = boolean.valueOf(strVal);
+						}
+					}
+				} 
+			}
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					Map<String, Object>  qisUpdateData = (Map<String, Object>) qiSublinesData.get(qis.id);
+					if(qisUpdateData != null) {
+						for(String key : qisUpdateData.keyset()) {
+							String strVal = (String)qisUpdateData.get(key);
+							if(string.isNotBlank(strVal)) {
+								if('PricingMethodValue__c'.equalsIgnoreCase(key)){
+									qis.PricingMethodValue__c = strVal;
+									if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+						    			qis.Percent_of_DNet__c = Double.valueOf(strVal);
+						    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+						    			qis.Percent_Off_MSRP__c = Double.valueOf(strVal);
+						    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+						    			qis.Gross_Profit_Percent__c = Double.valueOf(strVal);
+						    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+						    			qis.Award_Price__c = decimal.valueOf(strVal);		
+						    		}	
+								} else if('Award_Price__c'.equalsIgnoreCase(key)){
+									qis.Award_Price__c = decimal.valueOf(strVal);	
+								} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
+									qis.Unit_Award_Overridden__c = boolean.valueOf(strVal);
+								}
+							}
+						}
+					}
+				}
+    		}
+		}
+    	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
+    	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields(); 
+    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
+    	List<Schema.FieldSetMember> fieldSetSub = pp.getToroQuoteItemSublineFields();
+    	List<Schema.FieldSetMember> updatableFieldSetSub = pp.getToroQuoteItemSublineUpdatableFields(); 
+    	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub);
+    	List<Schema.FieldSetMember> fieldSetSummary = pp.getToroQuoteItemSummaryFields();
+    	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, null);
+    	
+    	List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
+    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+    	for(FieldSetMember fs : rs.fieldSetMembers) {
+    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+    			fs.label = rs.selectedPricingMethod;	
+    		}	
+    	}
+    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
+    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+    			fss.label = rs.selectedPricingMethod;	
+    		}	
+    	}
+    	rs.values =  pp.quoteItems;
+    	rs.displaySetupFee=pp.displaySetupFee();
+    	return rs;	
+    }
+/*    
+    @AuraEnabled
     public static ToroSObjectResultSet svc_updateQuoteData(Id quoteId, Id qiId, String pricingProgram, 
     			String pricingMethod, String quoteItemsDataJSON, String qiSublinesDataJSON, boolean save) {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
@@ -180,7 +323,7 @@ public class ToroPricingProgramController {
     	rs.displaySetupFee=pp.displaySetupFee();
     	return rs;	
     }
-    
+*/    
     @AuraEnabled
     public static ToroSObjectResultSet svc_setPricingMethodValue(Id quoteId, Id qiId, String pricingProgram, String pricingMethod, string value) {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
@@ -272,11 +415,11 @@ public class ToroPricingProgramController {
     }
     
     @AuraEnabled
-    public static ToroSObjectResultSet savePricingProgramMethodRemote(Id quoteId, String pricingProgram, String pricingMethod) {
+    public static ToroSObjectResultSet savePricingProgramMethodRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal setupFeePercent, boolean performancePart) {
     	system.debug('--------------calling savePricingProgramMethodRemote');
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=true;
-    	update new revvy__MnQuote__c(Id=quoteId, Pricing_Program_Name__c=pricingProgram, Price_Method__c=pricingMethod);
+    	update new revvy__MnQuote__c(Id=quoteId, Pricing_Program_Name__c=pricingProgram, Price_Method__c=pricingMethod, Setup_Fee__c=setupFeePercent, Performance_Part__c=performancePart);
     	return rs;
     }
     
