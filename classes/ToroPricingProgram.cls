@@ -154,7 +154,9 @@ public abstract class ToroPricingProgram {
 					system.debug(logginglevel.info,'------Percent_Off_MSRP__c  =' + qis.Percent_Off_MSRP__c);
 
 					//ask lance
+					system.debug(logginglevel.info,'------qis.Award_Price__c  =' + qis.Award_Price__c);
 					qis.Toro_Extended_Award_Price__c      = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)  * extQty;
+					system.debug(logginglevel.info,'------qis.Toro_Extended_Award_Price__c  =' + qis.Toro_Extended_Award_Price__c);
 					//do we need this//allied product will always dnet as 0
 					qis.Toro_DNet_Price__c                = (qis.TPP_Line_Item__c == true) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
 					//???? need clarification //
@@ -516,7 +518,7 @@ public abstract class ToroPricingProgram {
 		initializeQuoteHeader(quoteId);
 
 		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name,Select_Price_Program_Type__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c');
+		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Toro_QuoteItem__c where Mn_Quote__c = :quoteId';
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);

@@ -53,6 +53,7 @@ public class ToroPricingProgramController {
 		} else {
 			rs.selectedPricingMethod = null;
 		}
+		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.displaySetupFee=pp.displaySetupFee();
     	return rs;
     }

@@ -45,6 +45,7 @@
 	                var retResponse = response.getReturnValue();
 	                var retRecords = retResponse.values;
 	                var fields = retResponse.fieldSetMembers;
+	                debugger;
 	                component.set('v.fields', fields);
                     component.set('v.pricingProgramOptions', retResponse.pricingProgramOptions);
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);

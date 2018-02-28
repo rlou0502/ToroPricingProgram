@@ -116,8 +116,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 				rebateApplicableProducts.get(rh.ExternalId__c).addAll(parts);
 			}
 			for(Toro_PricingProgramLine__c l : rh.PricingProgramLines__r) {
-				msrpLineMap.put(l.Off_Mfg_Sugg_Ttl__c, l);
-				dnetLineMap.put(l.Award_Price_as_a_Percent_of_DN__c, l);
+				msrpLineMap.put(l.Off_Mfg_Sugg_Ttl__c.setScale(5,roundingMode.HALF_UP), l);
+				dnetLineMap.put(l.Award_Price_as_a_Percent_of_DN__c.setScale(5,roundingMode.HALF_UP), l);
 				msrpMin = Math.min(msrpMin, l.Off_Mfg_Sugg_Ttl__c);
 				msrpMax = Math.max(msrpMax, l.Off_Mfg_Sugg_Ttl__c);
 				dnetMin = Math.min(dnetMin, l.Award_Price_as_a_Percent_of_DN__c);
@@ -159,7 +159,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							qi.Award_of_DN__c = Math.min(qi.Award_of_DN__c, dnetMax);
 							qi.Award_of_DN__c = Math.max(qi.Award_of_DN__c, dnetMin);
 						}
-						Toro_PricingProgramLine__c l = dnetLineMap.get(qi.Award_of_DN__c);
+						Toro_PricingProgramLine__c l = dnetLineMap.get(qi.Award_of_DN__c.setScale(5,roundingMode.HALF_UP));
+						
 						if(l != null) {
 
 							qi.Award_of_DN__c = l.Award_Price_as_a_Percent_of_DN__c;
@@ -187,10 +188,10 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							qi.Off_MSRP__c = Math.min(qi.Off_MSRP__c, msrpMax);
 							qi.Off_MSRP__c = Math.max(qi.Off_MSRP__c, msrpMin);
 						}
-
-						Toro_PricingProgramLine__c l = msrpLineMap.get(qi.Off_MSRP__c);
+						
+						Toro_PricingProgramLine__c l = msrpLineMap.get(qi.Off_MSRP__c.setScale(5,roundingMode.HALF_UP));
 						if(l != null) {
-						system.debug('Unit_Award_Overridden__c=' + qi.Unit_Award_Overridden__c );
+							system.debug('Unit_Award_Overridden__c=' + qi.Unit_Award_Overridden__c );
 							qi.Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
 							qi.Award_of_DN__c = l.Award_Price_as_a_Percent_of_DN__c;
 							qi.Selected_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
@@ -199,18 +200,22 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 								system.debug('111111111Award_Price__c=' + qi.Award_Price__c );
 							}
 							qi.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
-							system.debug(logginglevel.info,'inside rebate-------------------qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
+							system.debug(logginglevel.info,'^^^^^ msrp%=' + qi.Off_MSRP__c + 'dnet%=' + qi.Award_of_DN__c + 'rebate%=' + qi.Rebate_as_a_of_DN__c);
 						} else if(qi.Off_MSRP__c <= msrpMax &&  qi.Off_MSRP__c >= msrpMin) {
 							if(!qi.Unit_Award_Overridden__c) {
 								qi.Award_Price__c = qi.MSRP_Price__c * (1-(qi.Off_MSRP__c/100));
 								system.debug('2222222222 Award_Price__c=' + qi.Award_Price__c );
 							}
-							system.debug('lookupRebateAsPercentOfDNet--- qi.Award_Price__c' + qi.Award_Price__c);
-							qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c * 100;
-							system.debug('lookupRebateAsPercentOfDNet--- qi.DNet_Price__c' + qi.DNet_Price__c);
-							system.debug('lookupRebateAsPercentOfDNet--- qi.Award_of_DN__c' + qi.Award_of_DN__c);
-							qi.Rebate_as_a_of_DN__c=lookupRebateAsPercentOfDNet(qi.Award_of_DN__c,dNetLineList);
-							system.debug(logginglevel.info,'inside rebate-------------------qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
+							system.debug('lookupRebateAsPercentOfDNet--- qi.Award_Price__c' + qi.Award_Price__c + ' qi.DNet_Price__c= ' + qi.DNet_Price__c);
+							if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0 ) {
+								qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c * 100;
+								system.debug('lookupRebateAsPercentOfDNet--- qi.DNet_Price__c' + qi.DNet_Price__c);
+								system.debug('lookupRebateAsPercentOfDNet--- qi.Award_of_DN__c' + qi.Award_of_DN__c);
+								qi.Rebate_as_a_of_DN__c=lookupRebateAsPercentOfDNet(qi.Award_of_DN__c,dNetLineList);
+								system.debug(logginglevel.info,'inside rebate-------------------qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
+							} else {
+								system.debug('lookupRebateAsPercentOfDNet--- qi.product id' + qi.Product_Id__c);
+							}
 						}
 					}
 				}
@@ -244,25 +249,27 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						decimal basePrice = qis.MSRP_Price__c;
 						decimal grossProfit = 0.0;
 						//qis.Distributor_Net__c = qis.MSRP_Price__c;
-							System.debug('>>> inside rebate MSRP --- qis.Performance_Part__c='+qis.Performance_Part__c);
+						System.debug('>>> inside rebate MSRP --- qis.Performance_Part__c='+qis.Performance_Part__c);
 						if('% of DNET'.equalsIgnoreCase(priceMethod) && !qis.Performance_Part__c) {
 							if(qis.Unit_Award_Overridden__c) {
 								qis.Percent_of_DNet__c = qis.Award_Price__c * 100/qis.DNet_Price__c;
 							}
 							qis.Percent_of_DNet__c = Math.min(qis.Percent_of_DNet__c, dnetMax);
 							qis.Percent_of_DNet__c = Math.max(qis.Percent_of_DNet__c, dnetMin);
-							Toro_PricingProgramLine__c l = dnetLineMap.get(qis.Percent_of_DNet__c);
+							Toro_PricingProgramLine__c l = dnetLineMap.get(qis.Percent_of_DNet__c.setScale(5,roundingMode.HALF_UP));
+							//system.debug(logginglevel.info,'################## l = '+ l);
+							//system.debug(logginglevel.info,'################## dnetLineMap = '+ dnetLineMap);
 							if(l != null) {
 								qis.Percent_of_DNet__c = l.Award_Price_as_a_Percent_of_DN__c;
 								qis.Percent_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
 								if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
 									qis.Rebate_as_of_DNet__c = l.Rebate_as_a_Percent_of_DN__c;
 								}
-								system.debug(logginglevel.info,'inside rebate-------------------qis.Rebate_as_a_of_DN__c =' + qis.Rebate_as_of_DNet__c);
+								//system.debug(logginglevel.info,'##################inside rebate-------------------qis.Rebate_as_a_of_DN__c =' + qis.Rebate_as_of_DNet__c);
 								//qis.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
 								if(!qis.Unit_Award_Overridden__c) {
 									qis.Award_Price__c = qis.DNet_Price__c * qis.Percent_of_DNet__c/100;
-									system.debug('111111111 qis Award_Price__c=' + qis.Award_Price__c );
+									//system.debug('##################111111111 qis Award_Price__c=' + qis.Award_Price__c );
 								}
 							} else if(qis.Percent_of_DNet__c <= dnetMax &&  qis.Percent_of_DNet__c >= dnetMin) {
 								if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
@@ -284,8 +291,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							qis.Percent_Off_MSRP__c = Math.min(qis.Percent_Off_MSRP__c, msrpMax);
 							qis.Percent_Off_MSRP__c = Math.max(qis.Percent_Off_MSRP__c, msrpMin);
 							system.debug('2------qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
-							Toro_PricingProgramLine__c l = msrpLineMap.get(qis.Percent_Off_MSRP__c);
-							System.debug('>>> inside rebate MSRP --- l='+l + ' - qis.Percent_Off_MSRP__c='+qis.Percent_Off_MSRP__c);
+							Toro_PricingProgramLine__c l = msrpLineMap.get(qis.Percent_Off_MSRP__c.setScale(5,roundingMode.HALF_UP));
+							System.debug('^^^^^ inside rebate MSRP --- l='+l + ' - qis.Percent_Off_MSRP__c='+qis.Percent_Off_MSRP__c);
 							if(l != null) {
 								qis.Percent_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
 								system.debug('3------qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
@@ -298,6 +305,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 									qis.Award_Price__c = qis.MSRP_Price__c * (1-(qis.Percent_Off_MSRP__c/100));
 								}
 								System.debug('>>> inside rebate MSRP --- l qis.Award_Price__c='+qis.Award_Price__c + ' - Id ='+ qis.Product_Id__c);
+								system.debug(logginglevel.info,'qis --- ^^^^^ msrp%=' + qis.Percent_Off_MSRP__c + 'dnet%=' + qis.Percent_of_DNet__c + 'rebate%=' + qis.Rebate_as_of_DNet__c);
 								//qis.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
 							} else if(qis.Percent_Off_MSRP__c <= msrpMax &&  qis.Percent_Off_MSRP__c >= msrpMin) {
 								if(!qis.Unit_Award_Overridden__c) {

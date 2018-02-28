@@ -9,7 +9,6 @@
         return {"PricingProgram" : pp, "PricingMethod" : pm};
     },
     getQuoteInfo: function(cmp, event, helper) {
-        debugger;
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
         var setupFeePercent = cmp.find("setupFeePercent") != null ? cmp.find("setupFeePercent").get("v.value") : 0;
@@ -150,8 +149,8 @@
             var quoteId = cmp.get('v.quoteId');
             var pp = cmp.get("v.selectedPricingProgram");
         	var pm = cmp.get("v.selectedPricingMethod");
-			var setupFeePercent = cmp.find("setupFeePercent") != null ? cmp.find("setupFeePercent").get("v.value") : 0;
-        	var performancePart = cmp.find("performancePart") != null ? cmp.find("performancePart").get("v.value") : false;            
+            var setupFeePercent = cmp.find("setupFeePercent") != null ? cmp.find("setupFeePercent").get("v.value") : 0;
+        	var performancePart = cmp.find("performancePart") != null ? cmp.find("performancePart").get("v.value") : false;
             var getAction = cmp.get('c.savePricingProgramMethodRemote');
         
             getAction.setParams({
