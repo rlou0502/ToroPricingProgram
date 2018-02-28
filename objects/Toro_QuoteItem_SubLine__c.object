@@ -65,7 +65,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Quantity__c</field>
+            <field>Toro_Extended_Qty__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -129,6 +129,16 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
+        <displayedFields>
+            <field>Percent_of_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Percent_Off_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Large Package Price Program Quote SubLine Cols</label>
     </fieldSets>
     <fieldSets>
@@ -160,7 +170,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Quantity__c</field>
+            <field>Toro_Extended_Qty__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -260,7 +270,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Quantity__c</field>
+            <field>Toro_Extended_Qty__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -677,7 +687,7 @@
     <fields>
         <fullName>Toro_Extended_Qty__c</fullName>
         <externalId>false</externalId>
-        <label>Extended Qty</label>
+        <label>Ext Qty</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>

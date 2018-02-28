@@ -4,9 +4,9 @@ public class ToroPricingProgramController {
     public Id quoteId {get; set;}
     public ToroPricingProgramController() {
     	quoteId = ApexPages.currentPage().getParameters().get('id');  
-    	if(!Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)){
+    	//if(!Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)){
     		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedQuoteId, quoteId);		
-    	}  
+    	//}  
     }
     
     @AuraEnabled
@@ -533,9 +533,12 @@ public class ToroPricingProgramController {
     	rs.result=true;
     	
     	Id quoteId = objId;
-    	if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
-    		quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);	
+    	if(quoteId == null) {
+    		quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);		
     	}
+    	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
+    	//	quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);	
+    	//}
     	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
     	if(String.isBlank(pricingProgram)) {
 	    	Revvy__MnQuote__c q = [SELECT Id, Pricing_Program_Type__c, Pricing_Program_Name__c, Price_Method__c FROM REVVY__MnQuote__c where id = :quoteId ];
@@ -571,9 +574,12 @@ public class ToroPricingProgramController {
     	rs.result=true;
     	  	
     	Id quoteId = objId;
-    	if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
-    		quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);	
+    	if(quoteId == null) {
+    		quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);		
     	}
+    	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
+    	//	quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);	
+    	//}
     	
     	if(string.isBlank(pricingProgram)) {
     		pricingProgram = [select Pricing_Program_Name__c from Revvy__MnQuote__c where id = :objId].Pricing_Program_Name__c;

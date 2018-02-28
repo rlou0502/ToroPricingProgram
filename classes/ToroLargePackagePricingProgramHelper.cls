@@ -155,8 +155,10 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						if(qi.Unit_Award_Overridden__c) {
 							qi.Award_of_DN__c = qi.Award_Price__c * 100/qi.DNet_Price__c;
 						}
-						qi.Award_of_DN__c = Math.min(qi.Award_of_DN__c, dnetMax);
-						qi.Award_of_DN__c = Math.max(qi.Award_of_DN__c, dnetMin);
+						if(qi.Award_of_DN__c != null) {
+							qi.Award_of_DN__c = Math.min(qi.Award_of_DN__c, dnetMax);
+							qi.Award_of_DN__c = Math.max(qi.Award_of_DN__c, dnetMin);
+						}
 						Toro_PricingProgramLine__c l = dnetLineMap.get(qi.Award_of_DN__c);
 						if(l != null) {
 
@@ -173,7 +175,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							if(!qi.Unit_Award_Overridden__c) {
 								qi.Award_Price__c = qi.DNet_Price__c * qi.Award_of_DN__c/100;
 							}
-							qi.Off_MSRP__c = (qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c;
+							if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
+								qi.Off_MSRP__c = (qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c;
+							}
 						}
 					} else if('% off MSRP'.equalsIgnoreCase(priceMethod) && !qi.Performance_Parts_Product__c)  {
 						if(qi.Unit_Award_Overridden__c) {

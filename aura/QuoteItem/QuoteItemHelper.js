@@ -180,11 +180,12 @@
     	//console.log('fields.length=' + fields.length); 
         var quoteItem = component.get('v.quoteItemMap')[selectedQuoteItem];
         var pricingProgram = quoteItem["Pricing_Program__c"];
-        if(pricingProgram != "Market Support Chart Large Package") {
-            return;
+        if(pricingProgram) {
+        	var pps = pricingProgram.split(";");
+            if(pps.length == 2 && pps[1] != "Large_Package") {           
+                return;
+            }
         }
-        //var pricingMethod = component.get('v.selectedPricingMethod'); 
-        
         var tableRow = document.createElement('tr');
         tableRow.className += " noBorder collapsible "+selectedQuoteItem;
         tableRow.style.display="none";
