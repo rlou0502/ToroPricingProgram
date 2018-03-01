@@ -177,7 +177,12 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						Toro_PricingProgramLine__c l = msrpLineMap.get(qi.Off_MSRP__c.setScale(5,roundingMode.HALF_UP));
 						if(l != null) {
 							system.debug('Unit_Award_Overridden__c=' + qi.Unit_Award_Overridden__c );
-							qi.Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
+							
+							if(excludedFromMSRP(qi)) {
+								qi.Off_MSRP__c = 0;
+							} else{
+								qi.Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;	
+							}
 							qi.Award_of_DN__c = l.Award_Price_as_a_Percent_of_DN__c;
 							qi.Selected_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
 							if(!qi.Unit_Award_Overridden__c) {
@@ -187,7 +192,11 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							qi.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
 							system.debug(logginglevel.info,'^^^^^ msrp%=' + qi.Off_MSRP__c + 'dnet%=' + qi.Award_of_DN__c + 'rebate%=' + qi.Rebate_as_a_of_DN__c);
 						} else if(qi.Off_MSRP__c <= msrpMax &&  qi.Off_MSRP__c >= msrpMin) {
+							if(excludedFromMSRP(qi)) {
+									qi.Off_MSRP__c = 0;
+							} 
 							if(!qi.Unit_Award_Overridden__c) {
+								
 								qi.Award_Price__c = qi.MSRP_Price__c * (1-(qi.Off_MSRP__c/100));
 								system.debug('2222222222 Award_Price__c=' + qi.Award_Price__c );
 							}
@@ -204,9 +213,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						}
 					}
 				}
-				if(excludedFromMSRP(qi)) {
-					qi.Off_MSRP__c = 0;
-				}
+				
 				//updatedQuoteItems.add(qi);
 				}
 
@@ -279,7 +286,12 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							Toro_PricingProgramLine__c l = msrpLineMap.get(qis.Percent_Off_MSRP__c.setScale(5,roundingMode.HALF_UP));
 							System.debug('^^^^^ inside rebate MSRP --- l='+l + ' - qis.Percent_Off_MSRP__c='+qis.Percent_Off_MSRP__c);
 							if(l != null) {
-								qis.Percent_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;
+								if(excludedFromMSRP(qis)) {
+									qis.Percent_Off_MSRP__c = 0;
+								} else{
+									qis.Percent_Off_MSRP__c = l.Off_Mfg_Sugg_Ttl__c;	
+								}
+								
 								system.debug('3------qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
 								qis.Percent_of_DNet__c = l.Award_Price_as_a_Percent_of_DN__c;
 								if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
@@ -293,6 +305,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 								system.debug(logginglevel.info,'qis --- ^^^^^ msrp%=' + qis.Percent_Off_MSRP__c + 'dnet%=' + qis.Percent_of_DNet__c + 'rebate%=' + qis.Rebate_as_of_DNet__c);
 								//qis.Rebate_as_a_of_DN__c = l.Rebate_as_a_Percent_of_DN__c;
 							} else if(qis.Percent_Off_MSRP__c <= msrpMax &&  qis.Percent_Off_MSRP__c >= msrpMin) {
+								if(excludedFromMSRP(qis)) {
+									qis.Percent_Off_MSRP__c = 0;
+								}
 								if(!qis.Unit_Award_Overridden__c) {
 									qis.Award_Price__c = qis.MSRP_Price__c * (1-(qis.Percent_Off_MSRP__c/100));
 								}
@@ -308,9 +323,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							}
 						}
 					}
-					if(excludedFromMSRP(qis)) {
-						qis.Percent_Off_MSRP__c = 0;
-					}
+					
 					}
 					if(!qis.Exclude_from_Rebate__c) {
 						//qis.Extended_Rebate__c = qis.Rebate_as_of_DNet__c * qis.DNet_Price__c* qis.quantity__c*qi.quantity__c;
