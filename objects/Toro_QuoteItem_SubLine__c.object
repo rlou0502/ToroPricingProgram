@@ -446,6 +446,16 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Gross_Profit_Value__c</fullName>
+        <externalId>false</externalId>
+        <label>GP$</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>MSRP_Price__c</fullName>
         <externalId>false</externalId>
         <label>MSRP</label>
