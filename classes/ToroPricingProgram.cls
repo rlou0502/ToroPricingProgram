@@ -569,7 +569,7 @@ public abstract class ToroPricingProgram {
 	public virtual boolean excludedFromMSRP(Toro_QuoteItem_SubLine__c qi) {
 		boolean ret = false;
 		String productId = string.isNotBlank(qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c) ? qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c : qi.Quote_Item_Sub_Line__r.Product_ID_F__c;
-		if(qi.TPP_Line_Item__c || productId.startsWith('L0') || productId.startsWith('L1') || qi.Performance_Part__c) {
+		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') || qi.Performance_Part__c) {
 			ret = true;
 		}
 		return ret;

@@ -380,7 +380,7 @@ public class ToroPricingProgramController {
     		//if there is only one pricing method + "Please select" item, auto apply it
     		pp.initialize(objId);
     		rs = retrieveFieldSets(rs, pp, pricingMethod);
-/*    		
+    		
 	    	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
 	    	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields(); 
 	    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
@@ -442,7 +442,7 @@ public class ToroPricingProgramController {
 	    		}
 			}
 			system.debug('***************** 2   fieldset size =' + rs.fieldSetSubMembers.size());
-*/
+
     		if(options.size() ==1) {
     			//pp.calculateRebateMargin();	
     			ToroSelectOption so = options[0];

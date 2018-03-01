@@ -204,9 +204,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						}
 					}
 				}
-				//if(excludedFromMSRP(qi)) {
-				//	qi.Off_MSRP__c = 0;
-				//}
+				if(excludedFromMSRP(qi)) {
+					qi.Off_MSRP__c = 0;
+				}
 				//updatedQuoteItems.add(qi);
 				}
 
@@ -308,9 +308,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							}
 						}
 					}
-					//if(excludedFromMSRP(qis)) {
-					//	qis.Percent_Off_MSRP__c = 0;
-					//}
+					if(excludedFromMSRP(qis)) {
+						qis.Percent_Off_MSRP__c = 0;
+					}
 					}
 					if(!qis.Exclude_from_Rebate__c) {
 						//qis.Extended_Rebate__c = qis.Rebate_as_of_DNet__c * qis.DNet_Price__c* qis.quantity__c*qi.quantity__c;
