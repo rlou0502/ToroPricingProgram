@@ -28,7 +28,11 @@ public abstract class ToroPricingProgram {
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
 	}
-
+	
+	public virtual List<ToroSelectOption> retrieveDemoPricingProgramOptions() {
+		return new List<ToroSelectOption>();
+	}
+	
 	public virtual List<FieldSetMember> addUpdatableFieldSetMember(List<Schema.FieldSetMember> fieldSet, List<Schema.FieldSetMember> updatableFieldSet) {
 		set<String> updatableFields = new set<String>();
 		if(updatableFieldSet != null) {

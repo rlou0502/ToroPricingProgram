@@ -7,29 +7,6 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
 		List<Schema.FieldSetMember> fsl = SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
-		/*
-		if(string.isNotBlank(pricingMethod)) {
-			for ( Integer i = fsl.size() - 1; i >= 0; --i ) {
-				if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-					if(fsl.get(i).fieldPath.equalsIgnoreCase('Award_of_DN__c')) {
-						fsl.remove(i);	
-					}
-	    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-	    			if(fsl.get(i).fieldPath.equalsIgnoreCase('Off_MSRP__c')) {
-						fsl.remove(i);	
-					}
-	    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
-	    			if(fsl.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
-						fsl.remove(i);	
-					}
-	    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {	
-	    			if(fsl.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
-						fsl.remove(i);	
-					}	
-	    		}	
-			}
-		}
-		*/
 		return fsl;
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
@@ -37,29 +14,6 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSublineFields() {
 		List<Schema.FieldSetMember> fsl = SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Price_Program_Quote_SubLin.getFields();
-		/*
-		if(string.isNotBlank(pricingMethod)) {
-			for ( Integer i = fsl.size() - 1; i >= 0; --i ) {
-				if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-					if(fsl.get(i).fieldPath.equalsIgnoreCase('Percent_of_DNet__c')) {
-						fsl.remove(i);	
-					}
-	    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-	    			if(fsl.get(i).fieldPath.equalsIgnoreCase('Percent_Off_MSRP__c')) {
-						fsl.remove(i);	
-					}
-	    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
-	    			if(fsl.get(i).fieldPath.equalsIgnoreCase('Gross_Profit_Percent__c')) {
-						fsl.remove(i);	
-					}
-	    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {	
-	    			if(fsl.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
-						fsl.remove(i);	
-					}	
-	    		}	
-			}
-		}
-		*/
 		return fsl;
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSublineUpdatableFields() {
@@ -71,13 +25,23 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
-		ret.add(new ToroSelectOption('% of DNET','% of DNET'));
+		if (Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
+			ret.add(new ToroSelectOption('% of DNET','% of DNET'));	
+		}
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
 		ret.add(new ToroSelectOption('Total Award $','Total Award $'));
 		ret.add(new ToroSelectOption('Gross Profit %','Gross Profit %'));
 		return ret;
 	}
-
+	
+	public override List<ToroSelectOption> retrieveDemoPricingProgramOptions() {
+		List<ToroSelectOption> sels = new List<ToroSelectOption>();
+		for(Toro_PricingProgram__c pp : [SELECT Name, PricingProgramStyle__c, ExternalId__c FROM Toro_PricingProgram__c 
+									where PricingProgramStyle__c = 'Demo' AND Exclude__c = false order by externalID__c asc]){
+			sels.add(new ToroSelectOption(pp.ExternalId__c+ ';' + pp.PricingProgramStyle__c, pp.name));
+		}
+		return sels;
+	}
 	public override boolean displayPerformancePart() {
 		return true;
 	}
