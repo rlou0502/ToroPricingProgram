@@ -101,8 +101,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 				rebateApplicableProducts.get(rh.ExternalId__c).addAll(parts);
 			}
 			for(Toro_PricingProgramLine__c l : rh.PricingProgramLines__r) {
-				msrpLineMap.put(l.Off_Mfg_Sugg_Ttl__c.setScale(5,roundingMode.HALF_UP), l);
-				dnetLineMap.put(l.Award_Price_as_a_Percent_of_DN__c.setScale(5,roundingMode.HALF_UP), l);
+				msrpLineMap.put(l.Off_Mfg_Sugg_Ttl__c, l);
+				dnetLineMap.put(l.Award_Price_as_a_Percent_of_DN__c, l);
 				msrpMin = Math.min(msrpMin, l.Off_Mfg_Sugg_Ttl__c);
 				msrpMax = Math.max(msrpMax, l.Off_Mfg_Sugg_Ttl__c);
 				dnetMin = Math.min(dnetMin, l.Award_Price_as_a_Percent_of_DN__c);
@@ -144,7 +144,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							qi.Award_of_DN__c = Math.min(qi.Award_of_DN__c, dnetMax);
 							qi.Award_of_DN__c = Math.max(qi.Award_of_DN__c, dnetMin);
 						}
-						Toro_PricingProgramLine__c l = dnetLineMap.get(qi.Award_of_DN__c.setScale(5,roundingMode.HALF_UP));
+						Toro_PricingProgramLine__c l = dnetLineMap.get(qi.Award_of_DN__c);
 						
 						if(l != null) {
 
@@ -174,7 +174,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							qi.Off_MSRP__c = Math.max(qi.Off_MSRP__c, msrpMin);
 						}
 						
-						Toro_PricingProgramLine__c l = msrpLineMap.get(qi.Off_MSRP__c.setScale(5,roundingMode.HALF_UP));
+						Toro_PricingProgramLine__c l = msrpLineMap.get(qi.Off_MSRP__c);
 						if(l != null) {
 							system.debug('Unit_Award_Overridden__c=' + qi.Unit_Award_Overridden__c );
 							
@@ -225,10 +225,6 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 					system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
 					system.debug('-------------++++++++qis' + qis);
 
-
-					//ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(quote.Performance_Part__c, qis, ppMap);
-
-
 					system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 444');
 					if(qis.Product_ID__c.startsWith('TPP') || qis.Product_ID__c.startsWith('L')) {
 						qis.Award_Price__c = qis.MSRP_Price__c;
@@ -248,7 +244,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							}
 							qis.Percent_of_DNet__c = Math.min(qis.Percent_of_DNet__c, dnetMax);
 							qis.Percent_of_DNet__c = Math.max(qis.Percent_of_DNet__c, dnetMin);
-							Toro_PricingProgramLine__c l = dnetLineMap.get(qis.Percent_of_DNet__c.setScale(5,roundingMode.HALF_UP));
+							Toro_PricingProgramLine__c l = dnetLineMap.get(qis.Percent_of_DNet__c);
 							//system.debug(logginglevel.info,'################## l = '+ l);
 							//system.debug(logginglevel.info,'################## dnetLineMap = '+ dnetLineMap);
 							if(l != null) {
@@ -283,7 +279,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							qis.Percent_Off_MSRP__c = Math.min(qis.Percent_Off_MSRP__c, msrpMax);
 							qis.Percent_Off_MSRP__c = Math.max(qis.Percent_Off_MSRP__c, msrpMin);
 							system.debug('2------qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
-							Toro_PricingProgramLine__c l = msrpLineMap.get(qis.Percent_Off_MSRP__c.setScale(5,roundingMode.HALF_UP));
+							Toro_PricingProgramLine__c l = msrpLineMap.get(qis.Percent_Off_MSRP__c);
 							System.debug('^^^^^ inside rebate MSRP --- l='+l + ' - qis.Percent_Off_MSRP__c='+qis.Percent_Off_MSRP__c);
 							if(l != null) {
 								if(excludedFromMSRP(qis)) {
