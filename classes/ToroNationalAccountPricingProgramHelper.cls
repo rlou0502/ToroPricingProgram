@@ -70,7 +70,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			Decimal dsetupFeesQIS = 0;
 			
 			//Performance Part			
-			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, null);
+			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap);
 			System.debug(logginglevel.info,'>>> NAT qi.REVVY__Product_ID_F__c ='+qi.Product_Id__c);
 			System.debug('>>> +++++++++++++++++ NAT 115 =');
 			if(String.isEmpty(qi.Toro_Product_Tier__c) && !String.isEmpty(qi.Traction_Unit__c) && tractionUnitMap.containsKey(qi.Traction_Unit__c)) {
@@ -99,7 +99,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
 				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					//Performance Part
-					ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(quote.Performance_Part__c, qis, null);
+					ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
 					System.debug('>>> +++++++++++++++++ NAT 000');
 					if(tierMap.containsKey(qis.Toro_Product_Tier__c)) {
 						Toro_PricingProgramLine__c rb = tierMap.get(qis.Toro_Product_Tier__c);

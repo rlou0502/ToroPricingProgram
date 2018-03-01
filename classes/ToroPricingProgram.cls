@@ -3,6 +3,8 @@ public abstract class ToroPricingProgram {
 	public List<Toro_QuoteItem__c> quoteItems { get; set; }
 	public boolean performancePartFlag { get; set; }
 	public decimal setupFeePercentage { get; set; }
+	public String pricingMethod { get; set; }
+	public Map<String,Decimal> performancePartMap {get;set;}
 	//public abstract List<Schema.FieldSetMember> getQuoteItemSublineFields();
 	//public abstract List<Schema.FieldSetMember> getQuoteItemFields();
 	public abstract List<Schema.FieldSetMember> getQuoteFields() ;
@@ -47,20 +49,7 @@ public abstract class ToroPricingProgram {
         }
         return fset;
 	}
-
-	public virtual List<ToroSelectOption> retrievePricingProgramOptions() {
-		List<ToroSelectOption> ret = new List<ToroSelectOption>();
-
-		List<Toro_PricingProgram__c> pricingPrograms = [select name, PricingProgramType__c, MinimumThreshold__c,
-					stateprovince__c from Toro_PricingProgram__c order by name asc ];
-		for(Toro_PricingProgram__c pp : pricingPrograms) {
-        	//if(isEligible(pp, quote, quoteItems)) {
-	        	ret.add(new ToroSelectOption(pp.name, pp.name));
-	        //}
-        }
-		return ret;
-	}
-
+	
 	public virtual List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		ret.add(new ToroSelectOption('% of DNET','% of DNET'));
@@ -93,6 +82,7 @@ public abstract class ToroPricingProgram {
 	public virtual List<Toro_QuoteItem__c> calculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList, boolean save ){
 		Long perfStart = System.limits.getCpuTime();
+		performancePartMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl =' + priceProgram + ' -- ' + quoteItemList);
 		List<Toro_QuoteItem__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
@@ -167,7 +157,7 @@ public abstract class ToroPricingProgram {
 						qis.Toro_Fee_Amount__c = qis.Toro_Extended_Award_Price__c * qis.Fee_Percentage__c/100;
 					}
 
-					qis.Toro_Subline_Rebate__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100;
+					qis.Toro_Subline_Rebate__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty* CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100;
 
 					// calculate rollups on the quote item
 					qi.Toro_Rollup_Award_DNet_Price__c           += qis.Toro_Extended_Award_DNet_Price__c;
@@ -558,9 +548,7 @@ public abstract class ToroPricingProgram {
 	public virtual boolean getQuoteLevelMSQPDNetEditable() {
 		return true;
 	}
-	public virtual boolean isEligible(Toro_PricingProgram__c pp, Revvy__MnQuote__c quote, List<Revvy__MnQuoteItem__c> qiList) {
-		return true;
-	}
+	
 	public virtual List<Schema.FieldSetMember> getQuoteItemSummaryFields() {
 		return SObjectType.Revvy__MnQuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
 	}

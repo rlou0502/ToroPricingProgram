@@ -11,14 +11,7 @@ public class ToroStateContractPricingProgramHelper extends ToroPricingProgram  {
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
 		return ret;
 	}
-	public override boolean isEligible(Toro_PricingProgram__c pp, Revvy__MnQuote__c quote, List<Revvy__MnQuoteItem__c> qiList) {
-		boolean ret = true;
-		if(quote != null && quote.revvy__account__r != null){
-			String qtAccountStateCode = quote.revvy__account__r.billingstatecode;
-			ret = qtAccountStateCode.EqualsIgnoreCase(pp.stateprovince__c) ;		
-		} 
-		return ret;
-	} 
+	
 
 	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram, 
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){

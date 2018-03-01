@@ -139,6 +139,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
+        <displayedFields>
+            <field>Toro_Subline_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Large Package Price Program Quote SubLine Cols</label>
     </fieldSets>
     <fieldSets>
@@ -335,7 +340,7 @@
         <fullName>Apply_Support_Plus__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>PP</label>
+        <label>SP</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>

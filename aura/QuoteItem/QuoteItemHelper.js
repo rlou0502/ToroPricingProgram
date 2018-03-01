@@ -332,14 +332,15 @@
         */
     },
 	populateQuoteItems : function(component) {
-        
 		var quoteId = component.get('v.quoteId');
 		var pricingProgram = component.get('v.selectedPricingProgram');
+        var pricingMethod = component.get('v.selectedPricingMethod');
         console.log('populateQuoteItems.pricingProgram =' + pricingProgram);
         var getAction = component.get('c.getQuoteItemFields');
 		var self = this;
         getAction.setParams({
             pricingProgram: pricingProgram,
+            pricingMethod: pricingMethod,
             objId: quoteId
         });
         
