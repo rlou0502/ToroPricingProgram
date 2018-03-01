@@ -210,7 +210,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Fee_Amount__c</field>
+            <field>Setup_Fee_Amount__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -365,7 +365,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Setup_Fees__c</field>
+            <field>Toro_Fee_Amount__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -747,6 +747,18 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Setup_Fee_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>Toro_Extended_Award_Price__c * Fee_Percentage__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Setup Fee Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Standard_Price__c</fullName>
         <externalId>false</externalId>
         <label>Standard Price</label>
@@ -884,7 +896,7 @@
     <fields>
         <fullName>Toro_Fee_Amount__c</fullName>
         <externalId>false</externalId>
-        <label>Setup Fee Amount</label>
+        <label>Total Setup Fee</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1122,7 +1134,7 @@
     <fields>
         <fullName>Toro_Total_Setup_Fees__c</fullName>
         <externalId>false</externalId>
-        <label>Total Setup Fees</label>
+        <label>ZZZ_Total Setup Fees</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

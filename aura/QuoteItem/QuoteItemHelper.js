@@ -178,14 +178,18 @@
     },
     renderQuoteItemPricingProgramSection : function(component, fields, selectedQuoteItem) {
     	//console.log('fields.length=' + fields.length); 
+    	debugger;
         var quoteItem = component.get('v.quoteItemMap')[selectedQuoteItem];
         var pricingProgram = quoteItem["Pricing_Program__c"];
-        if(pricingProgram) {
-        	var pps = pricingProgram.split(";");
-            if(pps.length == 2 && pps[1] != "Large_Package") {           
-                return;
-            }
+        if(!pricingProgram) {
+            return;
         }
+        
+        var pps = pricingProgram.split(";");
+        if(pps.length == 2 && pps[1] != "Large_Package") {           
+            return;
+        }
+        
         var tableRow = document.createElement('tr');
         tableRow.className += " noBorder collapsible "+selectedQuoteItem;
         tableRow.style.display="none";
@@ -209,16 +213,26 @@
         var pricingProgramSelectDiv = document.createElement('div');
         dataRowCellPricingProgram.appendChild(pricingProgramSelectDiv);
         var pricingProgramSelect = document.createElement('select');
-        var option1 = document.createElement("option");
-        option1.value = "Market Support Chart Large Package";
-    	option1.text = "Market Support Chart Large Package";
-        var option2 = document.createElement("option");
-        option2.value = "Demo";
-    	option2.text = "Demo";
+        
+        var dempPPs = component.get('v.demoPricingProgramOptions');
+        var selectedPricingProgram = component.get('v.selectedPricingProgram');
+        if(selectedPricingProgram){
+        	var option1 = document.createElement("option");
+        	option1.value = selectedPricingProgram;
+    		option1.text = "Market Support Chart Large Package";
+            pricingProgramSelect.appendChild(option1);
+        }
+        if(dempPPs){
+            for(var i=0; i <dempPPs.length; i++ ){
+            	var option = document.createElement("option");
+                option.value = dempPPs[i].value;
+                option.text = dempPPs[i].label;
+                pricingProgramSelect.appendChild(option);    
+            }    
+        }
+        
         dataRow.appendChild(dataRowCellPricingProgram);
         pricingProgramSelectDiv.appendChild(pricingProgramSelect);
-        pricingProgramSelect.appendChild(option1);
-        pricingProgramSelect.appendChild(option2);
         childTable.appendChild(dataRow);
         tableCol.appendChild(childTable);
         var target = document.getElementById(selectedQuoteItem);
@@ -356,6 +370,7 @@
                     component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     component.set('v.quoteItems', retRecords);
+                    component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
                     
                     var sublineMap = {};  
                     var quoteItemMap={};
@@ -400,6 +415,8 @@
             component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
             component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
             component.set('v.quoteItems', retRecords);
+            component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+            component.set('v.selectedPricingProgram', retResponse.selectedPricingProgram);
             
             var sublineMap = {};  
             var quoteItemMap={};
@@ -671,7 +688,7 @@
                     component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     component.set('v.quoteItems', retRecords);
-                                      
+                    component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);                  
                     var sublineMap = {};  
                     var quoteItemMap={};
                     retRecords.forEach(function(s) {

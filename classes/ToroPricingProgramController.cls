@@ -30,7 +30,7 @@ public class ToroPricingProgramController {
     	return rs;
     }
     
-     @AuraEnabled
+    @AuraEnabled
     public static ToroSObjectResultSet svc_performancePartChange(boolean performancePart) {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=true;
@@ -571,6 +571,8 @@ public class ToroPricingProgramController {
     	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub);
     	List<Schema.FieldSetMember> fieldSetSummary = pp.getToroQuoteItemSummaryFields();
     	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, null);
+    	rs.demoPricingProgramOptions = pp.retrieveDemoPricingProgramOptions();
+    	/*
     	for ( Integer i = rs.fieldSetMembers.size() - 1; i >= 0; --i ) {
 			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
     			rs.fieldSetMembers.get(i).label = pricingMethod;	
@@ -622,6 +624,7 @@ public class ToroPricingProgramController {
     		}
 		}
 		system.debug('***************** 2 fieldset size =' + rs.fieldSetSubMembers.size());		
+		*/
 		return rs;
     }
     @AuraEnabled

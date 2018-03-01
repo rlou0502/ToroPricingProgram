@@ -20,6 +20,8 @@ public with sharing class ToroSObjectResultSet {
     @AuraEnabled
     public List<ToroSelectOption> pricingMethodOptions { get;set; }
     @AuraEnabled
+    public List<ToroSelectOption> demoPricingProgramOptions { get;set; }
+    @AuraEnabled
     public boolean displayPerformancePart { get;set; }
     @AuraEnabled
     public Id currentQuoteItem { get;set; }
