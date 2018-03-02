@@ -57,7 +57,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			//system.debug('lookupRebateAsPercentOfDNet---high='+ dNetLineList[i].Award_Price_as_a_Percent_of_DN__c + ' low=' +
 			//	dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c);
 			system.debug('lookupRebateAsPercentOfDNet---x3='+ x3 + ' i ' + dNetLineList[i].Award_Price_as_a_Percent_of_DN__c + ' i-1 ' +  dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c);
-			if(x3 < dNetLineList[i].Award_Price_as_a_Percent_of_DN__c && x3 > dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c){
+			if(x3 >= dNetLineList[i].Award_Price_as_a_Percent_of_DN__c && x3 <= dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c){
 				decimal x1=(dNetLineList[i].Award_Price_as_a_Percent_of_DN__c)/100;
 				decimal x2=(dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c)/100;
 				decimal y1=(dNetLineList[i].Rebate_as_a_Percent_of_DN__c)/100;
@@ -82,7 +82,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		system.debug(logginglevel.info, 'priceProgram =' + priceProgram + ' priceMethod=' + priceMethod);
 		List<Toro_PricingProgram__c> rebates = [Select r.Name, r.ExternalId__c, r.ApplicableProducts__c,
 				(Select Off_Mfg_Sugg_Ttl__c, Award_Price_as_a_Percent_of_DN__c, Rebate_as_a_Percent_of_DN__c,
-				Distributor_Margin__c, ApplicableProducts__c From PricingProgramLines__r) From Toro_PricingProgram__c r where ExternalId__c = :priceProgram];
+				Distributor_Margin__c, ApplicableProducts__c From PricingProgramLines__r order by Award_Price_as_a_Percent_of_DN__c desc) From Toro_PricingProgram__c r where ExternalId__c = :priceProgram ];
 		map<string, Toro_PricingProgram__c> rebateMap = new map<string, Toro_PricingProgram__c>();
 		map<string, set<String>> rebateApplicableProducts = new map<string, set<String>>();
 		map<decimal, Toro_PricingProgramLine__c> dnetLineMap = new map<decimal, Toro_PricingProgramLine__c>();

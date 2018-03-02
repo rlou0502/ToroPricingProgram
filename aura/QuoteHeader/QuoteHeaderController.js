@@ -109,6 +109,10 @@
     //triggered by user's selection change
     onPricingProgramSelectChange: function(cmp, event, helper) {
         var whichOne = event.getSource().getLocalId();
+        var perP= cmp.find("performancePart");
+        if(perP) {
+           perP.set("v.value", false); 
+        }
 	    console.log('-------onPricingProgramSelectChange source =' +whichOne);
         helper.handlePricingProgramSelectChange(cmp);
         var selectedProgram = cmp.find("pricingProgram").get("v.value");
