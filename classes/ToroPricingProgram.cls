@@ -276,6 +276,39 @@ public abstract class ToroPricingProgram {
 		}
 
 		//debugCalculatedValues(quoteItemList);
+		System.debug('\n\n@@quote: ' + quote + '\n\n');
+
+		// initialize quote-level rollup fields
+		quote.Toro_Rollup_Award_Price__c       = 0;
+		quote.Toro_Rollup_DNET__c              = 0;
+		quote.Toro_Rollup_Setup_Fees__c        = 0;
+		quote.Toro_Total_DNet__c               = 0;
+		quote.Toro_Total_Quote_Gross_Profit__c = 0;
+		quote.Toro_Total_Quote_Rebate__c       = 0;
+		quote.Toro_Total_Rebate__c             = 0;
+		quote.Toro_Rollup_DNetWOTPPAllied__c   = 0;
+
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			quote.Toro_Rollup_Award_Price__c       += qi.Toro_Total_Extended_Award_Price__c;
+			quote.Toro_Rollup_DNET__c              += qi.Toro_DNet_Price__c;
+			quote.Toro_Rollup_Setup_Fees__c        += qi.Toro_Total_Setup_Fees__c;
+			quote.Toro_Total_DNet__c               += qi.Toro_DNet_Price__c;
+			quote.Toro_Total_Quote_Gross_Profit__c += qi.Toro_Gross_Profit_Value__c;
+			quote.Toro_Total_Quote_Rebate__c       += qi.Toro_Total_Rebate__c;
+			quote.Toro_Total_Rebate__c             += qi.Toro_Total_Rebate__c;
+			quote.Toro_Rollup_DNetWOTPPAllied__c   += qi.Toro_DNetWOTPPAllied__c;
+		}
+		if(quote.Toro_Rollup_DNET__c != null && quote.Toro_Rollup_DNET__c != 0) {
+			quote.Toro_Blended_Percent_of_DN__c            = quote.Toro_Rollup_Award_Price__c / quote.Toro_Rollup_DNET__c;
+		}
+		if(quote.Toro_Total_DNet__c != null && quote.Toro_Total_DNet__c != 0) {
+			quote.Toro_Total_Award_of_DNET__c              = quote.REVVY__OneTimeTotalAfterAdjustmentDisplay_F__c / quote.Toro_Total_DNet__c;
+		}
+		if(quote.Toro_Rollup_Award_Price__c != null && quote.Toro_Rollup_Award_Price__c != 0) {
+			quote.Toro_Total_Quote_Gross_Profit_Percent__c = quote.Toro_Total_Quote_Gross_Profit__c / quote.Toro_Rollup_Award_Price__c;
+		}
+
+		// update quote;
 
 		return quoteItemList;
 	}

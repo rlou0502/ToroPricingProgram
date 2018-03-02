@@ -87,7 +87,6 @@
             var cellText = document.createElement('div');
             cellText.className += " slds-truncate slds-cell-wrap";
             var freeze = sObj["FreezePricing__c"];
-            debugger;
             //check quote item
             var performancePart = sObj["Performance_Parts_Product__c"];
             if(performancePart === undefined) {
@@ -187,9 +186,10 @@
     },
     renderQuoteItemPricingProgramSection : function(component, fields, selectedQuoteItem) {
     	//console.log('fields.length=' + fields.length); 
-    	debugger;
+    	
         var quoteItem = component.get('v.quoteItemMap')[selectedQuoteItem];
-        var pricingProgram = quoteItem["Pricing_Program__c"];
+        var pricingProgram = component.get('v.selectedPricingProgram'); //quoteItem["Pricing_Program__c"];
+        console.log('-------------pricingProgram=' + pricingProgram);
         if(!pricingProgram) {
             return;
         }
@@ -629,6 +629,8 @@
         var quoteItemsData = {};
         var qiSublinesData = {};
         component.set('v.performancePart', performancePart);
+        component.set('v.selectedPricingProgram', pricingProgram);
+        
         var quoteItems = document.querySelectorAll(".quoteItem input[type=text]");
         for (var i=0; i<quoteItems.length; i++) {
             var qId = quoteItems[i].closest('tr').id;
