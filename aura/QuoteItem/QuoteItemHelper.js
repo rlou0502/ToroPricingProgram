@@ -86,6 +86,7 @@
             var cellText = document.createElement('div');
             cellText.className += " slds-truncate slds-cell-wrap";
             var freeze = sObj["FreezePricing__c"];
+            
             if(field.updatable && !freeze ) {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');

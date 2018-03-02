@@ -352,15 +352,38 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>GSA</valueName>
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>Army</valueName>
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>Corporate Account</controllingFieldValue>
+                <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>NAF</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base_w_no_Price_Increase</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base_w_Qty_Pricing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base_w_Support_Plus</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base_w_Model_Pricing</valueName>
             </valueSettings>
         </valueSet>
     </fields>

@@ -70,8 +70,6 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	}
 	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
-		//todo
-		//Map<String,Decimal> ppMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
 		system.debug(logginglevel.info, 'checkpoint 1 pp='+ priceProgram + ' pm=' + priceMethod);
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
 			return ToroPricingMethodUtil.applyTotalAwordDollors(priceProgram, quoteItemList, null);
@@ -117,8 +115,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			Toro_PricingProgram__c rh = rebateMap.get(priceProgram);
 
 			//Performance Part
-			//todo
-			//ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, ppMap);
+			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, performancePartMap);
 
 			system.debug(logginglevel.info,'checkpoint 4');
 			if(rh != null) {
@@ -163,6 +160,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							decimal rebateDollar = qi.DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 							qi.Toro_Gross_Profit_Value__c = qi.Award_Price__c - qi.DNet_Price__c + rebateDollar;
 							qi.Toro_Gross_Profit_Percent__c = (1-(qi.DNet_Price__c-rebateDollar)/qi.Award_Price__c)*100;
+							qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
 						} else if('% off MSRP'.equalsIgnoreCase(priceMethod) && !qi.Performance_Parts_Product__c)  {
 							if(qi.Unit_Award_Overridden__c) {
 								qi.Off_MSRP__c = 100 - (qi.Award_Price__c/qi.MSRP_Price__c)*100.0;
@@ -192,6 +190,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 								decimal rebateDollar = qi.DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 								qi.Toro_Gross_Profit_Value__c = qi.Award_Price__c - qi.DNet_Price__c + rebateDollar;
 								qi.Toro_Gross_Profit_Percent__c = (1-(qi.DNet_Price__c-rebateDollar)/qi.Award_Price__c)*100;
+								qi.PricingMethodValue__c = string.valueOf(qi.Off_MSRP__c);
 							} else {
 								system.debug('lookupRebateAsPercentOfDNet--- qi.product id' + qi.Product_Id__c);
 							}
@@ -206,7 +205,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						//Performance Part
 						system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
 						system.debug('-------------++++++++qis' + qis);
-
+						ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
+						
 						system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 444');
 						if(excludedFromMSRP(qis)) {
 							qis.Award_Price__c = qis.MSRP_Price__c;
@@ -242,6 +242,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 									decimal rebateDollar = qis.DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 									qis.Gross_Profit_Value__c = qis.Award_Price__c - qis.DNet_Price__c + rebateDollar;
 									qis.Gross_Profit_Percent__c = (qis.Gross_Profit_Value__c/qis.Award_Price__c)*100;
+									qis.PricingMethodValue__c = string.valueOf(qis.Percent_of_DNet__c);
 								} else if('% off MSRP'.equalsIgnoreCase(priceMethod) && !qis.Performance_Part__c)  {
 									system.debug('qis Unit_Award_Overridden__c=' + qis.Unit_Award_Overridden__c );
 									if(qis.Unit_Award_Overridden__c) {
@@ -274,7 +275,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 									decimal rebateDollar = qis.DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 									qis.Gross_Profit_Value__c = qis.Award_Price__c - qis.DNet_Price__c + rebateDollar;
 									qis.Gross_Profit_Percent__c = (qis.Gross_Profit_Value__c/qis.Award_Price__c) * 100;
-
+									qis.PricingMethodValue__c = string.valueOf(qis.Percent_Off_MSRP__c);
 								}
 							}
 
