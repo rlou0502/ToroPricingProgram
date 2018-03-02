@@ -7,7 +7,7 @@ var cleanSelectProductBox = function() {
 	}
 };
 </script>
-<apex:form>
+<apex:form >
 	<apex:pageBlock title="Select Product" >
 	<apex:pageBlockButtons >
 			<apex:commandButton action="{!cancel}" value="Close" />

@@ -15,8 +15,6 @@
         <members>RoyTest</members>
         <members>TR_BOMExcelExportController</members>
         <members>TR_GenModelBOM</members>
-        <members>ToroCacheManager</members>
-        <members>ToroCacheManagerTest</members>
         <members>ToroDefaultPricingProgramHelper</members>
         <members>ToroExportToExcelMultipleSheets</members>
         <members>ToroGenModelBOM</members>
@@ -34,10 +32,13 @@
         <members>ToroPricingProgramEligibility</members>
         <members>ToroPricingProgramEligibilityTest</members>
         <members>ToroPricingProgramInfoBoxController</members>
+        <members>ToroPricingProgramLineProductSelector</members>
         <members>ToroPricingProgramProductSelector</members>
+        <members>ToroPricingProgramSelectorLine</members>
         <members>ToroProductEligibilityPlugin</members>
         <members>ToroQIExtensionCreatedBatch</members>
         <members>ToroQISLExtensionCreatedBatch</members>
+        <members>ToroQuoteDAO</members>
         <members>ToroSObjectResultSet</members>
         <members>ToroSelectOption</members>
         <members>ToroSelectPriceProgramController</members>
@@ -52,10 +53,13 @@
         <members>ToroDisplayAllAccountsContacts</members>
         <members>ToroExportToExcelMultipleSheets</members>
         <members>ToroLargePackagePricingProgram</members>
+        <members>ToroPricingProgramSelector</members>
+        <members>ToroPricingProgramSelectorLine</members>
         <members>ToroSelectPriceProgram</members>
         <members>ToroSelectPriceProgram2</members>
         <members>ToroSelectPriceProgram3</members>
         <members>ToroSupportPlus</members>
+        <members>ToroSupportPlusLgtnOut</members>
         <name>ApexPage</name>
     </types>
     <types>

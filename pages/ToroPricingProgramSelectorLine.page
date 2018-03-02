@@ -1,0 +1,3 @@
+<apex:page standardController="Toro_PricingProgramLine__c">
+    TEST
+</apex:page>
