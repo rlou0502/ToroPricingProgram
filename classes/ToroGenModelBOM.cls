@@ -165,11 +165,11 @@ public with sharing class ToroGenModelBOM {
 		
 		list<ToroGenModelBOM.StockOrder> solist = new list<ToroGenModelBOM.StockOrder>();
 		for(REVVY__MnPriceListLine__c pli : plis) {
-			if (Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
+			if (!Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
 					pli.REVVY__SuggestedPrice__c=null;	
 			}
 			
-			system.debug('SKU =' + pli.REVVY__Product_Id__c);
+			system.debug('SKU =' + pli.REVVY__Product_Id__c + ' dnet =' + pli.REVVY__SuggestedPrice__c);
 			if(!prodModelMap.containsKey(pli.REVVY__Product_Id__c)) {
 				system.debug('--------no models found----');
 				solist.add(new ToroGenModelBOM.StockOrder(pli.REVVY__Product_Id__c, '',
