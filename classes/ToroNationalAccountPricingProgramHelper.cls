@@ -178,6 +178,11 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			//Create Setup Fee Line Item
 			System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
 			addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
+			this.chainCall = true;
+			map<String, Object> payload = new map<String, Object>{ 'quoteId'=>quoteId, 'productId'=>setupFeeCN.Id, 'price'=>dtoroTotalSetupFees,
+				'unitPrice'=>dtoroTotalSetupFees, 'qty'=>1	
+			};
+			this.payloadOfChainCall = JSON.serialize(payload, false);
 		}		
 
 		return 	quoteItemList;

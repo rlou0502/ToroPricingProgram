@@ -140,7 +140,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 								qi.Award_of_DN__c = qi.Award_Price__c * 100/qi.DNet_Price__c;
 							}
 							if(qi.Award_of_DN__c == null) {
-								qi.Award_of_DN__c = dnetMin;	
+								continue;
+								//qi.Award_of_DN__c = dnetMin;	
 							}
 							if(qi.Award_of_DN__c != null) {
 								qi.Award_of_DN__c = Math.min(qi.Award_of_DN__c, dnetMax);
@@ -171,7 +172,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 								qi.Off_MSRP__c = 100 - (qi.Award_Price__c/qi.MSRP_Price__c)*100.0;
 							}
 							if(qi.Off_MSRP__c == null) {
-								qi.Off_MSRP__c = msrpMin;	
+								continue;
+								//qi.Off_MSRP__c = msrpMin;	
 							}
 							if(qi.Off_MSRP__c != null) {
 								qi.Off_MSRP__c = Math.min(qi.Off_MSRP__c, msrpMax);

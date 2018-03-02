@@ -29,4 +29,8 @@ public with sharing class ToroSObjectResultSet {
     public decimal setupFee { get;set; }
     @AuraEnabled
     public boolean displaySetupFee { get;set; }
+    @AuraEnabled
+    public boolean chainCall { get;set; }
+    @AuraEnabled
+    public string payload { get;set; }
 }

@@ -4,6 +4,8 @@ public abstract class ToroPricingProgram {
 	public boolean performancePartFlag { get; set; }
 	public decimal setupFeePercentage { get; set; }
 	public String pricingMethod { get; set; }
+	public boolean chainCall { get; set;}
+	public string payloadOfChainCall { get; set; }
 	public Map<String,Decimal> performancePartMap {get;set;}
 	//public abstract List<Schema.FieldSetMember> getQuoteItemSublineFields();
 	//public abstract List<Schema.FieldSetMember> getQuoteItemFields();

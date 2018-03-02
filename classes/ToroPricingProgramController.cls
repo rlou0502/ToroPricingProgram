@@ -261,6 +261,8 @@ public class ToroPricingProgramController {
     		}	
     	}
     	rs.values =  pp.quoteItems;
+    	rs.chainCall = pp.chainCall;
+    	rs.payload = pp.payloadOfChainCall;
     	rs.displaySetupFee=pp.displaySetupFee();
     	return rs;	
     }
