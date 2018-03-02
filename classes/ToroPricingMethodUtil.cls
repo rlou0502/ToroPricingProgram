@@ -255,7 +255,44 @@ public with sharing class ToroPricingMethodUtil {
 									ppl.Rebate_as_a_Percent_of_DN__c, ppl.Distributor_Margin__c, null));	
 		    }
 			DNetPercentMap.put(pricingProgramExternalId, dnet2PM);	
-			system.debug(DNetPercentMap);	
+			system.debug(DNetPercentMap);
+			for(Id key : PMData.keyset()) {
+				ToroPricingMethodData pm = PMData.get(key);
+				decimal dnetPercent = pm.percentOfDNet.setScale(5, roundingMode.HALF_UP);
+				if(DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent)) {
+					pm.rebatePercent = DNetPercentMap.get(pricingProgramExternalId).get(dnetPercent).rebatePercent;
+				} else if(DNetPercentMap.containsKey(pricingProgramExternalId)) {
+					ToroPricingMethodData topRow = null;
+					ToroPricingMethodData bottomRow = null;
+					Map<decimal, ToroPricingMethodData> dnet2PMMap = DNetPercentMap.get(pricingProgramExternalId);
+					if(dnetPercent > dnet2PMMap.values()[0].percentOfDNet) {
+						pm.rebatePercent = dnet2PMMap.values()[0].rebatePercent;
+					} else if(dnetPercent < dnet2PMMap.values()[dnet2PMMap.values().size()-1].percentOfDNet){
+						pm.rebatePercent = dnet2PMMap.values()[dnet2PMMap.values().size()-1].rebatePercent;
+					} else {
+						for(integer i=0; i < dnet2PMMap.values().size()-1; i++) {
+							//system.debug(logginglevel.info,'------------dnet2PMMap.values()[i]----------' + dnet2PMMap.values()[i]);
+							system.debug(dnetPercent + '---' + dnet2PMMap.values()[i].percentOfDNet + '---' + dnet2PMMap.values()[i+1].percentOfDNet);
+							if(dnetPercent < dnet2PMMap.values()[i].percentOfDNet && dnetPercent > dnet2PMMap.values()[i+1].percentOfDNet ) {
+								topRow = dnet2PMMap.values()[i];
+								bottomRow = dnet2PMMap.values()[i+1];
+								break;
+							}	
+						}  
+						if(topRow != null && bottomRow != null) {
+							decimal x1=topRow.percentOfDNet;
+							decimal x2=bottomRow.percentOfDNet;
+							decimal y1=topRow.rebatePercent;
+							decimal y2=bottomRow.rebatePercent;
+							decimal x3 = dnetPercent;
+							decimal rebatePercent  = y2 -(((x3-x2)*(y2-y1)));
+							//system.debug(logginglevel.info,'---dnetPrice----' + dnetPrice + '  dnetPercent=   ' + dnetPercent);
+							pm.rebatePercent = rebatePercent;
+						}          
+					}
+				}
+			}
+			
 		}	
 		return PMData;
 	} 
