@@ -80,14 +80,22 @@
     renderTable : function(fields, sObj, parentRow, quoteItemId) {
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
+        //var pp = component.get('v.performancePart');
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
             var tableData = document.createElement('td');
             var cellText = document.createElement('div');
             cellText.className += " slds-truncate slds-cell-wrap";
             var freeze = sObj["FreezePricing__c"];
+            debugger;
+            //check quote item
+            var performancePart = sObj["Performance_Parts_Product__c"];
+            if(performancePart === undefined) {
+                //check quote item subline
+           		performancePart = sObj["Performance_part__c"];    
+            }
             
-            if(field.updatable && !freeze ) {
+            if(field.updatable && !freeze &&(!performancePart || field.fieldPath=="Award_Price__c" )) {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
                 tableDataNode.value = sObj[field.fieldPath] ? sObj[field.fieldPath] : '';
@@ -620,6 +628,7 @@
     	var self = this;
         var quoteItemsData = {};
         var qiSublinesData = {};
+        component.set('v.performancePart', performancePart);
         var quoteItems = document.querySelectorAll(".quoteItem input[type=text]");
         for (var i=0; i<quoteItems.length; i++) {
             var qId = quoteItems[i].closest('tr').id;
@@ -689,7 +698,9 @@
                     component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     component.set('v.quoteItems', retRecords);
-                    component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);                  
+                    component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+                    
+                    
                     var sublineMap = {};  
                     var quoteItemMap={};
                     retRecords.forEach(function(s) {

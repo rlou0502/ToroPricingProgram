@@ -427,6 +427,14 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>FreezeLine__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Freeze Line</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>FreezePricing__c</fullName>
         <externalId>false</externalId>
         <formula>Quote_Item_Sub_Line__r.REVVY__FreezePricing__c</formula>

@@ -207,21 +207,15 @@ public abstract class ToroPricingProgram {
 			}
 			//todo -- need calculate Toro_Rollup_Partner_Products__c and Toro_Rollup_TPP__c
 			//might need Total_Award_Price__c, TPP should be included in calculation
-			System.debug('\n\n@@qi.Toro_Extended_Award_MSRP_Price__c: ' + qi.Toro_Extended_Award_MSRP_Price__c
-			 + '\n@@qi.Toro_Rollup_Partner_Products__c: ' + qi.Toro_Rollup_Partner_Products__c
-			 + '\n@@qi.Off_MSRP__c: ' + qi.Off_MSRP__c
-			 + '\n@@qi.Toro_Rollup_TPP__c: ' + qi.Toro_Rollup_TPP__c
-			 + '\n@@qi.Toro_Total_Award_price__c: ' + qi.Toro_Total_Award_price__c
-			 + '\n@@CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_MSRP_Price__c): ' + CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_MSRP_Price__c)
-			 + '\n@@(CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_Partner_Products__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100)): ' + ((CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_Partner_Products__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100)))
-			 + '\n@@(CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_TPP__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100)): ' + ((CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_TPP__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100)) + '\n\n'));
-
 			qi.Toro_Total_Award_price__c = (qi.Select_a_Price_Method__c == '% of DNET')
 											? qi.Toro_Extended_Award_DNet_Price__c
 											: CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_MSRP_Price__c)
 												- (CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_Partner_Products__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100))
 												- (CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_TPP__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100));
 
+			System.debug('\n\n@@qi.Select_a_Price_Method__c: ' + qi.Select_a_Price_Method__c + '\n\n');
+			System.debug('\n\n@@qi.Toro_Extended_Award_DNet_Price__c: ' + qi.Toro_Extended_Award_DNet_Price__c + '\n\n');
+			System.debug('\n\n@@qi.Toro_Extended_Award_MSRP_Price__c: ' + qi.Toro_Extended_Award_MSRP_Price__c + '\n\n');
 			System.debug('\n\n@@qi.Toro_Total_Award_price__c: ' + qi.Toro_Total_Award_price__c + '\n\n');
 
 			if (qi.Award_Price__c != null) {
@@ -523,8 +517,8 @@ public abstract class ToroPricingProgram {
 	public virtual void initialize(Id quoteId) {
 		initializeQuoteHeader(quoteId);
 
-		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name,Select_Price_Program_Type__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
+		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('FreezeLine__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name,Select_Price_Program_Type__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
+		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('FreezeLine__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Toro_QuoteItem__c where Mn_Quote__c = :quoteId';
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);

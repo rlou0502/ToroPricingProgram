@@ -113,6 +113,9 @@ public class ToroPricingProgramController {
 		pp.initialize(quoteId);
 
 		for(Toro_QuoteItem__c qi : pp.quoteItems) {
+			if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
+				qi.FreezeLine__c = true;
+			}
 			Map<String, Object> qiUpdateData = 	(Map<String, Object>) quoteItemsData.get(qi.Id);
 			system.debug(logginglevel.info, 'qiUpdateData =' + qiUpdateData);
 			if(qiUpdateData != null) {
@@ -149,6 +152,9 @@ public class ToroPricingProgramController {
 			}
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(pp.performancePartFlag && qis.Performance_part__c) {
+						qis.FreezeLine__c = true;
+					}
 					Map<String, Object>  qisUpdateData = (Map<String, Object>) qiSublinesData.get(qis.id);
 					if(qisUpdateData != null) {
 						for(String key : qisUpdateData.keyset()) {
@@ -177,6 +183,7 @@ public class ToroPricingProgramController {
     		}
 		}
 		rs = retrieveFieldSets(rs, pp, pricingMethod);
+		System.debug('\n\n@@rs: ' + rs + '\n\n');
 /*
     	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields();
@@ -241,7 +248,8 @@ public class ToroPricingProgramController {
 		}
 	*/
     	List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
-    	// pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+		System.debug('\n\n@@qis: ' + qis + '\n\n');
+    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(FieldSetMember fs : rs.fieldSetMembers) {
     		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
     			fs.label = rs.selectedPricingMethod;
@@ -313,7 +321,7 @@ public class ToroPricingProgramController {
     		}
     	}
     	List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
-    	// pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+    	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(FieldSetMember fs : rs.fieldSetMembers) {
     		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
     			fs.label = rs.selectedPricingMethod;
