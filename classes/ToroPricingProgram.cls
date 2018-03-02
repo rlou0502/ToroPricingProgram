@@ -89,6 +89,18 @@ public abstract class ToroPricingProgram {
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList, boolean save ){
 		Long perfStart = System.limits.getCpuTime();
 		performancePartMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
+		
+		//remove setup fees
+		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
+		for(Toro_QuoteItem__c qi : quoteItemList) {
+			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
+				deleteSetupFeeLineItemId.add(qi.Id);
+				deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
+			}
+		}				
+		delete [Select Id From Toro_QuoteItem__c where Id in :deleteSetupFeeLineItemId];
+		delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];
+		
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl =' + priceProgram + ' -- ' + quoteItemList);
 		List<Toro_QuoteItem__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);

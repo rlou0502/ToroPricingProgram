@@ -120,7 +120,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			//Performance Part
 			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, performancePartMap);
 
-			system.debug(logginglevel.info,'checkpoint 4');
+			system.debug(logginglevel.info,'checkpoint 4 qi.Award_of_DN__c =' + qi.Award_of_DN__c + ' sku =' + qi.Product_Name__c);
 			if(rh != null) {
 				if(qi.Product_Id__c.startsWith('TPP') || qi.Product_Id__c.startsWith('L')) {
 					qi.Award_Price__c = qi.MSRP_Price__c;
@@ -140,6 +140,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 								qi.Award_of_DN__c = qi.Award_Price__c * 100/qi.DNet_Price__c;
 							}
 							if(qi.Award_of_DN__c == null) {
+								system.debug(logginglevel.info,'continue---');
 								continue;
 								//qi.Award_of_DN__c = dnetMin;	
 							}
@@ -323,6 +324,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		//delete setup fees
 		//delete [Select Id From REVVY__MnQuoteItem__c where REVVY__Product_ID_F__c = 'S00001' and REVVY__Quote__c = :quoteId];
        */
+       system.debug(quoteItemList);
 		return quoteItemList;
 	}
 

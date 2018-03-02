@@ -152,8 +152,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 
 		System.debug(logginglevel.info, '>>> +++++++++++++++++ NAT 200=');
 		
-		delete [Select Id From Toro_QuoteItem__c where Id in :deleteSetupFeeLineItemId];
-		delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];
+		//delete [Select Id From Toro_QuoteItem__c where Id in :deleteSetupFeeLineItemId];
+		//delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];
 		
 		return quoteItemWrapperList;	
 	}        
