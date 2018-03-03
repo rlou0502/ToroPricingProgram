@@ -15,8 +15,10 @@ public with sharing class ToroPricingMethodData {
 		if(percentOfDNet != null && dnet != null) {
 			this.awardPrice = dnet * percentOfDNet/100;
 		}
-		decimal rebate = dnet * rebatePercent/100;
-		this.grossProfit = dnet * percentOfDNet/100 - dnet + rebate;	
+		if(dnet != null) {
+			decimal rebate = dnet * rebatePercent/100;
+			this.grossProfit = dnet * percentOfDNet/100 - dnet + rebate;
+		}	
 	}
 	
 	public ToroPricingMethodData(decimal percentOfDNet, decimal dnet, decimal msrp) {

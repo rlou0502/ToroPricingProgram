@@ -3,6 +3,11 @@ public with sharing class ToroPricingMethodUtil {
 	private static Map<String, Map<decimal, ToroPricingMethodData> >DNetPercentMap = new Map<String, Map<decimal, ToroPricingMethodData> >(); 
 	private static Map<String, Map<decimal, ToroPricingMethodData> >MSRPPercentMap = new Map<String, Map<decimal, ToroPricingMethodData> >();
 	static map<Id, List<Toro_PricingProgramLine__c>> pricingProgramLinesMap = new map<Id, List<Toro_PricingProgramLine__c>>();
+	public List<Toro_QuoteItem__c> quoteItemList { get; set;}
+	public String pricingProgramExternalId { get; set;}
+	public ToroPricingMethodUtil() {
+		
+	}
 	public static ToroPricingMethodData retrieveDataForGrossProfitPercent(String pricingProgramExternalId, decimal MSRPPrice, decimal dnetPrice,  decimal gpPercent) {
 		ToroPricingMethodData returnData = null;
 		if(!GPPercentMap.containsKey(pricingProgramExternalId)) {
@@ -203,7 +208,7 @@ public with sharing class ToroPricingMethodUtil {
 		return quoteItemList;	
 	} 
 	
-	public static List<Toro_QuoteItem__c> calculateBlendedDNetPercentFromMSRP(List<Toro_QuoteItem__c> quoteItemList) {
+	public ToroPricingMethodUtil calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Off_MSRP__c != null) {
@@ -226,9 +231,9 @@ public with sharing class ToroPricingMethodUtil {
 				}
 			}
 		}
-		return quoteItemList;			
+		return this;			
 	}
-	public static List<Toro_QuoteItem__c> calculateGP(List<Toro_QuoteItem__c> quoteItemList) {
+	public ToroPricingMethodUtil calculateGP() {
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Award_of_DN__c != null) {
 				decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
@@ -257,7 +262,7 @@ public with sharing class ToroPricingMethodUtil {
 			}
 			
 		}	
-		return quoteItemList;
+		return this;
 	}
 	public static ToroPricingMethodData retrieveDataForAwardPrice(String pricingProgramExternalId, decimal MSRPPrice, decimal dnetPrice,  decimal awardPrice) {
 		system.debug(logginglevel.info, 'retrieveDataForAwardPrice pricingProgramExternalId =' + pricingProgramExternalId + ' MSRPPrice =' + MSRPPrice + ' dnetPrice= ' + dnetPrice + ' awardPrice=' + awardPrice);
@@ -272,11 +277,10 @@ public with sharing class ToroPricingMethodUtil {
 		              	 
 		return returnData;
 	}  
-	public static List<Toro_QuoteItem__c> retrievePricingInfoForDNet(String pricingProgramExternalId, List<Toro_QuoteItem__c> quoteItemList) {
+	public ToroPricingMethodUtil retrievePricingInfoForDNet() {
 		if(!DNetPercentMap.containsKey(pricingProgramExternalId)) {
-			List<Toro_PricingProgramLine__c> pplList = [Select Id, Award_Price_as_a_Percent_of_DN__c, Distributor_Margin__c, Off_Mfg_Sugg_Ttl__c, Rebate_as_a_Percent_of_DN__c
-		                          From Toro_PricingProgramLine__c
-		                         Where PricingProgram__r.ExternalId__c = :pricingProgramExternalId order by Award_Price_as_a_Percent_of_DN__c desc];
+			Toro_PricingProgram__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
+			List<Toro_PricingProgramLine__c> pplList = pp.PricingProgramLines__r;
 		    Map<decimal, ToroPricingMethodData> dnet2PM = new Map<decimal, ToroPricingMethodData>();
 		    for(Toro_PricingProgramLine__c  ppl : pplList) {
 		    	ToroPricingMethodData pmd = new ToroPricingMethodData();
@@ -331,7 +335,7 @@ public with sharing class ToroPricingMethodUtil {
 			}
 				
 		}
-		return quoteItemList;
+		return this;
 	} 
 	public static ToroPricingMethodData retrieveDataForDNetPercent(String pricingProgramExternalId, decimal MSRPPrice, decimal dnetPrice,  decimal dnetPercent) {
 		system.debug('dnet percent=' + dnetPercent + ' MSRP price =' + MSRPPrice);

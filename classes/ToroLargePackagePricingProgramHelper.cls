@@ -78,7 +78,21 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			return ToroPricingMethodUtil.applyTotalAwordDollors(priceProgram, quoteItemList, null);
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
 			return ToroPricingMethodUtil.applyGPPercent(priceProgram, quoteItemList, null);
-		}
+		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
+			ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
+			helper.pricingProgramExternalId = priceProgram;
+			helper.quoteItemList = quoteItemList;
+			helper.calculateBlendedDNetPercentFromMSRP().retrievePricingInfoForDNet().calculateGP();
+			quoteItemList = helper.quoteItemList;	
+		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
+			ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
+			helper.pricingProgramExternalId = priceProgram;
+			helper.quoteItemList = quoteItemList;
+			helper.retrievePricingInfoForDNet().calculateGP();	
+			quoteItemList = helper.quoteItemList;
+		} 
+		
+		return quoteItemList;
 		system.debug(logginglevel.info, 'priceProgram =' + priceProgram + ' priceMethod=' + priceMethod);
 		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		map<string, Toro_PricingProgram__c> rebateMap = new map<string, Toro_PricingProgram__c>();
