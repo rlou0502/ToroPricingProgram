@@ -8,10 +8,10 @@ public with sharing class ToroPricingMethodData {
 	public decimal dnet { get; set; }
 	public decimal msrp { get; set; }
 	public ToroPricingMethodData(decimal percentOfMSRP, decimal percentOfDNet, decimal rebatePercent, decimal grossProfitPercent, decimal dnet) {
-		this.percentOfMSRP = percentOfMSRP/100;
-		this.percentOfDNet = percentOfDNet/100;
-		this.rebatePercent = rebatePercent/100;
-		this.grossProfitPercent = grossProfitPercent/100;
+		this.percentOfMSRP = percentOfMSRP;
+		this.percentOfDNet = percentOfDNet;
+		this.rebatePercent = rebatePercent;
+		this.grossProfitPercent = grossProfitPercent;
 		if(percentOfDNet != null && dnet != null) {
 			this.awardPrice = dnet * percentOfDNet/100;
 		}
@@ -21,11 +21,6 @@ public with sharing class ToroPricingMethodData {
 		}	
 	}
 	
-	public ToroPricingMethodData(decimal percentOfDNet, decimal dnet, decimal msrp) {
-		this.percentOfDNet = percentOfDNet/100;
-		this.dnet = dnet;
-		this.msrp = msrp;		
-	}
 	
 	public ToroPricingMethodData() {
 		

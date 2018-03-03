@@ -23,6 +23,7 @@
         <members>ToroPerformancePartPricingProgramHelper</members>
         <members>ToroPriceProgramFactory</members>
         <members>ToroPricingMethodData</members>
+        <members>ToroPricingMethodHelper</members>
         <members>ToroPricingMethodTest2</members>
         <members>ToroPricingMethodUtil</members>
         <members>ToroPricingMethodUtilTest</members>
