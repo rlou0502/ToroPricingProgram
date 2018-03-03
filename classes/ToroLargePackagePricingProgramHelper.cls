@@ -107,12 +107,12 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 				dnetMax = Math.max(dnetMax, l.Award_Price_as_a_Percent_of_DN__c);
 			}
 		}
-		system.debug(logginglevel.info,'checkpoint 2');
+		system.debug(logginglevel.info,'checkpoint 2 =' + rebateMap);
 		List<Toro_PricingProgramLine__c> dNetLineList = new List<Toro_PricingProgramLine__c>();
 		for(decimal key : dnetLineMap.keyset()){
 			dNetLineList.add(dnetLineMap.get(key));
 		}
-		system.debug(logginglevel.info,'checkpoint 3 list size =' + quoteItemList.size());
+		system.debug(logginglevel.info,'checkpoint 3 list size =' + dNetLineList);
 		for(Toro_QuoteItem__c qi : quoteItemList) {
 			Toro_PricingProgram__c rh = rebateMap.get(priceProgram);
 			qi.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c);
