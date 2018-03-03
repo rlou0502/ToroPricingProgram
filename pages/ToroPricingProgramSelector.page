@@ -8,46 +8,41 @@ var cleanSelectProductBox = function() {
 };
 </script>
 <apex:form >
-	<apex:pageBlock title="Select Product" >
+	<apex:pageBlock title="Select Product">
 	<apex:pageBlockButtons >
 			<apex:commandButton action="{!cancel}" value="Close" />
  		</apex:pageBlockButtons>
  		<apex:pageBlockSection title="Select Product" columns="1" id="selectProduct">
  			<apex:pageBlockSectionItem >
          		<apex:outputLabel value="Select a product" />
-            		<apex:inputField html-class="select-product" value="{!header.SelectProduct__c}" >
+            		<apex:inputField html-class="select-product" value="{!header.SelectProduct__c}">
             			<apex:actionSupport event="onchange" rerender="selectedProduct" action="{!addProduct}" oncomplete="cleanSelectProductBox();" />
-            		</apex:inputField> 
+            		</apex:inputField>
          	</apex:pageBlockSectionItem>
          	<apex:pageBlockSectionItem >
          		<apex:outputLabel value="Select all products" />
          		<apex:inputcheckbox value="{!selectAllProducts}">
 					<apex:actionSupport event="onclick" reRender="messageBox" action="{!toggleAllProducts}" rerender="selectedProduct"/>
-				</apex:inputcheckbox> 
+				</apex:inputcheckbox>
          	</apex:pageBlockSectionItem>
  		</apex:pageBlockSection>
 		<apex:pageBlockSection title="Selected Product" columns="1" id="selectedProduct">
-        
-		<apex:pageBlockTable value="{!selectedProducts}" var="selProd">			
-			<apex:column >
-				<apex:facet name="header">Del</apex:facet>
-				<!--  <apex:inputCheckbox value="{!selProd.selected}"/> -->
-				
-				<apex:commandbutton image="/img/func_icons/remove12_on.gif" id="delete_this" reRender="selectedProduct" action="{!deleteProduct}">
-					<apex:param name="sku" value="{!selProd.prod}" assignTo="{!toBeDeleted}"/>
-				</apex:commandbutton>﻿
-			</apex:column>
-			<apex:column >
-				<apex:facet name="header">Name</apex:facet>
-				<apex:outputText value="{!selProd.prodName}" />
-			</apex:column>
-			<apex:column >
-				<apex:facet name="header">Id</apex:facet>
-				<apex:outputText value="{!selProd.prod}" />
-			</apex:column>
-			
-		</apex:pageBlockTable>
- 		 
+			<apex:pageBlockTable value="{!selectedProducts}" var="selProd">
+				<apex:column >
+					<apex:facet name="header">Del</apex:facet>
+					<apex:commandbutton image="/img/func_icons/remove12_on.gif" id="delete_this" reRender="selectedProduct" action="{!deleteProduct}">
+						<apex:param name="sku" value="{!selProd.prod}" assignTo="{!toBeDeleted}"/>
+					</apex:commandbutton>﻿
+				</apex:column>
+				<apex:column >
+					<apex:facet name="header">Name</apex:facet>
+					<apex:outputText value="{!selProd.prodName}" />
+				</apex:column>
+				<apex:column >
+					<apex:facet name="header">Id</apex:facet>
+					<apex:outputText value="{!selProd.prod}" />
+				</apex:column>
+			</apex:pageBlockTable>
 		</apex:pageBlockSection>
 	</apex:pageBlock>
 	</apex:form>

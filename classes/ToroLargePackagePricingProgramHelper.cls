@@ -80,9 +80,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			return ToroPricingMethodUtil.applyGPPercent(priceProgram, quoteItemList, null);
 		}
 		system.debug(logginglevel.info, 'priceProgram =' + priceProgram + ' priceMethod=' + priceMethod);
-		List<Toro_PricingProgram__c> rebates = [Select r.Name, r.ExternalId__c, r.ApplicableProducts__c,
-				(Select Off_Mfg_Sugg_Ttl__c, Award_Price_as_a_Percent_of_DN__c, Rebate_as_a_Percent_of_DN__c,
-				Distributor_Margin__c, ApplicableProducts__c From PricingProgramLines__r order by Award_Price_as_a_Percent_of_DN__c desc) From Toro_PricingProgram__c r where ExternalId__c = :priceProgram ];
+		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		map<string, Toro_PricingProgram__c> rebateMap = new map<string, Toro_PricingProgram__c>();
 		map<string, set<String>> rebateApplicableProducts = new map<string, set<String>>();
 		map<decimal, Toro_PricingProgramLine__c> dnetLineMap = new map<decimal, Toro_PricingProgramLine__c>();
@@ -91,6 +89,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		decimal dnetMin = 999;
 		decimal dnetMax = 0;
 		system.debug(logginglevel.info,'header size = ' + rebates.size());
+		system.debug(logginglevel.info,'rebates = ' + rebates);
 		for(Toro_PricingProgram__c rh : rebates) {
 			rebateMap.put(rh.ExternalId__c, rh);
 			if(!rebateApplicableProducts.containsKey(rh.ExternalId__c)) {
