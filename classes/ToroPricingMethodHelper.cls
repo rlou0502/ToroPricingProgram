@@ -60,7 +60,7 @@ public with sharing class ToroPricingMethodHelper {
 				qi.Toro_Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				qi.Toro_Extended_Award_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item ' + qi.Product_Name__c + ' -- ' + qi.Product_Name__c);
-				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item --MSRP-- ' + qi.Award_of_DN__c + '--DNet--' + qi.DNet_Price__c + '--qty--' + qi.Quantity__c);
+				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item --DNet-- ' + qi.Award_of_DN__c + '--DNet--' + qi.DNet_Price__c + '--qty--' + qi.Quantity__c);
 				
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -88,6 +88,7 @@ public with sharing class ToroPricingMethodHelper {
 				if(qi.Toro_Extended_DNet_Price__c != null && qi.Toro_Extended_DNet_Price__c !=0 ) {
 					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_DNet_Price__c) / qi.Toro_Extended_DNet_Price__c * 100;
 					qi.Award_of_DN__c = qi.Toro_Blend_Of_DN__c;
+					qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
 				}
 			}
@@ -206,5 +207,65 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		
 		return this;
+	} 
+	
+	public ToroPricingMethodHelper distributeTotalAwordDollorAs(decimal totalAwardDollors) {
+		decimal totalToroDNetPrice = 0;
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			qi.Toro_Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!qis.Exclude_from_Rebate__c) {
+						final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
+						qis.Toro_Extended_Qty__c = extQty;
+						qis.Toro_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty;
+						qi.Toro_Rollup_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_DNet_Price__c) + CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c);
+					}	
+				}	
+			}
+			qi.Toro_DNetWOTPPAllied__c = qi.Toro_Extended_DNet_Price__c + qi.Toro_Rollup_DNet_Price__c;
+			totalToroDNetPrice += qi.Toro_DNetWOTPPAllied__c;
+		}
+		
+		system.debug(logginglevel.info, 'totalToroDNetPrice  =' + totalToroDNetPrice);
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			qi.Award_Price__c = (totalAwardDollors * (qi.DNet_Price__c * qi.Quantity__c /totalToroDNetPrice)).setScale(2,roundingMode.HALF_UP);
+			system.debug(logginglevel.info, 'qi product   =' + qi.product_name__c + 'qi product id   =' + qi.product_id__c + ' qi.Award_Price__c=' + qi.Award_Price__c);
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!qis.Exclude_from_Rebate__c) {
+						
+						final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
+						qis.Award_Price__c = totalAwardDollors * (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty /totalToroDNetPrice);
+						qis.Award_Price__c = qis.Award_Price__c.setScale(2,roundingMode.HALF_UP);
+						system.debug(logginglevel.info, 'qis product   =' + qis.product_name__c + 'qis product id   =' + qis.product_id__c + ' qis award price =' + qis.Award_Price__c);
+					} else {
+						qis.Award_Price__c = 0;
+					}	
+				}	
+			}
+		}
+		return this;	
+	} 
+	public ToroPricingMethodHelper convertAwardPriceToDNetPercent(decimal totalAwardDollors) {
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
+				qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c * 100;
+			}
+			qi.Toro_Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!qis.Exclude_from_Rebate__c) {
+						if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0) {
+							qis.Percent_of_DNet__c = qis.Award_Price__c / qis.DNet_Price__c * 100;
+						}
+						final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
+						qis.Toro_Extended_Qty__c = extQty;
+						qis.Toro_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty;
+					}	
+				}	
+			}
+		}
+		return this;	
 	} 
 }
