@@ -350,14 +350,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 																		, String priceMethod
 																		, List<Toro_QuoteItem__c> quoteItemList
 	) {
-		final Toro_PricingProgram__c pricingProgram = [SELECT
-															OutCrossThreshold__c
-															, MinimumThreshold__c
-															, MinimumTractionUnits__c
-														FROM
-															Toro_PricingProgram__c
-														WHERE
-															Name = :priceProgram LIMIT 1];
+		Toro_PricingProgram__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
 
 		Revvy__MnQuote__c quote = [SELECT
 										Toro_ApprovalReason__c
