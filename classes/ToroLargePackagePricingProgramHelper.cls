@@ -74,24 +74,19 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		system.debug(logginglevel.info, 'checkpoint 1 pp='+ priceProgram + ' pm=' + priceMethod);
+		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
+		helper.pricingProgramExternalId = priceProgram;
+		helper.quoteItemList = quoteItemList;
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-			return ToroPricingMethodUtil.applyTotalAwordDollors(priceProgram, quoteItemList, null);
+			helper.convertAwardPriceToDNetPercent().retrievePricingInfoForDNet().calculateGP(); 
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
 			return ToroPricingMethodUtil.applyGPPercent(priceProgram, quoteItemList, null);
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
-			ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
-			helper.pricingProgramExternalId = priceProgram;
-			helper.quoteItemList = quoteItemList;
-			helper.calculateBlendedDNetPercentFromMSRP().retrievePricingInfoForDNet().calculateGP();
-			quoteItemList = helper.quoteItemList;	
+			helper.calculateBlendedDNetPercentFromMSRP().retrievePricingInfoForDNet().calculateGP();	
 		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
-			ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
-			helper.pricingProgramExternalId = priceProgram;
-			helper.quoteItemList = quoteItemList;
 			helper.calculateBlendedDNetPercentFromDNet().retrievePricingInfoForDNet().calculateGP();	
-			quoteItemList = helper.quoteItemList;
 		} 
-		
+		quoteItemList = helper.quoteItemList;
 		return quoteItemList;
 		system.debug(logginglevel.info, 'priceProgram =' + priceProgram + ' priceMethod=' + priceMethod);
 		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};

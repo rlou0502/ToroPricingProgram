@@ -286,25 +286,40 @@ public class ToroPricingProgramController {
     }
     
 	@AuraEnabled
-    public static map<String, decimal> setTotalAwardDollarPMRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal awardPrice) {
+    public static ToroSObjectResultSet setTotalAwardDollarPMRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal awardPrice) {
     	system.debug('--------------calling setTotalAwardDollarPMRemote');
-    	map<String, decimal> retData = new map<String, decimal>();
+    	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
+    	rs.result=false;
+    	rs.selectedPricingMethod = pricingMethod;
+    	rs.selectedPricingProgram = pricingProgram; 
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
     	if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
     		pp.initialize(quoteId);
-    		list<Toro_QuoteItem__c> items = ToroPricingMethodUtil.distributeTotalAwordDollors(ppd.externalId, pp.quoteItems, awardPrice);
-    		for(Toro_QuoteItem__c qi : items) {
-    			retData.put(qi.Id, qi.Award_Price__c);
-    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-						retData.put(qis.Id, qis.Award_Price__c);	
-					}
-    			}	
-    		}
-    	}
-    	
-    	return retData;
+    		list<Toro_QuoteItem__c> items = ToroPricingMethodHelper.distributeTotalAwordDollors(pp.quoteItems, awardPrice);
+    		rs = retrieveFieldSets(rs, pp, pricingMethod);
+			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
+	    	
+	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+	    	for(FieldSetMember fs : rs.fieldSetMembers) {
+	    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+	    			fs.label = rs.selectedPricingMethod;	
+	    		}	
+	    	}
+	    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
+	    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+	    			fss.label = rs.selectedPricingMethod;	
+	    		}	
+	    	}
+	    	
+	    	rs.values =  pp.quoteItems;
+	    	rs.chainCall = pp.chainCall;
+	    	rs.payload = pp.payloadOfChainCall;
+	    	rs.displaySetupFee=pp.displaySetupFee();
+	    	rs.result=true;
+    	} 
+    	return rs;	
     }
     
     @AuraEnabled
