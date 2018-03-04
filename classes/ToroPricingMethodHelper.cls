@@ -9,7 +9,7 @@ public with sharing class ToroPricingMethodHelper {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Off_MSRP__c != null) {
-				qi.PricingMethodValue__c = string.valueOf(qi.Off_MSRP__c);
+				//qi.PricingMethodValue__c = string.valueOf(qi.Off_MSRP__c);
 				qi.Toro_Rollup_Award_MSRP_Price__c =0;
 				qi.Toro_Rollup_DNet_Price__c =0;
 				qi.Toro_Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
@@ -24,7 +24,7 @@ public with sharing class ToroPricingMethodHelper {
 						if(!qis.Exclude_from_Rebate__c) {
 							if(qis.Percent_Off_MSRP__c == null) {
 								qis.Percent_Off_MSRP__c = qi.Off_MSRP__c;
-								qis.PricingMethodValue__c = string.valueOf(qis.Percent_Off_MSRP__c);
+								//qis.PricingMethodValue__c = string.valueOf(qis.Percent_Off_MSRP__c);
 							}
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP --' + qis.Percent_Off_MSRP__c);
 							qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
@@ -50,9 +50,55 @@ public with sharing class ToroPricingMethodHelper {
 		
 		return this;			
 	}
+	public ToroPricingMethodHelper calculateBlendedDNetPercentFromDNet() {
+		Map<Id, decimal> retMap = new Map<Id, decimal>();
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			if(qi.Award_of_DN__c != null) {
+				//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
+				qi.Toro_Rollup_Award_Dnet_Price__c =0;
+				qi.Toro_Rollup_DNet_Price__c =0;
+				qi.Toro_Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+				qi.Toro_Extended_Award_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item ' + qi.Product_Name__c + ' -- ' + qi.Product_Name__c);
+				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item --MSRP-- ' + qi.Award_of_DN__c + '--DNet--' + qi.DNet_Price__c + '--qty--' + qi.Quantity__c);
+				
+				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);	
+						qis.Toro_Extended_Qty__c = extQty;
+						if(!qis.Exclude_from_Rebate__c) {
+							if(qis.Percent_of_DNet__c == null) {
+								qis.Percent_of_DNet__c = qi.Award_of_DN__c;
+								//qis.PricingMethodValue__c = string.valueOf(qis.Percent_of_DNet__c);
+							}
+							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP --' + qis.Percent_of_DNet__c);
+							qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
+							qi.Toro_Rollup_DNet_Price__c += qis.Toro_DNet_Price__c;
+							qis.Toro_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100 * extQty;
+							qi.Toro_Rollup_Award_DNet_Price__c += qis.Toro_DNet_Price__c;
+							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- qis.Toro_DNet_Price__c = ' + qis.Toro_DNet_Price__c + ' --qis.Toro_Extended_MSRP_Price__c-- ' + qis.Toro_DNet_Price__c );			
+							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- qi.Toro_Rollup_Award_MSRP_Price__c = ' + qi.Toro_Rollup_Award_DNet_Price__c );							
+						}	
+					}	
+					qi.Toro_Extended_Award_DNet_Price__c += qi.Toro_Rollup_Award_DNet_Price__c;
+					qi.Toro_Extended_DNet_Price__c += qi.Toro_Rollup_DNet_Price__c;
+					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item Toro_Rollup_Award_DNet_Price__c = ' + qi.Toro_Rollup_Award_DNet_Price__c + ' --Toro_Rollup_DNet_Price__c-- ' + qi.Toro_Rollup_DNet_Price__c );
+					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item Toro_Extended_Award_DNet_Price__c = ' + qi.Toro_Extended_Award_DNet_Price__c + ' --Toro_Rollup_DNet_Price__c-- ' + qi.Toro_Rollup_DNet_Price__c );				
+				}
+				if(qi.Toro_Extended_DNet_Price__c != null && qi.Toro_Extended_DNet_Price__c !=0 ) {
+					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_DNet_Price__c) / qi.Toro_Extended_DNet_Price__c * 100;
+					qi.Award_of_DN__c = qi.Toro_Blend_Of_DN__c;
+					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
+				}
+			}
+		}
+		
+		return this;			
+	}
 	public ToroPricingMethodHelper calculateGP() {
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Award_of_DN__c != null) {
+				qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
 				decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -67,7 +113,8 @@ public with sharing class ToroPricingMethodHelper {
 							extDnet += subExtDNet;
 							extAward += subExtAward;
 							qis.Gross_Profit_Value__c = subExtAward - subExtDNet + (subExtDNet * qis.Rebate_as_of_DNet__c/100);	
-							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/subExtAward*100;			
+							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/subExtAward*100;	
+							qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qis.Percent_of_DNet__c/100;	
 						}	
 					}	
 				}
@@ -141,12 +188,12 @@ public with sharing class ToroPricingMethodHelper {
 						decimal rebatePercent  = y2 -(((x3-x2)*(y2-y1)));
 						
 						system.debug(logginglevel.info,'retrievePricingInfoForDNet---x1----' + x1 + '  x2= ' + x2 + ' y1=' + y1 + ' y2=' + y2 + 'x3=' + x3 + ' ' + rebatePercent);
-						qi.Rebate_as_a_of_DN__c = rebatePercent;
+						qi.Rebate_as_a_of_DN__c = rebatePercent*100;
 					}   
 					System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- calculated ' + qi.Rebate_as_a_of_DN__c  );       
 				}
 			}
-			qi.Rebate_as_a_of_DN__c = qi.Rebate_as_a_of_DN__c * 100;
+			qi.Rebate_as_a_of_DN__c = qi.Rebate_as_a_of_DN__c;
 			System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- Rebate_as_a_of_DN__c ' + qi.Rebate_as_a_of_DN__c  );  
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
