@@ -191,9 +191,9 @@ public class ToroPricingProgramController {
 		}
 		
 		rs = retrieveFieldSets(rs, pp, pricingMethod);
-/*
-    	List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
-    	*/
+		system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
+    	
     	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(FieldSetMember fs : rs.fieldSetMembers) {
     		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {

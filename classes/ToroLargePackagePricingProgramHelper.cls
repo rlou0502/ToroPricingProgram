@@ -88,7 +88,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
 			helper.pricingProgramExternalId = priceProgram;
 			helper.quoteItemList = quoteItemList;
-			helper.calculateBlendedDNetPercentFromDNet().retrievePricingInfoForDNet().calculateGP();	
+			helper.retrievePricingInfoForDNet().calculateGP();	
 			quoteItemList = helper.quoteItemList;
 		} 
 		
