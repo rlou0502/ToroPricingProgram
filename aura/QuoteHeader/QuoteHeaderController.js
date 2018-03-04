@@ -57,6 +57,7 @@
         fields.forEach(function(field){ 
             var tableData = document.createElement('td');
             var cellText = document.createElement('div');
+            cellText.className += " quote " + field.fieldPath;
             tableData.appendChild(cellText);
             var data = q[field.fieldPath];
             if(field.type.toLowerCase() === 'double') {
