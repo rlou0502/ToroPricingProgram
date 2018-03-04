@@ -149,10 +149,29 @@
             var pricingProgram = params.pricingProgram;
             var pricingMethod = params.pricingMethod;
             var gpPercent = params.gpPercent; 
-            var nodelist = document.querySelectorAll("[data-fieldname='PricingMethodValue__c']");
-            for(var i=0; i < nodelist.length; i++) {
-            	nodelist[i].value = gpPercent;    
-            }
+            var quoteId = cmp.get('v.quoteId');
+            var getAction = cmp.get('c.setGPPercentRemote');
+            var self = this;
+            getAction.setParams({
+                quoteId: quoteId,
+                pricingProgram: pricingProgram,
+                pricingMethod: pricingMethod,
+                gpPercent: gpPercent
+            });
+        	
+            getAction.setCallback(this, 
+                function(response) {
+                    var state = response.getState();
+                    
+                    if (cmp.isValid() && state === "SUCCESS") {  
+                        var data = response.getReturnValue();
+                        var retResponse = response.getReturnValue();
+               			
+                    }
+                    helper.hideSpinner();
+                }
+            );
+            $A.enqueueAction(getAction);
         }
     }
 
