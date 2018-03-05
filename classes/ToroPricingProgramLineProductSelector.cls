@@ -51,13 +51,13 @@ public with sharing class ToroPricingProgramLineProductSelector {
 			List<String> prodList = header.ApplicableProducts__c.split(',');
 			List<REVVY__MnCatalogNode__c> catalogNodes = [
 				SELECT
-					Id, REVVY__Id__c, Name
+					REVVY__Id__c, Name
 				FROM
 					REVVY__MnCatalogNode__c
 				WHERE
 					REVVY__Id__c in :prodList];
 			for (REVVY__MnCatalogNode__c p : catalogNodes) {
-				selectedProducts.add(new wrapper(false, p.REVVY__Id__c, p.name));
+				selectedProducts.add(new Wrapper(false, p.REVVY__Id__c, p.Name));
 			}
 		}
 	}
