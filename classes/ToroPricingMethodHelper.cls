@@ -8,6 +8,7 @@ public with sharing class ToroPricingMethodHelper {
 	
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
+		
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Off_MSRP__c != null) {
 				//qi.PricingMethodValue__c = string.valueOf(qi.Off_MSRP__c);
@@ -49,6 +50,13 @@ public with sharing class ToroPricingMethodHelper {
 			}
 		}
 		
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.Percent_of_DNet__c = qi.Award_of_DN__c;	
+					}
+			}	
+		}
 		return this;			
 	}
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromDNet() {
@@ -95,6 +103,13 @@ public with sharing class ToroPricingMethodHelper {
 			}
 		}
 		
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.Percent_of_DNet__c = qi.Award_of_DN__c;	
+					}
+			}	
+		}
 		return this;			
 	}
 	public ToroPricingMethodHelper calculateGP() {

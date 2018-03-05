@@ -152,7 +152,7 @@ public abstract class ToroPricingProgram {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					//qis.Award_Price__c = qis.Award_Price__c.setScale(2,roundingMode.HALF_UP);
 					//extended qty = qi qty * qis qty
-					system.debug('qi.Quantity__c=' + qi.Quantity__c + 'qis.Quantity__c=' + qis.Quantity__c + ' qis.DNet_Price__c ='+ qis.DNet_Price__c + ' qis.Percent_of_DNet__c=' +qis.Percent_of_DNet__c);
+					system.debug(logginglevel.info, 'calculateExtendedFields--' + qi.product_Name__c +  ' dnet=' + qis.DNet_Price__c + ' award= ' + qis.Award_Price__c + ' qis.qis.Percent_of_DNet__c ='+ qis.Percent_of_DNet__c + ' calculated award=' + qis.DNet_Price__c *qis.Percent_of_DNet__c/100);
 					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
 					// calculate values for the subline
 					qis.Toro_Extended_Qty__c              = extQty;
@@ -266,7 +266,7 @@ public abstract class ToroPricingProgram {
 			qi.Toro_Total_Award_price__c = qi.Toro_Extended_Award_Price__c + qi.Toro_Rollup_Extended_Award_Price__c;
 			
 			if (qi.Toro_DNetWOTPPAllied__c != 0) {
-				qi.Toro_Blend_Of_DN__c = qi.Toro_Total_Extended_Award_Price__c / qi.Toro_DNetWOTPPAllied__c * 100;
+				//qi.Toro_Blend_Of_DN__c = qi.Toro_Total_Extended_Award_Price__c / qi.Toro_DNetWOTPPAllied__c * 100;
 			}
 			
 			
@@ -404,7 +404,7 @@ public abstract class ToroPricingProgram {
 		system.debug('initializeExtendedFieldsToZero quoteItemList =' + quoteItemList);
 		if(quoteItemList != null) {
 			for (Toro_QuoteItem__c qi : quoteItemList) {
-				qi.Toro_Blend_Of_DN__c                        = 0;
+				//qi.Toro_Blend_Of_DN__c                        = 0;
 				qi.Toro_Extended_DNet_Price__c                = 0;
 				qi.Toro_Distributor_Responsibility__c         = 0;
 				qi.Toro_DNet_Price__c                         = 0;
@@ -487,7 +487,6 @@ public abstract class ToroPricingProgram {
 		if(updateQuoteItemSublines.size() > 0) {
 			update updateQuoteItemSublines;
 		}
-		
 		update quote;
 		return quoteItemList;
 	}

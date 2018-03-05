@@ -60,11 +60,17 @@
             cellText.className += " quote " + field.fieldPath;
             tableData.appendChild(cellText);
             var data = q[field.fieldPath];
+           
             if(field.type.toLowerCase() === 'double') {
                 if(data != undefined) {
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
                 }  
             } else if(field.type.toLowerCase() === 'currency') {
+                if(data != undefined) {
+                    cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+                }
+            } else if(field.type.toLowerCase() === 'percent') {
+                 debugger;
                 if(data != undefined) {
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
                 }
