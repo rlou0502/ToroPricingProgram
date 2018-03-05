@@ -2,6 +2,8 @@ public with sharing class ToroSObjectResultSet {
 	public ToroSObjectResultSet() {	
 	}
 	@AuraEnabled
+	public SObject quote { get; set; }
+	@AuraEnabled
 	public boolean result { get; set; }
 	@AuraEnabled
     public List<FieldSetMember> fieldSetMembers { get;set; }

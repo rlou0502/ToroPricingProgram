@@ -51,10 +51,18 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		
 		for (Toro_QuoteItem__c qi : quoteItemList) {
+			if(!qi.Unit_Award_Overridden__c) {
+				qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;	
+			}
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-						qis.Percent_of_DNet__c = qi.Award_of_DN__c;	
+				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!qis.Exclude_from_Rebate__c) {
+						if(!qis.Unit_Award_Overridden__c) {
+							qis.Percent_of_DNet__c = qi.Award_of_DN__c;	
+							qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Percent_of_DNet__c)/100;	
+						}
 					}
+				}
 			}	
 		}
 		return this;			
@@ -115,7 +123,7 @@ public with sharing class ToroPricingMethodHelper {
 	public ToroPricingMethodHelper calculateGP() {
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Award_of_DN__c != null) {
-				qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
+				//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
 				decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -131,7 +139,7 @@ public with sharing class ToroPricingMethodHelper {
 							extAward += subExtAward;
 							qis.Gross_Profit_Value__c = subExtAward - subExtDNet + (subExtDNet * qis.Rebate_as_of_DNet__c/100);	
 							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/subExtAward*100;	
-							qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qis.Percent_of_DNet__c/100;	
+							//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;	
 						}	
 					}	
 				}
