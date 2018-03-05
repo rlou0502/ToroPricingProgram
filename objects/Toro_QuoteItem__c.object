@@ -105,6 +105,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Toro_Total_Award_price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -211,11 +216,6 @@
         </displayedFields>
         <displayedFields>
             <field>Toro_Gross_Profit_Percent__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Setup_Fee_Amount__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -837,7 +837,7 @@
         <fullName>Toro_DNet_Price__c</fullName>
         <description>[Extended DNet price including children rollup extended DNet price. ]</description>
         <externalId>false</externalId>
-        <label>Total Ext DNet Price</label>
+        <label>Total Ext DNet</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1117,7 +1117,7 @@
     <fields>
         <fullName>Toro_Total_Extended_Award_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Total Extended Award Price</label>
+        <label>Total Extended Award</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1127,7 +1127,7 @@
     <fields>
         <fullName>Toro_Total_Extended_MSRP_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Total Ext MSRP Price</label>
+        <label>Total Ext MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

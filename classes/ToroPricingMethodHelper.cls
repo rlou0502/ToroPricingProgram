@@ -52,14 +52,14 @@ public with sharing class ToroPricingMethodHelper {
 		
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(!qi.Unit_Award_Overridden__c) {
-				qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;	
+				qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) *(1-CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)/100);
 			}
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {
 						if(!qis.Unit_Award_Overridden__c) {
 							qis.Percent_of_DNet__c = qi.Award_of_DN__c;	
-							qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Percent_of_DNet__c)/100;	
+							qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * (1-CMnQuoteUtil.defaultDecimal(qis.Percent_Off_MSRP__c)/100);	
 						}
 					}
 				}
