@@ -77,7 +77,7 @@
         </div>
     </div>
     
-    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout slds-is-relative">
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout slds-is-relative quote-item">
 	<thead>
 		<tr class="slds-text-heading--label">
             <th scope="col" class="chevron-cell">

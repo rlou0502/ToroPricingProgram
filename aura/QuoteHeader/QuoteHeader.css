@@ -6,3 +6,10 @@
 .THIS .choose-pricing-program {
 	width : 50%;    
 }
+
+.THIS tr.slds-text-heading--label th {
+    background-color : #DCDCDC;
+}
+.THIS tr.slds-text-heading--label th div {
+    background-color : #DCDCDC;
+}

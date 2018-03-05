@@ -6,6 +6,13 @@
   border: 0;
 }
 
+.THIS tr.slds-text-heading--label th {
+    background-color : #DCDCDC;
+}
+
+.THIS table.sublnes-table th {
+    background-color : #ECECEC;
+}
 .THIS th.Product_Name__c {
     width:20%;
 }

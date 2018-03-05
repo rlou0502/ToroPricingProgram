@@ -1,47 +1,85 @@
 public with sharing class ToroPricingProgramLineProductSelector {
+
 	public class Wrapper {
-		public Wrapper(boolean b, String p, String name) {
-			selected = b;
-			prod = p;
-			prodName = name;
+		public Boolean selected { get; set; }
+		public String prod 		{ get; set; }
+		public String prodName 	{ get; set; }
+
+		public Wrapper(Boolean selected, String prod, String prodName) {
+			this.selected = selected;
+			this.prod     = prod;
+			this.prodName = prodName;
 		}
-		public boolean selected { get; set; }
-		public String prod { get; set; }
-		public String prodName { get; set; }
 	}
-	ApexPages.StandardController ctrl;
-	public Id recordId { get; set; }
-	public String toBeDeleted {get; set;}
-	public String previousSelectedProduct { get; set;}
-	public List<Wrapper> selectedProducts { get; set;}
-	public boolean selectAllProducts {get; set;}
-	public Toro_PricingProgram__c header { get; set; }
-	public Toro_PricingProgramLine__c pricingProgramLine { get; set; }
+
+	private ApexPages.StandardController ctrl;
+	public Id recordId 										{ get; set; }
+	public List<Wrapper> selectedProducts 					{ get; set; }
+
+	public String toBeDeleted 								{ get; set; }
+	public String previousSelectedProduct 					{ get; set; }
+
+	public Boolean selectAllProducts 						{ get; set; }
+	public Toro_PricingProgram__c header 				 	{ get; set; }
+	public Toro_PricingProgramLine__c pricingProgramLine 	{ get; set; }
+
+
+
 	public ToroPricingProgramLineProductSelector(ApexPages.StandardController controller){
-		ctrl = 	controller;
-		recordId = controller.getRecord().Id;
+		ctrl             = controller;
+		recordId         = controller.getRecord().Id;
 		selectedProducts = new List<wrapper>();
 		loadPageVariables();
 	}
+
+	public void loadPageVariables() {
+		selectedProducts.clear();
+		header = [
+			SELECT
+				Id
+				, r.Name
+				, r.SelectProduct__c
+				, r.ExternalId__c
+				, r.ApplicableProducts__c
+			FROM
+				Toro_PricingProgram__c r
+			WHERE
+				Id = :recordId
+		];
+
+		if (String.isNotBlank(header.ApplicableProducts__c)) {
+			List<String> prodList = header.ApplicableProducts__c.split(',');
+			List<REVVY__MnCatalogNode__c> catalogNodes = [
+				SELECT
+					Id, REVVY__Id__c, Name
+				FROM
+					REVVY__MnCatalogNode__c
+				WHERE
+					REVVY__Id__c in :prodList];
+			for (REVVY__MnCatalogNode__c p : catalogNodes) {
+				selectedProducts.add(new wrapper(false, p.REVVY__Id__c, p.name));
+			}
+		}
+	}
+
 	public PageReference toggleAllProducts() {
-		system.debug('------selectAllProducts-----' + selectAllProducts);
-		if(selectAllProducts) {
+		if (selectAllProducts) {
 			previousSelectedProduct = header.ApplicableProducts__c;
 			header.ApplicableProducts__c = 'All';
 			update header;
-		} else {
+		}
+
+		else {
 			header.ApplicableProducts__c = previousSelectedProduct;
 			update header;
 		}
-		//header.ApplicableProducts__c = 'All';
-		//update header;
+
 		loadPageVariables();
 		return null;
 	}
+
 	public PageReference deleteProduct() {
-		//
-		system.debug('-----toBeDeleted--' + toBeDeleted);
-		if(String.isNotBlank(header.ApplicableProducts__c)){
+		if (String.isNotBlank(header.ApplicableProducts__c)){
 			Set<String> existingProducts = new Set<String>(header.ApplicableProducts__c.split(','));
 			existingProducts.remove(toBeDeleted);
 
@@ -54,27 +92,16 @@ public with sharing class ToroPricingProgramLineProductSelector {
 
 		return null;
 	}
-	public void loadPageVariables() {
-		selectedProducts.clear();
-		header = [Select id, r.Name, r.SelectProduct__c, r.ExternalId__c, r.ApplicableProducts__c From Toro_PricingProgram__c r where id = :recordId];
-		if(string.isNotBlank(header.ApplicableProducts__c)) {
-			List<String> prodList =header.ApplicableProducts__c.split(',');
-			List<Revvy__MnCatalogNode__c> catalogNodes = [select Id, Revvy__Id__c, name from Revvy__MnCatalogNode__c where Revvy__Id__c in :prodList];
 
-			for(Revvy__MnCatalogNode__c p : catalogNodes) {
-				selectedProducts.add(new wrapper(false, p.revvy__Id__c, p.name));
-			}
-			system.debug('-----selectedProducts--' + selectedProducts);
-		}
-	}
 	public PageReference cancel() {
 		PageReference pg = new PageReference('/'+recordId);
 		pg.setRedirect(true);
 		return pg;
 	}
+
 	public PageReference saveSelectedProduct() {
-		Revvy__MnCatalogNode__c p = [select Name, Revvy__Id__c from Revvy__MnCatalogNode__c where id = :header.SelectProduct__c];
-		Set<String> newProdSet = new Set<String>{p.revvy__Id__c};
+		REVVY__MnCatalogNode__c p = [SELECT Name, REVVY__Id__c FROM REVVY__MnCatalogNode__c WHERE Id = :header.SelectProduct__c];
+		Set<String> newProdSet = new Set<String>{p.REVVY__Id__c};
 		for(Wrapper w : selectedProducts) {
 			if(w.selected) {
 				newProdSet.add(w.prod);
@@ -83,36 +110,34 @@ public with sharing class ToroPricingProgramLineProductSelector {
 		List<String> newProdList = new List<String>(newProdSet);
 		header.ApplicableProducts__c = String.join(newProdList, ',');
 		update header;
-		system.debug('product = ' + p.name + ' id =' + p.revvy__Id__c);
 		return cancel();
 	}
 
 	public void addProduct() {
+		List<REVVY__MnCatalogNode__c> products = [SELECT Name, REVVY__Id__c FROM REVVY__MnCatalogNode__c WHERE Id = :header.SelectProduct__c];
+		Set<String> newProdSet = new Set<String>{products[0].REVVY__Id__c};
+		List<String> prodList = new List<String>();
+		if(header.ApplicableProducts__c != null) {
+			prodList = header.ApplicableProducts__c.split(',');
+		}
 
-		list<Revvy__MnCatalogNode__c> products = [select Name, Revvy__Id__c from Revvy__MnCatalogNode__c where id = :header.SelectProduct__c];
+		newProdSet.addAll(prodList);
+		newProdSet.remove('All');
+		prodList = new List<String>(newProdSet);
+		header.ApplicableProducts__c = String.join(prodList, ',');
 
-			Set<String> newProdSet = new Set<String>{products[0].revvy__Id__c};
-			List<String> prodList = new List<String>();
-			if(header.ApplicableProducts__c != null) {
-				prodList =header.ApplicableProducts__c.split(',');
-			}
-			newProdSet.addAll(prodList);
-			newProdSet.remove('All');
-			prodList = new List<String>(newProdSet);
-			header.ApplicableProducts__c = String.join(prodList, ',');
-
-			update header;
-			loadPageVariables();
-
+		update header;
+		loadPageVariables();
 	}
 
 	public void deleteItems() {
 		Set<String> newProdSet = new Set<String>();
-		for(Wrapper w : selectedProducts) {
-			if(!w.selected) {
+		for (Wrapper w : selectedProducts) {
+			if (!w.selected) {
 				newProdSet.add(w.prod);
 			}
 		}
+
 		List<String> newProdList = new List<String>(newProdSet);
 		header.ApplicableProducts__c = String.join(newProdList, ',');
 		update header;
