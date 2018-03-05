@@ -701,7 +701,11 @@
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     component.set('v.quoteItems', retRecords);
                     component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
-                    
+                     var cmpEvent = component.getEvent("calculationCompleteEvent");
+                        cmpEvent.setParams({
+                            "quote" : retResponse.quote
+                        });
+                        cmpEvent.fire();
                     
                     var sublineMap = {};  
                     var quoteItemMap={};

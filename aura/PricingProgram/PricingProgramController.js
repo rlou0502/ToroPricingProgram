@@ -18,6 +18,11 @@
 		childCmp.calculate(result.PricingProgram, result.PricingMethod, 
                            result.SetupFeePercent, result.PerformancePart);        
     },
+    handleCalculationComplete: function(component, event, helper) {
+    	var quoteHeaderCmp = component.find("cmpQuoteHeader");
+        var quote=event.getParam("quote");
+        quoteHeaderCmp.set("v.quote", quote);
+    },
     saveAndClose: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();

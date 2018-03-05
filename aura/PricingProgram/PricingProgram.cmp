@@ -9,6 +9,7 @@
     <aura:handler name="pricingProgramSetEvent" event="c:PricingProgramSetFromDBEvent" action="{!c.handleSetPricingProgram}"/>
     <aura:handler name="pricingMethodSetEvent" event="c:PricingMethodSetFromDBEvent" action="{!c.handleSetPricingMethod}"/>
     <aura:handler name="refreshInfoBoxEvent" event="c:RefreshInfoBoxEvent" action="{!c.handleRefeshInfoBox}"/>
+    <aura:handler name="calculationCompleteEvent" event="c:ToroCalculationCompleteEvent" action="{!c.handleCalculationComplete}"/>
 	<aura:handler name="init" value="{!this}" action="{!c.init}" />
     <aura:handler name="PMAwardPriceChangeEvent" event="c:PricingMethodAwardPriceChangeEvent" action="{!c.handleAwardPriceChange}"/>
     <aura:handler name="PMGPPercentChangeEvent" event="c:PricingMethodGPPercentChangeEvent" action="{!c.handleGPPercentChange}"/>
