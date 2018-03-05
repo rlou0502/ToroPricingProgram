@@ -16,7 +16,7 @@ var cleanSelectProductBox = function() {
  		<apex:pageBlockSection title="Select Product" columns="1" id="selectProduct">
  			<apex:pageBlockSectionItem >
          		<apex:outputLabel value="Select a product" />
-            		<apex:inputField html-class="select-product" value="{!header.SelectProduct__c}">
+            		<apex:inputField html-class="select-product" value="{!dummyHeader.SelectProduct__c}">
             			<apex:actionSupport event="onchange" rerender="selectedProduct" action="{!addProduct}" oncomplete="cleanSelectProductBox();" />
             		</apex:inputField>
          	</apex:pageBlockSectionItem>

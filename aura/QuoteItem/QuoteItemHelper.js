@@ -258,7 +258,7 @@
         tableCol.colSpan = colspan.toString();
         tableRow.appendChild(tableCol);
         var childTable = document.createElement('table');
-        childTable.className += "sublnes-table slds-table slds-table--striped slds-table--cell-buffer slds-table--fixed-layout"; 
+        childTable.className += "sublnes-table slds-table slds-table--cell-buffer slds-table--fixed-layout"; 
         var childTableHeader = document.createElement('thead'); 
         var headerRow = document.createElement('tr');
         headerRow.className += "slds-text-heading--label";
