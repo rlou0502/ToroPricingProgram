@@ -23,39 +23,63 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	public Toro_PricingProgram__c header 				 	{ get; set; }
 	public Toro_PricingProgramLine__c pricingProgramLine 	{ get; set; }
 
+	public REVVY__MnCatalogNode__c selectedProduct 			{ get; set; }
 
-
-	public ToroPricingProgramLineProductSelector(ApexPages.StandardController controller){
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public ToroPricingProgramLineProductSelector(ApexPages.StandardController controller) {
 		ctrl             = controller;
 		recordId         = controller.getRecord().Id;
 		selectedProducts = new List<wrapper>();
 		loadPageVariables();
 	}
 
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
 	public void loadPageVariables() {
 		selectedProducts.clear();
-		header = [
+		pricingProgramLine = [
 			SELECT
-				Id
-				, r.Name
-				, r.SelectProduct__c
-				, r.ExternalId__c
-				, r.ApplicableProducts__c
+				PricingProgram__c
+				, ApplicableProducts__c
 			FROM
-				Toro_PricingProgram__c r
+				Toro_PricingProgramLine__c
 			WHERE
 				Id = :recordId
 		];
 
-		if (String.isNotBlank(header.ApplicableProducts__c)) {
-			List<String> prodList = header.ApplicableProducts__c.split(',');
+		header = [
+			SELECT
+				Id
+				, Name
+				, SelectProduct__c
+				, ExternalId__c
+				, ApplicableProducts__c
+			FROM
+				Toro_PricingProgram__c
+			WHERE
+				Id = :pricingProgramLine.PricingProgram__c
+		];
+
+		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {
+			final List<String> productIds = header.ApplicableProducts__c.split(',');
 			List<REVVY__MnCatalogNode__c> catalogNodes = [
 				SELECT
 					REVVY__Id__c, Name
 				FROM
 					REVVY__MnCatalogNode__c
 				WHERE
-					REVVY__Id__c in :prodList];
+					REVVY__Id__c in :productIds];
 			for (REVVY__MnCatalogNode__c p : catalogNodes) {
 				selectedProducts.add(new Wrapper(false, p.REVVY__Id__c, p.Name));
 			}

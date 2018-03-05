@@ -27,6 +27,24 @@ public with sharing class ToroPricingProgramEligibility {
 		List<Toro_PricingProgram__c> corporateAccountPP = [select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, ExternalId__c, Exclude__c from Toro_PricingProgram__c where Corporate_Account__c in (select CPS_Parent_Account__c from account where id =  :customerId)];
 		system.debug(logginglevel.info, 'corporateAccountPP = ' + corporateAccountPP);
 		result.addAll(corporateAccountPP);
+		
+		//add stansdard-alone pricing program
+		
+		List<Toro_PricingProgramEligibility__c> programs = [Select PricingProgram__r.IsTaxSupported__c, PricingProgram__r.IsFirstTee__c, 
+													PricingProgram__r.MinimumTractionUnits__c, PricingProgram__r.OverriddenPriceList__c, 
+													PricingProgram__r.AllowSupportPlus__c, PricingProgram__r.PricingProgramStyle__c, 
+													PricingProgram__r.PricingProgramType__c, PricingProgram__r.ExternalId__c, PricingProgram__r.Name,
+													PricingProgram__r.Exclude__c, PricingProgram__r.ApplicableProducts__c, PricingProgram__c
+													From Toro_PricingProgramEligibility__c where Distributor__c = :customer.Id and PricingProgram__r.IsFirstTee__c = FALSE];
+		system.debug(logginglevel.info, ' programs size= ' + programs.size());
+		for(Toro_PricingProgramEligibility__c e : programs) {
+			result.add(new Toro_PricingProgram__c(Id=e.PricingProgram__c, Name=e.PricingProgram__r.Name,IsTaxSupported__c = e.PricingProgram__r.IsTaxSupported__c,
+													IsFirstTee__c = e.PricingProgram__r.IsFirstTee__c,MinimumTractionUnits__c = e.PricingProgram__r.MinimumTractionUnits__c,
+													OverriddenPriceList__c = e.PricingProgram__r.OverriddenPriceList__c,AllowSupportPlus__c = e.PricingProgram__r.AllowSupportPlus__c,
+													PricingProgramStyle__c = e.PricingProgram__r.PricingProgramStyle__c,ExternalId__c = e.PricingProgram__r.ExternalId__c,
+													Exclude__c = e.PricingProgram__r.Exclude__c));		
+		}
+		
 		List<String> criteria = new List<String>();
 		String query = 'select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, ExternalId__c, Exclude__c from Toro_PricingProgram__c  ';
 		if(customer.First_Tee__c) {

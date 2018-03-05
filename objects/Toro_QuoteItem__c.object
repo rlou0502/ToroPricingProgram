@@ -646,7 +646,7 @@
     <fields>
         <fullName>QI_Rebate__c</fullName>
         <externalId>false</externalId>
-        <formula>Rebate_as_a_of_DN__c * Toro_Extended_DNet_Price__c</formula>
+        <formula>Toro_Extended_DNet_Price__c *  Rebate_as_a_of_DN__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Rebate</label>
         <precision>18</precision>
