@@ -156,18 +156,24 @@ public abstract class ToroPricingProgram {
 					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
 					// calculate values for the subline
 					qis.Toro_Extended_Qty__c              = extQty;
+					
+					//qis.Toro_Extended_Award_DNet_Price__c can be deprecated
 					qis.Toro_Extended_Award_DNet_Price__c = qis.DNet_Price__c * extQty * CMnQuoteUtil.defaultDecimal(qis.Percent_of_DNet__c)/100;
+					
+					//qis.Toro_Extended_Award_MSRP_Price__c can be deprecated
 					qis.Toro_Extended_Award_MSRP_Price__c = qis.MSRP_Price__c * extQty * (1 - CMnQuoteUtil.defaultDecimal(qis.Percent_Off_MSRP__c)/100);
 					system.debug(logginglevel.info,'------Percent_of_DNet__c  =' + qis.Percent_of_DNet__c);
 					system.debug(logginglevel.info,'------Percent_Off_MSRP__c  =' + qis.Percent_Off_MSRP__c);
 
-					//ask lance
+					//This is quote subline's award price - 
 					system.debug(logginglevel.info,'------qis.Award_Price__c  =' + qis.Award_Price__c);
+					
+					//This is quote subline's award price -
 					qis.Toro_Extended_Award_Price__c      = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)  * extQty;
 					system.debug(logginglevel.info,'------qis.Toro_Extended_Award_Price__c  =' + qis.Toro_Extended_Award_Price__c);
 					//do we need this//allied product will always dnet as 0
 					qis.Toro_DNet_Price__c                = (qis.TPP_Line_Item__c == true) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
-					//???? need clarification //
+					//qis.Toro_Extended_Award_MSRP_Price__c can be deprecated
 					qis.Toro_Extended_MSRP_Price__c       = (qis.Performance_Part__c == true) ? (qis.Quote_Item_Sub_Line__r.REVVY__Unit_Price__c * extQty) : (CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * extQty);
 
 					System.debug('\n\n@@qis.Fee_Percentage__c: ' + qis.Fee_Percentage__c + '\n\n');
@@ -178,16 +184,20 @@ public abstract class ToroPricingProgram {
 					qis.Toro_Subline_Rebate__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty* CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100;
 
 					// calculate rollups on the quote item
+					//@deprecated
 					qi.Toro_Rollup_Award_DNet_Price__c           += qis.Toro_Extended_Award_DNet_Price__c;
+					//@deprecated
 					qi.Toro_Rollup_Award_MSRP_Price__c           += qis.Toro_Extended_Award_MSRP_Price__c;
+					//@deprecated
 					qi.Toro_Rollup_Award_Price__c                += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					//????????????
 					if(qis.TPP_Line_Item__c) {
 						qi.Toro_Rollup_DNet_for_TPP__c += CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c);
 					}
-
+					//@deprecated
 					qi.Toro_Rollup_DNet_Price__c                 += CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c);
 					qi.Toro_Rollup_Extended_Award_Price__c       += qis.Toro_Extended_Award_Price__c;
+					//@deprecated
 					qi.Toro_Rollup_MSRP_Price__c                 += qis.Toro_Extended_MSRP_Price__c;
 					qi.Toro_Rollup_Num_of_SubLines_for_Rebate__c += 1; // count of sublines
 
@@ -198,6 +208,7 @@ public abstract class ToroPricingProgram {
 
 					qi.Toro_Rollup_Subline_Rebate__c             += qis.Toro_Subline_Rebate__c;
 					//??do we need this - need more input from nalee, nalee has a better way to do this
+					//@deprecated
 					qi.Toro_Rollup_Sum_percent_Rebate_of_Dnet__c += CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c);
 				}
 			}
@@ -221,36 +232,44 @@ public abstract class ToroPricingProgram {
 			}
 			//todo -- need calculate Toro_Rollup_Partner_Products__c and Toro_Rollup_TPP__c
 			//might need Total_Award_Price__c, TPP should be included in calculation
+			/*
 			qi.Toro_Total_Award_price__c = (qi.Select_a_Price_Method__c == '% of DNET')
 											? qi.Toro_Extended_Award_DNet_Price__c
 											: CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_MSRP_Price__c)
 												- (CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_Partner_Products__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100))
 												- (CMnQuoteUtil.defaultDecimal(qi.Toro_Rollup_TPP__c) * ((1 - CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)) / 100));
-
+			*/
+			 
 			System.debug('\n\n@@qi.Select_a_Price_Method__c: ' + qi.Select_a_Price_Method__c + '\n\n');
 			System.debug('\n\n@@qi.Toro_Extended_Award_DNet_Price__c: ' + qi.Toro_Extended_Award_DNet_Price__c + '\n\n');
 			System.debug('\n\n@@qi.Toro_Extended_Award_MSRP_Price__c: ' + qi.Toro_Extended_Award_MSRP_Price__c + '\n\n');
 			System.debug('\n\n@@qi.Toro_Total_Award_price__c: ' + qi.Toro_Total_Award_price__c + '\n\n');
 
 			if (qi.Award_Price__c != null) {
+				//@deprecated
 				qi.Toro_Total_Extended_Award_Price__c = qi.Award_Price__c * qty;
 			}
 			system.debug(LoggingLevel.INFO,' id='+qi.Product_Id__c+' qty=' + qty + 'qi.DNet_Price__c ' + qi.DNet_Price__c );
 			qi.Toro_Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qty);
 
-			if (qi.Toro_Extended_DNet_Price__c != 0) {
-				qi.Toro_Blend_Of_DN__c = qi.Toro_Total_Extended_Award_Price__c / qi.Toro_Extended_DNet_Price__c * 100;
-			}
-
+			
 			qi.Toro_Distributor_Responsibility__c = null; // @TODO
 			//total extended dnet
 			qi.Toro_Rollup_DNet_for_TPP__c =0;
+			//need a total dnet price
 			qi.Toro_DNet_Price__c      = (qi.DNet_Price__c * qty) + (qi.Toro_Rollup_DNet_Price__c - qi.Toro_Rollup_DNet_for_TPP__c);
 			qi.Toro_DNetWOTPPAllied__c = (qi.DNet_Price__c * qty) + (qi.Toro_Rollup_DNet_Price__c - qi.Toro_Rollup_DNet_for_TPP__c);
 //unit award price
 			if (qi.Award_Price__c != null) {
 				qi.Toro_Extended_Award_Price__c = qi.Award_Price__c * qty;
 			}
+			qi.Toro_Total_Award_price__c = qi.Toro_Extended_Award_Price__c + qi.Toro_Rollup_Extended_Award_Price__c;
+			
+			if (qi.Toro_DNetWOTPPAllied__c != 0) {
+				qi.Toro_Blend_Of_DN__c = qi.Toro_Total_Extended_Award_Price__c / qi.Toro_DNetWOTPPAllied__c * 100;
+			}
+			
+			
 			//?? remove?
 			System.debug('+++++ Toro_Extended_MSRP_Price__c qi.MSRP_Price__c='+qi.MSRP_Price__c + ' qty='+qty );
 			qi.Toro_Extended_MSRP_Price__c = (qi.Performance_Parts_Product__c == true)
@@ -312,11 +331,16 @@ public abstract class ToroPricingProgram {
 			quote.Toro_Total_Rebate__c             += qi.Toro_Total_Rebate__c;
 			quote.Toro_Rollup_DNetWOTPPAllied__c   += qi.Toro_DNetWOTPPAllied__c;
 		}
+		
+		// quote.Toro_Rollup_Award_Price__c is quote award price
+		// quote.Toro_Rollup_DNetWOTPPAllied__c is quote dnet without tpp and allied
+		
 		if(quote.Toro_Rollup_DNET__c != null && quote.Toro_Rollup_DNET__c != 0) {
-			quote.Toro_Blended_Percent_of_DN__c            = quote.Toro_Rollup_Award_Price__c / quote.Toro_Rollup_DNET__c;
+			quote.Toro_Blended_Percent_of_DN__c            = quote.Toro_Rollup_Award_Price__c / quote.Toro_Rollup_DNetWOTPPAllied__c*100;
+			quote.Toro_Blended_Percent_of_DN__c=quote.Toro_Blended_Percent_of_DN__c.setScale(2);
 		}
 		if(quote.Toro_Total_DNet__c != null && quote.Toro_Total_DNet__c != 0) {
-			quote.Toro_Total_Award_of_DNET__c              = quote.REVVY__OneTimeTotalAfterAdjustmentDisplay_F__c / quote.Toro_Total_DNet__c;
+			//quote.Toro_Total_Award_of_DNET__c              = quote.REVVY__OneTimeTotalAfterAdjustmentDisplay_F__c / quote.Toro_Total_DNet__c;
 		}
 		if(quote.Toro_Rollup_Award_Price__c != null && quote.Toro_Rollup_Award_Price__c != 0) {
 			quote.Toro_Total_Quote_Gross_Profit_Percent__c = quote.Toro_Total_Quote_Gross_Profit__c / quote.Toro_Rollup_Award_Price__c;
@@ -438,89 +462,7 @@ public abstract class ToroPricingProgram {
 		}
 
 	}
-/*
-	public void saveToroQuoteItemList(List<Toro_QuoteItem__c> quoteItemList ){
-
-		List<Toro_QuoteItem__c> toroQuoteItems = new List<Toro_QuoteItem__c>();
-		List<Toro_QuoteItem_SubLine__c> toroSublines = new List<Toro_QuoteItem_SubLine__c>();
-		for(Toro_QuoteItem__c qi : quoteItemList) {
-
-			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for(Toro_QuoteItem_SubLine__cpoiuyd qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					Toro_QuoteItem_SubLine__c toroSubline = new Toro_QuoteItem_SubLine__c(
-						External_Id__c = qis.Id,
-						DNet_Price_2__c=qis.DNet_Price_2__c,
-						Percent_of_DNet__c=qis.Percent_of_DNet__c,
-						Percent_Off_MSRP__c=qis.Percent_Off_MSRP__c,
-						TPP_Line_Item__c=qis.TPP_Line_Item__c,
-						Performance_Part__c=qis.Performance_Part__c,
-						Toro_Extended_Qty__c=qis.Toro_Extended_Qty__c,
-						Toro_Extended_Award_DNet_Price__c=qis.Toro_Extended_Award_DNet_Price__c,
-						Toro_Extended_Award_MSRP_Price__c=qis.Toro_Extended_Award_MSRP_Price__c,
-						Toro_Extended_Award_Price__c=qis.Toro_Extended_Award_Price__c,
-						Toro_DNet_Price__c=qis.Toro_DNet_Price__c,
-						Toro_Extended_MSRP_Price__c=qis.Toro_Extended_MSRP_Price__c,
-						Toro_Fee_Amount__c=qis.Toro_Fee_Amount__c,
-						Toro_Subline_Rebate__c=qis.Toro_Subline_Rebate__c
-					);
-					toroSublines.add(toroSubline);
-				}
-			}
-			Toro_QuoteItem__c tqi = new Toro_QuoteItem__c(QuoteItem__c=qi.Id,
-				//Product_Name__c=qi.revvy__product_name_f__c, Product_Id__c=qi.revvy__product_Id_f__c,
-				MSRP_Price__c=qi.revvy__Price__c, DNet_Price__c=qi.revvy__suggestedPrice__c, External_Id__c = qi.Id,
-				Award_of_DN__c=qi.Award_of_DN__c,
-				Award_Price__c=qi.Award_Price__c,
-				Description__c=qi.Description__c,
-				Original_off_MSRP__c=qi.Original_off_MSRP__c,
-				Oroginal_of_DNet__c=qi.Oroginal_of_DNet__c,
-				Part_Percentage__c=qi.Part_Percentage__c,
-				Off_MSRP__c=qi.Off_MSRP__c,
-				Performance_Parts_Product__c=qi.Performance_Parts_Product__c,
-				Pricing_Program__c=qi.Pricing_Program__c,
-				Rebate_as_a_of_DN__c=qi.Rebate_as_a_of_DN__c,
-				Select_a_Price_Method__c=qi.Select_a_Price_Method__c,
-				Selected_Off_MSRP__c=qi.Selected_Off_MSRP__c,
-				Select_Price_Program_Type__c=qi.Select_Price_Program_Type__c,
-				//....more here....
-				Toro_Rollup_Award_DNet_Price__c=qi.Toro_Rollup_Award_DNet_Price__c,
-				Toro_Rollup_Award_MSRP_Price__c=qi.Toro_Rollup_Award_MSRP_Price__c,
-				Toro_Rollup_Award_Price__c=qi.Toro_Rollup_Award_Price__c,
-				Toro_Rollup_DNet_for_TPP__c=qi.Toro_Rollup_DNet_for_TPP__c,
-				Toro_Rollup_DNet_Price__c=qi.Toro_Rollup_DNet_Price__c,
-				Toro_Rollup_Extended_Award_Price__c=qi.Toro_Rollup_Extended_Award_Price__c,
-				Toro_Rollup_MSRP_Price__c=qi.Toro_Rollup_MSRP_Price__c,
-				Toro_Rollup_Num_of_SubLines_for_Rebate__c=qi.Toro_Rollup_Num_of_SubLines_for_Rebate__c,
-				Toro_Rollup_Setup_Fees_Sub_Line__c=qi.Toro_Rollup_Setup_Fees_Sub_Line__c,
-				Toro_Rollup_Sum_percent_Rebate_of_Dnet__c=qi.Toro_Rollup_Sum_percent_Rebate_of_Dnet__c,
-				Toro_Extended_Award_DNet_Price__c=qi.Toro_Extended_Award_DNet_Price__c,
-				Toro_Extended_Award_MSRP_Price__c=qi.Toro_Extended_Award_MSRP_Price__c,
-				Toro_Total_Award_price__c=qi.Toro_Total_Award_price__c,
-				Toro_Total_Extended_Award_Price__c=qi.Toro_Total_Extended_Award_Price__c,
-				Toro_Extended_DNet_Price__c=qi.Toro_Extended_DNet_Price__c,
-				Toro_Blend_Of_DN__c=qi.Toro_Blend_Of_DN__c,
-				Toro_Distributor_Responsibility__c=qi.Toro_Distributor_Responsibility__c,
-				Toro_DNet_Price__c=qi.Toro_DNet_Price__c,
-				Toro_DNetWOTPPAllied__c=qi.Toro_DNetWOTPPAllied__c,
-				Toro_Extended_Award_Price__c=qi.Toro_Extended_Award_Price__c,
-				Toro_Extended_MSRP_Price__c=qi.Toro_Extended_MSRP_Price__c,
-				Toro_Fee_Amount__c=qi.Toro_Fee_Amount__c,
-				Toro_Total_Rebate__c=qi.Toro_Total_Rebate__c,
-				Toro_Gross_Profit_Value__c=qi.Toro_Gross_Profit_Value__c,
-				Toro_Gross_Profit_Percent__c=qi.Toro_Gross_Profit_Percent__c,
-				Toro_QuoteItemSubline_Rebate_as_of_Dnet__c=qi.Toro_QuoteItemSubline_Rebate_as_of_Dnet__c,
-				Toro_Total_Extended_MSRP_Price__c=qi.Toro_Total_Extended_MSRP_Price__c,
-				Toro_Total_Setup_Fees__c=qi.Toro_Total_Setup_Fees__c,
-				Toro_Total_Unit_Award__c=qi.Toro_Total_Unit_Award__c
-				);
-
-			toroQuoteItems.add(tqi);
-		}
-		upsert toroQuoteItems External_Id__c;
-		upsert toroSublines External_Id__c;
-
-	}
-	*/
+	
 	//Method saveQuoteItemList is a template method called by calculateRebateMargin
 	public virtual List<Toro_QuoteItem__c> saveQuoteItemList(List<Toro_QuoteItem__c> quoteItemList ){
 
@@ -545,7 +487,8 @@ public abstract class ToroPricingProgram {
 		if(updateQuoteItemSublines.size() > 0) {
 			update updateQuoteItemSublines;
 		}
-
+		
+		update quote;
 		return quoteItemList;
 	}
 
