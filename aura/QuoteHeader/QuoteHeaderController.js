@@ -32,7 +32,7 @@
         cmpEvent.fire();
     },
     onGpPercentChange: function(cmp, event, helper){
-        
+        debugger;
         var changedValue = event.currentTarget.value;
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");

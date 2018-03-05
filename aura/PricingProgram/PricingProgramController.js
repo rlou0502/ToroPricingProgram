@@ -51,6 +51,7 @@
 		childCmp.setPMTotalAwardDollars(pricingProgram, pricingMethod, awardPrice);    
     },
     handleGPPercentChange: function(component, event, helper) {
+        debugger;
     	var pricingProgram=event.getParam("pricingProgram");
         var pricingMethod=event.getParam("pricingMethod");
         var gpPercent=event.getParam("gpPercent");

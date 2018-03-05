@@ -6,8 +6,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	}
 
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		List<Schema.FieldSetMember> fsl = SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
-		return fsl;
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();	
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields();
@@ -20,7 +19,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Quote_SubLine_Updatable_Co.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
 	}
 
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {

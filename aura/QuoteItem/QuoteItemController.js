@@ -145,6 +145,7 @@
     setPMGPPercent: function(cmp, event, helper) {
         console.log('setPMGPPercent');      
         var params = event.getParam('arguments');
+        debugger;
         if(params) {
             var pricingProgram = params.pricingProgram;
             var pricingMethod = params.pricingMethod;

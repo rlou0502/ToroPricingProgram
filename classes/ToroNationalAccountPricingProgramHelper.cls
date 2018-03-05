@@ -12,7 +12,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		return ret;
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.National_Account_Quote_Line_Cols.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.National_Account_Quote_Line_Updtbl_Cols.getFields();
@@ -22,7 +23,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	}
 	
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.National_Account_Quote_Line_Cols.getFields();
 	}
 	
 	public override boolean displaySetupFee() {
