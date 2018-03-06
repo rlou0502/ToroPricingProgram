@@ -77,7 +77,7 @@
                     <aura:if isTrue="{!v.selectedPricingMethod == 'Gross Profit %'}">
                         <div class="slds-truncate slds-p-bottom_x-small" title="Gross Profit %">Gross Profit %</div>
                         <div>
-                            <input type="text" value="{!v.quote.Gross_Profit_Percent__c}" onchange="{!c.onGpPercentChange}"/>
+                            <input type="text" value="{!v.quote.Gross_Profit_Percent__c}" onchange="{!c.onGpPercentChange}" onkeypress="{!c.onGPPPress}"/>
                         </div>
                     </aura:if>
                     </td>

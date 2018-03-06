@@ -8,6 +8,10 @@
         var pm = cmp.get("v.selectedPricingMethod");
         return {"PricingProgram" : pp, "PricingMethod" : pm};
     },
+    onGPPPress: function(cmp, event, helper) {
+    	var cal = document.querySelector('.js-calculate').disabled = true; 
+        var save = document.querySelector('.js-saveAndClose').disabled = true;
+    },
     getQuoteInfo: function(cmp, event, helper) {
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
@@ -32,7 +36,8 @@
         cmpEvent.fire();
     },
     onGpPercentChange: function(cmp, event, helper){
-        debugger;
+        var cal = document.querySelector('.js-calculate').disabled = false; 
+        var save = document.querySelector('.js-saveAndClose').disabled = false;
         var changedValue = event.currentTarget.value;
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
