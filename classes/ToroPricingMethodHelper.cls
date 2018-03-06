@@ -347,7 +347,7 @@ public with sharing class ToroPricingMethodHelper {
 		return this;	
 	} 
 	
-	public static List<Toro_QuoteItem__c> distributeTotalAwordDollors(List<Toro_QuoteItem__c> quoteItemList, decimal totalAwardDollors) {
+	public static List<Toro_QuoteItem__c> distributeTotalAwardDollors(List<Toro_QuoteItem__c> quoteItemList, decimal totalAwardDollors) {
 		decimal totalToroDNetPrice = 0;
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			decimal qiExtDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
@@ -379,7 +379,7 @@ public with sharing class ToroPricingMethodHelper {
 		system.debug(logginglevel.info, 'distributeTotalAwordDollors totalToroDNetPrice  =' + totalToroDNetPrice);
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			qi.Award_Price__c = (totalAwardDollors * (qi.DNet_Price__c * qi.Quantity__c /totalToroDNetPrice)/qi.Quantity__c); //.setScale(2,roundingMode.HALF_UP);
-			qi.PricingMethodValue__c = string.valueOf(qi.Award_Price__c);
+			qi.PricingMethodValue__c = string.valueOf(qi.Award_Price__c.setScale(2, roundingMode.HALF_UP));
 			system.debug(logginglevel.info, 'distributeTotalAwordDollors qi product   =' + qi.product_name__c + 'qi product id   =' + qi.product_id__c + ' qi.Award_Price__c=' + qi.Award_Price__c);
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -392,7 +392,7 @@ public with sharing class ToroPricingMethodHelper {
 					} else {
 						qis.Award_Price__c = 0;
 					}	
-					qis.PricingMethodValue__c = string.valueOf(qis.Award_Price__c);
+					qis.PricingMethodValue__c = string.valueOf(qis.Award_Price__c.setScale(2, roundingMode.HALF_UP));
 				}	
 			}
 		}
