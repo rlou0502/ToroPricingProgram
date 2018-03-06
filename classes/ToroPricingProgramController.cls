@@ -296,10 +296,10 @@ public class ToroPricingProgramController {
     	if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
     		pp.initialize(quoteId);
-    		list<Toro_QuoteItem__c> items = ToroPricingMethodHelper.distributeTotalAwordDollors(pp.quoteItems, awardPrice);
+    		pp.quoteItems = ToroPricingMethodHelper.distributeTotalAwordDollors(pp.quoteItems, awardPrice);
     		rs = retrieveFieldSets(rs, pp, pricingMethod);
-			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
-	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
+			//system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+	    	//pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 	    	
 	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
 	    	for(FieldSetMember fs : rs.fieldSetMembers) {

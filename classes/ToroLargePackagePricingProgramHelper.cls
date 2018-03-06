@@ -77,7 +77,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		helper.pricingProgramExternalId = priceProgram;
 		helper.quoteItemList = quoteItemList;
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-			helper.convertAwardPriceToDNetPercent().retrievePricingInfoForDNet().calculateGP(); 
+			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrievePricingInfoForDNet().calculateGP(); 
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
 			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().retrievePricingInfoForDNet().calculateGP();
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
