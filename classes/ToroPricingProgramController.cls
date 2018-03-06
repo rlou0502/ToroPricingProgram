@@ -360,7 +360,7 @@ public class ToroPricingProgramController {
 	    			fss.label = rs.selectedPricingMethod;	
 	    		}	
 	    	}
-	    	
+	    	rs.quote = pp.quote;
 	    	rs.values =  pp.quoteItems;
 	    	rs.chainCall = pp.chainCall;
 	    	rs.payload = pp.payloadOfChainCall;
