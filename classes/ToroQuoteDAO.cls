@@ -18,14 +18,6 @@ public class ToroQuoteDAO {
         , 'REVVY__Version_Number__c'
         , 'REVVY__Id__c'
         , 'REVVY__One_Time_Unit_Price_S__c'
-        , 'Extended_Target_Price__c'
-        , 'Extended_Pat1__c'
-        , 'Extended_Pat2__c'
-        , 'HISS_Deal_Margin__c'
-        , 'HISS_Target_Margin__c'
-        , 'HISS_Total_Cost_Price__c'
-        , 'HISS_Total_List_Price__c'
-        , 'HISS_Total_Sell_Price__c'
     };
 
     public static final Set<String> QUOTE_SOLUTION_ATTRIBUTE_FIELDS = new Set<String> {
@@ -156,8 +148,6 @@ public class ToroQuoteDAO {
         , 'TargetPrice__c'
         , 'REVVY__ListedPrice__c'
         , 'REVVY__CostPrice__c'
-        , 'PAT1__c'
-        , 'PAT2__c'
         , 'REVVY__Product__c'
         , 'REVVY__Product__r.REVVY__Id__c'
         , 'REVVY__Product_Name__c'

@@ -99,7 +99,6 @@
             }     
         }
     },
-    
     setPMTotalAwardDollars: function(cmp, event, helper) {
         console.log('setPMTotalAwardDollars');      
         var params = event.getParam('arguments');
@@ -124,17 +123,34 @@
                     
                     if (cmp.isValid() && state === "SUCCESS") {  
                         var data = response.getReturnValue();
-                        var retResponse = response.getReturnValue();
-               			for (var key in retResponse) {
-                            if (retResponse.hasOwnProperty(key)) {
-                                var elms = document.querySelectorAll(".sfdcid-"+key);
-                                if(elms) {
-                                    for(var i=0; i < elms.length; i++){
-                                    	elms[i].value = retResponse[key];    
-                                    }    
-                                }
-                            }
+                    var retResponse = response.getReturnValue();
+                    var retRecords = retResponse.values;
+                    var fields = retResponse.fieldSetMembers;
+                    cmp.set('v.fields', fields);
+                    cmp.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
+                    cmp.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
+                    cmp.set('v.quoteItems', retRecords);
+                    cmp.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+                     var cmpEvent = cmp.getEvent("calculationCompleteEvent");
+                        cmpEvent.setParams({
+                            "quote" : retResponse.quote
+                        });
+                        cmpEvent.fire();
+                    
+                    var sublineMap = {};  
+                    var quoteItemMap={};
+                    retRecords.forEach(function(s) {
+                        quoteItemMap[s["Id"]]=s;
+                        if(s["Toro_Quote_Item_Sub_Lines__r"]) {
+                            sublineMap[s["Id"]]= s["Toro_Quote_Item_Sub_Lines__r"];  
                         }
+                    });
+                    cmp.set('v.sublineMap', sublineMap);
+                    cmp.set('v.quoteItemMap', quoteItemMap);
+                    helper.hideSpinner();
+                    var items = document.getElementById("quoteItems");
+                    helper.cleanInnerNodes(items);
+                    helper.renderQuoteItems(cmp);
                     }
                     helper.hideSpinner();
                 }
