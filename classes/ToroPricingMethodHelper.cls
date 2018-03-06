@@ -105,7 +105,7 @@ public with sharing class ToroPricingMethodHelper {
 				if(qi.Toro_Extended_DNet_Price__c != null && qi.Toro_Extended_DNet_Price__c !=0 ) {
 					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_DNet_Price__c) / qi.Toro_Extended_DNet_Price__c * 100;
 					qi.Award_of_DN__c = qi.Toro_Blend_Of_DN__c;
-					qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
+					//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
 				}
 			}
@@ -283,7 +283,7 @@ public with sharing class ToroPricingMethodHelper {
 						decimal x1 = topRow.grossProfitPercent/100;
 						decimal x2 = bottomRow.grossProfitPercent/100;
 						decimal x3 = gpPercent/100;
-						system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---x1 ' + x1 + ' - ' + x2 + ' - ' + x3);
+						system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---x1 = ' + x1 + ' - x2= ' + x2 + ' -x3= ' + x3);
 						//Calculate  Percent Adjustment Amount (PAA)
 						decimal paa = 1-((x1 - x2)-(x1 - x3))/(x1 - x2);
 						system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---paa=' + paa);
