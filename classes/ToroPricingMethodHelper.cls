@@ -245,21 +245,29 @@ public with sharing class ToroPricingMethodHelper {
 	private decimal lookupDNetPercentFromGPPercent(decimal gpPercent) {
 		decimal dnetPercent = null;
 		gpPercent = gpPercent.setScale(5, roundingMode.HALF_UP);
+		system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent gpPercent = ' + gpPercent);
 		system.debug('GPPercentMap.containsKey(pricingProgramExternalId)=' + GPPercentMap.containsKey(pricingProgramExternalId));
 		system.debug('GPPercentMap.get(pricingProgramExternalId).get(msrpPercent)=' + GPPercentMap.get(pricingProgramExternalId).get(gpPercent));
 		if(GPPercentMap.containsKey(pricingProgramExternalId) && GPPercentMap.get(pricingProgramExternalId).containsKey(gpPercent)) {
 			dnetPercent = GPPercentMap.get(pricingProgramExternalId).get(gpPercent).percentOfDNet;	
+			system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent match found dnetPercent= ' + dnetPercent);
 		} else {
+			system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent match not found dnetPercent= ' + dnetPercent);
 			if(GPPercentMap.containsKey(pricingProgramExternalId)) {
+				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---');
 				ToroPricingMethodData topRow = null;
 				ToroPricingMethodData bottomRow = null;
 				Map<decimal, ToroPricingMethodData> gp2Map = GPPercentMap.get(pricingProgramExternalId);
 				ToroPricingMethodData upperBound = gp2Map.values()[0];
 				ToroPricingMethodData lowerBound = gp2Map.values()[gp2Map.values().size()-1];
-				if(gpPercent > upperBound.grossProfitPercent) {
+				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---upperBound=' + upperBound);
+				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---lowerBound=' + lowerBound);
+				if(gpPercent > upperBound.grossProfitPercent) {					
 					dnetPercent = upperBound.percentOfDNet;
+					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found upper bound=' + dnetPercent);
 				} else if(gpPercent < lowerBound.grossProfitPercent) {
 					dnetPercent = lowerBound.percentOfDNet;	
+					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found lower bound=' + dnetPercent);
 				} else {
 					for(integer i=0; i < gp2Map.values().size()-1; i++) {
 						if(gpPercent < gp2Map.values()[i].grossProfitPercent && gpPercent > gp2Map.values()[i+1].grossProfitPercent ) {
@@ -269,17 +277,19 @@ public with sharing class ToroPricingMethodHelper {
 						}	
 					}    
 					
+					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent --- lower bound=' + topRow);
+					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent --- upper bound=' + bottomRow);
 					if(topRow != null && bottomRow != null) {
 						decimal x1 = topRow.grossProfitPercent/100;
 						decimal x2 = bottomRow.grossProfitPercent/100;
 						decimal x3 = gpPercent/100;
-						system.debug(x1 + ' - ' + x2 + ' - ' + x3);
+						system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---x1 ' + x1 + ' - ' + x2 + ' - ' + x3);
 						//Calculate  Percent Adjustment Amount (PAA)
 						decimal paa = 1-((x1 - x2)-(x1 - x3))/(x1 - x2);
-						system.debug('gpPercentResult=' + paa);
+						system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---paa=' + paa);
 						//gpPercentResult = gpPercentResult * 100;	 
 						decimal gpDNetResult = topRow.percentOfDNet/100 - (topRow.percentOfDNet/100 - bottomRow.percentOfDNet/100) * paa;
-						system.debug('gpDNetResult=' + gpDNetResult);
+						system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---gpDNetResult=' + gpDNetResult);
 						dnetPercent = gpDNetResult*100;
 					}   
 				}            	
@@ -288,13 +298,13 @@ public with sharing class ToroPricingMethodHelper {
 		return dnetPercent;	
 	}
 	public ToroPricingMethodHelper convertGPPercentToDNetPercent() {
+		system.debug(logginglevel.info, 'convertGPPercentToDNetPercent--');
 		if(!GPPercentMap.containsKey(pricingProgramExternalId)) {
 			Toro_PricingProgram__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
 			List<Toro_PricingProgramLine__c> pplList = pp.PricingProgramLines__r;
 		    Map<decimal, ToroPricingMethodData> gpp2PM = new Map<decimal, ToroPricingMethodData>();
 		    for(Toro_PricingProgramLine__c  ppl : pplList) {
-		    	ToroPricingMethodData pmd = new ToroPricingMethodData();
-		    	
+		    	ToroPricingMethodData pmd = new ToroPricingMethodData();		    	
 		    	gpp2PM.put((ppl.Distributor_Margin__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
 									ppl.Rebate_as_a_Percent_of_DN__c, ppl.Distributor_Margin__c, null));	
 		    }
