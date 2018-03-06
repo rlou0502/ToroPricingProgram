@@ -1,3 +1,10 @@
+/**
+ * QuoteItem
+ *
+ * wrapper class for quote item used in lightning pages
+ *
+ * @author Roy Lou
+ */
 public class QuoteItem {
     @AuraEnabled public REVVY__MnQuoteItem__c qi					{ get; set; }
     @AuraEnabled public List<REVVY__MnQuoteItemSubLine__c> qislList	{ get; set; }
@@ -7,9 +14,7 @@ public class QuoteItem {
     public transient String qiType 					{ get; set; }
     public transient Decimal qidType 				{ get; set; }
 
-	public QuoteItem() {
-
-	}
+	public QuoteItem() { }
 
 	public QuoteItem(REVVY__MnQuoteItem__c quoteItem) {
 		this.qi = quoteItem;
@@ -31,19 +36,26 @@ public class QuoteItem {
 	}
 
     public class PricingProgramSelector {
-    	public PricingProgramSelector(Id sfdcId, String pp, String pm, decimal msrp, decimal dNet, decimal origMsrp) {
-    		this.pricingProgram = pp;
-    		this.pricingMethod = pm;
-    		this.percentOffMSRP = msrp;
-    		this.awardPercentOfDNet = dNet;
-    		this.sfdcId = sfdcId;
-    		this.originalPercentOffMSRP=origMsrp;
+    	public Id sfdcId 						{ get; set; }
+    	public String pricingProgram 			{ get; set; }
+    	public String pricingMethod 			{ get; set; }
+    	public decimal percentOffMSRP 			{ get; set; }
+    	public decimal originalPercentOffMSRP 	{ get; set; }
+    	public decimal awardPercentOfDNet 		{ get; set; }
+
+    	public PricingProgramSelector(Id sfdcId
+										, String pp
+										, String pm
+										, Decimal msrp
+										, Decimal dNet
+										, Decimal origMsrp
+		) {
+    		this.pricingProgram         = pp;
+    		this.pricingMethod          = pm;
+    		this.percentOffMSRP         = msrp;
+    		this.awardPercentOfDNet     = dNet;
+    		this.sfdcId                 = sfdcId;
+    		this.originalPercentOffMSRP = origMsrp;
     	}
-    	public Id sfdcId { get; set; }
-    	public String pricingProgram { get; set; }
-    	public String pricingMethod { get; set; }
-    	public decimal percentOffMSRP { get; set; }
-    	public decimal originalPercentOffMSRP { get; set; }
-    	public decimal awardPercentOfDNet { get; set; }
-    }
+	}
 }
