@@ -188,7 +188,7 @@ public abstract class ToroPricingProgram {
 						} else {
 							system.debug('subExtAward is null or 0 --' + qis.product_name__c + ' dnet price =' + qis.Toro_DNet_Price__c + ' dnet %' + qis.Percent_of_DNet__c);
 						}
-						qis.Toro_Subline_Rebate__c = subExtDNet * qis.Rebate_as_of_DNet__c/100;
+						qis.Toro_Subline_Rebate__c = qis.Toro_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 						extRebate += qis.Toro_Subline_Rebate__c;
 						qis.Toro_Extended_Award_Price__c      = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)  * extQty;
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;	

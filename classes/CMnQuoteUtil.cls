@@ -45,4 +45,19 @@ public with sharing class CMnQuoteUtil {
 		}
 		return result;
 	}   
+	
+	
+	public static String getQuoteQuery(String extraFields) {
+		List<String> fieldNames = new List<String>();
+		List<Schema.FieldSetMember> fieldSetMemberList = SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
+		for(Schema.FieldSetMember fs : fieldSetMemberList) {
+			fieldNames.add(fs.getFieldPath());
+		}
+		String extraFieldWOSpaces = extraFields.replaceAll( '\\s+', '').toLowerCase();
+		String[] extras = extraFieldWOSpaces.split(',');
+		Set<String> nameSet = new Set<String>(extras);
+		nameSet.addAll(fieldNames);
+		return String.join(new List<String>(nameSet), ',');
+	}
+	
 }

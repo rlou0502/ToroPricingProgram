@@ -181,7 +181,7 @@ public with sharing class ToroPricingMethodHelper {
 						extMSRP += subExtMSRP;
 						qis.Gross_Profit_Value__c = subExtAward - subExtDNet + (subExtDNet * qis.Rebate_as_of_DNet__c/100);	
 						qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/subExtAward*100;	
-						qis.Toro_Subline_Rebate__c = subExtDNet * qis.Rebate_as_of_DNet__c/100;
+						qis.Toro_Subline_Rebate__c = qis.Toro_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 						extRebate += qis.Toro_Subline_Rebate__c;
 						qis.Toro_Extended_Award_Price__c      = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)  * extQty;
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;	
@@ -253,7 +253,7 @@ public with sharing class ToroPricingMethodHelper {
 					decimal y1=topRow.rebatePercent/100;
 					decimal y2=bottomRow.rebatePercent/100;
 					decimal x3 = dnetPercent/100;
-					decimal rebatePercent  = y2 -(((x3-x2)*(y2-y1)));
+					decimal rebatePercent  = y2 -(((x3-x2)*(y2-y1)) * 100);
 					
 					system.debug(logginglevel.info,'retrievePricingInfoForDNet---x1----' + x1 + '  x2= ' + x2 + ' y1=' + y1 + ' y2=' + y2 + 'x3=' + x3 + ' ' + rebatePercent);
 					qi.Rebate_as_a_of_DN__c = rebatePercent*100;
