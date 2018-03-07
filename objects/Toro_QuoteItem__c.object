@@ -1180,6 +1180,16 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Toro_Total_Extended_DNet_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>EXT  DNET</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Toro_Total_Extended_MSRP_Price__c</fullName>
         <externalId>false</externalId>
         <label>Total Ext MSRP</label>
@@ -1188,6 +1198,16 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Total_MSRP_Percentage__c</fullName>
+        <externalId>false</externalId>
+        <label>Total % off MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
     </fields>
     <fields>
         <fullName>Toro_Total_Rebate__c</fullName>
@@ -1213,6 +1233,16 @@
         <fullName>Toro_Total_Unit_Award__c</fullName>
         <externalId>false</externalId>
         <label>Unit Award</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Award Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
