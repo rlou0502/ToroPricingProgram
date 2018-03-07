@@ -45,6 +45,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return true;
 	}
 
+	public override List<Toro_QuoteItem__c> calculateExtendedFields(List<Toro_QuoteItem__c> quoteItemList) {
+		return quoteItemList;	
+	}
 
 	public decimal lookupRebateAsPercentOfDNet(decimal percentOfDNet, List<Toro_PricingProgramLine__c> dNetLineList ) {
 		decimal result = 0;
@@ -77,7 +80,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		helper.pricingProgramExternalId = priceProgram;
 		helper.quoteItemList = quoteItemList;
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrievePricingInfoForDNet().calculateGP(); 
+			/*
+			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebate().calculateExtensionFields(); 
 			quoteItemList = helper.quoteItemList;
 			for (Toro_QuoteItem__c qi : quoteItemList) {
 				qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;
@@ -89,13 +93,14 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						}	
 					}
 				}		
-			}		
+			}	
+			*/	
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
-			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().retrievePricingInfoForDNet().calculateGP();
+			//helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebate().calculateExtensionFields();
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
-			helper.calculateBlendedDNetPercentFromMSRP().retrievePricingInfoForDNet().calculateGP();	
+			helper.calculateBlendedDNetPercentFromMSRP().calculateExtensionFields();	
 		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
-			helper.calculateBlendedDNetPercentFromDNet().retrievePricingInfoForDNet().calculateGP();	
+			//helper.calculateBlendedDNetPercentFromDNet().retrieveRebate().calculateExtensionFields();	
 		} 
 		quoteItemList = helper.quoteItemList;
 		return quoteItemList;

@@ -1260,6 +1260,26 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Total_Gross_Profit_Percent__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Gross Profit Percent</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Total_Gross_Profit_Value__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Gross Profit Value</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Traction_Unit__c</fullName>
         <externalId>false</externalId>
         <formula>TEXT( QuoteItem__r.Traction_Unit__c )</formula>
