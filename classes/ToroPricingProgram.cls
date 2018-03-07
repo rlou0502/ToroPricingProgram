@@ -139,9 +139,59 @@ public abstract class ToroPricingProgram {
 		system.debug('inside base calculateRebateMarginImpl');
 		return quoteItemList;
 	}
-
-	//Method calculateExtendedFields is a template method called by calculateRebateMargin
 	public virtual List<Toro_QuoteItem__c> calculateExtendedFields(List<Toro_QuoteItem__c> quoteItemList) {
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+			//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
+			decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+			decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+			decimal extMSRP = CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);			 
+			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Rebate_as_a_of_DN__c/100;
+			decimal extRebate = qi.Toro_Rebate__c;
+			decimal feeAmount = extAward * CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100;
+			if(extDnet != null && extDnet !=0) {
+				qi.Award_of_DN__c = extAward/extDnet*100;
+			}
+			qi.Toro_Gross_Profit_Value__c = extAward - extDnet + extDnet * qi.Rebate_as_a_of_DN__c/100;	
+			if(extAward != null && extAward != 0) {
+				qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/extAward*100;	
+			}
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!qis.Exclude_from_Rebate__c) {
+						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);	
+						qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
+						decimal subExtDNet = qis.Toro_DNet_Price__c* extQty;
+						decimal subExtAward = qis.Toro_DNet_Price__c * qis.Percent_of_DNet__c/100 * extQty;
+						decimal subExtMSRP = qis.MSRP_Price__c * (1-qis.Percent_Off_MSRP__c/100) * extQty;
+						decimal subExtFitAmount = subExtAward * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
+						extDnet += subExtDNet;
+						extAward += subExtAward;
+						extMSRP += subExtMSRP;
+						feeAmount += subExtFitAmount;
+						qis.Toro_Fee_Amount__c = subExtFitAmount;
+						qis.Gross_Profit_Value__c = subExtAward - subExtDNet + (subExtDNet * qis.Rebate_as_of_DNet__c/100);	
+						qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/subExtAward*100;	
+						qis.Toro_Subline_Rebate__c = subExtDNet * qis.Rebate_as_of_DNet__c/100;
+						extRebate += qis.Toro_Subline_Rebate__c;
+						qis.Toro_Extended_Award_Price__c      = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)  * extQty;
+						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;	
+					}	
+				}	
+			}
+			
+			qi.Toro_Total_Extended_Award_Price__c = extAward;
+			qi.Toro_Total_Extended_MSRP_Price__c = extMSRP;
+			qi.Toro_Total_Extended_DNet_Price__c = extDnet;
+			qi.Toro_Total_MSRP_Percentage__c = 100 - (extAward/extMSRP)*100;
+			qi.Toro_Total_Rebate__c = extRebate;
+			qi.Total_Gross_Profit_Value__c = extAward - extDnet + extRebate; 
+			qi.Total_Gross_Profit_Percent__c = qi.Total_Gross_Profit_Value__c/extAward*100; 
+			qi.Toro_Fee_Amount__c = feeAmount;
+		}	
+		return quoteItemList;	
+	}
+	//Method calculateExtendedFields is a template method called by calculateRebateMargin
+	public virtual List<Toro_QuoteItem__c> calculateExtendedFields2(List<Toro_QuoteItem__c> quoteItemList) {
 		system.debug(logginglevel.info,'inside base calculateExtendedFields =' + quoteItemList);
 		initializeExtendedFieldsToZero(quoteItemList);
 
@@ -366,55 +416,7 @@ public abstract class ToroPricingProgram {
 		system.debug(logginglevel.info, 'calculateExtendedFields--  quote --quote.Toro_Rollup_DNetWOTPPAllied__c=' + quote.Toro_Rollup_DNetWOTPPAllied__c +  ' quote.Toro_Rollup_Award_Price__c=' +quote.Award_Price__c );
 		return quoteItemList;
 	}
-/*
-	private void debugCalculatedValues(List<Toro_QuoteItem__c> quoteItemList) {
 
-		String output = '\n\nCHECK CALCULATED VALUES\n\n';
-		output += '\n<FIELD_NAME>: <TORO VALUE>, <ORIGINAL VALUE>\n';
-		final Set<String> toroQuoteItemFieldNames = new Set<String>();
-		for (String fieldName : Schema.getGlobalDescribe().get('REVVY__MnQuoteItem__c').getDescribe().fields.getMap().keySet()) {
-			if (fieldName.startsWith('toro_')) {
-				toroQuoteItemFieldNames.add(fieldName);
-			}
-		}
-		final Set<String> toroSublineFieldNames = new Set<String>();
-		for (String fieldName : Schema.getGlobalDescribe().get('Revvy__MnQuoteItemSubline__c').getDescribe().fields.getMap().keySet()) {
-			if (fieldName.startsWith('toro_')) {
-				toroSublineFieldNames.add(fieldName);
-			}
-		}
-		for (Toro_QuoteItem__c qi : quoteItemList) {
-			output += '\n\nQuote Item: ' + qi.QuoteItem__r.REVVY__Catalog_Node__r.name;
-			for (String fieldName : toroQuoteItemFieldNames) {
-				final Decimal toroValue = (Decimal) qi.get(fieldName);
-				final Decimal originalValue = (Decimal) qi.get(fieldName.removeStart('toro_'));
-				output += '\n';
-				if (toroValue != originalValue) output += '**';
-				output += fieldName + ': ' + toroValue + ', ' + originalValue;
-			}
-
-			for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-				output += '\n   Subline Item: ' + qis.QuoteItem__r.REVVY__Catalog_Node__r.name;
-				for (String fieldName : toroSublineFieldNames) {
-					final Decimal toroValue = (Decimal) qis.get(fieldName);
-					final Decimal originalValue = (Decimal) qis.get(fieldName.removeStart('toro_'));
-					if (toroValue != originalValue) output += '**';
-					output += '   ' + fieldName + ': ' + toroValue + ', ' + originalValue + '\n';
-				}
-
-				output += '   REVVY__Quantity__c: ' + qis.get('REVVY__Quantity__c') + '\n';
-				output += '   Toro_Extended_Qty__c: ' + qis.get('Toro_Extended_Qty__c') + '\n';
-				output += '   DNet_Price_2__c: ' + qis.get('DNet_Price_2__c') + '\n';
-				output += '   REVVY__Price__c: ' + qis.get('REVVY__Price__c') + '\n';
-				output += '   Award_Price__c: ' + qis.get('Award_Price__c') + '\n';
-				output += '   Percent_of_DNet__c: ' + qis.get('Percent_of_DNet__c') + '\n';
-				output += '   Percent_Off_MSRP__c: ' + qis.get('Percent_Off_MSRP__c') + '\n';
-			}
-		}
-		System.debug(output);
-
-	}
-*/
 	// initializes the quote item and quote item subline calculated fields to 0
 	private void initializeExtendedFieldsToZero(List<Toro_QuoteItem__c> quoteItemList) {
 		system.debug('initializeExtendedFieldsToZero quoteItemList =' + quoteItemList);
