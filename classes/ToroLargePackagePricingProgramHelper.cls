@@ -96,11 +96,11 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			}	
 			*/	
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
-			//helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebate().calculateExtensionFields();
+			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
 			helper.calculateBlendedDNetPercentFromMSRP().calculateExtensionFields();	
 		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
-			//helper.calculateBlendedDNetPercentFromDNet().retrieveRebate().calculateExtensionFields();	
+			helper.calculateBlendedDNetPercentFromDNet().calculateExtensionFields();	
 		} 
 		quoteItemList = helper.quoteItemList;
 		return quoteItemList;

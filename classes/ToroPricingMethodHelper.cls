@@ -71,10 +71,9 @@ public with sharing class ToroPricingMethodHelper {
 				decimal extDNet = 0;
 				decimal extAward = 0;
 				if(!qi.Unit_Award_Overridden__c) {
-					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;
-					
+					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;										
 				} 
-				
+				qi.Off_MSRP__c = (1 - qi.Award_Price__c/qi.MSRP_Price__c)*100;
 				extDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item ' + qi.Product_Name__c + ' -- ' + qi.Product_Name__c);
@@ -94,6 +93,7 @@ public with sharing class ToroPricingMethodHelper {
 							if(!qis.Unit_Award_Overridden__c) {
 								qis.Award_Price__c = qis.Toro_DNet_Price__c* qis.Percent_of_DNet__c/100 * extQty;	
 							}
+							qis.Percent_Off_MSRP__c = (1 - qis.Award_Price__c/qis.MSRP_Price__c)*100;
 							extDNet += qis.Toro_DNet_Price__c;
 							extAward += qis.Award_Price__c * extQty;
 							
@@ -101,34 +101,17 @@ public with sharing class ToroPricingMethodHelper {
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- qis.extAward = ' + extAward );							
 						}	
 					}	
-					qi.Toro_Extended_Award_DNet_Price__c += qi.Toro_Rollup_Award_DNet_Price__c;
-					qi.Toro_Extended_DNet_Price__c += qi.Toro_Rollup_DNet_Price__c;
+					
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item extDNet = ' + extDNet );
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item extAward = ' + extAward  );				
 				}
 				if(qi.Toro_Extended_DNet_Price__c != null && qi.Toro_Extended_DNet_Price__c !=0 ) {
-					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(qi.Toro_Extended_Award_DNet_Price__c) / qi.Toro_Extended_DNet_Price__c * 100;
-					qi.Award_of_DN__c = qi.Toro_Blend_Of_DN__c;
+					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(extAward) / extDNet * 100;
+					retrieveRebate(qi.Toro_Blend_Of_DN__c, qi);
 					//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
 				}
 			}
-		}
-		
-		for (Toro_QuoteItem__c qi : quoteItemList) {
-			if(!qi.Unit_Award_Overridden__c) {
-				qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;	
-			}
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate__c) {
-						if(!qis.Unit_Award_Overridden__c) {
-							qis.Percent_of_DNet__c = qi.Award_of_DN__c;	
-							qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Percent_of_DNet__c)/100;	
-						}
-					}
-				}
-			}	
 		}
 		
 		return this;			
