@@ -1023,6 +1023,16 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Toro_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Toro_Rollup_Award_DNet_Price__c</fullName>
         <description>This value is used in formula field Extended_Award_DNet_Price__c.</description>
         <externalId>false</externalId>
