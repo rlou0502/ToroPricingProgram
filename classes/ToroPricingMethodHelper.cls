@@ -54,7 +54,7 @@ public with sharing class ToroPricingMethodHelper {
 				if(extDNet != null && extDNet !=0 ) {
 					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(extAward) / extDNet * 100;
 					//qi.Award_of_DN__c = qi.Toro_Blend_Of_DN__c;
-					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
+					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP 123 -- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
 					retrieveRebate(qi.Toro_Blend_Of_DN__c, qi);
 				}
 			}
@@ -170,6 +170,13 @@ public with sharing class ToroPricingMethodHelper {
 			decimal extMSRP = CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);			 
 			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Rebate_as_a_of_DN__c/100;
 			decimal extRebate = qi.Toro_Rebate__c;
+			if(extDnet != null && extDnet !=0) {
+				qi.Award_of_DN__c = extAward/extDnet*100;
+			}
+			qi.Toro_Gross_Profit_Value__c = extAward - extDnet + extDnet * qi.Rebate_as_a_of_DN__c/100;	
+			if(extAward != null && extAward != 0) {
+				qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/extAward*100;	
+			}
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {
@@ -189,13 +196,7 @@ public with sharing class ToroPricingMethodHelper {
 					}	
 				}	
 			}
-			if(extDnet != null && extDnet !=0) {
-				qi.Award_of_DN__c = extAward/extDnet*100;
-			}
-			qi.Toro_Gross_Profit_Value__c = extAward - extDnet + extDnet * qi.Rebate_as_a_of_DN__c/100;	
-			if(extAward != null && extAward != 0) {
-				qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/extAward*100;	
-			}
+			
 			qi.Toro_Total_Extended_Award_Price__c = extAward;
 			qi.Toro_Total_Extended_MSRP_Price__c = extMSRP;
 			qi.Toro_Total_Extended_DNet_Price__c = extDnet;
