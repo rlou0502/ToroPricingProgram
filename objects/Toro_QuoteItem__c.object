@@ -590,7 +590,7 @@
         <fullName>Off_MSRP__c</fullName>
         <description>Store value of &quot;% off MSRP&quot; entered by user in pricing program page.</description>
         <externalId>false</externalId>
-        <label>Percent Off MSRP</label>
+        <label>% Off MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1033,17 +1033,6 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Toro_Rollup_Award_DNet_Price__c</fullName>
-        <description>This value is used in formula field Extended_Award_DNet_Price__c.</description>
-        <externalId>false</externalId>
-        <label>Rollup Award DNet Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Toro_Rollup_Award_MSRP_Price__c</fullName>
         <description>This field is used in formula field Extended_Award_MSRP_Price__c.</description>
         <externalId>false</externalId>
@@ -1055,51 +1044,10 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Toro_Rollup_Award_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Rollup Award Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Toro_Rollup_DNet_Price__c</fullName>
         <description>This field is used in formula field DNet_Price__c which is used in rebate calculation.</description>
         <externalId>false</externalId>
         <label>Rollup DNet Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_DNet_for_TPP__c</fullName>
-        <description>Rollup of Dnet  for QuoteItem subline for TPP products</description>
-        <externalId>false</externalId>
-        <label>Rollup DNet for TPP</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_Extended_Award_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Rollup Extended Award Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_MSRP_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Rollup MSRP Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1121,16 +1069,6 @@
         <description>Roll up partner products whose product Id starts with &quot;L&quot;</description>
         <externalId>false</externalId>
         <label>Rollup Partner Products</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_Setup_Fees_Sub_Line__c</fullName>
-        <externalId>false</externalId>
-        <label>Rollup Setup Fees Sub_Line</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
