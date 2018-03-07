@@ -80,8 +80,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		helper.pricingProgramExternalId = priceProgram;
 		helper.quoteItemList = quoteItemList;
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-			/*
-			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebate().calculateExtensionFields(); 
+			
+			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields(); 
 			quoteItemList = helper.quoteItemList;
 			for (Toro_QuoteItem__c qi : quoteItemList) {
 				qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;
@@ -94,7 +94,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 					}
 				}		
 			}	
-			*/	
+				
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
 			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {

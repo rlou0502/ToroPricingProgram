@@ -344,10 +344,19 @@ public with sharing class ToroPricingMethodHelper {
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Toro_Gross_Profit_Percent__c != null) {
 				qi.Award_of_DN__c = lookupDNetPercentFromGPPercent(qi.Toro_Gross_Profit_Percent__c);
+				if(!qi.Unit_Award_Overridden__c) {
+					qi.Award_Price__c = qi.DNet_Price__c * qi.Award_of_DN__c/100;
+				}
+				qi.Off_MSRP__c = (1-qi.Award_Price__c/qi.MSRP_Price__c)*100 ;
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(!qis.Exclude_from_Rebate__c && qis.Gross_Profit_Percent__c != null) {
 							qis.Percent_of_DNet__c = lookupDNetPercentFromGPPercent(qis.Gross_Profit_Percent__c);
+							if(!qis.Unit_Award_Overridden__c) {
+								qis.Award_Price__c = qis.DNet_Price__c * qis.Percent_of_DNet__c/100;
+							}
+							qis.Percent_Off_MSRP__c = (1-qis.Award_Price__c/qi.MSRP_Price__c)*100 ;
+							
 						}	
 					}	
 				}
