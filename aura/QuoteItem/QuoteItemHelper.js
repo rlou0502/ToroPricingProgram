@@ -340,10 +340,11 @@
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];
-            self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
+           
             if(sublines) {
             	self.populateQuoteItemSubLine(component, sublines, fields, sublineFields, qiId); 
             }
+            self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
             self.renderQuoteItemPricingProgramSection(component, fields, qiId);  
         });
         self.hideSpinner();

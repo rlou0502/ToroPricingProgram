@@ -698,6 +698,16 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Toro_Extended_DNET_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Ext DNet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Toro_Extended_MSRP_Price__c</fullName>
         <externalId>false</externalId>
         <label>EXT MSRP</label>
