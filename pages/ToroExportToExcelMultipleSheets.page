@@ -37,7 +37,15 @@
    <Interior/>
    <NumberFormat ss:Format="$#,##0.00"/>
    <Protection/>
-  </Style>    
+  </Style> 
+  <Style ss:ID="s5">
+ <Alignment ss:Horizontal="Right"/>
+ <Borders/> 
+ <Font ss:Bold="1"/>
+ <Interior/>
+ <NumberFormat/>
+ <Protection/>
+ </Style>   
  </Styles>
  
  <Worksheet ss:Name="SOC">
@@ -54,7 +62,10 @@
  	<Column ss:Width="75"/>
  	<Column ss:Width="75"/>
  	<Column ss:Width="75"/>
-<Row>
+ <Row>
+ <Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
+ </Row>
+ <Row>
  <Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">Commercial Products Stock Order Check List</Data></Cell>
  </Row>
  <Row>
@@ -73,10 +84,10 @@
  <Cell ss:StyleID="s1"><Data ss:Type="String" >Model Number</Data></Cell>
  <Cell ss:StyleID="s1"><Data ss:Type="String" >Product Tab</Data></Cell>
  <Cell ss:StyleID="s1"><Data ss:Type="String" >Description</Data></Cell>
- <Cell ss:StyleID="s1"><Data ss:Type="String" >DNET</Data></Cell>
- <Cell ss:StyleID="s1"><Data ss:Type="String" >MSRP</Data></Cell>
- <Cell ss:StyleID="s1"><Data ss:Type="String" >Stock Order</Data></Cell>
- <Cell ss:StyleID="s1"><Data ss:Type="String" >Total Dollars</Data></Cell> 
+ <Cell ss:StyleID="s5"><Data ss:Type="String" >DNET</Data></Cell>
+ <Cell ss:StyleID="s5"><Data ss:Type="String" >MSRP</Data></Cell>
+ <Cell ss:StyleID="s5"><Data ss:Type="String" >Stock Order</Data></Cell>
+ <Cell ss:StyleID="s5"><Data ss:Type="String" >Total Dollars</Data></Cell> 
  </Row>
  <apex:repeat value="{!stockOrderLists}" var="sol">
  <apex:repeat value="{!sol}" var="so">
@@ -106,7 +117,9 @@
 <apex:outputText rendered="{!If(CanAccessDNet, FALSE,  TRUE)}" >
   <Column ss:StyleID="s4" ss:Hidden="1"  ss:Width="75"/>
  </apex:outputText>
-
+ <Row>
+ <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
+ </Row>
  <Row>
  <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">Commercial Price List</Data></Cell>
  </Row>
@@ -126,8 +139,8 @@
  <Row>
  <Cell ss:StyleID="s1"><Data ss:Type="String" >SKU</Data></Cell>
  <Cell ss:StyleID="s1"><Data ss:Type="String" >DESCRIPTION</Data></Cell>
- <Cell ss:StyleID="s1"><Data ss:Type="String" >MSRP</Data></Cell>
- <Cell ss:StyleID="s1"><Data ss:Type="String" >DNET</Data></Cell>
+ <Cell ss:StyleID="s5"><Data ss:Type="String" >MSRP</Data></Cell>
+ <Cell ss:StyleID="s5"><Data ss:Type="String" >DNET</Data></Cell>
  </Row>
  <apex:repeat value="{!model.optionGroups}" var="og">
  <Row>
