@@ -61,13 +61,13 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			//decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			//award price has been calculated in calling function
-			decimal extAward = qi.Award_price__c * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+			decimal extAward = CMnQuoteUtil.defaultDecimal(qi.Award_price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			decimal extMSRP = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);			 
-			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Rebate_as_a_of_DN__c/100;
+			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;
 			qi.Toro_Extended_DNet_Price__c = extDnet;
 			qi.Toro_Extended_MSRP_Price__c = extMSRP;
 			decimal extRebate = qi.Toro_Rebate__c;
-			qi.Toro_Gross_Profit_Value__c = extAward - extDnet + extDnet * qi.Rebate_as_a_of_DN__c/100;	
+			qi.Toro_Gross_Profit_Value__c = extAward - extDnet + extDnet * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;	
 			if(extAward != null && extAward != 0) {
 				qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/extAward*100;	
 			}

@@ -105,6 +105,7 @@ public with sharing class ToroPricingProgramEligibility {
 		
 		for(Toro_PricingProgram__c pp : ppList) {
 	        //ret.add(new ToroSelectOption(pp.name, pp.name));
+	        system.debug(logginglevel.info, 'retrievePricingProgramOptions ' + pp.ExternalId__c + ' ' + pp.PricingProgramStyle__c + ' ' + pp.name);
 	        ret.add(new ToroSelectOption(pp.ExternalId__c+ ';' + pp.PricingProgramStyle__c, pp.name));
         }
 		return ret;

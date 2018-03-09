@@ -6,6 +6,7 @@ public class ToroStateContractPricingProgramHelper extends ToroPricingProgram  {
 	public override boolean getQuoteLevelMSQPDNetEditable() { 
 		return false;
 	}
+	
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
@@ -17,6 +18,27 @@ public class ToroStateContractPricingProgramHelper extends ToroPricingProgram  {
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		//priceMethod = '% off MSRP';
 		system.debug('inside state calculateRebateMarginImpl quoteItemList='+ quoteItemList);
+		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
+		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
+		Map<String, Toro_PricingProgramLine__c> productPricingProgramLineMap = new Map<String, Toro_PricingProgramLine__c>();
+		for(Toro_PricingProgram__c rh : rebates) {
+			if(rh.PricingProgramLines__r != null) {
+				for(Toro_PricingProgramLine__c l : rh.PricingProgramLines__r) {
+					system.debug('inside state calculateRebateMarginImpl--' + l);
+					if(String.isNotBlank(l.ApplicableProducts__c)) {
+						String[] parts = l.ApplicableProducts__c.split(',');
+						for(String p : parts) {
+							productPricingProgramLineMap.put(p, l);	
+							system.debug('inside state calculateRebateMarginImpl--' + p + '--' + l);
+						}
+					} else {
+						productPricingProgramLineMap.put('All', l);
+					}
+					
+				}
+			}
+		}
+		
 		if(quoteItemList != null && quoteItemList.size() != 0) {
 			//??	
 			CMnPriceProgramUtil.PriceProgramInfo info = CMnPriceProgramUtil.collectPriceProgram(priceProgram);
