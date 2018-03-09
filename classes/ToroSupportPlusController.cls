@@ -106,10 +106,10 @@ global class ToroSupportPlusController {
         String term = '%' + searchTerm + '%';
         List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT Id
-					, REVVY__Product__r.REVVY__Id__c
-					, REVVY__Product__r.Name
-					, REVVY__Product__c
-					, REVVY__SuggestedPrice__c
+				, REVVY__Product__r.REVVY__Id__c
+				, REVVY__Product__r.Name
+				, REVVY__Product__c
+				, REVVY__SuggestedPrice__c
 			FROM
 				REVVY__MnPriceListLine__c
             WHERE
@@ -135,10 +135,10 @@ global class ToroSupportPlusController {
 	 */
 	@AuraEnabled
 	public static void submitSupportPlus(REVVY__MnQuoteItem__c quote, List<QuoteItem> quoteItems) {
-		List<REVVY__MnQuoteItem__c>        quoteItemsToUpdate        = new List<REVVY__MnQuoteItem__c>();
-		List<REVVY__MnQuoteItem__c>        quoteItemsToInsert         = new List<REVVY__MnQuoteItem__c>();
-		List<REVVY__MnQuoteItemSubline__c> sublinesToUpdate = new List<REVVY__MnQuoteItemSubline__c>();
-		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert  = new List<REVVY__MnQuoteItemSubline__c>();
+		List<REVVY__MnQuoteItem__c>        quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
+		List<REVVY__MnQuoteItem__c>        quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
+		List<REVVY__MnQuoteItemSubline__c> sublinesToUpdate   = new List<REVVY__MnQuoteItemSubline__c>();
+		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert   = new List<REVVY__MnQuoteItemSubline__c>();
 
 		REVVY__MnSequenceGen__c sequence = [
 			SELECT
@@ -173,6 +173,7 @@ global class ToroSupportPlusController {
 						, Support_Plus_Item__c     = true
 						, Misc_Style__c            = 'NoCharge'
 					);
+
 					quoteItemsToUpdate.add(qi);
 					quoteItemsToInsert.add(newQuote);
 				}
@@ -193,7 +194,7 @@ global class ToroSupportPlusController {
 					if (supportPlusQty2 != 0) {
 						Decimal diff = qis.REVVY__Quantity__c - qis.Support_Plus_Quantity__c ;
 						if (diff != 0) {
-							REVVY__MnQuoteItemSubline__c clonedQis = qis.clone(false, true, false, false); //keep Id and deep-clone
+							REVVY__MnQuoteItemSubline__c clonedQis = qis.clone(false, true, false, false); // keep Id and deep-clone
 
 							qis.REVVY__Quantity__c             = diff;
 							clonedQis.REVVY__Quantity__c       = qis.Support_Plus_Quantity__c;
@@ -217,7 +218,7 @@ global class ToroSupportPlusController {
 					}
 
 					else {
-						qis.Apply_Support_Plus__c=false;
+						qis.Apply_Support_Plus__c = false;
 					}
 				}
 			}

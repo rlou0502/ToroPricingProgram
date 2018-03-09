@@ -33,7 +33,7 @@ var cleanSelectProductBox = function() {
 					<apex:facet name="header">Del</apex:facet>
 					<apex:commandbutton image="/img/func_icons/remove12_on.gif" id="delete_this" reRender="selectedProduct" action="{!deleteProduct}">
 						<apex:param name="sku" value="{!selProd.prod}" assignTo="{!toBeDeleted}"/>
-					</apex:commandbutton>﻿
+					</apex:commandbutton>
 				</apex:column>
 				<apex:column >
 					<apex:facet name="header">Name</apex:facet>
