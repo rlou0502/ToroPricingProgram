@@ -106,7 +106,7 @@ public with sharing class ToroPricingMethodHelper {
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extDNet = ' + extDNet );
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extAward = ' + extAward  );				
 				}
-				if(qi.Toro_Extended_DNet_Price__c != null && qi.Toro_Extended_DNet_Price__c !=0 ) {
+				if(extDNet != null && extDNet !=0 ) {
 					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(extAward) / extDNet * 100;
 					retrieveRebate(qi.Toro_Blend_Of_DN__c, qi);
 					//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
@@ -386,7 +386,9 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			if(qi.Toro_Gross_Profit_Percent__c != null) {
+				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi gp%=' + qi.Toro_Gross_Profit_Percent__c);
 				qi.Award_of_DN__c = lookupDNetPercentFromGPPercent(qi.Toro_Gross_Profit_Percent__c);
+				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi Award_of_DN__c=' + qi.Award_of_DN__c);
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = qi.DNet_Price__c * qi.Award_of_DN__c/100;
 				}
@@ -395,6 +397,7 @@ public with sharing class ToroPricingMethodHelper {
 					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(!qis.Exclude_from_Rebate__c && qis.Gross_Profit_Percent__c != null) {
 							qis.Percent_of_DNet__c = lookupDNetPercentFromGPPercent(qis.Gross_Profit_Percent__c);
+							system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qis.Percent_of_DNet__c=' +qis.Percent_of_DNet__c);
 							if(!qis.Unit_Award_Overridden__c) {
 								qis.Award_Price__c = qis.DNet_Price__c * qis.Percent_of_DNet__c/100;
 							}
