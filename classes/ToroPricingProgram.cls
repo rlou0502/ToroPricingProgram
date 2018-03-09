@@ -102,9 +102,10 @@ public abstract class ToroPricingProgram {
 		delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];
 		
 		//call pre
-		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl =' + priceProgram + ' -- ' + quoteItemList);
+		system.debug(logginglevel.info, 'calling precalculateRebateMarginImpl =' + priceProgram + ' -- ' + quoteItemList);
 		List<Toro_QuoteItem__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
 
+		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl =' + priceProgram + ' -- ' + quoteItemList);
 		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
 

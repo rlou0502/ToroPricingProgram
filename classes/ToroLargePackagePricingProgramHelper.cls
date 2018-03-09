@@ -195,6 +195,27 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			helper.calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
 		}
 		quoteItemList = helper.quoteItemList;
+		
+		//Performance Part
+		for(Toro_QuoteItem__c qi : quoteItemList) {
+		
+			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Toro_QuoteItem__c 222 performancePartFlag='+performancePartFlag  );
+			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap);
+
+				if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
+					for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+
+						//Performance Part
+						system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
+						system.debug('-------------++++++++qis' + qis);
+						ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
+					}
+				}
+
+
+		
+		}
+		
 		return quoteItemList;
 		system.debug(logginglevel.info, 'priceProgram =' + priceProgram + ' priceMethod=' + priceMethod);
 		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
@@ -234,7 +255,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			Toro_PricingProgram__c rh = rebateMap.get(priceProgram);
 			qi.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c);
 			//Performance Part
-			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, performancePartMap);
+			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Toro_QuoteItem__c 222 performancePartFlag='+performancePartFlag  );
+			//ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap);
 
 			system.debug(logginglevel.info,'checkpoint 4 qi.Award_of_DN__c =' + qi.Award_of_DN__c + ' sku =' + qi.Product_Name__c);
 			if(rh != null) {
@@ -320,6 +342,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 							}
 						}
 					}
+					
 				}
 
 				if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
@@ -417,6 +440,10 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 				//system.debug('--++--++--++='  + qis.percent_off_msrp__c + ' off DN=' + qis.percent_of_dnet__c);
 			}
+			//Performance Part
+			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Toro_QuoteItem__c 444 performancePartFlag='+performancePartFlag );
+			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap);
+			
 		}
 
 		Long perfStart = System.limits.getCpuTime();
