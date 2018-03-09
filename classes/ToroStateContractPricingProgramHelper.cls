@@ -12,7 +12,7 @@ public class ToroStateContractPricingProgramHelper extends ToroPricingProgram  {
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
 		return ret;
 	}
-	
+/*	
 	public override List<Toro_QuoteItem__c> calculateExtendedFields(List<Toro_QuoteItem__c> quoteItemList) {
 		decimal quoteDnet = 0;
 		decimal quoteAward = 0;
@@ -44,9 +44,9 @@ public class ToroStateContractPricingProgramHelper extends ToroPricingProgram  {
 					if(!qis.Exclude_from_Rebate__c) {
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);	
 						qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));
-						decimal subExtDNet = qis.Toro_DNet_Price__c* extQty;
-						decimal subExtAward = qis.Award_Price__c * extQty;
-						decimal subExtMSRP = qis.MSRP_Price__c * extQty;
+						decimal subExtDNet = CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c)* extQty;
+						decimal subExtAward = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * extQty;
+						decimal subExtMSRP = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * extQty;
 						qis.Toro_Extended_DNET_Price__c = subExtDNet;
 						qis.Toro_Extended_MSRP_Price__c = subExtMSRP;
 						qis.Toro_Extended_Award_Price__c = subExtAward;
@@ -54,11 +54,11 @@ public class ToroStateContractPricingProgramHelper extends ToroPricingProgram  {
 						extAward += subExtAward;
 						extMSRP += subExtMSRP;
 						system.debug('checking MSRP ext qi.extMSRP=' + extMSRP);
-						qis.Gross_Profit_Value__c = subExtAward - subExtDNet + (subExtDNet * qis.Rebate_as_of_DNet__c/100);	
+						qis.Gross_Profit_Value__c = subExtAward - subExtDNet + (subExtDNet * CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100);	
 						if(subExtAward != 0) {
-							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/subExtAward*100;	
+							qis.Gross_Profit_Percent__c = CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Value__c)/subExtAward*100;	
 						}
-						qis.Toro_Subline_Rebate__c = qis.Toro_DNet_Price__c * extQty *qis.Rebate_as_of_DNet__c/100;
+						qis.Toro_Subline_Rebate__c = qis.Toro_DNet_Price__c * extQty *CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100;
 						extRebate += qis.Toro_Subline_Rebate__c;
 						qis.Toro_Extended_Award_Price__c = subExtAward;
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;	
@@ -108,7 +108,7 @@ public class ToroStateContractPricingProgramHelper extends ToroPricingProgram  {
 		}
 		return quoteItemList;
 	}
-
+*/
 	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram, 
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		//priceMethod = '% off MSRP';
