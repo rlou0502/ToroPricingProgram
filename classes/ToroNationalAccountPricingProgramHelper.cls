@@ -51,7 +51,10 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		System.debug(logginglevel.info, '>>> Setup fee from cache=' + dSetupFeeHeader);
 		
 		//Exception
-		Set<String> exceptionSkuSet = new Set<String>();
+		
+		Map<String,Toro_PricingProgramLine__c> ppMapExceptionMap = retrieveNationalAccountException(priceProgramExternalId);
+		/*
+		Set<String> exceptionSkuSet = retrieveNationalAccountException
 		if(tierMap.containsKey('Exception')) {
 			Toro_PricingProgramLine__c ppl = tierMap.get('Exception');
 			if(ppl!=null && !String.isEmpty(ppl.ApplicableProducts__c)) {
@@ -60,10 +63,12 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 				}				
 			}			
 		}
-				
+		*/		
 		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
 		List<Toro_QuoteItem__c> updatedQuoteItems = new List<Toro_QuoteItem__c>();
 		for(Toro_QuoteItem__c qi : quoteItemWrapperList) {
+			
+			
 			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
 				deleteSetupFeeLineItemId.add(qi.Id);
 				deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
@@ -89,8 +94,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			}
 			
 			//Run Exception
-			if(exceptionSkuSet.size() > 0 && exceptionSkuSet.contains(qi.Product_Id__c)) {
-				Toro_PricingProgramLine__c rb = tierMap.get(qi.Toro_Product_Tier__c);
+			if(ppMapExceptionMap.size() > 0 && ppMapExceptionMap.containsKey(qi.Product_Id__c)) {
+				Toro_PricingProgramLine__c rb = ppMapExceptionMap.get(qi.Product_Id__c);
 				System.debug('>>> +++++++++++++++++ NAT 118 =  rb='+rb);
 				applyQIPercentage(qi,rb,dSetupFeeHeader);	
 			}
@@ -123,8 +128,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 					}
 					
 					//Run Exception
-					if(exceptionSkuSet.size() > 0 && exceptionSkuSet.contains(qi.Product_Id__c)) {
-						Toro_PricingProgramLine__c rb = tierMap.get(qis.Toro_Product_Tier__c);
+					if(ppMapExceptionMap.size() > 0 && ppMapExceptionMap.containsKey(qis.Product_Id__c)) {
+						Toro_PricingProgramLine__c rb = ppMapExceptionMap.get(qis.Product_Id__c);
 						System.debug('>>> +++++++++++++++++ NAT 113 =  rb='+rb);
 						applyQISLPercentage(qis,rb,dSetupFeeHeader);
 					}
@@ -175,16 +180,16 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		}
 
 		REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
-		if(dtoroTotalSetupFees > 0) {
+		//if(dtoroTotalSetupFees > 0) {
 			//Create Setup Fee Line Item
 			System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
 			addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
-			this.chainCall = true;
-			map<String, Object> payload = new map<String, Object>{ 'quoteId'=>quoteId, 'productId'=>setupFeeCN.Id, 'price'=>dtoroTotalSetupFees,
-				'unitPrice'=>dtoroTotalSetupFees, 'qty'=>1	
-			};
-			this.payloadOfChainCall = JSON.serialize(payload, false);
-		}		
+			//this.chainCall = true;
+			//map<String, Object> payload = new map<String, Object>{ 'quoteId'=>quoteId, 'productId'=>setupFeeCN.Id, 'price'=>dtoroTotalSetupFees,
+				//'unitPrice'=>dtoroTotalSetupFees, 'qty'=>1	
+			//};
+			//this.payloadOfChainCall = JSON.serialize(payload, false);
+		//}		
 
 		return 	quoteItemList;
 	}	
@@ -212,10 +217,33 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		                          From Toro_PricingProgramLine__c
 		                         Where PricingProgram__r.ExternalId__c = :pricingProgramExternalId
 		                                  ]) {
-			ppMap.put(rl.Tier__c, rl);                           	
+			if(!'Exception'.equalsIgnoreCase(rl.Tier__c)) {
+				ppMap.put(rl.Tier__c, rl);                           	
+			}
 		}
 		return ppMap;
 	}	
+
+	public static Map<String,Toro_PricingProgramLine__c> retrieveNationalAccountException(String pricingProgramExternalId) {
+		Map<String,Toro_PricingProgramLine__c> ppMap = new Map<String,Toro_PricingProgramLine__c>();
+		for(Toro_PricingProgramLine__c rl:[Select Id, ApplicableProducts__c, Pricing_1__c, Off_Mfg_Sugg_Ttl__c, Rebate_as_a_Percent_of_DN__c, Tier__c
+		                             ,Fee_Percentage__c , Part_Percentage__c, Award_Price_as_a_Percent_of_DN__c
+		                          From Toro_PricingProgramLine__c
+		                         Where PricingProgram__r.ExternalId__c = :pricingProgramExternalId
+		                                  ]) {
+			
+			if('Exception'.equalsIgnoreCase(rl.Tier__c)) {
+				if(!String.isEmpty(rl.ApplicableProducts__c)) {
+					for(String s:rl.ApplicableProducts__c.split(',')) {
+						String ssku = s.replaceAll(' ','');
+						ppMap.put(ssku, rl); 
+					}					
+				}
+			}     	
+		}
+		return ppMap;
+	}	
+
 	
 	public static Map<String,String> retrieveTractionUnit() {
 		Map<String,String> tractionUnitMap = new Map<String,String>();
