@@ -118,7 +118,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 							qis.percent_off_msrp__c =  qi.Off_MSRP__c;
 						}
 						qis.Part_Percentage__c = qi.Part_Percentage__c;
-						qis.Award_Price__c = qis.MSRP_Price__c * (1 - (qis.percent_off_msrp__c)/100);
+						qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * (1 - CMnQuoteUtil.defaultDecimal(qis.percent_off_msrp__c)/100);
 						qis.PricingMethodValue__c = String.valueOf(qis.percent_off_msrp__c);
 					}
 					
