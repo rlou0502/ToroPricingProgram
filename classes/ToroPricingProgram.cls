@@ -565,11 +565,11 @@ public abstract class ToroPricingProgram {
 
 	public virtual void initializeQuoteHeader(Id quoteId) {
 		system.debug(logginglevel.info, 'initializeQuoteHeader -- quoteId-------'+quoteId);
-		//quote = ToroCacheManager.getQuote(quoteId);
-		//system.debug(logginglevel.info, 'initializeQuoteHeader quoteId-------'+quoteId);
+		quote = ToroCacheManager.getQuote(quoteId);
+		system.debug(logginglevel.info, 'initializeQuoteHeader quoteId-------'+quoteId);
 		//system.debug(logginglevel.info, 'initializeQuoteHeader quote-------'+quote);
-		String quoteQuery = 'select ' + getQuoteFieldAPINameQuery('Setup_Fee__c, Toro_Support_Plus_Allowance__c, Blended_Percent_of_DN__c, Support_Plus_Rebate__c, SP_Ext_Dist_Responsibility__c, SP_Total_Extended_DNET__c,name,REVVY__Account__r.BillingStateCode, Performance_Part__c, Pricing_Program_Name__c, Price_Method__c, Agree_to_Support_Plus_T_C__c,Blended_Percent_of_DN__c') + ' from Revvy__MnQuote__c where id=:quoteId';
-		quote = Database.query(quoteQuery);
+		//String quoteQuery = 'select ' + getQuoteFieldAPINameQuery('Setup_Fee__c, Toro_Support_Plus_Allowance__c, Blended_Percent_of_DN__c, Support_Plus_Rebate__c, SP_Ext_Dist_Responsibility__c, SP_Total_Extended_DNET__c,name,REVVY__Account__r.BillingStateCode, Performance_Part__c, Pricing_Program_Name__c, Price_Method__c, Agree_to_Support_Plus_T_C__c,Blended_Percent_of_DN__c') + ' from Revvy__MnQuote__c where id=:quoteId';
+		//quote = Database.query(quoteQuery);
 
 	}
 	public virtual void initialize(Id quoteId) {
