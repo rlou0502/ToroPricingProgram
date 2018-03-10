@@ -67,7 +67,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
 		List<Toro_QuoteItem__c> updatedQuoteItems = new List<Toro_QuoteItem__c>();
 		for(Toro_QuoteItem__c qi : quoteItemWrapperList) {
-			
+			resetQIPercentage(qi);
 			
 			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
 				deleteSetupFeeLineItemId.add(qi.Id);
@@ -107,6 +107,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			System.debug('>>> +++++++++++++++++ NAT 112 = qi  % off percent_off_msrp__c='+qi.Off_MSRP__c);
 			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
 				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					resetQISLPercentage(qis);
+					
 					//Performance Part
 					ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
 					System.debug('>>> +++++++++++++++++ NAT 000');
@@ -255,6 +257,19 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 				
 	}
 	
+	
+	public void resetQIPercentage(Toro_QuoteItem__c qi) {
+
+		qi.Off_MSRP__c = 0;
+		qi.Award_of_DN__c =0;
+		qi.Rebate_as_a_of_DN__c = 0;
+		qi.Fee_Percentage__c = 0;
+		qi.Part_Percentage__c = 0;
+		qi.Award_Price__c = 0;
+		qi.PricingMethodValue__c = '';
+		
+	}
+	
 	public void applyQIPercentage(Toro_QuoteItem__c qi, Toro_PricingProgramLine__c rb, decimal dsetupFeeHeader) {
 
 		qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
@@ -269,6 +284,18 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);
 		
 	}
+	
+	public void resetQISLPercentage(Toro_QuoteItem_SubLine__c qis) {
+
+		qis.Rebate_as_of_DNet__c = 0;
+		qis.Percent_Off_MSRP__c = 0;		
+		qis.Part_Percentage__c = 0;
+		qis.Fee_Percentage__c = 0;
+		qis.Award_Price__c = 0;
+		qis.PricingMethodValue__c = '';
+		qis.Percent_of_DNet__c=0;
+		
+	}	
 
 	public void applyQISLPercentage(Toro_QuoteItem_SubLine__c qis, Toro_PricingProgramLine__c rb, decimal dsetupFeeHeader) {
 
@@ -303,4 +330,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		}		
 		return result;
 	}
+	
+	
+	
+	
 }
