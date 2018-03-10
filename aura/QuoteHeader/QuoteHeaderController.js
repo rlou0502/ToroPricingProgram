@@ -76,7 +76,6 @@
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
                 }
             } else if(field.type.toLowerCase() === 'percent') {
-                 debugger;
                 if(data != undefined) {
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
                 }

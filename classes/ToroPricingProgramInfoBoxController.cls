@@ -25,7 +25,6 @@ public class ToroPricingProgramInfoBoxController {
     }
     @AuraEnabled
     public static Revvy__MnQuote__c loadQuoteHeader(Id quoteId) {
-    	system.debug('-------quoteId = ' + quoteId);
-    	return [select name from Revvy__MnQuote__c where id = :quoteId];
+    	return ToroCacheManager.refreshQuote(quoteId);
     }
 }
