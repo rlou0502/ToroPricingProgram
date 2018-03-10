@@ -564,7 +564,7 @@ public abstract class ToroPricingProgram {
 	}
 
 	public virtual void initializeQuoteHeader(Id quoteId) {
-		//system.debug(logginglevel.info, 'initializeQuoteHeader -- quoteId-------'+quoteId);
+		system.debug(logginglevel.info, 'initializeQuoteHeader -- quoteId-------'+quoteId);
 		//quote = ToroCacheManager.getQuote(quoteId);
 		//system.debug(logginglevel.info, 'initializeQuoteHeader quoteId-------'+quoteId);
 		//system.debug(logginglevel.info, 'initializeQuoteHeader quote-------'+quote);
