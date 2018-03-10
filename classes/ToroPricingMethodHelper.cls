@@ -50,6 +50,8 @@ public with sharing class ToroPricingMethodHelper {
 							qis.Percent_of_DNet__c = qis.Award_Price__c /qis.Toro_DNet_Price__c*100;
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- extDNet = ' + extDNet);			
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- extAward = ' + extAward);							
+						} else {
+							qis.Award_Price__c = setAwardPrice(qis);	
 						}	
 					}	
 					
@@ -97,7 +99,7 @@ public with sharing class ToroPricingMethodHelper {
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet --' + qis.Percent_of_DNet__c);
 							qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));
 							qis.Award_Price__c = setAwardPrice(qis);
-							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet -- qis.Award_Price__c' + qis.Award_Price__c + ' qis.MSRP_Price__c =' + qis.MSRP_Price__c);
+							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet -- qis.Award_Price__c' + qis.Award_Price__c + ' qis.MSRP_Price__c =' + qis.MSRP_Price__c +'-----'+qis.product_Id__c);
 							qis.Percent_Off_MSRP__c = (1 - qis.Award_Price__c/qis.MSRP_Price__c)*100;
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet --' + qis.Percent_of_DNet__c + ' % off msrp=' + qis.Percent_Off_MSRP__c);
 							extDNet += qis.Toro_DNet_Price__c*extQty;
@@ -105,6 +107,8 @@ public with sharing class ToroPricingMethodHelper {
 							
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- qis.extDNet = ' + extDNet);			
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- qis.extAward = ' + extAward );							
+						} else {
+							qis.Award_Price__c = setAwardPrice(qis);	
 						}	
 					}	
 					
@@ -406,6 +410,8 @@ public with sharing class ToroPricingMethodHelper {
 							qis.Award_Price__c = setAwardPrice(qis);
 							qis.Percent_Off_MSRP__c = (1-qis.Award_Price__c/qi.MSRP_Price__c)*100 ;
 							
+						} else {
+							qis.Award_Price__c = setAwardPrice(qis);	
 						}	
 					}	
 				}
