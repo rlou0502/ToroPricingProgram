@@ -44,103 +44,29 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	public override boolean displayPerformancePart() {
 		return true;
 	}
-/*
-	public override List<Toro_QuoteItem__c> calculateExtendedFields(List<Toro_QuoteItem__c> quoteItemList) {
-		decimal quoteDnet = 0;
-		decimal quoteAward = 0;
-		decimal quoteTotalAward =0;
-		decimal quoteToroTotalAward=0;
-		decimal quoteTotalDNet =0;
-		decimal quoteTotalSetupFee=0;
-		decimal quoteToroTotalDNet=0;
-		decimal quoteTotalGP=0;
-		decimal quoteTotalRebate=0;
-		decimal quoteTotalDnetWOTppAllied = 0;
-		for (Toro_QuoteItem__c qi : quoteItemList) {
-			//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
-			decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-			//decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-			//award price has been calculated in calling function
-			decimal extAward = CMnQuoteUtil.defaultDecimal(qi.Award_price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-			decimal extMSRP = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;
-			qi.Toro_Extended_DNet_Price__c = extDnet;
-			qi.Toro_Extended_MSRP_Price__c = extMSRP;
-			decimal extRebate = qi.Toro_Rebate__c;
-			qi.Toro_Gross_Profit_Value__c = extAward - extDnet + extDnet * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;
-			if(extAward != null && extAward != 0) {
-				qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/extAward*100;
-			}
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate__c) {
-						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
-						qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));
-						decimal subExtDNet = CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c)* extQty;
-						decimal subExtAward = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * extQty;
-						decimal subExtMSRP = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * extQty;
-						qis.Toro_Extended_DNET_Price__c = subExtDNet;
-						qis.Toro_Extended_MSRP_Price__c = subExtMSRP;
-						qis.Toro_Extended_Award_Price__c = subExtAward;
-						extDnet += subExtDNet;
-						extAward += subExtAward;
-						extMSRP += subExtMSRP;
-						system.debug('checking MSRP ext qi.extMSRP=' + extMSRP);
-						qis.Gross_Profit_Value__c = subExtAward - subExtDNet + (subExtDNet * CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100);
-						if(subExtAward != 0) {
-							qis.Gross_Profit_Percent__c = CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Value__c)/subExtAward*100;
+	
+	public override List<Toro_QuoteItem__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+		if(this.performancePartFlag) {
+			//Performance Part
+			for(Toro_QuoteItem__c qi : quoteItemList) {
+				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Toro_QuoteItem__c 222 performancePartFlag='+performancePartFlag  );
+				ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap);
+					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
+						for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							//Performance Part
+							system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
+							system.debug('-------------++++++++qis' + qis);
+							ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
 						}
-						qis.Toro_Subline_Rebate__c = qis.Toro_DNet_Price__c * extQty *CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100;
-						extRebate += qis.Toro_Subline_Rebate__c;
-						qis.Toro_Extended_Award_Price__c = subExtAward;
-						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
-					}
-				}
+					}		
 			}
-
-			qi.Toro_Total_Extended_Award_Price__c = extAward;
-			qi.Toro_Total_Extended_MSRP_Price__c = extMSRP;
-			qi.Toro_Total_Extended_DNet_Price__c = extDnet;
-			if(extMSRP != 0) {
-				qi.Toro_Total_MSRP_Percentage__c = 100 - (extAward/extMSRP)*100;
-			}
-			qi.Toro_Total_Rebate__c = extRebate;
-			qi.Total_Gross_Profit_Value__c = extAward - extDnet + extRebate;
-			if(extAward != 0) {
-				qi.Total_Gross_Profit_Percent__c = qi.Total_Gross_Profit_Value__c/extAward*100;
-			}
-			system.debug('checking MSRP ext qi.Toro_Total_Extended_MSRP_Price__c=' + qi.Toro_Total_Extended_MSRP_Price__c);
-			quoteTotalAward 			+= qi.Toro_Total_Extended_Award_Price__c;
-			quoteToroTotalAward       	+= qi.Toro_Total_Extended_Award_Price__c;
-			quoteTotalDNet              += qi.Toro_Total_Extended_DNet_Price__c;
-			quoteToroTotalDNet          += qi.Toro_Total_Extended_DNet_Price__c;
-			quoteTotalGP 				+= qi.Total_Gross_Profit_Value__c;
-			quoteTotalRebate       		+= qi.Toro_Total_Rebate__c;
-			quoteTotalDnetWOTppAllied   += qi.Toro_Total_Extended_Award_Price__c;
-
 		}
-		quote.Toro_Rollup_Award_Price__c       = quoteTotalAward;
-		quote.Toro_Rollup_DNET__c              = quoteTotalDNet;
-		quote.Toro_Rollup_Setup_Fees__c        = quoteTotalSetupFee;
-		quote.Toro_Total_DNet__c               = quoteToroTotalDNet;
-		quote.Toro_Total_Quote_Gross_Profit__c = quoteTotalGP;
-		quote.Toro_Total_Quote_Rebate__c       = quoteTotalRebate;
-		quote.Toro_Total_Rebate__c             = quoteTotalRebate;
-		quote.Toro_Rollup_DNetWOTPPAllied__c   = quoteTotalDnetWOTppAllied;
-
-
-		quote.Award_Price__c = quoteTotalAward;
-		if(quote.Toro_Rollup_DNET__c != null && quote.Toro_Rollup_DNET__c != 0) {
-			quote.Toro_Blended_Percent_of_DN__c            = CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) / quote.Toro_Rollup_DNET__c*100;
-		}
-
-		quote.Toro_Blended_Percent_of_DN__c=CMnQuoteUtil.defaultDecimal(quote.Toro_Blended_Percent_of_DN__c).setScale(2);
-		if(quote.Toro_Rollup_Award_Price__c != null && quote.Toro_Rollup_Award_Price__c != 0) {
-			quote.Toro_Total_Quote_Gross_Profit_Percent__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Quote_Gross_Profit__c) / quote.Toro_Rollup_Award_Price__c *100;
-		}
-		return quoteItemList;
+		return 	quoteItemList;
 	}
-*/
+
+
+		
 	public decimal lookupRebateAsPercentOfDNet(decimal percentOfDNet, List<Toro_PricingProgramLine__c> dNetLineList ) {
 		decimal result = 0;
 		decimal x3 = percentOfDNet;
@@ -463,7 +389,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		Revvy__MnQuote__c quote = [SELECT
 										Toro_ApprovalReason__c
 										, REVVY__NeedsApproval__c
-										, Toro_Rollup_Award_Price__c
+										, Total_Extended_DNet__c
 									FROM
 										Revvy__MnQuote__c
 									WHERE
@@ -477,12 +403,12 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		Boolean needsApproval = false;
 		String approvalMessage = '';
 
-		if (containsOutCross && quote.Toro_Rollup_Award_Price__c < pricingProgram.OutCrossThreshold__c) {
+		if (containsOutCross && quote.Total_Extended_DNet__c < pricingProgram.OutCrossThreshold__c) {
 			needsApproval = true;
 			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '.';
 		}
 
-		else if (!containsOutcross && quote.Toro_Rollup_Award_Price__c < pricingProgram.MinimumThreshold__c) {
+		else if (!containsOutcross && quote.Total_Extended_DNet__c < pricingProgram.MinimumThreshold__c) {
 			needsApproval = true;
 			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '.';
 		}
@@ -494,13 +420,11 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 		if (needsApproval) {
 			quote.REVVY__NeedsApproval__c = true;
-			// quote.Toro_ApprovalRequired__c = true;
 			quote.Toro_ApprovalReason__c = approvalMessage;
 		}
 
 		else {
 			quote.REVVY__NeedsApproval__c = false;
-			// quote.Toro_ApprovalRequired__c = false;
 			quote.Toro_ApprovalReason__c = '';
 		}
 
