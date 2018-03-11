@@ -340,17 +340,6 @@
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>AwardPercent__c</fullName>
-        <description>% of Total Award Dollars. This field is used in &quot;Total Award Dollars&quot; pricing method calculation only.</description>
-        <externalId>false</externalId>
-        <label>Award %</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Percent</type>
-    </fields>
-    <fields>
         <fullName>Award_Price__c</fullName>
         <externalId>false</externalId>
         <label>AWARD</label>
@@ -420,14 +409,6 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
-    </fields>
-    <fields>
-        <fullName>FreezeLine__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>Freeze Line</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>FreezePricing__c</fullName>
@@ -656,26 +637,6 @@
         <fullName>Toro_DNet_Price__c</fullName>
         <externalId>false</externalId>
         <label>EXT  DNET</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Extended_Award_DNet_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Extended Award DNet Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Extended_Award_MSRP_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Extended Award MSRP Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

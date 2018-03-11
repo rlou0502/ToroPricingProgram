@@ -95,9 +95,9 @@ public class ToroPricingProgramController {
 		pp.quote.Performance_Part__c=performancePart;
 		
 		for(Toro_QuoteItem__c qi : pp.quoteItems) {
-			if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
-				qi.FreezeLine__c = true;
-			}
+			//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
+			//	qi.FreezeLine__c = true;
+			//}
 			system.debug(logginglevel.info,'checkpoint 4 qi.Award_of_DN__c =' + qi.Award_of_DN__c + ' sku =' + qi.Product_Name__c);
 			qi.Select_a_Price_Method__c = pricingMethod;
 			Map<String, Object> qiUpdateData = 	(Map<String, Object>) quoteItemsData.get(qi.Id);
@@ -140,9 +140,9 @@ public class ToroPricingProgramController {
 			}
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(pp.performancePartFlag && qis.Performance_part__c) {
-						qis.FreezeLine__c = true;
-					}
+					//if(pp.performancePartFlag && qis.Performance_part__c) {
+					//	qis.FreezeLine__c = true;
+					//}
 					//qis.PricingMethodValue__c=null;
 					Map<String, Object>  qisUpdateData = (Map<String, Object>) qiSublinesData.get(qis.id);
 					if(qisUpdateData != null) {
@@ -529,12 +529,14 @@ public class ToroPricingProgramController {
     	
     	Id quoteId = objId;
     	
+    	//load quote from DB
+    	Revvy__MnQuote__c q = ToroCacheManager.refreshQuote(quoteId);
     	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
     	//	quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);	
     	//}
     	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
     	if(String.isBlank(pricingProgram)) {
-	    	Revvy__MnQuote__c q = ToroCacheManager.getQuote(quoteId);
+	    	
 	    	pricingProgram = q.Pricing_Program_Name__c;
     	}
     	rs.selectedPricingProgram = pricingProgram; 

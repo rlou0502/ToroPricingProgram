@@ -6,6 +6,11 @@
  * @author Scott Santarromana
  */
 public class ToroQuoteDAO {
+	public static Revvy__MnQuote__c retrieveQuoteWithFieldset(Id quoteId) {
+		String quoteQuery = 'select ' + CMnQuoteUtil.getQuoteQuery('Setup_Fee__c, Toro_Support_Plus_Allowance__c, Blended_Percent_of_DN__c, Support_Plus_Rebate__c, SP_Ext_Dist_Responsibility__c, SP_Total_Extended_DNET__c,name,REVVY__Account__r.BillingStateCode, Performance_Part__c, Pricing_Program_Name__c, Price_Method__c, Agree_to_Support_Plus_T_C__c,Blended_Percent_of_DN__c') + ' from Revvy__MnQuote__c where id=:quoteId';
+        Revvy__MnQuote__c q = (Revvy__MnQuote__c) Database.query(quoteQuery);	
+        return q;
+	}
     public static final Set<String> QUOTE_FIELDS = new Set<String> {
         'Id'
         , 'Name'
@@ -18,6 +23,14 @@ public class ToroQuoteDAO {
         , 'REVVY__Version_Number__c'
         , 'REVVY__Id__c'
         , 'REVVY__One_Time_Unit_Price_S__c'
+        , 'Extended_Target_Price__c'
+        , 'Extended_Pat1__c'
+        , 'Extended_Pat2__c'
+        , 'HISS_Deal_Margin__c'
+        , 'HISS_Target_Margin__c'
+        , 'HISS_Total_Cost_Price__c'
+        , 'HISS_Total_List_Price__c'
+        , 'HISS_Total_Sell_Price__c'
     };
 
     public static final Set<String> QUOTE_SOLUTION_ATTRIBUTE_FIELDS = new Set<String> {
@@ -148,6 +161,8 @@ public class ToroQuoteDAO {
         , 'TargetPrice__c'
         , 'REVVY__ListedPrice__c'
         , 'REVVY__CostPrice__c'
+        , 'PAT1__c'
+        , 'PAT2__c'
         , 'REVVY__Product__c'
         , 'REVVY__Product__r.REVVY__Id__c'
         , 'REVVY__Product_Name__c'
