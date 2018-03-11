@@ -111,6 +111,10 @@ public class ToroPricingProgramController {
 		system.debug('setPricingMethodValueRemote options=' + options);	
 		//if there is only one pricing method + "Please select" item, auto apply it
 		pp.initialize(quoteId);
+		pp.quote.Pricing_Program_Name__c=pricingProgram;
+		pp.quote.Price_Method__c=pricingMethod;
+		pp.quote.Setup_Fee__c = setupFeePercent;
+		pp.quote.Performance_Part__c=performancePart;
 		
 		for(Toro_QuoteItem__c qi : pp.quoteItems) {
 			if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
