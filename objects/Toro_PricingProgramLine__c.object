@@ -96,7 +96,7 @@
         <type>Percent</type>
     </fields>
     <fields>
-        <fullName>MaxQty__c</fullName>
+        <fullName>Max_Qty__c</fullName>
         <description>Upper bound of a quantity range</description>
         <externalId>false</externalId>
         <label>Max Qty</label>
