@@ -176,7 +176,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						decimal rebateValue = 0.0;
 						decimal basePrice = qi.MSRP_Price__c;
 						decimal grossProfit = 0.0;
-						qi.Distributor_Net__c = qi.MSRP_Price__c;
+						//qi.Distributor_Net__c = qi.MSRP_Price__c;
 						if('% of DNET'.equalsIgnoreCase(priceMethod) && !qi.Performance_Parts_Product__c) {
 							if(qi.Unit_Award_Overridden__c) {
 								qi.Award_of_DN__c = qi.Award_Price__c * 100/qi.DNet_Price__c;

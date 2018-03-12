@@ -452,17 +452,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>AwardPercent__c</fullName>
-        <description>% of Total Award Dollars. This field is used in &quot;Total Award Dollars&quot; pricing method calculation only.</description>
-        <externalId>false</externalId>
-        <label>Award %</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Percent</type>
-    </fields>
-    <fields>
         <fullName>Award_Price__c</fullName>
         <externalId>false</externalId>
         <label>AWARD</label>
@@ -516,16 +505,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Distributor_Net__c</fullName>
-        <externalId>false</externalId>
-        <label>Distributor Net</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>External_Id__c</fullName>
         <caseSensitive>false</caseSensitive>
         <externalId>true</externalId>
@@ -546,14 +525,6 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
-    </fields>
-    <fields>
-        <fullName>FreezeLine__c</fullName>
-        <defaultValue>false</defaultValue>
-        <externalId>false</externalId>
-        <label>Freeze Line</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>FreezePricing__c</fullName>
@@ -1023,30 +994,9 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Toro_QuoteItemSubline_Rebate_as_of_Dnet__c</fullName>
-        <externalId>false</externalId>
-        <label>Subline Rebate as % of Dnet</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Percent</type>
-    </fields>
-    <fields>
         <fullName>Toro_Rebate__c</fullName>
         <externalId>false</externalId>
         <label>Toro Rebate</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_Award_MSRP_Price__c</fullName>
-        <description>This field is used in formula field Extended_Award_MSRP_Price__c.</description>
-        <externalId>false</externalId>
-        <label>Rollup Award MSRP Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1171,36 +1121,6 @@
         <fullName>Toro_Total_Rebate__c</fullName>
         <externalId>false</externalId>
         <label>Total Rebate</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Total_Setup_Fees__c</fullName>
-        <externalId>false</externalId>
-        <label>ZZZ_Total Setup Fees</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Total_Unit_Award__c</fullName>
-        <externalId>false</externalId>
-        <label>Unit Award</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Total_Award_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Total Award Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
