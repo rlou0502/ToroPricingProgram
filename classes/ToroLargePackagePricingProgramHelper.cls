@@ -47,6 +47,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	
 	public override List<Toro_QuoteItem__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+																/*
 		if(this.performancePartFlag) {
 			//Performance Part
 			for(Toro_QuoteItem__c qi : quoteItemList) {
@@ -62,6 +63,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 					}		
 			}
 		}
+		*/
 		return 	quoteItemList;
 	}
 
