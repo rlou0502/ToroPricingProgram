@@ -107,6 +107,7 @@
             var pricingProgram = params.pricingProgram;
             var pricingMethod = params.pricingMethod;
             var awardPrice = params.awardPrice;
+            var performancePart = params.performancePart;
             var quoteId = cmp.get('v.quoteId');
             var getAction = cmp.get('c.setTotalAwardDollarPMRemote');
             var self = this;
@@ -114,7 +115,8 @@
                 quoteId: quoteId,
                 pricingProgram: pricingProgram,
                 pricingMethod: pricingMethod,
-                awardPrice: awardPrice
+                awardPrice: awardPrice,
+                performancePart : performancePart
             });
         	
             getAction.setCallback(this, 
@@ -164,6 +166,7 @@
         if(params) {
             var pricingProgram = params.pricingProgram;
             var pricingMethod = params.pricingMethod;
+            var performancePart = params.performancePart;
             var gpPercent = params.gpPercent; 
             var quoteId = cmp.get('v.quoteId');
             var getAction = cmp.get('c.setGPPercentRemote');
@@ -172,7 +175,8 @@
                 quoteId: quoteId,
                 pricingProgram: pricingProgram,
                 pricingMethod: pricingMethod,
-                gpPercent: gpPercent
+                gpPercent: gpPercent,
+                performancePart: performancePart
             });
         	
             getAction.setCallback(this, 

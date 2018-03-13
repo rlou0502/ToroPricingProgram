@@ -269,7 +269,7 @@ public class ToroPricingProgramController {
     }
     
 	@AuraEnabled
-    public static ToroSObjectResultSet setTotalAwardDollarPMRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal awardPrice) {
+    public static ToroSObjectResultSet setTotalAwardDollarPMRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal awardPrice, boolean performancePart) {
     	system.debug('--------------calling setTotalAwardDollarPMRemote');
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=false;
@@ -279,7 +279,7 @@ public class ToroPricingProgramController {
     	if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
     		pp.initialize(quoteId);
-    		pp.performancePartFlag = false;
+    		pp.performancePartFlag = performancePart;
     		pp.quoteItems = ToroPricingMethodHelper.distributeTotalAwardDollors(pp.quoteItems, awardPrice);
     		rs = retrieveFieldSets(rs, pp, pricingMethod);
 			//system.debug(logginglevel.info, 'entering---calculateRebateMargin');
@@ -307,7 +307,7 @@ public class ToroPricingProgramController {
     }
     
     @AuraEnabled
-    public static ToroSObjectResultSet setGPPercentRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal gpPercent) {
+    public static ToroSObjectResultSet setGPPercentRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal gpPercent, boolean performancePart) {
     	system.debug('--------------calling setGPPercentRemote');
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=false;
@@ -317,7 +317,7 @@ public class ToroPricingProgramController {
     	if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
     		pp.initialize(quoteId);
-    		pp.performancePartFlag = false;
+    		pp.performancePartFlag = performancePart;
     		for (Toro_QuoteItem__c qi : pp.quoteItems) {
     			qi.Toro_Gross_Profit_Percent__c = gpPercent;
     			qi.PricingMethodValue__c = String.valueOf(gpPercent);				

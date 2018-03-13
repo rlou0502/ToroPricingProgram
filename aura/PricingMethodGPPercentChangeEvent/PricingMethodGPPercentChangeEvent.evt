@@ -2,4 +2,5 @@
     <aura:attribute name="pricingProgram" type="String"/>
     <aura:attribute name="pricingMethod" type="String"/>
     <aura:attribute name="gpPercent" type="Decimal"/>
+    <aura:attribute name="performancePart" type="Boolean"/>
 </aura:event>

@@ -48,12 +48,14 @@
         <aura:attribute name="pricingProgram" type="String" />
         <aura:attribute name="pricingMethod" type="String" />
         <aura:attribute name="awardPrice" type="decimal" />
+        <aura:attribute name="performancePart" type="Boolean"/>
     </aura:method>
     <aura:method name="setPMGPPercent"
       description="This method makes an aura call to set value of GP % of Pricing Method">
         <aura:attribute name="pricingProgram" type="String" />
         <aura:attribute name="pricingMethod" type="String" />
         <aura:attribute name="gpPercent" type="decimal" />
+        <aura:attribute name="performancePart" type="Boolean"/>
     </aura:method>
     
     

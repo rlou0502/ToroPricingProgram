@@ -47,15 +47,17 @@
     	var pricingProgram=event.getParam("pricingProgram");
         var pricingMethod=event.getParam("pricingMethod");
         var awardPrice=event.getParam("awardPrice");
+        var performancePart=event.getParam("performancePart");
         var childCmp = component.find("cmpQuoteItem");
-		childCmp.setPMTotalAwardDollars(pricingProgram, pricingMethod, awardPrice);    
+		childCmp.setPMTotalAwardDollars(pricingProgram, pricingMethod, awardPrice, performancePart);    
     },
     handleGPPercentChange: function(component, event, helper) {
     	var pricingProgram=event.getParam("pricingProgram");
         var pricingMethod=event.getParam("pricingMethod");
         var gpPercent=event.getParam("gpPercent");
+        var performancePart=event.getParam("performancePart");
         var childCmp = component.find("cmpQuoteItem");
-		childCmp.setPMGPPercent(pricingProgram, pricingMethod, gpPercent);    
+		childCmp.setPMGPPercent(pricingProgram, pricingMethod, gpPercent, performancePart);    
     },
     collapseAll : function(component, event, helper) {
     	//console.log('updateQuote');  
