@@ -1,7 +1,7 @@
 public abstract class ToroPricingProgram {
 	public Revvy__MnQuote__c quote { get; set; }
 	public List<Toro_QuoteItem__c> quoteItems { get; set; }
-	public boolean performancePartFlag { get; set { performancePartFlag = value; quote.Performance_Part__c=value;}}
+	public boolean performancePartFlag { get; set { performancePartFlag = value; if(quote != null) {quote.Performance_Part__c=value;}}}
 	public decimal setupFeePercentage { get; set; }
 	public String pricingMethod { get; set; }
 	public boolean chainCall { get; set;}
@@ -176,11 +176,14 @@ public abstract class ToroPricingProgram {
 		decimal quoteTotalDnetWOTppAllied = 0;
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
+			qi.Toro_Total_Setup_Fees__c = 0; 
 			decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			//decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			//award price has been calculated in calling function
 			decimal extAward = CMnQuoteUtil.defaultDecimal(qi.Award_price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-			decimal extMSRP = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);			 
+			decimal extMSRP = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);	
+			qi.Toro_Fee_Amount__c = CMnQuoteUtil.defaultDecimal(qi.Toro_Total_Extended_Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100;
+			decimal extFeeAmount = qi.Toro_Fee_Amount__c;	 
 			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;
 			qi.Toro_Extended_DNet_Price__c = extDnet;
 			qi.Toro_Extended_MSRP_Price__c = extMSRP;
@@ -200,6 +203,7 @@ public abstract class ToroPricingProgram {
 						qis.Toro_Extended_DNET_Price__c = subExtDNet;
 						qis.Toro_Extended_MSRP_Price__c = subExtMSRP;
 						qis.Toro_Extended_Award_Price__c = subExtAward;
+						
 						extDnet += subExtDNet;
 						extAward += subExtAward;
 						extMSRP += subExtMSRP;
@@ -211,10 +215,15 @@ public abstract class ToroPricingProgram {
 						qis.Toro_Subline_Rebate__c = qis.Toro_DNet_Price__c * extQty *CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c)/100;
 						extRebate += qis.Toro_Subline_Rebate__c;
 						qis.Toro_Extended_Award_Price__c = subExtAward;
+						qis.Toro_Fee_Amount__c = CMnQuoteUtil.defaultDecimal(qis.Toro_Extended_Award_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
+						extFeeAmount += qis.Toro_Fee_Amount__c;
+						
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;	
 					}	
 				}	
 			}
+			
+			qi.Toro_Total_Setup_Fees__c = extFeeAmount;
 			
 			qi.Toro_Total_Extended_Award_Price__c = extAward;
 			qi.Toro_Total_Extended_MSRP_Price__c = extMSRP;
@@ -235,6 +244,7 @@ public abstract class ToroPricingProgram {
 			quoteTotalGP 				+= qi.Total_Gross_Profit_Value__c;
 			quoteTotalRebate       		+= qi.Toro_Total_Rebate__c;
 			quoteTotalDnetWOTppAllied   += qi.Toro_Total_Extended_Award_Price__c;
+			quoteTotalSetupFee          += qi.Toro_Total_Setup_Fees__c;
 			
 		}	
 		quote.Toro_Rollup_Award_Price__c       = quoteTotalAward;
@@ -581,6 +591,7 @@ public abstract class ToroPricingProgram {
 	}
 
 	public ToroPricingProgram() {
+		performancePartFlag = false;
 		quoteFieldMap = Schema.SObjectType.Revvy__MnQuote__c.fields.getMap();
 		quoteItemFieldMap = Schema.SObjectType.Revvy__MnQuoteItem__c.fields.getMap();
 		quoteItemSublineFieldMap = Schema.SObjectType.Revvy__MnQuoteItemSubline__c.fields.getMap();

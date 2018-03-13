@@ -1143,6 +1143,16 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Toro_Total_Setup_Fees__c</fullName>
+        <externalId>false</externalId>
+        <label>ZZZ_Total Setup Fees</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Total_Gross_Profit_Percent__c</fullName>
         <description>A Blended GP%</description>
         <externalId>false</externalId>

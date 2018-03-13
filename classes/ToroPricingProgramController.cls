@@ -64,7 +64,7 @@ public class ToroPricingProgramController {
     	ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
     	rs.currentQuoteItem = qiId;
 		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-		pp.performancePartFlag = performancePart;
+		pp.performancePartFlag = performancePart != null ? performancePart : false;
 		pp.setupFeePercentage = setupFeePercent;
 		System.debug('pricingProgram=' +pricingProgram);
 		System.debug('pricingMethod=' +pricingMethod);
@@ -279,7 +279,7 @@ public class ToroPricingProgramController {
     	if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
     		pp.initialize(quoteId);
-    		pp.performancePartFlag = performancePart;
+    		pp.performancePartFlag = performancePart != null ? performancePart : false;
     		pp.quoteItems = ToroPricingMethodHelper.distributeTotalAwardDollors(pp.quoteItems, awardPrice);
     		rs = retrieveFieldSets(rs, pp, pricingMethod);
 			//system.debug(logginglevel.info, 'entering---calculateRebateMargin');
@@ -317,7 +317,7 @@ public class ToroPricingProgramController {
     	if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
     		pp.initialize(quoteId);
-    		pp.performancePartFlag = performancePart;
+    		pp.performancePartFlag = performancePart != null ? performancePart : false;
     		for (Toro_QuoteItem__c qi : pp.quoteItems) {
     			qi.Toro_Gross_Profit_Percent__c = gpPercent;
     			qi.PricingMethodValue__c = String.valueOf(gpPercent);				
