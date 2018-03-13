@@ -74,9 +74,9 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 
 
 
-	public static void applyPerformancePartForQuoteItem(Boolean bperformancePart,  Toro_QuoteItem__c qi, Map<String,Decimal> ppMap) {
+	public static boolean applyPerformancePartForQuoteItem(Boolean bperformancePart,  Toro_QuoteItem__c qi, Map<String,Decimal> ppMap) {
 		system.debug('+++++++++++++++++ PP quoteItem qi.Product_Id__c=' + qi.Product_Id__c + ' ppMap size=' + ppMap.size() + ' test='+ppMap.containsKey(qi.Product_Id__c));
- 		
+ 		boolean result = false;
 		qi.Performance_Parts_Product__c = false;
 		if(!qi.Unit_Award_Overridden__c) {
 			//Todo
@@ -94,7 +94,9 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
             if(!qi.Unit_Award_Overridden__c) {
             	qi.Award_Price__c =qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c;
             }
+            result = true;
 		}
+		return result;
 	}   
 	
 	public static void applyPerformancePartForQuoteItemSubLine(Boolean bperformancePart, Toro_QuoteItem_SubLine__c qi, Map<String,Decimal> ppMap) {
