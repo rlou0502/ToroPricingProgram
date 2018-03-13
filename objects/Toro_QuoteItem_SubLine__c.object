@@ -52,6 +52,11 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fieldSets>
+        <fullName>DNet_Field_Set</fullName>
+        <description>Pricing Program</description>
+        <label>DNet Field Set</label>
+    </fieldSets>
+    <fieldSets>
         <fullName>Large_Package_Price_Program_Quote_SubLin</fullName>
         <description>Pricing Program</description>
         <displayedFields>
