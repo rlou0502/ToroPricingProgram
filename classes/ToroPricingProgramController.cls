@@ -584,6 +584,8 @@ public class ToroPricingProgramController {
     		fieldSetSub = pp.removeDNetFieldsFromSet(fieldSetSub, qisDNetFS);
     	}
     	
+    	system.debug('retrieveFieldSets = ' + fieldSet);
+    	system.debug('retrieveFieldSets =  fieldSetSummary=' + fieldSetSummary);
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields(); 
     	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
     	List<Schema.FieldSetMember> updatableFieldSetSub = pp.getToroQuoteItemSublineUpdatableFields(); 
