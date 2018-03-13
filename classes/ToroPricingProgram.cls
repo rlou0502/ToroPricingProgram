@@ -14,7 +14,30 @@ public abstract class ToroPricingProgram {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.Quote_Header_Updatable_Fields.getFields();
 	}
 /* 	for quote item /subline extensions */
-
+	public virtual List<Schema.FieldSetMember> removeDNetFieldsFromSet(List<Schema.FieldSetMember> sourceFS, List<Schema.FieldSetMember> removeFS)  {
+		Set<String> dnetMap = new Set<String>();
+		for(Schema.FieldSetMember fs : removeFS) {
+			dnetMap.add(fs.fieldPath);		
+		}
+		for(integer i = sourceFS.size()-1; i >= 0; i--) {
+			Schema.FieldSetMember fs2 = sourceFS[i];
+			if(dnetMap.contains(fs2.fieldPath)) {
+				sourceFS.remove(i);	
+			}	
+		}	
+		return sourceFS;	
+	}
+		
+	public virtual List<Schema.FieldSetMember> getToroQuoteItemDNetFields() {
+		return SObjectType.Toro_QuoteItem__c.FieldSets.DNet_Field_Set.getFields();
+	}
+	public virtual List<Schema.FieldSetMember> getToroQuoteItemSublineDNetFields() {
+		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.DNet_Field_Set.getFields();
+	}
+	public virtual List<Schema.FieldSetMember> getToroQuoteDNetFields() {
+		return SObjectType.Revvy__MnQuote__c.FieldSets.DNet_Field_Set.getFields();
+	}
+	
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Line_Cols.getFields();
 	}
