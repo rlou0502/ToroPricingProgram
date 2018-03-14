@@ -309,11 +309,6 @@
     <fieldSets>
         <fullName>National_Account_Quote_Line_Updtbl_Cols</fullName>
         <description>Pricing Program</description>
-        <displayedFields>
-            <field>Award_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
         <label>National Account Quote Line Updatable Cols</label>
     </fieldSets>
     <fieldSets>
