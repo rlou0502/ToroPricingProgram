@@ -183,7 +183,7 @@ public with sharing class RoyTest {
 		//	 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'REVVY__MnCatalogAttributeValue__c', 'REVVY__MnConfigEngineOption__c', 'REVVY__MnConfigEngineOptionGroup__c',
 		//	 'REVVY__MnQiSubLineAttribute__c', 'REVVY__MnQuoteItemAttribute__c'};
 		List<String> sobjNames = new List<String> {'User', 'REVVY__MnQuote__c', 'REVVY__MnCatalogNode__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c',
-			 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'REVVY__MnConfigEngineOption__c', 'REVVY__MnConfigEngineOptionGroup__c',
+			 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'REVVY__MnConfigEngineOption__c', 'REVVY__MnConfigEngineOptionGroup__c','Account',
 			 'REVVY__MnQiSubLineAttribute__c', 'REVVY__MnQuoteItemAttribute__c', 'Revvy__MnQuoteSolution__c', 'Revvy__MnQuoteSolutionAttribute__c'};
 		//List<String> sobjNames = new List<String> {'REVVY__MnQuote__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c','Toro_PricingProgram__c','Toro_PricingProgramLine__c','Toro_PricingProgramEligibility__c'};
 		for(String sobjName : sobjNames) {
