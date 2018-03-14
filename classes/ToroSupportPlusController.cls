@@ -14,7 +14,7 @@ global class ToroSupportPlusController {
 				Id
 				, Name
 				, Toro_Support_Plus_Allowance__c
-				, Blended_Percent_of_DN__c
+				, Toro_Blended_Percent_of_DN__c
 				, Support_Plus_Rebate__c
 				, SP_Ext_Dist_Responsibility__c
 				, SP_Total_Extended_DNET__c
@@ -47,8 +47,8 @@ global class ToroSupportPlusController {
 
     	for (Support_Plus_Contribution__c con : contributions) {
     		if (
-				spQuote.Blended_Percent_of_DN__c >= con.Award_Price_Low__c
-				&& spQuote.Blended_Percent_of_DN__c < con.Award_Price_High__c
+				spQuote.Toro_Blended_Percent_of_DN__c >= con.Award_Price_Low__c
+				&& spQuote.Toro_Blended_Percent_of_DN__c < con.Award_Price_High__c
 			) {
         		spQuote.Distributor_Responsibility__c = con.Distributor_Contribution__c;
         		ret.Distributor_Responsibility        = spQuote.Distributor_Responsibility__c;
