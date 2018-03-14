@@ -147,7 +147,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 						}
 						
 						//Parts
-						if ('Semi-Finished Good'.equalsIgnoreCase(qi.Product__r.Toro_Product_Type__c)) {
+						if ('Semi-Finished Good'.equalsIgnoreCase(qis.Product__r.Toro_Product_Type__c)) {
 							Toro_PricingProgramLine__c rb = tierMap.get('Parts');
 							applyQISLPercentage(qis,rb,dSetupFeeHeader);
 							
