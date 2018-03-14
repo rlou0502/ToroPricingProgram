@@ -35,4 +35,6 @@ public with sharing class ToroSObjectResultSet {
     public boolean chainCall { get;set; }
     @AuraEnabled
     public string payload { get;set; }
+    @AuraEnabled
+    public boolean listenMSRPChange { get;set; }
 }
