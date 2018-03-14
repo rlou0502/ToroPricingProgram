@@ -72,6 +72,17 @@
         <type>TextArea</type>
     </fields>
     <fields>
+        <fullName>Blended_DNet_Threshold__c</fullName>
+        <description>Threshold for blended DNet %</description>
+        <externalId>false</externalId>
+        <label>Blended DNet % Threshold</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
         <fullName>Corporate_Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>

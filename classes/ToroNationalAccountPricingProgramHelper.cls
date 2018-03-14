@@ -212,6 +212,11 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		//if(dtoroTotalSetupFees > 0) {
 			//Create Setup Fee Line Item
 			System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
+	    	dtoroTotalSetupFees = 0;
+	    	if(setupFeePercentage!= null && setupFeePercentage >0) {
+	    		dtoroTotalSetupFees = (CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) * setupFeePercentage) / 100;
+	    	}
+
 			addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
 			
 		//Read extended quote item
@@ -238,6 +243,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	//@future
     public static void addSetupFeeFuture(String quoteId, String productId, decimal price, decimal unitPrice, decimal qty) {
     	System.debug('>>> +++++++++++++++++ Setup FEE unitPrice='+ unitPrice + ' - Price='+ price); 
+    	
     	REVVY__MnQuoteItem__c mnqi = new REVVY__MnQuoteItem__c();
 		mnqi.REVVY__Quote__c=quoteId;
 		mnqi.REVVY__Catalog_Node__c = productId;
