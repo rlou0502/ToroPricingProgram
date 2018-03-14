@@ -133,6 +133,7 @@
                     cmp.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     cmp.set('v.quoteItems', retRecords);
                     cmp.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+                    cmp.set('v.listenMSRPChange', retResponse.listenMSRPChange);
                      var cmpEvent = cmp.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
                             "quote" : retResponse.quote
@@ -192,6 +193,7 @@
                     	cmp.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     	cmp.set('v.quoteItems', retRecords);
                     	cmp.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+                    	cmp.set('v.listenMSRPChange', retResponse.listenMSRPChange);
                      	var cmpEvent = cmp.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
                             "quote" : retResponse.quote

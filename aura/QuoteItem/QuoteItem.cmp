@@ -12,6 +12,7 @@
     <aura:attribute name="IsSpinner" type="Boolean"/>
     <aura:attribute name="performancePart" type="Boolean"/>
     <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
+    <aura:attribute name="listenMSRPChange" type="Boolean" default="false" />
     <aura:attribute name="demoPricingProgramOptions" type="List"/>
     <aura:registerEvent name="refreshInfoBoxEvent" type="c:RefreshInfoBoxEvent"/>
     <aura:registerEvent name="calculationCompleteEvent" type="c:ToroCalculationCompleteEvent"/>

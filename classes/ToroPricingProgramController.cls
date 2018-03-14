@@ -172,7 +172,7 @@ public class ToroPricingProgramController {
     		}
 		}
 		
-		rs = retrieveFieldSets(rs, pp, pricingMethod);
+		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 		system.debug(logginglevel.info, 'entering---calculateRebateMargin');
     	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
     	
@@ -211,7 +211,7 @@ public class ToroPricingProgramController {
 		system.debug('setPricingMethodValueRemote options=' + options);	
 		//if there is only one pricing method + "Please select" item, auto apply it
 		pp.initialize(quoteId);
-		rs = retrieveFieldSets(rs, pp, pricingMethod);
+		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 		/*
     	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields(); 
@@ -281,7 +281,7 @@ public class ToroPricingProgramController {
     		pp.initialize(quoteId);
     		pp.performancePartFlag = performancePart != null ? performancePart : false;
     		pp.quoteItems = ToroPricingMethodHelper.distributeTotalAwardDollors(pp.quoteItems, awardPrice);
-    		rs = retrieveFieldSets(rs, pp, pricingMethod);
+    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			//system.debug(logginglevel.info, 'entering---calculateRebateMargin');
 	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 	    	
@@ -329,7 +329,7 @@ public class ToroPricingProgramController {
 				}				
 			}
     		
-    		rs = retrieveFieldSets(rs, pp, pricingMethod);
+    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
 	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 	    	
@@ -382,7 +382,7 @@ public class ToroPricingProgramController {
     		system.debug('setPricingProgramToDB options=' + options);	
     		//if there is only one pricing method + "Please select" item, auto apply it
     		pp.initialize(objId);
-    		rs = retrieveFieldSets(rs, pp, pricingMethod);
+    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 /*    		
 	    	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
 	    	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields(); 
@@ -571,7 +571,7 @@ public class ToroPricingProgramController {
     	return rs;
     }  
     
-    private static ToroSObjectResultSet retrieveFieldSets(ToroSObjectResultSet rs, ToroPricingProgram pp, String pricingMethod) {
+    private static ToroSObjectResultSet retrieveFieldSets(ToroSObjectResultSet rs, ToroPricingProgram pp, String pricingMethod, String pricingProgram) {
     	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
     	List<Schema.FieldSetMember> fieldSetSub = pp.getToroQuoteItemSublineFields();
     	List<Schema.FieldSetMember> fieldSetSummary = pp.getToroQuoteItemSummaryFields();
@@ -645,6 +645,13 @@ public class ToroPricingProgramController {
 		}
 		system.debug('***************** 2 fieldset size =' + rs.fieldSetSubMembers.size());		
 		
+		//if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) 
+		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+		system.debug('***************** pricing program  =' + ppd.externalId);	
+		Toro_PricingProgram__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
+		if('State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+			rs.listenMSRPChange = true;	
+		}
 		return rs;
     }
     @AuraEnabled
@@ -671,7 +678,7 @@ public class ToroPricingProgramController {
     	Revvy__MnQuote__c q = pp.quote;
     	//String pm = pricingMethod;
     	String pm = q.Price_Method__c;
-    	rs = retrieveFieldSets(rs, pp, pm);
+    	rs = retrieveFieldSets(rs, pp, pm, pricingProgram);
 
     	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(Toro_QuoteItem__c qi : pp.quoteItems) {

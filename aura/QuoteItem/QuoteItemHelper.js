@@ -381,7 +381,7 @@
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     component.set('v.quoteItems', retRecords);
                     component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
-                    
+                    component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
                     var sublineMap = {};  
                     var quoteItemMap={};
                     
@@ -427,7 +427,7 @@
             component.set('v.quoteItems', retRecords);
             component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
             component.set('v.selectedPricingProgram', retResponse.selectedPricingProgram);
-            
+            component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
             var sublineMap = {};  
             var quoteItemMap={};
             retRecords.forEach(function(s) {
@@ -519,7 +519,8 @@
             component.set('v.fields', fields);
             component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
             component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
-            component.set('v.quoteItems', retRecords);           
+            component.set('v.quoteItems', retRecords);  
+            component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
             var sublineMap = {};  
             var quoteItemMap={};
             retRecords.forEach(function(s) {
@@ -702,6 +703,7 @@
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
                     component.set('v.quoteItems', retRecords);
                     component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+                    component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
                      var cmpEvent = component.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
                             "quote" : retResponse.quote
