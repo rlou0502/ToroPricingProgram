@@ -196,7 +196,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 
 		Decimal dtoroTotalSetupFees = 0;
-		
+		/*
 		for(Toro_QuoteItem__c qi : quoteItemList) {
 			Decimal dsetupFeesQIS = 0;
 			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
@@ -207,9 +207,12 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			System.debug('>>> +++++++++++++++++ NAT 201 =  Toro_Fee_Amount__c='+qi.Toro_Fee_Amount__c);
 			dtoroTotalSetupFees += CMnQuoteUtil.defaultDecimal(qi.Toro_Fee_Amount__c);
 		}
-
+		*/
 		REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
 		//if(dtoroTotalSetupFees > 0) {
+		
+		
+		
 			//Create Setup Fee Line Item
 			System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
 	    	dtoroTotalSetupFees = 0;
