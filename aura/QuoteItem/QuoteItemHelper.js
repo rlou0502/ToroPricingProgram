@@ -315,6 +315,7 @@
         var quoteItemMap = component.get('v.quoteItemMap');
         var pricingMethod = component.get('v.selectedPricingMethod');
         var fields = component.get("v.fields");
+        var listenMSRPChange = component.get("v.listenMSRPChange");
         //console.log('----------- fields =' + fields);
         quoteItems.forEach(function(s) {
             var tableRow = document.createElement('tr');
@@ -345,7 +346,10 @@
             	self.populateQuoteItemSubLine(component, sublines, fields, sublineFields, qiId); 
             }
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
-            self.renderQuoteItemPricingProgramSection(component, fields, qiId);  
+            self.renderQuoteItemPricingProgramSection(component, fields, qiId); 
+            if(listenMSRPChange) {
+                
+            }
         });
         self.hideSpinner();
         /*
