@@ -678,9 +678,6 @@ public abstract class ToroPricingProgram {
 		return true;
 	}
 
-	public virtual List<Schema.FieldSetMember> getQuoteItemSummaryFields() {
-		return SObjectType.Revvy__MnQuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
-	}
 	public virtual boolean excludedFromMSRP(Toro_QuoteItem__c qi) {
 		boolean ret = false;
 
