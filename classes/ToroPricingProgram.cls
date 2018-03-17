@@ -136,39 +136,18 @@ public abstract class ToroPricingProgram {
 		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
 
-		System.debug('\n\n@@before calculateExtendedFields - quote.Total_Extended_DNet__c: ' + quote.Total_Extended_DNet__c + '\n\n');
-		System.debug('\n\n@@before calculateExtendedFields - quote.Toro_Total_DNet__c: ' + quote.Toro_Total_DNet__c + '\n\n');
-		System.debug('\n\n@@before calculateExtendedFields - quote.Toro_Rollup_DNET__c: ' + quote.Toro_Rollup_DNET__c + '\n\n');
-		System.debug('\n\n@@before calculateExtendedFields - quote.Toro_Rollup_DNetWOTPPAllied__c: ' + quote.Toro_Rollup_DNetWOTPPAllied__c + '\n\n');
-
 		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
-
-		System.debug('\n\n@@after calculateExtendedFields - quote.Total_Extended_DNet__c: ' + quote.Total_Extended_DNet__c + '\n\n');
-		System.debug('\n\n@@after calculateExtendedFields - quote.Toro_Total_DNet__c: ' + quote.Toro_Total_DNet__c + '\n\n');
-		System.debug('\n\n@@after calculateExtendedFields - quote.Toro_Rollup_DNET__c: ' + quote.Toro_Rollup_DNET__c + '\n\n');
-		System.debug('\n\n@@after calculateExtendedFields - quote.Toro_Rollup_DNetWOTPPAllied__c: ' + quote.Toro_Rollup_DNetWOTPPAllied__c + '\n\n');
-
-		system.debug(logginglevel.info,'calling calculateExtendedFields took ' + (System.limits.getCpuTime()-perfStart));
 
 		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling preSaveCalculateRebateMargin');
 
 		system.debug(logginglevel.info,'calling saveQuoteItemList');
 
-		System.debug('\n\n@@before calculateExtendedFields - quote.Total_Extended_DNet__c: ' + quote.Total_Extended_DNet__c + '\n\n');
-		System.debug('\n\n@@before calculateExtendedFields - quote.Toro_Total_DNet__c: ' + quote.Toro_Total_DNet__c + '\n\n');
-		System.debug('\n\n@@before calculateExtendedFields - quote.Toro_Rollup_DNET__c: ' + quote.Toro_Rollup_DNET__c + '\n\n');
-		System.debug('\n\n@@before calculateExtendedFields - quote.Toro_Rollup_DNetWOTPPAllied__c: ' + quote.Toro_Rollup_DNetWOTPPAllied__c + '\n\n');
 
 		if(save) {
 			lQuoteItemList = saveQuoteItemList(lQuoteItemList);
 			lQuoteItemList = postCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		}
-
-		System.debug('\n\n@@after calculateExtendedFields - quote.Total_Extended_DNet__c: ' + quote.Total_Extended_DNet__c + '\n\n');
-		System.debug('\n\n@@after calculateExtendedFields - quote.Toro_Total_DNet__c: ' + quote.Toro_Total_DNet__c + '\n\n');
-		System.debug('\n\n@@after calculateExtendedFields - quote.Toro_Rollup_DNET__c: ' + quote.Toro_Rollup_DNET__c + '\n\n');
-		System.debug('\n\n@@after calculateExtendedFields - quote.Toro_Rollup_DNetWOTPPAllied__c: ' + quote.Toro_Rollup_DNetWOTPPAllied__c + '\n\n');
 
 
 		system.debug(logginglevel.info,'calling saveQuoteItemList took ' + (System.limits.getCpuTime()-perfStart));
