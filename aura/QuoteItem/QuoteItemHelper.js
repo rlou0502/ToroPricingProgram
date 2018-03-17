@@ -178,7 +178,7 @@
         tableCol.appendChild(childTable);
 		var childTableBody = document.createElement('tbody');
         var summaryLineTableRow = document.createElement('tr');
-        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, component);           
+        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component);           
         childTableBody.appendChild(summaryLineTableRow);
         childTable.appendChild(childTableBody);
         //var target = document.getElementById("QuoteItemSubLine");
@@ -304,6 +304,7 @@
     },
     //not used for now...
     renderQuoteItems : function(component) {
+        debugger;
         var self=this;
     	var quoteItems = component.get("v.quoteItems");
         
@@ -338,7 +339,8 @@
             }, false);
             chevronTd.appendChild(chevronSpan);
             tableRow.appendChild(chevronTd);
-            self.renderTable(fields, s, tableRow, component); 
+            debugger;
+            self.renderTable(fields, s, tableRow, null, component); 
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];
@@ -348,14 +350,16 @@
             }
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
             self.renderQuoteItemPricingProgramSection(component, fields, qiId); 
-            debugger;
+ /*           
             //if(listenMSRPChange) {
-            	var qi = document.querySelectorAll("[class='sfdcid-"+ qiId +"'][data-fieldname='PricingMethodValue__c']");
+            	var qi = document.querySelectorAll(".sfdcid-"+ qiId );
                 for (var i=0; i<qi.length; i++) {
-                    qi[i].addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
+                    if(qi[i].dataset.fieldname =="PricingMethodValue__c") {
+                    	//qi[i].addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);    
+                    }              
                 }    
             //}
-            
+*/            
         });
         self.hideSpinner();
         /*
