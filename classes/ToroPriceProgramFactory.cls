@@ -48,7 +48,13 @@ public class ToroPriceProgramFactory {
 			system.debug('-------------before initPricingProgramHelpers');
 			initPricingProgramHelpers();		
 		}
-		pricingProgramHelperMap=(Map<String, ToroPricingProgram>)orgPart.get(constPricingProgramKey);
+		try{
+			pricingProgramHelperMap=(Map<String, ToroPricingProgram>)orgPart.get(constPricingProgramKey);
+		} catch (Exception e) {
+			ToroPriceProgramFactory.removeAllPricingProgramHelpers();
+			ToroPriceProgramFactory.initPricingProgramHelpers();
+			pricingProgramHelperMap=(Map<String, ToroPricingProgram>)orgPart.get(constPricingProgramKey);
+		}
 		if(!pricingProgramHelperMap.containsKey(pricingProgram)) {
 			pricingProgram = 'defaultPricingProgram';
 		}

@@ -13,7 +13,8 @@
         });
         cmpEvent.fire(); 
     },
-    onUpdatableValueChange: function( event) {
+    onUpdatableValueChange: function( event, component) {
+        debugger;
         var fieldName = event.currentTarget.dataset.fieldname;
         event.currentTarget.dataset.overridden="true" 
         if(fieldName == "PricingMethodValue__c") {
@@ -77,7 +78,7 @@
         }
         */
     },
-    renderTable : function(fields, sObj, parentRow, quoteItemId) {
+    renderTable : function(fields, sObj, parentRow, quoteItemId, component) {
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
@@ -93,7 +94,6 @@
                 //check quote item subline
            		performancePart = sObj["Performance_part__c"];    
             }
-            
             if(field.updatable && !freeze &&(!performancePart || field.fieldPath=="Award_Price__c" )) {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
@@ -104,8 +104,9 @@
                 	tableDataNode.dataset.parentquoteitem=quoteItemId;    
                 } else {
                     //this is a quote line
+                    debugger;
                     tableDataNode.dataset.quoteitem=sObj["Id"];
-                    tableDataNode.addEventListener('change', function(event){ self.onUpdatableValueChange(event);}, false);
+                    tableDataNode.addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
                 }
                 tableDataNode.className += " sfdcid-"+sObj["Id"];
                 tableDataNode.dataset.fieldname=field.fieldPath;
@@ -177,7 +178,7 @@
         tableCol.appendChild(childTable);
 		var childTableBody = document.createElement('tbody');
         var summaryLineTableRow = document.createElement('tr');
-        self.renderTable(summaryFields, quoteItem, summaryLineTableRow);           
+        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, component);           
         childTableBody.appendChild(summaryLineTableRow);
         childTable.appendChild(childTableBody);
         //var target = document.getElementById("QuoteItemSubLine");
@@ -292,7 +293,7 @@
                 subLineTableRow.className += " quoteItemSubline ";
                 subLineTableRow.id = s["Id"];
                 //subLineTableRow.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, subLineTableRow.id);}, false);
-                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem);           
+                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem, component);           
                 childTableBody.appendChild(subLineTableRow);
             });    
         }
@@ -337,7 +338,7 @@
             }, false);
             chevronTd.appendChild(chevronSpan);
             tableRow.appendChild(chevronTd);
-            self.renderTable(fields, s, tableRow); 
+            self.renderTable(fields, s, tableRow, component); 
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];
@@ -347,9 +348,14 @@
             }
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
             self.renderQuoteItemPricingProgramSection(component, fields, qiId); 
-            if(listenMSRPChange) {
-                
-            }
+            debugger;
+            //if(listenMSRPChange) {
+            	var qi = document.querySelectorAll("[class='sfdcid-"+ qiId +"'][data-fieldname='PricingMethodValue__c']");
+                for (var i=0; i<qi.length; i++) {
+                    qi[i].addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
+                }    
+            //}
+            
         });
         self.hideSpinner();
         /*
