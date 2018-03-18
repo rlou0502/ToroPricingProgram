@@ -320,7 +320,13 @@
         <name>StaticResource</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Toro_PricingProgramEligibility__c</members>
+        <members>Toro_PricingProgramHelperFactory__c</members>
+        <members>Toro_PricingProgramLine__c</members>
+        <members>Toro_PricingProgram__c</members>
+        <members>Toro_QuoteItem_SubLine__c</members>
+        <members>Toro_QuoteItem__c</members>
+        <members>Toro_Traction_Unit_Tier__mdt</members>
         <name>Workflow</name>
     </types>
     <version>38.0</version>
