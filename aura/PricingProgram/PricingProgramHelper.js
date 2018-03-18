@@ -28,7 +28,6 @@
 	            //console.log("callback state: " + state);
 	            if (component.isValid() && state === "SUCCESS") {  
 	                var quote = response.getReturnValue();
-                    debugger;
                     component.set('v.quote', quote);
 	            }
 	        }

@@ -28,7 +28,6 @@
     	var changedValue = event.currentTarget.value; 
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
-        debugger;
         var performancePart = cmp.find("performancePart") != null ? cmp.find("performancePart").get("v.value") : false;
         var cmpEvent = cmp.getEvent("PMAwardPriceChangeEvent");
         cmpEvent.setParams({
@@ -45,7 +44,6 @@
         var changedValue = event.currentTarget.value;
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
-        debugger;
         var performancePart = cmp.find("performancePart") != null ? cmp.find("performancePart").get("v.value") : false;
         var cmpEvent = cmp.getEvent("PMGPPercentChangeEvent");
         cmpEvent.setParams({

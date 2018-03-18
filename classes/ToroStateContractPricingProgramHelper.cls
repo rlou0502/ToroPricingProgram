@@ -12,8 +12,19 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
 		return ret;
 	}
-
-	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram, 
+	
+	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
+	}
+	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
+		return SObjectType.Toro_QuoteItem__c.FieldSets.State_Contract_Quote_Line_Updatable_Cols.getFields();
+	}
+	public override List<Schema.FieldSetMember> getToroQuoteItemSublineFields() {
+		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Price_Program_Quote_SubLin.getFields();
+	}
+	
+	
+	public virtual List<Toro_QuoteItem__c> baseCalculateImplementation(Id quoteId, String priceProgram, 
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		//priceMethod = '% off MSRP';
 		system.debug('inside state calculateRebateMarginImpl quoteItemList='+ quoteItemList);
@@ -81,5 +92,9 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		
 		}														
 		return quoteItemList;															
+	}
+	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram, 
+															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+		return baseCalculateImplementation(quoteId, priceProgram, priceMethod, quoteItemList);																
 	}   
 }

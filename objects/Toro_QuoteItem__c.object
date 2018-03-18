@@ -471,6 +471,21 @@
         </displayedFields>
         <label>Price Program Quote Summary</label>
     </fieldSets>
+    <fieldSets>
+        <fullName>State_Contract_Quote_Line_Updatable_Cols</fullName>
+        <description>Pricing Method</description>
+        <displayedFields>
+            <field>PricingMethodValue__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>State Contract Quote Line Updatable Cols</label>
+    </fieldSets>
     <fields>
         <fullName>Approval_Reason__c</fullName>
         <externalId>false</externalId>

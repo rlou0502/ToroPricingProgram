@@ -15,14 +15,19 @@
     },
     onUpdatableValueChange: function( event, component) {
         debugger;
+        var listenMSRPChange = component.get('v.listenMSRPChange');
         var fieldName = event.currentTarget.dataset.fieldname;
         event.currentTarget.dataset.overridden="true" 
         if(fieldName == "PricingMethodValue__c") {
             var newVal = event.currentTarget.value; 
             var quoteItemId = event.currentTarget.closest('tr').id;
-            var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
-            for (var i=0; i<sublines.length; i++) {
-                sublines[i].value=newVal;
+            if(listenMSRPChange) {
+                
+            } else {
+                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
+                for (var i=0; i<sublines.length; i++) {
+                    sublines[i].value=newVal;
+                }
             }
         }
     },
@@ -104,7 +109,6 @@
                 	tableDataNode.dataset.parentquoteitem=quoteItemId;    
                 } else {
                     //this is a quote line
-                    debugger;
                     tableDataNode.dataset.quoteitem=sObj["Id"];
                     tableDataNode.addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
                 }
@@ -304,7 +308,6 @@
     },
     //not used for now...
     renderQuoteItems : function(component) {
-        debugger;
         var self=this;
     	var quoteItems = component.get("v.quoteItems");
         
@@ -339,7 +342,6 @@
             }, false);
             chevronTd.appendChild(chevronSpan);
             tableRow.appendChild(chevronTd);
-            debugger;
             self.renderTable(fields, s, tableRow, null, component); 
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
