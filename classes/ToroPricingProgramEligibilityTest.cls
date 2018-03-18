@@ -23,16 +23,17 @@
 private class ToroPricingProgramEligibilityTest {
 
    @testSetup static void methodName() {
-		system.debug('---------------------');
 		List<sObject> disti = Test.loadData(Account.sObjectType, 'TestData_PP_Distributor');
 		Id RecordTypeIdDisti = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Channel Partner').getRecordTypeId();
+		List<User_Distributor__c> userDistributors = new List<User_Distributor__c>();
 		for(sObject s : disti) {
 			Account a = (Account) s;
 			a.recordtypeid = RecordTypeIdDisti;
+			userDistributors.add(new User_Distributor__c(User_Name__c=userInfo.getUserId(), Distributor__c=s.Id));
 		}
 		update disti;
-		List<sObject> pricingProgram = Test.loadData(Toro_PricingProgram__c.sObjectType, 'TestData_PP_PricingProgram');
-		List<sObject> eligilibility = Test.loadData(Toro_PricingProgramEligibility__c.sObjectType, 'TestData_PP_Eligibility');
+		insert userDistributors;
+		
 		List<sObject> corporateAccount = Test.loadData(Account.sObjectType, 'TestData_PP_CorporateAccount');
 		Id RecordTypeIdCorporate = Schema.SObjectType.Account.getRecordTypeInfosByName().get('End User').getRecordTypeId();
 		for(sObject s : corporateAccount) {
@@ -46,15 +47,19 @@ private class ToroPricingProgramEligibilityTest {
 			a.recordtypeid = RecordTypeIdCorporate;
 		}
 		update customerAccount;
+		List<sObject> pricingProgram = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
+		List<sObject> eligilibility = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
+		
 			
 	}
-    static testMethod void myUnitTest() {
+	
+    static testmethod void myUnitTest2() {
     	account customer = [select id from account where name='Barefoot Bay Golf Course' limit 1];
     	customer.Account_Manager__c = UserInfo.getUserId();
     	system.debug(logginglevel.info, 'customer =' + customer);
-    	List<Toro_PricingProgram__c> pps = ToroPricingProgramEligibility.retrievePricingProgramsForCustomerAccountWithId(customer.Id);  
+    	List<Revvy__MnStrategy1__c> pps = ToroPricingProgramEligibility.retrievePricingProgramsForCustomerAccountWithId(customer.Id);  
     	 
-    	for(Toro_PricingProgram__c pp : pps) {
+    	for(Revvy__MnStrategy1__c pp : pps) {
     		system.debug(logginglevel.info, '------pricing program =' + pp); 	
     	}
     	
@@ -63,7 +68,7 @@ private class ToroPricingProgramEligibilityTest {
     	system.debug(logginglevel.info, 'customer =' + customer);
     	pps = ToroPricingProgramEligibility.retrievePricingProgramsForCustomerAccountWithId(customer.Id);  
     	 
-    	for(Toro_PricingProgram__c pp : pps) {
+    	for(Revvy__MnStrategy1__c pp : pps) {
     		system.debug(logginglevel.info, '------pricing program =' + pp); 	
     	}
     	
@@ -72,7 +77,7 @@ private class ToroPricingProgramEligibilityTest {
     	Revvy__MnQuote__c q = new Revvy__MnQuote__c(Revvy__Account__c = customer.Id, REVVY__Segment__c='General',  currency2__c='USD_USD');
     	insert q;
     	pps = ToroPricingProgramEligibility.retrievePricingProgramsForQuote(q.Id);
-    	for(Toro_PricingProgram__c pp : pps) {
+    	for(Revvy__MnStrategy1__c pp : pps) {
     		system.debug(logginglevel.info, '111------pricing program =' + pp); 	
     	}
     	List<ToroSelectOption> options = ToroPricingProgramEligibility.retrievePricingProgramOptions(q.Id);

@@ -274,7 +274,7 @@ public class ToroPricingProgramController {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();	
     	rs.result=false;
     	rs.selectedPricingMethod = pricingMethod;
-    	rs.selectedPricingProgram = pricingProgram; 
+    	rs.selectedPricingProgram = pricingProgram;  
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
     	if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
@@ -557,8 +557,8 @@ public class ToroPricingProgramController {
     	pp.initializeQuoteHeader(quoteId);
     	system.debug(logginglevel.info,'pricingProgram setup fee=' + pp.quote.Setup_Fee__c);
     	if(pp.displaySetupFee() && pp.quote.Setup_Fee__c == null) {
-    		List<Toro_PricingProgram__c> pps = [SELECT Id, Name, Setup_Fee__c FROM Toro_PricingProgram__c where externalID__c = :ppd.externalId];	
-    		for(Toro_PricingProgram__c ppi : pps) {     			
+    		List<Revvy__MnStrategy1__c> pps = [SELECT Id, Name, Setup_Fee__c FROM Revvy__MnStrategy1__c where externalID__c = :ppd.externalId];	
+    		for(Revvy__MnStrategy1__c ppi : pps) {     			
     			pp.quote.Setup_Fee__c = ppi.Setup_Fee__c;	
     			system.debug(logginglevel.info,'pricingProgram setup fee=' + pp.quote.Setup_Fee__c);
     		}
@@ -648,7 +648,7 @@ public class ToroPricingProgramController {
 		//if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) 
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		system.debug('***************** pricing program  =' + ppd.externalId);	
-		Toro_PricingProgram__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
+		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		if('State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod)) {
 			rs.listenMSRPChange = true;	
 		}

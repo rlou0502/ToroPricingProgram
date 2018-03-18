@@ -11,7 +11,8 @@ public abstract class ToroPricingProgram {
 	//public abstract List<Schema.FieldSetMember> getQuoteItemFields();
 	public abstract List<Schema.FieldSetMember> getQuoteFields() ;
 	public virtual List<Schema.FieldSetMember> getQuoteUpdatableFields() {
-		return SObjectType.Revvy__MnQuote__c.FieldSets.Quote_Header_Updatable_Fields.getFields();
+		return null;
+		//return SObjectType.Revvy__MnQuote__c.FieldSets.Quote_Header_Updatable_Fields.getFields();
 	}
 /* 	for quote item /subline extensions */
 	public virtual List<Schema.FieldSetMember> removeDNetFieldsFromSet(List<Schema.FieldSetMember> sourceFS, List<Schema.FieldSetMember> removeFS)  {
@@ -39,7 +40,8 @@ public abstract class ToroPricingProgram {
 		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.DNet_Field_Set.getFields();
 	}
 	public virtual List<Schema.FieldSetMember> getToroQuoteDNetFields() {
-		return SObjectType.Revvy__MnQuote__c.FieldSets.DNet_Field_Set.getFields();
+		return null;
+		//return SObjectType.Revvy__MnQuote__c.FieldSets.DNet_Field_Set.getFields();
 	}
 	
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemFields() {
@@ -655,9 +657,6 @@ public abstract class ToroPricingProgram {
 		return true;
 	}
 
-	public virtual List<Schema.FieldSetMember> getQuoteItemSummaryFields() {
-		return SObjectType.Revvy__MnQuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
-	}
 	public virtual boolean excludedFromMSRP(Toro_QuoteItem__c qi) {
 		boolean ret = false;
 

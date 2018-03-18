@@ -31,7 +31,7 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		return qis.Award_Price__c;	
 	}
-	
+	 
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
 		
@@ -273,10 +273,10 @@ public with sharing class ToroPricingMethodHelper {
 	
 	public ToroPricingMethodHelper retrieveRebate(decimal dnetPercent, Toro_QuoteItem__c qi) {
 		if(!DNetPercentMap.containsKey(pricingProgramExternalId)) {
-			Toro_PricingProgram__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
-			List<Toro_PricingProgramLine__c> pplList = pp.PricingProgramLines__r;
+			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
+			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
 		    Map<decimal, ToroPricingMethodData> dnet2PM = new Map<decimal, ToroPricingMethodData>();
-		    for(Toro_PricingProgramLine__c  ppl : pplList) {
+		    for(Revvy__MnStrategy2__c  ppl : pplList) {
 		    	ToroPricingMethodData pmd = new ToroPricingMethodData();
 		    	
 		    	dnet2PM.put((ppl.Award_Price_as_a_Percent_of_DN__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
@@ -400,10 +400,10 @@ public with sharing class ToroPricingMethodHelper {
 	public ToroPricingMethodHelper convertGPPercentToDNetPercent() {
 		system.debug(logginglevel.info, 'convertGPPercentToDNetPercent--');
 		if(!GPPercentMap.containsKey(pricingProgramExternalId)) {
-			Toro_PricingProgram__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
-			List<Toro_PricingProgramLine__c> pplList = pp.PricingProgramLines__r;
+			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
+			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
 		    Map<decimal, ToroPricingMethodData> gpp2PM = new Map<decimal, ToroPricingMethodData>();
-		    for(Toro_PricingProgramLine__c  ppl : pplList) {
+		    for(Revvy__MnStrategy2__c  ppl : pplList) {
 		    	ToroPricingMethodData pmd = new ToroPricingMethodData();		    	
 		    	gpp2PM.put((ppl.Distributor_Margin__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
 									ppl.Rebate_as_a_Percent_of_DN__c, ppl.Distributor_Margin__c, null));	

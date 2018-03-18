@@ -1,4 +1,4 @@
-<apex:page standardController="Toro_PricingProgramLine__c" extensions="ToroPricingProgramLineProductSelector">
+<apex:page standardController="REVVY__MnStrategy2__c" extensions="ToroPricingProgramLineProductSelector">
 <script>
 var cleanSelectProductBox = function() {
 	var elms = getElementsByClassName("select-product");

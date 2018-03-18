@@ -5,6 +5,7 @@ public class ToroPriceProgramFactory {
 	public static ToroPricingProgram newPricingProgramInstance(String className) {
 		ToroPricingProgram pp = null;
 		if(String.isNotBlank(classname)) {
+			system.debug('classname=' + classname);
 			Type t = Type.forName(className);
         	pp = (ToroPricingProgram)t.newInstance();	
 		} else {
@@ -30,9 +31,13 @@ public class ToroPriceProgramFactory {
 		List<Toro_PricingProgramHelperFactory__c> pricingProgramSettings = Toro_PricingProgramHelperFactory__c.getAll().values();
 		Map<String, ToroPricingProgram> pricingProgramHelperMap = new Map<String, ToroPricingProgram>();
 		for(Toro_PricingProgramHelperFactory__c pp : pricingProgramSettings) {
-			system.debug(pp);
-			ToroPricingProgram tpp = ToroPriceProgramFactory.newPricingProgramInstance(pp.ClassName__c);
-			pricingProgramHelperMap.put(pp.PricingProgramName__c, tpp);				
+			
+			try {
+				ToroPricingProgram tpp = ToroPriceProgramFactory.newPricingProgramInstance(pp.ClassName__c);
+				pricingProgramHelperMap.put(pp.PricingProgramName__c, tpp);	
+			} catch(Exception e) {
+				system.debug('error on creating ' + pp.ClassName__c + ' with error ' + e.getMessage());
+			}		
 				
 		} 
 		pricingProgramHelperMap.put('defaultPricingProgram', new ToroDefaultPricingProgramHelper());	

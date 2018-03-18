@@ -4,4 +4,9 @@
     <availableInTouch>false</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <label>ToroExportToExcelMultipleSheets</label>
+    <packageVersions>
+        <majorNumber>30</majorNumber>
+        <minorNumber>11</minorNumber>
+        <namespace>REVVY</namespace>
+    </packageVersions>
 </ApexPage>

@@ -17,12 +17,12 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		//priceMethod = '% off MSRP';
 		system.debug('inside state calculateRebateMarginImpl quoteItemList='+ quoteItemList);
-		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
+		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
-		Map<String, Toro_PricingProgramLine__c> productPricingProgramLineMap = new Map<String, Toro_PricingProgramLine__c>();
-		for(Toro_PricingProgram__c rh : rebates) {
+		Map<String, Revvy__MnStrategy2__c> productPricingProgramLineMap = new Map<String, Revvy__MnStrategy2__c>();
+		for(Revvy__MnStrategy1__c rh : rebates) {
 			if(rh.PricingProgramLines__r != null) {
-				for(Toro_PricingProgramLine__c l : rh.PricingProgramLines__r) {
+				for(Revvy__MnStrategy2__c l : rh.PricingProgramLines__r) {
 					system.debug('inside state calculateRebateMarginImpl--' + l);
 					if(String.isNotBlank(l.ApplicableProducts__c)) {
 						String[] parts = l.ApplicableProducts__c.split(',');
@@ -40,7 +40,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		system.debug('-----------' + productPricingProgramLineMap);
 		if(quoteItemList != null && quoteItemList.size() != 0) {
 			for(Toro_QuoteItem__c qi : quoteItemList) {
-				Toro_PricingProgramLine__c line = productPricingProgramLineMap.get(qi.Product_Id__c);
+				Revvy__MnStrategy2__c line = productPricingProgramLineMap.get(qi.Product_Id__c);
 				if(line == null) {
 					line = productPricingProgramLineMap.get('All');	
 				}

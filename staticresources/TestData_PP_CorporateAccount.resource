@@ -1,4 +1,1 @@
-"ID","NAME"
-"0012F00000D3OcxQAF","Greenway Golf NA"
-"0012F000004tF3SQAU","ABM Golf Services NA"
-"0012F00000D3OcYQAV","Advance Golf"
+ID,NAME0012F00000D3OcxQAF,Greenway Golf NA0012F00000D3Odu,Troon Golf NA0012F00000DPQUu,Hazeltine National Golf Club0012F00000D3Od6,KemperSports Management NA0012F00000DPQas,Ozarks Golf & Hunt Club

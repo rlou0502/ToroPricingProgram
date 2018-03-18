@@ -1,56 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionOverrides>
-        <actionName>Accept</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>CancelEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Clone</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Delete</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Edit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>List</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>New</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>SaveEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Tab</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
-    <deploymentStatus>Deployed</deploymentStatus>
-    <enableActivities>false</enableActivities>
-    <enableBulkApi>true</enableBulkApi>
-    <enableFeeds>false</enableFeeds>
-    <enableHistory>false</enableHistory>
-    <enableReports>false</enableReports>
-    <enableSearch>true</enableSearch>
-    <enableSharing>true</enableSharing>
-    <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>AllowSupportPlus__c</fullName>
         <defaultValue>false</defaultValue>
@@ -68,13 +17,24 @@
         <type>TextArea</type>
     </fields>
     <fields>
+        <fullName>Blended_DNet_Threshold__c</fullName>
+        <description>Threshold for blended DNet %</description>
+        <externalId>false</externalId>
+        <label>Blended DNet % Threshold</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
         <fullName>Corporate_Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Corporate Account</label>
         <referenceTo>Account</referenceTo>
         <relationshipLabel>Toro Pricing Programs</relationshipLabel>
-        <relationshipName>Toro_Pricing_Programs</relationshipName>
+        <relationshipName>Pricing_Programs</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -167,7 +127,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <label>Overridden Price List</label>
         <referenceTo>REVVY__MnPriceList__c</referenceTo>
         <relationshipLabel>Toro Pricing Programs</relationshipLabel>
-        <relationshipName>Toro_Pricing_Programs</relationshipName>
+        <relationshipName>Pricing_Programs</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -426,7 +386,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         </lookupFilter>
         <referenceTo>REVVY__MnCatalogNode__c</referenceTo>
         <relationshipLabel>Pricing Programs</relationshipLabel>
-        <relationshipName>PricingPrograms</relationshipName>
+        <relationshipName>Pricing_Programs</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -441,45 +401,4 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <trackTrending>false</trackTrending>
         <type>Percent</type>
     </fields>
-    <fields>
-        <fullName>StateProvince__c</fullName>
-        <externalId>false</externalId>
-        <label>StateProvince</label>
-        <length>255</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <label>Toro Pricing Program</label>
-    <listViews>
-        <fullName>All</fullName>
-        <columns>NAME</columns>
-        <columns>PricingProgramType__c</columns>
-        <columns>PricingProgramStyle__c</columns>
-        <columns>OverriddenPriceList__c</columns>
-        <columns>StateProvince__c</columns>
-        <columns>Exclude__c</columns>
-        <filterScope>Everything</filterScope>
-        <label>All</label>
-        <language>en_US</language>
-    </listViews>
-    <nameField>
-        <label>Toro Pricing Program Name</label>
-        <type>Text</type>
-    </nameField>
-    <pluralLabel>Toro Pricing Programs</pluralLabel>
-    <searchLayouts/>
-    <sharingModel>ReadWrite</sharingModel>
-    <webLinks>
-        <fullName>Select_Applicable_Product</fullName>
-        <availability>online</availability>
-        <displayType>button</displayType>
-        <height>600</height>
-        <linkType>page</linkType>
-        <masterLabel>Select Applicable Products</masterLabel>
-        <openType>noSidebar</openType>
-        <page>ToroPricingProgramSelector</page>
-        <protected>false</protected>
-    </webLinks>
 </CustomObject>

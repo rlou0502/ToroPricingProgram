@@ -20,8 +20,8 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	public String previousSelectedProduct 					{ get; set; }
 
 	public Boolean selectAllProducts 						{ get; set; }
-	public Toro_PricingProgram__c dummyHeader 				 { get; set; }
-	public Toro_PricingProgramLine__c pricingProgramLine 	{ get; set; }
+	public Revvy__MnStrategy1__c dummyHeader 				 { get; set; }
+	public Revvy__MnStrategy2__c pricingProgramLine 	{ get; set; }
 
 	public REVVY__MnCatalogNode__c selectedProduct 			{ get; set; }
 
@@ -53,12 +53,12 @@ public with sharing class ToroPricingProgramLineProductSelector {
 				PricingProgram__c
 				, ApplicableProducts__c
 			FROM
-				Toro_PricingProgramLine__c
+				Revvy__MnStrategy2__c
 			WHERE
 				Id = :recordId
 		];
 
-		dummyHeader = new Toro_PricingProgram__c(); // this is created so we can use "SelectProduct__c (REVVY__MnCatalogNode__c)
+		dummyHeader = new Revvy__MnStrategy1__c(); // this is created so we can use "SelectProduct__c (REVVY__MnCatalogNode__c)
 													// in input field in visualforce
 
 		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {

@@ -1,56 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionOverrides>
-        <actionName>Accept</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>CancelEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Clone</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Delete</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Edit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>List</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>New</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>SaveEdit</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>Tab</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
-        <actionName>View</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
-    <deploymentStatus>Deployed</deploymentStatus>
-    <enableActivities>false</enableActivities>
-    <enableBulkApi>true</enableBulkApi>
-    <enableFeeds>false</enableFeeds>
-    <enableHistory>false</enableHistory>
-    <enableReports>false</enableReports>
-    <enableSearch>false</enableSearch>
-    <enableSharing>true</enableSharing>
-    <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>ApplicableProducts__c</fullName>
         <externalId>false</externalId>
@@ -137,15 +86,16 @@
     </fields>
     <fields>
         <fullName>PricingProgram__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Points to Pricing Program</description>
         <externalId>false</externalId>
         <label>Pricing Program</label>
-        <referenceTo>Toro_PricingProgram__c</referenceTo>
+        <referenceTo>REVVY__MnStrategy1__c</referenceTo>
+        <relationshipLabel>Pricing Program Lines</relationshipLabel>
         <relationshipName>PricingProgramLines</relationshipName>
-        <relationshipOrder>0</relationshipOrder>
-        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <required>false</required>
         <trackTrending>false</trackTrending>
-        <type>MasterDetail</type>
-        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Pricing_1__c</fullName>
@@ -223,13 +173,4 @@
             </valueSetDefinition>
         </valueSet>
     </fields>
-    <label>Toro Pricing Program Line</label>
-    <nameField>
-        <displayFormat>PPL-{00000}</displayFormat>
-        <label>Toro Pricing Program Line Name</label>
-        <type>AutoNumber</type>
-    </nameField>
-    <pluralLabel>Toro Pricing Program Lines</pluralLabel>
-    <searchLayouts/>
-    <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>
