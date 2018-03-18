@@ -6,20 +6,20 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	}
 
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSublineFields() {
-		List<Schema.FieldSetMember> fsl = SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Price_Program_Quote_SubLin.getFields();
+		List<Schema.FieldSetMember> fsl = SObjectType.Revvy__MnStrategy5__c.FieldSets.Large_Package_Price_Program_Quote_SubLin.getFields();
 		return fsl;
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSublineUpdatableFields() {
-		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Quote_SubLine_Updatable_Co.getFields();
+		return SObjectType.Revvy__MnStrategy5__c.FieldSets.Large_Package_Quote_SubLine_Updatable_Co.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
 	}
 
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
@@ -45,16 +45,16 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return true;
 	}
 	
-	public override List<Toro_QuoteItem__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
-															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 																
 		if(this.performancePartFlag) {
 			//Performance Part
-			for(Toro_QuoteItem__c qi : quoteItemList) {
-				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Toro_QuoteItem__c 222 performancePartFlag='+performancePartFlag  );
+			for(Revvy__MnStrategy4__c qi : quoteItemList) {
+				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Revvy__MnStrategy4__c 222 performancePartFlag='+performancePartFlag  );
 				ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap);
 					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-						for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 							//Performance Part
 							system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
 							system.debug('-------------++++++++qis' + qis);
@@ -93,21 +93,21 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		}
 		return result*100;
 	}
-	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,
-															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+	public override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug(logginglevel.info, 'checkpoint 1 pp='+ priceProgram + ' pm=' + priceMethod);
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
 		helper.pricingProgramExternalId = priceProgram;
-		helper.quoteItemList = quoteItemList;
+		helper.quoteItemList = quoteItemList; 
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
 
 			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
 			quoteItemList = helper.quoteItemList;
-			for (Toro_QuoteItem__c qi : quoteItemList) {
+			for (Revvy__MnStrategy4__c qi : quoteItemList) {
 				qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;
 				if(qi.Award_of_DN__c != null) {
 					if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-						for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 							decimal dnet = (qis.TPP_Line_Item__c == true) ? CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) : CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
 							qis.Percent_Off_MSRP__c = ((qis.MSRP_Price__c-qis.Award_Price__c)/qis.MSRP_Price__c)*100;
 						}
@@ -135,10 +135,10 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public override List<Toro_QuoteItem__c> postCalculateRebateMargin(Id quoteId
+	public override List<Revvy__MnStrategy4__c> postCalculateRebateMargin(Id quoteId
 																		, String priceProgram
 																		, String priceMethod
-																		, List<Toro_QuoteItem__c> quoteItemList
+																		, List<Revvy__MnStrategy4__c> quoteItemList
 	) {
 		REVVY__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
 
@@ -196,11 +196,11 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	 * @param  quoteItemList    the list of Toro Quote Items
 	 * @return count of traction units
 	 */
-	public Integer getNumberOfTractionUnits(List<Toro_QuoteItem__c> quoteItemList) {
+	public Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
 		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
-		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
+		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
 			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
 				count++;
 			}
@@ -216,9 +216,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	 * @param  quoteItemList    the list of Toro Quote Items
 	 * @return true/false
 	 */
-	public Boolean checkForOutCrossProducts(List<Toro_QuoteItem__c> quoteItemList) {
+	public Boolean checkForOutCrossProducts(List<Revvy__MnStrategy4__c> quoteItemList) {
 		System.debug('\n\n@@checkForOutCrossProducts quoteItemList: ' + quoteItemList + '\n\n');
-		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
+		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
 			if (quoteItem.Product_Name__c.startsWithIgnorecase('OUTCROSS')) {
 				System.debug('\n\n@@contains outcross\n\n');
 				return true;

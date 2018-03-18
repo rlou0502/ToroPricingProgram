@@ -688,8 +688,8 @@
         <externalId>false</externalId>
         <label>Quote Item</label>
         <referenceTo>REVVY__MnStrategy4__c</referenceTo>
-        <relationshipLabel>Strategy 5</relationshipLabel>
-        <relationshipName>Subline_Extension</relationshipName>
+        <relationshipLabel>Quote Item Sub Lines</relationshipLabel>
+        <relationshipName>Toro_Quote_Item_Sub_Lines</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>

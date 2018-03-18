@@ -12,18 +12,18 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		return ret;
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Quote_Summary.getFields();
 		
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.National_Account_Quote_Line_Updtbl_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.National_Account_Quote_Line_Updtbl_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSublineFields() {
-		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.National_Account_Quote_SubLine_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy5__c.FieldSets.National_Account_Quote_SubLine_Cols.getFields();
 	}
 	
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.National_Account_Quote_Line_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.National_Account_Quote_Line_Cols.getFields();
 	}
 	
 	public override boolean displaySetupFee() {
@@ -33,8 +33,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		return true;
 	}
 	
-	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgramExternalId,
-		 				String priceMethod, List<Toro_QuoteItem__c> quoteItemWrapperList) {
+	public override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgramExternalId,
+		 				String priceMethod, List<Revvy__MnStrategy4__c> quoteItemWrapperList) {
 		system.debug(logginglevel.info, '+++++++++++++++++ NAT = ' + quoteItemWrapperList);
 		system.debug(logginglevel.info, '+++++++++++++++++ NAT priceProgramExternalId = ' + priceProgramExternalId);
 		system.debug(logginglevel.info, '+++++++++++++++++ NAT priceProgramExternalId = ' + priceMethod);
@@ -65,8 +65,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		}
 		*/		
 		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
-		List<Toro_QuoteItem__c> updatedQuoteItems = new List<Toro_QuoteItem__c>();
-		for(Toro_QuoteItem__c qi : quoteItemWrapperList) {
+		List<Revvy__MnStrategy4__c> updatedQuoteItems = new List<Revvy__MnStrategy4__c>();
+		for(Revvy__MnStrategy4__c qi : quoteItemWrapperList) {
 			resetQIPercentage(qi);
 			
 			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
@@ -118,7 +118,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 
 			System.debug('>>> +++++++++++++++++ NAT 112 = qi  % off percent_off_msrp__c='+qi.Off_MSRP__c);
 			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					resetQISLPercentage(qis);
 					
 					//Performance Part
@@ -160,7 +160,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 							System.debug('>>> +++++++++++++++++ NAT 113 =  rb='+rb);
 							applyQISLPercentage(qis,rb,dSetupFeeHeader);
 						}
-						if(excludedFromMSRP(qis)) {
+						if(excludedFromMSRP(qis)) { 
 							qis.Fee_Percentage__c = 0;	
 						} else {
 							qis.Fee_Percentage__c = qi.Fee_Percentage__c;	
@@ -186,21 +186,21 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 
 		System.debug(logginglevel.info, '>>> +++++++++++++++++ NAT 200=');
 		
-		//delete [Select Id From Toro_QuoteItem__c where Id in :deleteSetupFeeLineItemId];
+		//delete [Select Id From Revvy__MnStrategy4__c where Id in :deleteSetupFeeLineItemId];
 		//delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];
 		
 		return quoteItemWrapperList;	
 	}        
 	
-	public override List<Toro_QuoteItem__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
-															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 
 		Decimal dtoroTotalSetupFees = 0;
 		/*
-		for(Toro_QuoteItem__c qi : quoteItemList) {
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			Decimal dsetupFeesQIS = 0;
 			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					dsetupFeesQIS += CMnQuoteUtil.defaultDecimal(qis.Toro_Fee_Amount__c);
 				}
 			}
@@ -223,7 +223,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
 			
 		//Read extended quote item
-		for(Toro_QuoteItem__c qi : quoteItemList) {
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			System.debug('>>> +++++++++++++++++ SETUP FEE 222 ID='+qi.Product_Id__c);
 			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
 				qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
@@ -308,7 +308,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	}
 	
 	
-	public void resetQIPercentage(Toro_QuoteItem__c qi) {
+	public void resetQIPercentage(Revvy__MnStrategy4__c qi) {
 
 		qi.Off_MSRP__c = 0;
 		qi.Award_of_DN__c =0;
@@ -320,7 +320,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		
 	}
 	
-	public void applyQIPercentage(Toro_QuoteItem__c qi, Revvy__MnStrategy2__c rb, decimal dsetupFeeHeader) {
+	public void applyQIPercentage(Revvy__MnStrategy4__c qi, Revvy__MnStrategy2__c rb, decimal dsetupFeeHeader) {
 
 		qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
 		qi.Award_of_DN__c =0;
@@ -335,7 +335,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		
 	}
 	
-	public void resetQISLPercentage(Toro_QuoteItem_SubLine__c qis) {
+	public void resetQISLPercentage(Revvy__MnStrategy5__c qis) {
 
 		qis.Rebate_as_of_DNet__c = 0;
 		qis.Percent_Off_MSRP__c = 0;		
@@ -347,7 +347,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		
 	}	
 
-	public void applyQISLPercentage(Toro_QuoteItem_SubLine__c qis, Revvy__MnStrategy2__c rb, decimal dsetupFeeHeader) {
+	public void applyQISLPercentage(Revvy__MnStrategy5__c qis, Revvy__MnStrategy2__c rb, decimal dsetupFeeHeader) {
 
 		qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(rb.Rebate_as_a_Percent_of_DN__c);
 		if(excludedFromMSRP(qis)) {

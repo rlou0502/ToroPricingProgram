@@ -94,7 +94,7 @@ public class ToroPricingProgramController {
 		pp.quote.Setup_Fee__c = setupFeePercent;
 		pp.quote.Performance_Part__c=performancePart;
 		
-		for(Toro_QuoteItem__c qi : pp.quoteItems) {
+		for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
 			//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
 			//	qi.FreezeLine__c = true;
 			//}
@@ -139,8 +139,8 @@ public class ToroPricingProgramController {
 				} 
 			}
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					//if(pp.performancePartFlag && qis.Performance_part__c) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					//if(pp.performancePartFlag && qis.Performance_part__c) { 
 					//	qis.FreezeLine__c = true;
 					//}
 					//qis.PricingMethodValue__c=null;
@@ -222,7 +222,7 @@ public class ToroPricingProgramController {
     	List<Schema.FieldSetMember> fieldSetSummary = pp.getToroQuoteItemSummaryFields();
     	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, null);
     	
-    	for(Toro_QuoteItem__c qi : pp.quoteItems) {
+    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     		if(qiId == qi.id) {
 	    		qi.PricingMethodValue__c = value;
 	    		if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
@@ -235,7 +235,7 @@ public class ToroPricingProgramController {
 	    			qi.Award_Price__c = decimal.valueOf(value);		
 	    		}
 	    		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						qis.PricingMethodValue__c = value;
 						if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
 			    			qis.Percent_of_DNet__c = Double.valueOf(value);
@@ -251,7 +251,7 @@ public class ToroPricingProgramController {
     		}
     	}
     	*/
-    	List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
+    	List<Revvy__MnStrategy4__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
     	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(FieldSetMember fs : rs.fieldSetMembers) {
     		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
@@ -318,11 +318,11 @@ public class ToroPricingProgramController {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);	
     		pp.initialize(quoteId);
     		pp.performancePartFlag = performancePart != null ? performancePart : false;
-    		for (Toro_QuoteItem__c qi : pp.quoteItems) {
+    		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {
     			qi.Toro_Gross_Profit_Percent__c = gpPercent;
     			qi.PricingMethodValue__c = String.valueOf(gpPercent);				
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						qis.Gross_Profit_Percent__c = gpPercent;	
 						qis.PricingMethodValue__c = String.valueOf(gpPercent);
 					}	
@@ -451,7 +451,7 @@ public class ToroPricingProgramController {
     			ToroSelectOption so = options[0];
     			system.debug('setPricingProgramToDB calling calculateRebateMargin'); 
     			update new Revvy__MnQuote__c(Id = objId, Pricing_Program_Name__c=pricingProgram, Pricing_Program_Type__c=pricingProgram, Price_Method__c=so.value);
-    			for(Toro_QuoteItem__c qi : pp.quoteItems) {
+    			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     				qi.Pricing_Program__c = pricingProgram;
     				qi.Select_a_Price_Method__c = rs.selectedPricingMethod;
     				qi.Off_MSRP__c=0;
@@ -460,7 +460,7 @@ public class ToroPricingProgramController {
     				qi.Award_Price__c=0;
     				qi.PricingMethodValue__c=null;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
-	    				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
@@ -469,13 +469,13 @@ public class ToroPricingProgramController {
 	    				}
     				}				
     			}
-    			List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(objId, ppd.externalId, so.value, pp.quoteItems,false);
+    			List<Revvy__MnStrategy4__c> qis = pp.calculateRebateMargin(objId, ppd.externalId, so.value, pp.quoteItems,false);
     			rs.selectedPricingMethod = so.value;
     		} else {
     			//update new Revvy__MnQuote__c(Id = objId, Pricing_Program_Name__c=pricingProgram, Pricing_Program_Type__c=pricingProgram,Price_Method__c=options[0].value);
     			rs.selectedPricingMethod = string.isNotBlank(pricingMethod) ? pricingMethod : '';
-    			list<Toro_QuoteItem__c> items = pp.quoteItems;
-    			for(Toro_QuoteItem__c qi : items) {
+    			list<Revvy__MnStrategy4__c> items = pp.quoteItems;
+    			for(Revvy__MnStrategy4__c qi : items) {
     				qi.Pricing_Program__c = pricingProgram;
     				qi.Select_a_Price_Method__c = rs.selectedPricingMethod;
     				qi.Off_MSRP__c=0;
@@ -484,7 +484,7 @@ public class ToroPricingProgramController {
     				qi.Award_Price__c=0;
     				qi.PricingMethodValue__c=null;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
-	    				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
@@ -681,13 +681,13 @@ public class ToroPricingProgramController {
     	rs = retrieveFieldSets(rs, pp, pm, pricingProgram);
 
     	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-    	for(Toro_QuoteItem__c qi : pp.quoteItems) {
+    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     		if(String.isNotBlank(qi.PricingMethodValue__c)){
     			decimal d = decimal.valueOf(qi.PricingMethodValue__c).setScale(2, roundingMode.HALF_UP);
     			qi.PricingMethodValue__c = String.valueOf(d);	
     		}
 			if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(String.isNotBlank(qis.PricingMethodValue__c)){
 		    			decimal d = decimal.valueOf(qis.PricingMethodValue__c).setScale(2, roundingMode.HALF_UP);
 		    			qis.PricingMethodValue__c = String.valueOf(d);	

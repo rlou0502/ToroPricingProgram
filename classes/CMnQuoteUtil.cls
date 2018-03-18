@@ -58,13 +58,13 @@ public with sharing class CMnQuoteUtil {
 		Set<String> nameSet = new Set<String>(extras);
 		nameSet.addAll(fieldNames);
 		return String.join(new List<String>(nameSet), ',');
-	}
+	} 
 	
-	public static Integer getNumberOfTractionUnits(List<Toro_QuoteItem__c> quoteItemList) {
+	public static Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
 		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
-		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
+		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
 			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
 				count++;
 			}

@@ -4,7 +4,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 	}
 	   
 	public override boolean getQuoteLevelMSQPDNetEditable() { 
-		return false;
+		return false; 
 	}
 	
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
@@ -13,8 +13,8 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		return ret;
 	}
 
-	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram, 
-															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+	public override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgram, 
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		//priceMethod = '% off MSRP';
 		system.debug('inside state calculateRebateMarginImpl quoteItemList='+ quoteItemList);
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
@@ -39,7 +39,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		}
 		system.debug('-----------' + productPricingProgramLineMap);
 		if(quoteItemList != null && quoteItemList.size() != 0) {
-			for(Toro_QuoteItem__c qi : quoteItemList) {
+			for(Revvy__MnStrategy4__c qi : quoteItemList) {
 				Revvy__MnStrategy2__c line = productPricingProgramLineMap.get(qi.Product_Id__c);
 				if(line == null) {
 					line = productPricingProgramLineMap.get('All');	
@@ -62,7 +62,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 				}
 				
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						qis.Percent_of_DNet__c = qi.Award_of_DN__c;
 						qis.Percent_Off_MSRP__c = qi.Off_MSRP__c;	
 						qi.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);

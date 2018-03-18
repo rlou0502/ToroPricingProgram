@@ -1,13 +1,13 @@
 public with sharing class ToroContractPriceListPPHelper extends ToroStateContractPricingProgramHelper { 
-	public override List<Toro_QuoteItem__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
-															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
-		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
+	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)}; 
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
-		for(Toro_PricingProgram__c pp : rebates) {
+		for(Revvy__MnStrategy1__c pp : rebates) {
 			system.debug('ToroContractPriceListPPHelper--'+pp);
-			String priceListId = pp.OverriddenPriceList__c;
+			String priceListId = pp.OverriddenPriceList__c; 
 			
 			system.debug('ToroContractPriceListPPHelper--priceListId='+priceListId);
 			Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
@@ -19,7 +19,7 @@ public with sharing class ToroContractPriceListPPHelper extends ToroStateContrac
 				prodPriceListLineMap.put(ppl.revvy__product__r.revvy__Id__c, ppl);		
 			}
 			system.debug('ToroContractPriceListPPHelper--prodPriceListLineMap='+prodPriceListLineMap);
-			for(Toro_QuoteItem__c qi : quoteItemList) {
+			for(Revvy__MnStrategy4__c qi : quoteItemList) {
 				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
 					revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
 					qi.MSRP_Price__c = ppl.revvy__ListedPrice__c;
@@ -29,7 +29,7 @@ public with sharing class ToroContractPriceListPPHelper extends ToroStateContrac
 					system.debug('ToroContractPriceListPPHelper-- qi not in price list--' + qi.Product_Id__c);
 				}
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
 							revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
 							qis.MSRP_Price__c = ppl.revvy__ListedPrice__c;

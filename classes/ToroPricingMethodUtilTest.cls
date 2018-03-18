@@ -47,8 +47,8 @@ private class ToroPricingMethodUtilTest {
 			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=103,DISTRIBUTOR_MARGIN__C=15.9,OFF_MFG_SUGG_TTL__C=27.9,REBATE_AS_A_PERCENT_OF_DN__C=13.4),
 			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=102,DISTRIBUTOR_MARGIN__C=15.3,OFF_MFG_SUGG_TTL__C=28.6,REBATE_AS_A_PERCENT_OF_DN__C=13.6)};
 		insert ppls;
-		//List<sObject> qiList = Test.loadData(Toro_QuoteItem__c.sObjectType, 'TestData_PP_ToroQuoteItem_1');
-		//List<sObject> qisList = Test.loadData(Toro_QuoteItem_SubLine__c.sObjectType, 'TestData_PP_ToroQuoteSubline_1');
+		//List<sObject> qiList = Test.loadData(Revvy__MnStrategy4__c.sObjectType, 'TestData_PP_ToroQuoteItem_1');
+		//List<sObject> qisList = Test.loadData(Revvy__MnStrategy5__c.sObjectType, 'TestData_PP_ToroQuoteSubline_1');
 		//system.debug(logginglevel.info);
 	}
     static  void testAwardPrice() {
@@ -100,7 +100,7 @@ private class ToroPricingMethodUtilTest {
     	system.debug(result);
     	percentOfGP = 0.20275;
     	result = ToroPricingMethodUtil.retrieveDataForGrossProfitPercent('Market Support Chart Large Package', msrpPrice, dnetPrice, percentOfGP);
-    	system.debug(result);
+    	system.debug(result); 
     	System.assertEquals(result.percentOfDNet, 1.1575);
     	
     	percentOfGP = 0.21;
