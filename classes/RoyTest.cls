@@ -198,6 +198,7 @@ public with sharing class RoyTest {
 			    	}
 			    }
 			}
+			system.debug(dr.FieldSets.getMap());
 		}
 		
 	}

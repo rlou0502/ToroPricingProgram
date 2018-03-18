@@ -13,8 +13,17 @@
         });
         cmpEvent.fire(); 
     },
+    showToast : function(component, event, helper) {
+        var toastEvent = $A.get("e.force:showToast");
+        toastEvent.setParams({
+            "title": "Success!",
+            "message": "The record has been updated successfully."
+        });
+        toastEvent.fire();
+    },
     onUpdatableValueChange: function( event, component) {
         debugger;
+        var self=this;
         var listenMSRPChange = component.get('v.listenMSRPChange');
         var fieldName = event.currentTarget.dataset.fieldname;
         
@@ -24,13 +33,15 @@
             var quoteItemId = event.currentTarget.closest('tr').id;
             if(listenMSRPChange) {
             	var originalVal = event.currentTarget.dataset.originalvalue;
+                var oldValue = event.currentTarget.dataset.oldvalue;
+                
                 var newVal = parseFloat(newVal);
-                var oldVal = parseFloat(originalVal);
+                var origVal = parseFloat(originalVal);
                 console.log('-------------newVal =' + newVal);
-                console.log('-------------oldVal =' + oldVal);
-                if(newVal < oldVal) {
-                    alert("Please enter a value higher than " + oldVal);
-                    event.currentTarget.value=originalVal;
+                console.log('-------------oldVal =' + oldValue);
+                if(newVal < origVal) {
+                    alert("Please enter a value higher than " + origVal);
+                    event.currentTarget.value=oldValue;
                     curObj.focus();
                     return false;
                 } else {
@@ -128,11 +139,12 @@
                         debugger;
                         var listenMSRPChange = component.get("v.listenMSRPChange");
                         if(listenMSRPChange) {
-                        	tableDataNode.dataset.originalvalue=sObj["Original_off_MSRP__c"];    
+                        	tableDataNode.dataset.originalvalue=sObj["Selected_Off_MSRP__c"];    
                         }
                     }
                     tableDataNode.dataset.quoteitem=sObj["Id"];
                     tableDataNode.addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
+                    tableDataNode.addEventListener('focus', function(event){ this.dataset.oldvalue=this.value;}, false);
                 }
                 tableDataNode.className += " sfdcid-"+sObj["Id"];
                 tableDataNode.dataset.fieldname=field.fieldPath;

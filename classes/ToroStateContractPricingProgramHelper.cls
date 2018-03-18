@@ -57,7 +57,9 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 				}
 				system.debug('-----------line=' + line);
 				if(line != null) {
-					qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
+					if(!qi.Off_MSRP_Overridden__c) {
+						qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
+					}
 					qi.Original_off_MSRP__c = qi.Off_MSRP__c;
 					qi.Award_of_DN__c = line.Award_Price_as_a_Percent_of_DN__c;
 					qi.Selected_Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
