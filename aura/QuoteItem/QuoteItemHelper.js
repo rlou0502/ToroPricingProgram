@@ -17,18 +17,33 @@
         debugger;
         var listenMSRPChange = component.get('v.listenMSRPChange');
         var fieldName = event.currentTarget.dataset.fieldname;
-        event.currentTarget.dataset.overridden="true" 
+        
+        var curObj = event.currentTarget;
         if(fieldName == "PricingMethodValue__c") {
             var newVal = event.currentTarget.value; 
             var quoteItemId = event.currentTarget.closest('tr').id;
             if(listenMSRPChange) {
-                
+            	var originalVal = event.currentTarget.dataset.originalvalue;
+                var newVal = parseFloat(newVal);
+                var oldVal = parseFloat(originalVal);
+                console.log('-------------newVal =' + newVal);
+                console.log('-------------oldVal =' + oldVal);
+                if(newVal < oldVal) {
+                    alert("Please enter a value higher than " + oldVal);
+                    event.currentTarget.value=originalVal;
+                    curObj.focus();
+                    return false;
+                } else {
+                    curObj.dataset.overridden="true";
+                } 
             } else {
                 var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
                 for (var i=0; i<sublines.length; i++) {
                     sublines[i].value=newVal;
                 }
             }
+        } else {
+            event.currentTarget.dataset.overridden="true";
         }
     },
 	handleRowClick : function(component, selectedQuoteItem) {
@@ -109,6 +124,13 @@
                 	tableDataNode.dataset.parentquoteitem=quoteItemId;    
                 } else {
                     //this is a quote line
+                    if(field.fieldPath=="PricingMethodValue__c") {
+                        debugger;
+                        var listenMSRPChange = component.get("v.listenMSRPChange");
+                        if(listenMSRPChange) {
+                        	tableDataNode.dataset.originalvalue=sObj["Original_off_MSRP__c"];    
+                        }
+                    }
                     tableDataNode.dataset.quoteitem=sObj["Id"];
                     tableDataNode.addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
                 }
@@ -662,7 +684,11 @@
             qiData[fieldname] = value;
             if(fieldname == "Award_Price__c") {
                 qiData["Unit_Award_Overridden__c"] = overridden;	    
+            } else if(fieldname == "PricingMethodValue__c") {
+                qiData["Off_MSRP_Overridden__c"] = overridden;
             }
+            
+            //
         }
         var qiSublines = document.querySelectorAll(".quoteItemSubline  input[type=text]");
         for (var i=0; i<qiSublines.length; i++) {
