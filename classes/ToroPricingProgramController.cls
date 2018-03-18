@@ -70,6 +70,7 @@ public class ToroPricingProgramController {
 		System.debug('pricingMethod=' +pricingMethod);
 		System.debug('quoteItemsDataJSON=' +quoteItemsDataJSON);
 		System.debug('qiSublinesDataJSON=' +qiSublinesDataJSON);
+		system.debug('values=' + values);
 		Map<String, object> quoteItemsData = (Map<String, object>) JSON.deserializeUntyped(quoteItemsDataJSON);
 		for(String key : quoteItemsData.keyset()) {
 			Map<String, Object>	data1 = (Map<String, Object>) quoteItemsData.get(key);
