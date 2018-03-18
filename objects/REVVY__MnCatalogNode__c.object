@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <fields>
+        <fullName>Brochure__c</fullName>
+        <externalId>false</externalId>
+        <label>Brochure</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Business_Center_Code_Level_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Business Center Code Level 1</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Business_Center_Desc_Level_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Business Center Desc Level 1</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Business_Group_Code_Level_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Business Group Code Level 2</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Business_Group_Desc_Level_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Business Group Desc Level 2</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Exclude_from_CPL__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This will exclude this product from the Commercial Price list</description>
+        <externalId>false</externalId>
+        <label>Exclude from CPL</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Hierarchy_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Hierarchy Code</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Hierarchy_Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Hierarchy Description</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Performance_Parts_Product__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Performance Part</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Product_Detail_Code_Level_4__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Detail Code Level 4</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Detail_Desc_Level_4__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Detail Desc Level 4</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Line_Code_Level_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Line Code Level 3</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Line_Desc_Level_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Line Desc Level 3</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Toro_Product_Tier__c</fullName>
+        <externalId>false</externalId>
+        <label>Toro Product Tier</label>
+        <length>25</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Toro_Product_Type__c</fullName>
+        <description>Finished Good: Model or Finished Good information
+Non-Stock Material: From SAP: Non-stock material is material that is not held in stock because it is consumed immediately.
+Semi-Finished Good: Part</description>
+        <externalId>false</externalId>
+        <label>Toro Product Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Finished Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Non-Stock Material</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Semi-Finished Good</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Vehicle__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Vehicle</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+</CustomObject>

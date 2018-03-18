@@ -182,10 +182,13 @@ public with sharing class RoyTest {
 		//List<String> sobjNames = new List<String> {'REVVY__MnQuote__c', 'REVVY__MnCatalogNode__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c',
 		//	 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'REVVY__MnCatalogAttributeValue__c', 'REVVY__MnConfigEngineOption__c', 'REVVY__MnConfigEngineOptionGroup__c',
 		//	 'REVVY__MnQiSubLineAttribute__c', 'REVVY__MnQuoteItemAttribute__c'};
-		List<String> sobjNames = new List<String> {'Toro_QuoteItem_SubLine__c','User', 'REVVY__MnQuote__c', 'REVVY__MnCatalogNode__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c',
-			 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'REVVY__MnConfigEngineOption__c', 'REVVY__MnConfigEngineOptionGroup__c','Account',
+		List<String> sobjNames = new List<String> { 'REVVY__MnQuote__c', 'REVVY__MnCatalogNode__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c',
+			 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'REVVY__MnConfigEngineOption__c', 'REVVY__MnConfigEngineOptionGroup__c',
+			 'Revvy__MnStrategy1__c', 'Revvy__MnStrategy2__c', 'Revvy__MnStrategy3__c', 'Revvy__MnStrategy4__c', 'Revvy__MnStrategy5__c',
 			 'REVVY__MnQiSubLineAttribute__c', 'REVVY__MnQuoteItemAttribute__c', 'Revvy__MnQuoteSolution__c', 'Revvy__MnQuoteSolutionAttribute__c'};
 		//List<String> sobjNames = new List<String> {'REVVY__MnQuote__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c','Toro_PricingProgram__c','Toro_PricingProgramLine__c','Toro_PricingProgramEligibility__c'};
+		
+		system.debug('<types>');
 		for(String sobjName : sobjNames) {
 			Schema.Describesobjectresult dr = Schema.getGlobalDescribe().get(sobjName.toLowerCase()).getDescribe();
 			Map<String, Schema.SObjectField> fieldMap = dr.fields.getMap();
@@ -198,9 +201,24 @@ public with sharing class RoyTest {
 			    	}
 			    }
 			}
-			system.debug(dr.FieldSets.getMap());
 		}
+		system.debug('<name>CustomField</name>');
 		
+		system.debug('</types>');
+		system.debug('<types>');
+		for(String sobjName : sobjNames) {
+			Schema.Describesobjectresult dr = Schema.getGlobalDescribe().get(sobjName.toLowerCase()).getDescribe();
+			Map<String, Schema.FieldSet> fss = dr.FieldSets.getMap();
+			if(fss.size() > 0){
+				for(String k : fss.keyset()) {
+					system.debug('<members>'+sobjName + '.' +  k + '</members>' );
+				}
+				
+			}
+		}
+		system.debug('<name>FieldSet</name>');
+		
+		system.debug('</types>');
 	}
 	
 	public static void genRevvyPackage() {
