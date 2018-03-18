@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldSets>
+        <fullName>REVVY__Quote_Solution_Cols</fullName>
+        <description>Columns for quote solution table</description>
+        <displayedFields>
+            <field>REVVY__CatalogNode__r.REVVY__LocaleName_F__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Quote Solution Cols</label>
+    </fieldSets>
+</CustomObject>

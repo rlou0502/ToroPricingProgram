@@ -35,6 +35,24 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>DNet_Price__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+
+TPP_Line_Item__c = TRUE,  TPP_DNET__c * REVVY__Quantity__c,
+
+DNet_Price_2__c *  REVVY__Quantity__c 
+
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Description__c</fullName>
         <description>Store product name/description during support plus process</description>
         <externalId>false</externalId>
@@ -55,6 +73,78 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Extended_Award_DNet_Price__c</fullName>
+        <externalId>false</externalId>
+        <formula>DNet_Price_2__c *  REVVY__Quantity__c * Percent_of_DNet__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended Award DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Extended_Award_MSRP_Price__c</fullName>
+        <externalId>false</externalId>
+        <formula>REVVY__Price__c *  REVVY__Quantity__c *(1- Percent_Off_MSRP__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended Award MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Extended_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <formula>Award_Price__c * REVVY__Quantity__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Extended_MSRP_Price__c</fullName>
+        <externalId>false</externalId>
+        <formula>if( Performance_Part__c , REVVY__Unit_Price__c * REVVY__Quantity__c, 
+REVVY__Price__c * REVVY__Quantity__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Fee_Percentage__c</fullName>
+        <externalId>false</externalId>
+        <label>Fee Percentage</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>MSRP_Alternate_Currency__c</fullName>
+        <externalId>false</externalId>
+        <formula>REVVY__Price__c *  REVVY__QuoteItem__r.REVVY__Quote__r.Currency_Conversion_Rate__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>MSRP Alternate Currency</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Misc_Style__c</fullName>
         <description>Misc style to help some operations such as set text of a field to &quot;No Charge&quot; in client side</description>
         <externalId>false</externalId>
@@ -71,6 +161,28 @@
         <externalId>false</externalId>
         <label>Part Percentage</label>
         <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Percent_Off_MSRP__c</fullName>
+        <description>Percent Off MSRP</description>
+        <externalId>false</externalId>
+        <label>% Off MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Percent_of_DNet__c</fullName>
+        <description>Percent of DNet</description>
+        <externalId>false</externalId>
+        <label>% of DNet</label>
+        <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
         <trackTrending>false</trackTrending>
@@ -127,6 +239,29 @@
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Rebate_as_of_DNet__c</fullName>
+        <description>Rebate as % of DNet</description>
+        <externalId>false</externalId>
+        <label>Rebate as % of DNet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Subline_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <formula>DNet_Price__c *  Rebate_as_of_DNet__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Subline Rebate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>Support_Plus_Quantity__c</fullName>

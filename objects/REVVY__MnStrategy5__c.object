@@ -683,6 +683,18 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Toro_Quote_Item__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Quote Item</label>
+        <referenceTo>REVVY__MnStrategy4__c</referenceTo>
+        <relationshipLabel>Strategy 5</relationshipLabel>
+        <relationshipName>Subline_Extension</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Toro_Subline_Rebate__c</fullName>
         <externalId>false</externalId>
         <label>Subline Rebate</label>

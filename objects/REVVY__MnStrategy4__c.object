@@ -552,6 +552,14 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>Off_MSRP_Overridden__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>% Off MSRP Overridden</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Off_MSRP__c</fullName>
         <externalId>false</externalId>
         <label>% Off MSRP</label>

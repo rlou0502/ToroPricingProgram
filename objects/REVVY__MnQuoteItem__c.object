@@ -24,6 +24,18 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Award_of_DN__c</fullName>
+        <description>Store percentage entered by user. This value will be used in calculating award price when price method is &quot;% of DNet&quot;</description>
+        <externalId>false</externalId>
+        <label>Award % of DN</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
         <fullName>DNetWOTPPAllied__c</fullName>
         <externalId>false</externalId>
         <formula>DNet_Price_2__c*REVVY__Quantity__c + Rollup_DNet_Price__c -  Rollup_DNet_for_TPP__c</formula>
@@ -82,6 +94,44 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Extended_Award_DNet_Price__c</fullName>
+        <description>This is the award price for a quote item when price method is &quot;% of DNet&quot;.</description>
+        <externalId>false</externalId>
+        <formula>DNet_Price_2__c *  REVVY__Quantity__c *  Award_of_DN__c +  Rollup_Award_DNet_Price__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Extended_Award_MSRP_Price__c</fullName>
+        <description>This is the award price for a quote item when price method is &quot;% off MSRP&quot;.</description>
+        <externalId>false</externalId>
+        <formula>REVVY__Price__c *  REVVY__Quantity__c *(1- Off_MSRP__c )+  Rollup_Award_MSRP_Price__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Extended_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <formula>Award_Price__c *  REVVY__Quantity__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Extended_Cost__c</fullName>
         <externalId>false</externalId>
         <formula>REVVY__CostPrice__c *  REVVY__Quantity__c</formula>
@@ -93,6 +143,18 @@
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Extended_DNet_Price__c</fullName>
+        <externalId>false</externalId>
+        <formula>DNet_Price_2__c *  REVVY__Quantity__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Extended DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>First_Year_Value__c</fullName>
@@ -118,6 +180,30 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Off_MSRP__c</fullName>
+        <description>Store value of &quot;% off MSRP&quot; entered by user in pricing program page.</description>
+        <externalId>false</externalId>
+        <label>Percent Off MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>QuoteItemSubline_Rebate_as_of_Dnet__c</fullName>
+        <externalId>false</externalId>
+        <formula>Rollup_Sum_percent_Rebate_of_Dnet__c /  Rollup_Num_of_SubLines_for_Rebate__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>QuoteItemSubline Rebate as % of Dnet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
         <fullName>QuoteItem_Extension__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -129,6 +215,174 @@
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Award_DNet_Price__c</fullName>
+        <description>This value is used in formula field Extended_Award_DNet_Price__c.</description>
+        <externalId>false</externalId>
+        <label>Rollup Award DNet Price</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Extended_Award_DNet_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Award_MSRP_Price__c</fullName>
+        <description>This field is used in formula field Extended_Award_MSRP_Price__c.</description>
+        <externalId>false</externalId>
+        <label>Rollup Award MSRP Price</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Extended_Award_MSRP_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Award Price</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Award_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_DNet_Price__c</fullName>
+        <description>This field is used in formula field DNet_Price__c which is used in rebate calculation.</description>
+        <externalId>false</externalId>
+        <label>Rollup DNet Price</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.DNet_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_DNet_for_TPP__c</fullName>
+        <description>Rollup of Dnet  for QuoteItem subline for TPP products</description>
+        <externalId>false</externalId>
+        <label>Rollup DNet for TPP</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.DNet_Price__c</summarizedField>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItemSubLine__c.Product_ID2__c</field>
+            <operation>startsWith</operation>
+            <value>TPP</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Extended_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Extended Award Price</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Extended_Award_Price__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Num_of_SubLines_for_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Num of SubLines for Rebate</label>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItemSubLine__c.Exclude_from_Rebate__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Parner_Products__c</fullName>
+        <description>Roll up of all the Partner Products</description>
+        <externalId>false</externalId>
+        <label>Rollup Partner Products</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Extended_MSRP_Price__c</summarizedField>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItemSubLine__c.Product_ID2__c</field>
+            <operation>startsWith</operation>
+            <value>&quot;L&quot;</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Subline_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup Subline Rebate</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Subline_Rebate__c</summarizedField>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_Sum_percent_Rebate_of_Dnet__c</fullName>
+        <description>Rollup - Sum percentage of all Sublines Rebate  as a % of DNet; used to get Rebate % of Dnet for quoteitem</description>
+        <externalId>false</externalId>
+        <label>Rollup Sum percent Rebate of Dnet</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Rebate_as_of_DNet__c</summarizedField>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItemSubLine__c.Exclude_from_Rebate__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_TPP__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup TPP</label>
+        <summarizedField>REVVY__MnQuoteItemSubLine__c.Extended_MSRP_Price__c</summarizedField>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItemSubLine__c.Product_ID2__c</field>
+            <operation>startsWith</operation>
+            <value>&quot;TPP&quot;</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItemSubLine__c.REVVY__QuoteItem__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Select_a_Price_Method__c</fullName>
+        <externalId>false</externalId>
+        <label>Select a Price Method</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>% of DNET</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>% off MSRP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>% of Gross Profit Margin</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Support_Plus_Items__c</fullName>
