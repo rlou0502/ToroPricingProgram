@@ -632,6 +632,16 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Original_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Original Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Original_off_MSRP__c</fullName>
         <description>Store the original percent of MSRP</description>
         <externalId>false</externalId>

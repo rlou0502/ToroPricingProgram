@@ -134,14 +134,16 @@
                     //this is a subline
                 	tableDataNode.dataset.parentquoteitem=quoteItemId;    
                 } else {
-                    //this is a quote line
-                    if(field.fieldPath=="PricingMethodValue__c") {
-                        debugger;
-                        var listenMSRPChange = component.get("v.listenMSRPChange");
-                        if(listenMSRPChange) {
-                        	tableDataNode.dataset.originalvalue=sObj["Selected_Off_MSRP__c"];    
+                    //this is a quote line                   
+                    debugger;
+                    var listenMSRPChange = component.get("v.listenMSRPChange");
+                    if(listenMSRPChange) {
+                        if(field.fieldPath=="PricingMethodValue__c") {
+                            tableDataNode.dataset.originalvalue=sObj["Selected_Off_MSRP__c"]; 
+                        } else if(field.fieldPath=="Award_Price__c") {
+                            tableDataNode.dataset.originalvalue=sObj["Original_Award_Price__c"];
                         }
-                    }
+                    }                  
                     tableDataNode.dataset.quoteitem=sObj["Id"];
                     tableDataNode.addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
                     tableDataNode.addEventListener('focus', function(event){ this.dataset.oldvalue=this.value;}, false);
