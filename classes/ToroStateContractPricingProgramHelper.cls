@@ -54,7 +54,10 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 					if(!qi.Unit_Award_Overridden__c) {
 						qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;
+						qi.Original_Award_Price__c = qi.Award_Price__c ;
+						system.debug(logginglevel.info,'qi.Original_Award_Price__c =' + qi.Original_Award_Price__c );
 					}
+					
 					qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;	
 				}
 				if(excludedFromMSRP(qi)) {
