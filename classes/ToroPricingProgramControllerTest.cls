@@ -26,7 +26,122 @@ private class ToroPricingProgramControllerTest {
 		
 	}
     static testMethod void myUnitTest() {
-        // TO DO: implement unit test
+    	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+    	List<Revvy__MnStrategy4__c> quoteItems= [select Id from Revvy__MnStrategy4__c];
+    	List<Revvy__MnStrategy5__c> quoteItemSublines= [select Id from Revvy__MnStrategy5__c];
+        Map<String, Map<String, object>> qiData = new Map<String, Map<String, object>>{
+        	quoteItems[0].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Off_MSRP_Overridden__c'=>'false',
+        		'Award_Price__c'=>'7206.43',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},	
+        	quoteItems[1].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Off_MSRP_Overridden__c'=>'false',
+        		'Award_Price__c'=>'19988.43',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItems[2].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Off_MSRP_Overridden__c'=>'false',
+        		'Award_Price__c'=>'218.0486',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItems[3].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Off_MSRP_Overridden__c'=>'false',
+        		'Award_Price__c'=>'900.13',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	}
+        };
+        Map<String, Map<String, object>> qisData = new Map<String, Map<String, object>>{
+        	quoteItemSublines[0].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'7206.43',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},	
+        	quoteItemSublines[1].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'19988.43',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItemSublines[2].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'218.0486',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItemSublines[3].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Off_MSRP_Overridden__c'=>'false',
+        		'Award_Price__c'=>'900.13',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItemSublines[4].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'7206.43',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},	
+        	quoteItemSublines[5].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'19988.43',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItemSublines[6].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'218.0486',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItemSublines[7].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'900.13',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItemSublines[8].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'218.0486',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	},
+        	quoteItemSublines[9].Id=>new Map<String, object>{
+        		'PricingMethodValue__c'=>'23',
+        		'Award_Price__c'=>'900.13',
+        		'Unit_Award_Overridden__c'=>'false'     			
+        	}
+        };
+        String qiDataJson = Json.serialize(qiData);
+        String qisDataJson = Json.serialize(qisData);
+        Map<String, object> values= new Map<String, object>{
+        	'performancePart'=>false,
+        	'pricingMethod'=>'% off MSRP',
+        	'pricingProgram'=>'MarketSupportChartLargePackage;Large_Package',
+        	'quoteId'=>quote.Id,
+        	'setupFeePercent'=>0
+        };
+        ToroPricingProgramController.svc_updateQuoteData2(values, qiDataJson, qisDataJson, false);
+        ToroPricingProgramController.svc_clearDirtyQuoteItem(quote.Id);
+        ToroPricingProgramController.svc_getPricingMethodOptions(quote.Id, 'MarketSupportChartLargePackage;Large_Package');
+        ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP', '23');
+    }       
+    static testMethod void myUnitTest2() {
+    	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
         
-    }
+        ToroSObjectResultSet rs = ToroPricingProgramController.setTotalAwardDollarPMRemote(quote.Id, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP', 32000, false);
+    	ToroPricingProgramController.setGPPercentRemote(quote.Id, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP', 19, false);
+    	ToroPricingProgramController.savePricingProgramMethodRemote(quote.Id, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP', 1, false);
+    	//savePricingProgramMethodRemote
+    	ToroPricingProgramController.setPricingProgramMethodRemote(quote.Id, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP');
+    	ToroPricingProgramController.getQuoteHeaderFields('MarketSupportChartLargePackage;Large_Package', quote.Id);
+    	ToroPricingProgramController.getQuoteItemFields('MarketSupportChartLargePackage;Large_Package', '% off MSRP', quote.Id);
+    	ToroPricingProgramController.addUpdatableFieldSetMember(SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields(),
+    		SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields());
+    
+    }    
+    static testMethod void myUnitTest3() {
+    	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+        
+       ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of DNET', '117');
+       ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of Gross Profit Margin', '18');
+       ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', 'Total Award Price', '2300');
+    	ToroPricingProgramController.setPricingProgramMethodRemote(quote.Id,'Buyboard;Base','% off MSRP');
+    }        
 }
