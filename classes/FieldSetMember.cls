@@ -1,17 +1,5 @@
 public class FieldSetMember {
 
-    public FieldSetMember(Schema.FieldSetMember f) {
-        this.DBRequired = f.DBRequired;
-        this.fieldPath = f.fieldPath;
-        this.label = f.label;
-        this.required = f.required;
-        this.type = '' + f.getType();
-    }
-
-    public FieldSetMember(Boolean DBRequired) {
-        this.DBRequired = DBRequired;
-    }
-
     @AuraEnabled
     public Boolean DBRequired { get;set; }
 
@@ -26,7 +14,21 @@ public class FieldSetMember {
 
     @AuraEnabled
     public String type { get; set; }
-    
+
     @AuraEnabled
     public Boolean updatable { get;set; }
+
+    public FieldSetMember(Schema.FieldSetMember f) {
+        this.DBRequired = f.DBRequired;
+        this.fieldPath = f.fieldPath;
+        this.label = f.label;
+        this.required = f.required;
+        this.type = '' + f.getType();
+    }
+
+    /* NOT USED
+    public FieldSetMember(Boolean DBRequired) {
+        this.DBRequired = DBRequired;
+    }
+    */
 }

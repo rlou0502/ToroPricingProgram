@@ -1,12 +1,8 @@
 @isTest
 private class FieldSetMemberTest {
-	
-	@isTest static void test_method_one() {
-		// Implement test code
+
+	@isTest static void coverage() {
+		List<Schema.FieldSetMember> quoteFields = SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
+		FieldSetMember fsm = new FieldSetMember(quoteFields[0]);
 	}
-	
-	@isTest static void test_method_two() {
-		// Implement test code
-	}
-	
 }

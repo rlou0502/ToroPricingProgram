@@ -1,12 +1,8 @@
 @isTest
 private class CMnPriceProgramUtilTest {
-	
+
 	@isTest static void test_method_one() {
-		// Implement test code
+		String priceProgramExternalId = '';
+		CMnPriceProgramUtil.collectPriceProgram(priceProgramExternalId);
 	}
-	
-	@isTest static void test_method_two() {
-		// Implement test code
-	}
-	
 }
