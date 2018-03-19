@@ -28,7 +28,7 @@
         var fieldName = event.currentTarget.dataset.fieldname;
         
         var curObj = event.currentTarget;
-        if(fieldName == "PricingMethodValue__c") {
+        if(fieldName == "PricingMethodValue__c" || fieldName == "Award_Price__c") {
             var newVal = event.currentTarget.value; 
             var quoteItemId = event.currentTarget.closest('tr').id;
             if(listenMSRPChange) {
