@@ -114,7 +114,7 @@
         if(typeof percent == "string") {
         	lPercent = parseFloat(percent);    
         }
-        return lPercent.toLocaleString(undefined, {minimumFractionDigits: scale, maximumFractionDigits: scale})
+        return lPercent.toFixed(4);
     },
     renderTable : function(fields, sObj, parentRow, quoteItemId, component) {
         var self=this;
@@ -169,11 +169,11 @@
             } else {
                 if(field.type.toLowerCase() === 'double') {
                     if(sObj[field.fieldPath]!= undefined) {
-                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
                     }  
                 } else if(field.type.toLowerCase() === 'currency') {
                     if(sObj[field.fieldPath]!= undefined) {
-                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
                     }
                 } else if(field.type.toLowerCase() === 'boolean') {
                     var tableDataNode = document.createElement('input');
@@ -183,7 +183,7 @@
                     cellText.appendChild(tableDataNode);
                 } else if(field.type.toLowerCase() === 'percent') {
                    if(sObj[field.fieldPath] != undefined) {
-                       cellText.innerHTML=parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); ; 
+                       cellText.innerHTML=parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); ; 
                     } 
                 } else if(field.type.toLowerCase() === 'string') {
                     cellText.innerHTML = sObj[field.fieldPath];
