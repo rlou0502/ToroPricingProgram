@@ -17,7 +17,7 @@ public with sharing class CMnPriceProgramUtil {
 	 *
 	 * description
 	 *
-	 * @param  name    description
+	 * @param  priceProgramExternalId    this is actually the Name of the Pricing Program record
 	 * @return return_type
 	 */
 	public static PriceProgramInfo collectPriceProgram(String priceProgramExternalId) {
