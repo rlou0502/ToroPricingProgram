@@ -496,6 +496,14 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>OnlyExistedInCPL__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Need Award Price</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Part_Percentage__c</fullName>
         <defaultValue>0</defaultValue>
         <externalId>false</externalId>

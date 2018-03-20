@@ -109,6 +109,13 @@
         }
         */
     },
+    formatPercentWithDecimal : function(percent, scale) {
+        var lPercent = percent;
+        if(typeof percent == "string") {
+        	lPercent = parseFloat(percent);    
+        }
+        return lPercent.toLocaleString(undefined, {minimumFractionDigits: scale, maximumFractionDigits: scale})
+    },
     renderTable : function(fields, sObj, parentRow, quoteItemId, component) {
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
@@ -130,7 +137,7 @@
             if((field.updatable && !freeze &&(!performancePart || field.fieldPath=="Award_Price__c" )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
-                tableDataNode.value = sObj[field.fieldPath] ? sObj[field.fieldPath] : '';
+                tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 tableDataNode.type='text';
                 if(quoteItemId) {
                     //this is a subline
