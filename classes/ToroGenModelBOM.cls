@@ -287,11 +287,16 @@ public with sharing class ToroGenModelBOM {
 	                return -1;
 	            } else {
 	            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
-	            		if(productTypeSortCode == compareToEmp.productTypeSortCode) {
-	            			return productSortCode.compareTo(compareToEmp.productSortCode);		
+	            		if(productTab.compareTo(compareToEmp.productTab) == 0) {
+	            			if(productTypeSortCode == compareToEmp.productTypeSortCode) {
+		            			return productSortCode.compareTo(compareToEmp.productSortCode);		
+		            		} else {
+		            			return compareToEmp.productTypeSortCode-productTypeSortCode;
+		            		}		
 	            		} else {
-	            			return compareToEmp.productTypeSortCode-productTypeSortCode;
-	            		}	
+	            			return productTab.compareTo(compareToEmp.productTab);
+	            		}
+	            		
 	            	} else {
 	                	return modelSortCode.compareTo(compareToEmp.modelSortCode);
 	            	}
