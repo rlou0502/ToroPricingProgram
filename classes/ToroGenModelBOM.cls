@@ -215,6 +215,9 @@ public with sharing class ToroGenModelBOM {
     	public decimal suggestedRetail { get; set; } 
     	public double stockOrder { get; set; }
     	public decimal totalDollors { get; set; }
+    	private String modelSortCode;
+    	private String productSortCode;
+    	private Integer productTypeSortCode;
     	public Integer compareTo(Object compareTo) {
 	        StockOrder compareToEmp = (StockOrder)compareTo;
 	        return compareToEmp.productTab.compareTo(productTab);
