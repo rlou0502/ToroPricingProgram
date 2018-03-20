@@ -6,12 +6,17 @@ public with sharing class ToroGenModelBOM {
 	public static GenModelBOMResult genBOM() {
 		List<String> modelNames = new List<String> ();
 		Set<String> modelNameSet = new Set<String> ();
+		Map<String, String> modelHierarchyCode = new Map<String, String>();
 		map<String, Id> modelNameIdMap = new map<String, Id>();
-		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__VerNum__c FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' order by REVVY__VerNum__c asc ]) {
+		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__VerNum__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c From REVVY__Products__r) FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' order by REVVY__VerNum__c asc ]) {
 			if(!mdl.name.endsWith('(INTL)')) {
 				modelNameIdMap.put(mdl.name, mdl.Id);
 				//modelNameSet.add(mdl.name);
+				if(mdl.REVVY__Products__r != null && mdl.REVVY__Products__r.size() > 0) {
+					modelHierarchyCode.put(mdl.name, mdl.REVVY__Products__r[0].Hierarchy_Code__c);	
+				}
 			}
+			
 		}
 		Map<String, REVVY__MnPriceListLine__c> prodCode2Price = new Map<String, REVVY__MnPriceListLine__c>();
 		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c where revvy__pricelist__r.name = 'Commercial'];
@@ -19,7 +24,7 @@ public with sharing class ToroGenModelBOM {
 			prodCode2Price.put(pli.REVVY__Product_Id__c, pli);	
 		}
 
-		List<REVVY__MnConfigEngineOption__c> options = [Select REVVY__Option_Group__r.revvy__Id__c, REVVY__Option_Group__r.Name, REVVY__Label__c, REVVY__Option_Group__c,
+		List<REVVY__MnConfigEngineOption__c> options = [Select REVVY__Option_Group__r.revvy__Id__c, REVVY__Option_Group__r.Name, REVVY__Option_Group__r.Full_OG_Name__c,REVVY__Label__c, REVVY__Option_Group__c,
 											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, Id, name From REVVY__MnConfigEngineOption__c 
 											 where REVVY__Option_Group__c in 
 											(select REVVY__OptionGroup_Id__c from REVVY__MnConfigEngineModelOptionGroupJunction__c where 
@@ -42,19 +47,19 @@ public with sharing class ToroGenModelBOM {
 		Map<String, Model> models = new Map<String, Model>();
 
 		Map<Id, Map<Id, Map<Id, DNetMSRGPair>>> modelOGOptionPriceMap = new Map<Id, Map<Id, Map<Id, DNetMSRGPair>>>();
-		list<REVVY__MnConfigEngineModelOptionGroupJunction__c> modelOGs = [select REVVY__Model_Id__c, REVVY__Model_Id__r.Name, REVVY__OptionGroup_Id__c, REVVY__OptionGroup_Id__r.Name from REVVY__MnConfigEngineModelOptionGroupJunction__c
+		list<REVVY__MnConfigEngineModelOptionGroupJunction__c> modelOGs = [select REVVY__Model_Id__c, REVVY__Model_Id__r.Name, REVVY__OptionGroup_Id__c, REVVY__OptionGroup_Id__r.Name, REVVY__OptionGroup_Id__r.Full_OG_Name__c from REVVY__MnConfigEngineModelOptionGroupJunction__c
 																			where REVVY__Model_Id__c in :modelNameIdMap.values()];
 		for(REVVY__MnConfigEngineModelOptionGroupJunction__c mog : modelOGs) {
 			if(!modelOGOptionPriceMap.containsKey(mog.REVVY__Model_Id__c)) {
 				modelOGOptionPriceMap.put(mog.REVVY__Model_Id__c, new Map<Id, Map<Id, DNetMSRGPair>>());
-				models.put(mog.REVVY__Model_Id__r.name, new Model(mog.REVVY__Model_Id__r.name));	
+				models.put(mog.REVVY__Model_Id__r.name, new Model(mog.REVVY__Model_Id__r.name, modelHierarchyCode.get(mog.REVVY__Model_Id__r.name)));	
 			}
 			
 			if(OGOptionMap.containsKey(mog.REVVY__OptionGroup_Id__c)) {
 				modelOGOptionPriceMap.get(mog.REVVY__Model_Id__c).put(mog.REVVY__OptionGroup_Id__c, OGOptionMap.get(mog.REVVY__OptionGroup_Id__c));
 				Map<Id, DNetMSRGPair> optionGroups  = OGOptionMap.get(mog.REVVY__OptionGroup_Id__c);
 				if(OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values() != null && OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values().size() != 0) {
-					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(mog.REVVY__OptionGroup_Id__r.Name, OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values()));
+					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(mog.REVVY__OptionGroup_Id__r.Full_OG_Name__c) ? mog.REVVY__OptionGroup_Id__r.Full_OG_Name__c : mog.REVVY__OptionGroup_Id__r.Name, OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values()));
 				}
 			}
 
@@ -64,6 +69,7 @@ public with sharing class ToroGenModelBOM {
 		}
 		GenModelBOMResult result = new GenModelBOMResult();
 		result.BOMs = models.values();
+		result.BOMs.sort();
 		return result;
 	}
 	
@@ -83,13 +89,40 @@ public with sharing class ToroGenModelBOM {
 	        }     
 	    }
 	}
-	public class Model {
+	public class Model implements Comparable {
 		public string modelName { get; set; }
 		public List<OptionGroup> optionGroups { get; set; } 
-		Model(string name) {
+		public String modelSortCode { get; set;}
+		Model(string name, String modelSortCode) {
 			optionGroups = new List<OptionGroup>();
 			modelName = name;
+			this.modelSortCode = modelSortCode;
+     		if(this.modelSortCode == null) {
+     			this.modelSortCode='';
+     		}
 		}
+		
+		public Integer compareTo(Object compareTo) {
+	        Model compareToEmp = (Model)compareTo;
+	        if (string.isBlank(modelSortCode)) {
+	            if (string.isBlank(compareToEmp.modelSortCode)) { 
+	                return 0;
+	            } else {  
+	                return 1;
+	            }
+	        } else { 
+	            if (string.isBlank(compareToEmp.modelSortCode))
+	            // ...and y is null, x is greater.
+	            {
+	                return -1;
+	            } else {
+	            	return modelSortCode.compareTo(compareToEmp.modelSortCode);
+	            }
+	        }  
+	    }
+	    
+		
+	        
 	}
     
     public class GenModelBOMResult {
@@ -161,7 +194,9 @@ public with sharing class ToroGenModelBOM {
 		
     	list<list<ToroGenModelBOM.StockOrder>> stockOrderLists = new list<list<ToroGenModelBOM.StockOrder>>();
 		
-		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c,  REVVY__Product_Name__c, REVVY__Product__r.Hierarchy_Code__c, REVVY__Product__r.Toro_Product_Type__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false];
+		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c,  REVVY__Product_Name__c, REVVY__Product__r.Hierarchy_Code__c, 
+				REVVY__Product__r.Toro_Product_Type__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c 
+				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good', 'Semi-Finished Good') ];
 		
 		Integer count=0;
 		//Integer remainder = math.mod(12, 2);
@@ -179,7 +214,7 @@ public with sharing class ToroGenModelBOM {
 					pli.REVVY__Product_Name__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0, null,null,null));	
 			} else {
 				for(string key : prodModelMap.get(pli.REVVY__Product_Id__c))	{
-					solist.add(new ToroGenModelBOM.StockOrder(pli.REVVY__Product_Id__c, modelHierarchyCode.get(key) +'-'+key,
+					solist.add(new ToroGenModelBOM.StockOrder(pli.REVVY__Product_Id__c, key,
 						pli.REVVY__Product_Name__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0,
 						modelHierarchyCode.get(key), pli.REVVY__Product__r.Hierarchy_Code__c, pli.REVVY__Product__r.Toro_Product_Type__c));	
 				}	
@@ -205,9 +240,9 @@ public with sharing class ToroGenModelBOM {
     	private Map<String, Integer> productTypeSortCodeMap = new Map<String, Integer>{'Finished Good'=>3, 'Semi-Finished Good'=>2, 'Non-Stock Material'=>1};
      	public StockOrder(String modelNumber, String productTab, String description, decimal distributorNet, 
      		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType) {
-     		this.modelNumber = modelNumber;
-     		this.productTab = productTab;
-     		this.description = description;
+     		this.modelNumber =modelNumber;
+     		this.productTab =  modelSortCode + '-'+productTab;
+     		this.description = productSortCode + '-'+productType + '-' +description;
      		this.distributorNet = distributorNet;
      		this.suggestedRetail = suggestedRetail;
      		this.stockOrder = stockOrder;
@@ -239,20 +274,28 @@ public with sharing class ToroGenModelBOM {
     	private Integer productTypeSortCode;
     	public Integer compareTo(Object compareTo) {
 	        StockOrder compareToEmp = (StockOrder)compareTo;
-	       
-	        if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
-	        	/*
-	        	if(productTypeSortCode == compareToEmp.productTypeSortCode) {
-	        		
-	        		return productSortCode.compareTo(compareToEmp.productSortCode);	
-	        	} else {
-	        		return productTypeSortCode-compareToEmp.productTypeSortCode; 
-	        	}
-	        	*/
-	        	return 0;
-	        	
-	        } else {
-	        	return compareToEmp.modelSortCode.compareTo(modelSortCode);
+	        if (string.isBlank(modelSortCode)) {
+	            if (string.isBlank(compareToEmp.modelSortCode)) { 
+	                return 0;
+	            } else {  
+	                return 1;
+	            }
+	        } else { 
+	            if (string.isBlank(compareToEmp.modelSortCode))
+	            // ...and y is null, x is greater.
+	            {
+	                return -1;
+	            } else {
+	            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
+	            		if(productTypeSortCode == compareToEmp.productTypeSortCode) {
+	            			return productSortCode.compareTo(compareToEmp.productSortCode);		
+	            		} else {
+	            			return compareToEmp.productTypeSortCode-productTypeSortCode;
+	            		}	
+	            	} else {
+	                	return modelSortCode.compareTo(compareToEmp.modelSortCode);
+	            	}
+	            }
 	        }
 	    }
     }
