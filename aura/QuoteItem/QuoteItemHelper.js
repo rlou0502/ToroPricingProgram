@@ -125,7 +125,9 @@
                 //check quote item subline
            		performancePart = sObj["Performance_part__c"];    
             }
-            if(field.updatable && !freeze &&(!performancePart || field.fieldPath=="Award_Price__c" )) {
+            var onlyInCPL = sObj["OnlyExistedInCPL__c"];
+            
+            if((field.updatable && !freeze &&(!performancePart || field.fieldPath=="Award_Price__c" )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
                 tableDataNode.value = sObj[field.fieldPath] ? sObj[field.fieldPath] : '';

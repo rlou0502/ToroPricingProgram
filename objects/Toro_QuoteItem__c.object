@@ -632,6 +632,15 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>OnlyExistedInCPL__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Product not in Commercial Price List</description>
+        <externalId>false</externalId>
+        <label>Only Existed In CPL</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Original_Award_Price__c</fullName>
         <externalId>false</externalId>
         <label>Original Award Price</label>
