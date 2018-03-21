@@ -25,7 +25,7 @@ public with sharing class ToroGenModelBOM {
 		}
 
 		List<REVVY__MnConfigEngineOption__c> options = [Select REVVY__Option_Group__r.revvy__Id__c, REVVY__Option_Group__r.Name, REVVY__Option_Group__r.Full_OG_Name__c,REVVY__Label__c, REVVY__Option_Group__c,
-											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, Id, name From REVVY__MnConfigEngineOption__c 
+											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, REVVY__Catalog_Node__r.Toro_Product_Type__c, Id, name From REVVY__MnConfigEngineOption__c 
 											 where REVVY__Option_Group__c in 
 											(select REVVY__OptionGroup_Id__c from REVVY__MnConfigEngineModelOptionGroupJunction__c where 
 											REVVY__Model_Id__c in :modelNameIdMap.values()) and REVVY__Excluded__c = false AND REVVY__Catalog_Node__r.revvy__Id__c <> 'TPP%'];
@@ -40,7 +40,7 @@ public with sharing class ToroGenModelBOM {
 				if (Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
 					dNetPrice = pli.REVVY__SuggestedPrice__c;	
 				}
-				OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__Catalog_Node__r.revvy__Id__c, pli.REVVY__ListedPrice__c, dNetPrice));
+				OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__Catalog_Node__r.revvy__Id__c, option.REVVY__Catalog_Node__r.Toro_Product_Type__c, pli.REVVY__ListedPrice__c, dNetPrice));
 			}
 		}
 
@@ -309,15 +309,17 @@ public with sharing class ToroGenModelBOM {
    
 	 
 	public class DNetMSRGPair {
-		DNetMSRGPair(String n, String sku, decimal msrp, decimal dNet)	{
+		DNetMSRGPair(String n, String sku, String productType, decimal msrp, decimal dNet)	{
 			this.dNet = dNet;
 			this.msrp = msrp;
 			this.optionName = n;
 			this.sku = sku;
+			this.productType = productType;
 		}
 		public decimal dNet { get; set;}
 		public decimal msrp {get; set;}
 		public String optionName { get; set; }
 		public String sku { get; set; }
+		public String productType { get; set;}
 	}
 }
