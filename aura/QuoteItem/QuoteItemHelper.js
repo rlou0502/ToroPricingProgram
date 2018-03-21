@@ -397,6 +397,12 @@
             }
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
             self.renderQuoteItemPricingProgramSection(component, fields, qiId); 
+            var nodeList = document.getElementsByClassName("collapsible");
+            var collapsibles = component.get('v.collapsibles');
+            for(var index=0; index < nodeList.length; index++ ) {
+                nodeList[index].style.display=collapsibles[index];
+            }
+            
  /*           
             //if(listenMSRPChange) {
             	var qi = document.querySelectorAll(".sfdcid-"+ qiId );
@@ -740,6 +746,12 @@
         console.log('populateQuoteItems.pricingMethod =' + pricingMethod);
         var getAction = component.get('c.svc_updateQuoteData2');
        
+        var nodeList = document.getElementsByClassName("collapsible");
+        var collapsibles = [];
+        for(var index=0; index < nodeList.length; index++ ) {
+            collapsibles[index] = nodeList[index].style.display;
+        }
+        component.set('v.collapsibles', collapsibles);
         getAction.setParams({
             values: {
                 quoteId: quoteId,
