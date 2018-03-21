@@ -94,7 +94,8 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						}
 						if(excludedFromMSRP(qis)) {
 							qis.Percent_Off_MSRP__c = 0;	
-						}								
+						}	
+						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qi.PricingMethodValue__c);							
 					}
 				}	
 			}
