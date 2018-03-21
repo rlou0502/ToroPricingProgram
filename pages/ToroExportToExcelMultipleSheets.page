@@ -81,8 +81,8 @@
  <Cell ss:MergeAcross="6" ><Data ss:Type="String"></Data></Cell> 
  </Row> 
  <Row>
- <Cell ss:StyleID="s1"><Data ss:Type="String" >Model Number</Data></Cell>
  <Cell ss:StyleID="s1"><Data ss:Type="String" >Product Tab</Data></Cell>
+ <Cell ss:StyleID="s1"><Data ss:Type="String" >Model Number</Data></Cell>
  <Cell ss:StyleID="s1"><Data ss:Type="String" >Description</Data></Cell>
  <Cell ss:StyleID="s5"><Data ss:Type="String" >DNET</Data></Cell>
  <Cell ss:StyleID="s5"><Data ss:Type="String" >MSRP</Data></Cell>
@@ -92,8 +92,8 @@
  <apex:repeat value="{!stockOrderLists}" var="sol">
  <apex:repeat value="{!sol}" var="so">
  <Row>
- <Cell><Data ss:Type="String">{!so.modelNumber}</Data></Cell>
  <Cell><Data ss:Type="String">{!so.productTab}</Data></Cell>
+ <Cell><Data ss:Type="String">{!so.modelNumber}</Data></Cell>
  <Cell><Data ss:Type="String">{!so.description}</Data></Cell>
  <Cell ss:StyleID="s4"><Data ss:Type="Number">{!so.distributorNet}</Data></Cell>
  <Cell ss:StyleID="s4"><Data ss:Type="Number">{!so.suggestedRetail}</Data></Cell>

@@ -28,7 +28,7 @@ public with sharing class ToroGenModelBOM {
 											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, Id, name From REVVY__MnConfigEngineOption__c 
 											 where REVVY__Option_Group__c in 
 											(select REVVY__OptionGroup_Id__c from REVVY__MnConfigEngineModelOptionGroupJunction__c where 
-											REVVY__Model_Id__c in :modelNameIdMap.values()) and REVVY__Excluded__c = false];
+											REVVY__Model_Id__c in :modelNameIdMap.values()) and REVVY__Excluded__c = false AND REVVY__Catalog_Node__r.revvy__Id__c <> 'TPP%'];
 		Map<Id, Map<Id, DNetMSRGPair>>	OGOptionMap = new Map<Id, Map<Id, DNetMSRGPair>>();							
 		for(REVVY__MnConfigEngineOption__c option : options) {
 			if(!OGOptionMap.containsKey(option.REVVY__Option_Group__c))	{
@@ -116,13 +116,15 @@ public with sharing class ToroGenModelBOM {
 	            {
 	                return -1;
 	            } else {
-	            	return modelSortCode.compareTo(compareToEmp.modelSortCode);
+	            	
+	            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
+	            		return modelName.compareTo(compareToEmp.modelName);	
+            		} else {	
+            			return modelSortCode.compareTo(compareToEmp.modelSortCode);
+            		}	            		
 	            }
 	        }  
-	    }
-	    
-		
-	        
+	    }       
 	}
     
     public class GenModelBOMResult {
