@@ -336,7 +336,7 @@ public with sharing class ToroGenModelBOM {
 		public String productType { get; set;}
 		public String hierarchyCode { get; set;}
 		public boolean hasTractionUnit() {
-			if('Finished Good'.equalsIgnoreCase(productType) && String.isNotBlank(hierarchyCode) && hierarchyCode.endsWith('01')) {
+			if('Finished Good'.equalsIgnoreCase(productType) && String.isNotBlank(hierarchyCode) && hierarchyCode.endsWith('1')) {
 				return true;
 			} else {
 				return false;

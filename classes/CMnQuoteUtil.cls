@@ -65,7 +65,7 @@ public with sharing class CMnQuoteUtil {
 		Integer count = 0;
 		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
 		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
-			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
+			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good' && quoteItem.Product__r.Hierarchy_Code__c.endsWith('1')) {
 				count++;
 			}
 		}

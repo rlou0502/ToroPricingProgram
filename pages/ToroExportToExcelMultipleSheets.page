@@ -50,8 +50,8 @@
  
  <Worksheet ss:Name="SOC">
  <Table x:FullColumns="1" x:FullRows="1">
- 	<Column ss:Width="100"/>
  	<Column ss:Width="300"/>
+ 	<Column ss:Width="100"/>
  	<Column ss:Width="500"/>
  	<apex:outputText rendered="{!If(CanAccessDNet, TRUE, FALSE)}" >
   		<Column  ss:Width="75"/>
