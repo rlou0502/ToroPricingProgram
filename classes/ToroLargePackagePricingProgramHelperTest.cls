@@ -2,7 +2,7 @@
 private class ToroLargePackagePricingProgramHelperTest {
 
 	@testSetup static void setup() {
-		ToroTestData.setupTestData();
+		ToroTestData.loadTestData();
 	}
 
 	@isTest static void test_get_field_methods() {

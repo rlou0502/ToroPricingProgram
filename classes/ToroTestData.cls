@@ -47,7 +47,23 @@ public with sharing class ToroTestData {
 		}
 		update customerAccount;
 
-		List<sObject> pricingProgram = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
-		List<sObject> eligilibility  = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
+		List<sObject> pricingProgram     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
+		List<sObject> eligilibility      = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
+		List<sObject> pricingProgramLine = Test.loadData(Revvy__MnStrategy2__c.sObjectType, 'TestData_PP_PricingProgramLine');
+		List<sObject> priceList          = Test.loadData(Revvy__MnPriceList__c.sObjectType, 'TestData_PP_PriceList');
+		List<sObject> products           = Test.loadData(Revvy__MnCatalogNode__c.sObjectType, 'TestData_PP_CatalogNode');
     }
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public static void loadQuoteTestData() {
+		List<sObject> quote            = Test.loadData(Revvy__MnQuote__c.sObjectType, 'TestData_PP_Quote');
+		List<sObject> quoteItem        = Test.loadData(Revvy__MnQuoteItem__c.sObjectType, 'TestData_PP_QuoteItem');
+		List<sObject> quoteItemSubline = Test.loadData(Revvy__MnQuoteItemSubline__c.sObjectType, 'TestData_PP_QuoteItemSubline');
+	}
 }
