@@ -8,8 +8,9 @@ public with sharing class ToroGenModelBOM {
 		Set<String> modelNameSet = new Set<String> ();
 		Map<String, String> modelHierarchyCode = new Map<String, String>();
 		map<String, Id> modelNameIdMap = new map<String, Id>();
-		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__VerNum__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c From REVVY__Products__r) FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' order by REVVY__VerNum__c asc ]) {
-			if(!mdl.name.endsWith('(INTL)')) {
+		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__VerNum__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c From REVVY__Products__r) 
+				FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__IsSolution__c <> true order by REVVY__VerNum__c asc ]) {
+			if(!mdl.name.endsWith('(INTL)') && !mdl.name.containsIgnoreCase('test')) {
 				modelNameIdMap.put(mdl.name, mdl.Id);
 				//modelNameSet.add(mdl.name);
 				if(mdl.REVVY__Products__r != null && mdl.REVVY__Products__r.size() > 0) {
@@ -25,10 +26,10 @@ public with sharing class ToroGenModelBOM {
 		}
 
 		List<REVVY__MnConfigEngineOption__c> options = [Select REVVY__Option_Group__r.revvy__Id__c, REVVY__Option_Group__r.Name, REVVY__Option_Group__r.Full_OG_Name__c,REVVY__Label__c, REVVY__Option_Group__c,
-											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, REVVY__Catalog_Node__r.Toro_Product_Type__c, Id, name From REVVY__MnConfigEngineOption__c 
+											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, REVVY__Catalog_Node__r.Toro_Product_Type__c, REVVY__Catalog_Node__r.Hierarchy_Code__c, Id, name From REVVY__MnConfigEngineOption__c 
 											 where REVVY__Option_Group__c in 
 											(select REVVY__OptionGroup_Id__c from REVVY__MnConfigEngineModelOptionGroupJunction__c where 
-											REVVY__Model_Id__c in :modelNameIdMap.values()) and REVVY__Excluded__c = false AND REVVY__Catalog_Node__r.revvy__Id__c <> 'TPP%'];
+											REVVY__Model_Id__c in :modelNameIdMap.values()) and REVVY__Excluded__c = false ];
 		Map<Id, Map<Id, DNetMSRGPair>>	OGOptionMap = new Map<Id, Map<Id, DNetMSRGPair>>();							
 		for(REVVY__MnConfigEngineOption__c option : options) {
 			if(!OGOptionMap.containsKey(option.REVVY__Option_Group__c))	{
@@ -36,14 +37,18 @@ public with sharing class ToroGenModelBOM {
 			}
 			REVVY__MnPriceListLine__c pli = prodCode2Price.get(option.REVVY__Catalog_Node__r.revvy__Id__c);
 			decimal dNetPrice = null;
-			if(pli != null) {
+			if(pli != null && !option.REVVY__Catalog_Node__r.revvy__Id__c.startsWith('TPP')) {
 				if (Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
 					dNetPrice = pli.REVVY__SuggestedPrice__c;	
 				}
-				OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__Catalog_Node__r.revvy__Id__c, option.REVVY__Catalog_Node__r.Toro_Product_Type__c, pli.REVVY__ListedPrice__c, dNetPrice));
+				OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__Catalog_Node__r.revvy__Id__c, option.REVVY__Catalog_Node__r.Toro_Product_Type__c, option.REVVY__Catalog_Node__r.Hierarchy_Code__c, pli.REVVY__ListedPrice__c, dNetPrice));
 			}
 		}
 
+		Map<Id, String> optiongroupNameMap = new Map<Id, String>();
+		for(REVVY__MnConfigEngineOGUISectionJunction__c OGUI : [SELECT Name, REVVY__Option_Group_Id__c FROM REVVY__MnConfigEngineOGUISectionJunction__c]) {
+			optiongroupNameMap.put(OGUI.REVVY__Option_Group_Id__c, OGUI.Name);	
+		}
 		Map<String, Model> models = new Map<String, Model>();
 
 		Map<Id, Map<Id, Map<Id, DNetMSRGPair>>> modelOGOptionPriceMap = new Map<Id, Map<Id, Map<Id, DNetMSRGPair>>>();
@@ -59,7 +64,7 @@ public with sharing class ToroGenModelBOM {
 				modelOGOptionPriceMap.get(mog.REVVY__Model_Id__c).put(mog.REVVY__OptionGroup_Id__c, OGOptionMap.get(mog.REVVY__OptionGroup_Id__c));
 				Map<Id, DNetMSRGPair> optionGroups  = OGOptionMap.get(mog.REVVY__OptionGroup_Id__c);
 				if(OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values() != null && OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values().size() != 0) {
-					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(mog.REVVY__OptionGroup_Id__r.Full_OG_Name__c) ? mog.REVVY__OptionGroup_Id__r.Full_OG_Name__c : mog.REVVY__OptionGroup_Id__r.Name, OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values()));
+					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name , OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values()));
 				}
 			}
 
@@ -76,13 +81,20 @@ public with sharing class ToroGenModelBOM {
 	public class OptionGroup implements Comparable {
 		public string optionGroupName { get; set;}
 		public List<DNetMSRGPair> options { get; set; }
+		public boolean hasTractionUnit {get; set; }
 		OptionGroup(string ogName, List<DNetMSRGPair> options) {
 			this.optionGroupName = ogName;
 			this.options = options;
+			hasTractionUnit=false;
+			for(DNetMSRGPair p : options) {
+				if(p.hasTractionUnit())	 {
+					hasTractionUnit = true;	 
+				}
+			}
 		}
 		public Integer compareTo(Object compareTo) {
 	        OptionGroup compareToEmp = (OptionGroup)compareTo;
-	        if (compareToEmp.optionGroupName.containsIgnoreCase('Traction Units')) {
+	        if (compareToEmp.hasTractionUnit) {
 	        	 return 1; 
 	        } else {
 	        	return 0;
@@ -162,8 +174,8 @@ public with sharing class ToroGenModelBOM {
     }
     public static list<list<ToroGenModelBOM.StockOrder>> getStockOrder() {
     	map<String, Id> modelNameIdMap = new map<String, Id>();
-		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__Product_IDs__c, REVVY__VerNum__c FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' order by REVVY__VerNum__c asc ]) {
-			if(!mdl.name.endsWith('(INTL)') && !mdl.name.contains('test')) {
+		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__Product_IDs__c, REVVY__VerNum__c FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__IsSolution__c <> true order by REVVY__VerNum__c asc ]) {
+			if(!mdl.name.endsWith('(INTL)') && !mdl.name.containsIgnoreCase('test')) {
 				modelNameIdMap.put(mdl.name, mdl.Id);
 				//modelNameSet.add(mdl.name);
 			}
@@ -309,17 +321,26 @@ public with sharing class ToroGenModelBOM {
    
 	 
 	public class DNetMSRGPair {
-		DNetMSRGPair(String n, String sku, String productType, decimal msrp, decimal dNet)	{
+		DNetMSRGPair(String n, String sku, String productType, String hierarchyCode, decimal msrp, decimal dNet)	{
 			this.dNet = dNet;
 			this.msrp = msrp;
 			this.optionName = n;
 			this.sku = sku;
 			this.productType = productType;
+			this.hierarchyCode = hierarchyCode;
 		}
 		public decimal dNet { get; set;}
 		public decimal msrp {get; set;}
 		public String optionName { get; set; }
 		public String sku { get; set; }
 		public String productType { get; set;}
+		public String hierarchyCode { get; set;}
+		public boolean hasTractionUnit() {
+			if('Finished Good'.equalsIgnoreCase(productType) && String.isNotBlank(hierarchyCode) && hierarchyCode.endsWith('01')) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 }
