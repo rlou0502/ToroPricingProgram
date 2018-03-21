@@ -222,7 +222,7 @@ public abstract class ToroPricingProgram {
 						qis.Toro_Extended_Award_Price__c = subExtAward;
 						qis.Toro_Fee_Amount__c = CMnQuoteUtil.defaultDecimal(qis.Toro_Extended_Award_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
 						extFeeAmount += qis.Toro_Fee_Amount__c;
-
+						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qi.PricingMethodValue__c);							
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
 					}
 				}
@@ -252,6 +252,14 @@ public abstract class ToroPricingProgram {
 			quoteTotalSetupFee          += qi.Toro_Total_Setup_Fees__c;
 
 		}
+		for(Object obj : quoteItemList) {
+    		Toro_QuoteItem__c qi = (Toro_QuoteItem__c) obj;
+    		if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);								
+				}	
+    		}	
+    	}
 		quote.Toro_Rollup_Award_Price__c       = quoteTotalAward;
 		quote.Toro_Rollup_DNET__c              = quoteTotalDNet;
 		quote.Toro_Rollup_Setup_Fees__c        = quoteTotalSetupFee;
@@ -271,6 +279,14 @@ public abstract class ToroPricingProgram {
 		if(quote.Toro_Rollup_Award_Price__c != null && quote.Toro_Rollup_Award_Price__c != 0) {
 			quote.Toro_Total_Quote_Gross_Profit_Percent__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Quote_Gross_Profit__c) / quote.Toro_Rollup_Award_Price__c *100;
 		}
+		for(Object obj : quoteItemList) {
+    		Toro_QuoteItem__c qi = (Toro_QuoteItem__c) obj;
+    		if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);								
+				}	
+    		}	
+    	}
 		System.debug('\n\n@@quote: ' + quote + '\n\n');
 		return quoteItemList;
 	}

@@ -179,8 +179,16 @@ public class ToroPricingProgramController {
 		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 		system.debug(logginglevel.info, 'entering---calculateRebateMargin');
     	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
-    	
     	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+    	for(Object obj : pp.quoteItems) {
+    		Toro_QuoteItem__c qi = (Toro_QuoteItem__c) obj;
+    		if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);								
+				}	
+    		}	
+    	}
+    	
     	for(FieldSetMember fs : rs.fieldSetMembers) {
     		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
     			fs.label = rs.selectedPricingMethod;	
@@ -196,6 +204,14 @@ public class ToroPricingProgramController {
     	rs.chainCall = pp.chainCall;
     	rs.payload = pp.payloadOfChainCall;
     	rs.displaySetupFee=pp.displaySetupFee();
+    	for(Object obj : rs.values) {
+    		Toro_QuoteItem__c qi = (Toro_QuoteItem__c) obj;
+    		if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);								
+				}	
+    		}	
+    	}
     	return rs;	
     }
   

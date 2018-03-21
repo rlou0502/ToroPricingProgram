@@ -133,7 +133,6 @@
            		performancePart = sObj["Performance_part__c"];    
             }
             var onlyInCPL = sObj["OnlyExistedInCPL__c"];
-            debugger;
             if((field.updatable && !freeze &&(!performancePart || field.fieldPath=="Award_Price__c" )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
@@ -778,6 +777,7 @@
                     component.set('v.fields', fields);
                     component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
+                    debugger;
                     component.set('v.quoteItems', retRecords);
                     component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
                     component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
