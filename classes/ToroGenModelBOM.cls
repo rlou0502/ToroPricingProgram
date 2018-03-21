@@ -94,7 +94,7 @@ public with sharing class ToroGenModelBOM {
 		}
 		public Integer compareTo(Object compareTo) {
 	        OptionGroup compareToEmp = (OptionGroup)compareTo;
-	        if (compareToEmp.hasTractionUnit) {
+	        if (compareToEmp.hasTractionUnit || compareToEmp.optionGroupName.containsIgnoreCase('Traction Unit')) {
 	        	 return 1; 
 	        } else {
 	        	return 0;
