@@ -31,7 +31,8 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		return qis.Award_Price__c;	
 	}
-	 
+	
+	
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
 		

@@ -118,9 +118,13 @@ private class ToroPricingProgramControllerTest {
         	'setupFeePercent'=>0
         };
         ToroPricingProgramController.svc_updateQuoteData2(values, qiDataJson, qisDataJson, false);
-        ToroPricingProgramController.svc_clearDirtyQuoteItem(quote.Id);
-        ToroPricingProgramController.svc_getPricingMethodOptions(quote.Id, 'MarketSupportChartLargePackage;Large_Package');
-        ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP', '23');
+        values.put('pricingMethod','% of DNET');
+        ToroPricingProgramController.svc_updateQuoteData2(values, qiDataJson, qisDataJson, false);
+        values.put('pricingMethod','% of Gross Profit Margin');
+        ToroPricingProgramController.svc_updateQuoteData2(values, qiDataJson, qisDataJson, false);
+        values.put('pricingMethod','Total Award Price');
+        ToroPricingProgramController.svc_updateQuoteData2(values, qiDataJson, qisDataJson, false);
+        ToroPricingProgramController.setPricingProgramMethodRemote(quote.Id,'Buyboard;Base','% off MSRP');
     }       
     static testMethod void myUnitTest2() {
     	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
@@ -138,10 +142,12 @@ private class ToroPricingProgramControllerTest {
     }    
     static testMethod void myUnitTest3() {
     	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
-        
-       ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of DNET', '117');
-       ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of Gross Profit Margin', '18');
-       ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', 'Total Award Price', '2300');
-    	ToroPricingProgramController.setPricingProgramMethodRemote(quote.Id,'Buyboard;Base','% off MSRP');
+        ToroPricingProgramController.svc_clearDirtyQuoteItem(quote.Id);
+        ToroPricingProgramController.svc_getPricingMethodOptions(quote.Id, 'MarketSupportChartLargePackage;Large_Package');
+        ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP', '23');
+       	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of DNET', '117');
+       	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of Gross Profit Margin', '18');
+       	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', 'Total Award Price', '2300');
+       	
     }        
 }
