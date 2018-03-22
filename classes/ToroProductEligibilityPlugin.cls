@@ -66,20 +66,28 @@ global class ToroProductEligibilityPlugin implements revvy.IMnProductEligibility
         for(REVVY__MnCatalogNode__c p : [select id FROM REVVY__MnCatalogNode__c where REVVY__Type__c='Solution']) {
         	OOBprodInclusion.add(p.Id);   
         }
+        
+        for(Revvy__MnCatalogNode__c c : [select Id from Revvy__MnCatalogNode__c where Revvy__Id__c in ('GM','RM','TPP','WKM','Ally','WGTXGas','RM5010','WGTXGas1','GM32802D')]) {
+        	OOBcategoryInclusion.add(c.Id);	
+        }
+        for(Revvy__MnCatalogNode__c p : [select Id from Revvy__MnCatalogNode__c where Revvy__Id__c in ('30344')]) {
+        	OOBprodInclusion.add(p.Id);	
+        }
+        /*
       	OOBcategoryInclusion.add('a2A2F0000004YSI'); //GM
       	OOBcategoryInclusion.add('a2A2F0000004YSw'); //RM
       	OOBcategoryInclusion.add('a2A2F0000004fiq'); //TPP
       	OOBcategoryInclusion.add('a2A2F0000004hFM'); //WKM
-      	OOBcategoryInclusion.add('a2A2F0000004cDo'); //Ally
+      	//OOBcategoryInclusion.add('a2A2F0000004cDo'); //Ally
       	
       	OOBcategoryInclusion.add('a2A2F0000004cDoUAI'); //Ally
-      	OOBcategoryInclusion.add('a2A2F0000004cCRUAY'); //Ally
-      	OOBcategoryInclusion.add('a2A2F00000056gcUAA'); //Ally
-      	OOBcategoryInclusion.add('a2A2F0000004SR9UAM'); //Ally
+      	OOBcategoryInclusion.add('a2A2F0000004cCRUAY'); //WGTXGas
+      	OOBcategoryInclusion.add('a2A2F00000056gcUAA'); //RM5010
+      	OOBcategoryInclusion.add('a2A2F0000004SR9UAM'); //30344
       	
-      	OOBcategoryInclusion.add('a2A2F0000005S3JUAU'); //Ally
-      	OOBcategoryInclusion.add('a2A2F0000005S34UAE'); //Ally
-        
+      	OOBcategoryInclusion.add('a2A2F0000005S3JUAU'); //WGTXGas1
+      	OOBcategoryInclusion.add('a2A2F0000005S34UAE'); //GM32802D
+        */
       	
       	prodElig.put('ExProductIds', OOBprodExclusion );
       	prodElig.put('ExCategoryIds', OOBcategoryExclusion );
