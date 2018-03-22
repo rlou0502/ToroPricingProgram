@@ -68,31 +68,6 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	}
 
 
-		
-	public decimal lookupRebateAsPercentOfDNet(decimal percentOfDNet, List<REVVY__MnStrategy2__c> dNetLineList ) {
-		decimal result = 0;
-		decimal x3 = percentOfDNet;
-
-		system.debug('lookupRebateAsPercentOfDNet---x3='+ x3);
-		for(integer i =dNetLineList.size()-1; i > 0  ; i--) {
-			REVVY__MnStrategy2__c l = dNetLineList[i];
-			//system.debug('lookupRebateAsPercentOfDNet---high='+ dNetLineList[i].Award_Price_as_a_Percent_of_DN__c + ' low=' +
-			//	dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c);
-			system.debug('lookupRebateAsPercentOfDNet---x3='+ x3 + ' i ' + dNetLineList[i].Award_Price_as_a_Percent_of_DN__c + ' i-1 ' +  dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c);
-			if(x3 >= dNetLineList[i].Award_Price_as_a_Percent_of_DN__c && x3 <= dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c){
-				decimal x1=(dNetLineList[i].Award_Price_as_a_Percent_of_DN__c)/100;
-				decimal x2=(dNetLineList[i-1].Award_Price_as_a_Percent_of_DN__c)/100;
-				decimal y1=(dNetLineList[i].Rebate_as_a_Percent_of_DN__c)/100;
-				decimal y2=(dNetLineList[i-1].Rebate_as_a_Percent_of_DN__c)/100;
-				x3 = x3/100;
-				system.debug('x1=' + x1 + ' x2=' + x2 + ' y1 =' + y1 + ' y2 = ' + y2 + 'x3='+ x3);
-				result = y2 -(((x3-x2)*(y2-y1)));
-				system.debug(' result =' + result);
-				break;
-			}
-		}
-		return result*100;
-	}
 	public override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug(logginglevel.info, 'checkpoint 1 pp='+ priceProgram + ' pm=' + priceMethod);
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
