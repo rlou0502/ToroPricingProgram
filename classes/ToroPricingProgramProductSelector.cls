@@ -56,7 +56,12 @@ public with sharing class ToroPricingProgramProductSelector {
 	public void loadPageVariables() {
 		selectedProducts.clear();
 		header = [SELECT id, r.Name, r.SelectProduct__c, r.ExternalId__c, r.ApplicableProducts__c FROM Toro_PricingProgram__c r WHERE Id = :recordId];
-		if(string.isNotBlank(header.ApplicableProducts__c)) {
+
+		if (header.ApplicableProducts__c == 'All') {
+			selectAllProducts = true;
+		}
+
+		else if (String.isNotBlank(header.ApplicableProducts__c)) {
 			List<String> prodList =header.ApplicableProducts__c.split(',');
 			List<Revvy__MnCatalogNode__c> catalogNodes = [SELECT Id, Revvy__Id__c, name FROM Revvy__MnCatalogNode__c where Revvy__Id__c in :prodList];
 

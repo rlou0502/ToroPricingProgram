@@ -61,7 +61,12 @@ public with sharing class ToroPricingProgramLineProductSelector {
 		dummyHeader = new Toro_PricingProgram__c(); // this is created so we can use "SelectProduct__c (REVVY__MnCatalogNode__c)
 													// in input field in visualforce
 
-		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {
+		if (pricingProgramLine.ApplicableProducts__c == 'All') {
+			selectAllProducts = true;
+		}
+
+		else if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {
+			selectAllProducts = false;
 			final List<String> productIds = pricingProgramLine.ApplicableProducts__c.split(',');
 			List<REVVY__MnCatalogNode__c> catalogNodes = [
 				SELECT
