@@ -1,5 +1,5 @@
 @isTest
-private class ToroNationalAccountPricingProgramHTest {
+private class ToroStateContractPricingProgramHTest {
 
 	@TestSetup static void setupTestData() {
 		ToroTestData.loadTestData();
@@ -21,23 +21,27 @@ private class ToroNationalAccountPricingProgramHTest {
 		update toroQuoteItems;
 	}
 
-	@isTest static void test_get_field_methods() {
-		ToroNationalAccountPricingProgramHelper helper = new ToroNationalAccountPricingProgramHelper();
+	/**
+	 *
+	 * description
+	 *
+	 * @result the key result
+	 */
+	@isTest static void test_helper() {
+		ToroStateContractPricingProgramHelper helper = new ToroStateContractPricingProgramHelper();
 		System.assert(helper.getQuoteFields() != null);
-		System.assert(helper.getToroQuoteItemFields() != null);
-		System.assert(helper.getToroQuoteItemUpdatableFields() != null);
-		System.assert(helper.getToroQuoteItemSublineFields() != null);
-		// System.assert(helper.getToroQuoteItemSublineUpdatableFields() != null);
-		System.assert(helper.getToroQuoteItemSummaryFields() != null);
 		System.assert(helper.retrievePricingMethodOptions() != null);
-		System.assert(helper.retrieveDemoPricingProgramOptions() != null);
-		System.assert(helper.displayPerformancePart());
-
+		System.assert(helper.getQuoteLevelMSQPDNetEditable() != null);
 	}
 
-	@isTest static void test_calculate_rebate_margin() {
-		ToroNationalAccountPricingProgramHelper helper = new ToroNationalAccountPricingProgramHelper();
-		helper.performancePartFlag = false;
+	/**
+	 *
+	 * test_calculate_rebate_margin_impl
+	 *
+	 * @result the key result
+	 */
+	@isTest static void test_calculate_rebate_margin_impl() {
+		ToroStateContractPricingProgramHelper helper = new ToroStateContractPricingProgramHelper();
 
 		Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
 		String priceProgram = 'STILargePackageProgram';
@@ -52,15 +56,10 @@ private class ToroNationalAccountPricingProgramHTest {
 				, DNet_Price__c
 				, Product_Id__c
 				, Performance_Parts_Product__c
-				, Product_Name__c
-				, Product__r.Toro_Product_Type__c
 			FROM
 				Revvy__MnStrategy4__c];
 
 		helper.calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
-
-		helper.preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
-
 	}
 
 }

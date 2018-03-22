@@ -24,5 +24,4 @@ private class ToroPerformancePartPricingProgramHTest {
 		List<Revvy__MnStrategy4__c> quoteItemWrapperList = new List<Revvy__MnStrategy4__c>();
 		List<Revvy__MnStrategy4__c> result = tlpp.calculateRebateMarginImpl(quote.Id, priceProgramExternalId, priceMethod, quoteItemWrapperList);
 	}
-
 }
