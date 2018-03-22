@@ -62,5 +62,19 @@ private class ToroPricingProgramLineProductSelectTest {
 		controller.toggleAllProducts();
 		pricingProgramLine = [SELECT ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
 		System.assertEquals(previousApplicableProducts, pricingProgramLine.ApplicableProducts__c);
+
+		// delete a product
+		controller.toBeDeleted = pricingProgramLine.ApplicableProducts__c.split(',')[0];
+		controller.deleteProduct();
+		pricingProgramLine = [SELECT ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
+		System.assert(!pricingProgramLine.ApplicableProducts__c.contains(controller.toBeDeleted));
+
+		Boolean containsDeletedProduct = false;
+		for (ToroPricingProgramLineProductSelector.Wrapper selectedProduct : controller.selectedProducts) {
+			if (selectedProduct.selected && selectedProduct.prod == controller.toBeDeleted) {
+				containsDeletedProduct = true;
+			}
+		}
+		System.assert(!containsDeletedProduct);
 	}
 }
