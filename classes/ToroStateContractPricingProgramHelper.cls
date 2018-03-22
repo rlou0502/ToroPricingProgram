@@ -85,7 +85,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						qis.Percent_of_DNet__c = qi.Award_of_DN__c;
 						qis.Percent_Off_MSRP__c = qi.Off_MSRP__c;	
-						qi.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);
+						qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);
 						if(!qis.Unit_Award_Overridden__c) {			
 							qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
 						}
@@ -95,7 +95,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						if(excludedFromMSRP(qis)) {
 							qis.Percent_Off_MSRP__c = 0;	
 						}	
-						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qi.PricingMethodValue__c);							
+						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);							
 					}
 				}	
 			}
