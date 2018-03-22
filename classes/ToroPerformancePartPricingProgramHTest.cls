@@ -19,8 +19,8 @@ private class ToroPerformancePartPricingProgramHTest {
 	@isTest static void test_calculate_rebate_margin_impl() {
 		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
 		REVVY__MnQuote__c quote = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1];
-		final String priceProgramExternalId = '';
-		final String priceMethod = '';
+		final String priceProgramExternalId = 'STILargePackageProgram';
+		final String priceMethod = '% OF DNET';
 		List<Revvy__MnStrategy4__c> quoteItemWrapperList = new List<Revvy__MnStrategy4__c>();
 		List<Revvy__MnStrategy4__c> result = tlpp.calculateRebateMarginImpl(quote.Id, priceProgramExternalId, priceMethod, quoteItemWrapperList);
 	}
