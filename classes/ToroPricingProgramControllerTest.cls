@@ -146,8 +146,8 @@ private class ToroPricingProgramControllerTest {
         ToroPricingProgramController.svc_getPricingMethodOptions(quote.Id, 'MarketSupportChartLargePackage;Large_Package');
         ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP', '23');
        	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of DNET', '117');
-       	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', '% of Gross Profit Margin', '18');
-       	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', 'Total Award Price', '2300');
+       	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', 'Gross Profit %', '18');
+       	ToroPricingProgramController.svc_setPricingMethodValue(quote.Id, null, 'MarketSupportChartLargePackage;Large_Package', 'Total Award $', '2300');
        	
     }        
 }
