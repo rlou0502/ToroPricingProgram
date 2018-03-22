@@ -184,6 +184,18 @@ public with sharing class ToroTestData {
         final List<REVVY__MnCatalogNode__c> products = new List<REVVY__MnCatalogNode__c> { product1, product2, product3 };
         insert products;
 
+		// ============================================================================
+		// update "Product IDs" field on model
+		String modelProductIds = '[';
+		for (REVVY__MnCatalogNode__c product : products) {
+			modelProductIds += '"' + product.Name + '",';
+		}
+		modelProductIds = modelProductIds.removeEnd(',');
+		modelProductIds += ']';
+
+		model.REVVY__Product_IDs__c = modelProductIds;
+		update model;
+
         // ============================================================================
         // Pricelist Line
         insert new List<REVVY__MnPriceListLine__c> {

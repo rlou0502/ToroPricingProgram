@@ -28,5 +28,4 @@ private class ToroGenModelBOMTest {
 		);
 		System.assert(pmv2 != null);
 	}
-
 }
