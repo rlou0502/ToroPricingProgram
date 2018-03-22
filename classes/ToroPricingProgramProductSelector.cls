@@ -62,6 +62,7 @@ public with sharing class ToroPricingProgramProductSelector {
 		}
 
 		else if (String.isNotBlank(header.ApplicableProducts__c)) {
+			selectAllProducts = false;
 			List<String> prodList =header.ApplicableProducts__c.split(',');
 			List<Revvy__MnCatalogNode__c> catalogNodes = [SELECT Id, Revvy__Id__c, name FROM Revvy__MnCatalogNode__c where Revvy__Id__c in :prodList];
 

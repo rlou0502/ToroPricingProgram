@@ -138,12 +138,17 @@
                 var tableDataNode = document.createElement('input');
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 tableDataNode.type='text';
+                tableDataNode.dataset.overridden=sObj['Unit_Award_Overridden__c'];
                 if(quoteItemId) {
                     //this is a subline
-                	tableDataNode.dataset.parentquoteitem=quoteItemId;    
+                	tableDataNode.dataset.parentquoteitem=quoteItemId; 
+                    
+                    if(field.fieldPath=="Award_Price__c") {
+                    	tableDataNode.addEventListener('change', function(event){ 
+                            this.dataset.overridden =true;}, false);    
+                    }
                 } else {
                     //this is a quote line                   
-                    debugger;
                     var listenMSRPChange = component.get("v.listenMSRPChange");
                     if(listenMSRPChange) {
                         if(field.fieldPath=="PricingMethodValue__c") {
@@ -153,7 +158,7 @@
                         }
                     }                  
                     tableDataNode.dataset.quoteitem=sObj["Id"];
-                    tableDataNode.addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);
+                    tableDataNode.addEventListener('change', function(event){this.dataset.overridden =true; self.onUpdatableValueChange(event, component);}, false);
                     tableDataNode.addEventListener('focus', function(event){ this.dataset.oldvalue=this.value;}, false);
                 }
                 tableDataNode.className += " sfdcid-"+sObj["Id"];
