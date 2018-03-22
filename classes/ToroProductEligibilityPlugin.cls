@@ -73,12 +73,13 @@ global class ToroProductEligibilityPlugin implements revvy.IMnProductEligibility
         for(Revvy__MnCatalogNode__c p : [select Id from Revvy__MnCatalogNode__c where Revvy__Id__c in ('30344')]) {
         	OOBprodInclusion.add(p.Id);	
         }
+        
         /*
       	OOBcategoryInclusion.add('a2A2F0000004YSI'); //GM
       	OOBcategoryInclusion.add('a2A2F0000004YSw'); //RM
       	OOBcategoryInclusion.add('a2A2F0000004fiq'); //TPP
       	OOBcategoryInclusion.add('a2A2F0000004hFM'); //WKM
-      	//OOBcategoryInclusion.add('a2A2F0000004cDo'); //Ally
+      	OOBcategoryInclusion.add('a2A2F0000004cDo'); //Ally
       	
       	OOBcategoryInclusion.add('a2A2F0000004cDoUAI'); //Ally
       	OOBcategoryInclusion.add('a2A2F0000004cCRUAY'); //WGTXGas
