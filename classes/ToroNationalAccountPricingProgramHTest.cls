@@ -1,66 +1,35 @@
 @isTest
 private class ToroNationalAccountPricingProgramHTest {
-
-	@TestSetup static void setupTestData() {
-		ToroTestData.loadTestData();
-		ToroTestData.loadQuoteTestData();
-
-		List<Revvy__MnStrategy4__c> toroQuoteItems = [
-			SELECT
-				Award_Price__c
-				, DNet_Price__c
-			FROM
-				Revvy__MnStrategy4__c
-		];
-
-		for (Revvy__MnStrategy4__c tqi : toroQuoteItems) {
-			tqi.Award_Price__c = 90;
-			tqi.DNet_Price__c = 100;
-		}
-
-		update toroQuoteItems;
+	
+	@testSetup static void setupData() {
+		CMnQuoteUtil.setupData();
+		REVVY__MnCatalogNode__c setupFee = new REVVY__MnCatalogNode__c(REVVY__Id__c = 'S00001', Name='SetupFee');
+		insert setupFee;
+		Revvy__MnSequenceGen__c sequence = new Revvy__MnSequenceGen__c(Revvy__ObjectName__c='MnQuoteItem__c', REVVY__CurrentValue__c=1);
+		insert sequence;
 	}
 
 	@isTest static void test_get_field_methods() {
-		ToroNationalAccountPricingProgramHelper helper = new ToroNationalAccountPricingProgramHelper();
-		System.assert(helper.getQuoteFields() != null);
-		System.assert(helper.getToroQuoteItemFields() != null);
-		System.assert(helper.getToroQuoteItemUpdatableFields() != null);
-		System.assert(helper.getToroQuoteItemSublineFields() != null);
-		// System.assert(helper.getToroQuoteItemSublineUpdatableFields() != null);
-		System.assert(helper.getToroQuoteItemSummaryFields() != null);
-		System.assert(helper.retrievePricingMethodOptions() != null);
-		System.assert(helper.retrieveDemoPricingProgramOptions() != null);
-		System.assert(helper.displayPerformancePart());
-
+		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
+		tlpp.performancePartFlag=true;
+		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
+		ToroPricingProgramData ppd = new ToroPricingProgramData('Buyboard;Base');
+		tlpp.initialize(quote.Id);
+		
+		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
+		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
 	}
-
-	@isTest static void test_calculate_rebate_margin() {
-		ToroNationalAccountPricingProgramHelper helper = new ToroNationalAccountPricingProgramHelper();
-		helper.performancePartFlag = false;
-
-		Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
-		String priceProgram = 'STILargePackageProgram';
-		String priceMethod = helper.retrievePricingMethodOptions()[0].value;
-
-		List<Revvy__MnStrategy4__c> quoteItemList = [
-			SELECT
-			 	Off_MSRP__c
-				, MSRP_Price__c
-				, Award_Price__c
-				, Award_of_DN__c
-				, DNet_Price__c
-				, Product_Id__c
-				, Performance_Parts_Product__c
-				, Product_Name__c
-				, Product__r.Toro_Product_Type__c
-			FROM
-				Revvy__MnStrategy4__c];
-
-		helper.calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
-
-		helper.preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
-
+	@isTest static void test_method_two() {
+		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
+		tlpp.displayPerformancePart();
+		System.assert(tlpp.getQuoteFields() != null);
+		System.assert(tlpp.getToroQuoteItemFields() != null);
+		System.assert(tlpp.getToroQuoteItemUpdatableFields() != null);
+		System.assert(tlpp.getToroQuoteItemSublineFields() != null);
+		System.assert(tlpp.getToroQuoteItemSublineUpdatableFields() != null);
+		System.assert(tlpp.getToroQuoteItemSummaryFields() != null);
+		tlpp.retrieveDemoPricingProgramOptions();
 	}
-
+	
 }

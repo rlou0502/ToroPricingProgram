@@ -2,8 +2,30 @@
 private class ToroGenModelBOMTest {
 
 	@TestSetup static void setupTestData() {
-		ToroTestData.loadTestData();
-		ToroTestData.loadQuoteTestData();
+		insert new REVVY__MnLifeCycle__c(
+            Name                   = 'Contract - NDA Lifecycle Configuration'
+            , REVVY__Object__c     = 'MnContract__c'
+            , REVVY__RecordType__c = 'SalesContract'
+            , REVVY__Status__c     = 'Active'
+        );
+
+        Account account = new Account(
+            Name                = 'TestAccount'
+            , BillingStreet     = '1600 Seaport Boulevard, Suite 400'
+            , BillingCity       = 'Redwood City'
+            , BillingState      = 'California'
+            , BillingPostalCode = '94063'
+            , BillingCountry    = 'United States'
+        );
+        insert account;
+
+        Opportunity opportunity = new Opportunity(
+            Name        = 'TestOpportunity'
+            , closeDate = System.Today().addDays(30)
+            , stageName = 'Prospecting'
+            , AccountId = account.Id
+        );
+        insert opportunity;
 	}
 
 	@isTest static void test_gen_bom() {
