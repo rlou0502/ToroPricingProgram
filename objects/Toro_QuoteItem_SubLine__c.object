@@ -87,6 +87,11 @@
         <label>DNet Field Set</label>
     </fieldSets>
     <fieldSets>
+        <fullName>GSA_Quote_SubLine_Cols</fullName>
+        <description>Used for GSA corporate and base contracts.</description>
+        <label>GSA Quote SubLine Cols</label>
+    </fieldSets>
+    <fieldSets>
         <fullName>Large_Package_Price_Program_Quote_SubLin</fullName>
         <description>Pricing Program</description>
         <displayedFields>

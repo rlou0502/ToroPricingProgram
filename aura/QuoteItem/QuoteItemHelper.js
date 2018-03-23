@@ -197,11 +197,15 @@
                     cellText.appendChild(tableDataNode);
                 } else if(field.type.toLowerCase() === 'percent') {
                    if(sObj[field.fieldPath] != undefined) {
-                       cellText.innerHTML=parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); ; 
+                       cellText.innerHTML=parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
                     } 
                 } else if(field.type.toLowerCase() === 'string') {
-                    cellText.innerHTML = sObj[field.fieldPath];
-                    cellText.title=sObj[field.fieldPath];
+                    var dispVal = sObj[field.fieldPath];
+                    if(field.fieldPath=="PricingMethodValue__c") {
+                    	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});    
+                    }
+                    cellText.innerHTML = dispVal;
+                    cellText.title=dispVal;
                 }              
             }
             tableData.appendChild(cellText);

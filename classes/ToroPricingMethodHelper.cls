@@ -97,7 +97,7 @@ public with sharing class ToroPricingMethodHelper {
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;										
 				} 
-				qi.Off_MSRP__c = (1 - qi.Award_Price__c/qi.MSRP_Price__c)*100;
+				qi.Off_MSRP__c = (1 - CMnQuoteUtil.defaultDecimal(qi.Award_Price__c)/qi.MSRP_Price__c)*100;
 				extDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item ' + qi.Product_Name__c + ' -- ' + qi.Product_Name__c + '% off msrp=' + qi.Off_MSRP__c);
