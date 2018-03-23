@@ -80,5 +80,7 @@ private class ToroPricingProgramLineProductSelectTest {
 		// add a product
 		controller.dummyHeader.SelectProduct__c = [SELECT Revvy__Id__c FROM Revvy__MnCatalogNode__c WHERE Revvy__Id__c = :controller.toBeDeleted].Revvy__Id__c;
 		controller.addProduct();
+		pricingProgramLine = [SELECT ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
+		System.assert(pricingProgramLine.ApplicableProducts__c.contains(controller.dummyHeader.SelectProduct__c));
 	}
 }
