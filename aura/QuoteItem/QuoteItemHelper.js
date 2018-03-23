@@ -34,6 +34,7 @@
             if(listenMSRPChange) {
             	var originalVal = event.currentTarget.dataset.originalvalue;
                 var oldValue = event.currentTarget.dataset.oldvalue;
+                debugger;
                 
                 var newVal = parseFloat(newVal);
                 var origVal = parseFloat(originalVal);
@@ -55,6 +56,12 @@
                     curObj.focus();
                     return false;
                 } else {
+                    var elms =event.currentTarget.closest("tr").querySelectorAll("input[type=text]");
+                    for(var i = 0; i < elms.length; i++) {
+                        if(elms[i] != event.currentTarget) {
+                            elms[i].dataset.overridden = false;    
+                        }    
+                    }
                     curObj.dataset.overridden="true";
                 } 
             } else {

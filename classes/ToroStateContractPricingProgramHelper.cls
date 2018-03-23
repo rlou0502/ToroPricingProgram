@@ -71,7 +71,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					} else {
 						if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
 							qi.Off_MSRP__c = (1-(qi.Award_Price__c/qi.MSRP_Price__c))*100;	
-							qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
+							//qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
 						}
 					}
 					qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c.setScale(4));
