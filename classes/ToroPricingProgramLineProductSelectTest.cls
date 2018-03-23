@@ -76,5 +76,9 @@ private class ToroPricingProgramLineProductSelectTest {
 			}
 		}
 		System.assert(!containsDeletedProduct);
+
+		// add a product
+		controller.dummyHeader.SelectProduct__c = [SELECT Revvy__Id__c FROM Revvy__MnCatalogNode__c WHERE Revvy__Id__c = :controller.toBeDeleted].Revvy__Id__c;
+		controller.addProduct();
 	}
 }

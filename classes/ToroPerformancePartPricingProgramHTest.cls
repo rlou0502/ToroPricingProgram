@@ -12,16 +12,17 @@ private class ToroPerformancePartPricingProgramHTest {
 		System.assert(tlpp.getToroQuoteItemFields() != null);
 		System.assert(tlpp.getToroQuoteItemUpdatableFields() != null);
 		System.assert(tlpp.getToroQuoteItemSublineFields() != null);
-		System.assert(tlpp.getToroQuoteItemSublineUpdatableFields() != null);
+		//System.assert(tlpp.getToroQuoteItemSublineUpdatableFields() != null);
 		System.assert(tlpp.getToroQuoteItemSummaryFields() != null);
 	}
 
 	@isTest static void test_calculate_rebate_margin_impl() {
+		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
-		REVVY__MnQuote__c quote = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1];
-		final String priceProgramExternalId = 'STILargePackageProgram';
-		final String priceMethod = '% OF DNET';
-		List<Revvy__MnStrategy4__c> quoteItemWrapperList = new List<Revvy__MnStrategy4__c>();
-		List<Revvy__MnStrategy4__c> result = tlpp.calculateRebateMarginImpl(quote.Id, priceProgramExternalId, priceMethod, quoteItemWrapperList);
+		tlpp.performancePartFlag=true;
+		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
+		ToroPricingProgramData ppd = new ToroPricingProgramData('GreenwayGolf;Standard');
+		tlpp.initialize(quote.Id);
+		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
 	}
 }

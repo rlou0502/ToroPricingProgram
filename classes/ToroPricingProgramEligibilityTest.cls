@@ -52,6 +52,7 @@ private class ToroPricingProgramEligibilityTest {
 		List<sObject> eligilibility = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
 		*/
 		ToroTestData.loadTestData();
+		ToroTestData.loadQuoteTestData();
 
 	}
 
@@ -73,11 +74,12 @@ private class ToroPricingProgramEligibilityTest {
     	for(Revvy__MnStrategy1__c pp : pps) {
     		system.debug(logginglevel.info, '------pricing program =' + pp);
     	}
-
-    	REVVY__MnPriceList__c pricelist = new REVVY__MnPriceList__c(Name='Test', REVVY__Segment__c='General', REVVY__Currency__c='USD', Revvy__Id__c='General', Revvy__Status__c='Active' );
-    	insert pricelist;
-    	Revvy__MnQuote__c q = new Revvy__MnQuote__c(Revvy__Account__c = customer.Id, REVVY__Segment__c='General',  currency2__c='USD_USD');
-    	insert q;
+		
+		Revvy__MnQuote__c q = [select Id from Revvy__MnQuote__c limit 1];
+    	//REVVY__MnPriceList__c pricelist = new REVVY__MnPriceList__c(Name='Test', REVVY__Segment__c='General', REVVY__Currency__c='USD', Revvy__Id__c='General', Revvy__Status__c='Active' );
+    	//insert pricelist;
+    	//Revvy__MnQuote__c q = new Revvy__MnQuote__c(Revvy__Account__c = customer.Id, REVVY__Segment__c='General',  currency2__c='USD_USD');
+    	//insert q;
     	pps = ToroPricingProgramEligibility.retrievePricingProgramsForQuote(q.Id);
     	for(Revvy__MnStrategy1__c pp : pps) {
     		system.debug(logginglevel.info, '111------pricing program =' + pp);
