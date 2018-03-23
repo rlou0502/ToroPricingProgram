@@ -163,7 +163,7 @@
                 }
                 tableDataNode.className += " sfdcid-"+sObj["Id"];
                 tableDataNode.dataset.fieldname=field.fieldPath;
-                tableDataNode.dataset.overridden="false";
+                //tableDataNode.dataset.overridden="false";
                 //tableDataNode.className += " " + field.type.toLowerCase() + "-" + field.fieldPath;
                 if(field.type.toLowerCase() === 'boolean') {
                     tableDataNode.type='checkbox';
