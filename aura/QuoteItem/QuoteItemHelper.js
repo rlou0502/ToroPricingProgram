@@ -39,8 +39,18 @@
                 var origVal = parseFloat(originalVal);
                 console.log('-------------newVal =' + newVal);
                 console.log('-------------oldVal =' + oldValue);
-                if(newVal < origVal) {
-                    alert("Please enter a value higher than " + origVal);
+                var validAdjustment = true;
+                var msg = '';
+                if(fieldName == "PricingMethodValue__c"){
+                    validAdjustment = newVal >= origVal;
+                    msg = 'Please enter a value higher than ';
+                } else if(fieldName == "Award_Price__c") {
+                    validAdjustment = newVal <= origVal;
+                    msg = 'Please enter a value lower than ';
+                }
+                    
+                if(!validAdjustment) {
+                    alert(msg + origVal);
                     event.currentTarget.value=oldValue;
                     curObj.focus();
                     return false;
