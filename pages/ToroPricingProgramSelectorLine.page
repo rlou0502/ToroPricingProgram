@@ -22,12 +22,12 @@ var cleanSelectProductBox = function() {
          	</apex:pageBlockSectionItem>
          	<apex:pageBlockSectionItem >
          		<apex:outputLabel value="Select all products" />
-         		<apex:inputcheckbox value="{!selectAllProducts}">
+         		<apex:inputcheckbox value="{!allProductsSelected}">
 					<apex:actionSupport event="onclick" reRender="messageBox" action="{!toggleAllProducts}" rerender="selectedProduct"/>
 				</apex:inputcheckbox>
          	</apex:pageBlockSectionItem>
  		</apex:pageBlockSection>
-		<apex:pageBlockSection title="Selected Product" columns="1" id="selectedProduct">
+		<apex:pageBlockSection title="Selected Product(s)" columns="1" id="selectedProduct" rendered="{!IF(allProductsSelected,false, true)}">
 			<apex:pageBlockTable value="{!selectedProducts}" var="selProd">
 				<apex:column >
 					<apex:facet name="header">Del</apex:facet>

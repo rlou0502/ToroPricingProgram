@@ -13,24 +13,21 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	}
 
 	private ApexPages.StandardController ctrl;
-	public Id recordId 										{ get; set; }
-	public List<Wrapper> selectedProducts 					{ get; set; }
+	public Id recordId 								{ get; set; }
+	public List<Wrapper> selectedProducts 			{ get; set; }
 
-	public String toBeDeleted 								{ get; set; }
-	public String previousSelectedProduct 					{ get; set; }
+	public String toBeDeleted 						{ get; set; }
+	public String previousSelectedProduct 			{ get; set; }
 
-	public Boolean selectAllProducts 						{ get; set; }
-	public Revvy__MnStrategy1__c dummyHeader 				 { get; set; }
-	public Revvy__MnStrategy2__c pricingProgramLine 	{ get; set; }
-
-	public REVVY__MnCatalogNode__c selectedProduct 			{ get; set; }
+	public Boolean allProductsSelected 				{ get; set; }
+	public Revvy__MnStrategy1__c dummyHeader 		{ get; set; }
+	public Revvy__MnStrategy2__c pricingProgramLine { get; set; }
 
 	/**
 	 *
-	 * description
+	 * constructor
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  controller    standard controller for Revvy__MnStrategy2__c (Pricing Program Subline)
 	 */
 	public ToroPricingProgramLineProductSelector(ApexPages.StandardController controller) {
 		ctrl             = controller;
@@ -41,10 +38,8 @@ public with sharing class ToroPricingProgramLineProductSelector {
 
 	/**
 	 *
-	 * description
+	 * initializes the pages with selected products
 	 *
-	 * @param  name    description
-	 * @return return_type
 	 */
 	public void loadPageVariables() {
 		selectedProducts.clear();
@@ -62,11 +57,11 @@ public with sharing class ToroPricingProgramLineProductSelector {
 													// in input field in visualforce
 
 		if (pricingProgramLine.ApplicableProducts__c == 'All') {
-			selectAllProducts = true;
+			allProductsSelected = true;
 		}
 
 		else if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {
-			selectAllProducts = false;
+			allProductsSelected = false;
 			final List<String> productIds = pricingProgramLine.ApplicableProducts__c.split(',');
 			List<REVVY__MnCatalogNode__c> catalogNodes = [
 				SELECT
@@ -82,7 +77,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	}
 
 	public PageReference toggleAllProducts() {
-		if (selectAllProducts) {
+		if (allProductsSelected) {
 			previousSelectedProduct = pricingProgramLine.ApplicableProducts__c;
 			pricingProgramLine.ApplicableProducts__c = 'All';
 			update pricingProgramLine;
@@ -99,10 +94,9 @@ public with sharing class ToroPricingProgramLineProductSelector {
 
 	/**
 	 *
-	 * description
+	 * delete the product by Revvy__Id__c "toBeDeleted"
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @return refresh the page
 	 */
 	public PageReference deleteProduct() {
 		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)){
@@ -120,10 +114,9 @@ public with sharing class ToroPricingProgramLineProductSelector {
 
 	/**
 	 *
-	 * description
+	 * redirect back to pricing program line
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @return pricing program line detail page
 	 */
 	public PageReference cancel() {
 		PageReference pg = new PageReference('/' + recordId);
@@ -133,31 +126,8 @@ public with sharing class ToroPricingProgramLineProductSelector {
 
 	/**
 	 *
-	 * description
+	 * add a product specified by SFID (dummyHeader.SelectProduct__c)
 	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public PageReference saveSelectedProduct() {
-		REVVY__MnCatalogNode__c p = [SELECT Name, REVVY__Id__c FROM REVVY__MnCatalogNode__c WHERE Id = :dummyHeader.SelectProduct__c];
-		Set<String> newProdSet = new Set<String>{p.REVVY__Id__c};
-		for (Wrapper w : selectedProducts) {
-			if (w.selected) {
-				newProdSet.add(w.prod);
-			}
-		}
-		List<String> newProdList = new List<String>(newProdSet);
-		pricingProgramLine.ApplicableProducts__c = String.join(newProdList, ',');
-		update pricingProgramLine;
-		return cancel();
-	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
 	 */
 	public void addProduct() {
 		List<REVVY__MnCatalogNode__c> products = [SELECT Name, REVVY__Id__c FROM REVVY__MnCatalogNode__c WHERE Id = :dummyHeader.SelectProduct__c];
@@ -174,39 +144,5 @@ public with sharing class ToroPricingProgramLineProductSelector {
 
 		update pricingProgramLine;
 		loadPageVariables();
-	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public void deleteItems() {
-		Set<String> newProdSet = new Set<String>();
-		for (Wrapper w : selectedProducts) {
-			if (!w.selected) {
-				newProdSet.add(w.prod);
-			}
-		}
-
-		List<String> newProdList = new List<String>(newProdSet);
-		pricingProgramLine.ApplicableProducts__c = String.join(newProdList, ',');
-		update pricingProgramLine;
-		loadPageVariables();
-	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public PageReference allProducts() {
-		pricingProgramLine.ApplicableProducts__c = 'All';
-		update pricingProgramLine;
-		return cancel();
 	}
 }
