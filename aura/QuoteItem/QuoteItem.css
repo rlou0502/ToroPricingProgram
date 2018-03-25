@@ -20,6 +20,10 @@
 .THIS th.Product_Name__c {
     width:20%;
 }
+.THIS th.Product_Id__c {
+    background-color : green;
+    width:80px;
+}
 .THIS input[type=text] {
     width:100%;
 }
@@ -51,4 +55,7 @@
 .THIS .chevron.left:before {
 	left: 0.25em;
 	transform: rotate(-135deg);
+}
+.THIS th.chevron-cell {
+    width:40px;
 }

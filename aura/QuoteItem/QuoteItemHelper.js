@@ -236,6 +236,7 @@
         headerRow.className += "slds-text-heading--label ";
         summaryFields.forEach(function(f) { 
             var hearderRowCell = document.createElement('th');
+            hearderRowCell.className += f.fieldPath;
             if(f.type.toLowerCase() === 'boolean') {
             	hearderRowCell.className += ' type-'+f.type;	    
             }  
@@ -339,7 +340,7 @@
         headerRow.className += "slds-text-heading--label";
         sublineFields.forEach(function(f) { 
             var hearderRowCell = document.createElement('th');
-            hearderRowCell.className += ' slds-cell-wrap';
+            hearderRowCell.className += ' slds-cell-wrap ' + f.fieldPath;
             if(f.type.toLowerCase() === 'boolean') {
             	hearderRowCell.className += ' type-'+f.type;	    
             }  
@@ -347,7 +348,7 @@
             var cellText = document.createElement('div');
             if(f.type.toLowerCase() === 'string') {
             	cellText.className += " " + f.fieldPath; 
-                hearderRowCell.className += " " + f.fieldPath;
+                
             }
             
             //cellText.className += " slds-truncate";
