@@ -194,7 +194,7 @@
                     }  
                 } else if(field.type.toLowerCase() === 'currency') {
                     if(sObj[field.fieldPath]!= undefined) {
-                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
+                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
                     }
                 } else if(field.type.toLowerCase() === 'boolean') {
                     var tableDataNode = document.createElement('input');
