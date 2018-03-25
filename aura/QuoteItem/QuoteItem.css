@@ -38,6 +38,10 @@
 .THIS th.Product_Name__c {
     width:20%;
 }
+
+.THIS #QuoteItem th.Product_Name__c {
+    width:19%;
+}
 .THIS th.Product_Id__c {
     background-color : green;
     width:80px;

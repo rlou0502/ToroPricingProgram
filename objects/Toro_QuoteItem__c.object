@@ -635,7 +635,7 @@
         <fullName>Award_of_DN__c</fullName>
         <description>Store percentage entered by user. This value will be used in calculating award price when price method is &quot;% of DNet&quot;</description>
         <externalId>false</externalId>
-        <label>Award % of DN</label>
+        <label>% of DNet</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
