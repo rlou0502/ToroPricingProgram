@@ -5,7 +5,7 @@
     },
     
     onRender: function(cmp, event, helper) {  
-        /*
+        
         var cellWidths = [];
         var headerCells = document.querySelectorAll("table#quote-item-table tr#QuoteItem th");
         for(var i=0; i < headerCells.length; i++) {
@@ -15,9 +15,12 @@
         for(var i=0; i < summaryHeaderCells.length; i++) {
             console.log('---------------quote item--onRender set cell width =' + cellWidths[i+1]);
         	summaryHeaderCells[i].style.width=cellWidths[i+1];    
+            if(i == summaryHeaderCells.length-1) {
+            	summaryHeaderCells[i].style.width='100%';	    
+            }
         }
         console.log('---------------quote item--onRender =' + cellWidths);
-        */
+        
     },
     toggleChevron : function(cmp, event, helper) {
         var isCollapsed = cmp.get("v.IsCollapsed");
