@@ -16,7 +16,25 @@
 .THIS table.sublnes-table th {
     background-color : #ECECEC;
 }
-  
+
+.THIS #QuoteItemSummary table {
+	margin-left : 16px;    
+}
+.THIS #QuoteItemSummary table th.Product_Id__c {
+	padding-left : 10px;    
+}
+.THIS #QuoteItemSummary table td.Product_Id__c {
+	padding-left : 10px;    
+}
+.THIS #QuoteItemSubLine table {
+	margin-left : 16px;    
+}
+.THIS #QuoteItemSubLine table th.Product_Id__c {
+	padding-left : 10px;    
+}
+.THIS #QuoteItemSubLine table td.Product_Id__c {
+	padding-left : 10px;    
+}
 .THIS th.Product_Name__c {
     width:20%;
 }

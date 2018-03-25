@@ -140,6 +140,7 @@
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
             var tableData = document.createElement('td');
+            tableData.className += field.fieldPath;
             var cellText = document.createElement('div');
             cellText.className += " slds-truncate slds-cell-wrap";
             var freeze = sObj["FreezePricing__c"];
@@ -804,7 +805,6 @@
                     component.set('v.fields', fields);
                     component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
-                    debugger;
                     component.set('v.quoteItems', retRecords);
                     component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
                     component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
@@ -825,6 +825,7 @@
                     component.set('v.sublineMap', sublineMap);
                     component.set('v.quoteItemMap', quoteItemMap);
                     self.hideSpinner();
+                    
                     var items = document.getElementById("quoteItems");
                     self.cleanInnerNodes(items);
                     self.renderQuoteItems(component);
