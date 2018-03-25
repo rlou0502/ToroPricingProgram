@@ -429,6 +429,14 @@
             for(var index=0; index < nodeList.length; index++ ) {
                 nodeList[index].style.display=collapsibles[index];
             }
+            debugger;
+            var qiHeaderRow = document.querySelector("#quote-item-table #QuoteItem");
+            var colWidths=[];
+            for (var j = 0; j < qiHeaderRow.cells.length;  j++) {
+                var col = qiHeaderRow.cells[j];
+            	colWidths[j] = col.offsetWidth;    
+   			} 
+            console.log('colWidths=' + colWidths);
             
  /*           
             //if(listenMSRPChange) {
