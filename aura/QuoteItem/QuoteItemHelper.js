@@ -137,6 +137,7 @@
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
+        
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
             var tableData = document.createElement('td');
@@ -424,19 +425,16 @@
             }
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
             self.renderQuoteItemPricingProgramSection(component, fields, qiId); 
+            debugger;
             var nodeList = document.getElementsByClassName("collapsible");
             var collapsibles = component.get('v.collapsibles');
             for(var index=0; index < nodeList.length; index++ ) {
                 nodeList[index].style.display=collapsibles[index];
-            }
-            debugger;
-            var qiHeaderRow = document.querySelector("#quote-item-table #QuoteItem");
-            var colWidths=[];
-            for (var j = 0; j < qiHeaderRow.cells.length;  j++) {
-                var col = qiHeaderRow.cells[j];
-            	colWidths[j] = col.offsetWidth;    
-   			} 
-            console.log('colWidths=' + colWidths);
+            }            
+            
+            //console.log('----' + document.querySelector("tr#QuoteItem th.Product_Name__c").offsetWidth);
+            
+            
             
  /*           
             //if(listenMSRPChange) {
@@ -449,6 +447,7 @@
             //}
 */            
         });
+        
         self.hideSpinner();
         /*
         var qiId = component.get("v.selectedQuoteItem");
@@ -505,6 +504,7 @@
                     var items = document.getElementById("quoteItems");
                     self.cleanInnerNodes(items);
         			self.renderQuoteItems(component);
+                    
                     //var qiId = component.get("v.selectedQuoteItem");
                     //if(qiId){
                     //	self.handleRowClick(component, qiId);

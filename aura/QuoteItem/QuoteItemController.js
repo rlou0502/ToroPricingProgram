@@ -3,7 +3,11 @@
         //console.log('QuoteHeader.init');
         helper.populateQuoteItems(cmp);
     },
+    doneRendering :function(cmp, event, helper) {
+    	console.log('---------------quote doneRendering');    
+    },
     onRender: function(cmp, event, helper) {
+        console.log('onRender----' + document.querySelector("tr#QuoteItem th.Product_Name__c").offsetWidth);
         console.log('---------------quote item--onRender');
     },
     toggleChevron : function(cmp, event, helper) {
