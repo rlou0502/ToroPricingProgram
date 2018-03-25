@@ -3,12 +3,21 @@
         //console.log('QuoteHeader.init');
         helper.populateQuoteItems(cmp);
     },
-    doneRendering :function(cmp, event, helper) {
-    	console.log('---------------quote doneRendering');    
-    },
-    onRender: function(cmp, event, helper) {
-        console.log('onRender----' + document.querySelector("tr#QuoteItem th.Product_Name__c").offsetWidth);
-        console.log('---------------quote item--onRender');
+    
+    onRender: function(cmp, event, helper) {  
+        /*
+        var cellWidths = [];
+        var headerCells = document.querySelectorAll("table#quote-item-table tr#QuoteItem th");
+        for(var i=0; i < headerCells.length; i++) {
+            cellWidths[i] = headerCells[i].offsetWidth + 'px';
+        }
+        var summaryHeaderCells = document.querySelectorAll("tr#QuoteItemSummary th");
+        for(var i=0; i < summaryHeaderCells.length; i++) {
+            console.log('---------------quote item--onRender set cell width =' + cellWidths[i+1]);
+        	summaryHeaderCells[i].style.width=cellWidths[i+1];    
+        }
+        console.log('---------------quote item--onRender =' + cellWidths);
+        */
     },
     toggleChevron : function(cmp, event, helper) {
         var isCollapsed = cmp.get("v.IsCollapsed");
