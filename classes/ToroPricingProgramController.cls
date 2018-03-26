@@ -622,6 +622,30 @@ public class ToroPricingProgramController {
 	    		}	
     		}
 		}
+		for ( Integer i = rs.fieldSetSummaryMembers.size() - 1; i >= 0; --i ) {
+			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+    			rs.fieldSetSummaryMembers.get(i).label = pricingMethod;	
+    		}
+    		if(string.isNotBlank(pricingMethod)) {
+				if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+					if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Award_of_DN__c')) {
+						rs.fieldSetSummaryMembers.remove(i);	
+					}
+	    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Off_MSRP__c')) {
+						rs.fieldSetSummaryMembers.remove(i);	
+					}
+	    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
+	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
+						rs.fieldSetSummaryMembers.remove(i);	
+					}
+	    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {	
+	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
+						rs.fieldSetSummaryMembers.remove(i);	
+					}	
+	    		}	
+    		}
+		}
 		system.debug('***************** 1   fieldset size =' + rs.fieldSetSubMembers.size());
 		system.debug('***************** 1   pm' + pricingMethod);
 		for ( Integer i = rs.fieldSetSubMembers.size() - 1; i >= 0; --i ) {

@@ -24,6 +24,19 @@
                 }
             }    
         }
+        var sublineHeaderRows = document.querySelectorAll("tr#QuoteItemSubLine");
+        for(var j =0; j < sublineHeaderRows.length; j++) {
+        	var sublineHeaderCells = sublineHeaderRows[j].querySelectorAll("th");
+            for(var i=0; i < sublineHeaderCells.length; i++) {
+                console.log('---------------quote item--onRender set cell width =' + i);
+                if(cellWidths[i+1]) {
+                    sublineHeaderCells[i].style.width=cellWidths[i+1];    
+                    if((i == sublineHeaderCells.length-1) && (sublineHeaderCells.length != cellWidths.length-1) ) {
+                        sublineHeaderCells[i].style.width='100%';	    
+                    }
+                }
+            }    
+        }
         
         console.log('---------------quote item--onRender =' + cellWidths);
         

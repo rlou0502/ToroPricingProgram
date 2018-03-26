@@ -225,7 +225,17 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Placeholder1__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Toro_Total_Extended_MSRP_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Placeholder2__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -235,7 +245,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Award_Price__c</field>
+            <field>Placeholder3__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Total_Award__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -261,11 +276,6 @@
         </displayedFields>
         <displayedFields>
             <field>Off_MSRP__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Blend_Of_DN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -325,6 +335,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Toro_Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -350,6 +365,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Exc_Rbt__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Toro_Gross_Profit_Percent__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -366,6 +386,11 @@
         </displayedFields>
         <displayedFields>
             <field>Toro_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Rebate_as_a_of_DN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
