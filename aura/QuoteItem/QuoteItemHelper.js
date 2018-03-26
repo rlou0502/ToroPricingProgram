@@ -22,7 +22,6 @@
         toastEvent.fire();
     },
     onUpdatableValueChange: function( event, component) {
-        debugger;
         var self=this;
         var listenMSRPChange = component.get('v.listenMSRPChange');
         var fieldName = event.currentTarget.dataset.fieldname;
@@ -34,8 +33,6 @@
             if(listenMSRPChange) {
             	var originalVal = event.currentTarget.dataset.originalvalue;
                 var oldValue = event.currentTarget.dataset.oldvalue;
-                debugger;
-                
                 var newVal = parseFloat(newVal);
                 var origVal = parseFloat(originalVal);
                 console.log('-------------newVal =' + newVal);
@@ -425,7 +422,6 @@
             }
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
             self.renderQuoteItemPricingProgramSection(component, fields, qiId); 
-            debugger;
             var nodeList = document.getElementsByClassName("collapsible");
             var collapsibles = component.get('v.collapsibles');
             for(var index=0; index < nodeList.length; index++ ) {
