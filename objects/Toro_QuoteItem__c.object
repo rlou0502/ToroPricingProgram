@@ -220,22 +220,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Award_of_DN__c</field>
+            <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_DNet_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Off_MSRP__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Extended_DNet_Price__c</field>
+            <field>MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -245,7 +235,32 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Toro_Total_Extended_MSRP_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Extended_DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Extended_Award_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -265,17 +280,27 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Off_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Award_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Rebate_as_a_of_DN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Toro_Gross_Profit_Value__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Rebate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -305,27 +330,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Award_of_DN__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Blend_Of_DN__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Total_Extended_DNet_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Toro_Total_Extended_MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_Award_Price__c</field>
+            <field>Toro_Total_Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -345,7 +355,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Total_Gross_Profit_Value__c</field>
+            <field>Toro_Total_Extended_Award_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -355,12 +365,32 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Rebate_as_a_of_DN__c</field>
+            <field>Off_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Blend_Of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Award_of_DN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Toro_Total_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Rebate_as_a_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Total_Gross_Profit_Value__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1182,7 +1212,7 @@
     <fields>
         <fullName>Toro_Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>GP%</label>
+        <label>Toro GP%</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1307,7 +1337,7 @@
     <fields>
         <fullName>Toro_Total_Extended_Award_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Total Extended Award</label>
+        <label>Toro Award</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1327,7 +1357,7 @@
     <fields>
         <fullName>Toro_Total_Extended_MSRP_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Total Ext MSRP</label>
+        <label>Ext MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1379,7 +1409,7 @@
         <fullName>Total_Gross_Profit_Value__c</fullName>
         <description>This is a blended GP$</description>
         <externalId>false</externalId>
-        <label>GP $</label>
+        <label>Toro GP $</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

@@ -44,6 +44,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>REVVY__Current_Status__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>REVVY__Description__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -230,7 +235,7 @@
         </availableFields>
         <description>List of fields that will show up in the quote header</description>
         <displayedFields>
-            <field>REVVY__Current_Status__c</field>
+            <field>Toro_Total_DNet__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -245,27 +250,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_DNet__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Blended_Percent_of_DN__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Toro_Total_Quote_Gross_Profit_Percent__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Total_Quote_Gross_Profit__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Total_Quote_Rebate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -678,7 +663,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Rollup_Award_Price__c</fullName>
         <externalId>false</externalId>
-        <label>Toro Award Price</label>
+        <label>Toro Award</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -740,7 +725,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Total_DNet__c</fullName>
         <externalId>false</externalId>
-        <label>Toro Total DNet</label>
+        <label>Ext DNet</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -752,7 +737,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Total_Quote_Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>Total GP %</label>
+        <label>Toro GP %</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -764,7 +749,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Total_Quote_Gross_Profit__c</fullName>
         <externalId>false</externalId>
-        <label>Total GP $</label>
+        <label>Toro GP $</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
