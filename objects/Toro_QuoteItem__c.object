@@ -220,11 +220,6 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>PricingMethodValue__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -235,17 +230,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_MSRP_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>DNet_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Total_Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -716,7 +701,7 @@
     <fields>
         <fullName>DNet_Price__c</fullName>
         <externalId>false</externalId>
-        <label>DNet Price</label>
+        <label>DNet</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
