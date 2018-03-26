@@ -114,6 +114,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>REVVY__OneTimeTotalAfterAdjustmentDisplay_F__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>REVVY__One_Time_Line_Discount_Absolute__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -235,12 +240,17 @@
         </availableFields>
         <description>List of fields that will show up in the quote header</description>
         <displayedFields>
+            <field>Ext_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Toro_Total_DNet__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>REVVY__OneTimeTotalAfterAdjustmentDisplay_F__c</field>
+            <field>Total_Award__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
