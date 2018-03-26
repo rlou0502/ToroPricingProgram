@@ -20,7 +20,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	public String previousSelectedProduct 					{ get; set; }
 
 	public Boolean selectAllProducts 						{ get; set; }
-	public Toro_PricingProgram__c dummyHeader 				 { get; set; }
+	public Toro_PricingProgram__c dummyHeader 				{ get; set; }
 	public Toro_PricingProgramLine__c pricingProgramLine 	{ get; set; }
 
 	public REVVY__MnCatalogNode__c selectedProduct 			{ get; set; }
