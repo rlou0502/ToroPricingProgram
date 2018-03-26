@@ -18,7 +18,7 @@
                 console.log('---------------quote item--onRender set cell width =' + i);
                 if(cellWidths[i+1]) {
                     summaryHeaderCells[i].style.width=cellWidths[i+1];    
-                    if(i == summaryHeaderCells.length-1) {
+                    if((i == summaryHeaderCells.length-1) && (summaryHeaderCells.length != cellWidths.length-1) ) {
                         summaryHeaderCells[i].style.width='100%';	    
                     }
                 }

@@ -6,7 +6,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	}
 
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields();
@@ -19,9 +19,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Quote_SubLine_Updatable_Co.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();
 	}
-
+//Large_Package_Quote_Line_Cols
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		if (Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
@@ -410,22 +410,22 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 		if (containsOutCross && quote.Toro_Total_DNet__c < pricingProgram.OutCrossThreshold__c) {
 			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '. It is ' + quote.Toro_Total_DNet__c + ').';
+			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
 		}
 
 		else if (!containsOutcross && quote.Toro_Total_DNet__c < pricingProgram.MinimumThreshold__c) {
 			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '. It is ' + quote.Toro_Total_DNet__c + ').';
+			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
 		}
 
 		if (quote.Toro_Blended_Percent_of_DN__c < pricingProgram.Blended_DNet_Threshold__c) {
 			needsApproval = true;
-			approvalMessage = ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%. (It is ' + quote.Toro_Blended_Percent_of_DN__c + ').';
+			approvalMessage = ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
 		}
 
 		if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
 			needsApproval = true;
-			approvalMessage += ' Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s). (This quote contains ' + numberOfTractionUnits + ').';
+			approvalMessage += ' Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s).';
 		}
 
 		if (needsApproval) {
