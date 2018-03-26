@@ -234,9 +234,9 @@ public class ToroPricingProgramController {
 	    			qi.Award_of_DN__c = Double.valueOf(value);
 	    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
 	    			qi.Off_MSRP__c = Double.valueOf(value);
-	    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 	    			qi.Toro_Gross_Profit_Percent__c = Double.valueOf(value);
-	    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 	    			qi.Award_Price__c = decimal.valueOf(value);		
 	    		}
 	    		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -246,9 +246,9 @@ public class ToroPricingProgramController {
 			    			qis.Percent_of_DNet__c = Double.valueOf(value);
 			    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
 			    			qis.Percent_Off_MSRP__c = Double.valueOf(value);
-			    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
+			    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 			    			qis.Gross_Profit_Percent__c = Double.valueOf(value);
-			    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {
+			    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 			    			qis.Award_Price__c = decimal.valueOf(value);		
 			    		}
 					}
@@ -411,11 +411,11 @@ public class ToroPricingProgramController {
 		    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Off_MSRP__c')) {
 							rs.fieldSetMembers.remove(i);	
 						}
-		    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pm)) {
+		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {
 		    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
 							rs.fieldSetMembers.remove(i);	
 						}
-		    		} else if ('Total Award Price'.equalsIgnoreCase(pm)) {	
+		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {	
 		    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 							rs.fieldSetMembers.remove(i);	
 						}	
@@ -438,11 +438,11 @@ public class ToroPricingProgramController {
 		    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Percent_Off_MSRP__c')) {
 							rs.fieldSetSubMembers.remove(i);	
 						}
-		    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pm)) {
+		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {
 		    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Gross_Profit_Percent__c')) {
 							rs.fieldSetSubMembers.remove(i);	
 						}
-		    		} else if ('Total Award Price'.equalsIgnoreCase(pm)) {	
+		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {	
 		    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 							rs.fieldSetSubMembers.remove(i);	
 						}	
@@ -599,6 +599,9 @@ public class ToroPricingProgramController {
     	rs.demoPricingProgramOptions = pp.retrieveDemoPricingProgramOptions();
     	
     	for ( Integer i = rs.fieldSetMembers.size() - 1; i >= 0; --i ) {
+    		if(rs.fieldSetMembers.get(i).fieldPath.startsWithIgnoreCase('PlaceHolder')) {
+    			rs.fieldSetMembers.get(i).label = '';	
+    		}
 			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
     			rs.fieldSetMembers.get(i).label = pricingMethod;	
     		}
@@ -611,11 +614,11 @@ public class ToroPricingProgramController {
 	    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Off_MSRP__c')) {
 						rs.fieldSetMembers.remove(i);	
 					}
-	    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 	    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
 						rs.fieldSetMembers.remove(i);	
 					}
-	    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {	
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {	
 	    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 						rs.fieldSetMembers.remove(i);	
 					}	
@@ -635,11 +638,11 @@ public class ToroPricingProgramController {
 	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Off_MSRP__c')) {
 						rs.fieldSetSummaryMembers.remove(i);	
 					}
-	    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
 						rs.fieldSetSummaryMembers.remove(i);	
 					}
-	    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {	
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {	
 	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 						rs.fieldSetSummaryMembers.remove(i);	
 					}	
@@ -661,11 +664,11 @@ public class ToroPricingProgramController {
 	    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Percent_Off_MSRP__c')) {
 						rs.fieldSetSubMembers.remove(i);	
 					}
-	    		} else if ('% of Gross Profit Margin'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 	    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Gross_Profit_Percent__c')) {
 						rs.fieldSetSubMembers.remove(i);	
 					}
-	    		} else if ('Total Award Price'.equalsIgnoreCase(pricingMethod)) {	
+	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {	
 	    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 						rs.fieldSetSubMembers.remove(i);	
 					}	
