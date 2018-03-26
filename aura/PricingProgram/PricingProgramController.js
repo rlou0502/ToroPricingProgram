@@ -23,6 +23,14 @@
         var quote=event.getParam("quote");
         quoteHeaderCmp.set("v.quote", quote);
     },
+    handleQuoteHeaderLoaded : function(component, event, helper) {
+    	var childCmp = component.find("cmpQuoteItem");
+        var pricingProgram=event.getParam("pricingProgram");
+        var pricingMethod=event.getParam("pricingMethod");
+        var performancePart=event.getParam("performancePart");
+        var setupFeePercent=event.getParam("setupFeePercent");
+        childCmp.calculate(pricingProgram, pricingMethod, setupFeePercent, setupFeePercent);
+    },
     saveAndClose: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();

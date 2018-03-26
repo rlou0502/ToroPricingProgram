@@ -54,6 +54,15 @@
                     component.set('v.selectedPricingMethod', retRecords[0]["Price_Method__c"]);
                     component.set('v.quote', retRecords[0]);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
+                    var cmpEvent = component.getEvent("QuoteHeaderLoadedEvent");
+                    cmpEvent.setParams({
+                        "pricingProgram" : retRecords[0]["Pricing_Program_Name__c"],
+                        "pricingMethod" : retRecords[0]["Price_Method__c"],
+                        "setupFeePercent" : retResponse.setupFee,
+                        "performancePart" : retResponse.displayPerformancePart
+                    });
+                    cmpEvent.fire();
+                    
                     //console.log(component.get('v.selectedPricingProgram'));
                     //console.log(component.get('v.selectedPricingMethod'));
                     /*
