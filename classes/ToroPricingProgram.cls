@@ -170,7 +170,7 @@ public abstract class ToroPricingProgram {
 		return quoteItemList;
 	}
 	public virtual List<Toro_QuoteItem__c> calculateExtendedFields(List<Toro_QuoteItem__c> quoteItemList) {
-		
+		decimal quoteMSRP=0;
 		decimal quoteDnet = 0;
 		decimal quoteAward = 0;
 		decimal quoteTotalAward =0;
@@ -181,14 +181,18 @@ public abstract class ToroPricingProgram {
 		decimal quoteTotalGP=0;
 		decimal quoteTotalRebate=0;
 		decimal quoteTotalDnetWOTppAllied = 0;
+        
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
 			qi.Toro_Total_Setup_Fees__c = 0;
 			decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-			//decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+			quoteTotalAward += extDnet * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 ;
+            qi.Total_Award__c = extDnet * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 ;
+            //Total_Award__c
 			//award price has been calculated in calling function
 			decimal extAward = CMnQuoteUtil.defaultDecimal(qi.Award_price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			decimal extMSRP = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+            quoteMSRP += extMSRP;
 			qi.Toro_Fee_Amount__c = CMnQuoteUtil.defaultDecimal(qi.Toro_Total_Extended_Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100;
 			decimal extFeeAmount = qi.Toro_Fee_Amount__c;
 			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;
@@ -205,9 +209,12 @@ public abstract class ToroPricingProgram {
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
 						qis.Toro_Extended_Qty__c = extQty;
 						qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));
-						decimal subExtDNet = CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c)* extQty;
+						quoteTotalAward += CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Percent_of_DNet__c)/100 * extQty;
+                        qi.Total_Award__c += CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Percent_of_DNet__c)/100 * extQty;
+                        decimal subExtDNet = CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c)* extQty;
 						decimal subExtAward = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * extQty;
 						decimal subExtMSRP = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * extQty;
+                        quoteMSRP += subExtMSRP;
 						qis.Toro_Extended_DNET_Price__c = subExtDNet;
 						qis.Toro_Extended_MSRP_Price__c = subExtMSRP;
 						qis.Toro_Extended_Award_Price__c = subExtAward;
@@ -245,7 +252,7 @@ public abstract class ToroPricingProgram {
 				qi.Total_Gross_Profit_Percent__c = qi.Total_Gross_Profit_Value__c/extAward*100;
 			}
 			system.debug('checking MSRP ext qi.Toro_Total_Extended_MSRP_Price__c=' + qi.Toro_Total_Extended_MSRP_Price__c);
-			quoteTotalAward 			+= qi.Toro_Total_Extended_Award_Price__c;
+			
 			quoteToroTotalAward       	+= qi.Toro_Total_Extended_Award_Price__c;
 			quoteTotalDNet              += qi.Toro_Total_Extended_DNet_Price__c;
 			quoteToroTotalDNet          += qi.Toro_Total_Extended_DNet_Price__c;
@@ -255,8 +262,8 @@ public abstract class ToroPricingProgram {
 			quoteTotalSetupFee          += qi.Toro_Total_Setup_Fees__c;
 
 		}
-		
-		quote.Toro_Rollup_Award_Price__c       = quoteTotalAward;
+		quote.Ext_MSRP__c                      = quoteMSRP;
+		quote.Toro_Rollup_Award_Price__c       = quoteToroTotalAward;
 		quote.Toro_Rollup_DNET__c              = quoteTotalDNet;
 		quote.Toro_Rollup_Setup_Fees__c        = quoteTotalSetupFee;
 		quote.Toro_Total_DNet__c               = quoteToroTotalDNet;
@@ -267,6 +274,7 @@ public abstract class ToroPricingProgram {
 
 
 		quote.Award_Price__c = quoteTotalAward;
+        quote.Total_Award__c = quoteTotalAward;
 		if(quote.Toro_Rollup_DNET__c != null && quote.Toro_Rollup_DNET__c != 0) {
 			quote.Toro_Blended_Percent_of_DN__c            = CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) / quote.Toro_Rollup_DNET__c*100;
 		}
