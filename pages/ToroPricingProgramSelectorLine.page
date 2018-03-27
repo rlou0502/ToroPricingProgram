@@ -25,28 +25,28 @@ var cleanSelectProductBox = function() {
          	</apex:pageBlockSectionItem>
          	<apex:pageBlockSectionItem >
          		<apex:outputLabel value="Select All" />
-         		<apex:inputcheckbox value="{!selectAllProducts}">
+         		<apex:inputcheckbox value="{!allProductsSelected}">
 					<apex:actionSupport event="onclick" action="{!toggleAllProducts}" rerender="SelectedProductsPanel"/>
 				</apex:inputcheckbox>
          	</apex:pageBlockSectionItem>
  		</apex:pageBlockSection>
 
 		<apex:outputPanel layout="none" id="SelectedProductsPanel">
-			<apex:pageBlockSection title="Selected Product(s)" columns="1" id="selectProductSection" rendered="{!NOT(selectAllProducts)}">
+			<apex:pageBlockSection title="Selected Product(s)" columns="1" id="selectProductSection" rendered="{!NOT(allProductsSelected)}">
 				<apex:pageBlockTable value="{!selectedProducts}" var="selProd">
 					<apex:column >
 						<apex:facet name="header">Del</apex:facet>
 						<apex:commandbutton image="/img/func_icons/remove12_on.gif" id="delete_this" reRender="SelectedProductsPanel" action="{!deleteProduct}">
-							<apex:param name="sku" value="{!selProd.prod}" assignTo="{!toBeDeleted}"/>
+							<apex:param name="sku" value="{!selProd.revvyId}" assignTo="{!toBeDeleted}"/>
 						</apex:commandbutton>
 					</apex:column>
 					<apex:column >
 						<apex:facet name="header">Name</apex:facet>
-						<apex:outputText value="{!selProd.prodName}" />
+						<apex:outputText value="{!selProd.productName}" />
 					</apex:column>
 					<apex:column >
 						<apex:facet name="header">Id</apex:facet>
-						<apex:outputText value="{!selProd.prod}" />
+						<apex:outputText value="{!selProd.revvyId}" />
 					</apex:column>
 				</apex:pageBlockTable>
 			</apex:pageBlockSection>

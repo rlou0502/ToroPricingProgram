@@ -1,29 +1,25 @@
 public with sharing class ToroPricingProgramLineProductSelector {
 
 	public class Wrapper {
-		public Boolean selected { get; set; }
-		public String prod 		{ get; set; }
-		public String prodName 	{ get; set; }
 
-		public Wrapper(Boolean selected, String prod, String prodName) {
-			this.selected = selected;
-			this.prod     = prod;
-			this.prodName = prodName;
+		public String revvyId 		{ get; set; }
+		public String productName 	{ get; set; }
+
+		public Wrapper(String revvyId, String productName) {
+			this.revvyId     = revvyId;
+			this.productName = productName;
 		}
 	}
 
 	private ApexPages.StandardController ctrl;
-	public Id recordId 										{ get; set; }
-	public List<Wrapper> selectedProducts 					{ get; set; }
+	private Toro_PricingProgramLine__c pricingProgramLine;
+	private Id pricingProgramLineId;
+	private String previouslySelectedProducts;
 
+	public Boolean allProductsSelected 						{ get; set; }
+	public List<Wrapper> selectedProducts 					{ get; private set; }
 	public String toBeDeleted 								{ get; set; }
-	public String previousSelectedProduct 					{ get; set; }
-
-	public Boolean selectAllProducts 						{ get; set; }
 	public Toro_PricingProgram__c dummyHeader 				{ get; set; }
-	public Toro_PricingProgramLine__c pricingProgramLine 	{ get; set; }
-
-	public REVVY__MnCatalogNode__c selectedProduct 			{ get; set; }
 
 	/**
 	 *
@@ -33,9 +29,9 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	 * @return return_type
 	 */
 	public ToroPricingProgramLineProductSelector(ApexPages.StandardController controller) {
-		ctrl             = controller;
-		recordId         = controller.getRecord().Id;
-		selectedProducts = new List<wrapper>();
+		ctrl                 = controller;
+		pricingProgramLineId = controller.getRecord().Id;
+		selectedProducts     = new List<wrapper>();
 		loadPageVariables();
 	}
 
@@ -47,19 +43,22 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	 * @return return_type
 	 */
 	public void loadPageVariables() {
-		selectedProducts.clear();
+		this.selectedProducts.clear();
 		pricingProgramLine = [
 			SELECT
-				PricingProgram__c
-				, ApplicableProducts__c
+				PricingProgram__c, ApplicableProducts__c
 			FROM
 				Toro_PricingProgramLine__c
 			WHERE
-				Id = :recordId
+				Id = :pricingProgramLineId
 		];
 
 		dummyHeader = new Toro_PricingProgram__c(); // this is created so we can use "SelectProduct__c (REVVY__MnCatalogNode__c)
 													// in input field in visualforce
+
+		if (pricingProgramLine.ApplicableProducts__c == 'All') {
+			this.allProductsSelected = true;
+		}
 
 		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {
 			final List<String> productIds = pricingProgramLine.ApplicableProducts__c.split(',');
@@ -70,21 +69,22 @@ public with sharing class ToroPricingProgramLineProductSelector {
 					REVVY__MnCatalogNode__c
 				WHERE
 					REVVY__Id__c in :productIds];
+
 			for (REVVY__MnCatalogNode__c p : catalogNodes) {
-				selectedProducts.add(new Wrapper(false, p.REVVY__Id__c, p.Name));
+				selectedProducts.add(new Wrapper(p.REVVY__Id__c, p.Name));
 			}
 		}
 	}
 
 	public PageReference toggleAllProducts() {
-		if (selectAllProducts) {
-			previousSelectedProduct = pricingProgramLine.ApplicableProducts__c;
+		if (allProductsSelected) {
+			previouslySelectedProducts = pricingProgramLine.ApplicableProducts__c;
 			pricingProgramLine.ApplicableProducts__c = 'All';
 			update pricingProgramLine;
 		}
 
 		else {
-			pricingProgramLine.ApplicableProducts__c = previousSelectedProduct;
+			pricingProgramLine.ApplicableProducts__c = previouslySelectedProducts;
 			update pricingProgramLine;
 		}
 
@@ -100,7 +100,15 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	 * @return return_type
 	 */
 	public void addProduct() {
-		List<REVVY__MnCatalogNode__c> products = [SELECT Name, REVVY__Id__c FROM REVVY__MnCatalogNode__c WHERE Id = :dummyHeader.SelectProduct__c];
+		List<REVVY__MnCatalogNode__c> products = [
+			SELECT
+				Name, REVVY__Id__c
+			FROM
+				REVVY__MnCatalogNode__c
+			WHERE
+				Id = :dummyHeader.SelectProduct__c
+		];
+
 		Set<String> newProdSet = new Set<String> { products[0].REVVY__Id__c };
 		List<String> prodList = new List<String>();
 		if (pricingProgramLine.ApplicableProducts__c != null) {
@@ -111,7 +119,6 @@ public with sharing class ToroPricingProgramLineProductSelector {
 		newProdSet.remove('All');
 		prodList = new List<String>(newProdSet);
 		pricingProgramLine.ApplicableProducts__c = String.join(prodList, ',');
-
 		update pricingProgramLine;
 		loadPageVariables();
 	}
@@ -127,7 +134,6 @@ public with sharing class ToroPricingProgramLineProductSelector {
 		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)){
 			Set<String> existingProducts = new Set<String>(pricingProgramLine.ApplicableProducts__c.split(','));
 			existingProducts.remove(toBeDeleted);
-
 			List<String> newProdList = new List<String>(existingProducts);
 			pricingProgramLine.ApplicableProducts__c = String.join(newProdList, ',');
 			update pricingProgramLine;
@@ -136,19 +142,4 @@ public with sharing class ToroPricingProgramLineProductSelector {
 
 		return null;
 	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	/*
-	public PageReference cancel() {
-		PageReference pg = new PageReference('/' + recordId);
-		pg.setRedirect(true);
-		return pg;
-	}
-	*/
 }

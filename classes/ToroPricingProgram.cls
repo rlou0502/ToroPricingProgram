@@ -198,6 +198,7 @@ public abstract class ToroPricingProgram {
 			qi.Toro_Rebate__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;
 			qi.Toro_Extended_DNet_Price__c = extDnet;
 			qi.Toro_Extended_MSRP_Price__c = extMSRP;
+			qi.Toro_Extended_Award_Price__c = extDnet * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 ;
 			decimal extRebate = qi.Toro_Rebate__c;
 			qi.Toro_Gross_Profit_Value__c = extAward - extDnet + extDnet * CMnQuoteUtil.defaultDecimal(qi.Rebate_as_a_of_DN__c)/100;
 			if(extAward != null && extAward != 0) {

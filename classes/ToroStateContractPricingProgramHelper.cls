@@ -23,7 +23,10 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Price_Program_Quote_SubLin.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();
+	}
+	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() { 
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_QI_Summary_Updatable_Cols.getFields();
 	}
 	
 	public virtual List<Toro_QuoteItem__c> baseCalculateImplementation(Id quoteId, String priceProgram, 
@@ -75,7 +78,8 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						}
 					}
 					qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c.setScale(4));
-					qi.Original_Award_Price__c = qi.Award_Price__c ;
+					//qi.Original_Award_Price__c = qi.Award_Price__c ;
+					qi.Original_Award_Price__c = qi.Off_MSRP__c*(1-qi.MSRP_Price__c/100);
 					system.debug(logginglevel.info,'qi.Original_Award_Price__c =' + qi.Original_Award_Price__c );
 					qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;	
 				}
