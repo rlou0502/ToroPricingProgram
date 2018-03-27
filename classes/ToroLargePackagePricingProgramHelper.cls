@@ -21,7 +21,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();
 	}
-	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() { 
+	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_QI_Summary_Updatable_Cols.getFields();
 	}
 //Large_Package_Quote_Line_Cols
@@ -423,7 +423,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 		if (quote.Toro_Blended_Percent_of_DN__c < pricingProgram.Blended_DNet_Threshold__c) {
 			needsApproval = true;
-			approvalMessage = ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
+			approvalMessage += ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
 		}
 
 		if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
