@@ -132,7 +132,7 @@ public class ToroPricingProgramController {
 						
 					} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
 						qi.Unit_Award_Overridden__c=false;
-						
+						system.debug('---------------Unit_Award_Overridden__c =' + strVal);
 						qi.Unit_Award_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
 						
 					} else if('Off_MSRP_Overridden__c'.equalsIgnoreCase(key)){

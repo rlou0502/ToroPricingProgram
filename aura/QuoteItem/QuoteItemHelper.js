@@ -252,6 +252,8 @@
         tableCol.appendChild(childTable);
 		var childTableBody = document.createElement('tbody');
         var summaryLineTableRow = document.createElement('tr');
+        summaryLineTableRow.id = quoteItem["Id"];
+        summaryLineTableRow.className += " quoteItem summary";
         self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component);           
         childTableBody.appendChild(summaryLineTableRow);
         childTable.appendChild(childTableBody);
