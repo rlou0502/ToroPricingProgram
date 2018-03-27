@@ -1,25 +1,24 @@
 public with sharing class ToroPricingProgramLineProductSelector {
 
 	public class Wrapper {
-
 		public String revvyId 		{ get; set; }
 		public String productName 	{ get; set; }
 
-		public Wrapper(String revvyId, String productName) {
-			this.revvyId     = revvyId;
-			this.productName = productName;
+		public Wrapper(REVVY__MnCatalogNode__c product) {
+			this.revvyId     = product.REVVY__Id__c;
+			this.productName = product.Name;
 		}
 	}
 
 	private ApexPages.StandardController ctrl;
-	private Toro_PricingProgramLine__c pricingProgramLine;
+	private Toro_PricingProgramLine__c pricingProgramLine; // Revvy__MnStrategy2__c -> Toro_PricingProgramLine__c
 	private Id pricingProgramLineId;
 	private String previouslySelectedProducts;
 
 	public Boolean allProductsSelected 						{ get; set; }
 	public List<Wrapper> selectedProducts 					{ get; private set; }
 	public String toBeDeleted 								{ get; set; }
-	public Toro_PricingProgram__c dummyHeader 				{ get; set; }
+	public Toro_PricingProgram__c dummyHeader 				{ get; set; } // Revvy__MnStrategy1__c -> Toro_PricingProgram__c
 
 	/**
 	 *
@@ -60,18 +59,22 @@ public with sharing class ToroPricingProgramLineProductSelector {
 			this.allProductsSelected = true;
 		}
 
+		else {
+			this.allProductsSelected = false;
+		}
+
 		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {
-			final List<String> productIds = pricingProgramLine.ApplicableProducts__c.split(',');
+			final List<String> productExtIds = pricingProgramLine.ApplicableProducts__c.split(',');
 			List<REVVY__MnCatalogNode__c> catalogNodes = [
 				SELECT
 					REVVY__Id__c, Name
 				FROM
 					REVVY__MnCatalogNode__c
 				WHERE
-					REVVY__Id__c in :productIds];
+					REVVY__Id__c IN :productExtIds];
 
-			for (REVVY__MnCatalogNode__c p : catalogNodes) {
-				selectedProducts.add(new Wrapper(p.REVVY__Id__c, p.Name));
+			for (REVVY__MnCatalogNode__c product : catalogNodes) {
+				selectedProducts.add(new Wrapper(product));
 			}
 		}
 	}

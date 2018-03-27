@@ -77,9 +77,10 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 							//qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
 						}
 					}
+					qi.Toro_Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 					qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c.setScale(4));
 					//qi.Original_Award_Price__c = qi.Award_Price__c ;
-					qi.Original_Award_Price__c = qi.Off_MSRP__c*(1-qi.MSRP_Price__c/100);
+					qi.Original_Award_Price__c = qi.MSRP_Price__c*(1-qi.Selected_Off_MSRP__c/100);
 					system.debug(logginglevel.info,'qi.Original_Award_Price__c =' + qi.Original_Award_Price__c );
 					qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;	
 				}

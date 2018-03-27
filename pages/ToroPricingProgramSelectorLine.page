@@ -52,5 +52,5 @@ var cleanSelectProductBox = function() {
 			</apex:pageBlockSection>
 		</apex:outputPanel>
 	</apex:pageBlock>
-	</apex:form>
+</apex:form>
 </apex:page>
