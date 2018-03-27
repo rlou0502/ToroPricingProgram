@@ -14,7 +14,6 @@
     <aura:registerEvent name="pricingMethodSetEvent" type="c:PricingMethodSetFromDBEvent"/>
     <aura:registerEvent name="PMAwardPriceChangeEvent" type="c:PricingMethodAwardPriceChangeEvent"/>
     <aura:registerEvent name="PMGPPercentChangeEvent" type="c:PricingMethodGPPercentChangeEvent"/>
-    <aura:registerEvent name="QuoteHeaderLoadedEvent" type="c:QuoteHeaderLoadedEvent"/>
 	<aura:handler name="init" value="{!this}" action="{!c.init}" />
     <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
 	<aura:handler name="change" value="{!v.selectedPricingProgram}" action="{!c.handlePricingProgramChange}"/>
