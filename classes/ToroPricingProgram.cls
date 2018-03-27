@@ -41,7 +41,6 @@ public abstract class ToroPricingProgram {
 	public virtual List<Schema.FieldSetMember> getToroQuoteDNetFields() {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.DNet_Field_Set.getFields();
 	}
-
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Line_Cols.getFields();
 	}
@@ -57,7 +56,9 @@ public abstract class ToroPricingProgram {
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
 	}
-
+	public virtual List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() {
+		return null;
+	}
 	public virtual List<ToroSelectOption> retrieveDemoPricingProgramOptions() {
 		return new List<ToroSelectOption>();
 	}

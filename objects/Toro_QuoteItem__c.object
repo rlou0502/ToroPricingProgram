@@ -202,6 +202,16 @@
         <label>GSA Quote Summary</label>
     </fieldSets>
     <fieldSets>
+        <fullName>Large_Package_QI_Summary_Updatable_Cols</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Large Package QI Summary Updatable Cols</label>
+    </fieldSets>
+    <fieldSets>
         <fullName>Large_Package_Quote_Line_Cols</fullName>
         <description>Pricing Program</description>
         <displayedFields>

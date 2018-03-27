@@ -21,6 +21,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields();
 	}
+	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() { 
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_QI_Summary_Updatable_Cols.getFields();
+	}
 //Large_Package_Quote_Line_Cols
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();

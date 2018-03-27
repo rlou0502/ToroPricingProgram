@@ -594,8 +594,9 @@ public class ToroPricingProgramController {
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields(); 
     	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
     	List<Schema.FieldSetMember> updatableFieldSetSub = pp.getToroQuoteItemSublineUpdatableFields(); 
-    	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub);   	
-    	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, null);    	
+    	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub); 
+    	List<Schema.FieldSetMember> updatableFieldSetSummary = pp.getToroQuoteItemSummaryUpdatableFields(); 	
+    	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, updatableFieldSetSummary);    	
     	rs.demoPricingProgramOptions = pp.retrieveDemoPricingProgramOptions();
     	
     	for ( Integer i = rs.fieldSetMembers.size() - 1; i >= 0; --i ) {

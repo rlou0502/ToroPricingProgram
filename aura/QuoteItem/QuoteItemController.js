@@ -2,44 +2,14 @@
 	init: function(cmp, event, helper) {
         //console.log('QuoteHeader.init');
         helper.populateQuoteItems(cmp);
+        window.addEventListener('resize', 
+        	$A.getCallback(function() {
+        		helper.adjustSummarySublineColumnWidth();
+    		})) 
     },
     
-    onRender: function(cmp, event, helper) {  
-        
-        var cellWidths = [];
-        var headerCells = document.querySelectorAll("table#quote-item-table tr#QuoteItem th");
-        for(var i=0; i < headerCells.length; i++) {
-            cellWidths[i] = headerCells[i].offsetWidth + 'px';
-        }
-        var summaryHeaderRows = document.querySelectorAll("tr#QuoteItemSummary");
-        for(var j =0; j < summaryHeaderRows.length; j++) {
-        	var summaryHeaderCells = summaryHeaderRows[j].querySelectorAll("th");
-            for(var i=0; i < summaryHeaderCells.length; i++) {
-                console.log('---------------quote item--onRender set cell width =' + i);
-                if(cellWidths[i+1]) {
-                    summaryHeaderCells[i].style.width=cellWidths[i+1];    
-                    if((i == summaryHeaderCells.length-1) && (summaryHeaderCells.length != cellWidths.length-1) ) {
-                        summaryHeaderCells[i].style.width='100%';	    
-                    }
-                }
-            }    
-        }
-        var sublineHeaderRows = document.querySelectorAll("tr#QuoteItemSubLine");
-        for(var j =0; j < sublineHeaderRows.length; j++) {
-        	var sublineHeaderCells = sublineHeaderRows[j].querySelectorAll("th");
-            for(var i=0; i < sublineHeaderCells.length; i++) {
-                console.log('---------------quote item--onRender set cell width =' + i);
-                if(cellWidths[i+1]) {
-                    sublineHeaderCells[i].style.width=cellWidths[i+1];    
-                    if((i == sublineHeaderCells.length-1) && (sublineHeaderCells.length != cellWidths.length-1) ) {
-                        sublineHeaderCells[i].style.width='100%';	    
-                    }
-                }
-            }    
-        }
-        
-        console.log('---------------quote item--onRender =' + cellWidths);
-        
+    onRender: function(cmp, event, helper) {         
+        helper.adjustSummarySublineColumnWidth();      
     },
     toggleChevron : function(cmp, event, helper) {
         var isCollapsed = cmp.get("v.IsCollapsed");
