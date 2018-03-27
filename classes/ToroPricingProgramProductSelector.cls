@@ -17,9 +17,10 @@ public with sharing class ToroPricingProgramProductSelector {
 
 	public Toro_PricingProgram__c pricingProgram { get; set; } // Revvy__MnStrategy1__c -> Toro_PricingProgram__c
 
-	public Boolean allProductsSelected 		{ get; set; }
-	public List<Wrapper> selectedProducts 	{ get; set; }
-	public String toBeDeleted 				{ get; set; }
+	public Boolean allProductsSelected 			{ get; set; }
+	public List<Wrapper> selectedProducts 		{ get; set; }
+	public String toBeDeleted 					{ get; set; }
+	public REVVY__MnCatalogNode__c dummyProduct { get; set; }
 
 	/**
 	 *
@@ -53,6 +54,8 @@ public with sharing class ToroPricingProgramProductSelector {
 			WHERE
 				Id = :pricingProgramId
 		];
+
+		this.dummyProduct = new REVVY__MnCatalogNode__c();
 
 		if (pricingProgram.ApplicableProducts__c == 'All') {
 			this.allProductsSelected = true;
@@ -117,13 +120,13 @@ public with sharing class ToroPricingProgramProductSelector {
 			FROM
 				Revvy__MnCatalogNode__c
 			WHERE
-				Id = :pricingProgram.SelectProduct__c
+				Id = :dummyProduct.REVVY__Parent__c
 		];
 
 		Set<String> newProdSet = new Set<String>{products[0].revvy__Id__c};
 		List<String> prodList = new List<String>();
 		if (pricingProgram.ApplicableProducts__c != null) {
-			prodList =pricingProgram.ApplicableProducts__c.split(',');
+			prodList = pricingProgram.ApplicableProducts__c.split(',');
 		}
 
 		newProdSet.addAll(prodList);

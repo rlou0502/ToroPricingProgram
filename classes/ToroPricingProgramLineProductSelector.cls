@@ -18,8 +18,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	public Boolean allProductsSelected 						{ get; set; }
 	public List<Wrapper> selectedProducts 					{ get; private set; }
 	public String toBeDeleted 								{ get; set; }
-	public Toro_PricingProgram__c dummyHeader 				{ get; set; } // Revvy__MnStrategy1__c -> Toro_PricingProgram__c
-
+	public REVVY__MnCatalogNode__c dummyProduct 			{ get; set; }
 	/**
 	 *
 	 * description
@@ -52,8 +51,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 				Id = :pricingProgramLineId
 		];
 
-		dummyHeader = new Toro_PricingProgram__c(); // this is created so we can use "SelectProduct__c (REVVY__MnCatalogNode__c)
-													// in input field in visualforce
+		this.dummyProduct = new REVVY__MnCatalogNode__c();
 
 		if (pricingProgramLine.ApplicableProducts__c == 'All') {
 			this.allProductsSelected = true;
@@ -109,7 +107,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 			FROM
 				REVVY__MnCatalogNode__c
 			WHERE
-				Id = :dummyHeader.SelectProduct__c
+				Id = :dummyProduct.REVVY__Parent__c
 		];
 
 		Set<String> newProdSet = new Set<String> { products[0].REVVY__Id__c };
