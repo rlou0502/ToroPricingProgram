@@ -13,6 +13,11 @@
 .THIS tr.quoteItemSubline td {
     background-color : #f3f3f3;
 }
+
+.THIS tr#QuoteItemSubLine th div {
+    color : black;
+}
+
 .THIS table.sublnes-table th {
     background-color : #ECECEC;
 }
