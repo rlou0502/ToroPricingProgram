@@ -40,7 +40,7 @@ private class ToroPricingProgramLineProductSelectTest {
 		insert pricingProgramLines;
 	}
 
-	@isTest static void test_constructor() {
+	@isTest static void test_pricing_program_line_product_selector() {
 		final Revvy__MnStrategy1__c pricingProgram = [SELECT Id FROM Revvy__MnStrategy1__c WHERE ExternalId__c = 'STILargePackageProgram'];
 		Revvy__MnStrategy2__c pricingProgramLine = [SELECT Id, ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
 		final String previousApplicableProducts = pricingProgramLine.ApplicableProducts__c;
@@ -52,13 +52,13 @@ private class ToroPricingProgramLineProductSelectTest {
 		System.assertEquals(expectedNumberOfSelectedProducts, controller.selectedProducts.size());
 
 		// set to applicable products to 'All'
-		controller.selectAllProducts = true;
+		controller.allProductsSelected = true;
 		controller.toggleAllProducts();
 		pricingProgramLine = [SELECT ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
 		System.assertEquals('All', pricingProgramLine.ApplicableProducts__c);
 
 		// switch applicable products to previously selected
-		controller.selectAllProducts = false;
+		controller.allProductsSelected = false;
 		controller.toggleAllProducts();
 		pricingProgramLine = [SELECT ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
 		System.assertEquals(previousApplicableProducts, pricingProgramLine.ApplicableProducts__c);
@@ -71,7 +71,7 @@ private class ToroPricingProgramLineProductSelectTest {
 
 		Boolean containsDeletedProduct = false;
 		for (ToroPricingProgramLineProductSelector.Wrapper selectedProduct : controller.selectedProducts) {
-			if (selectedProduct.selected && selectedProduct.prod == controller.toBeDeleted) {
+			if (selectedProduct.revvyId == controller.toBeDeleted) {
 				containsDeletedProduct = true;
 			}
 		}
@@ -83,7 +83,5 @@ private class ToroPricingProgramLineProductSelectTest {
 		controller.addProduct();
 		pricingProgramLine = [SELECT ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
 		System.assert(pricingProgramLine.ApplicableProducts__c.contains(productToBeAdded.Revvy__Id__c));
-
-		System.assert(controller.cancel() != null);
 	}
 }
