@@ -79,7 +79,7 @@ private class ToroPricingProgramLineProductSelectTest {
 
 		// add a product
 		Revvy__MnCatalogNode__c productToBeAdded = [SELECT Id, Revvy__Id__c FROM Revvy__MnCatalogNode__c WHERE Revvy__Id__c = :controller.toBeDeleted];
-		controller.dummyHeader.SelectProduct__c = productToBeAdded.Id;
+		controller.dummyProduct.REVVY__Parent__c = productToBeAdded.Id;
 		controller.addProduct();
 		pricingProgramLine = [SELECT ApplicableProducts__c FROM Revvy__MnStrategy2__c WHERE PricingProgram__c = :pricingProgram.Id LIMIT 1];
 		System.assert(pricingProgramLine.ApplicableProducts__c.contains(productToBeAdded.Revvy__Id__c));
