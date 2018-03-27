@@ -14,7 +14,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 	}
 	
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.State_Contract_Quote_Line_Updatable_Cols.getFields();
@@ -23,7 +23,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Price_Program_Quote_SubLin.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
+		return SObjectType.Toro_QuoteItem__c.FieldSets.Price_Program_Quote_Summary.getFields();
 	}
 	
 	public virtual List<Toro_QuoteItem__c> baseCalculateImplementation(Id quoteId, String priceProgram, 

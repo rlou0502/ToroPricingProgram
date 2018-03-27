@@ -400,11 +400,6 @@
         <fullName>Price_Program_Quote_SubLine_Cols</fullName>
         <description>Price Program</description>
         <displayedFields>
-            <field>FreezePricing__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -420,7 +415,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>DNet_Price__c</field>
+            <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -435,12 +430,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_DNet_Price__c</field>
+            <field>DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Performance_Part__c</field>
+            <field>Toro_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -455,12 +450,22 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Gross_Profit_Percent__c</field>
+            <field>Apply_Support_Plus__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Percent_of_DNet__c</field>
+            <field>Performance_Part__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Exclude_from_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Gross_Profit_Percent__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -470,7 +475,22 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
+            <field>Percent_of_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Subline_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Rebate_as_of_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Gross_Profit_Value__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
