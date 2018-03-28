@@ -12,7 +12,9 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
 		return ret;
 	}
-	
+	public override List<Schema.FieldSetMember> getToroQuoteItemSublineUpdatableFields() {
+		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.Large_Package_Quote_SubLine_Updatable_Co.getFields();
+	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
 		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
 	}
