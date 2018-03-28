@@ -1044,6 +1044,15 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Demo_Product__c</fullName>
+        <externalId>false</externalId>
+        <formula>CONTAINS(Pricing_Program__c, &quot;Demo&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Demo Product</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Description__c</fullName>
         <description>Store product name/description during support plus process</description>
         <externalId>false</externalId>
