@@ -517,7 +517,7 @@
         <fullName>Toro_ApprovalReason__c</fullName>
         <externalId>false</externalId>
         <label>Toro Approval Reason</label>
-        <length>140</length>
+        <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
