@@ -485,6 +485,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Probability_Goes_Toro__c</fullName>
+        <defaultValue>0</defaultValue>
         <description>Commercial. Probability that the opportunity closes in Toro&apos;s favor</description>
         <externalId>false</externalId>
         <inlineHelpText>Probability that the opportunity closes in Toro&apos;s favor</inlineHelpText>
@@ -499,6 +500,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Project_Probability__c</fullName>
+        <defaultValue>0</defaultValue>
         <description>Probability that the project will complete</description>
         <externalId>false</externalId>
         <inlineHelpText>Probability that the project will complete by Close Date</inlineHelpText>
@@ -628,7 +630,7 @@ CustomerCurrency_ISOCurrency</description>
         <fullName>Toro_ApprovalReason__c</fullName>
         <externalId>false</externalId>
         <label>Toro Approval Reason</label>
-        <length>140</length>
+        <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>

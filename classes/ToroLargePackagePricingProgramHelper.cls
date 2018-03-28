@@ -402,28 +402,35 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 									WHERE
 										Id = :quoteId LIMIT 1];
 
-		System.debug('\n\n@@approval flag - quote: ' + quote + '\n\n');
 		Boolean containsOutCross = checkForOutCrossProducts(quoteItemList);
 		Integer numberOfTractionUnits = getNumberOfTractionUnits(quoteItemList);
 
-		// quotes that contain outcross items have a separate threshold
+		System.debug('\n\n@@quote.Toro_Total_DNet__c: ' + quote.Toro_Total_DNet__c + '\n\n');
+		System.debug('\n\n@@pricingProgram.OutCrossThreshold__c: ' + pricingProgram.OutCrossThreshold__c + '\n\n');
+		System.debug('\n\n@@quote.Toro_Total_DNet__c: ' + quote.Toro_Total_DNet__c + '\n\n');
+		System.debug('\n\n@@pricingProgram.MinimumTreshold__c: ' + pricingProgram.MinimumThreshold__c + '\n\n');
+		System.debug('\n\n@@quote.Toro_Blended_Percent_of_DN__c: ' + quote.Toro_Blended_Percent_of_DN__c + '\n\n');
+		System.debug('\n\n@@pricingProgram.Blended_DNet_Threshold__c: ' + pricingProgram.Blended_DNet_Threshold__c + '\n\n');
+		System.debug('\n\n@@numberOfTractionUnits: ' + numberOfTractionUnits + '\n\n');
+		System.debug('\n\n@@pricingProgram.MinimumTractionUnits__c: ' + pricingProgram.MinimumTractionUnits__c + '\n\n');
+
 
 		Boolean needsApproval = false;
 		String approvalMessage = '';
 
 		if (containsOutCross && quote.Toro_Total_DNet__c < pricingProgram.OutCrossThreshold__c) {
 			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
+			approvalMessage = 'Total Extended DNet (' + quote.Toro_Total_DNet__c + ') must exceed ' + pricingProgram.OutCrossThreshold__c + '.';
 		}
 
 		else if (!containsOutcross && quote.Toro_Total_DNet__c < pricingProgram.MinimumThreshold__c) {
 			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
+			approvalMessage = 'Total Extended DNet (' + quote.Toro_Total_DNet__c + ') must exceed ' + pricingProgram.MinimumThreshold__c + '.';
 		}
 
 		if (quote.Toro_Blended_Percent_of_DN__c < pricingProgram.Blended_DNet_Threshold__c) {
 			needsApproval = true;
-			approvalMessage += ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
+			approvalMessage += ' Blended Percent of DNet (' + quote.Toro_Blended_Percent_of_DN__c + '%) must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
 		}
 
 		if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
