@@ -119,7 +119,9 @@ public with sharing class ToroPricingMethodHelper {
 							qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));
 							qis.Award_Price__c = setDNetAwardPrice(qis);
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet -- qis.Award_Price__c' + (qis.Award_Price__c*extQty) + ' qis.MSRP_Price__c =' + qis.MSRP_Price__c +'-----'+qis.product_Id__c);
-							qis.Percent_Off_MSRP__c = (1 - qis.Award_Price__c/qis.MSRP_Price__c)*100;
+							if(qis.MSRP_Price__c!= null && qis.MSRP_Price__c !=0) {
+								qis.Percent_Off_MSRP__c = (1 - qis.Award_Price__c/qis.MSRP_Price__c)*100;
+							}
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet --' + qis.Percent_of_DNet__c + ' % off msrp=' + qis.Percent_Off_MSRP__c);
 							extDNet += qis.Toro_DNet_Price__c*extQty;
 							extAward += qis.Award_Price__c*extQty;
