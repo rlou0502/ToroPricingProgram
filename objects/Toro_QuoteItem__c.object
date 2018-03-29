@@ -1072,6 +1072,17 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Extended_Award_Price__c</fullName>
+        <description>Extended Award Price = Award_price__c * qty</description>
+        <externalId>false</externalId>
+        <label>EXT AWARD</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>External_Id__c</fullName>
         <caseSensitive>false</caseSensitive>
         <externalId>true</externalId>
@@ -1787,6 +1798,17 @@
         <description>This is a blended GP$</description>
         <externalId>false</externalId>
         <label>Toro GP $</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_Toro_Award__c</fullName>
+        <description>Total Award Price - TPPAlliedAward</description>
+        <externalId>false</externalId>
+        <label>Total Toro Award</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
