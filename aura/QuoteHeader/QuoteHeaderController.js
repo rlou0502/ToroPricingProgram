@@ -66,6 +66,10 @@
         console.log("Quote Header rerender.........");
         var tableRow = document.createElement('tr');
         tableRow.id = "quoteRow";
+        var tableCaptionData = document.createElement('td');
+        var cellCaptionText = document.createElement('div');
+        tableCaptionData.appendChild(cellCaptionText);
+        tableRow.appendChild(tableCaptionData);
         fields.forEach(function(field){ 
             var tableData = document.createElement('td');
             var cellText = document.createElement('div');
@@ -83,7 +87,7 @@
                 }
             } else if(field.type.toLowerCase() === 'percent') {
                 if(data != undefined) {
-                    cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+                    cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
                 }
             } else {
                 cellText.innerHTML=data;

@@ -785,7 +785,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_Award_Price__c</field>
+            <field>Total_Toro_Award__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -820,7 +820,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_MSRP_Price__c</field>
+            <field>Total_Toro_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -830,7 +830,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_DNet_Price__c</field>
+            <field>Total_Toro_DNET__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -855,22 +855,22 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_Award_Price__c</field>
+            <field>Total_Toro_Award__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Gross_Profit_Percent__c</field>
+            <field>Blended_GP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Off_MSRP__c</field>
+            <field>Blended_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Award_of_DN__c</field>
+            <field>Toro_Blend_Of_DN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -880,7 +880,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Rebate_as_a_of_DN__c</field>
+            <field>Blended_Rebate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1880,7 +1880,7 @@
         <fullName>Total_Toro_Award__c</fullName>
         <description>Total Award Price - TPPAlliedAward</description>
         <externalId>false</externalId>
-        <label>Total Toro Award</label>
+        <label>Toro Award</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

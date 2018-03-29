@@ -28,8 +28,9 @@
       description="This method makes an aura call to set pricing program at quote item">
     </aura:method>
     <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
-	<thead>
+        <thead>
 		<tr class="slds-text-heading--label">
+            <th>Quote Total:</th>
 			<aura:iteration items="{!v.fields}" var="fld">
 				<th scope="col"><div class="slds-truncate" title="{!fld.label}">{!fld.label}</div></th>
 			</aura:iteration>
