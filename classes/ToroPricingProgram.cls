@@ -199,11 +199,13 @@ public abstract class ToroPricingProgram {
 			decimal qiToroMSRP = 0;
         	decimal qiTPPAppliedAward = 0;
 			decimal qiToroAward = 0;
-			
+			qi.Total_Award__c =0;
+			qi.Total_Toro_Award__c=0;
 			qi.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c);
 			qi.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c);
 			qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c);
-			if(excludeTPPAllied(qi)) {
+			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c );
+			if(!excludeTPPAllied(qi)) {
 				qiToroDNet = qi.DNet_Price__c * qi.Quantity__c;	
 				qiToroMSRP = qi.MSRP_Price__c * qi.Quantity__c;
 				qiToroAward = qi.Award_Price__c * qi.Quantity__c;
@@ -218,14 +220,9 @@ public abstract class ToroPricingProgram {
 			qiTotalMSRP = qiToroMSRP + qiTPPAppliedMSRP;
 			qiTotalAward = qiToroAward + qiTPPAppliedAward; 
 			decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-			quoteTotalAward += extDnet * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 ;
-			if(!qi.Unit_Award_Overridden__c) {
-            	qi.Total_Award__c = extDnet * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 ;
-			} else {
-				qi.Total_Award__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
-				 
-			}
-			quoteTotalAward += qi.Total_Award__c;
+			
+			qi.Total_Award__c = qiTotalAward;
+			
             //Total_Award__c
 			//award price has been calculated in calling function
 			decimal extAward = CMnQuoteUtil.defaultDecimal(qi.Award_price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
@@ -268,8 +265,8 @@ public abstract class ToroPricingProgram {
 					}
 					
 					
-					quoteTotalAward += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * qis.Toro_Extended_Qty__c;
-					qi.Total_Award__c += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * qis.Toro_Extended_Qty__c;
+					//quoteTotalAward += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * qis.Toro_Extended_Qty__c;
+					//qi.Total_Award__c += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * qis.Toro_Extended_Qty__c;
 					if(!qis.Exclude_from_Rebate__c) {
 						qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));					
                         decimal subExtDNet = CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c)* extQty;
@@ -297,7 +294,9 @@ public abstract class ToroPricingProgram {
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
 					} 
 					qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward;
+					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward; 
+					system.debug('check total award for each qi -- 1 qi.Total_Toro_Award__c= ' + qi.Total_Toro_Award__c + ' qiTPPAppliedAward='+qiTPPAppliedAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 				}
 			}
 			
@@ -316,7 +315,7 @@ public abstract class ToroPricingProgram {
 				qi.Total_Gross_Profit_Percent__c = qi.Total_Gross_Profit_Value__c/extAward*100;
 			}
 			system.debug('checking MSRP ext qi.Toro_Total_Extended_MSRP_Price__c=' + qi.Toro_Total_Extended_MSRP_Price__c);
-			
+			system.debug('check total award for each qi -- 1 quoteTotalAward= ' + quoteTotalAward + ' quoteTotalToroAward='+quoteTotalToroAward);
 			quoteTotalAward       		+= qi.Total_Award__c;
 			quoteTotalToroAward       	+= qi.Total_Toro_Award__c;
 			quoteTotalDNet              += qi.Toro_Total_Extended_DNet_Price__c;
@@ -325,7 +324,8 @@ public abstract class ToroPricingProgram {
 			quoteTotalRebate       		+= qi.Toro_Total_Rebate__c;
 			quoteTotalDnetWOTppAllied   += qi.Toro_Total_Extended_Award_Price__c;
 			quoteTotalSetupFee          += qi.Toro_Total_Setup_Fees__c;
-
+			system.debug('check total award for each qi --qi.Total_Award__c= ' + qi.Total_Award__c + ' qi.Total_Toro_Award__c='+qi.Total_Toro_Award__c);
+			system.debug('check total award for each qi --quoteTotalAward= ' + quoteTotalAward + ' quoteTotalToroAward='+quoteTotalToroAward);
 		}
 		quote.Ext_MSRP__c                      = quoteMSRP;
 		quote.Toro_Rollup_Award_Price__c       = quoteTotalToroAward;

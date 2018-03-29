@@ -28,7 +28,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		return SObjectType.Toro_QuoteItem__c.FieldSets.State_Contracts_Quote_Line_Summary_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() { 
-		return SObjectType.Toro_QuoteItem__c.FieldSets.Large_Package_QI_Summary_Updatable_Cols.getFields();
+		return null;
 	}
 	
 	public virtual List<Toro_QuoteItem__c> baseCalculateImplementation(Id quoteId, String priceProgram, 
