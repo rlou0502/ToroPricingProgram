@@ -402,8 +402,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 									WHERE
 										Id = :quoteId LIMIT 1];
 
-		Boolean containsOutCross = checkForOutCrossProducts(quoteItemList);
-		Integer numberOfTractionUnits = getNumberOfTractionUnits(quoteItemList);
+		Boolean containsOutCross = CMnQuoteUtil.checkForOutCrossProducts(quoteItemList);
+		Integer numberOfTractionUnits = CMnQuoteUtil.getNumberOfTractionUnits(quoteItemList);
 
 		System.debug('\n\n@@quote.Toro_Total_DNet__c: ' + quote.Toro_Total_DNet__c + '\n\n');
 		System.debug('\n\n@@pricingProgram.OutCrossThreshold__c: ' + pricingProgram.OutCrossThreshold__c + '\n\n');
@@ -460,6 +460,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	 * @param  quoteItemList    the list of Toro Quote Items
 	 * @return count of traction units
 	 */
+	/* moved to CMnQUoteUtil
 	public Integer getNumberOfTractionUnits(List<Toro_QuoteItem__c> quoteItemList) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
@@ -480,6 +481,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	 * @param  quoteItemList    the list of Toro Quote Items
 	 * @return true/false
 	 */
+	/* moved to CMnQUoteUtil
 	public Boolean checkForOutCrossProducts(List<Toro_QuoteItem__c> quoteItemList) {
 		System.debug('\n\n@@checkForOutCrossProducts quoteItemList: ' + quoteItemList + '\n\n');
 		for (Toro_QuoteItem__c quoteItem : quoteItemList) {
@@ -491,4 +493,5 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 		return false;
 	}
+	*/
 }

@@ -240,11 +240,6 @@
         </availableFields>
         <description>List of fields that will show up in the quote header</description>
         <displayedFields>
-            <field>Quote_Title__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Ext_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
