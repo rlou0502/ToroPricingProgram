@@ -240,6 +240,11 @@
         </availableFields>
         <description>List of fields that will show up in the quote header</description>
         <displayedFields>
+            <field>Quote_Title__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Ext_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -752,7 +757,7 @@ CustomerCurrency_ISOCurrency</description>
         <label>Toro GP %</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>4</scale>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>

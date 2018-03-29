@@ -181,10 +181,33 @@ public abstract class ToroPricingProgram {
 		decimal quoteTotalGP=0;
 		decimal quoteTotalRebate=0;
 		decimal quoteTotalDnetWOTppAllied = 0;
-        
+		decimal quoteTPPAppliedDNet = 0;
+		decimal quoteToroDNet = 0;
+		decimal quoteTPPAppliedMSRP = 0;
+		decimal quoteToroMSRP = 0;
+        decimal quoteTPPAppliedAward = 0;
+		decimal quoteToroAward = 0;
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
 			qi.Toro_Total_Setup_Fees__c = 0;
+			decimal qiTPPAppliedDNet = 0;
+			decimal qiToroDNet = 0;
+			decimal qiTPPAppliedMSRP = 0;
+			decimal qiToroMSRP = 0;
+        	decimal qiTPPAppliedAward = 0;
+			decimal qiToroAward = 0;
+			qi.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c);
+			qi.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c);
+			qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c);
+			if(excludeTPPAllied(qi)) {
+				qiToroDNet = qi.DNet_Price__c * qi.Quantity__c;	
+				qiToroMSRP = qi.MSRP_Price__c * qi.Quantity__c;
+				qiToroAward = qi.Award_Price__c * qi.Quantity__c;
+			} else {
+				qiTPPAppliedDNet = qi.DNet_Price__c * qi.Quantity__c;
+				qiTPPAppliedMSRP = qi.MSRP_Price__c * qi.Quantity__c;
+				qiTPPAppliedAward = qi.Award_Price__c * qi.Quantity__c;
+			}
 			decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			quoteTotalAward += extDnet * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 ;
 			if(!qi.Unit_Award_Overridden__c) {
@@ -677,7 +700,23 @@ public abstract class ToroPricingProgram {
 	public virtual boolean getQuoteLevelMSQPDNetEditable() {
 		return true;
 	}
-
+	
+	public virtual boolean excludeTPPAllied(Toro_QuoteItem__c qi) {
+		boolean ret = false;
+		String productId = qi.Product_Id__c;
+		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
+			ret = true;
+		}
+		return ret;	
+	}
+	public virtual boolean excludeTPPAllied(Toro_QuoteItem_SubLine__c qis) {
+		boolean ret = false;
+		String productId = qis.Product_Id__c;
+		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
+			ret = true;
+		}
+		return ret;	
+	}
 	public virtual boolean excludedFromMSRP(Toro_QuoteItem__c qi) {
 		boolean ret = false;
 

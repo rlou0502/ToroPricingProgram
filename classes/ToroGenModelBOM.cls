@@ -77,9 +77,10 @@ public with sharing class ToroGenModelBOM {
 				modelOGOptionPriceMap.get(mog.REVVY__Model_Id__c).put(mog.REVVY__OptionGroup_Id__c, OGOptionMap.get(mog.REVVY__OptionGroup_Id__c));
 				Map<Id, DNetMSRGPair> optionGroups  = OGOptionMap.get(mog.REVVY__OptionGroup_Id__c);
 				if(OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values() != null && OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values().size() != 0) {
-					system.debug('----------------' + mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c);
-					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name , 
-																		modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0,
+					//system.debug('----------------' + mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c);
+					double seq = modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0;
+					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name  , 
+																		seq,
 																		OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values()));
 				}
 			}
@@ -125,8 +126,8 @@ public with sharing class ToroGenModelBOM {
 	        if (compareToEmp.hasTractionUnit || compareToEmp.optionGroupName.containsIgnoreCase('Traction Unit')) {
 	        	 return 1; 
 	        } else {
-	        	system.debug('------------' + sequence + '----' + compareToEmp.sequence);
-	        	return (Integer) (sequence- compareToEmp.sequence);
+	        	//system.debug('------------' + sequence + '----' + compareToEmp.sequence);
+	        	return (Integer) (compareToEmp.sequence -sequence);
 	        }     
 	    }
 	}
