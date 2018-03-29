@@ -54,6 +54,7 @@ private class ToroContractChartPPHelperTest {
 				, Award_Price__c
 				, Award_of_DN__c
 				, DNet_Price__c
+				, Quantity__c
 			FROM
 				Revvy__MnStrategy4__c];
 
@@ -80,6 +81,7 @@ private class ToroContractChartPPHelperTest {
 				, Award_Price__c
 				, Award_of_DN__c
 				, DNet_Price__c
+				, Toro_Gross_Profit_Percent__c
 			FROM
 				Revvy__MnStrategy4__c];
 
