@@ -37,16 +37,16 @@ public with sharing class CMnQuoteUtil {
         if (index == str.length()) return null;
 
         return str.substring(index, index+1);
-    }  
+    }
     public static Decimal defaultDecimal(Decimal d) {
 		Decimal result = 0;
 		if(d!=null && d>0) {
 			result = d;
 		}
 		return result;
-	}   
-	
-	
+	}
+
+
 	public static String getQuoteQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
 		List<Schema.FieldSetMember> fieldSetMemberList = SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
@@ -58,8 +58,8 @@ public with sharing class CMnQuoteUtil {
 		Set<String> nameSet = new Set<String>(extras);
 		nameSet.addAll(fieldNames);
 		return String.join(new List<String>(nameSet), ',');
-	} 
-	
+	}
+
 	public static Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
@@ -84,7 +84,7 @@ public with sharing class CMnQuoteUtil {
 			}
 			update disti;
 			insert userDistributors;
-			
+
 			List<sObject> corporateAccount = Test.loadData(Account.sObjectType, 'TestData_PP_CorporateAccount');
 			Id RecordTypeIdCorporate = Schema.SObjectType.Account.getRecordTypeInfosByName().get('End User').getRecordTypeId();
 			for(sObject s : corporateAccount) {

@@ -15,6 +15,10 @@ private class ToroPricingMethodDataTest {
 
         ToroPricingMethodData data = new ToroPricingMethodData(percentOfMSRP, percentOfDNet, rebatePercent, grossProfitPercent, dnet);
         System.assert(data != null);
+    }
 
+    @isTest static void test_constructor2() {
+         ToroPricingMethodData data = new ToroPricingMethodData();
+         System.assert(data != null);
     }
 }
