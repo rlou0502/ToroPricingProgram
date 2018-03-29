@@ -252,7 +252,7 @@ public abstract class ToroPricingProgram {
 					qis.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
 					qis.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c);
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
-					if(excludeTPPAllied(qi)) {
+					if(!qis.Exclude_from_Rebate__c) {
 						qisRollupToroDNet += qis.DNet_Price__c * extQty;	
 						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
 						qisRollupToroAward += qis.Award_Price__c * extQty;
