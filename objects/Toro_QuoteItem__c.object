@@ -140,17 +140,17 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Gross_Profit_Percent__c</field>
+            <field>Blended_GP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Off_MSRP__c</field>
+            <field>Blended_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Award_of_DN__c</field>
+            <field>Toro_Blend_Of_DN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -160,7 +160,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Rebate_as_a_of_DN__c</field>
+            <field>Blended_Rebate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1023,6 +1023,36 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Blended_GP__c</fullName>
+        <externalId>false</externalId>
+        <label>Total GP %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Blended_MSRP__c</fullName>
+        <externalId>false</externalId>
+        <label>Total % MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Blended_Rebate__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Rebate %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
         <fullName>DNet_Price_2__c</fullName>
         <description>This field is the same as Revvy_Suggested_Price and populated via trigger.</description>
         <externalId>false</externalId>
@@ -1076,6 +1106,28 @@
         <description>Extended Award Price = Award_price__c * qty</description>
         <externalId>false</externalId>
         <label>EXT AWARD</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Extended_DNet_Price__c</fullName>
+        <description>Traction Unit Level DNet</description>
+        <externalId>false</externalId>
+        <label>Extended DNet Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Extended_MSRP_Price__c</fullName>
+        <description>Traction UNit Level MSRP</description>
+        <externalId>false</externalId>
+        <label>Extended MSRP Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1487,7 +1539,7 @@
     <fields>
         <fullName>Toro_Blend_Of_DN__c</fullName>
         <externalId>false</externalId>
-        <label>Blend Of DN</label>
+        <label>Total % DN</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1783,6 +1835,16 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Total_DNet__c</fullName>
+        <externalId>false</externalId>
+        <label>Total DNet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Total_Gross_Profit_Percent__c</fullName>
         <description>A Blended GP%</description>
         <externalId>false</externalId>
@@ -1805,10 +1867,40 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Total_MSRP__c</fullName>
+        <externalId>false</externalId>
+        <label>Total MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Total_Toro_Award__c</fullName>
         <description>Total Award Price - TPPAlliedAward</description>
         <externalId>false</externalId>
         <label>Total Toro Award</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_Toro_DNET__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Toro DNET</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_Toro_MSRP__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Toro MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

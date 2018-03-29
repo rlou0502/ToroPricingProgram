@@ -1,22 +1,27 @@
-({ 
+({
     returnToQuote : function(component, event, helper) {
         component.set("v.forwardUrl", "/");
-        helper.openWindow(component, event, helper);   
+        helper.openWindow(component, event, helper);
     },
-    
+
     manageProduct: function(component, event, helper) {
         //var quoteId = component.get('v.quoteId');
         component.set("v.forwardUrl", "/apex/REVVY__PMnUIShell#mnquote/detail/");
         helper.openWindow(component, event, helper);
-        
+
         //document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
     },
     calculate : function(component, event, helper) {
+        var quoteId = component.get('v.quoteId');
+        if (quoteId) {
+            helper.resetQuoteApproval(component, quoteId);
+        }
+
         var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");
-		childCmp.calculate(result.PricingProgram, result.PricingMethod, 
-                           result.SetupFeePercent, result.PerformancePart);        
+		childCmp.calculate(result.PricingProgram, result.PricingMethod,
+                           result.SetupFeePercent, result.PerformancePart);
     },
     handleCalculationComplete: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
@@ -27,8 +32,8 @@
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");
-		childCmp.saveQuote(result.PricingProgram, result.PricingMethod, 
-                           result.SetupFeePercent, result.PerformancePart); 
+		childCmp.saveQuote(result.PricingProgram, result.PricingMethod,
+                           result.SetupFeePercent, result.PerformancePart);
         quoteHeaderCmp.savePricingProgramMethod();
     },
     addSupportPlus: function(component, event, helper) {
@@ -40,16 +45,16 @@
         if(quoteId) {
         	helper.loadQuoteHeader(component, quoteId);
         }
-     
+
     },
     handleAwardPriceChange: function(component, event, helper) {
-        
+
     	var pricingProgram=event.getParam("pricingProgram");
         var pricingMethod=event.getParam("pricingMethod");
         var awardPrice=event.getParam("awardPrice");
         var performancePart=event.getParam("performancePart");
         var childCmp = component.find("cmpQuoteItem");
-		childCmp.setPMTotalAwardDollars(pricingProgram, pricingMethod, awardPrice, performancePart);    
+		childCmp.setPMTotalAwardDollars(pricingProgram, pricingMethod, awardPrice, performancePart);
     },
     handleGPPercentChange: function(component, event, helper) {
     	var pricingProgram=event.getParam("pricingProgram");
@@ -57,10 +62,10 @@
         var gpPercent=event.getParam("gpPercent");
         var performancePart=event.getParam("performancePart");
         var childCmp = component.find("cmpQuoteItem");
-		childCmp.setPMGPPercent(pricingProgram, pricingMethod, gpPercent, performancePart);    
+		childCmp.setPMGPPercent(pricingProgram, pricingMethod, gpPercent, performancePart);
     },
     collapseAll : function(component, event, helper) {
-    	//console.log('updateQuote');  
+    	//console.log('updateQuote');
         var nodeList = document.getElementsByClassName("collapsible");
         for(var index=0; index < nodeList.length; index++ ) {
         	nodeList[index].style.display = "none";
@@ -82,27 +87,27 @@
         }
     },
     closeInfoBox : function(component, event, helper) {
-    	document.getElementById("popover-root").style.display="none";    
+    	document.getElementById("popover-root").style.display="none";
     },
     handleRefeshInfoBox : function(component, event, helper) {
         var objId=event.getParam("objId");
-        helper.retrieveObjectInfo(component, objId);     
+        helper.retrieveObjectInfo(component, objId);
     },
     //Handle component event c:PricingProgramSetFromDBEvent, this handler simply set each subline's
     //pricing program, but not actually re-calculate rebate/discount
     handleSetPricingProgram: function(component, event, helper) {
         var newPricingProgram=event.getParam("pricingProgram");
         //console.log('handlePricingProgramChange :newPricingProgram ' + event.getParam("newPricingProgram"));
-        var childCmp = component.find("cmpQuoteItem");        
+        var childCmp = component.find("cmpQuoteItem");
     },
 	//Handle component event c:PricingMethodSetFromDBEvent, this handler simply set each subline's
     //pricing method, but not actually re-calculate rebate/discount
-    handleSetPricingMethod: function(component, event, helper) {  
+    handleSetPricingMethod: function(component, event, helper) {
         var newPricingProgram=event.getParam("selectedPricingProgram");
         var newPricingMethod=event.getParam("pricingMethod");
         //console.log('handlePricingMethodChange :newPricingMethod ' + event.getParam("pricingMethod"));
         //component.set("v.appContacts", event.getParam("contacts"));
-        var childCmp = component.find("cmpQuoteItem");    
+        var childCmp = component.find("cmpQuoteItem");
     },
 	//Handle component event c:PricingProgramChangeEvent
     handlePricingProgramChange: function(component, event, helper) {
@@ -115,7 +120,7 @@
 		childCmp.setPricingProgramSvc(selectedPricingProgram, function(result) {
             //console.log("callback for aura:method was executed");
             //console.log("result: " + result);
-        });        
+        });
     },
 	//Handle component event c:PricingMethodChangeEvent
     handlePricingMethodChange: function(component, event, helper) {
@@ -128,7 +133,7 @@
 		childCmp.setPricingMethodSvc(selectedPricingProgram, selectedPricingMethod, function(result) {
             //console.log("callback for aura:method was executed");
             console.log("result: " + result);
-        });    
+        });
     }
-    
+
 })

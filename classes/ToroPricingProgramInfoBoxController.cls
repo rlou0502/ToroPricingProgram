@@ -3,7 +3,7 @@ public class ToroPricingProgramInfoBoxController {
     public static ToroSObjectResultSet refreshInfoBoxSvc( ID objId) {
     	system.debug('refreshInfoBox');
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
-    	system.debug('refreshInfoBox');	
+    	system.debug('refreshInfoBox');
     	rs.result=true;
     	List<Schema.FieldSetMember> fs= objId.getSObjectType().getDescribe().FieldSets.getMap().get('Price_Program_Line_Info_Cols').getFields();
     	String objName = objId.getSObjectType().getDescribe().getName();
@@ -14,17 +14,32 @@ public class ToroPricingProgramInfoBoxController {
         	fieldNames.add(f.getFieldPath());
         	FieldSetMember nfsm = new FieldSetMember(f);
             fset.add(nfsm);
-        }	
+        }
         system.debug('refreshInfoBox');
         String query = 'Select ' + String.join(fieldNames, ',') + ' from ' + objName + ' where id=\'' + objId + '\'';
         system.debug('refreshInfoBox=' + query);
 		sObject[] dataObjs = database.query(query);
 		rs.fieldSetMembers = fset;
 		rs.values = dataObjs;
-    	return rs;	
+    	return rs;
     }
     @AuraEnabled
     public static Revvy__MnQuote__c loadQuoteHeader(Id quoteId) {
     	return ToroCacheManager.getQuote(quoteId);
     }
+
+	@AuraEnabled
+	public static void resetQuoteApproval(Id quoteId) {
+		Revvy__MnQuote__c quote = [SELECT
+										Toro_ApprovalReason__c
+										, REVVY__NeedsApproval__c
+									FROM
+										Revvy__MnQuote__c
+									WHERE
+										Id = :quoteId LIMIT 1];
+
+		quote.Toro_ApprovalReason__c = '';
+		quote.REVVY__NeedsApproval__c = false;
+		update quote;
+	}
 }
