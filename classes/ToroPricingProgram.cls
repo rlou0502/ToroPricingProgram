@@ -171,8 +171,6 @@ public abstract class ToroPricingProgram {
 	}
 	public virtual List<Toro_QuoteItem__c> calculateExtendedFields(List<Toro_QuoteItem__c> quoteItemList) {
 		decimal quoteMSRP=0;
-		decimal quoteDnet = 0;
-		decimal quoteAward = 0;
 		decimal quoteTotalAward =0;
 		decimal quoteTotalToroAward=0;
 		decimal quoteTotalDNet =0;
