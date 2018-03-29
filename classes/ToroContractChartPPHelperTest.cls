@@ -40,7 +40,7 @@ private class ToroContractChartPPHelperTest {
 	 *
 	 * @result the key result
 	 */
-	@isTest static void test_calculate_rebate_margin_impl() {
+	@isTest static void test_calculate_rebate_margin_impl_total_award_percent() {
 		ToroContractChartPPHelper helper = new ToroContractChartPPHelper();
 
 		Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
@@ -57,6 +57,83 @@ private class ToroContractChartPPHelperTest {
 			FROM
 				Revvy__MnStrategy4__c];
 
+		helper.calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
+	}
+
+	/**
+	 *
+	 * test_calculate_rebate_margin_impl
+	 *
+	 * @result the key result
+	 */
+	@isTest static void test_calculate_rebate_margin_impl_gross_profit_percent() {
+		ToroContractChartPPHelper helper = new ToroContractChartPPHelper();
+
+		Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		String priceProgram = 'STILargePackageProgram';
+		String priceMethod = 'Gross Profit %';
+
+		List<Revvy__MnStrategy4__c> quoteItemList = [
+			SELECT
+			 	Off_MSRP__c
+				, MSRP_Price__c
+				, Award_Price__c
+				, Award_of_DN__c
+				, DNet_Price__c
+			FROM
+				Revvy__MnStrategy4__c];
+
+		helper.calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
+	}
+
+	/**
+	 *
+	 * test_calculate_rebate_margin_impl
+	 *
+	 * @result the key result
+	 */
+	@isTest static void test_calculate_rebate_margin_impl_perecent_off_msrp() {
+		ToroContractChartPPHelper helper = new ToroContractChartPPHelper();
+
+		Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		String priceProgram = 'STILargePackageProgram';
+		String priceMethod = '% off MSRP';
+
+		List<Revvy__MnStrategy4__c> quoteItemList = [
+			SELECT
+			 	Off_MSRP__c
+				, MSRP_Price__c
+				, Award_Price__c
+				, Award_of_DN__c
+				, DNet_Price__c
+			FROM
+				Revvy__MnStrategy4__c];
+
+		helper.calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
+	}
+
+	/**
+	 *
+	 * test_calculate_rebate_margin_impl
+	 *
+	 * @result the key result
+	 */
+	@isTest static void test_calculate_rebate_margin_impl_percent_of_dnet() {
+		ToroContractChartPPHelper helper = new ToroContractChartPPHelper();
+
+		Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		String priceProgram = 'STILargePackageProgram';
+		String priceMethod = '% of DNET';
+
+		List<Revvy__MnStrategy4__c> quoteItemList = [
+			SELECT
+			 	Off_MSRP__c
+				, MSRP_Price__c
+				, Award_Price__c
+				, Award_of_DN__c
+				, DNet_Price__c
+			FROM
+				Revvy__MnStrategy4__c];
 
 		helper.calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
 	}
