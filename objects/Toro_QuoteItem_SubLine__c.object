@@ -903,7 +903,7 @@
     <fields>
         <fullName>Toro_Subline_Rebate__c</fullName>
         <externalId>false</externalId>
-        <label>Subline Rebate</label>
+        <label>Rebate</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
