@@ -243,24 +243,26 @@ public abstract class ToroPricingProgram {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
 					qis.Toro_Extended_Qty__c = extQty;
-					decimal qisTPPAppliedDNet = 0;
-					decimal qisToroDNet = 0;
-					decimal qisTPPAppliedMSRP = 0;
-					decimal qisToroMSRP = 0;
-		        	decimal qisTPPAppliedAward = 0;
-					decimal qisToroAward = 0;
+					decimal qisRollupTPPAppliedDNet = 0;
+					decimal qisRollupToroDNet = 0;
+					decimal qisRollupTPPAppliedMSRP = 0;
+					decimal qisRollupToroMSRP = 0;
+		        	decimal qisRollupTPPAppliedAward = 0;
+					decimal qisRollupToroAward = 0;
 					qis.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
 					qis.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c);
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					if(excludeTPPAllied(qi)) {
-						qisToroDNet += qis.DNet_Price__c * extQty;	
-						qisToroMSRP += qis.MSRP_Price__c * extQty;
-						qisToroAward += qis.Award_Price__c * extQty;
+						qisRollupToroDNet += qis.DNet_Price__c * extQty;	
+						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
+						qisRollupToroAward += qis.Award_Price__c * extQty;
 					} else {
-						qisTPPAppliedDNet += qis.DNet_Price__c * extQty;
-						qisTPPAppliedMSRP += qis.MSRP_Price__c * extQty;
-						qisTPPAppliedAward += qis.Award_Price__c * extQty;
+						//use TPP_DNet here
+						qisRollupTPPAppliedDNet += CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty;
+						qisRollupTPPAppliedMSRP += qis.MSRP_Price__c * extQty;
+						qisRollupTPPAppliedAward += qis.Award_Price__c * extQty;
 					}
+					
 					
 					quoteTotalAward += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * qis.Toro_Extended_Qty__c;
 					qi.Total_Award__c += CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) * qis.Toro_Extended_Qty__c;

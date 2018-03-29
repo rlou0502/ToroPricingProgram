@@ -12,6 +12,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 			if(!qi.Unit_Award_Overridden__c) {
 				//Todo
 	        	qi.Award_Price__c=0;//qi.REVVY__Unit_Price__c = qi.Revvy__Price__c;
+	        	qi.Unit_Award_Overridden__c=true;
 			}
 	        //qi.revvy__freezepricing__c=false;
 	        
@@ -21,6 +22,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 					if(!qis.Unit_Award_Overridden__c) {
 						//Todo
 			        	qis.Award_Price__c=qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c = qi.Revvy__Price__c;
+			        	qis.Unit_Award_Overridden__c = true;
 					}
 			        //qis.revvy__freezepricing__c=false;
 	        		
@@ -94,6 +96,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		if(!qi.Unit_Award_Overridden__c) {
 			//Todo
         	qi.Award_Price__c=0; //qi.REVVY__Unit_Price__c = qi.Revvy__Price__c; 
+        	qi.Unit_Award_Overridden__c=true;
 		}
         //qi.revvy__freezepricing__c=false;
 		system.debug('+++++++++++++++++ PP QuoteItem bperformancePart=' + bperformancePart);
@@ -106,6 +109,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
             qi.Off_MSRP__c = 0;
             if(!qi.Unit_Award_Overridden__c) {
             	qi.Award_Price__c =qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c;
+            	qi.Unit_Award_Overridden__c=true;
             }
             result = true;
 		}
@@ -118,6 +122,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		qi.Performance_Part__c = false;
 		if(!qi.Unit_Award_Overridden__c) {
         	qi.Award_Price__c=qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c = qi.Revvy__Price__c;
+        	qi.Unit_Award_Overridden__c=true;
 		}
         //qi.revvy__freezepricing__c=false;
 		system.debug('+++++++++++++++++ PP QuoteItemSubLine bperformancePart=' + bperformancePart);
@@ -129,6 +134,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
             //qi.revvy__freezepricing__c=true;
             if(!qi.Unit_Award_Overridden__c) {
             	qi.Award_Price__c =qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c;
+            	qi.Unit_Award_Overridden__c=true;
             }
 		}
 	}	
