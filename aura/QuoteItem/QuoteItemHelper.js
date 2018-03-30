@@ -141,7 +141,7 @@
             tableData.className += field.fieldPath;
             var cellText = document.createElement('div');
             cellText.className += " slds-truncate slds-cell-wrap";
-            var freeze = sObj["FreezePricing__c"];
+            var freeze = sObj["Freeze_Line__c"];
             //check quote item
             var performancePart = sObj["Performance_Parts_Product__c"];
             if(performancePart === undefined) {

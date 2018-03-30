@@ -700,6 +700,14 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Freeze_Line__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Freeze Line</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
         <label>GP%</label>
