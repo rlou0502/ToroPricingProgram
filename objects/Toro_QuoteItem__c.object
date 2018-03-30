@@ -865,11 +865,6 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Blended_MSRP__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Toro_Blend_Of_DN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -886,6 +881,11 @@
         </displayedFields>
         <displayedFields>
             <field>Total_Gross_Profit_Value__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Blended_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -961,11 +961,6 @@
         </displayedFields>
         <displayedFields>
             <field>Toro_Gross_Profit_Percent__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Off_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1890,7 +1885,7 @@
     <fields>
         <fullName>Total_Toro_DNET__c</fullName>
         <externalId>false</externalId>
-        <label>Total Toro DNET</label>
+        <label>EXT DNET</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1900,7 +1895,7 @@
     <fields>
         <fullName>Total_Toro_MSRP__c</fullName>
         <externalId>false</externalId>
-        <label>Total Toro MSRP</label>
+        <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
