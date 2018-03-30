@@ -70,7 +70,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			resetQIPercentage(qi);
 			
 			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-				deleteSetupFeeLineItemId.add(qi.Id);
+				//deleteSetupFeeLineItemId.add(qi.Id);
 				deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
 			}
 			Decimal dsetupFeesQIS = 0;

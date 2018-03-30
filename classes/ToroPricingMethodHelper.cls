@@ -65,7 +65,9 @@ public with sharing class ToroPricingMethodHelper {
 							extDNet += qis.Toro_DNet_Price__c * extQty;
 							qis.Award_Price__c = setMSRPAwardPrice(qis);
 							extAward += qis.Award_Price__c * extQty;
-							qis.Percent_of_DNet__c = qis.Award_Price__c /qis.Toro_DNet_Price__c*100;
+							if(qis.Toro_DNet_Price__c != null && qis.Toro_DNet_Price__c != 0 ) {
+								qis.Percent_of_DNet__c = qis.Award_Price__c /qis.Toro_DNet_Price__c*100;
+							}
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- extDNet = ' + extDNet);			
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- extAward = ' + extAward);							
 						} else {

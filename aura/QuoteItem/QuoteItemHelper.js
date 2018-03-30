@@ -208,10 +208,12 @@
                 } else if(field.type.toLowerCase() === 'string') {
                     var dispVal = sObj[field.fieldPath];
                     if(field.fieldPath=="PricingMethodValue__c") {
-                    	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});    
+                    	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
                     }
-                    cellText.innerHTML = dispVal;
-                    cellText.title=dispVal;
+                    if(dispVal != "NaN") {
+                        cellText.innerHTML = dispVal;
+                        cellText.title=dispVal;
+                    }
                 }              
             }
             tableData.appendChild(cellText);
@@ -305,7 +307,7 @@
         if(selectedPricingProgram){
         	var option1 = document.createElement("option");
         	option1.value = selectedPricingProgram;
-    		option1.text = "Market Support Chart Large Package";
+    		option1.text = "Large Package";
             pricingProgramSelect.appendChild(option1);
         }
         if(dempPPs){
