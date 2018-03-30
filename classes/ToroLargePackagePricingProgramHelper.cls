@@ -48,7 +48,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return true;
 	}
 
-	public override List<Toro_QuoteItem__c> preCalculateRebateMargin(Id quoteId, String priceProgram,															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){		
+	public override List<Toro_QuoteItem__c> preCalculateRebateMargin(Id quoteId, String priceProgram,String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){		
 			//Performance Part
 			for(Toro_QuoteItem__c qi : quoteItemList) {
 				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Toro_QuoteItem__c 222 performancePartFlag='+performancePartFlag  );
@@ -97,6 +97,19 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
 		helper.pricingProgramExternalId = priceProgram;
 		helper.quoteItemList = quoteItemList;
+		for (Toro_QuoteItem__c qi : quoteItemList) {
+				qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;
+				system.debug('% off msrp for ' + qi.Product_Name__c + '=' + qi.Off_MSRP__c);
+				
+					if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+						for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							
+							system.debug('% off msrp for ' + qis.Product_Name__c + '=' + qis.Percent_Off_MSRP__c);
+						}
+					}
+				
+			}
+			
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
 
 			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
