@@ -75,11 +75,6 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>DNet_Price_2__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Toro_Extended_DNET_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -603,17 +598,6 @@
         <fullName>Award_Price__c</fullName>
         <externalId>false</externalId>
         <label>AWARD</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>DNet_Price_2__c</fullName>
-        <description>DNet_Price_2 will be populated from within a trigger</description>
-        <externalId>false</externalId>
-        <label>DNet Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

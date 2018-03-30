@@ -44,7 +44,7 @@ public with sharing class ToroPricingMethodHelper {
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) *(1-CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)/100);
 				} 
-				qi.Toro_Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+				qi.Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				extDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				extAward = qi.Award_Price__c * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
@@ -102,7 +102,7 @@ public with sharing class ToroPricingMethodHelper {
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;										
 				} 
-				qi.Toro_Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+				qi.Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				qi.Off_MSRP__c = (1 - qi.Award_Price__c/qi.MSRP_Price__c)*100;
 				extDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
@@ -364,7 +364,7 @@ public with sharing class ToroPricingMethodHelper {
 			if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
 				qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c * 100;
 			}
-			qi.Toro_Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
+			qi.Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {
@@ -387,7 +387,7 @@ public with sharing class ToroPricingMethodHelper {
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			decimal qiExtDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			system.debug(logginglevel.info, 'distributeTotalAwordDollors qi dnet  =' + qiExtDNet);
-			qi.Toro_Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
+			qi.Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {

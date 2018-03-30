@@ -55,7 +55,12 @@
         <fullName>DNet_Field_Set</fullName>
         <description>Pricing Program</description>
         <displayedFields>
-            <field>Toro_Extended_DNet_Price__c</field>
+            <field>Extended_DNet_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Total_Toro_DNET__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -66,11 +71,6 @@
         </displayedFields>
         <displayedFields>
             <field>Toro_Blend_Of_DN__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Total_Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -195,7 +195,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_MSRP_Price__c</field>
+            <field>Extended_MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -205,7 +205,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_DNet_Price__c</field>
+            <field>Total_Toro_DNET__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -340,7 +340,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_Award_Price__c</field>
+            <field>Total_Award__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -405,7 +405,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_MSRP_Price__c</field>
+            <field>Extended_MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -415,7 +415,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_DNet_Price__c</field>
+            <field>Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -425,7 +425,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_Award_Price__c</field>
+            <field>Extended_Award_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -620,12 +620,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_Award_DNet_Price__c</field>
+            <field>Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_Award_MSRP_Price__c</field>
+            <field>Extended_MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -640,7 +640,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_Award_Price__c</field>
+            <field>Extended_Award_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -920,7 +920,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_MSRP_Price__c</field>
+            <field>Extended_MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -930,7 +930,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_DNet_Price__c</field>
+            <field>Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1046,17 +1046,6 @@
         <scale>4</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
-    </fields>
-    <fields>
-        <fullName>DNet_Price_2__c</fullName>
-        <description>This field is the same as Revvy_Suggested_Price and populated via trigger.</description>
-        <externalId>false</externalId>
-        <label>DNet Price Do Not Use</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
     </fields>
     <fields>
         <fullName>DNet_Price__c</fullName>
@@ -1357,18 +1346,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>QI_Rebate__c</fullName>
-        <externalId>false</externalId>
-        <formula>Toro_Total_Rebate__c -  Toro_Rollup_Subline_Rebate__c</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Rebate</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Quantity__c</fullName>
         <externalId>false</externalId>
         <formula>QuoteItem__r.REVVY__Quantity__c</formula>
@@ -1478,18 +1455,6 @@
         <type>Percent</type>
     </fields>
     <fields>
-        <fullName>Setup_Fee_Amount__c</fullName>
-        <externalId>false</externalId>
-        <formula>Toro_Extended_Award_Price__c * Fee_Percentage__c</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>Setup Fee Amount</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Standard_Price__c</fullName>
         <externalId>false</externalId>
         <label>Standard Price</label>
@@ -1552,17 +1517,6 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Toro_DNet_Price__c</fullName>
-        <description>[Extended DNet price including children rollup extended DNet price. ]</description>
-        <externalId>false</externalId>
-        <label>Total Ext DNet</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Toro_Distributor_Responsibility__c</fullName>
         <externalId>false</externalId>
         <label>Distributor Responsibility</label>
@@ -1573,51 +1527,9 @@
         <type>Percent</type>
     </fields>
     <fields>
-        <fullName>Toro_Extended_Award_DNet_Price__c</fullName>
-        <description>This is the award price for a quote item when price method is &quot;% of DNet&quot;.</description>
-        <externalId>false</externalId>
-        <label>Extended Award DNet Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Extended_Award_MSRP_Price__c</fullName>
-        <description>This is the award price for a quote item when price method is &quot;% off MSRP&quot;.</description>
-        <externalId>false</externalId>
-        <label>Extended Award MSRP Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Toro_Extended_Award_Price__c</fullName>
         <externalId>false</externalId>
         <label>EXT AWARD</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Extended_DNet_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>EXT  DNET</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Extended_MSRP_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1665,17 +1577,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Toro_Quantity__c</fullName>
-        <externalId>false</externalId>
-        <label>Qty</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Toro_Rebate__c</fullName>
         <externalId>false</externalId>
         <label>Toro Rebate</label>
@@ -1684,120 +1585,6 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_DNet_Price__c</fullName>
-        <description>This field is used in formula field DNet_Price__c which is used in rebate calculation.</description>
-        <externalId>false</externalId>
-        <label>Rollup DNet Price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_Num_of_SubLines_for_Rebate__c</fullName>
-        <externalId>false</externalId>
-        <label>Rollup Num of SubLines for Rebate</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_Partner_Products__c</fullName>
-        <description>Roll up partner products whose product Id starts with &quot;L&quot;</description>
-        <externalId>false</externalId>
-        <label>Rollup Partner Products</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_Subline_Rebate__c</fullName>
-        <externalId>false</externalId>
-        <label>Rollup Subline Rebate</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_Sum_percent_Rebate_of_Dnet__c</fullName>
-        <description>Rollup - Sum percentage of all Sublines Rebate  as a % of DNet; used to get Rebate % of Dnet for quoteitem</description>
-        <externalId>false</externalId>
-        <label>Rollup Sum percent Rebate of Dnet</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Rollup_TPP__c</fullName>
-        <description>Roll up on Toro sub lines whose product Id starts with &quot;TPP&quot;</description>
-        <externalId>false</externalId>
-        <label>Rollup TPP</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Total_Award_price__c</fullName>
-        <externalId>false</externalId>
-        <label>Total Award price</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Total_Extended_Award_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Toro Award</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Total_Extended_DNet_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>EXT  DNET</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Total_Extended_MSRP_Price__c</fullName>
-        <externalId>false</externalId>
-        <label>Ext MSRP</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Total_MSRP_Percentage__c</fullName>
-        <externalId>false</externalId>
-        <label>Total % off MSRP</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Percent</type>
     </fields>
     <fields>
         <fullName>Toro_Total_Rebate__c</fullName>
@@ -1838,17 +1625,6 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
-    </fields>
-    <fields>
-        <fullName>Total_Gross_Profit_Percent__c</fullName>
-        <description>A Blended GP%</description>
-        <externalId>false</externalId>
-        <label>GP %</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackTrending>false</trackTrending>
-        <type>Percent</type>
     </fields>
     <fields>
         <fullName>Total_Gross_Profit_Value__c</fullName>
