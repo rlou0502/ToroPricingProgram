@@ -325,7 +325,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Total_Award__c</field>
+            <field>Total_Toro_Award__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
