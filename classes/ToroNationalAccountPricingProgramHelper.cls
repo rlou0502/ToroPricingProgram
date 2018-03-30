@@ -122,7 +122,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 					resetQISLPercentage(qis);
 					
 					//Performance Part
-					qis=ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
+					ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
 					System.debug('>>> +++++++++++++++++ NAT 000');
 					if(!bqiPP) {
 						

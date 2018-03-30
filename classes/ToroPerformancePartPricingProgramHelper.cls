@@ -115,7 +115,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		return result;
 	}   
 	
-	public static Toro_QuoteItem_SubLine__c applyPerformancePartForQuoteItemSubLine(Boolean bperformancePart, Toro_QuoteItem_SubLine__c qi, Map<String,Decimal> ppMap) {
+	public static void applyPerformancePartForQuoteItemSubLine(Boolean bperformancePart, Toro_QuoteItem_SubLine__c qi, Map<String,Decimal> ppMap) {
 		system.debug('+++++++++++++++++ Performance Part quoteItem' + qi);
 		
 		qi.Performance_Part__c = false;
@@ -136,7 +136,6 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
             	qi.Unit_Award_Overridden__c=true;
             //}
 		}
-		return qi;
 	}	
 	
 	/*

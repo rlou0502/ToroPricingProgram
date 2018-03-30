@@ -520,7 +520,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_MSRP_Price__c</field>
+            <field>Extended_MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -530,7 +530,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_DNet_Price__c</field>
+            <field>Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -540,7 +540,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Extended_Award_Price__c</field>
+            <field>Extended_Award_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -705,7 +705,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_MSRP_Price__c</field>
+            <field>Total_Toro_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -715,7 +715,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_DNet_Price__c</field>
+            <field>Total_Toro_DNET__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -740,7 +740,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Total_Extended_Award_Price__c</field>
+            <field>Total_Toro_Award__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1111,7 +1111,7 @@
         <fullName>Extended_DNet_Price__c</fullName>
         <description>Traction Unit Level DNet</description>
         <externalId>false</externalId>
-        <label>Extended DNet Price</label>
+        <label>EXT DNET</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1122,7 +1122,7 @@
         <fullName>Extended_MSRP_Price__c</fullName>
         <description>Traction UNit Level MSRP</description>
         <externalId>false</externalId>
-        <label>Extended MSRP Price</label>
+        <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
