@@ -96,7 +96,6 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		if(!qi.Unit_Award_Overridden__c) {
 			//Todo
         	qi.Award_Price__c=0; //qi.REVVY__Unit_Price__c = qi.Revvy__Price__c; 
-        	qi.Unit_Award_Overridden__c=true;
 		}
         //qi.revvy__freezepricing__c=false;
 		system.debug('+++++++++++++++++ PP QuoteItem bperformancePart=' + bperformancePart);
@@ -107,36 +106,37 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 			qi.Performance_Parts_Product__c = true;
             //qi.revvy__freezepricing__c=true;
             qi.Off_MSRP__c = 0;
-            if(!qi.Unit_Award_Overridden__c) {
-            	qi.Award_Price__c =qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c;
+            //if(!qi.Unit_Award_Overridden__c) {
+            	qi.Award_Price__c =ppMap.get(qi.Product_Id__c); //qi.REVVY__Unit_Price__c;
             	qi.Unit_Award_Overridden__c=true;
-            }
+            //}
             result = true;
 		}
 		return result;
 	}   
 	
-	public static void applyPerformancePartForQuoteItemSubLine(Boolean bperformancePart, Toro_QuoteItem_SubLine__c qi, Map<String,Decimal> ppMap) {
+	public static Toro_QuoteItem_SubLine__c applyPerformancePartForQuoteItemSubLine(Boolean bperformancePart, Toro_QuoteItem_SubLine__c qi, Map<String,Decimal> ppMap) {
 		system.debug('+++++++++++++++++ Performance Part quoteItem' + qi);
 		
 		qi.Performance_Part__c = false;
 		if(!qi.Unit_Award_Overridden__c) {
         	qi.Award_Price__c=qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c = qi.Revvy__Price__c;
-        	qi.Unit_Award_Overridden__c=true;
 		}
         //qi.revvy__freezepricing__c=false;
 		system.debug('+++++++++++++++++ PP QuoteItemSubLine bperformancePart=' + bperformancePart);
 		if(bperformancePart!=null && bperformancePart 
-		&& ppMap !=null && ppMap.containsKey(qi.Product_ID2__c)) {
+		&& ppMap !=null && ppMap.containsKey(qi.Product_ID__c)) {
 			//qi.MSRP_Price__c = ppMap.get(qi.Product_ID2__c);
-			system.debug('&&&&&&&&&&&&&&&&&&&&&&& PP QuoteItemSubLine qi.MSRP_Price__c=' + qi.MSRP_Price__c + ' - '+ qi.Product_ID2__c);
+			system.debug('&&&&&&&&&&&&&&&&&&&&&&& PP QuoteItemSubLine qi.MSRP_Price__c=' + qi.MSRP_Price__c + ' - '+ qi.Product_ID__c + '---' + ppMap.get(qi.Product_Id__c));
 			qi.Performance_Part__c = true;
             //qi.revvy__freezepricing__c=true;
-            if(!qi.Unit_Award_Overridden__c) {
-            	qi.Award_Price__c =qi.MSRP_Price__c; //qi.REVVY__Unit_Price__c;
+            //if(!qi.Unit_Award_Overridden__c) {
+            	qi.Award_Price__c =ppMap.get(qi.Product_Id__c); //qi.REVVY__Unit_Price__c;
+            	system.debug('&&&&&&&&&&&&&&&&&&&&&&& PP QuoteItemSubLine qi.Award_Price__c=' + qi.Award_Price__c);
             	qi.Unit_Award_Overridden__c=true;
-            }
+            //}
 		}
+		return qi;
 	}	
 	
 	/*
