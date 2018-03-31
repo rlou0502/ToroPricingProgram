@@ -136,8 +136,10 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 			
 			if(bperformancePart) {
 				//qi.Original_off_MSRP__c = qi.Percent_Off_MSRP__c;
-				ToroCacheManager.getPercentOffMSRP().put(qi.Id, qi.Percent_Off_MSRP__c);
-				
+				Map<Id, decimal> msrpMap = ToroCacheManager.getPercentOffMSRP();
+				msrpMap.put(qi.Id, qi.Percent_Off_MSRP__c);
+				ToroCacheManager.setPercentOffMSRP(msrpMap);
+				system.debug('ToroCacheManager.getPercentOffMSRP()=' + ToroCacheManager.getPercentOffMSRP());
 				qi.Percent_Off_MSRP__c = 0;
 				system.debug('&&&&&&&&&&&&&&&&&&&&&&& PP QuoteItemSubLine qi.MSRP_Price__c=' + qi.MSRP_Price__c + ' - '+ qi.Product_ID__c + '---' + ppMap.get(qi.Product_Id__c));
 				qi.Performance_Part__c = true;
@@ -146,8 +148,13 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
             	qi.Unit_Award_Overridden__c=true;
             	qi.Freeze_Line__c = true;          	
 			} else {
+				system.debug('ToroCacheManager.getPercentOffMSRP()=' + ToroCacheManager.getPercentOffMSRP());
 				if(ToroCacheManager.getPercentOffMSRP().containsKey(qi.Id)) {
-					qi.Percent_Off_MSRP__c = ToroCacheManager.getPercentOffMSRP().get(qi.Id);		
+					system.debug('ToroCacheManager.getPercentOffMSRP() val=' + ToroCacheManager.getPercentOffMSRP().get(qi.Id));
+					Map<Id, decimal> msrpMap = ToroCacheManager.getPercentOffMSRP();
+					qi.Percent_Off_MSRP__c = msrpMap.get(qi.Id);
+					msrpMap.remove(qi.Id);	
+					ToroCacheManager.setPercentOffMSRP(msrpMap);	
 				}
 				
 				qi.Performance_Part__c = false;
