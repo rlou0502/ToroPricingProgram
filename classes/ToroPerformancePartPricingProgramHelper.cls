@@ -128,8 +128,10 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		system.debug('+++++++++++++++++ PP QuoteItemSubLine bperformancePart=' + bperformancePart);
 		 
 		if(ppMap !=null && ppMap.containsKey(qi.Product_ID__c)) {
-			qi.Percent_Off_MSRP__c = 0;
+			
 			if(bperformancePart) {
+				qi.Original_off_MSRP__c = qi.Percent_Off_MSRP__c;
+				qi.Percent_Off_MSRP__c = 0;
 				system.debug('&&&&&&&&&&&&&&&&&&&&&&& PP QuoteItemSubLine qi.MSRP_Price__c=' + qi.MSRP_Price__c + ' - '+ qi.Product_ID__c + '---' + ppMap.get(qi.Product_Id__c));
 				qi.Performance_Part__c = true;
             	qi.Award_Price__c =ppMap.get(qi.Product_Id__c); //qi.REVVY__Unit_Price__c;
@@ -137,6 +139,9 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
             	qi.Unit_Award_Overridden__c=true;
             	qi.Freeze_Line__c = true;          	
 			} else {
+				if(qi.Percent_Off_MSRP__c == null || qi.Percent_Off_MSRP__c ==0) {
+					qi.Percent_Off_MSRP__c = qi.Original_off_MSRP__c;
+				}
 				qi.Performance_Part__c = false;
 				qi.Award_Price__c = 0;
 				qi.Unit_Award_Overridden__c=false;

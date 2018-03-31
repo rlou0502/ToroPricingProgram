@@ -757,6 +757,16 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Original_off_MSRP__c</fullName>
+        <externalId>false</externalId>
+        <label>Original % off MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
         <fullName>Part_Percentage__c</fullName>
         <defaultValue>0</defaultValue>
         <externalId>false</externalId>
