@@ -99,15 +99,20 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		system.debug('+++++++++++++++++ PP QuoteItem bperformancePart=' + bperformancePart);
 		
 		if(ppMap !=null && ppMap.containsKey(qi.Product_Id__c)) {
-			qi.Off_MSRP__c = 0;
+			
 			if(bperformancePart){
 				//qi.MSRP_Price__c = ppMap.get(qi.Product_Id__c);
+				ToroCacheManager.getPercentOffMSRP().put(qi.Id, qi.Off_MSRP__c);
+				qi.Off_MSRP__c = 0;
 				system.debug('&&&&&&&&&&&&&&&&&&&&&&& 1000 PP QuoteItem qi.Product_Id__c=' + qi.Product_Id__c + ' qi.MSRP_Price__c='+qi.MSRP_Price__c);
 				qi.Performance_Parts_Product__c = true;            
             	qi.Award_Price__c =ppMap.get(qi.Product_Id__c); //qi.REVVY__Unit_Price__c;
             	qi.Unit_Award_Overridden__c=true;
             	qi.Freeze_Line__c = true;
 			} else {
+				if(ToroCacheManager.getPercentOffMSRP().containsKey(qi.Id)) {
+					qi.Off_MSRP__c = ToroCacheManager.getPercentOffMSRP().get(qi.Id);		
+				}
 				qi.Award_Price__c=0;
 				qi.Unit_Award_Overridden__c = false;
 				qi.Freeze_Line__c = false;	
@@ -130,7 +135,9 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		if(ppMap !=null && ppMap.containsKey(qi.Product_ID__c)) {
 			
 			if(bperformancePart) {
-				qi.Original_off_MSRP__c = qi.Percent_Off_MSRP__c;
+				//qi.Original_off_MSRP__c = qi.Percent_Off_MSRP__c;
+				ToroCacheManager.getPercentOffMSRP().put(qi.Id, qi.Percent_Off_MSRP__c);
+				
 				qi.Percent_Off_MSRP__c = 0;
 				system.debug('&&&&&&&&&&&&&&&&&&&&&&& PP QuoteItemSubLine qi.MSRP_Price__c=' + qi.MSRP_Price__c + ' - '+ qi.Product_ID__c + '---' + ppMap.get(qi.Product_Id__c));
 				qi.Performance_Part__c = true;
@@ -139,9 +146,10 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
             	qi.Unit_Award_Overridden__c=true;
             	qi.Freeze_Line__c = true;          	
 			} else {
-				if(qi.Percent_Off_MSRP__c == null || qi.Percent_Off_MSRP__c ==0) {
-					qi.Percent_Off_MSRP__c = qi.Original_off_MSRP__c;
+				if(ToroCacheManager.getPercentOffMSRP().containsKey(qi.Id)) {
+					qi.Percent_Off_MSRP__c = ToroCacheManager.getPercentOffMSRP().get(qi.Id);		
 				}
+				
 				qi.Performance_Part__c = false;
 				qi.Award_Price__c = 0;
 				qi.Unit_Award_Overridden__c=false;
