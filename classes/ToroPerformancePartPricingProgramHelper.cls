@@ -64,7 +64,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 	*/
 	
 	public static Map<String,Decimal> retrievePerformancePart() {
-		Map<String,Decimal> ppMap = new Map<String,Decimal>();
+		//Map<String,Decimal> ppMap = new Map<String,Decimal>();
 		/*
 		for(Toro_PricingProgramLine__c rl:[Select Id, ApplicableProducts__c, Pricing_1__c
 		                          From Toro_PricingProgramLine__c
@@ -72,7 +72,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		                           and PricingProgram__r.PricingProgramType__c = 'Performance Part' ]) {
 			ppMap.put(rl.ApplicableProducts__c, rl.Pricing_1__c);                           	
 		}*/
-		
+		/*
 		for(REVVY__MnPriceListLine__c pl:[Select Id, REVVY__Product_Id__c, REVVY__PriceList__c, REVVY__PriceField4__c
 		                                   From REVVY__MnPriceListLine__c 
 		                                  Where REVVY__PriceList__r.REVVY__ID__c = 'Commercial'
@@ -83,8 +83,9 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 
 		  								 ]) {
 			ppMap.put(pl.REVVY__Product_Id__c, pl.REVVY__PriceField4__c);   	
-		}		
-		return ppMap;
+		}
+		*/		
+		return ToroCacheManager.getPerformancePartMap(); 
 	}
 
 
