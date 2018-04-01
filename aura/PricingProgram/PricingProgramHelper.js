@@ -16,6 +16,14 @@
             }
         );
     },
+    calculateHelper : function(component, quoteId) {  	
+        helper.resetQuoteApproval(component, quoteId);
+        var quoteHeaderCmp = component.find("cmpQuoteHeader");
+        var result = quoteHeaderCmp.getQuoteInfo();
+    	var childCmp = component.find("cmpQuoteItem");
+		childCmp.calculate(result.PricingProgram, result.PricingMethod,
+                           result.SetupFeePercent, result.PerformancePart);    
+    },
     resetQuoteApproval : function(component, quoteId) {
         var action = component.get('c.resetQuoteApproval');
         action.setParams({

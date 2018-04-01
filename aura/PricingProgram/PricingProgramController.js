@@ -3,7 +3,12 @@
         component.set("v.forwardUrl", "/");
         helper.openWindow(component, event, helper);
     },
-
+    calculate : function(component, event, helper) {
+    	var quoteId = component.get('v.quoteId');
+        if (quoteId) {
+            helper.calculateHelper();
+        }    
+    },
     manageProduct: function(component, event, helper) {
         //var quoteId = component.get('v.quoteId');
         component.set("v.forwardUrl", "/apex/REVVY__PMnUIShell#mnquote/detail/");
@@ -11,17 +16,11 @@
 
         //document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
     },
-    calculate : function(component, event, helper) {
+    calculate : function(component, event, helper) {       
         var quoteId = component.get('v.quoteId');
         if (quoteId) {
-            helper.resetQuoteApproval(component, quoteId);
+            helper.calculateHelper();
         }
-
-        var quoteHeaderCmp = component.find("cmpQuoteHeader");
-        var result = quoteHeaderCmp.getQuoteInfo();
-    	var childCmp = component.find("cmpQuoteItem");
-		childCmp.calculate(result.PricingProgram, result.PricingMethod,
-                           result.SetupFeePercent, result.PerformancePart);
     },
     handleCalculationComplete: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");

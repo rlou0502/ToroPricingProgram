@@ -564,7 +564,8 @@
 	        function(response) {
                 var retResponse = response.getReturnValue();
                 if(retResponse.nextAction == "calculation") {
-                    
+                	var cmpEvent = component.getEvent("calculateEvent");   
+                    cmpEvent.fire();
                 } else {
             		self.renderView(component, response); 
                 }

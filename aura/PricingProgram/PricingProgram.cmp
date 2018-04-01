@@ -13,7 +13,7 @@
 	<aura:handler name="init" value="{!this}" action="{!c.init}" />
     <aura:handler name="PMAwardPriceChangeEvent" event="c:PricingMethodAwardPriceChangeEvent" action="{!c.handleAwardPriceChange}"/>
     <aura:handler name="PMGPPercentChangeEvent" event="c:PricingMethodGPPercentChangeEvent" action="{!c.handleGPPercentChange}"/>
-    <aura:handler name="calculateEvent" event="c:ToroCalculateEvent" action="{!c.doCalculate}"/>
+    <aura:handler name="calculateEvent" event="c:ToroCalculateEvent" action="{!c.calculate}"/>
     <input type="hidden" id="xOffset" /> 
     <input type="hidden" id="yOffset" />
     <input type="hidden" id="xCurrent" /> 
