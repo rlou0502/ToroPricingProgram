@@ -113,22 +113,37 @@ public abstract class ToroPricingProgram {
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		return 	quoteItemList;
 	}
+	@future
+	public static void deleteSetupFee(Set<Id> toroQIList, Set<Id> QIList) {
+		delete [Select Id From Toro_QuoteItem__c where Id in :toroQIList];
+		delete [Select Id From REVVY__MnQuoteItem__c where Id in :QIList];	
+	}
 	public virtual List<Toro_QuoteItem__c> calculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList, boolean save ){
 		Long perfStart = System.limits.getCpuTime();
 		performancePartMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
-
-		//remove setup fees
-		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
-		for(Toro_QuoteItem__c qi : quoteItemList) {
-			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-				//deleteSetupFeeLineItemId.add(qi.Id);
-				deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
+		if(!displaySetupFee()) {
+			//remove setup fees
+			Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
+			Integer index = 0;
+			List<Integer> itemsToDelete= new List<Integer>();
+			for(Toro_QuoteItem__c qi : quoteItemList) {
+				if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
+					deleteSetupFeeLineItemId.add(qi.Id);
+					deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
+					itemsToDelete.add(index);
+					
+				}
+				index++;
 			}
+			if(itemsToDelete.size() != 0) {
+				for(Integer i=itemsToDelete.size()-1 ; i >= 0; i--) {
+					quoteItemList.remove(itemsToDelete[i]);	
+				}
+				
+			}
+			deleteSetupFee(deleteSetupFeeLineItemId, deleteSetupFeeLineItemId);
 		}
-		//delete [Select Id From Toro_QuoteItem__c where Id in :deleteSetupFeeLineItemId];
-		delete [Select Id From REVVY__MnQuoteItem__c where Id in :deleteSetupFeeLineItemId];
-
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl quoteId =' + quoteId + ' -- priceProgram' + priceProgram);
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl priceMethod =' + priceMethod + ' -- ' + quoteItemList);
