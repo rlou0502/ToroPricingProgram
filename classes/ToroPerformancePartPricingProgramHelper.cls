@@ -156,12 +156,11 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 					qi.Percent_Off_MSRP__c = msrpMap.get(qi.Id);
 					msrpMap.remove(qi.Id);	
 					ToroCacheManager.setPercentOffMSRP(msrpMap);	
-				}
-				
-				qi.Performance_Part__c = false;
-				qi.Award_Price__c = 0;
-				qi.Unit_Award_Overridden__c=false;
-				qi.Freeze_Line__c = false;
+					qi.Performance_Part__c = false;
+					qi.Award_Price__c = 0;
+					qi.Unit_Award_Overridden__c=false;
+					qi.Freeze_Line__c = false;
+				}			
 			}
 		}
 	}	
