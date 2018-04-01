@@ -105,12 +105,16 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
 			quoteItemList = helper.quoteItemList;
 			for (Toro_QuoteItem__c qi : quoteItemList) {
-				qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;
+				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0 ) {
+					qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;
+				}
 				if(qi.Award_of_DN__c != null) {
 					if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 						for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 							decimal dnet = (qis.TPP_Line_Item__c == true) ? CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) : CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
-							qis.Percent_Off_MSRP__c = ((qis.MSRP_Price__c-qis.Award_Price__c)/qis.MSRP_Price__c)*100;
+							if(qis.MSRP_Price__c != null && qis.MSRP_Price__c != 0) {
+								qis.Percent_Off_MSRP__c = ((qis.MSRP_Price__c-qis.Award_Price__c)/qis.MSRP_Price__c)*100;
+							}
 						}
 					}
 				}

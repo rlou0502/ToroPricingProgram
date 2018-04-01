@@ -464,6 +464,7 @@ public class ToroPricingProgramController {
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Award_Price__c=0;
     				qi.PricingMethodValue__c=null;
+    				qi.Performance_Parts_Product__c = false;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
@@ -471,8 +472,11 @@ public class ToroPricingProgramController {
 	    					qis.Rebate_as_of_DNet__c=0;
 	    					qis.Award_Price__c=0;
 	    					qis.PricingMethodValue__c=null;	
+	    					qis.Unit_Award_Overridden__c=false;
+	    					qis.Performance_Part__c = false;
 	    				}
-    				}				
+    				}	
+    							
     			}
     			List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(objId, ppd.externalId, so.value, pp.quoteItems,false);
     			rs.selectedPricingMethod = so.value;
@@ -488,13 +492,17 @@ public class ToroPricingProgramController {
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Award_Price__c=0;
     				qi.PricingMethodValue__c=null;
+    				qi.Performance_Parts_Product__c = false;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
 	    					qis.Award_Price__c=0;
-	    					qis.PricingMethodValue__c=null;	
+	    					qis.PricingMethodValue__c=null;
+	    					qis.Unit_Award_Overridden__c=false;
+	    					qis.Performance_Part__c = false;
+	    					
 	    				}
     				}				
     			}
@@ -507,6 +515,29 @@ public class ToroPricingProgramController {
     			}
     			*/
     		}
+    		
+    		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
+			Integer index = 0;
+			List<Integer> itemsToDelete= new List<Integer>();
+			for(Toro_QuoteItem__c qi : pp.quoteItems) {
+				if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
+					deleteSetupFeeLineItemId.add(qi.Id);
+					deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
+					itemsToDelete.add(index);
+					
+				}
+				index++;
+			}
+			if(itemsToDelete.size() != 0) {
+				for(Integer i=itemsToDelete.size()-1 ; i >= 0; i--) {
+					pp.quoteItems.remove(itemsToDelete[i]);	
+				}
+				
+			}
+			if(deleteSetupFeeLineItemId.size() > 0) {
+				ToroPricingProgram.deleteSetupFee(deleteSetupFeeLineItemId, deleteSetupFeeLineItemId);
+			}
+			
     		pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     		rs.values =  pp.quoteItems;
     		rs.displaySetupFee=pp.displaySetupFee();
