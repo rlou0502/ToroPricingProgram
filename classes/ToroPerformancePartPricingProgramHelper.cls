@@ -4,7 +4,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 	                                                      , Boolean bperformancePart
 	                                                      , List<Toro_QuoteItem__c> quoteItemList) {
 
-		system.debug('+++++++++++++++++ quoteItem' + quoteItemList);
+		system.debug('reset quoteItem' + quoteItemList);
 		
 		for(Toro_QuoteItem__c qi:quoteItemList) {
 			qi.Performance_Parts_Product__c = false;

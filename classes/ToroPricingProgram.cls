@@ -142,18 +142,19 @@ public abstract class ToroPricingProgram {
 				}
 				
 			}
-			deleteSetupFee(deleteSetupFeeLineItemId, deleteSetupFeeLineItemId);
+			if(deleteSetupFeeLineItemId.size() > 0) {
+				deleteSetupFee(deleteSetupFeeLineItemId, deleteSetupFeeLineItemId);
+			}
 		}
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl quoteId =' + quoteId + ' -- priceProgram' + priceProgram);
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl priceMethod =' + priceMethod + ' -- ' + quoteItemList);
-		List<Toro_QuoteItem__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
-
-		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
-		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
+		List<Toro_QuoteItem__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);		
 		
-		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
+		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 
+		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
+		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
 		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling preSaveCalculateRebateMargin');
 
@@ -200,6 +201,8 @@ public abstract class ToroPricingProgram {
 		decimal quoteToroMSRP = 0;
         decimal quoteTPPAppliedAward = 0;
 		decimal quoteToroAward = 0;
+
+
 		for (Toro_QuoteItem__c qi : quoteItemList) {
 			//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
 			qi.Toro_Total_Setup_Fees__c = 0;
