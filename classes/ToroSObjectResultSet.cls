@@ -36,5 +36,7 @@ public with sharing class ToroSObjectResultSet {
     @AuraEnabled
     public string payload { get;set; }
     @AuraEnabled
+    public string nextAction { get;set; }
+    @AuraEnabled
     public boolean listenMSRPChange { get;set; }
 }

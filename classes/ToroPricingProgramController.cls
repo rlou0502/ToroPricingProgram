@@ -388,69 +388,7 @@ public class ToroPricingProgramController {
     		//if there is only one pricing method + "Please select" item, auto apply it
     		pp.initialize(objId);
     		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
-/*    		
-	    	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
-	    	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields(); 
-	    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
-	    	List<Schema.FieldSetMember> fieldSetSub = pp.getToroQuoteItemSublineFields();
-	    	List<Schema.FieldSetMember> updatableFieldSetSub = pp.getToroQuoteItemSublineUpdatableFields(); 
-	    	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub);
-	    	List<Schema.FieldSetMember> fieldSetSummary = pp.getToroQuoteItemSummaryFields();
-	    	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, null);
-    		String pm = pricingMethod;
-    		for ( Integer i = rs.fieldSetMembers.size() - 1; i >= 0; --i ) {
-				if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			rs.fieldSetMembers.get(i).label = pm;	
-	    		}
-	    		if(string.isNotBlank(pm)) {
-					if('% of DNET'.equalsIgnoreCase(pm)) {
-						if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Award_of_DN__c')) {
-							rs.fieldSetMembers.remove(i);	
-						}
-		    		} else if ('% off MSRP'.equalsIgnoreCase(pm)) {
-		    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Off_MSRP__c')) {
-							rs.fieldSetMembers.remove(i);	
-						}
-		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {
-		    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
-							rs.fieldSetMembers.remove(i);	
-						}
-		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {	
-		    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
-							rs.fieldSetMembers.remove(i);	
-						}	
-		    		}	
-	    		}
-			}
-		
-			system.debug('***************** 1   fieldset size =' + rs.fieldSetSubMembers.size());
-			system.debug('***************** 1   pm' + pm);
-			for ( Integer i = rs.fieldSetSubMembers.size() - 1; i >= 0; --i ) {
-				if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			rs.fieldSetSubMembers.get(i).label = pm;	
-	    		}
-	    		if(string.isNotBlank(pm)) {
-					if('% of DNET'.equalsIgnoreCase(pm)) {
-						if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Percent_of_DNet__c')) {
-							rs.fieldSetSubMembers.remove(i);	
-						}
-		    		} else if ('% off MSRP'.equalsIgnoreCase(pm)) {
-		    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Percent_Off_MSRP__c')) {
-							rs.fieldSetSubMembers.remove(i);	
-						}
-		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {
-		    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Gross_Profit_Percent__c')) {
-							rs.fieldSetSubMembers.remove(i);	
-						}
-		    		} else if ('Gross Profit %'.equalsIgnoreCase(pm)) {	
-		    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
-							rs.fieldSetSubMembers.remove(i);	
-						}	
-		    		}	
-	    		}
-			}
-			system.debug('***************** 2   fieldset size =' + rs.fieldSetSubMembers.size());
-*/
+
     		if(options.size() ==1) {
     			//pp.calculateRebateMargin();	
     			ToroSelectOption so = options[0];
@@ -478,8 +416,9 @@ public class ToroPricingProgramController {
     				}	
     							
     			}
-    			List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(objId, ppd.externalId, so.value, pp.quoteItems,false);
+    			//List<Toro_QuoteItem__c> qis = pp.calculateRebateMargin(objId, ppd.externalId, so.value, pp.quoteItems,false);
     			rs.selectedPricingMethod = so.value;
+    			rs.nextAction = 'calculation';
     		} else {
     			//update new Revvy__MnQuote__c(Id = objId, Pricing_Program_Name__c=pricingProgram, Pricing_Program_Type__c=pricingProgram,Price_Method__c=options[0].value);
     			rs.selectedPricingMethod = string.isNotBlank(pricingMethod) ? pricingMethod : '';

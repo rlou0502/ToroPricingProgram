@@ -17,6 +17,7 @@
     <aura:attribute name="demoPricingProgramOptions" type="List"/>
     <aura:registerEvent name="refreshInfoBoxEvent" type="c:RefreshInfoBoxEvent"/>
     <aura:registerEvent name="calculationCompleteEvent" type="c:ToroCalculationCompleteEvent"/>
+    <aura:registerEvent name="calculateEvent" type="c:ToroCalculateEvent"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
 	<aura:method name="setPricingProgramSvc"

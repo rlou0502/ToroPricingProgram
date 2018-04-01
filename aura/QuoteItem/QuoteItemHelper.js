@@ -562,7 +562,12 @@
         });
         getAction.setCallback(this, 
 	        function(response) {
-            	self.renderView(component, response);    
+                var retResponse = response.getReturnValue();
+                if(retResponse.nextAction == "calculation") {
+                    
+                } else {
+            		self.renderView(component, response); 
+                }
 	        }
 	    );
 		$A.enqueueAction(getAction);
