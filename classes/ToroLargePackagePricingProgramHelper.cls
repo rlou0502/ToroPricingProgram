@@ -53,13 +53,13 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			
 			for(Toro_QuoteItem__c qi : quoteItemList) {
 				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Toro_QuoteItem__c 222 performancePartFlag='+performancePartFlag  );
-				ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap);
+				ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap, priceMethod);
 					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
 						for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 							//Performance Part
 							system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
 							system.debug('-------------++++++++qis' + qis);
-							ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
+							ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap, priceMethod);
 						}
 					}
 			}
@@ -167,7 +167,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			Toro_PricingProgram__c rh = rebateMap.get(priceProgram);
 			qi.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c);
 			//Performance Part
-			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, performancePartMap);
+			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(quote.Performance_Part__c, qi, performancePartMap, priceMethod);
 
 			system.debug(logginglevel.info,'checkpoint 4 qi.Award_of_DN__c =' + qi.Award_of_DN__c + ' sku =' + qi.Product_Name__c);
 			if(rh != null) {
@@ -262,7 +262,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						//Performance Part
 						system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
 						system.debug('-------------++++++++qis' + qis);
-						ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap);
+						ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap, priceMethod);
 
 						system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 444');
 						if(excludedFromMSRP(qis)) {

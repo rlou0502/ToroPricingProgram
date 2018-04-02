@@ -36,6 +36,12 @@ public with sharing class ToroPricingMethodHelper {
 				system.debug('check point 3');
 				qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qis.Percent_of_DNet__c)/100;
 			}
+		} else {
+			if(qis.Performance_Part__c != true) {
+				if(qis.DNET_Price__c != null && qis.DNET_Price__c != 0) {
+					qis.Percent_Of_DNET__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)/qis.DNET_Price__c * 100;
+				}
+			}
 		}
 		return qis.Award_Price__c;	
 	}
