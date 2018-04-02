@@ -6,7 +6,11 @@ public class ToroPriceProgramFactory {
 		ToroPricingProgram pp = null;
 		if(String.isNotBlank(classname)) {
 			Type t = Type.forName(className);
-        	pp = (ToroPricingProgram)t.newInstance();	
+            if(t != null){
+            	pp = (ToroPricingProgram)t.newInstance();    
+            } else {
+                pp = new ToroDefaultPricingProgramHelper();
+            }  		
 		} else {
 			pp = new ToroDefaultPricingProgramHelper();
 		}
