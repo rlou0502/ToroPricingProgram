@@ -216,7 +216,10 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		    	if(setupFeePercentage!= null && setupFeePercentage >0) {
 		    		dtoroTotalSetupFees = (CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) * setupFeePercentage) / 100;
 		    		addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
+		    		system.debug('exiting addSetupFeeFuture 1'); 
 		    		this.initialize(this.quote.Id);	
+		    		quoteItemList = this.quoteItems;
+		    		system.debug('exiting addSetupFeeFuture 2'); 
 					//Read extended quote item
 					for(Toro_QuoteItem__c qi : quoteItemList) {
 						System.debug('>>> +++++++++++++++++ SETUP FEE 222 ID='+qi.Product_Id__c);
@@ -231,14 +234,15 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			//};
 			//this.payloadOfChainCall = JSON.serialize(payload, false);
 		//}		
-
+		system.debug('exiting addSetupFeeFuture 3'); 
 		return 	quoteItemList;
 	}	
 	
 	//@future
     public static void addSetupFeeFuture(String quoteId, String productId, decimal price, decimal unitPrice, decimal qty) {
     	System.debug('>>> +++++++++++++++++ Setup FEE unitPrice='+ unitPrice + ' - Price='+ price); 
-    	List<Revvy__MnQuoteItem__c> setupFees = [select Id from Revvy__MnQuoteItem__c where Revvy__Product_Id_F__c = 'S00001'];
+    	List<Revvy__MnQuoteItem__c> setupFees = [select Id from Revvy__MnQuoteItem__c where Revvy__Product_Id_F__c = 'S00001' and revvy__Quote__c = :quoteId];
+    	system.debug('----size =' + setupFees.size());
     	if(setupFees.size() == 0) {
     		REVVY__MnQuoteItem__c mnqi = new REVVY__MnQuoteItem__c();
 			mnqi.REVVY__Quote__c=quoteId;
@@ -250,20 +254,28 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			Revvy__MnSequenceGen__c sequence = [SELECT Id,  REVVY__CurrentValue__c FROM Revvy__MnSequenceGen__c WHERE Revvy__ObjectName__c='MnQuoteItem__c' limit 1];
 			mnqi.REVVY__Id__c = ++sequence.REVVY__CurrentValue__c;
 			insert mnqi;
+			++sequence.REVVY__CurrentValue__c;
+			update sequence; 
 			Toro_QuoteItem__c tqi = new Toro_QuoteItem__c(External_Id__c = mnqi.Id, award_price__c=mnqi.Revvy__Price__c,
 				extended_award_price__c= mnqi.Revvy__Price__c * qty, Total_Toro_Award__c = mnqi.Revvy__Price__c * qty, Total_Award__c=mnqi.Revvy__Price__c * qty);
 	    	upsert tqi External_Id__c;
 	    	System.debug('>>> +++++++++++++++++ Setup FEE unitPrice='+ unitPrice + ' - Price='+ price + ' id='+ mnqi.Id); 
-			++sequence.REVVY__CurrentValue__c;
-			update sequence; 	
+			
+				
     	} else {
+    		system.debug('check point 1');
     		for(Revvy__MnQuoteItem__c qi : setupFees) {
     			qi.Revvy__Price__c = price;
     			qi.REVVY__Unit_Price__c = unitPrice;   			
     		}
-    		update setupFees; 
+    		try {
+    			update setupFees; 
+    		} catch (Exception e) {
+    			system.debug('-----' + e);	
+    		}
+    		
     	}
-    	   
+    	system.debug('exiting addSetupFeeFuture');   
     }    
     
 	public static Map<String,Toro_PricingProgramLine__c> retrieveNationalAccount(String pricingProgramExternalId) {
