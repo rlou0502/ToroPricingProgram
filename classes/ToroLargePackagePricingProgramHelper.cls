@@ -396,7 +396,6 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		Revvy__MnQuote__c quote = [SELECT
 										Toro_ApprovalReason__c
 										, REVVY__NeedsApproval__c
-										, Total_Extended_DNet__c
 										, Toro_Total_DNet__c
 										, Toro_Blended_Percent_of_DN__c
 									FROM
