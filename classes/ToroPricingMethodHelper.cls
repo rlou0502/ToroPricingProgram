@@ -16,10 +16,11 @@ public with sharing class ToroPricingMethodHelper {
 				qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * (1-(qis.Percent_Off_MSRP__c/100));
 			}
 		} else {
-			
-			if(qis.MSRP_Price__c != null && qis.MSRP_Price__c != 0) {
-				qis.Percent_Off_MSRP__c = (1 - CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)/qis.MSRP_Price__c) * 100;
-				System.debug(logginglevel.info, 'setMSRPAwardPrice-- subline ' + qis.Product_Name__c + ' -award=- ' + qis.Award_Price__c + ' qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
+			if(qis.Performance_Part__c != true) {
+				if(qis.MSRP_Price__c != null && qis.MSRP_Price__c != 0) {
+					qis.Percent_Off_MSRP__c = (1 - CMnQuoteUtil.defaultDecimal(qis.Award_Price__c)/qis.MSRP_Price__c) * 100;
+					System.debug(logginglevel.info, 'setMSRPAwardPrice-- subline ' + qis.Product_Name__c + ' -award=- ' + qis.Award_Price__c + ' qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
+				}
 			}
 		}
 		//System.debug(logginglevel.info, 'setMSRPAwardPrice-- subline ' + qis.Product_Name__c + ' -award=- ' + qis.Award_Price__c + ' qis.Unit_Award_Overridden__c=' + qis.Unit_Award_Overridden__c);

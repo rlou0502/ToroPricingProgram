@@ -120,6 +120,7 @@ public abstract class ToroPricingProgram {
 	}
 	public virtual List<Toro_QuoteItem__c> calculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList, boolean save ){
+		this.pricingMethod = priceMethod;
 		Long perfStart = System.limits.getCpuTime();
 		performancePartMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
 		if(!displaySetupFee()) {

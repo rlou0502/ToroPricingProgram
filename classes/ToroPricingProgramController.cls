@@ -704,7 +704,7 @@ public class ToroPricingProgramController {
 				}
 			}				
 		}
-    			
+    	rs.nextAction = 'calculation';		
     	rs.displaySetupFee=pp.displaySetupFee();
     	rs.values =  pp.quoteItems;
     	return rs;

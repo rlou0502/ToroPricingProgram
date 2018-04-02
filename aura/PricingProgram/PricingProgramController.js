@@ -6,7 +6,7 @@
     calculate : function(component, event, helper) {
     	var quoteId = component.get('v.quoteId');
         if (quoteId) {
-            helper.calculateHelper();
+            helper.calculateHelper(component, quoteId);
         }    
     },
     manageProduct: function(component, event, helper) {
@@ -19,7 +19,7 @@
     calculate : function(component, event, helper) {       
         var quoteId = component.get('v.quoteId');
         if (quoteId) {
-            helper.calculateHelper();
+            helper.calculateHelper(component, quoteId);
         }
     },
     handleCalculationComplete: function(component, event, helper) {

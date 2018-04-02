@@ -475,36 +475,40 @@
 	            if (component.isValid() && state === "SUCCESS") {  
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
-	                var retRecords = retResponse.values;
-	                var fields = retResponse.fieldSetMembers;
-	                component.set('v.fields', fields);
-                    component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
-                    component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
-                    component.set('v.quoteItems', retRecords);
-                    component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
-                    component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
-                    var sublineMap = {};  
-                    var quoteItemMap={};
-                    
-	                retRecords.forEach(function(s) {
-	                	quoteItemMap[s["Id"]]=s;
-                        if(s["Toro_Quote_Item_Sub_Lines__r"]) {
-                        	sublineMap[s["Id"]]= s["Toro_Quote_Item_Sub_Lines__r"];  
-                        }
-	                    //var tableRow = document.createElement('tr');
-                        //tableRow.id = s["Id"];
-                        //tableRow.className += " quoteItem";
-                        //tableRow.addEventListener('click', function(){self.handleRowClick(component, tableRow.id);}, false);
-                        //self.renderTable(fields, s, tableRow); 
-	                    //document.getElementById("quoteItems").appendChild(tableRow);
-	                 });
-                    component.set('v.sublineMap', sublineMap);
-                    component.set('v.quoteItemMap', quoteItemMap);
-                    self.hideSpinner();
-                    var items = document.getElementById("quoteItems");
-                    self.cleanInnerNodes(items);
-        			self.renderQuoteItems(component);
-                    
+                    if(retResponse.nextAction == "calculation") {
+                        var cmpEvent = component.getEvent("calculateEvent");   
+                        cmpEvent.fire();
+                    } else {
+                        var retRecords = retResponse.values;
+                        var fields = retResponse.fieldSetMembers;
+                        component.set('v.fields', fields);
+                        component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
+                        component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
+                        component.set('v.quoteItems', retRecords);
+                        component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+                        component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
+                        var sublineMap = {};  
+                        var quoteItemMap={};
+                        
+                        retRecords.forEach(function(s) {
+                            quoteItemMap[s["Id"]]=s;
+                            if(s["Toro_Quote_Item_Sub_Lines__r"]) {
+                                sublineMap[s["Id"]]= s["Toro_Quote_Item_Sub_Lines__r"];  
+                            }
+                            //var tableRow = document.createElement('tr');
+                            //tableRow.id = s["Id"];
+                            //tableRow.className += " quoteItem";
+                            //tableRow.addEventListener('click', function(){self.handleRowClick(component, tableRow.id);}, false);
+                            //self.renderTable(fields, s, tableRow); 
+                            //document.getElementById("quoteItems").appendChild(tableRow);
+                         });
+                        component.set('v.sublineMap', sublineMap);
+                        component.set('v.quoteItemMap', quoteItemMap);
+                        self.hideSpinner();
+                        var items = document.getElementById("quoteItems");
+                        self.cleanInnerNodes(items);
+                        self.renderQuoteItems(component);
+                    }
                     //var qiId = component.get("v.selectedQuoteItem");
                     //if(qiId){
                     //	self.handleRowClick(component, qiId);

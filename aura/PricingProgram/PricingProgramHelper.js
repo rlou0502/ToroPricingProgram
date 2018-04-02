@@ -16,8 +16,9 @@
             }
         );
     },
-    calculateHelper : function(component, quoteId) {  	
-        helper.resetQuoteApproval(component, quoteId);
+    calculateHelper : function(component, quoteId) { 
+        var self = this;
+        self.resetQuoteApproval(component, quoteId);
         var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");

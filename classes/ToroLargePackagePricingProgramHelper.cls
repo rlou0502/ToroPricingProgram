@@ -123,12 +123,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
 			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {			
-			helper.calculateBlendedDNetPercentFromMSRP().calculateExtensionFields();
-for (Toro_QuoteItem__c qi : helper.quoteItemList) {
-	for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-		system.debug(logginglevel.info,'checking % off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);							
-	}
-}	
+			helper.calculateBlendedDNetPercentFromMSRP().calculateExtensionFields();	
 		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
 			helper.calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
 		}
