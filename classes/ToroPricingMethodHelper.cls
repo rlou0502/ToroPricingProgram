@@ -426,6 +426,7 @@ public with sharing class ToroPricingMethodHelper {
 			}
 			//qi.Toro_DNetWOTPPAllied__c = qi.Toro_Extended_DNet_Price__c + qi.Toro_Rollup_DNet_Price__c;
 			qi.Toro_DNetWOTPPAllied__c = qiExtDNet;
+			qi.Total_Toro_Award__c = qiExtDNet;
 			system.debug(logginglevel.info, 'distributeTotalAwordDollors Toro_DNetWOTPPAllied__c  =' + qi.Toro_DNetWOTPPAllied__c);
 			//totalToroDNetPrice += qi.Toro_DNetWOTPPAllied__c;
 			totalToroDNetPrice += qiExtDNet;

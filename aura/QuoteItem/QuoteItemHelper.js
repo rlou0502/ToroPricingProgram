@@ -149,7 +149,7 @@
            		performancePart = sObj["Performance_part__c"];    
             }
             var onlyInCPL = sObj["OnlyExistedInCPL__c"];
-            if((field.updatable && !freeze &&(!performancePart || field.fieldPath=="Award_Price__c" )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
+            if((field.updatable && !freeze &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
@@ -169,7 +169,7 @@
                     if(listenMSRPChange) {
                         if(field.fieldPath=="PricingMethodValue__c") {
                             tableDataNode.dataset.originalvalue=sObj["Selected_Off_MSRP__c"]; 
-                        } else if(field.fieldPath=="Award_Price__c") {
+                        } else if(field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") {
                             tableDataNode.dataset.originalvalue=sObj["Original_Award_Price__c"];
                         }
                     }                  
@@ -756,7 +756,7 @@
             }
             var qiData = quoteItemsData[qId];
             qiData[fieldname] = value;
-            if(fieldname == "Award_Price__c") {
+            if(fieldname == "Award_Price__c" || fieldname == "Total_Toro_Award__c") {
                 qiData["Unit_Award_Overridden__c"] = overridden;	    
             } else if(fieldname == "PricingMethodValue__c") {
                 qiData["Off_MSRP_Overridden__c"] = overridden;
@@ -777,7 +777,7 @@
             }
             var qisData = qiSublinesData[qId];
             qisData[fieldname] = value;
-            if(fieldname == "Award_Price__c") {
+            if(fieldname == "Award_Price__c" || fieldname == "Total_Toro_Award__c") {
                 qisData["Unit_Award_Overridden__c"] = overridden;	    
             }
         }  
