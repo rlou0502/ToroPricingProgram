@@ -339,7 +339,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	public void applyQIPercentage(Toro_QuoteItem__c qi, Toro_PricingProgramLine__c rb, decimal dsetupFeeHeader) {
 
 		qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
-		qi.Award_of_DN__c =0;
+		qi.Award_of_DN__c =rb.Award_Price_as_a_Percent_of_DN__c;
 		qi.Rebate_as_a_of_DN__c = CMnQuoteUtil.defaultDecimal(rb.Rebate_as_a_Percent_of_DN__c);
 		qi.Fee_Percentage__c = getSetupFeePercentage(dsetupFeeHeader, CMnQuoteUtil.defaultDecimal(rb.Fee_Percentage__c));
 		qi.Part_Percentage__c = CMnQuoteUtil.defaultDecimal(rb.Part_Percentage__c);
@@ -387,7 +387,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			qis.Award_Price__c = qis.MSRP_Price__c * (1 - (qis.percent_off_msrp__c)/100);
 		}
 		qis.PricingMethodValue__c = String.valueOf(qis.percent_off_msrp__c);
-		qis.Percent_of_DNet__c=0;
+		qis.Percent_of_DNet__c=rb.Award_Price_as_a_Percent_of_DN__c;
 		
 	}
 	
