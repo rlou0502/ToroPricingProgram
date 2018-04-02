@@ -655,11 +655,15 @@ public class ToroPricingProgramController {
 		system.debug('***************** 2 fieldset size =' + rs.fieldSetSubMembers.size());		
 		
 		//if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) 
-		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
-		system.debug('***************** pricing program  =' + ppd.externalId);	
-		Toro_PricingProgram__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
-		if('State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-			rs.listenMSRPChange = true;	
+		try{
+			ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+			system.debug('***************** pricing program  =' + ppd.externalId);	
+			Toro_PricingProgram__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
+			if('State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+				rs.listenMSRPChange = true;	
+			}
+		} catch(Exception e) {
+			system.debug(e);	
 		}
 		return rs;
     }
@@ -675,15 +679,16 @@ public class ToroPricingProgramController {
     	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
     	//	quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);	
     	//}
-    	
-    	if(string.isBlank(pricingProgram)) {
-    		pricingProgram = [select Pricing_Program_Name__c from Revvy__MnQuote__c where id = :objId].Pricing_Program_Name__c;
-    	}
-    	
-    	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
-    	rs.selectedPricingProgram = pricingProgram; 
-    	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+    	ToroPricingProgram pp = new ToroDefaultPricingProgramHelper();
+    	if(string.isNotBlank(pricingProgram)) {
+    		//pricingProgram = [select Pricing_Program_Name__c from Revvy__MnQuote__c where id = :objId].Pricing_Program_Name__c;
+    		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+	    	rs.selectedPricingProgram = pricingProgram; 
+	    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+	    	
+    	} 
     	pp.initialize(objId);
+    	
     	Revvy__MnQuote__c q = pp.quote;
     	//String pm = pricingMethod;
     	String pm = q.Price_Method__c;
@@ -704,7 +709,10 @@ public class ToroPricingProgramController {
 				}
 			}				
 		}
-    	rs.nextAction = 'calculation';		
+		//if(String.IsNotBlank(pricingProgram) && String.IsNotBlank(pricingMethod)) {
+			rs.nextAction = 'calculation';	
+		//}
+    			
     	rs.displaySetupFee=pp.displaySetupFee();
     	rs.values =  pp.quoteItems;
     	return rs;
