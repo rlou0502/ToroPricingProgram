@@ -529,7 +529,7 @@ public class ToroPricingProgramController {
     	    	
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getQuoteUpdatableFields(); 
     	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
-    	pp.initializeQuoteHeader(quoteId);
+    	pp.initialize(quoteId);
     	system.debug(logginglevel.info,'pricingProgram setup fee=' + pp.quote.Setup_Fee__c);
     	if(pp.displaySetupFee() && pp.quote.Setup_Fee__c == null) {
     		List<Toro_PricingProgram__c> pps = [SELECT Id, Name, Setup_Fee__c FROM Toro_PricingProgram__c where externalID__c = :ppd.externalId];	
@@ -538,6 +538,30 @@ public class ToroPricingProgramController {
     			system.debug(logginglevel.info,'pricingProgram setup fee=' + pp.quote.Setup_Fee__c);
     		}
     	}
+    	List<REVVY__MnQuoteItem__c> ootbQuoteItems =[SELECT Id FROM REVVY__MnQuoteItem__c where QuoteItem_Extension__c = null and revvy__quote__c = :quoteId];
+    	if(ootbQuoteItems.size() == 0) {
+    		//create the ootb to extension relationship
+	    	list<Id> quoteItemIds = new list<Id>();
+	    	list<Id> sublineIds = new list<Id>();
+	    	for(Toro_QuoteItem__c qi : pp.quoteItems) {	
+	    		quoteItemIds.add(qi.Id);
+	    		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						sublineIds.add(qis.Id);
+					}
+	    		}
+			}
+			if(quoteItemIds.size() > 0) {
+				ToroQIExtensionCreatedBatch b = new ToroQIExtensionCreatedBatch(quoteItemIds);   
+    			Database.executeBatch(b);	
+			}
+			if(sublineIds.size() > 0) {
+				ToroQISLExtensionCreatedBatch b = new ToroQISLExtensionCreatedBatch(sublineIds);   
+    			Database.executeBatch(b);	
+			}
+    	}
+    	
+    	
     	rs.values =  new List<SObject> {pp.quote};
     	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
     	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
