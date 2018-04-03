@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>CMnPostConfigPricingHook</members>
-        <members>CMnPriceProgramUtil</members>
-        <members>CMnPricingHook</members>
-        <members>CMnQuoteComparisonController</members>
-        <members>CMnQuoteComparisonReportController</members>
-        <members>CMnQuoteUtil</members>
-        <members>CPQ_PricelistExportController</members>
-        <members>ExportToExcelMultipleSheets</members>
-        <members>FieldSetController</members>
-        <members>FieldSetMember</members>
-        <members>QuoteItem</members>
-        <members>RoyTest</members>
-        <members>TR_BOMExcelExportController</members>
-        <members>TR_GenModelBOM</members>
+        <members>ToroCacheManager</members>
+        <members>ToroCacheManagerTest</members>
+        <members>ToroContractChartPPHelper</members>
+        <members>ToroContractPriceListPPHelper</members>
+        <members>ToroContractQuantityPPHelper</members>
         <members>ToroDefaultPricingProgramHelper</members>
         <members>ToroExportToExcelMultipleSheets</members>
         <members>ToroGenModelBOM</members>
         <members>ToroLargePackagePricingProgramHelper</members>
+        <members>ToroLargePackagePricingProgramHelperTest</members>
+        <members>ToroNationalAccountGSAPPHelper</members>
         <members>ToroNationalAccountPricingProgramHelper</members>
+        <members>ToroPerformancePartCache</members>
         <members>ToroPerformancePartPricingProgramHelper</members>
         <members>ToroPriceProgramFactory</members>
         <members>ToroPricingMethodData</members>
@@ -28,25 +22,28 @@
         <members>ToroPricingMethodUtil</members>
         <members>ToroPricingMethodUtilTest</members>
         <members>ToroPricingProgram</members>
+        <members>ToroPricingProgramCache</members>
         <members>ToroPricingProgramController</members>
         <members>ToroPricingProgramData</members>
         <members>ToroPricingProgramEligibility</members>
         <members>ToroPricingProgramEligibilityTest</members>
+        <members>ToroPricingProgramHelperCache</members>
         <members>ToroPricingProgramInfoBoxController</members>
         <members>ToroPricingProgramLineProductSelector</members>
         <members>ToroPricingProgramProductSelector</members>
-        <members>ToroPricingProgramSelectorLine</members>
+        <members>ToroPricingProgramUtil</members>
         <members>ToroProductEligibilityPlugin</members>
         <members>ToroQIExtensionCreatedBatch</members>
         <members>ToroQISLExtensionCreatedBatch</members>
+        <members>ToroQuoteCache</members>
         <members>ToroQuoteDAO</members>
         <members>ToroSObjectResultSet</members>
         <members>ToroSelectOption</members>
         <members>ToroSelectPriceProgramController</members>
-        <members>ToroSelectPriceProgramHelper</members>
         <members>ToroStateContractPricingProgramHelper</members>
         <members>ToroSupportPlusController</members>
         <members>ToroSupportPlusData</members>
+        <members>ToroTestData</members>
         <name>ApexClass</name>
     </types>
     <types>

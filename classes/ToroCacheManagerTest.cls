@@ -1,3 +1,4 @@
-public with sharing class ToroCacheManagerTest {
-    
+@isTest
+private class ToroCacheManagerTest {
+
 }
