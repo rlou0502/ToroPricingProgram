@@ -70,10 +70,16 @@ global class ToroProductEligibilityPlugin implements revvy.IMnProductEligibility
         for(Revvy__MnCatalogNode__c c : [select Id from Revvy__MnCatalogNode__c where Revvy__Id__c in ('GM','RM','TPP','WKM','Ally','WGTXGas','RM5010','WGTXGas1','GM32802D')]) {
         	OOBcategoryInclusion.add(c.Id);	
         }
+        */
         for(Revvy__MnCatalogNode__c p : [select Id from Revvy__MnCatalogNode__c where Revvy__Id__c in ('30344')]) {
         	OOBprodInclusion.add(p.Id);	
         }
-        */
+        
+        for(Revvy__MnCatalogNode__c c : [SELECT Id, REVVY__Type__c, Name, REVVY__Status__c FROM REVVY__MnCatalogNode__c where REVVY__Type__c='Category']) {
+        	OOBcategoryInclusion.add(c.Id);	
+        }
+        
+        /*
       	OOBcategoryInclusion.add('a2A2F0000004YSI'); //GM
       	OOBcategoryInclusion.add('a2A2F0000004YSw'); //RM
       	OOBcategoryInclusion.add('a2A2F0000004fiq'); //TPP
@@ -87,7 +93,7 @@ global class ToroProductEligibilityPlugin implements revvy.IMnProductEligibility
       	
       	OOBcategoryInclusion.add('a2A2F0000005S3JUAU'); //Ally
       	OOBcategoryInclusion.add('a2A2F0000005S34UAE'); //Ally
-        
+        */
       	
       	prodElig.put('ExProductIds', OOBprodExclusion );
       	prodElig.put('ExCategoryIds', OOBcategoryExclusion );
