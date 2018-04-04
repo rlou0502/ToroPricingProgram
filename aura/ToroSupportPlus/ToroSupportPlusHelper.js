@@ -1,8 +1,10 @@
 ({
 	initialize : function(cmp) {
+		debugger;
 		console.log('@ToroSupportPlusHelper:initialize');
         var action = cmp.get('c.retrieveSupportPlusData');
-		action.setParams({ quoteId : cmp.get('v.quoteId') });
+        var qId = cmp.get('v.quoteId');
+		action.setParams({ quoteId : qId });
 		action.setCallback(this
 			, function(response) {
 				if (cmp.isValid() && response.getState() === "SUCCESS" ) {

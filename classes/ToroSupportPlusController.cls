@@ -8,6 +8,18 @@ global class ToroSupportPlusController {
 	 */
 	@AuraEnabled
 	public static ToroSupportPlusData retrieveSupportPlusData(Id quoteId) {
+		
+		Revvy__MnQuote__c tmpQ = [select Toro_Total_DNet__c from Revvy__MnQuote__c where id = :quoteId];
+        List<Support_Plus_Plan__c> plans = [select Total_DNet_Low__c, Total_DNet_High__c, Maximum_Support__c from Support_Plus_Plan__c order by Total_DNet_Low__c];
+        for(Support_Plus_Plan__c sp : plans) {
+        	if((tmpQ.Toro_Total_DNet__c >= sp.Total_DNet_Low__c) && (tmpQ.Toro_Total_DNet__c < sp.Total_DNet_High__c)) {
+        		tmpQ.Toro_Support_Plus_Allowance__c = sp.Maximum_Support__c;
+        		break;
+        	}
+        }
+        //update quote;
+        update tmpQ;
+        
 		ToroSupportPlusData ret = new ToroSupportPlusData();
 		REVVY__MnQuote__c spQuote = [
 			SELECT
@@ -23,18 +35,9 @@ global class ToroSupportPlusController {
 			WHERE
 				Id = :quoteId
 		];
-
-    	if (spQuote.Support_Plus_Rebate__c == null) {
-    		spQuote.Support_Plus_Rebate__c = 0;
-    	}
-
-    	if (spQuote.SP_Ext_Dist_Responsibility__c == null) {
-    		spQuote.SP_Ext_Dist_Responsibility__c = 0;
-    	}
-
-    	if (spQuote.SP_Total_Extended_DNET__c == null) {
-    		spQuote.SP_Total_Extended_DNET__c = 0;
-    	}
+		spQuote.Support_Plus_Rebate__c = CMnQuoteUtil.defaultDecimal(spQuote.Support_Plus_Rebate__c);
+    	spQuote.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(spQuote.SP_Ext_Dist_Responsibility__c);
+    	spQuote.SP_Total_Extended_DNET__c = CMnQuoteUtil.defaultDecimal(spQuote.SP_Total_Extended_DNET__c);
 
     	List<Support_Plus_Contribution__c> contributions = [
 			SELECT
@@ -66,14 +69,15 @@ global class ToroSupportPlusController {
 				, Support_Plus_Quantity__c
 				, Description__c
 				, Distributor_Responsibility__c
-				, DNet_Price_2__c
+				, REVVY__SuggestedPrice__c
 				, (SELECT
 						REVVY__Quantity__c
 						, Support_Plus_Quantity__c
+						, REVVY__Catalog_Node__r.Name
 						, Product_ID2__c
 						, Description__c
 						, Distributor_Responsibility__c
-						, DNet_Price_2__c
+						, REVVY__SuggestedPrice__c
 					FROM
 						REVVY__QuoteItemSubLine__r
 					ORDER BY
@@ -356,7 +360,7 @@ global class ToroSupportPlusController {
 
 
 	public ToroSupportPlusController() {
-		// quoteId = ApexPages.currentPage().getParameters().get('id');
+		quoteId = ApexPages.currentPage().getParameters().get('id'); 
 	}
 
 
