@@ -385,6 +385,14 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Chart</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Price_List</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>Base_w_Model_Pricing</valueName>
             </valueSettings>
         </valueSet>

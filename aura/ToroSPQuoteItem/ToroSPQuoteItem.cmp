@@ -125,10 +125,8 @@
           <tbody>
           	<aura:iteration items="{!v.quoteItemList}" var="quoteItem">
 	       		<tr class="quote_item">
-	       		<td>
-	       			<button aria-controls="expandable-subline-table" aria-expanded="true" class="slds-button slds-section__title-action" onclick="{!c.toggleSection}">
-                    	<lightning:icon iconName="utility:switch" size="x-small" />&nbsp;
-                	</button>
+	       		<td class="chevron-cell">
+	       			<span class="chevron right" data-quoteItem="{!quoteItem.qi.Id}" onclick="{!c.toggleChevron}"></span>
 				</td>
 	                <td>{!quoteItem.qi.REVVY__Quantity__c}</td>
 	                <td>
@@ -144,7 +142,7 @@
 	            </tr>
 	            
                 <aura:iteration items="{!quoteItem.qislList}" var="subline">
-                    <tr class="quote_item">
+                    <tr class="quote_item " data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">
                     <td>&nbsp;</td>
                         <td>{!subline.REVVY__Quantity__c}</td>
                         <td>

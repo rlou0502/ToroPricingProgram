@@ -9,15 +9,27 @@
         var cmpEvent = cmp.getEvent("supportPlusQtyChangeEvent");
         cmpEvent.fire();
     },
-    toggleSection: function(cmp, event, helper) {
-        console.log('@ToroSPQuoteItemController:toggleSection');
-        var section = event.currentTarget.closest('.slds-section');
-        if (section.classList.contains('slds-is-open')) {
-            section.classList.remove('slds-is-open');
+    toggleChevron: function(cmp, event, helper) {
+    	//debugger;
+    	if(event.currentTarget.classList.contains('chevron')) {
+            if(event.currentTarget.classList.contains('bottom')) {
+                event.currentTarget.classList.replace('bottom','right') ;   
+            } else {
+                event.currentTarget.classList.replace('right','bottom') ;
+            }
         }
-
-        else {
-            section.classList.add('slds-is-open');
+        console.log('@ToroSPQuoteItemController:toggleSection');
+        var qiId = event.currentTarget.dataset.quoteitem;
+        var tbody = event.currentTarget.closest('tbody');
+        var quoteItems = tbody.querySelectorAll("[data-quoteitem='"+ qiId +"']");
+        for(var i=0; i < quoteItems.length; i++) {
+        	if(quoteItems[i].style.display == "none") {
+        		quoteItems[i].style.display=""; 
+               
+            } else {
+            	quoteItems[i].style.display = "none";
+                
+            }
         }
     }
 })
