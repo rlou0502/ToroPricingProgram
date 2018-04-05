@@ -142,6 +142,7 @@
 	                </td>
 	                <td>{!quoteItem.qi.Revvy__SuggestedPrice__c}</td>
 	            </tr>
+	            
                 <aura:iteration items="{!quoteItem.qislList}" var="subline">
                     <tr class="quote_item">
                     <td>&nbsp;</td>
@@ -159,6 +160,7 @@
                     </tr>
                 </aura:iteration>
                 <tr><td colspan="7">&nbsp;</td></tr>
+                
             </aura:iteration>
             </tbody>
         </table>
