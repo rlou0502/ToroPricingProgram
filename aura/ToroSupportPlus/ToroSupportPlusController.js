@@ -7,8 +7,11 @@
         childCmp.updateRollingTotals();
     },
     handleProductInputKeyup: function(cmp, event, helper) {
-        if (event.target.value.length >= 3) {
-            helper.retrieveAutocompleteResults(cmp, event.target.value);
+        console.log('@ToroSupportPlusController:handleProductInputKeyup');
+        var searchText = event.target.value;
+        console.log('searchText: ' + searchText);
+        if (searchText.length >= 3) {
+            helper.retrieveAutocompleteResults(cmp, searchText);
         }
     },
     toggleAddProductModal: function(cmp, event, helper) {
