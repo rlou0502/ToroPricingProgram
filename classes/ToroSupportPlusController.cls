@@ -360,7 +360,7 @@ global class ToroSupportPlusController {
 
 
 	public ToroSupportPlusController() {
-		quoteId = ApexPages.currentPage().getParameters().get('id'); 
+		//quoteId = ApexPages.currentPage().getParameters().get('id'); 
 	}
 
 

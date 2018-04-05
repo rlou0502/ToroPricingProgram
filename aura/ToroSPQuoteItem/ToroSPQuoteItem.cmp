@@ -3,97 +3,6 @@
     <aura:attribute name="quoteItemList" type="QuoteItem[]" />
     <aura:attribute name="Distributor_Responsibility" type="decimal" />
 
-    <aura:iteration items="{!v.quoteItemList}" var="quoteItem">
-        <div class="slds-section slds-is-open">
-            <h3 class="slds-section__title">
-                <button aria-controls="expandable-subline-table" aria-expanded="true" class="slds-button slds-section__title-action" onclick="{!c.toggleSection}">
-                    <lightning:icon iconName="utility:switch" size="x-small" />&nbsp;
-                    <span class="slds-truncate" title="{!quoteItem.qi.Description__c}">{!quoteItem.qi.Description__c}</span>
-                </button>
-            </h3>
-            <div>
-                <ul class="slds-grid slds-page-header__detail-row">
-                    <li class="slds-page-header__detail-block">
-                        <p class="slds-text-title_caps slds-truncate slds-m-bottom_small" title="Quantity">Quantity</p>
-                        <p class="slds-text-body_regular slds-truncate" title="Quantity">{!quoteItem.qi.REVVY__Quantity__c}</p>
-                    </li>
-                    <li class="slds-page-header__detail-block">
-                        <p class="slds-text-title_caps slds-truncate slds-m-bottom_small" title="SP Quantity">SP Quantity</p>
-                        <p class="slds-text-body_regular slds-truncate" title="SP Quantity">
-                            <ui:inputNumber value="{!quoteItem.qi.Support_Plus_Quantity__c}" change="{!c.supportPlusQtyChange}" />
-                        </p>
-                    </li>
-                    <li class="slds-page-header__detail-block">
-                        <p class="slds-text-title_caps slds-truncate slds-m-bottom_small" title="Product ID">Product ID</p>
-                        <p class="slds-text-body_regular slds-truncate" title="Product ID">{!quoteItem.qi.REVVY__Product_ID_F__c}</p>
-                    </li>
-                    <li class="slds-page-header__detail-block">
-                        <p class="slds-text-title_caps slds-truncate slds-m-bottom_small" title="Distributor Responsibility">Distributor Responsibility</p>
-                        <p class="slds-text-body_regular slds-truncate" title="Distributor Responsibility">
-                            <ui:inputNumber value="{!quoteItem.qi.Distributor_Responsibility__c}" change="{!c.supportPlusContributionChange}" />
-                        </p>
-                    </li>
-                    <li class="slds-page-header__detail-block">
-                        <p class="slds-text-title_caps slds-truncate slds-m-bottom_small" title="DNet Price">DNet Price</p>
-                        <p class="slds-text-body_regular slds-truncate" title="DNet Price">{!quoteItem.qi.DNet_Price_2__c}</p>
-                    </li>
-                </ul>
-            </div>
-            <br/>
-            <div aria-hidden="false" class="slds-section__content" id="expandable-subline-table">
-                <aura:renderIf isTrue="{!quoteItem.qislList.length > 0}">
-                    <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_col-bordered" role="grid">
-                        <thead>
-                            <tr class="slds-text-title_caps">
-                                <th scope="col">
-                                    <div class="slds-truncate" title="QTY">QTY</div>
-                                </th>
-                                <th scope="col">
-                                    <div class="slds-truncate" title="SP QTY">SP QTY</div>
-                                </th>
-                                <th scope="col">
-                                    <div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
-                                </th>
-                                <th scope="col">
-                                    <div class="slds-truncate" title="Description">Description</div>
-                                </th>
-
-                                <th scope="col">
-                                    <div class="slds-truncate" title="Distributor Responsibility (%)">Distributor Responsibility (%)</div>
-                                </th>
-                                <th scope="col">
-                                    <div class="slds-truncate" title="DNet Price">DNet Price</div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <aura:iteration items="{!quoteItem.qislList}" var="subline">
-                                <tr class="quote_item">
-                                    <td>{!subline.REVVY__Quantity__c}</td>
-                                    <td>
-                                        <ui:inputNumber value="{!subline.Support_Plus_Quantity__c}" change="{!c.supportPlusQtyChange}" />
-                                    </td>
-                                    <td>{!subline.Product_ID2__c}</td>
-                                    <td>{!subline.Description__c}</td>
-
-                                    <td>
-                                        <ui:inputNumber value="{!subline.Distributor_Responsibility__c}" change="{!c.supportPlusContributionChange}" />
-                                    </td>
-                                    <td>{!subline.DNet_Price_2__c}</td>
-                                </tr>
-                            </aura:iteration>
-                        </tbody>
-                    </table>
-                    <aura:set attribute="else">
-                        <div class="slds-text-body_regular">
-                            <i>(no sublines for this quote item)</i>
-                        </div>
-                    </aura:set>
-                </aura:renderIf>
-            </div>
-            
-        </div>
-    </aura:iteration>
     
     <div >
     <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_col-bordered" role="grid">
@@ -126,7 +35,7 @@
           	<aura:iteration items="{!v.quoteItemList}" var="quoteItem">
 	       		<tr class="quote_item">
 	       		<td class="chevron-cell">
-	       			<span class="chevron right" data-quoteItem="{!quoteItem.qi.Id}" onclick="{!c.toggleChevron}"></span>
+	       			<span class="chevron bottom" data-id="{!quoteItem.qi.Id}" onclick="{!c.toggleChevron}"></span>
 				</td>
 	                <td>{!quoteItem.qi.REVVY__Quantity__c}</td>
 	                <td>
@@ -142,7 +51,7 @@
 	            </tr>
 	            
                 <aura:iteration items="{!quoteItem.qislList}" var="subline">
-                    <tr class="quote_item " data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">
+                    <tr class="quote_subline " data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">
                     <td>&nbsp;</td>
                         <td>{!subline.REVVY__Quantity__c}</td>
                         <td>
@@ -157,7 +66,7 @@
                         <td>{!subline.DNet_Price_2__c}</td>
                     </tr>
                 </aura:iteration>
-                <tr><td colspan="7">&nbsp;</td></tr>
+                <tr><td colspan="7" data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">&nbsp;</td></tr>
                 
             </aura:iteration>
             </tbody>

@@ -1,21 +1,28 @@
 ({
 	initialize : function(cmp) {
-		debugger;
+
 		console.log('@ToroSupportPlusHelper:initialize');
         var action = cmp.get('c.retrieveSupportPlusData');
-        var qId = cmp.get('v.quoteId');
+		var qId = cmp.get('v.quoteId');
 		action.setParams({ quoteId : qId });
 		action.setCallback(this
 			, function(response) {
+				console.log('@ToroSupportPlusHelper:initialize2');
 				if (cmp.isValid() && response.getState() === "SUCCESS" ) {
+					console.log('@ToroSupportPlusHelper:initialize3');
+					console.log(cmp.isValid());
+					console.log(response.getState());
+
 	                var retResponse = response.getReturnValue();
                     cmp.set('v.quote', retResponse.quote);
                     cmp.set('v.quoteItemList', retResponse.quoteItemList);
                     cmp.set('v.supportPlusList', retResponse.supportPlusList);
-                    cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
+					cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
+					console.log('retrieveSupportPlusData response:');
+					console.log(retResponse);
 	            }
 	        }
-	    );
+		);
 		$A.enqueueAction(action);
 	},
 	retrieveAutocompleteResults: function(cmp, searchText) {
