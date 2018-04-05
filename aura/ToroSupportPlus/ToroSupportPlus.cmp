@@ -17,7 +17,7 @@
                 <lightning:icon iconName="utility:opportunity" size="x-small" />
             </span>
         
-        <div class="slds-media__body" style="display: inline-block">
+        <div class="slds-media__body" style="display: inline-block; vertical-align: text-top; margin-left: 10px">
             <nav>
                 <ol class="slds-breadcrumb slds-line-height_reset">
                     <li class="slds-breadcrumb__item">
@@ -41,6 +41,7 @@
                     </div>
                 </div>
     </div>
+    
 	</div>
 	</header>
  	
@@ -62,7 +63,7 @@
                                     </li>
                                 </ol>
                             </nav>
-                            <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="Support Plus">Support Plus</h1>
+                            <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="Support Plus"></h1>
                         </div>
                     </div>
                 </div>

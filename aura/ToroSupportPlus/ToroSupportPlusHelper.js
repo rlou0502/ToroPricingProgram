@@ -21,8 +21,7 @@
 	retrieveAutocompleteResults: function(cmp, searchText) {
 		console.log('@ToroSupportPlusHelper:retrieveAutocompleteResults');
 		var lastSearchTerm = cmp.get('v.lastSearchTerm');
-		if (searchText.indexOf(lastSearchTerm) == -1 && searchText.length >= 3 && searchText.length != lastSearchTerm.length) {
-			console.log('show autocomplete section');
+		if (searchText.indexOf(lastSearchTerm) == -1) {
 			var action = cmp.get('c.getProductCodesAura');
 			action.setStorable();
 			action.setParams({ searchTerm : searchText });
@@ -38,10 +37,6 @@
 				}
 			);
 			$A.enqueueAction(action);
-		}
-
-		else {
-			console.log('hide autocomplete section');
 		}
 	},
 	showAddModal: function(cmp) {
