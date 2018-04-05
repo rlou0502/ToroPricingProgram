@@ -9,6 +9,41 @@
     <aura:attribute name="quoteItemList" type="QuoteItem[]" />
     <aura:attribute name="Distributor_Responsibility" type="decimal" />
 
+	<header class="slds-global-header_container"><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Navigation</a><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
+	<div class="slds-global-header slds-grid slds-grid_align-spread">
+	<div class="slds-global-header__item">
+        
+            <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                <lightning:icon iconName="utility:opportunity" size="x-small" />
+            </span>
+        
+        <div class="slds-media__body" style="display: inline-block">
+            <nav>
+                <ol class="slds-breadcrumb slds-line-height_reset">
+                    <li class="slds-breadcrumb__item">
+                        <span>{!v.quote.Name}</span>
+                    </li>
+                </ol>
+            </nav>
+            <h2 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="Support Plus">Support Plus</h2>
+        </div>
+      </div>
+      
+    <div class="slds-global-header__item " style="float:right">
+    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                    <div class="slds-button-group" role="group">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.showAddModal}">
+                            <!-- <lightning:icon iconName="utility:add" size="xx-small" /> -->
+                            Add New
+                        </button>
+                        <button class="slds-button slds-button_neutral" onclick="{!c.submit}">Submit</button>
+                        <button class="slds-button slds-button_neutral">Back to Pricing Page</button>
+                    </div>
+                </div>
+    </div>
+	</div>
+	</header>
+ 	
 
         <div class="slds-page-header">
             <div class="slds-grid">

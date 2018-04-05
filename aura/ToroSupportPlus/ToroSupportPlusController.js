@@ -7,9 +7,9 @@
         childCmp.updateRollingTotals();
     },
     handleProductInputKeyup: function(cmp, event, helper) {
-        if (event.target.value.length >= 3) {
+        // if (event.target.value.length >= 3) {
             helper.retrieveAutocompleteResults(cmp, event.target.value);
-        }
+        // }
     },
     toggleAddProductModal: function(cmp, event, helper) {
         helper.toggleAddProductModal(cmp);

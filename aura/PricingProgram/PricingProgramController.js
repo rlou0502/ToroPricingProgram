@@ -7,7 +7,7 @@
     	var quoteId = component.get('v.quoteId');
         if (quoteId) {
             helper.calculateHelper(component, quoteId);
-        }    
+        }
     },
     manageProduct: function(component, event, helper) {
         //var quoteId = component.get('v.quoteId');
@@ -16,7 +16,7 @@
 
         //document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
     },
-    calculate : function(component, event, helper) {       
+    calculate : function(component, event, helper) {
         var quoteId = component.get('v.quoteId');
         if (quoteId) {
             helper.calculateHelper(component, quoteId);

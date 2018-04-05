@@ -1,34 +1,28 @@
 ({
 	initialize : function(cmp) {
-
+		debugger;
 		console.log('@ToroSupportPlusHelper:initialize');
         var action = cmp.get('c.retrieveSupportPlusData');
-		var qId = cmp.get('v.quoteId');
+        var qId = cmp.get('v.quoteId');
 		action.setParams({ quoteId : qId });
 		action.setCallback(this
 			, function(response) {
-				console.log('@ToroSupportPlusHelper:initialize2');
 				if (cmp.isValid() && response.getState() === "SUCCESS" ) {
-					console.log('@ToroSupportPlusHelper:initialize3');
-					console.log(cmp.isValid());
-					console.log(response.getState());
-
 	                var retResponse = response.getReturnValue();
                     cmp.set('v.quote', retResponse.quote);
                     cmp.set('v.quoteItemList', retResponse.quoteItemList);
                     cmp.set('v.supportPlusList', retResponse.supportPlusList);
-					cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
-					console.log('retrieveSupportPlusData response:');
-					console.log(retResponse);
+                    cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
 	            }
 	        }
-		);
+	    );
 		$A.enqueueAction(action);
 	},
 	retrieveAutocompleteResults: function(cmp, searchText) {
 		console.log('@ToroSupportPlusHelper:retrieveAutocompleteResults');
 		var lastSearchTerm = cmp.get('v.lastSearchTerm');
-		if (searchText.indexOf(lastSearchTerm) == -1) {
+		if (searchText.indexOf(lastSearchTerm) == -1 && searchText.length >= 3 && searchText.length != lastSearchTerm.length) {
+			console.log('show autocomplete section');
 			var action = cmp.get('c.getProductCodesAura');
 			action.setStorable();
 			action.setParams({ searchTerm : searchText });
@@ -44,6 +38,10 @@
 				}
 			);
 			$A.enqueueAction(action);
+		}
+
+		else {
+			console.log('hide autocomplete section');
 		}
 	},
 	showAddModal: function(cmp) {
