@@ -3,12 +3,6 @@
         component.set("v.forwardUrl", "/");
         helper.openWindow(component, event, helper);
     },
-    calculate : function(component, event, helper) {
-    	var quoteId = component.get('v.quoteId');
-        if (quoteId) {
-            helper.calculateHelper(component, quoteId);
-        }
-    },
     manageProduct: function(component, event, helper) {
         //var quoteId = component.get('v.quoteId');
         component.set("v.forwardUrl", "/apex/REVVY__PMnUIShell#mnquote/detail/");

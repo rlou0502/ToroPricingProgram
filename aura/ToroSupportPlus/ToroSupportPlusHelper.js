@@ -20,7 +20,7 @@
 	retrieveAutocompleteResults: function(cmp, searchText) {
 		console.log('@ToroSupportPlusHelper:retrieveAutocompleteResults');
 		var lastSearchTerm = cmp.get('v.lastSearchTerm');
-		if (searchText.indexOf(lastSearchTerm) == -1) {
+		if (searchText.indexOf(lastSearchTerm) == -1 && searchText.length == 3) {
 			var action = cmp.get('c.getProductCodesAura');
 			action.setStorable();
 			action.setParams({ searchTerm : searchText });

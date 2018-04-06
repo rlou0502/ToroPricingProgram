@@ -75,8 +75,14 @@
                     var searchResult = document.createElement('li');
                     searchResult.className = 'slds-listbox__item';
                     searchResult.setAttribute('role', 'presentation');
-                    searchResult.appendChild(searchResultDiv);
-                    searchResult.setAttribute("onclick", "add_product_input.value=this.innerText;autocomplete_section.style.display='none';");
+					searchResult.appendChild(searchResultDiv);
+					searchResult.onclick = function() {
+						alert('test');
+					};
+					searchResult.setAttribute('onclick', function() {
+						alert('test');
+					});
+                    // searchResult.setAttribute("onclick", "add_product_input.value=this.innerText;autocomplete_section.style.display='none';");
 
                     b.appendChild(searchResult);
 

@@ -38,6 +38,7 @@
             var pricingMethod = params.pricingMethod;
             var setupFeePercent = params.setupFeePercent;
             var performancePart = params.performancePart;
+            
             helper.updateSaveQuote(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, false);
         }
         
@@ -51,7 +52,8 @@
             var pricingMethod = params.pricingMethod;
             var setupFeePercent = params.setupFeePercent;
             var performancePart = params.performancePart;
-            helper.updateSaveQuote(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, true);
+            var returnUrl = params.returnUrl;
+            helper.updateSaveQuote(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, true, returnUrl);
         }
         
     },

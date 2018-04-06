@@ -5,15 +5,7 @@
     onOk : function(component, event, helper) {
         var quoteId = component.get('v.quoteId');
         var forwardUrl = component.get('v.forwardUrl');
-        /*
-        if(forwardUrl == "/"){
-        	var navEvt = $A.get("e.force:navigateToSObject");
-            navEvt.setParams({
-              "recordId": quoteId
-            });
-            navEvt.fire();   
-        }
-        */
+        
         console.log('--- 111');        
         var getAction = component.get('c.svc_clearDirtyQuoteItem');
 		var self = this;

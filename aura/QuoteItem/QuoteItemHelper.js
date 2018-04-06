@@ -737,7 +737,7 @@
 		$A.enqueueAction(getAction);
         
     },
-    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save) {
+    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save, returnUrl) {
     	//console.log('updateQuote'); 
     	var self = this;
         var quoteItemsData = {};
@@ -814,7 +814,11 @@
             	var state = response.getState();
                 if (component.isValid() && state === "SUCCESS") { 
                     if(save) {
-                        document.location = "/"+quoteId;
+                        if(!returnUrl) {
+                        	document.location = "/"+quoteId;	 
+                        } else {
+                        	document.location = returnUrl;
+                        }
                     }
                     var data = response.getReturnValue();
                     var retResponse = response.getReturnValue();

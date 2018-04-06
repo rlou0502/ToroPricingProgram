@@ -38,6 +38,8 @@
         <aura:attribute name="pricingMethod" type="String" />
         <aura:attribute name="setupFeePercent" type="decimal" />
         <aura:attribute name="performancePart" type="boolean" />
+        <aura:attribute name="returnUrl" type="String" />
+        
     </aura:method>
     <aura:method name="setPricingMethodSvc"
       description="This method makes an aura call to set pricing method at quote item">
