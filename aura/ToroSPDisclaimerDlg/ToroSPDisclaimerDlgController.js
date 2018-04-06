@@ -3,8 +3,12 @@
         helper.closeMe(component, event, helper);		
 	},
     onOk : function(component, event, helper) {
+        debugger;
         var quoteId = component.get('v.quoteId');
         var forwardUrl = component.get('v.forwardUrl');
+        
+        var cmpEvent = component.getEvent("proceedToSupportPlusEvent");
+        cmpEvent.fire();
         
         console.log('--- 111');        
         var getAction = component.get('c.svc_clearDirtyQuoteItem');
@@ -18,7 +22,6 @@
 	            var state = response.getState();
 	            if (component.isValid() && state === "SUCCESS") {  
 	                var data = response.getReturnValue();
-                    document.location = forwardUrl+quoteId;
                     helper.closeMe(component, event, helper);
                 }
 	        }

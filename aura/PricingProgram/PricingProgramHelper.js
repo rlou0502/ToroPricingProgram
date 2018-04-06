@@ -20,7 +20,6 @@
 		$A.createComponent(
             "c:ToroSPDisclaimerDlg",
             {
-                "forwardUrl": component.get("v.forwardUrl"),
                 "quoteId": component.get("v.quoteId")
             },
             function(msgBox, status, errorMessage){

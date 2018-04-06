@@ -19,7 +19,7 @@
             }
         }
         console.log('@ToroSPQuoteItemController:toggleSection');
-        var qiId = event.currentTarget.dataset.quoteitem;
+        var qiId = event.currentTarget.dataset.id;
         var tbody = event.currentTarget.closest('tbody');
         var quoteItems = tbody.querySelectorAll("[data-quoteitem='"+ qiId +"']");
         for(var i=0; i < quoteItems.length; i++) {

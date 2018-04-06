@@ -31,10 +31,17 @@
         quoteHeaderCmp.savePricingProgramMethod();
     },
     handleProceedToSupportPlus: function(component, event, helper) {
-        this.saveAndClose(component, event, helper);
+        var quoteHeaderCmp = component.find("cmpQuoteHeader");
+        var result = quoteHeaderCmp.getQuoteInfo();
+    	var childCmp = component.find("cmpQuoteItem");
+        var returnUrl = component.get("v.forwardUrl");
+		childCmp.saveQuote(result.PricingProgram, result.PricingMethod,
+                           result.SetupFeePercent, result.PerformancePart, returnUrl);
+        quoteHeaderCmp.savePricingProgramMethod();
     },
-    addSupportPlus: function(component, event, helper) {
-        component.set("v.forwardUrl", "/apex/ToroSupportPlusLgtnOut?Id=");
+    addSupportPlus: function(component, event, helper) {       
+        var quoteId =component.get("v.quoteId");
+        component.set("v.forwardUrl", "/apex/ToroSupportPlusLgtnOut?Id="+quoteId);
         helper.openSupportPlusDisclaimer(component, event, helper);
     },
     init : function(component, event, helper) {
