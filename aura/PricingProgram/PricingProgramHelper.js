@@ -16,6 +16,23 @@
             }
         );
     },
+    openSupportPlusDisclaimer : function(component, event, helper) {
+		$A.createComponent(
+            "c:ToroSPDisclaimerDlg",
+            {
+                "forwardUrl": component.get("v.forwardUrl"),
+                "quoteId": component.get("v.quoteId")
+            },
+            function(msgBox, status, errorMessage){
+                if (component.isValid()) {
+                    var targetCmp = component.find('ModalDialogPlaceholder');
+                    var body = targetCmp.get("v.body");
+                    body.push(msgBox);
+                    targetCmp.set("v.body", body);
+                }
+            }
+        );
+    },
     calculateHelper : function(component, quoteId) { 
         var self = this;
         self.resetQuoteApproval(component, quoteId);

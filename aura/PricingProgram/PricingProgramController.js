@@ -37,7 +37,7 @@
     },
     addSupportPlus: function(component, event, helper) {
         component.set("v.forwardUrl", "/apex/ToroSupportPlusLgtnOut?Id=");
-        helper.openWindow(component, event, helper);
+        helper.openSupportPlusDisclaimer(component, event, helper);
     },
     init : function(component, event, helper) {
         var quoteId = component.get('v.quoteId');

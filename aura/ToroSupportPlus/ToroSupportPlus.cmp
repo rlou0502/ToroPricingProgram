@@ -80,26 +80,7 @@
 		<div id="rolling-total" style="margin-top: 20px">
 			<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
 		</div>
-		<ul class="slds-grid slds-page-header__detail-row">
-			<li>
-				<h3 class="slds-section__title slds-theme_shade">
-					<span class="slds-truncate slds-p-horizontal_small"
-						title="Support Plus">Support Plus</span>
-				</h3>
-			</li>
-		</ul>
-		<ul class="slds-grid slds-page-header__detail-row">
-			<li>
-				<ul>
-					<li
-						class="slds-text-body_small slds-list--dotted slds-text-color_weak">{!$Label.c.SP_Condition_1}</li>
-					<li
-						class="slds-text-body_small slds-list--dotted slds-text-color_weak">{!$Label.c.SP_Condition_2}</li>
-					<li
-						class="slds-text-body_small slds-list--dotted slds-text-color_weak">{!$Label.c.SP_Condition_3}</li>
-				</ul>
-			</li>
-		</ul>
+ 
 		<ul class="slds-grid slds-page-header__detail-row">
 			<li>
 				<h3 class="slds-section__title slds-theme_shade">

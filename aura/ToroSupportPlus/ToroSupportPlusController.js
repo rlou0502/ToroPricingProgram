@@ -29,7 +29,8 @@
         }
 
         else {
-
+            cmp.set('v.searchResult', null);
+            cmp.set('v.lastSearchTerm', null);
         }
     },
     toggleAddProductModal: function(cmp, event, helper) {

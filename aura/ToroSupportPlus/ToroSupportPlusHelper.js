@@ -30,13 +30,14 @@
 					if (cmp.isValid() && state === "SUCCESS") {
 						console.log('getProductCodesAura response:');
 						console.log(response.getReturnValue());
-						cmp.set('v.lastSearchTerm', searchText);
 						cmp.set('v.searchResult', response.getReturnValue());
 					}
 				}
 			);
+
 			$A.enqueueAction(action);
 		}
+		cmp.set('v.lastSearchTerm', searchText);
 	},
 	showAddModal: function(cmp) {
 		var modal = cmp.find("addModal");
