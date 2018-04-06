@@ -10,7 +10,7 @@
         cmpEvent.fire();
     },
     toggleChevron: function(cmp, event, helper) {
-    	debugger;
+    	//debugger;
     	if(event.currentTarget.classList.contains('chevron')) {
             if(event.currentTarget.classList.contains('bottom')) {
                 event.currentTarget.classList.replace('bottom','right') ;   
@@ -19,7 +19,7 @@
             }
         }
         console.log('@ToroSPQuoteItemController:toggleSection');
-        var qiId = event.currentTarget.dataset.id;
+        var qiId = event.currentTarget.dataset.quoteitem;
         var tbody = event.currentTarget.closest('tbody');
         var quoteItems = tbody.querySelectorAll("[data-quoteitem='"+ qiId +"']");
         for(var i=0; i < quoteItems.length; i++) {

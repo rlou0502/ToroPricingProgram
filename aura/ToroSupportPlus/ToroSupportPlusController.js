@@ -12,19 +12,24 @@
         		document.getElementById("rolling-total").style.position = "fixed";
         		document.getElementById("rolling-total").style.top =  (headerBottom + 3 ) + "px";
         	} else {
-        		
+
         	}
         });
         */
-        		
+
     },
     handleSupportPlusQtyChange: function(cmp, event, helper) {
         var childCmp = cmp.find("cmpRollingTotal");
         childCmp.updateRollingTotals();
     },
-    handleProductInputKeyup: function(cmp, event, helper) {
-        if (event.target.value.length >= 3) {
-            helper.retrieveAutocompleteResults(cmp, event.target.value);
+    handleAutoComplete: function(cmp, event, helper) {
+        var searchTerm = event.target.value;
+        if (searchTerm.length >= 3) {
+            helper.retrieveAutocompleteResults(cmp, searchTerm);
+        }
+
+        else {
+
         }
     },
     toggleAddProductModal: function(cmp, event, helper) {

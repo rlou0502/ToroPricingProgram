@@ -17,7 +17,7 @@
 		}
 
 		var lastSearchTerm = cmp.get('v.lastSearchTerm');
-		if (lastSearchTerm && autocomplete) {
+		if (lastSearchTerm != autocomplete) {
 			console.log("lastSearchTerm = " + lastSearchTerm);
 			// var db = cmp.get("v.searchResult");
 			var a = new RegExp(autocomplete.value, "i");

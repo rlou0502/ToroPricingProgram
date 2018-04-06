@@ -107,24 +107,26 @@ global class ToroSupportPlusController {
 	 */
     @AuraEnabled
     public static List<REVVY__MnPriceListLine__c> getProductCodesAura(String searchTerm) {
-        String term = '%' + searchTerm + '%';
-        List<REVVY__MnPriceListLine__c> pricelistLines = [
+        final String term = '%' + searchTerm + '%';
+		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				REVVY__Product__r.REVVY__Id__c
 				, REVVY__Product__r.Name
 				, REVVY__Product__r.REVVY__Description__c
-				, REVVY__Product__c
+				// , REVVY__Product__c
 				, REVVY__SuggestedPrice__c
 			FROM
 				REVVY__MnPriceListLine__c
-            WHERE
+			WHERE
 				REVVY__Product__r.REVVY__Type__c IN ('Product', 'Bundle')
 				AND REVVY__Product__r.REVVY__Effective_Start_Date__c <= TODAY
 				AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
 				AND REVVY__Product__r.REVVY__Status__c = 'Active'
 				AND REVVY__PriceList__r.Name = 'Commercial'
 				AND (REVVY__Product__r.REVVY__Id__c LIKE :term
-					OR REVVY__Product__r.Name LIKE :term)];
+					OR REVVY__Product__r.Name LIKE :term)
+			ORDER BY REVVY__Product__r.Name asc
+		];
 
         return pricelistLines;
     }

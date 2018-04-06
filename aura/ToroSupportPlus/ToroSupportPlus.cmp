@@ -75,7 +75,7 @@
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 		<div id="rolling-total" style="margin-top: 20px">
 			<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
@@ -145,7 +145,7 @@
 							<div class="slds-form-element__control">
 								<input type="text" id="add_product_input" class="slds-input"
 									placeholder="Select a product"
-									onkeyup="{!c.handleProductInputKeyup}" onfocusout="" />
+									onkeyup="{!c.handleAutoComplete}" onfocusout="" />
 								<!-- autocomplete results section -->
 								<section id="autocomplete_section"
 									class="slds-popover slds-nubbin_top-left slds-dynamic-menu"
