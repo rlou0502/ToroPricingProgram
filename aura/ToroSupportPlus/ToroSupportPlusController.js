@@ -1,15 +1,22 @@
 ({
 	initialize: function(cmp, event, helper) {
         helper.initialize(cmp);
+  /*      
         window.addEventListener('scroll',  function(e) {
         	var headerBottom = document.getElementById("global-header").getBoundingClientRect().bottom;
         	var eleTop = document.getElementById("rolling-total").getBoundingClientRect().top;
         	var docScrollTop = document.documentElement.scrollTop;
         	console.log('bottom=' + headerBottom + '  scrolltop=' + eleTop + ' doc top=' + docScrollTop);
-        	if(eleTop < headerBottom+3) {
-        		document.getElementById("rolling-total").style.top =  (headerBottom + 3 ) + "px";
+            
+        	if(eleTop <= headerBottom) {
+        		console.log('new top = ' + (headerBottom + 3)+"px");
+                document.getElementById("rolling-total").style.position = "fixed";
+        		document.getElementById("rolling-total").style.top =  "53px";
+        	} else {
+        		document.getElementById("rolling-total").style.position = "relative";
         	}
         });
+    */    
         		
     },
     handleSupportPlusQtyChange: function(cmp, event, helper) {
