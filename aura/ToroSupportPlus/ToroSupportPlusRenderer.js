@@ -2,13 +2,24 @@
 	rerender: function (cmp, helper) {
 		console.log('@ToroSupportPlusRenderer:rerender');
 		this.superRerender();
+
 		var autocomplete = document.getElementById("add_product_input");
 		var autocomplete_result = document.getElementById("autocomplete_result");
-        var autocomplete_section = document.getElementById('autocomplete_section');
+		var autocomplete_section = document.getElementById('autocomplete_section');
+
+		var db = cmp.get('v.searchResult');
+		if (db == null) {
+			console.log('hide autocomplete');
+			autocomplete_result.innerHTML = "";
+			autocomplete_result.style.display = "none";
+			autocomplete_section.style.display = "none";
+			return;
+		}
+
 		var lastSearchTerm = cmp.get('v.lastSearchTerm');
 		if (lastSearchTerm && autocomplete) {
 			console.log("lastSearchTerm = " + lastSearchTerm);
-			var db = cmp.get("v.searchResult");
+			// var db = cmp.get("v.searchResult");
 			var a = new RegExp(autocomplete.value, "i");
 			for (var x = 0, b = document.createDocumentFragment(), c = false; x < db.length; x++) {
                 if (a.test(db[x].REVVY__Product__r.REVVY__Id__c) || a.test(db[x].REVVY__Product__r.Name)) {
@@ -85,11 +96,6 @@
 				var clientHeight = autocomplete_result.clientHeight;
 				autocomplete_result.style.bottom = (clientHeight + 28).toString() + "px";
                 autocomplete_section.style.display = "block";
-			} else {
-                console.log('hide autocomplete section');
-				autocomplete_result.innerHTML = "";
-				autocomplete_result.style.display = "none";
-                autocomplete_section.style.display = "none";
 			}
 		}
 	}
