@@ -8,7 +8,7 @@ global class ToroSupportPlusController {
 	 */
 	@AuraEnabled
 	public static ToroSupportPlusData retrieveSupportPlusData(Id quoteId) {
-		
+
 		Revvy__MnQuote__c tmpQ = [select Toro_Total_DNet__c from Revvy__MnQuote__c where id = :quoteId];
         List<Support_Plus_Plan__c> plans = [select Total_DNet_Low__c, Total_DNet_High__c, Maximum_Support__c from Support_Plus_Plan__c order by Total_DNet_Low__c];
         for(Support_Plus_Plan__c sp : plans) {
@@ -19,7 +19,7 @@ global class ToroSupportPlusController {
         }
         //update quote;
         update tmpQ;
-        
+
 		ToroSupportPlusData ret = new ToroSupportPlusData();
 		REVVY__MnQuote__c spQuote = [
 			SELECT
@@ -109,9 +109,10 @@ global class ToroSupportPlusController {
     public static List<REVVY__MnPriceListLine__c> getProductCodesAura(String searchTerm) {
         String term = '%' + searchTerm + '%';
         List<REVVY__MnPriceListLine__c> pricelistLines = [
-			SELECT Id
-				, REVVY__Product__r.REVVY__Id__c
+			SELECT
+				REVVY__Product__r.REVVY__Id__c
 				, REVVY__Product__r.Name
+				, REVVY__Product__r.REVVY__Description__c
 				, REVVY__Product__c
 				, REVVY__SuggestedPrice__c
 			FROM
@@ -360,7 +361,7 @@ global class ToroSupportPlusController {
 
 
 	public ToroSupportPlusController() {
-		quoteId = ApexPages.currentPage().getParameters().get('id'); 
+		quoteId = ApexPages.currentPage().getParameters().get('id');
 	}
 
 

@@ -1,17 +1,24 @@
 ({
 	initialize: function(cmp, event, helper) {
         helper.initialize(cmp);
+        window.addEventListener('scroll',  function(e) {
+        	var headerBottom = document.getElementById("global-header").getBoundingClientRect().bottom;
+        	var eleTop = document.getElementById("rolling-total").getBoundingClientRect().top;
+        	var docScrollTop = document.documentElement.scrollTop;
+        	console.log('bottom=' + headerBottom + '  scrolltop=' + eleTop + ' doc top=' + docScrollTop);
+        	if(eleTop < headerBottom+3) {
+        		document.getElementById("rolling-total").style.top =  (headerBottom + 3 ) + "px";
+        	}
+        });
+        		
     },
     handleSupportPlusQtyChange: function(cmp, event, helper) {
         var childCmp = cmp.find("cmpRollingTotal");
         childCmp.updateRollingTotals();
     },
     handleProductInputKeyup: function(cmp, event, helper) {
-        console.log('@ToroSupportPlusController:handleProductInputKeyup');
-        var searchText = event.target.value;
-        console.log('searchText: ' + searchText);
-        if (searchText.length >= 3) {
-            helper.retrieveAutocompleteResults(cmp, searchText);
+        if (event.target.value.length >= 3) {
+            helper.retrieveAutocompleteResults(cmp, event.target.value);
         }
     },
     toggleAddProductModal: function(cmp, event, helper) {
