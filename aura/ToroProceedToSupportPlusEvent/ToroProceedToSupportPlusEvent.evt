@@ -1,0 +1,1 @@
+<aura:event type="COMPONENT" description="To signal to proceed to Support Plus" />

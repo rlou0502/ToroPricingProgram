@@ -25,9 +25,13 @@
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");
+        var returnUrl = component.get("v.forwardUrl");
 		childCmp.saveQuote(result.PricingProgram, result.PricingMethod,
-                           result.SetupFeePercent, result.PerformancePart);
+                           result.SetupFeePercent, result.PerformancePart, returnUrl);
         quoteHeaderCmp.savePricingProgramMethod();
+    },
+    handleProceedToSupportPlus: function(component, event, helper) {
+        this.saveAndClose(component, event, helper);
     },
     addSupportPlus: function(component, event, helper) {
         component.set("v.forwardUrl", "/apex/ToroSupportPlusLgtnOut?Id=");
