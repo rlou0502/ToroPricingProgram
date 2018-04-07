@@ -18,7 +18,7 @@
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Total_Extended_DNET__c}">{!v.quote.SP_Total_Extended_DNET__c}</p>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Extended Total Distributor Responsibility (%)">Extended Total Distributor Responsibility (%)</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="Extended Total Distributor Responsibility (%)">Disti Responsibility (%)</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Ext_Dist_Responsibility__c}">{!v.quote.SP_Ext_Dist_Responsibility__c}</p>
 		</li>
 		<li class="slds-page-header__detail-block">

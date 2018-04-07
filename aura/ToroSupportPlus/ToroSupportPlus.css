@@ -6,9 +6,13 @@
     display: none;
 }
 
-.THIS div#rolling-total.cToroSupportPlus {
-    position: fixed;  /* Stay in place */
-    z-index: 1; /* Sit on top */
-    top: 53px;
-    border: 3px solid green;
+.THIS#rolling-total {
+    position: fixed;  
+    z-index: 1; 
+    top: 10px;
+    margin-top: 20px;
+    width: 100%;
+}
+.THIS#support-plus-quote-item {
+    margin-top: 130px;
 }
