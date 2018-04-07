@@ -8,7 +8,7 @@
 	</aura:method>
 
 
-	<ul class="slds-grid slds-page-header__detail-row">
+	<ul class="slds-grid slds-page-header__detail-row rolling_total">
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="Support Plus Allowance">Support Plus Allowance</p>
 			<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance__c}">{!v.quote.Toro_Support_Plus_Allowance__c}</p>

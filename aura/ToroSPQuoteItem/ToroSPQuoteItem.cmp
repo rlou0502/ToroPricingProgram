@@ -3,7 +3,7 @@
     <aura:attribute name="quoteItemList" type="QuoteItem[]" />
     <aura:attribute name="Distributor_Responsibility" type="decimal" />
     
-    <div >
+    <div>
     <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_col-bordered" role="grid">
         	<thead>
 	            <tr class="slds-text-title_caps">
