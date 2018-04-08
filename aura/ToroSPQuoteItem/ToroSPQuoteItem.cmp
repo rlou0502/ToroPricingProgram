@@ -4,28 +4,28 @@
     <aura:attribute name="Distributor_Responsibility" type="decimal" />
     
     <div>
-    <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_col-bordered" role="grid">
+    <table class="slds-table slds-table_bordered  slds-table_col-bordered" role="grid">
         	<thead>
 	            <tr class="slds-text-title_caps">
-	            	<th>&nbsp;
+	            	<th width="50px">&nbsp;&nbsp;&nbsp;
 	            	</th>
-	                <th scope="col">
+	                <th scope="col" width="10%">
 	                    <div class="slds-truncate" title="QTY">QTY</div>
 	                </th>
-	                <th scope="col">
+	                <th scope="col" width="10%">
 	                    <div class="slds-truncate" title="SP QTY">SP QTY</div>
 	                </th>
-	                <th scope="col">
+	                <th scope="col" width="20%">
 	                    <div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
 	                </th>
-	                <th scope="col">
+	                <th scope="col" width="30%">
 	                    <div class="slds-truncate" title="Description">Description</div>
 	                </th>
 	
-	                <th scope="col">
+	                <th scope="col" width="15%">
 	                    <div class="slds-truncate" title="Distributor Responsibility (%)">Distributor Responsibility (%)</div>
 	                </th>
-	                <th scope="col">
+	                <th scope="col" width="15%">
 	                    <div class="slds-truncate" title="DNet Price">DNet Price</div>
 	                </th>
 	            </tr>
@@ -33,8 +33,8 @@
           <tbody>
           	<aura:iteration items="{!v.quoteItemList}" var="quoteItem">
 	       		<tr class="quote_item">
-	       		<td class="chevron-cell">
-	       			<span class="chevron bottom" data-id="{!quoteItem.qi.Id}" onclick="{!c.toggleChevron}"></span>
+	       		<td class="chevron-cell" width="50px">
+	       			<span style="width:50px" class="chevron bottom" data-id="{!quoteItem.qi.Id}" onclick="{!c.toggleChevron}"></span>
 				</td>
 	                <td>{!quoteItem.qi.REVVY__Quantity__c}</td>
 	                <td>
