@@ -1,23 +1,42 @@
 <aura:component >
-	<aura:attribute name="supportPlusList" type="Support_Plus_Holder__c[]" />
+	<aura:attribute name="supportPlusList" type="Object[]" />
     <aura:registerEvent name="supportPlusAddNewEvent" type="c:ToroSPAddNewEvent"/>
 	<div>{!$Label.c.SP_Add_New}</div>
     <div>
-        <table>
+        <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_col-bordered" role="grid">
             <thead>
-                <tr>
-                    <th>SP Qty</th>
-                    <th>Model</th>
-                    <th>Description</th>
-                    <th>Disti Resp</th>
-                </tr>
-            </thead>
+	            <tr class="slds-text-title_caps">
+	            	<th>Actions
+	            	</th>
+	                <th scope="col">
+	                    <div class="slds-truncate" title="SP QTY">SP QTY</div>
+	                </th>
+	                <th scope="col">
+	                    <div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
+	                </th>
+	                <th scope="col">
+	                    <div class="slds-truncate" title="Description">Description</div>
+	                </th>
+	
+	                <th scope="col">
+	                    <div class="slds-truncate" title="Distributor Responsibility (%)">Distributor Responsibility (%)</div>
+	                </th>
+	                <th scope="col">
+	                    <div class="slds-truncate" title="DNet Price">DNet Price</div>
+	                </th>
+	            </tr>
+          </thead>
             <tbody>
                 <tr>
-                    <td><input type="text"></input></td>
-                    <td><input type="text"></input></td>
-                    <td><span id="description"></span></td>
-                    <td><input type="text" id="disti-resp"></input></td>
+                    <td>
+                        <lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{! c.handleClick }" title="delete" />
+                        <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" />
+                    </td>
+                    <td>1</td>
+                    <td>xyz</td>
+                    <td>xyz</td>
+                    <td>20%</td>
+                	<td>$2000.00</td>
                 </tr>
             </tbody>
         </table>

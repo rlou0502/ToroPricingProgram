@@ -58,7 +58,11 @@
 	<div id="support-plus-quote-item" >
 	<c:ToroSPQuoteItem quoteItemList="{!v.quoteItemList}" />
 	</div>
-
+	
+    <div id="support-plus-new-item" >
+	<c:ToroSPAddNew />
+	</div>
+    
 	<!-- add new support item modal -->
 	<div aura:id="addModal" class="hideDiv" style="height: 640px;">
 		<section role="dialog" tabindex="-1"
