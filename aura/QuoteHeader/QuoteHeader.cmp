@@ -70,7 +70,7 @@
             	<td scope="col" class="pricing-method">  
                     <div class="slds-truncate slds-p-bottom_x-small" title="Total Award $">Total Award $</div>
                     <div>
-                        <input type="text" value="{!v.quote.TotalAwardDollars__c}" onchange="{!c.onTotalAwardPriceChange}" onkeypress="{!c.onInputPress}"/>              	
+                        <input type="text" value="{!v.quote.Total_Award_Dollars__c}" onchange="{!c.onTotalAwardPriceChange}" onkeypress="{!c.onInputPress}"/>              	
                     </div>
             	</td>
                 <aura:set attribute="else">

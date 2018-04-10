@@ -37,6 +37,10 @@ public with sharing class ToroCacheManager {
 		REVVY__MnQuote__c q = (REVVY__MnQuote__c) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroQuoteCache.class, quoteId);	
 		system.debug('initializeQuoteHeader --refresh quote-------' + q);
 		return q;	
-	}  
+	} 
+	public static REVVY__MnQuote__c setQuote(Revvy__MnQuote__c quote) {
+		Cache.Session.getPartition(ToroCacheManager.constPartitionName).put(quote.Id, quote);	
+		return quote;	
+	}   
 	
 }

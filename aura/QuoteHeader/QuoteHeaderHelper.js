@@ -41,6 +41,7 @@
 	            //console.log('ToroPricingProgramController getFormAction callback');
 	            //console.log("callback state: " + state);
 	            if (component.isValid() && state === "SUCCESS") {  
+                    debugger;
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
 	                var retRecords = retResponse.values;

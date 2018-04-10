@@ -382,6 +382,7 @@ public with sharing class ToroPricingMethodHelper {
 	
 	public ToroPricingMethodHelper convertAwardPriceToDNetPercent() {
 		for (Toro_QuoteItem__c qi : quoteItemList) {
+            qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c);
 			if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
 				qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c * 100;
 			}

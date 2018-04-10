@@ -140,8 +140,10 @@ public class ToroPricingProgramController {
 						
 					}
 					
-				} 
+				}
+				 
 			}
+			system.debug('display qi=' + qi.PricingMethodValue__c );
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					//if(pp.performancePartFlag && qis.Performance_part__c) {
@@ -172,15 +174,24 @@ public class ToroPricingProgramController {
 							}
 						}
 					}
+					system.debug('display qis=' + qis.PricingMethodValue__c ); 
 				}
     		}
 		}
+		
 		
 		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 		system.debug(logginglevel.info, 'entering---calculateRebateMargin');
     	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
     	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-    	
+    	/*
+    	for(Toro_QuoteItem__c qi : pp.quoteItems) {
+    		system.debug('display qi=' + qi.PricingMethodValue__c ); 
+    		for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+    			system.debug('display qis=' + qis.PricingMethodValue__c ); 	
+    		}	
+    	}
+    	*/
     	for(FieldSetMember fs : rs.fieldSetMembers) {
     		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
     			fs.label = rs.selectedPricingMethod;	
@@ -301,6 +312,7 @@ public class ToroPricingProgramController {
 	    			fss.label = rs.selectedPricingMethod;	
 	    		}	
 	    	}
+	    	pp.quote.Total_Award_Dollars__c = awardPrice;
 	    	rs.quote = pp.quote;
 	    	rs.values =  pp.quoteItems;
 	    	rs.chainCall = pp.chainCall;
@@ -349,6 +361,7 @@ public class ToroPricingProgramController {
 	    			fss.label = rs.selectedPricingMethod;	
 	    		}	
 	    	}
+	    	pp.quote.Gross_Profit_Percent__c = gpPercent;
 	    	rs.quote = pp.quote;
 	    	rs.values =  pp.quoteItems;
 	    	rs.chainCall = pp.chainCall;
@@ -715,7 +728,7 @@ public class ToroPricingProgramController {
     	String pm = q.Price_Method__c;
     	rs = retrieveFieldSets(rs, pp, pm, pricingProgram);
 
-    	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(Toro_QuoteItem__c qi : pp.quoteItems) {
     		if(String.isNotBlank(qi.PricingMethodValue__c)){
     			decimal d = decimal.valueOf(qi.PricingMethodValue__c).setScale(2, roundingMode.HALF_UP);

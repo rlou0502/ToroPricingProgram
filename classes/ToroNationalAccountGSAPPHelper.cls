@@ -70,7 +70,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 					qis.Gross_Profit_Value__c = (qis.Award_Price__c *CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100) * extQty;	
 					decimal qisRebate = qis.DNet_Price__c * extQty - qis.award_price__c *extQty  + qis.Gross_Profit_Value__c;	
 					qis.Toro_Subline_Rebate__c = qisRebate;	
-					if(qis.award_price__c != 0) {
+					if(qis.award_price__c != 0 && qis.dnet_price__c != null && qis.dnet_price__c != 0) {
 						qis.Rebate_as_of_DNet__c = qisRebate/(qis.dnet_price__c*extQty) *100;
 					} else {
 						system.debug('ToroContractPriceListPPHelper---------qis.product_name__c=' + qis.product_name__c + ' product id=' + qis.product_Id__c);

@@ -21,6 +21,7 @@ global class ToroSupportPlusController {
         update tmpQ;
 
 		ToroSupportPlusData ret = new ToroSupportPlusData();
+
 		REVVY__MnQuote__c spQuote = [
 			SELECT
 				Id
@@ -35,9 +36,10 @@ global class ToroSupportPlusController {
 			WHERE
 				Id = :quoteId
 		];
-		spQuote.Support_Plus_Rebate__c = CMnQuoteUtil.defaultDecimal(spQuote.Support_Plus_Rebate__c);
-    	spQuote.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(spQuote.SP_Ext_Dist_Responsibility__c);
-    	spQuote.SP_Total_Extended_DNET__c = CMnQuoteUtil.defaultDecimal(spQuote.SP_Total_Extended_DNET__c);
+
+		spQuote.Support_Plus_Rebate__c        = CMnQuoteUtil.defaultDecimal(spQuote.Support_Plus_Rebate__c);
+		spQuote.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(spQuote.SP_Ext_Dist_Responsibility__c);
+		spQuote.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(spQuote.SP_Total_Extended_DNET__c);
 
     	List<Support_Plus_Contribution__c> contributions = [
 			SELECT
@@ -61,12 +63,13 @@ global class ToroSupportPlusController {
 
     	ret.quote = spQuote;
 
-		List<REVVY__MnQuoteItem__c> quoteItems = [
+		final List<REVVY__MnQuoteItem__c> quoteItems = [
 			SELECT
 				REVVY__Product_Name_F__c
 				, REVVY__Product_ID_F__c
 				, REVVY__Quantity__c
 				, Support_Plus_Quantity__c
+				, Support_Plus_Item__c
 				, Description__c
 				, Distributor_Responsibility__c
 				, REVVY__SuggestedPrice__c
@@ -88,12 +91,19 @@ global class ToroSupportPlusController {
 				REVVY__Quote__c = :quoteId
 		];
 
-		final List<QuoteItem> quoteItemWrapperList = new List<QuoteItem>();
+		ret.quoteItemList   = new List<QuoteItem>();
+		ret.supportPlusList = new List<QuoteItem>();
+
 		for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
-            quoteItemWrapperList.add(new QuoteItem(quoteItem));
+			if (quoteItem.Support_Plus_Item__c) {
+				ret.supportPlusList.add(new QuoteItem(quoteItem));
+			}
+
+			else {
+				ret.quoteItemList.add(new QuoteItem(quoteItem));
+			}
         }
 
-        ret.quoteItemList = quoteItemWrapperList;
 		return ret;
 	}
 

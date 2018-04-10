@@ -684,12 +684,14 @@ public abstract class ToroPricingProgram {
 		}
 
 		if(updateQuoteItems.size() > 0) {
-			database.update(updateQuoteItems, false);
+			//database.update(updateQuoteItems, false);
+			update updateQuoteItems;
 		}
 		if(updateQuoteItemSublines.size() > 0) {
 			update updateQuoteItemSublines;
 		}
 		update quote;
+		ToroCacheManager.setQuote(quote);
 		return quoteItemList;
 	}
 
