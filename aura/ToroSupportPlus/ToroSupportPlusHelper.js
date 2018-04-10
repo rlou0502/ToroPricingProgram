@@ -63,19 +63,36 @@
 	},
 	addProduct: function(cmp, productId) {
 		console.log('@ToroSupportPlusHelper:addProduct');
-		console.log('productId: ' + productId);
-		var action = cmp.get('c.addProduct');
-		var quoteId = cmp.get('v.quoteId');
-		console.log('1');
-		action.setParams({ quoteId : quoteId, productId: productId });
-		console.log('2');
+		var action = cmp.get('c.addSupportPlustItem');
+		action.setParams({
+			quoteId: cmp.get('v.quoteId')
+			, productId: productId
+		});
 		action.setCallback(this
 			, function(response) {
 				console.log('3');
 				var state = response.getState();
 				if (cmp.isValid() && state === 'SUCCESS') {
-					if (response.getReturnValue()) {
-						alert('successfully added ' + response.getReturnValue());
+					var retVal = response.getReturnValue();
+					if (retVal) {
+						alert('addProduct success - retVal: ' + retVal);;
+					}
+				}
+
+				else if (state === 'INCOMPLETE') {
+
+				}
+
+				else if (state === 'ERROR') {
+					var errors = response.getError();
+					if (errors) {
+						if (errors[0] && errors[0].message) {
+							console.log('addProduct error: ' + errors[0].message);
+						}
+
+						else {
+							console.log('addProduct Unknown error');
+						}
 					}
 				}
 			}

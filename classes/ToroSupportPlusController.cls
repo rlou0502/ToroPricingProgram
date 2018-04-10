@@ -149,7 +149,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static String addProduct(Id quoteId, String productId) {
+	public static String addSupportPlustItem(Id quoteId, String productId) {
 		return productId;
 	}
 

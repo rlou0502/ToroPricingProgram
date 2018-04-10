@@ -48,7 +48,7 @@
     addProduct: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:addProduct');
         var productId = cmp.get('v.lastSearchTerm');
-        if (productId.length >= 3) {
+        if (productId) {
             helper.addProduct(cmp, productId);
         }
 
