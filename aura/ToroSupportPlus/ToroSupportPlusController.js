@@ -47,28 +47,35 @@
     },
     addProduct: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:addProduct');
-        var productId = cmp.get('v.lastSearchTerm');
-        var newItemSPQuantity = cmp.get('v.newItemSPQuantity');
-        var newItemDistributorResponsibility = cmp.get('newItemDistributorResponsibility');
+        var productId                        = cmp.get('v.lastSearchTerm');
+        var newItemSPQuantity                = cmp.get('v.newItemSPQuantity');
+        var newItemDistributorResponsibility = cmp.get('v.newItemDistributorResponsibility');
 
         var inputIsValid = true;
-        var errorMessage = 'The following values are required';
+        var errorMessage = 'The following values are required: ';
+
         if (!productId) {
             inputIsValid = false;
-            errorMessage = 'A Product ID must be entered';
+            errorMessage += ' Product ID';
         }
 
         if (!newItemSPQuantity) {
             inputIsValid = false;
-            errorMessage += ' The Support Plus Quantity must be entered';
+            errorMessage += ', SP Quantity';
         }
 
         if (!newItemDistributorResponsibility) {
             inputIsValid = false;
-            errorMessage += ' The Distributor';
+            errorMessage += ', Distributor Responsibility';
         }
 
-        if (inputIsValid) {
+
+
+        if (!inputIsValid) {
+            alert(errorMessage);
+        }
+
+        else {
             helper.addProduct(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility);
         }
     },

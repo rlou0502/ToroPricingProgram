@@ -1,5 +1,5 @@
 <aura:component >
-	<aura:attribute name="supportPlusList" type="Object[]" />
+	<aura:attribute name="supportPlusList" type="QuoteItem[]" />
     <aura:registerEvent name="supportPlusAddNewEvent" type="c:ToroSPAddNewEvent"/>
 	<div>{!$Label.c.SP_Add_New}</div>
     <div>
@@ -19,7 +19,7 @@
 	                <th scope="col" width="30%">
 	                    <div class="slds-truncate" title="Description">Description</div>
 	                </th>
-	
+
 	                <th scope="col" width="15%">
 	                    <div class="slds-truncate" title="Distributor Responsibility (%)">Distributor Responsibility (%)</div>
 	                </th>
@@ -29,18 +29,20 @@
 	            </tr>
           </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{! c.handleClick }" title="delete" />
-                        <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" />
-                    </td>
-                    <td>1</td>
-                    <td></td>
-                    <td>xyz</td>
-                    <td>xyz</td>
-                    <td>20%</td>
-                	<td>$2000.00</td>
-                </tr>
+				<aura:iteration items="{!v.supportPlusList}" var="spItem">
+					<tr class="quote_item">
+						<td>
+							<lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{! c.handleClick }" title="delete" />
+							<lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" />
+						</td>
+						<td>{!spItem.qi.Support_Plus_Quantity__c}</td>
+						<td>&nbsp;</td>
+						<td>{!spItem.qi.REVVY__Product_ID_F__c}</td>
+						<td>{!spItem.qi.Description__c}</td>
+						<td>{!spItem.qi.Distributor_Responsibility__c}</td>
+						<td>{!spItem.qi.Revvy__SuggestedPrice__c}</td>
+					</tr>
+				</aura:iteration>
             </tbody>
         </table>
     </div>

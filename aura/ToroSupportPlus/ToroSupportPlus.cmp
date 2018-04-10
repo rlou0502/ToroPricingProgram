@@ -9,13 +9,16 @@
 
 
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1"/>
-	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" />
+	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="100.00"/>
 	<aura:attribute name="newItemDescription" type="String" default=""/>
 	<aura:attribute name="newItemDNetPrice" type="Decimal" default=""/>
 
 	<aura:attribute name="quoteId" type="String" />
 	<aura:attribute name="quote" type="SObject" />
+
 	<aura:attribute name="quoteItemList" type="QuoteItem[]" />
+	<aura:attribute name="supportPlusList" type="QuoteItem[]" />
+
 	<aura:attribute name="Distributor_Responsibility" type="decimal" />
 
 	<header class="slds-global-header_container" id="global-header" >
@@ -55,19 +58,19 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</header>
-		<div id="rolling-total" >
-			<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
-		</div>
+
+	<div id="rolling-total" >
+		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
+	</div>
 
 	<div id="support-plus-quote-item" >
-	<c:ToroSPQuoteItem quoteItemList="{!v.quoteItemList}" />
+		<c:ToroSPQuoteItem quoteItemList="{!v.quoteItemList}" />
 	</div>
 
     <div id="support-plus-new-item" >
-	<c:ToroSPAddNew />
+		<c:ToroSPAddNew aura:id="cmpSupportPlusItems" supportPlusList="{!v.supportPlusList}" />
 	</div>
 
 	<!-- add new support item modal -->
@@ -93,7 +96,7 @@
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_product_input">Product ID</label>
 							<div class="slds-form-element__control">
-								<input type="text" id="add_product_input" class="slds-input" placeholder="Select a product" onkeyup="{!c.handleAutoComplete}" onfocusout=""/>
+								<input type="text" id="add_product_input" class="slds-input" placeholder="Select a product" onkeyup="{!c.handleAutoComplete}" onfocusout="{!c.handleHideAutoComplete}"/>
 								<!-- autocomplete results section -->
 								<section id="autocomplete_section"
 									class="slds-popover slds-nubbin_top-left slds-dynamic-menu"
@@ -115,10 +118,15 @@
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add_description">Description</label>
 							<div class="slds-form-element__control">
-								<ui:outputText value="{!v.newItemDescription}" />
-								<!-- <textarea id="add_description" class="slds-textarea" placeholder=""></textarea> -->
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}" />
+								<!-- <input type="text" id="add_sp_quantity" class="slds-input" placeholder="" /> -->
+							</div>
+						</div>
+						<div class="slds-form-element">
+							<div class="slds-form-element__control">
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="Distributor Responsibility" value="{!v.newItemDistributorResponsibility}" />
+								<!-- <textarea id="add_dist_resp" class="slds-textarea" placeholder=""></textarea> -->
 							</div>
 						</div>
 						<div class="slds-form-element">
@@ -129,15 +137,10 @@
 							</div>
 						</div>
 						<div class="slds-form-element">
+							<label class="slds-form-element__label" for="add_description">Description</label>
 							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}" />
-								<!-- <input type="text" id="add_sp_quantity" class="slds-input" placeholder="" /> -->
-							</div>
-						</div>
-						<div class="slds-form-element">
-							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="Distributor Responsibility" value="{!v.newItemDistributorResponsibility}" />
-								<!-- <textarea id="add_dist_resp" class="slds-textarea" placeholder=""></textarea> -->
+								<ui:outputText value="{!v.newItemDescription}" />
+								<!-- <textarea id="add_description" class="slds-textarea" placeholder=""></textarea> -->
 							</div>
 						</div>
 					</div>

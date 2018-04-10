@@ -11,7 +11,9 @@
                     cmp.set('v.quote', retResponse.quote);
                     cmp.set('v.quoteItemList', retResponse.quoteItemList);
                     cmp.set('v.supportPlusList', retResponse.supportPlusList);
-                    cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
+					cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
+					console.log('retResponse.supportPlusList:');
+					console.log(retResponse.supportPlusList);
 	            }
 	        }
 	    );
@@ -67,15 +69,19 @@
 		action.setParams({
 			quoteId: cmp.get('v.quoteId')
 			, productId: productId
+			, newItemSPQuantity: newItemSPQuantity
+			, newItemDistributorResponsibility: newItemDistributorResponsibility
 		});
 		action.setCallback(this
 			, function(response) {
-				console.log('3');
 				var state = response.getState();
 				if (cmp.isValid() && state === 'SUCCESS') {
 					var retVal = response.getReturnValue();
 					if (retVal) {
-						alert('addProduct success - retVal: ' + retVal);;
+						console.log(retVal);
+						var supportPlusItems = cmp.get('v.supportPlusList');
+						supportPlusItems.push(retVal);
+						cmp.set('v.supportPlusList', supportPlusItems);
 					}
 				}
 

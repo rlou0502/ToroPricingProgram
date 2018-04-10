@@ -120,7 +120,8 @@ global class ToroSupportPlusController {
         final String term = '%' + searchTerm + '%';
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
-				REVVY__Product__r.REVVY__Id__c
+				REVVY__Product__c
+				, REVVY__Product__r.REVVY__Id__c
 				, REVVY__Product__r.Name
 				, REVVY__Product__r.REVVY__Description__c
 				// , REVVY__Product__c
@@ -133,9 +134,10 @@ global class ToroSupportPlusController {
 				AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
 				AND REVVY__Product__r.REVVY__Status__c = 'Active'
 				AND REVVY__PriceList__r.Name = 'Commercial'
-				AND (REVVY__Product__r.REVVY__Id__c LIKE :term
-					OR REVVY__Product__r.Name LIKE :term)
-			ORDER BY REVVY__Product__r.Name asc
+				AND REVVY__Product__r.REVVY__Id__c LIKE :term
+					// OR REVVY__Product__r.Name LIKE :term)
+			ORDER BY
+				REVVY__Product__r.Name asc
 		];
 
         return pricelistLines;
@@ -149,8 +151,57 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static String addSupportPlustItem(Id quoteId, String productId) {
-		return productId;
+	public static QuoteItem addSupportPlustItem(Id quoteId, String productId, Integer newItemSPQuantity, Decimal newItemDistributorResponsibility) {
+		List<REVVY__MnPriceListLine__c> pricelistLines = [
+			SELECT
+				REVVY__Product__c
+				, REVVY__Product__r.REVVY__Id__c
+				, REVVY__Product__r.Name
+				, REVVY__Product__r.REVVY__Description__c
+				// , REVVY__Product__c
+				, REVVY__SuggestedPrice__c
+			FROM
+				REVVY__MnPriceListLine__c
+			WHERE
+				REVVY__Product__r.REVVY__Type__c IN ('Product', 'Bundle')
+				AND REVVY__Product__r.REVVY__Effective_Start_Date__c <= TODAY
+				AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
+				AND REVVY__Product__r.REVVY__Status__c = 'Active'
+				AND REVVY__PriceList__r.Name = 'Commercial'
+				AND REVVY__Product__r.REVVY__Id__c = :productId
+			ORDER BY
+				REVVY__Product__r.Name asc
+		];
+
+		if (pricelistLines.isEmpty()) return null;
+
+		REVVY__MnSequenceGen__c sequence = [
+			SELECT
+				Id, REVVY__CurrentValue__c
+			FROM
+				Revvy__MnSequenceGen__c
+			WHERE
+				Revvy__ObjectName__c = 'MnQuoteItem__c'
+			LIMIT 1
+		];
+
+		System.debug('\n\n@@newItemSPQuantity: ' + newItemSPQuantity + '\n\n');
+
+		REVVY__MnQuoteItem__c quoteItem = new REVVY__MnQuoteItem__c(
+			REVVY__Quote__c               = quoteId
+			, REVVY__Catalog_Node__c        = null
+			, REVVY__Price__c               = 5.55
+			, REVVY__Unit_Price__c          = 5.55
+			, REVVY__Quantity__c            = 0
+			, Support_Plus_Quantity__c      = 1
+			, Support_Plus_Item__c          = true
+			// , Distributor_Responsibility__c = newItemDistributorResponsibility
+			, REVVY__Id__c                  = ++sequence.REVVY__CurrentValue__c
+		);
+
+		// insert newQuoteItem;
+		// update sequence;
+		return new QuoteItem(quoteItem);
 	}
 
 	/**
