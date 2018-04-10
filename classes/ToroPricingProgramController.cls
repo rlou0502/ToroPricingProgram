@@ -94,7 +94,7 @@ public class ToroPricingProgramController {
 		pp.quote.Price_Method__c=pricingMethod;
 		pp.quote.Setup_Fee__c = setupFeePercent;
 		pp.quote.Performance_Part__c=performancePart;
-		
+		ToroCacheManager.putQuote(pp.quote); 
 		for(Toro_QuoteItem__c qi : pp.quoteItems) {
 			//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
 			//	qi.FreezeLine__c = true;
@@ -313,6 +313,7 @@ public class ToroPricingProgramController {
 	    		}	
 	    	}
 	    	pp.quote.Total_Award_Dollars__c = awardPrice;
+	    	ToroCacheManager.putQuote(pp.quote);
 	    	rs.quote = pp.quote;
 	    	rs.values =  pp.quoteItems;
 	    	rs.chainCall = pp.chainCall;
@@ -362,6 +363,7 @@ public class ToroPricingProgramController {
 	    		}	
 	    	}
 	    	pp.quote.Gross_Profit_Percent__c = gpPercent;
+	    	ToroCacheManager.putQuote(pp.quote);
 	    	rs.quote = pp.quote;
 	    	rs.values =  pp.quoteItems;
 	    	rs.chainCall = pp.chainCall;

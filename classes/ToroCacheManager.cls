@@ -23,24 +23,24 @@ public with sharing class ToroCacheManager {
 	}
 	
 	public static REVVY__MnQuote__c refreshQuote(Id quoteId) {
-		system.debug(logginglevel.info, 'initializeQuoteHeader -- getQuote-------'+quoteId);
-		Cache.Session.getPartition(ToroCacheManager.constPartitionName).remove(ToroQuoteCache.class, quoteId);	
-		REVVY__MnQuote__c q = (REVVY__MnQuote__c) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroQuoteCache.class, quoteId);	
-		system.debug('initializeQuoteHeader --refresh quote-------' + q);
-		if(ToroCacheManager.getPercentOffMSRP() != null) {
-			//Cache.Session.getPartition(ToroCacheManager.constPartitionName).put('PercentOffMSRP', new Map<Id, decimal>());	
+		REVVY__MnQuote__c q = null;
+		if(String.isNotBlank(quoteId)){
+			system.debug(logginglevel.info, 'initializeQuoteHeader -- getQuote-------'+quoteId);
+			Cache.Session.getPartition(ToroCacheManager.constPartitionName).remove(quoteId);	
+			q = ToroCacheManager.getQuote(quoteId);
+			system.debug('initializeQuoteHeader --refresh quote-------' + q);
+			if(ToroCacheManager.getPercentOffMSRP() != null) {
+				//Cache.Session.getPartition(ToroCacheManager.constPartitionName).put('PercentOffMSRP', new Map<Id, decimal>());	
+			}
+			
 		}
 		return q;	
 	}   
 	public static REVVY__MnQuote__c getQuote(Id quoteId) {
-		system.debug(logginglevel.info, 'initializeQuoteHeader -- getQuote-------'+quoteId);
-		REVVY__MnQuote__c q = (REVVY__MnQuote__c) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroQuoteCache.class, quoteId);	
-		system.debug('initializeQuoteHeader --refresh quote-------' + q);
-		return q;	
+		return ToroQuoteCache.getQuote(quoteId);	
 	} 
-	public static REVVY__MnQuote__c setQuote(Revvy__MnQuote__c quote) {
-		Cache.Session.getPartition(ToroCacheManager.constPartitionName).put(quote.Id, quote);	
-		return quote;	
+	public static void putQuote(Revvy__MnQuote__c quote) {
+		ToroQuoteCache.putQuote(quote);		
 	}   
 	
 }

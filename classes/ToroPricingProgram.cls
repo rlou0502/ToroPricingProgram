@@ -1,4 +1,4 @@
-public abstract class ToroPricingProgram {
+public abstract class ToroPricingProgram { 
 	public Revvy__MnQuote__c quote { get; set; }
 	public List<Toro_QuoteItem__c> quoteItems { get; set; }
 	public boolean performancePartFlag { get; set { performancePartFlag = value; if(quote != null) {quote.Performance_Part__c=value;}}}
@@ -691,7 +691,7 @@ public abstract class ToroPricingProgram {
 			update updateQuoteItemSublines;
 		}
 		update quote;
-		ToroCacheManager.setQuote(quote);
+		
 		return quoteItemList;
 	}
 
