@@ -11,7 +11,6 @@
 		if (db == null) {
 			console.log('hide autocomplete');
 			autocomplete_result.innerHTML = "";
-			autocomplete_result.style.display = "none";
 			autocomplete_section.style.display = "none";
 			return;
 		}

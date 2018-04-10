@@ -1,5 +1,5 @@
 <aura:component >
-	<aura:attribute name="supportPlusList" type="QuoteItem[]" />
+	<aura:attribute name="supportPlusItems" type="ToroSupportPlusData[]" />
     <aura:registerEvent name="supportPlusAddNewEvent" type="c:ToroSPAddNewEvent"/>
 	<div>{!$Label.c.SP_Add_New}</div>
     <div>
@@ -29,18 +29,18 @@
 	            </tr>
           </thead>
             <tbody>
-				<aura:iteration items="{!v.supportPlusList}" var="spItem">
+				<aura:iteration items="{!v.supportPlusItems}" var="item">
 					<tr class="quote_item">
 						<td>
 							<lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{! c.handleClick }" title="delete" />
 							<lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" />
 						</td>
-						<td>{!spItem.qi.Support_Plus_Quantity__c}</td>
+						<td>{!item.spQuantity}</td>
 						<td>&nbsp;</td>
-						<td>{!spItem.qi.REVVY__Product_ID_F__c}</td>
-						<td>{!spItem.qi.Description__c}</td>
-						<td>{!spItem.qi.Distributor_Responsibility__c}</td>
-						<td>{!spItem.qi.Revvy__SuggestedPrice__c}</td>
+						<td>{!item.productId}</td>
+						<td>{!item.description}</td>
+						<td>{!item.distributorResponsibility}</td>
+						<td>{!item.dnetPrice}</td>
 					</tr>
 				</aura:iteration>
             </tbody>

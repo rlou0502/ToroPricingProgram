@@ -10,7 +10,7 @@
 	                var retResponse = response.getReturnValue();
                     cmp.set('v.quote', retResponse.quote);
                     cmp.set('v.quoteItemList', retResponse.quoteItemList);
-                    cmp.set('v.supportPlusList', retResponse.supportPlusList);
+					cmp.set('v.supportPlusItems', retResponse.supportPlusItems);
 					cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
 					console.log('retResponse.supportPlusItems:');
 					console.log(retResponse.supportPlusItems);
@@ -62,6 +62,7 @@
 	},
 	hideAutoComplete: function(cmp) {
 		var autoCompleteSection = cmp.find('autocomplete_section');
+
 	},
 	addProduct: function(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility) {
 		console.log('@ToroSupportPlusHelper:addProduct');
@@ -80,11 +81,16 @@
 					if (retVal) {
 						console.log(retVal);
 
-						var supportPlusItems = cmp.get('v.supportPlusList');
+						var supportPlusItems = cmp.get('v.supportPlusItems');
 						console.log(supportPlusItems);
 						supportPlusItems.push(retVal);
 						console.log(supportPlusItems);
-						cmp.set('v.supportPlusList', supportPlusItems);
+						cmp.set('v.supportPlusItems', supportPlusItems);
+						cmp.set('v.searchResult', null);
+						cmp.set('v.lastSearchTerm', null);
+
+						var modal = cmp.find("addModal");
+						$A.util.addClass(modal, 'hideDiv');
 					}
 				}
 

@@ -41,6 +41,8 @@
     },
     hideAddModal: function (cmp, event, helper) {
         helper.hideAddModal(cmp);
+        cmp.set('v.searchResult', null);
+        cmp.set('v.lastSearchTerm', null);
     },
     handleHideAutoComplete: function (cmp, event, helper) {
         helper.hideAutoComplete(cmp);

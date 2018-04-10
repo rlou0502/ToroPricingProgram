@@ -70,7 +70,7 @@
 	</div>
 
     <div id="support-plus-new-item" >
-		<c:ToroSPAddNew aura:id="cmpSupportPlusItems" supportPlusList="{!v.supportPlusList}" />
+		<c:ToroSPAddNew aura:id="cmpSupportPlusItems" supportPlusItems="{!v.supportPlusItems}" />
 	</div>
 
 	<!-- add new support item modal -->

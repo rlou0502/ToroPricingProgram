@@ -151,7 +151,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static QuoteItem addSupportPlustItem(Id quoteId, String productId, Integer newItemSPQuantity, Decimal newItemDistributorResponsibility) {
+	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Integer newItemSPQuantity, Decimal newItemDistributorResponsibility) {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				REVVY__Product__c
@@ -173,6 +173,8 @@ global class ToroSupportPlusController {
 				REVVY__Product__r.Name asc
 		];
 
+		System.debug('\n\n@@priceListLines: ' + priceListLines + '\n\n');
+
 		if (pricelistLines.isEmpty()) return null;
 
 		REVVY__MnSequenceGen__c sequence = [
@@ -187,6 +189,7 @@ global class ToroSupportPlusController {
 
 		System.debug('\n\n@@newItemSPQuantity: ' + newItemSPQuantity + '\n\n');
 
+		/*
 		REVVY__MnQuoteItem__c quoteItem = new REVVY__MnQuoteItem__c(
 			REVVY__Quote__c               = quoteId
 			, REVVY__Catalog_Node__c        = null
@@ -197,12 +200,18 @@ global class ToroSupportPlusController {
 			, Support_Plus_Item__c          = true
 			// , Distributor_Responsibility__c = newItemDistributorResponsibility
 			, REVVY__Id__c                  = ++sequence.REVVY__CurrentValue__c
-		);
+		);*/
 
 		// insert newQuoteItem;
 		// update sequence;
-		QuoteItem quoteItemWrapper = new QuoteItem();
-		return new QuoteItem();
+		/*
+		return new ToroSupportPlusItem(
+			pricelistLines[0].REVVY__Product__r[0]
+			, pricelistLines[0]
+			, newItemSPQuantity
+			, newItemDistributorResponsibility
+		);*/
+		return null;
 	}
 
 	/**
