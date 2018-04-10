@@ -12,8 +12,8 @@
                     cmp.set('v.quoteItemList', retResponse.quoteItemList);
                     cmp.set('v.supportPlusList', retResponse.supportPlusList);
 					cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
-					console.log('retResponse.supportPlusList:');
-					console.log(retResponse.supportPlusList);
+					console.log('retResponse.supportPlusItems:');
+					console.log(retResponse.supportPlusItems);
 	            }
 	        }
 	    );
@@ -79,8 +79,11 @@
 					var retVal = response.getReturnValue();
 					if (retVal) {
 						console.log(retVal);
+
 						var supportPlusItems = cmp.get('v.supportPlusList');
+						console.log(supportPlusItems);
 						supportPlusItems.push(retVal);
+						console.log(supportPlusItems);
 						cmp.set('v.supportPlusList', supportPlusItems);
 					}
 				}

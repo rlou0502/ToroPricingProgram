@@ -2,7 +2,7 @@
     <aura:registerEvent name="supportPlusQtyChangeEvent" type="c:ToroSPQtyChangeEvent" />
     <aura:attribute name="quoteItemList" type="QuoteItem[]" />
     <aura:attribute name="Distributor_Responsibility" type="decimal" />
-    
+
     <div>
     <table class="slds-table slds-table_bordered  slds-table_col-bordered" role="grid">
         	<thead>
@@ -21,7 +21,7 @@
 	                <th scope="col" width="30%">
 	                    <div class="slds-truncate" title="Description">Description</div>
 	                </th>
-	
+
 	                <th scope="col" width="15%">
 	                    <div class="slds-truncate" title="Distributor Responsibility (%)">Distributor Responsibility (%)</div>
 	                </th>
@@ -40,15 +40,15 @@
 	                <td>
 	                    <ui:inputNumber value="{!quoteItem.qi.Support_Plus_Quantity__c}" change="{!c.supportPlusQtyChange}" />
 	                </td>
-	                <td>{!quoteItem.qi.REVVY__Product_ID_F__c}</td>
+	                <td>{!quoteItem.qi.REVVY__Id__c}</td>
 	                <td>{!quoteItem.qi.Description__c}</td>
-	
+
 	                <td>
 	                    <ui:inputNumber value="{!quoteItem.qi.Distributor_Responsibility__c}" change="{!c.supportPlusContributionChange}" />
 	                </td>
 	                <td>{!quoteItem.qi.Revvy__SuggestedPrice__c}</td>
 	            </tr>
-	            
+
                 <aura:iteration items="{!quoteItem.qislList}" var="subline">
                 	<tr class="quote_subline " data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">
                     <td>&nbsp;</td>
@@ -65,7 +65,7 @@
                         <td>{!subline.DNet_Price_2__c}</td>
                     </tr>
                 </aura:iteration>
-                <tr><td colspan="7" data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">&nbsp;</td></tr>             
+                <tr><td colspan="7" data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">&nbsp;</td></tr>
             </aura:iteration>
             </tbody>
         </table>

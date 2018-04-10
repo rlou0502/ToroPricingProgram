@@ -66,7 +66,9 @@ global class ToroSupportPlusController {
 		final List<REVVY__MnQuoteItem__c> quoteItems = [
 			SELECT
 				REVVY__Product_Name_F__c
+				, REVVY__Catalog_Node__r.Name
 				, REVVY__Product_ID_F__c
+				, REVVY__Id__c
 				, REVVY__Quantity__c
 				, Support_Plus_Quantity__c
 				, Support_Plus_Item__c
@@ -91,12 +93,10 @@ global class ToroSupportPlusController {
 				REVVY__Quote__c = :quoteId
 		];
 
-		ret.quoteItemList   = new List<QuoteItem>();
-		ret.supportPlusList = new List<QuoteItem>();
-
 		for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
 			if (quoteItem.Support_Plus_Item__c) {
 				ret.supportPlusList.add(new QuoteItem(quoteItem));
+				ret.supportPlusItems.add(new ToroSupportPlusItem(quoteItem));
 			}
 
 			else {
@@ -201,7 +201,8 @@ global class ToroSupportPlusController {
 
 		// insert newQuoteItem;
 		// update sequence;
-		return new QuoteItem(quoteItem);
+		QuoteItem quoteItemWrapper = new QuoteItem();
+		return new QuoteItem();
 	}
 
 	/**

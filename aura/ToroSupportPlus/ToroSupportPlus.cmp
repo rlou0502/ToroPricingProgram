@@ -9,7 +9,7 @@
 
 
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1"/>
-	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="100.00"/>
+	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="50.00"/>
 	<aura:attribute name="newItemDescription" type="String" default=""/>
 	<aura:attribute name="newItemDNetPrice" type="Decimal" default=""/>
 
@@ -17,7 +17,7 @@
 	<aura:attribute name="quote" type="SObject" />
 
 	<aura:attribute name="quoteItemList" type="QuoteItem[]" />
-	<aura:attribute name="supportPlusList" type="QuoteItem[]" />
+	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
 
 	<aura:attribute name="Distributor_Responsibility" type="decimal" />
 
