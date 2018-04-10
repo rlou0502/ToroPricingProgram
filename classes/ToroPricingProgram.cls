@@ -167,7 +167,7 @@ public abstract class ToroPricingProgram {
 			lQuoteItemList = postCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		}
 
-
+		ToroCacheManager.putQuote(quote);
 		system.debug(logginglevel.info,'calling saveQuoteItemList took ' + (System.limits.getCpuTime()-perfStart));
 		return lQuoteItemList;
 	}

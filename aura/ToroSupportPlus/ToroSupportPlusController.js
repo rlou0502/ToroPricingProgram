@@ -48,12 +48,28 @@
     addProduct: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:addProduct');
         var productId = cmp.get('v.lastSearchTerm');
-        if (productId) {
-            helper.addProduct(cmp, productId);
+        var newItemSPQuantity = cmp.get('v.newItemSPQuantity');
+        var newItemDistributorResponsibility = cmp.get('newItemDistributorResponsibility');
+
+        var inputIsValid = true;
+        var errorMessage = 'The following values are required';
+        if (!productId) {
+            inputIsValid = false;
+            errorMessage = 'A Product ID must be entered';
         }
 
-        else {
-            alert('a product id has not been entered');
+        if (!newItemSPQuantity) {
+            inputIsValid = false;
+            errorMessage += ' The Support Plus Quantity must be entered';
+        }
+
+        if (!newItemDistributorResponsibility) {
+            inputIsValid = false;
+            errorMessage += ' The Distributor';
+        }
+
+        if (inputIsValid) {
+            helper.addProduct(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility);
         }
     },
     submit: function(cmp, event, helper) {

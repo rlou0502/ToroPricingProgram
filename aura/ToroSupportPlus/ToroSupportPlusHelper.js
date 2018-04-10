@@ -61,7 +61,7 @@
 	hideAutoComplete: function(cmp) {
 		var autoCompleteSection = cmp.find('autocomplete_section');
 	},
-	addProduct: function(cmp, productId) {
+	addProduct: function(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility) {
 		console.log('@ToroSupportPlusHelper:addProduct');
 		var action = cmp.get('c.addSupportPlustItem');
 		action.setParams({
