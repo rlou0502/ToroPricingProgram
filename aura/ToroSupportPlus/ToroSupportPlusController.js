@@ -46,7 +46,15 @@
         helper.hideAutoComplete(cmp);
     },
     addProduct: function(cmp, event, helper) {
-        alert('add product placeholder');
+        console.log('@ToroSupportPlusController:addProduct');
+        var productId = cmp.get('v.lastSearchTerm');
+        if (productId.length >= 3) {
+            helper.addProduct(cmp, productId);
+        }
+
+        else {
+            alert('a product id has not been entered');
+        }
     },
     submit: function(cmp, event, helper) {
         alert ('submit placeholder');

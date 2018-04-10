@@ -61,6 +61,27 @@
 	hideAutoComplete: function(cmp) {
 		var autoCompleteSection = cmp.find('autocomplete_section');
 	},
+	addProduct: function(cmp, productId) {
+		console.log('@ToroSupportPlusHelper:addProduct');
+		console.log('productId: ' + productId);
+		var action = cmp.get('c.addProduct');
+		var quoteId = cmp.get('v.quoteId');
+		console.log('1');
+		action.setParams({ quoteId : quoteId, productId: productId });
+		console.log('2');
+		action.setCallback(this
+			, function(response) {
+				console.log('3');
+				var state = response.getState();
+				if (cmp.isValid() && state === 'SUCCESS') {
+					if (response.getReturnValue()) {
+						alert('successfully added ' + response.getReturnValue());
+					}
+				}
+			}
+		);
+		$A.enqueueAction(action);
+	},
 	submit: function(quote, quoteItems) {
 		console.log('@ToroSupportPlusHelper:submit');
 		var action = cmp.get('c.submitSupportPlus');

@@ -141,7 +141,17 @@ global class ToroSupportPlusController {
         return pricelistLines;
     }
 
-
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	@AuraEnabled
+	public static String addProduct(Id quoteId, String productId) {
+		return productId;
+	}
 
 	/**
 	 *

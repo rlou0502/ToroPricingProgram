@@ -54,15 +54,15 @@
 		<div id="rolling-total" >
 			<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
 		</div>
-	
+
 	<div id="support-plus-quote-item" >
 	<c:ToroSPQuoteItem quoteItemList="{!v.quoteItemList}" />
 	</div>
-	
+
     <div id="support-plus-new-item" >
 	<c:ToroSPAddNew />
 	</div>
-    
+
 	<!-- add new support item modal -->
 	<div aura:id="addModal" class="hideDiv" style="height: 640px;">
 		<section role="dialog" tabindex="-1"
@@ -111,33 +111,33 @@
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add-sp-quantity">SP
+							<label class="slds-form-element__label" for="add_sp_quantity">SP
 								Quantity</label>
 							<div class="slds-form-element__control">
-								<input type="text" id="add-sp-quantity" class="slds-input"
+								<input type="text" id="add_sp_quantity" class="slds-input"
 									placeholder="" />
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add-description">Description</label>
+							<label class="slds-form-element__label" for="add_description">Description</label>
 							<div class="slds-form-element__control">
-								<textarea id="add-description" class="slds-textarea"
+								<textarea id="add_description" class="slds-textarea"
 									placeholder=""></textarea>
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add-dist-resp">Distributor
+							<label class="slds-form-element__label" for="add_dist_resp">Distributor
 								Responsibility</label>
 							<div class="slds-form-element__control">
-								<textarea id="add-dist-resp" class="slds-textarea"
+								<textarea id="add_dist_resp" class="slds-textarea"
 									placeholder=""></textarea>
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add-dnet-price">DNet
+							<label class="slds-form-element__label" for="add_dnet_price">DNet
 								Price</label>
 							<div class="slds-form-element__control">
-								<textarea id="add-dnet-price" class="slds-textarea"
+								<textarea id="add_dnet_price" class="slds-textarea"
 									placeholder=""></textarea>
 							</div>
 						</div>
