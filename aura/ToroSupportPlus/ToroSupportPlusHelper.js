@@ -12,7 +12,6 @@
                     cmp.set('v.quote', supportPlusData.quote);
 					cmp.set('v.quoteItems', supportPlusData.quoteItems);
 					cmp.set('v.supportPlusItems', supportPlusData.supportPlusItems);
-					cmp.set('v.Distributor_Responsibility', supportPlusData.Distributor_Responsibility);
 	            }
 	        }
 	    );

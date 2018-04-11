@@ -8,7 +8,6 @@
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
-	<aura:attribute name="Distributor_Responsibility" type="decimal" />
 
 	<!-- search -->
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />

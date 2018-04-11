@@ -14,7 +14,7 @@
 	vertical-align: top;
 	width: 0.75em;
     cursor: pointer;
-    
+
 }
 
 .THIS .chevron.right:before {
@@ -33,5 +33,7 @@
 }
 .THIS th.chevron-cell {
     width:42px;
-
+}
+.THIS .dirty {
+	background-color: #d9ffdf;
 }

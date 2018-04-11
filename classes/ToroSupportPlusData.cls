@@ -1,22 +1,15 @@
 public with sharing class ToroSupportPlusData {
 
-	// @AuraEnabled public Boolean result 									{ get; set; }
-	@AuraEnabled public Boolean success                                 { get; private set; }
-	@AuraEnabled public REVVY__MnQuote__c quote 						{ get; set; }
-	@AuraEnabled public Decimal Distributor_Responsibility 				{ get; set; }
-
-
+	@AuraEnabled public Boolean success                             { get; private set; }
+	@AuraEnabled public REVVY__MnQuote__c quote 					{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 		{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> supportPlusItems 	{ get; set; }
 
 
 	public ToroSupportPlusData() {
-
 		this.quoteItems = new List<ToroSupportPlusItem>();
 		this.supportPlusItems = new List<ToroSupportPlusItem>();
-
 		this.success = true;
-		this.Distributor_Responsibility = 0;
 	}
 
 	/**
@@ -31,7 +24,6 @@ public with sharing class ToroSupportPlusData {
 
 		try {
 			result.quote = getQuote(quoteId);
-			result.Distributor_Responsibility = result.quote.Distributor_Responsibility__c;
 
 			for (REVVY__MnQuoteItem__c quoteItem : [SELECT
 														REVVY__Product_Name_F__c
