@@ -33,7 +33,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
     @AuraEnabled
-    public static List<REVVY__MnPriceListLine__c> getProductCodesAura(String searchTerm) {
+    public static List<REVVY__MnPriceListLine__c> fetchSearchResults(String searchTerm) {
         final String term = '%' + searchTerm + '%';
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
@@ -68,7 +68,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Integer newItemSPQuantity, Decimal newItemDistributorResponsibility) {
+	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Decimal newItemSPQuantity, Decimal newItemDistributorResponsibility) {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				REVVY__Product__c
@@ -94,7 +94,7 @@ global class ToroSupportPlusController {
 		ToroSupportPlusItem result = new ToroSupportPlusItem(
 			priceListLines[0].REVVY__Product__r
 			, priceListLines[0]
-			, 1
+			, newItemSPQuantity
 			, newItemDistributorResponsibility
 		);
 

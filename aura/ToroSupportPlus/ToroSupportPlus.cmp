@@ -1,8 +1,7 @@
 <aura:component controller="ToroSupportPlusController">
 	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
-	<aura:handler name="supportPlusQtyChangeEvent"
-		event="c:ToroSPQtyChangeEvent"
-		action="{!c.handleSupportPlusQtyChange}" />
+	<aura:handler name="supportPlusQtyChangeEvent" event="c:ToroSPQtyChangeEvent" action="{!c.handleSupportPlusQtyChange}" />
+	<aura:handler name="change" value="{!v.newItemProductId}" action="{!c.handleAddNewInput}" />
 
 	<!-- core data -->
 	<aura:attribute name="quoteId" type="String" />
@@ -12,10 +11,14 @@
 	<aura:attribute name="Distributor_Responsibility" type="decimal" />
 
 	<!-- search -->
-	<aura:attribute name="searchResult" type="REVVY__MnPriceListLine__c[]" />
-	<aura:attribute name="lastSearchTerm" type="String" />
+	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
+	<aura:attribute name="previousSearchTerm" type="String" />
+	<aura:attribute name="currentSearchTerm" type="String" />
+	<aura:attribute name="wasAutoCompleted" type="Boolean" />
 
 	<!-- add new support plus item fields-->
+	<aura:attribute name="newItemProductId" type="String" />
+	<aura:attribute name="newItemProductName" type="String" />
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1"/>
 	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="50.00"/>
 	<aura:attribute name="newItemDescription" type="String" default=""/>
@@ -87,26 +90,21 @@
 						class="slds-text-heading_medium slds-hyphenate">Add New</h2>
 				</header>
 				<div class="slds-modal__content slds-p-around_medium"
-					id="modal-content-id-1">
+					id="modal-content-id-1" style="min-height:500px;">
 					<div class="slds-form slds-form_stacked">
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add_product_input">Product ID</label>
 							<div class="slds-form-element__control">
-								<input type="text" id="add_product_input" class="slds-input" placeholder="Select a product" onkeyup="{!c.handleAutoComplete}" onfocusout="{!c.handleHideAutoComplete}"/>
+								<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label" label="Product ID" value="{!v.newItemProductId}" placeholder="Select a product..." updateOn="keyup"/>
 								<!-- autocomplete results section -->
-								<section id="autocomplete_section"
-									class="slds-popover slds-nubbin_top-left slds-dynamic-menu"
+								<section aura:id="autocomplete_section" id="autocomplete_section"
+									class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
 									role="dialog" aria-label="Autocomplete Results"
 									aria-describedby="dialog-body-id-4"
-									style="position: absolute; left: 0px; top: 55px; display: none;">
+									style="position: absolute; left: 0px;">
 									<div class="slds-popover__body slds-p-horizontal_none" id="dialog-body-id-4">
 										<div id="listbox-unique-id" role="listbox">
-											<ul
-												class="slds-listbox slds-listbox_vertical slds-dropdown_length-10"
-												role="group" aria-label=""
- 												aura:id="autocomplete_result_list">
-												<!-- <div aura:id="autocomplete_result" id="autocomplete_result" style="display: none;"></div> -->
-
+											<ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-10"
+												 role="group" aria-label="" aura:id="autocomplete_results">
 											</ul>
 										</div>
 									</div>
@@ -117,27 +115,29 @@
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
 								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}" />
-								<!-- <input type="text" id="add_sp_quantity" class="slds-input" placeholder="" /> -->
 							</div>
 						</div>
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
 								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="Distributor Responsibility" value="{!v.newItemDistributorResponsibility}" />
-								<!-- <textarea id="add_dist_resp" class="slds-textarea" placeholder=""></textarea> -->
+							</div>
+						</div>
+						<div class="slds-form-element">
+							<label class="slds-form-element__label" for="add_dnet_price">Product Name</label>
+							<div class="slds-form-element__control">
+								<ui:outputText value="{!v.newItemProductName}" />
 							</div>
 						</div>
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_dnet_price">DNet Price</label>
 							<div class="slds-form-element__control">
 								<ui:outputText value="{!v.newItemDNetPrice}" />
-								<!-- <textarea id="add_dnet_price" class="slds-textarea" placeholder=""></textarea> -->
 							</div>
 						</div>
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_description">Description</label>
 							<div class="slds-form-element__control">
 								<ui:outputText value="{!v.newItemDescription}" />
-								<!-- <textarea id="add_description" class="slds-textarea" placeholder=""></textarea> -->
 							</div>
 						</div>
 					</div>

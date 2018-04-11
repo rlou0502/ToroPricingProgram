@@ -18,35 +18,30 @@
 	    );
 		$A.enqueueAction(action);
 	},
-	retrieveAutocompleteResults: function(cmp, searchText) {
-		console.log('@ToroSupportPlusHelper:retrieveAutocompleteResults');
-		var lastSearchTerm = cmp.get('v.lastSearchTerm');
-		if (searchText.indexOf(lastSearchTerm) == -1 && searchText.length == 3) {
-			var action = cmp.get('c.getProductCodesAura');
-			action.setStorable();
-			action.setParams({ searchTerm : searchText });
-			action.setCallback(this
-				, function (response) {
-					var state = response.getState();
-					if (cmp.isValid() && state === "SUCCESS") {
-						console.log('getProductCodesAura response:');
-						console.log(response.getReturnValue());
-						cmp.set('v.searchResult', response.getReturnValue());
-					}
+	refreshSearchResults: function(cmp, previousSearchTerm, currentSearchTerm) {
+		var action = cmp.get('c.fetchSearchResults');
+		action.setStorable();
+		action.setParams({ searchTerm: currentSearchTerm });
+		action.setCallback(this
+			, function (response) {
+				var state = response.getState();
+				if (cmp.isValid() && state === "SUCCESS") {
+					cmp.set('v.searchResults', response.getReturnValue());
+					cmp.set('v.previousSearchTerm', previousSearchTerm);
+					cmp.set('v.currentSearchTerm', currentSearchTerm);
 				}
-			);
+			}
+		);
 
-			$A.enqueueAction(action);
-		}
-		cmp.set('v.lastSearchTerm', searchText);
+		$A.enqueueAction(action);
 	},
 	addProduct: function(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility) {
 		console.log('@ToroSupportPlusHelper:addProduct');
 		var action = cmp.get('c.addSupportPlustItem');
 		action.setParams({
-			quoteId: cmp.get('v.quoteId')
-			, productId: productId
-			, newItemSPQuantity: newItemSPQuantity
+			  quoteId                         : cmp.get('v.quoteId')
+			, productId                       : productId
+			, newItemSPQuantity               : newItemSPQuantity
 			, newItemDistributorResponsibility: newItemDistributorResponsibility
 		});
 		action.setCallback(this
@@ -62,8 +57,7 @@
 						supportPlusItems.push(retVal);
 						console.log(supportPlusItems);
 						cmp.set('v.supportPlusItems', supportPlusItems);
-						cmp.set('v.searchResult', null);
-						cmp.set('v.lastSearchTerm', null);
+						cmp.set('v.searchResults', null);
 
 						var modal = cmp.find("addModal");
 						$A.util.addClass(modal, 'hideDiv');
