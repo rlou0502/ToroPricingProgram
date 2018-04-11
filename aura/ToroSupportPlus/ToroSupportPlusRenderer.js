@@ -90,7 +90,7 @@
 								'data-productname': productName,
 								'data-dnetprice': dnetPrice,
 								'data-description': description,
-								onclick: cmp.getReference('c.populateAddNew')
+								onclick: cmp.getReference('c.populateAddNewModalFields')
 							}
 						}
 					];

@@ -1,36 +1,36 @@
 <aura:component controller="ToroSupportPlusController">
-    <aura:registerEvent name="supportPlusQtyChangeEvent" type="c:ToroSPQtyChangeEvent" />
+    <aura:registerEvent name="spQuantityChangeEvent" type="c:ToroSPQtyChangeEvent" />
 	<aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
     <aura:attribute name="Distributor_Responsibility" type="decimal" />
 
-    <div>
-    <table class="slds-table slds-table_bordered  slds-table_col-bordered" role="grid">
-        	<thead>
-	            <tr class="slds-text-title_caps">
-	            	<th width="50px">&nbsp;&nbsp;&nbsp;
-	            	</th>
-	                <th scope="col" width="10%">
-	                    <div class="slds-truncate" title="QTY">QTY</div>
-	                </th>
-	                <th scope="col" width="10%">
-	                    <div class="slds-truncate" title="SP QTY">SP QTY</div>
-	                </th>
-	                <th scope="col" width="20%">
-	                    <div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
-	                </th>
-	                <th scope="col" width="30%">
-	                    <div class="slds-truncate" title="Description">Description</div>
-	                </th>
 
-	                <th scope="col" width="15%">
-	                    <div class="slds-truncate" title="Distributor Responsibility (%)">Distributor Responsibility (%)</div>
-	                </th>
-	                <th scope="col" width="15%">
-	                    <div class="slds-truncate" title="DNet Price">DNet Price</div>
-	                </th>
-	            </tr>
-          </thead>
-          <tbody>
+    <table class="slds-table slds-table_bordered  slds-table_col-bordered" role="grid">
+		<thead>
+			<tr class="slds-text-title_caps">
+				<th width="50px">&nbsp;&nbsp;&nbsp;
+				</th>
+				<th scope="col" width="10%">
+					<div class="slds-truncate" title="QTY">QTY</div>
+				</th>
+				<th scope="col" width="10%">
+					<div class="slds-truncate" title="SP QTY">SP QTY</div>
+				</th>
+				<th scope="col" width="20%">
+					<div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
+				</th>
+				<th scope="col" width="30%">
+					<div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div>
+				</th>
+
+				<th scope="col" width="15%">
+					<div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div>
+				</th>
+				<th scope="col" width="15%">
+					<div class="slds-truncate" title="DNET PRICEe">DNET PRICE</div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
 			<aura:iteration items="{!v.quoteItems}" var="quoteItem">
 				<tr class="quote_item">
 					<td class="chevron-cell" width="50px">
@@ -38,41 +38,36 @@
 					</td>
 					<td>{!quoteItem.quantity}</td>
 					<td>
-						<ui:inputNumber value="{!quoteItem.spQuantity}" change="{!c.supportPlusQtyChange}" />
+						<lightning:input type="number" value="{!quoteItem.spQuantity}" onchange="{!c.handleSPQuantityChange}" />
 					</td>
 					<td>{!quoteItem.productId}</td>
 					<td>{!quoteItem.description}</td>
 
 					<td>
-						<ui:inputNumber value="{!quoteItem.distributorResponsibility}" change="{!c.supportPlusContributionChange}" />
+						<lightning:input type="number" value="{!quoteItem.distributorResponsibility}" onchange="{!c.handleSPContributionChange}" />
 					</td>
 					<td>{!quoteItem.dnetPrice}</td>
 				</tr>
-
 				<aura:iteration items="{!quoteItem.sublines}" var="subline">
 					<tr class="quote_subline " data-quoteItem="{!quoteItem.sfid}" style="display:'none'">
 						<td>&nbsp;</td>
 						<td>{!subline.quantity}</td>
 						<td>
-							<ui:inputNumber value="{!subline.spQuantity}" change="{!c.supportPlusQtyChange}" />
+							<lightning:input type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}" />
 						</td>
 						<td>{!subline.productId}</td>
 						<td>{!subline.description}</td>
 
 						<td>
-							<ui:inputNumber value="{!subline.distributorResponsibility}" change="{!c.supportPlusContributionChange}" />
+							<lightning:input type="number" value="{!subline.distributorResponsibility}" onchange="{!c.handleSPContributionChange}" />
 						</td>
 						<td>{!subline.dnetPrice}</td>
 					</tr>
 				</aura:iteration>
 				<tr>
-					<td colspan="7"  style="display:'none'">&nbsp;</td>
+					<td colspan="7" style="display:'none'">&nbsp;</td>
 				</tr>
 			</aura:iteration>
-
-
-
-            </tbody>
-        </table>
-    </div>
+		</tbody>
+	</table>
 </aura:component>

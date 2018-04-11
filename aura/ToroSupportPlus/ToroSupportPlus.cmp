@@ -1,7 +1,7 @@
 <aura:component controller="ToroSupportPlusController">
 	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
-	<aura:handler name="supportPlusQtyChangeEvent" event="c:ToroSPQtyChangeEvent" action="{!c.handleSupportPlusQtyChange}" />
-	<aura:handler name="change" value="{!v.newItemProductId}" action="{!c.handleAddNewInput}" />
+	<aura:handler name="spQuantityChangeEvent" event="c:ToroSPQtyChangeEvent" action="{!c.handleSPQuantityChange}" />
+	<aura:handler name="change" value="{!v.newItemProductId}" action="{!c.handleAddNewProductIdChange}" />
 
 	<!-- core data -->
 	<aura:attribute name="quoteId" type="String" />
@@ -16,11 +16,12 @@
 	<aura:attribute name="currentSearchTerm" type="String" />
 	<aura:attribute name="wasAutoCompleted" type="Boolean" />
 
-	<!-- add new support plus item fields-->
+	<!-- add new support plus item fields (editable) -->
 	<aura:attribute name="newItemProductId" type="String" />
-	<aura:attribute name="newItemProductName" type="String" />
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1"/>
 	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="50.00"/>
+	<!-- add new support plus item fields (read-only) -->
+	<aura:attribute name="newItemProductName" type="String" default=""/>
 	<aura:attribute name="newItemDescription" type="String" default=""/>
 	<aura:attribute name="newItemDNetPrice" type="Decimal" default=""/>
 
@@ -50,9 +51,9 @@
 				<div class="slds-col slds-no-flex slds-grid slds-align-top">
 					<div class="slds-button-group" role="group">
 						<button class="slds-button slds-button_neutral"
-							onclick="{!c.showAddModal}">Add New</button>
+							onclick="{!c.handleShowAddNewModal}">Add New</button>
 						<button class="slds-button slds-button_neutral"
-							onclick="{!c.submit}">Submit</button>
+							onclick="{!c.handleSubmitClick}">Submit</button>
 						<button class="slds-button slds-button_neutral">Back to
 							Pricing Page</button>
 					</div>
@@ -65,12 +66,13 @@
 	<div id="rolling-total" >
 		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
 	</div>
-	<div id="support-plus-quote-item" >
+	<div id="support-plus-quote-item">
 		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}" />
 	</div>
     <div id="support-plus-new-item" >
 		<c:ToroSPAddNew aura:id="cmpSupportPlusItems" supportPlusItems="{!v.supportPlusItems}" />
 	</div>
+	<br/><br/><br/>
 
 	<!-- ADD NEW SUPPORT PLUS ITEM MODAL -->
 	<div aura:id="addModal" class="hideDiv" style="height: 640px;">
@@ -82,7 +84,7 @@
 				<header class="slds-modal__header">
 					<button
 						class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-						title="Close" onclick="{!c.hideAddModal}">
+						title="Close" onclick="{!c.handleCancelAddNewModal}">
 						<lightning:icon iconName="utility:close" size="x-small" />
 						<span class="slds-assistive-text">Close</span>
 					</button>
@@ -144,9 +146,9 @@
 				</div>
 				<footer class="slds-modal__footer">
 					<button class="slds-button slds-button_neutral"
-						onclick="{!c.hideAddModal}">Cancel</button>
+						onclick="{!c.handleCancelAddNewModal}">Cancel</button>
 					<button class="slds-button slds-button_brand"
-						onclick="{!c.addProduct}">Add</button>
+						onclick="{!c.handleAddNewSupportPlusItem}">Add</button>
 				</footer>
 			</div>
 		</section>

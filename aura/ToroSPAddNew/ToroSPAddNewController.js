@@ -1,10 +1,11 @@
 ({
-	scriptsLoaded : function(component, event, helper) {
-		
-	},
-    supportPlusChange : function(cmp, event, helper) {
-        console.log('-----supportPlusQtyChangeEvent');
-        var cmpEvent = cmp.getEvent("supportPlusAddNewEvent");
-        cmpEvent.fire();
+    handleDeleteClick: function(cmp, event, helper) {
+
+    },
+    handleSPQuantityChange: function(cmp, event, helper) {
+
+    },
+    handleSPContributionChange: function(cmp, event, helper) {
+
     }
 })

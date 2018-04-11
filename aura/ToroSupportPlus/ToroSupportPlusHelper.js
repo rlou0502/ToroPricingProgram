@@ -50,13 +50,22 @@
 				if (cmp.isValid() && state === 'SUCCESS') {
 					var retVal = response.getReturnValue();
 					if (retVal) {
-						console.log(retVal);
-
 						var supportPlusItems = cmp.get('v.supportPlusItems');
-						console.log(supportPlusItems);
 						supportPlusItems.push(retVal);
-						console.log(supportPlusItems);
 						cmp.set('v.supportPlusItems', supportPlusItems);
+
+
+						cmp.set('v.newItemProductId', '');
+						cmp.set('v.newItemSPQuantity', 1);
+						cmp.set('v.newItemDistributorResponsibility', 50);
+
+						cmp.set('v.newItemProductName', '');
+						cmp.set('v.newItemDNetPrice', '');
+						cmp.set('v.newItemDescription', '');
+
+						cmp.set('v.previousSearchTerm', '');
+						cmp.set('v.currentSearchTerm', '');
+						cmp.set('v.wasAutoCompleted', false);
 						cmp.set('v.searchResults', null);
 
 						var modal = cmp.find("addModal");
@@ -84,12 +93,13 @@
 		);
 		$A.enqueueAction(action);
 	},
-	submit: function(quote, quoteItems) {
+	saveChanges: function(quote, quoteItems, supportPlusItems) {
 		console.log('@ToroSupportPlusHelper:submit');
-		var action = cmp.get('c.submitSupportPlus');
+		var action = cmp.get('c.save');
 		action.setParams({
 			quote: quote
 			, quoteItems: quoteItems
+			, supportPlusItems: supportPlusItems
 		});
 		acion.setCallback(this
 			, function(response) {

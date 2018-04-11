@@ -1,14 +1,15 @@
 <aura:component >
 	<aura:attribute name="quote" type="SObject" />
-	<aura:method name="updateRollingTotals" description="">
-		<aura:attribute name="supportPlusQty" type="decimal" />
-		<aura:attribute name="supportPlusContribution" type="decimal" />
-		<aura:attribute name="supportPlusDNetPrice" type="decimal" />
-		<aura:attribute name="callback" type="Function" />
+
+	<aura:method name="updateRollingTotals" action="{!c.updateRollingTotals}" description="">
+		<aura:attribute name="spQuantity" type="Decimal" />
+		<aura:attribute name="spContribution" type="Decimal" />
+		<aura:attribute name="spDNetPrice" type="Decimal" />
+		<!-- <aura:attribute name="callback" type="Function" /> -->
 	</aura:method>
 
 
-	<ul class="slds-grid slds-page-header__detail-row rolling_total">
+	<ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="Support Plus Allowance">Support Plus Allowance</p>
 			<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance__c}">{!v.quote.Toro_Support_Plus_Allowance__c}</p>

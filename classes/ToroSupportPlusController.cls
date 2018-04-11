@@ -108,6 +108,23 @@ global class ToroSupportPlusController {
 	 * @param  name    description
 	 * @return return_type
 	 */
+	public static void save(REVVY__MnQuoteItem__c quote
+							, List<ToroSupportPlusItem> quoteItems
+							, List<ToroSupportPlusItem> supportPlusItems
+	) {
+		List<REVVY__MnQuoteItem__c>        quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
+		List<REVVY__MnQuoteItem__c>        quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
+		List<REVVY__MnQuoteItemSubline__c> sublinesToUpdate   = new List<REVVY__MnQuoteItemSubline__c>();
+		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert   = new List<REVVY__MnQuoteItemSubline__c>();
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
 	@AuraEnabled
 	public static void submitSupportPlus(REVVY__MnQuoteItem__c quote, List<QuoteItem> quoteItems) {
 		List<REVVY__MnQuoteItem__c>        quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();

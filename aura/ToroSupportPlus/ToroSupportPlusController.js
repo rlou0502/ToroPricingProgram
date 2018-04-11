@@ -3,9 +3,7 @@
         console.log('@ToroSupportPlusController:initialize');
         helper.initialize(cmp);
     },
-    handleAddNewInput: function(cmp, event, helper) {
-        console.log('@ToroSupportPlusController:handleAddNewInput');
-
+    handleAddNewProductIdChange: function(cmp, event, helper) {
         cmp.set('v.wasAutoCompleted', false);
         cmp.set('v.newItemProductName', '');
         cmp.set('v.newItemDNetPrice', '');
@@ -23,20 +21,28 @@
             cmp.set('v.currentSearchTerm', currentValue);
         }
     },
-    handleSupportPlusQtyChange: function(cmp, event, helper) {
-        var childCmp = cmp.find("cmpRollingTotal");
-        childCmp.updateRollingTotals();
+    handleSPQuantityChange: function(cmp, event, helper) {
+        console.log('@ToroSupportPlustController:handleSPQuantityChange');
+        var spQuantity = 1;
+        var spContribution = 50;
+        var spDNetPrice = 5.55;
+
+        var cmpRollingTotals = cmp.find("cmpRollingTotal");
+        cmpRollingTotals.updateRollingTotals(spQuantity, spContribution, spDNetPrice);
     },
-    showAddModal: function (cmp, event, helper) {
+    handleDistributorResponsibilityChange: function(cmp, event, helper) {
+        console.log('changed Distributor Responsibility');
+    },
+    handleShowAddNewModal: function (cmp, event, helper) {
         var modal = cmp.find("addModal");
         $A.util.removeClass(modal, 'hideDiv');
     },
-    hideAddModal: function (cmp, event, helper) {
+    handleCancelAddNewModal: function (cmp, event, helper) {
         var modal = cmp.find("addModal");
         $A.util.addClass(modal, 'hideDiv');
         cmp.set('v.searchResults', null);
     },
-    addProduct: function(cmp, event, helper) {
+    handleAddNewSupportPlusItem: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:addProduct');
         var productId                        = cmp.get('v.newItemProductId');
         var newItemSPQuantity                = cmp.get('v.newItemSPQuantity');
@@ -60,8 +66,6 @@
             errorMessage += ', Distributor Responsibility';
         }
 
-
-
         if (!inputIsValid) {
             alert(errorMessage);
         }
@@ -70,13 +74,15 @@
             helper.addProduct(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility);
         }
     },
-    submit: function(cmp, event, helper) {
+    handleSubmitClick: function(cmp, event, helper) {
         alert ('submit placeholder');
         var quote = cmp.get('v.quote');
+        var quoteItems = cmp.get('v.quoteItems');
+        var supportPlusItems = cmp.get('v.supportPlusItems');
 
-        // helper.submit(quote, quoteItems);
+        helper.saveChanges(quote, quoteItems, supportPlusItems);
     },
-    populateAddNew: function(cmp, event, helper) {
+    populateAddNewModalFields: function(cmp, event, helper) {
         var dataset = event.currentTarget.dataset;
         cmp.set('v.newItemProductId', dataset.productid);
         cmp.set('v.newItemProductName', dataset.productname);

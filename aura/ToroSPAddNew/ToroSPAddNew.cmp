@@ -8,23 +8,23 @@
 	            <tr class="slds-text-title_caps">
 	            	<th width="50px">
 	            	</th>
-	                <th scope="col" width="10%">
-	                    <div class="slds-truncate" title="SP QTY">QTY</div>
-	                </th>
                     <th scope="col" width="10%">
-	                </th>
+					</th>
+					<th scope="col" width="10%">
+						<div class="slds-truncate" title="SP QUANTITY">SP QUANTITY</div>
+					</th>
 	                <th scope="col" width="20%">
 	                    <div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
 	                </th>
 	                <th scope="col" width="30%">
-	                    <div class="slds-truncate" title="Description">Description</div>
+	                    <div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div>
 	                </th>
 
 	                <th scope="col" width="15%">
-	                    <div class="slds-truncate" title="Distributor Responsibility (%)">Distributor Responsibility (%)</div>
+	                    <div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div>
 	                </th>
 	                <th scope="col" width="15%">
-	                    <div class="slds-truncate" title="DNet Price">DNet Price</div>
+	                    <div class="slds-truncate" title="DNET PRICE">DNET PRICE</div>
 	                </th>
 	            </tr>
           </thead>
@@ -32,14 +32,14 @@
 				<aura:iteration items="{!v.supportPlusItems}" var="item">
 					<tr class="quote_item">
 						<td>
-							<lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{! c.handleClick }" title="delete" />
-							<lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" />
+							<lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}" title="delete" />
+							<!-- <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" /> -->
 						</td>
-						<td>{!item.spQuantity}</td>
 						<td>&nbsp;</td>
+						<td><lightning:input type="number" value="{!item.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
 						<td>{!item.productId}</td>
 						<td>{!item.description}</td>
-						<td>{!item.distributorResponsibility}</td>
+						<td><lightning:input type="number" value="{!item.distributorResponsibility}" onchange="{!c.handleSPContributionChange}" /></td>
 						<td>{!item.dnetPrice}</td>
 					</tr>
 				</aura:iteration>
