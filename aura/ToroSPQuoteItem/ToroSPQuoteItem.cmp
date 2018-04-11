@@ -26,7 +26,7 @@
 					<div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div>
 				</th>
 				<th scope="col" width="15%">
-					<div class="slds-truncate" title="DNET PRICEe">DNET PRICE</div>
+					<div class="slds-truncate" title="DNET PRICE">DNET PRICE</div>
 				</th>
 			</tr>
 		</thead>

@@ -179,7 +179,7 @@ global class ToroSupportPlusController {
 			}
 
 			List<REVVY__MnQuoteItemSubLine__c> qiSub = qItem.qislList;
-
+ 
 			if (qiSub != null && qiSub.size() > 0) {
 				for (REVVY__MnQuoteItemSubline__c qis : qiSub) {
 					Decimal supportPlusQty2 = qis.Support_Plus_Quantity__c == null ? 0 : qis.Support_Plus_Quantity__c;

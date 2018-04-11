@@ -23,12 +23,25 @@
     },
     handleSPQuantityChange: function(cmp, event, helper) {
         console.log('@ToroSupportPlustController:handleSPQuantityChange');
+        var quote            = cmp.get('v.quote');
+        var quoteItems       = cmp.get('v.quoteItems');
+        var supportPlusItems = cmp.get('v.supportPlusItems');
+        var allowance = quote.Toro_Support_Plus_Allowance__c;
+
+        // recalculate values
+        quote.SP_Total_Extended_DNET__c      = helper.calculateTotalExtendedDNet(quoteItems, supportPlusItems);
+        quote.SP_Ext_Dist_Responsibility__c  = 123;
+        quote.Support_Plus_Rebate__c         = 123;
+
+        cmp.set('v.quote', quote);
+
+        /*
         var spQuantity = 1;
         var spContribution = 50;
         var spDNetPrice = 5.55;
-
         var cmpRollingTotals = cmp.find("cmpRollingTotal");
         cmpRollingTotals.updateRollingTotals(spQuantity, spContribution, spDNetPrice);
+        */
     },
     handleDistributorResponsibilityChange: function(cmp, event, helper) {
         console.log('changed Distributor Responsibility');

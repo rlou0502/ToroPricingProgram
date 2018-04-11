@@ -108,5 +108,23 @@
 			}
 		);
 		$A.enqueueAction(action);
+	},
+	calculateTotalExtendedDNet: function(quoteItems, supportPlusItems) {
+		var totalExtendedDNet = 0;
+		console.log('quoteItems:');
+		console.log(quoteItems);
+		console.log('supportPlusItems:');
+		console.log(supportPlusItems);
+		for (var quoteItem in quoteItems) {
+			console.log(quoteItem.quantity + ' * ' + quoteItem.dnetPrice);
+			totalExtendedDNet += (quoteItem.quantity * quoteItem.dnetPrice);
+		}
+
+		for (var supportPlusItem in supportPlusItems) {
+			console.log(supportPlusItem.quantity + ' * ' + supportPlusItem.dnetPrice);
+			totalExtendedDNet += (supportPlusItem.quantity * supportPlusItem.dnetPrice);
+		}
+
+		return totalExtendedDNet;
 	}
 })
