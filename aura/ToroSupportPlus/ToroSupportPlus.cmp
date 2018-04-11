@@ -99,13 +99,14 @@
 									role="dialog" aria-label="Autocomplete Results"
 									aria-describedby="dialog-body-id-4"
 									style="position: absolute; left: 0px; top: 55px; display: none;">
-									<div class="slds-popover__body slds-p-horizontal_none"
-										id="dialog-body-id-4">
+									<div class="slds-popover__body slds-p-horizontal_none" id="dialog-body-id-4">
 										<div id="listbox-unique-id" role="listbox">
 											<ul
 												class="slds-listbox slds-listbox_vertical slds-dropdown_length-10"
-												role="group" aria-label="">
-												<div id="autocomplete_result" style="display: none;"></div>
+												role="group" aria-label=""
+ 												aura:id="autocomplete_result_list">
+												<!-- <div aura:id="autocomplete_result" id="autocomplete_result" style="display: none;"></div> -->
+
 											</ul>
 										</div>
 									</div>
