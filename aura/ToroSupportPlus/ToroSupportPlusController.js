@@ -1,5 +1,6 @@
 ({
 	initialize: function(cmp, event, helper) {
+        console.log('@ToroSupportPlusController:initialize');
         helper.initialize(cmp);
         /*
         window.addEventListener('scroll',  function(e) {

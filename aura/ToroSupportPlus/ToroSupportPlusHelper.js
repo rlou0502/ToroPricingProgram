@@ -1,6 +1,5 @@
 ({
 	initialize : function(cmp) {
-		console.log('@ToroSupportPlusHelper:initialize');
         var action = cmp.get('c.retrieveSupportPlusData');
         var qId = cmp.get('v.quoteId');
 		action.setParams({ quoteId : qId });
