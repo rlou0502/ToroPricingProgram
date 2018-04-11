@@ -1,4 +1,17 @@
 global class ToroSupportPlusController {
+	public Id quoteId { get; private set; }
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public ToroSupportPlusController() {
+		quoteId = ApexPages.currentPage().getParameters().get('id');
+	}
+
 	/**
 	 *
 	 * description
@@ -8,103 +21,7 @@ global class ToroSupportPlusController {
 	 */
 	@AuraEnabled
 	public static ToroSupportPlusData retrieveSupportPlusData(Id quoteId) {
-
-		Revvy__MnQuote__c tmpQ = [select Toro_Total_DNet__c from Revvy__MnQuote__c where id = :quoteId];
-        List<Support_Plus_Plan__c> plans = [select Total_DNet_Low__c, Total_DNet_High__c, Maximum_Support__c from Support_Plus_Plan__c order by Total_DNet_Low__c];
-        for(Support_Plus_Plan__c sp : plans) {
-        	if((tmpQ.Toro_Total_DNet__c >= sp.Total_DNet_Low__c) && (tmpQ.Toro_Total_DNet__c < sp.Total_DNet_High__c)) {
-        		tmpQ.Toro_Support_Plus_Allowance__c = sp.Maximum_Support__c;
-        		break;
-        	}
-        }
-        //update quote;
-        update tmpQ;
-
-		ToroSupportPlusData ret = new ToroSupportPlusData();
-
-		REVVY__MnQuote__c spQuote = [
-			SELECT
-				Id
-				, Name
-				, Toro_Support_Plus_Allowance__c
-				, Toro_Blended_Percent_of_DN__c
-				, Support_Plus_Rebate__c
-				, SP_Ext_Dist_Responsibility__c
-				, SP_Total_Extended_DNET__c
-			FROM
-				REVVY__MnQuote__c
-			WHERE
-				Id = :quoteId
-		];
-
-		spQuote.Support_Plus_Rebate__c        = CMnQuoteUtil.defaultDecimal(spQuote.Support_Plus_Rebate__c);
-		spQuote.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(spQuote.SP_Ext_Dist_Responsibility__c);
-		spQuote.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(spQuote.SP_Total_Extended_DNET__c);
-
-    	List<Support_Plus_Contribution__c> contributions = [
-			SELECT
-				Award_Price_Low__c
-				, Award_Price_High__c
-				, Toro_Contribution__c
-				, Distributor_Contribution__c
-			FROM
-				Support_Plus_Contribution__c];
-
-    	for (Support_Plus_Contribution__c con : contributions) {
-    		if (
-				spQuote.Toro_Blended_Percent_of_DN__c >= con.Award_Price_Low__c
-				&& spQuote.Toro_Blended_Percent_of_DN__c < con.Award_Price_High__c
-			) {
-        		spQuote.Distributor_Responsibility__c = con.Distributor_Contribution__c;
-        		ret.Distributor_Responsibility        = spQuote.Distributor_Responsibility__c;
-        		break;
-        	}
-    	}
-
-    	ret.quote = spQuote;
-
-		final List<REVVY__MnQuoteItem__c> quoteItems = [
-			SELECT
-				REVVY__Product_Name_F__c
-				, REVVY__Catalog_Node__r.Name
-				, REVVY__Product_ID_F__c
-				, REVVY__Id__c
-				, REVVY__Quantity__c
-				, Support_Plus_Quantity__c
-				, Support_Plus_Item__c
-				, Description__c
-				, Distributor_Responsibility__c
-				, REVVY__SuggestedPrice__c
-				, (SELECT
-						REVVY__Quantity__c
-						, Support_Plus_Quantity__c
-						, REVVY__Catalog_Node__r.Name
-						, Product_ID2__c
-						, Description__c
-						, Distributor_Responsibility__c
-						, REVVY__SuggestedPrice__c
-					FROM
-						REVVY__QuoteItemSubLine__r
-					ORDER BY
-						REVVY__Catalog_Node__r.Name)
-			FROM
-				REVVY__MnQuoteItem__c
-			WHERE
-				REVVY__Quote__c = :quoteId
-		];
-
-		for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
-			if (quoteItem.Support_Plus_Item__c) {
-				ret.supportPlusList.add(new QuoteItem(quoteItem));
-				ret.supportPlusItems.add(new ToroSupportPlusItem(quoteItem));
-			}
-
-			else {
-				ret.quoteItemList.add(new QuoteItem(quoteItem));
-			}
-        }
-
-		return ret;
+		return ToroSupportPlusData.retrieveAndBuildData(quoteId);
 	}
 
 
@@ -158,7 +75,6 @@ global class ToroSupportPlusController {
 				, REVVY__Product__r.REVVY__Id__c
 				, REVVY__Product__r.Name
 				, REVVY__Product__r.REVVY__Description__c
-				// , REVVY__Product__c
 				, REVVY__SuggestedPrice__c
 			FROM
 				REVVY__MnPriceListLine__c
@@ -173,45 +89,16 @@ global class ToroSupportPlusController {
 				REVVY__Product__r.Name asc
 		];
 
-		System.debug('\n\n@@priceListLines: ' + priceListLines + '\n\n');
-
 		if (pricelistLines.isEmpty()) return null;
 
-		REVVY__MnSequenceGen__c sequence = [
-			SELECT
-				Id, REVVY__CurrentValue__c
-			FROM
-				Revvy__MnSequenceGen__c
-			WHERE
-				Revvy__ObjectName__c = 'MnQuoteItem__c'
-			LIMIT 1
-		];
-
-		System.debug('\n\n@@newItemSPQuantity: ' + newItemSPQuantity + '\n\n');
-
-		/*
-		REVVY__MnQuoteItem__c quoteItem = new REVVY__MnQuoteItem__c(
-			REVVY__Quote__c               = quoteId
-			, REVVY__Catalog_Node__c        = null
-			, REVVY__Price__c               = 5.55
-			, REVVY__Unit_Price__c          = 5.55
-			, REVVY__Quantity__c            = 0
-			, Support_Plus_Quantity__c      = 1
-			, Support_Plus_Item__c          = true
-			// , Distributor_Responsibility__c = newItemDistributorResponsibility
-			, REVVY__Id__c                  = ++sequence.REVVY__CurrentValue__c
-		);*/
-
-		// insert newQuoteItem;
-		// update sequence;
-		/*
-		return new ToroSupportPlusItem(
-			pricelistLines[0].REVVY__Product__r[0]
-			, pricelistLines[0]
-			, newItemSPQuantity
+		ToroSupportPlusItem result = new ToroSupportPlusItem(
+			priceListLines[0].REVVY__Product__r
+			, priceListLines[0]
+			, 1
 			, newItemDistributorResponsibility
-		);*/
-		return null;
+		);
+
+		return result;
 	}
 
 	/**
@@ -427,11 +314,11 @@ global class ToroSupportPlusController {
 	*/
 
 
-
+/*
 	private transient ToroPricingProgram helper;
 
 
-	public Id quoteId 									{ get; set; }
+
 	public String searchTerm 							{ get; set; }
     public String selectedProductCode 					{ get; set; }
 
@@ -443,9 +330,7 @@ global class ToroSupportPlusController {
 	public List<QuoteItem> quoteItemWrapperList 		{ get; set; }
 
 
-	public ToroSupportPlusController() {
-		quoteId = ApexPages.currentPage().getParameters().get('id');
-	}
+
 
 
 	public PageReference returnToQuote() {
@@ -492,7 +377,7 @@ global class ToroSupportPlusController {
 
 					clonedQi.Support_Plus_Item__c=true;
 					system.debug('------- new quote item Id=' + clonedQi.Id + ' quote Id = ' + clonedQi.REVVY__Quote__c);
-					*/
+					*//*
 					updatedQuoteItems.add(qi);
 					insertQuoteItems.add(newQuote);
 				} else {
@@ -560,7 +445,7 @@ global class ToroSupportPlusController {
 					));
 			}
 		}
-		*/
+		*//*
 		sequence.REVVY__currentvalue__c++;
 		update sequence;
 		if(qitems.size() > 0) {
@@ -627,5 +512,5 @@ global class ToroSupportPlusController {
                             REVVY__PriceList__r.name = 'Commercial' AND REVVY__Product__r.REVVY__Id__c like :term];
 
         return plis;
-    }
+    }*/
 }

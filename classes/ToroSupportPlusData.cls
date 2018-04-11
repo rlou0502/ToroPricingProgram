@@ -1,20 +1,18 @@
 public with sharing class ToroSupportPlusData {
 
-	@AuraEnabled public Boolean result 									{ get; set; }
+	// @AuraEnabled public Boolean result 									{ get; set; }
 	@AuraEnabled public Boolean success                                 { get; private set; }
 	@AuraEnabled public REVVY__MnQuote__c quote 						{ get; set; }
-	@AuraEnabled public List<QuoteItem> quoteItemList 					{ get; set; }
 	@AuraEnabled public Decimal Distributor_Responsibility 				{ get; set; }
-	// @AuraEnabled public List<Support_Plus_Holder__c> supportPlusList 	{ get; set; }
-	@AuraEnabled public List<QuoteItem> supportPlusList				{ get; set; }
 
 
+	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 		{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> supportPlusItems 	{ get; set; }
 
-	public ToroSupportPlusData() {
-		this.quoteItemList   = new List<QuoteItem>();
-		this.supportPlusList = new List<QuoteItem>();
 
+	public ToroSupportPlusData() {
+
+		this.quoteItems = new List<ToroSupportPlusItem>();
 		this.supportPlusItems = new List<ToroSupportPlusItem>();
 
 		this.success = true;
@@ -28,21 +26,49 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static ToroSupportPlusData buildToroSupportPlusData(Id quoteId) {
+	public static ToroSupportPlusData retrieveAndBuildData(Id quoteId) {
 		ToroSupportPlusData result = new ToroSupportPlusData();
 
 		try {
+			result.quote = getQuote(quoteId);
+			result.Distributor_Responsibility = result.quote.Distributor_Responsibility__c;
 
-			Revvy__MnQuote__c tmpQ = [select Toro_Total_DNet__c from Revvy__MnQuote__c where id = :quoteId];
-			List<Support_Plus_Plan__c> plans = [select Total_DNet_Low__c, Total_DNet_High__c, Maximum_Support__c from Support_Plus_Plan__c order by Total_DNet_Low__c];
-			for(Support_Plus_Plan__c sp : plans) {
-				if((tmpQ.Toro_Total_DNet__c >= sp.Total_DNet_Low__c) && (tmpQ.Toro_Total_DNet__c < sp.Total_DNet_High__c)) {
-					tmpQ.Toro_Support_Plus_Allowance__c = sp.Maximum_Support__c;
-					break;
+			for (REVVY__MnQuoteItem__c quoteItem : [SELECT
+														REVVY__Product_Name_F__c
+														, REVVY__Catalog_Node__r.Name
+														, REVVY__Product_ID_F__c
+														, REVVY__Id__c
+														, REVVY__Quantity__c
+														, Support_Plus_Quantity__c
+														, Support_Plus_Item__c
+														, Description__c
+														, Distributor_Responsibility__c
+														, REVVY__SuggestedPrice__c
+														, (SELECT
+																REVVY__Quantity__c
+																, Support_Plus_Quantity__c
+																, REVVY__Catalog_Node__r.Name
+																, Product_ID2__c
+																, Description__c
+																, Distributor_Responsibility__c
+																, REVVY__SuggestedPrice__c
+															FROM
+																REVVY__QuoteItemSubLine__r
+															ORDER BY
+																REVVY__Catalog_Node__r.Name)
+													FROM
+														REVVY__MnQuoteItem__c
+													WHERE
+														REVVY__Quote__c = :quoteId]
+			) {
+				if (quoteItem.Support_Plus_Item__c) {
+					result.supportPlusItems.add(new ToroSupportPlusItem(quoteItem));
+				}
+
+				else {
+					result.quoteItems.add(new ToroSupportPlusItem(quoteItem));
 				}
 			}
-			//update quote;
-			update tmpQ;
 		}
 
 		catch (Exception e) {
@@ -50,5 +76,77 @@ public with sharing class ToroSupportPlusData {
 		}
 
 		return result;
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	private static REVVY__MnQuote__c getQuote(Id quoteId) {
+		REVVY__MnQuote__c quote = [
+			SELECT
+				Toro_Total_DNet__c
+				, Id
+				, Name
+				, Toro_Support_Plus_Allowance__c
+				, Toro_Blended_Percent_of_DN__c
+				, Support_Plus_Rebate__c
+				, SP_Ext_Dist_Responsibility__c
+				, SP_Total_Extended_DNET__c
+			FROM
+				REVVY__MnQuote__c
+			WHERE
+				Id = :quoteId
+		];
+
+		List<Support_Plus_Plan__c> supportPlusPlans = [
+			SELECT
+				Total_DNet_Low__c
+				, Total_DNet_High__c
+				, Maximum_Support__c
+			FROM
+				Support_Plus_Plan__c
+			ORDER BY
+				Total_DNet_Low__c
+			LIMIT 1
+		];
+
+		for (Support_Plus_Plan__c plan : supportPlusPlans) {
+			if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
+				&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
+			) {
+				quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+				break;
+			}
+		}
+		update quote;
+
+		quote.Support_Plus_Rebate__c        = CMnQuoteUtil.defaultDecimal(quote.Support_Plus_Rebate__c);
+		quote.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
+		quote.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
+
+		List<Support_Plus_Contribution__c> contributions = [
+			SELECT
+				Award_Price_Low__c
+				, Award_Price_High__c
+				, Toro_Contribution__c
+				, Distributor_Contribution__c
+			FROM
+				Support_Plus_Contribution__c];
+
+		for (Support_Plus_Contribution__c contrib : contributions) {
+			if (
+				quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
+				&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
+			) {
+				quote.Distributor_Responsibility__c = contrib.Distributor_Contribution__c;
+				break;
+			}
+		}
+
+		return quote;
 	}
 }

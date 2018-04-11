@@ -1,6 +1,6 @@
 <aura:component controller="ToroSupportPlusController">
     <aura:registerEvent name="supportPlusQtyChangeEvent" type="c:ToroSPQtyChangeEvent" />
-    <aura:attribute name="quoteItemList" type="QuoteItem[]" />
+	<aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
     <aura:attribute name="Distributor_Responsibility" type="decimal" />
 
     <div>
@@ -31,42 +31,47 @@
 	            </tr>
           </thead>
           <tbody>
-          	<aura:iteration items="{!v.quoteItemList}" var="quoteItem">
-	       		<tr class="quote_item">
-	       		<td class="chevron-cell" width="50px">
-	       			<span style="width:50px" class="chevron bottom" data-id="{!quoteItem.qi.Id}" onclick="{!c.toggleChevron}"></span>
-				</td>
-	                <td>{!quoteItem.qi.REVVY__Quantity__c}</td>
-	                <td>
-	                    <ui:inputNumber value="{!quoteItem.qi.Support_Plus_Quantity__c}" change="{!c.supportPlusQtyChange}" />
-	                </td>
-	                <td>{!quoteItem.qi.REVVY__Id__c}</td>
-	                <td>{!quoteItem.qi.Description__c}</td>
+			<aura:iteration items="{!v.quoteItems}" var="quoteItem">
+				<tr class="quote_item">
+					<td class="chevron-cell" width="50px">
+						<span style="width:50px" class="chevron bottom" data-id="{!quoteItem.sfid}" onclick="{!c.toggleChevron}"></span>
+					</td>
+					<td>{!quoteItem.quantity}</td>
+					<td>
+						<ui:inputNumber value="{!quoteItem.spQuantity}" change="{!c.supportPlusQtyChange}" />
+					</td>
+					<td>{!quoteItem.productId}</td>
+					<td>{!quoteItem.description}</td>
 
-	                <td>
-	                    <ui:inputNumber value="{!quoteItem.qi.Distributor_Responsibility__c}" change="{!c.supportPlusContributionChange}" />
-	                </td>
-	                <td>{!quoteItem.qi.Revvy__SuggestedPrice__c}</td>
-	            </tr>
+					<td>
+						<ui:inputNumber value="{!quoteItem.distributorResponsibility}" change="{!c.supportPlusContributionChange}" />
+					</td>
+					<td>{!quoteItem.dnetPrice}</td>
+				</tr>
 
-                <aura:iteration items="{!quoteItem.qislList}" var="subline">
-                	<tr class="quote_subline " data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">
-                    <td>&nbsp;</td>
-                        <td>{!subline.REVVY__Quantity__c}</td>
-                        <td>
-                            <ui:inputNumber value="{!subline.Support_Plus_Quantity__c}" change="{!c.supportPlusQtyChange}" />
-                        </td>
-                        <td>{!subline.Product_ID2__c}</td>
-                        <td>{!subline.Description__c}</td>
+				<aura:iteration items="{!quoteItem.sublines}" var="subline">
+					<tr class="quote_subline " data-quoteItem="{!quoteItem.sfid}" style="display:'none'">
+						<td>&nbsp;</td>
+						<td>{!subline.quantity}</td>
+						<td>
+							<ui:inputNumber value="{!subline.spQuantity}" change="{!c.supportPlusQtyChange}" />
+						</td>
+						<td>{!subline.productId}</td>
+						<td>{!subline.description}</td>
 
-                        <td>
-                            <ui:inputNumber value="{!subline.Distributor_Responsibility__c}" change="{!c.supportPlusContributionChange}" />
-                        </td>
-                        <td>{!subline.DNet_Price_2__c}</td>
-                    </tr>
-                </aura:iteration>
-                <tr><td colspan="7" data-quoteItem="{!quoteItem.qi.Id}" style="display:'none'">&nbsp;</td></tr>
-            </aura:iteration>
+						<td>
+							<ui:inputNumber value="{!subline.distributorResponsibility}" change="{!c.supportPlusContributionChange}" />
+						</td>
+						<td>{!subline.dnetPrice}</td>
+					</tr>
+				</aura:iteration>
+				<tr>
+					<td colspan="7"  style="display:'none'">&nbsp;</td>
+				</tr>
+			</aura:iteration>
+
+
+
             </tbody>
         </table>
     </div>

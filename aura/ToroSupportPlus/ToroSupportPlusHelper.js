@@ -7,13 +7,13 @@
 		action.setCallback(this
 			, function(response) {
 				if (cmp.isValid() && response.getState() === "SUCCESS" ) {
-	                var retResponse = response.getReturnValue();
-                    cmp.set('v.quote', retResponse.quote);
-                    cmp.set('v.quoteItemList', retResponse.quoteItemList);
-					cmp.set('v.supportPlusItems', retResponse.supportPlusItems);
-					cmp.set('v.Distributor_Responsibility', retResponse.Distributor_Responsibility);
-					console.log('retResponse.supportPlusItems:');
-					console.log(retResponse.supportPlusItems);
+					var supportPlusData = response.getReturnValue();
+					console.log('- supportPlusData: ');
+					console.log(supportPlusData);
+                    cmp.set('v.quote', supportPlusData.quote);
+					cmp.set('v.quoteItems', supportPlusData.quoteItems);
+					cmp.set('v.supportPlusItems', supportPlusData.supportPlusItems);
+					cmp.set('v.Distributor_Responsibility', supportPlusData.Distributor_Responsibility);
 	            }
 	        }
 	    );
@@ -40,29 +40,6 @@
 			$A.enqueueAction(action);
 		}
 		cmp.set('v.lastSearchTerm', searchText);
-	},
-	showAddModal: function(cmp) {
-		var modal = cmp.find("addModal");
-		$A.util.removeClass(modal, 'hideDiv');
-	},
-	hideAddModal: function(cmp) {
-		var modal = cmp.find("addModal");
-		$A.util.addClass(modal, 'hideDiv');
-	},
-	toggleAddProductModal: function(cmp) {
-		console.log('@ToroSupportPlusHelper:toggleAddProductModal');
-		var modal = cmp.find('addModal');
-		if (modal.classList.contains('hideDiv')) {
-			$A.util.removeClass(modal, 'hideDiv');
-		}
-
-		else {
-			$A.util.addClass(modal, 'hideDiv');
-		}
-	},
-	hideAutoComplete: function(cmp) {
-		var autoCompleteSection = cmp.find('autocomplete_section');
-
 	},
 	addProduct: function(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility) {
 		console.log('@ToroSupportPlusHelper:addProduct');

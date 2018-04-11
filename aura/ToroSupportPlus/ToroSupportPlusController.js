@@ -34,18 +34,27 @@
         }
     },
     toggleAddProductModal: function(cmp, event, helper) {
-        helper.toggleAddProductModal(cmp);
+        var modal = cmp.find('addModal');
+        if (modal.classList.contains('hideDiv')) {
+            $A.util.removeClass(modal, 'hideDiv');
+        }
+
+        else {
+            $A.util.addClass(modal, 'hideDiv');
+        }
     },
     showAddModal: function (cmp, event, helper) {
-        helper.showAddModal(cmp);
+        var modal = cmp.find("addModal");
+        $A.util.removeClass(modal, 'hideDiv');
     },
     hideAddModal: function (cmp, event, helper) {
-        helper.hideAddModal(cmp);
+        var modal = cmp.find("addModal");
+        $A.util.addClass(modal, 'hideDiv');
         cmp.set('v.searchResult', null);
         cmp.set('v.lastSearchTerm', null);
     },
     handleHideAutoComplete: function (cmp, event, helper) {
-        helper.hideAutoComplete(cmp);
+        var autoCompleteSection = cmp.find('autocomplete_section');
     },
     addProduct: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:addProduct');
@@ -84,7 +93,7 @@
     submit: function(cmp, event, helper) {
         alert ('submit placeholder');
         var quote = cmp.get('v.quote');
-        var quoteItems = cmp.get('v.quoteItemList');
-        helper.submit(quote, quoteItems);
+
+        // helper.submit(quote, quoteItems);
     }
 })
