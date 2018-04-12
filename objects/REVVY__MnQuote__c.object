@@ -582,7 +582,7 @@ CustomerCurrency_ISOCurrency</description>
         <fullName>Support_Plus_Rebate__c</fullName>
         <description>Support Plus Rebate</description>
         <externalId>false</externalId>
-        <label>Support Plus Rebate</label>
+        <label>Toro Responsibility</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
