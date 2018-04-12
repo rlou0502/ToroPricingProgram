@@ -1,4 +1,93 @@
-<aura:component >
+<aura:component controller="ToroSupportPlusController">
+	<aura:method name="showModal" action="{!c.showModal}" access="public"/>
+	<aura:handler name="change" value="{!v.newItemProductId}" action="{!c.handleAddNewProductIdChange}" />
+
+	<!-- search -->
+	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
+	<aura:attribute name="previousSearchTerm" type="String" />
+	<aura:attribute name="currentSearchTerm" type="String" />
+	<aura:attribute name="wasAutoCompleted" type="Boolean" />
+
+	<!-- add new support plus item fields (editable) -->
+	<aura:attribute name="newItemProductId" type="String" />
+	<aura:attribute name="newItemSPQuantity" type="Integer" default="1" />
+
+	<!-- <aura:attribute name="newItemDistributorResponsibility" type="Decimal" /> -->
+	<!-- add new support plus item fields (read-only) -->
+	<aura:attribute name="newItemProductName" type="String" default="" access="private" />
+	<aura:attribute name="newItemDescription" type="String" default="" access="private" />
+	<aura:attribute name="newItemDNetPrice" type="Decimal" default="" access="private" />
+
+	<div aura:id="addModal" class="hideDiv" style="height: 640px;">
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1"
+		 class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.hideModal}">
+						<lightning:icon iconName="utility:close" size="x-small" />
+						<span class="slds-assistive-text">Close</span>
+					</button>
+					<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add New</h2>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="min-height:500px;">
+					<div class="slds-form slds-form_stacked">
+						<div class="slds-form-element">
+							<div class="slds-form-element__control">
+								<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label" label="Product ID" value="{!v.newItemProductId}"
+								 placeholder="Select a product..." updateOn="keyup" />
+								<section aura:id="autocomplete_section" id="autocomplete_section" class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
+								 role="dialog" aria-label="Autocomplete Results" aria-describedby="dialog-body-id-4" style="position: absolute; left: 0px;">
+									<div class="slds-popover__body slds-p-horizontal_none" id="dialog-body-id-4">
+										<div id="listbox-unique-id" role="listbox">
+											<ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-10" role="group" aria-label="" aura:id="autocomplete_results">
+											</ul>
+										</div>
+									</div>
+									<footer class="slds-popover__footer"> </footer>
+								</section>
+							</div>
+						</div>
+						<div class="slds-form-element">
+							<div class="slds-form-element__control">
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}"
+								/>
+							</div>
+						</div>
+						<div class="slds-form-element">
+							<div class="slds-form-element__control">
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="Distributor Responsibility" value="{!v.newItemDistributorResponsibility}" />
+							</div>
+						</div>
+						<div class="slds-form-element">
+							<label class="slds-form-element__label" for="add_dnet_price">Product Name</label>
+							<div class="slds-form-element__control">
+								<ui:outputText value="{!v.newItemProductName}" />
+							</div>
+						</div>
+						<div class="slds-form-element">
+							<label class="slds-form-element__label" for="add_dnet_price">DNet Price</label>
+							<div class="slds-form-element__control">
+								<ui:outputText value="{!v.newItemDNetPrice}" />
+							</div>
+						</div>
+						<div class="slds-form-element">
+							<label class="slds-form-element__label" for="add_description">Description</label>
+							<div class="slds-form-element__control">
+								<ui:outputText value="{!v.newItemDescription}" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<footer class="slds-modal__footer">
+					<button class="slds-button slds-button_neutral" onclick="{!c.hideModal}">Cancel</button>
+					<button class="slds-button slds-button_brand" onclick="{!c.handleAddNewSupportPlusItem}">Add</button>
+				</footer>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</div>
+
+	<!--
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusData[]" />
     <aura:registerEvent name="supportPlusAddNewEvent" type="c:ToroSPAddNewEvent"/>
 	<div>{!$Label.c.SP_Add_New}</div>
@@ -33,7 +122,7 @@
 					<tr class="quote_item">
 						<td>
 							<lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}" title="delete" />
-							<!-- <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" /> -->
+
 						</td>
 						<td>&nbsp;</td>
 						<td><lightning:input type="number" value="{!item.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
@@ -45,5 +134,5 @@
 				</aura:iteration>
             </tbody>
         </table>
-    </div>
+    </div>-->
 </aura:component>

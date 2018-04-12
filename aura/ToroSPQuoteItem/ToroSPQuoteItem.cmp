@@ -11,59 +11,33 @@
 			<tr class="slds-text-title_caps">
 				<th width="50px">&nbsp;&nbsp;&nbsp;
 				</th>
-				<th scope="col" width="10%">
-					<div class="slds-truncate" title="QTY">QTY</div>
-				</th>
-				<th scope="col" width="10%">
-					<div class="slds-truncate" title="SP QTY">SP QTY</div>
-				</th>
-				<th scope="col" width="20%">
-					<div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
-				</th>
-				<th scope="col" width="30%">
-					<div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div>
-				</th>
-
-				<th scope="col" width="15%">
-					<div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div>
-				</th>
-				<th scope="col" width="15%">
-					<div class="slds-truncate" title="DNET PRICE">DNET PRICE</div>
-				</th>
+				<th scope="col" width="10%"><div class="slds-truncate" title="QTY">QTY</div></th>
+				<th scope="col" width="10%"><div class="slds-truncate" title="SP QTY">SP QTY</div></th>
+				<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div></th>
+				<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
+				<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>
+				<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET PRICE</div></th>
 			</tr>
 		</thead>
 		<tbody>
 			<aura:iteration items="{!v.quoteItems}" var="quoteItem">
 				<tr class="quote_item">
-					<td class="chevron-cell" width="50px">
-						<span style="width:50px" class="chevron bottom" data-id="{!quoteItem.sfid}" onclick="{!c.toggleChevron}"></span>
-					</td>
+					<td class="chevron-cell" width="50px"><span style="width:50px" class="chevron bottom" data-id="{!quoteItem.sfid}" onclick="{!c.toggleChevron}"></span></td>
 					<td><ui:outputText value="{!quoteItem.quantity}" /></td>
-					<td>
-						<lightning:input name="{!quoteItem.sfid}" type="number" value="{!quoteItem.spQuantity}" onchange="{!c.handleSPQuantityChange}" />
-					</td>
+					<td><lightning:input name="{!quoteItem.sfid}" type="number" value="{!quoteItem.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
 					<td>{!quoteItem.productId}</td>
 					<td>{!quoteItem.description}</td>
-
-					<td>
-						<ui:outputText value="{!mult(100,div(mult(quoteItem.dnetPrice,sub(quoteItem.quantity,quoteItem.spQuantity)),mult(quoteItem.dnetPrice,quoteItem.quantity)))}" />
-					</td>
+					<td><lightning:input value="{!quoteItem.distributorResponsibility}" /></td>
 					<td>{!quoteItem.dnetPrice}</td>
 				</tr>
 				<aura:iteration items="{!quoteItem.sublines}" var="subline">
 					<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}" style="display:'none'">
 						<td>&nbsp;</td>
 						<td>{!subline.quantity}</td>
-						<td>
-							<lightning:input name="{!subline.sfid}" type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}" />
-						</td>
+						<td><lightning:input name="{!subline.sfid}" type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
 						<td>{!subline.productId}</td>
 						<td>{!subline.description}</td>
-
-						<td>
-							<ui:outputText value="{!mult(100,div(mult(subline.dnetPrice,sub(subline.quantity,subline.spQuantity)),mult(subline.dnetPrice,subline.quantity)))}"
-							/>
-						</td>
+						<td><lightning:input value="{!subline.distributorResponsibility}" /></td>
 						<td>{!subline.dnetPrice}</td>
 					</tr>
 				</aura:iteration>
@@ -80,25 +54,13 @@
 			<table class="slds-table slds-table_bordered  slds-table_col-bordered" role="grid">
 				<thead>
 					<tr class="slds-text-title_caps">
-						<th width="50px">
-						</th>
-						<!-- <th scope="col" width="10%"></th> -->
-						<th scope="col" width="10%">
-							<div class="slds-truncate" title="SP QUANTITY">SP QUANTITY</div>
-						</th>
-						<th scope="col" width="%10">
-							<div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div>
-						</th>
-						<th scope="col" width="50%">
-							<div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div>
-						</th>
-						<!--
-						<th scope="col" width="15%">
-							<div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div>
-						</th>-->
-						<th scope="col" width="15%">
-							<div class="slds-truncate" title="DNET PRICE">DNET PRICE</div>
-						</th>
+						<th scope="col" width="50px"></th>
+						<th scope="col" width="10%"></th>
+						<th scope="col" width="10%"><div class="slds-truncate" title="SP QUANTITY">SP QUANTITY</div></th>
+						<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div></th>
+						<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
+						<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>
+						<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET PRICE</div></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -108,18 +70,11 @@
 								<lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}" title="delete" />
 								<!-- <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" /> -->
 							</td>
-							<!-- <td>&nbsp;</td> -->
-							<td>
-								<lightning:input name="{!item.sfid}" type="number" value="{!item.spQuantity}" onchange="{!c.handleSPQuantityChange}" />
-							</td>
+							<td>&nbsp;</td>
+							<td><lightning:input name="{!item.sfid}" type="number" value="{!item.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
 							<td>{!item.productId}</td>
 							<td>{!item.description}</td>
-							<!--
-							<td>
-								<ui:outputText value="{!mult(100,div(mult(item.dnetPrice,sub(item.quantity,item.spQuantity)),mult(item.dnetPrice,item.quantity)))}"
-								/>
-							</td>
-						-->
+							<td><lightning:input value="{!item.distributorResponsibility}"/></td>
 							<td>{!item.dnetPrice}</td>
 						</tr>
 					</aura:iteration>

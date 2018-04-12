@@ -40,17 +40,11 @@
         console.log('changed Distributor Responsibility');
     },
     handleShowAddNewModal: function (cmp, event, helper) {
-        var modal = cmp.find("addModal");
-        $A.util.removeClass(modal, 'hideDiv');
-    },
-    handleCancelAddNewModal: function (cmp, event, helper) {
-        var modal = cmp.find("addModal");
-        $A.util.addClass(modal, 'hideDiv');
-        cmp.set('v.searchResults', null);
+        cmp.find('cmpAddNew').showModal();
     },
     handleAddNewSupportPlusItem: function(cmp, event, helper) {
-        var productId                        = cmp.get('v.newItemProductId');
-        var newItemSPQuantity                = cmp.get('v.newItemSPQuantity');
+        var productId         = cmp.get('v.newItemProductId');
+        var newItemSPQuantity = cmp.get('v.newItemSPQuantity');
 
         var inputIsValid = true;
         var errorMessage = 'The following values are required: ';

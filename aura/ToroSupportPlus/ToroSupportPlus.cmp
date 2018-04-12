@@ -75,7 +75,10 @@
 	</div>
 	<br/><br/><br/>
 
+	<c:ToroSPAddNew aura:id="cmpAddNew" />
+
 	<!-- ADD NEW SUPPORT PLUS ITEM MODAL -->
+	<!--
 	<div aura:id="addModal" class="hideDiv" style="height: 640px;">
 		<section role="dialog" tabindex="-1"
 			aria-labelledby="modal-heading-01" aria-modal="true"
@@ -98,7 +101,6 @@
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
 								<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label" label="Product ID" value="{!v.newItemProductId}" placeholder="Select a product..." updateOn="keyup"/>
-								<!-- autocomplete results section -->
 								<section aura:id="autocomplete_section" id="autocomplete_section"
 									class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
 									role="dialog" aria-label="Autocomplete Results"
@@ -120,12 +122,11 @@
 								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}" />
 							</div>
 						</div>
-						<!--
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
 								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="Distributor Responsibility" value="{!v.newItemDistributorResponsibility}" />
 							</div>
-						</div>-->
+						</div>
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_dnet_price">Product Name</label>
 							<div class="slds-form-element__control">
@@ -156,4 +157,5 @@
 		</section>
 		<div class="slds-backdrop slds-backdrop_open"></div>
 	</div>
+-->
 </aura:component>
