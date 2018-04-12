@@ -4,9 +4,4 @@
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <label>ToroPricingProgramSelector</label>
-    <packageVersions>
-        <majorNumber>30</majorNumber>
-        <minorNumber>11</minorNumber>
-        <namespace>REVVY</namespace>
-    </packageVersions>
 </ApexPage>

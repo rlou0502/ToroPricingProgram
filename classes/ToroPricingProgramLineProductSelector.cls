@@ -18,7 +18,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	public Boolean allProductsSelected 						{ get; set; }
 	public List<Wrapper> selectedProducts 					{ get; private set; }
 	public String toBeDeleted 								{ get; set; }
-	public REVVY__MnCatalogNode__c dummyProduct 			{ get; set; }
+	public Toro_PricingProgram__c dummyPricingProgram 			{ get; set; }
 	/**
 	 *
 	 * description
@@ -51,7 +51,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 				Id = :pricingProgramLineId
 		];
 
-		this.dummyProduct = new REVVY__MnCatalogNode__c();
+		this.dummyPricingProgram = new Toro_PricingProgram__c();
 
 		if (pricingProgramLine.ApplicableProducts__c == 'All') {
 			this.allProductsSelected = true;
@@ -107,7 +107,7 @@ public with sharing class ToroPricingProgramLineProductSelector {
 			FROM
 				REVVY__MnCatalogNode__c
 			WHERE
-				Id = :dummyProduct.REVVY__Parent__c
+				Id = :dummyPricingProgram.SelectProduct__c
 		];
 
 		Set<String> newProdSet = new Set<String> { products[0].REVVY__Id__c };

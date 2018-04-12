@@ -429,8 +429,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     <fields>
         <fullName>SelectProduct__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
-        <description>This field is used to lookup a product</description>
+        <description>This is a dummy field used for product lookup in the product selector</description>
         <externalId>false</externalId>
+        <inlineHelpText>This is a dummy field used for product lookup in the product selector</inlineHelpText>
         <label>Select Product</label>
         <lookupFilter>
             <active>true</active>
