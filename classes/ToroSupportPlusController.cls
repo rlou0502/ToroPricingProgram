@@ -251,7 +251,7 @@ global class ToroSupportPlusController {
 				Id
 				, Toro_Support_Plus_Allowance__c
 				, Blended_Percent_of_DN__c
-				, Support_Plus_Rebate__c
+				, SP_Toro_Responsibility__c
 				, SP_Ext_Dist_Responsibility__c
 				, SP_Total_Extended_DNET__c
 			FROM
@@ -260,8 +260,8 @@ global class ToroSupportPlusController {
 				Id = :quoteId
 		];
 
-    	if (quote.Support_Plus_Rebate__c == null) {
-    		quote.Support_Plus_Rebate__c=0;
+    	if (quote.SP_Toro_Responsibility__c == null) {
+    		quote.SP_Toro_Responsibility__c=0;
     	}
 
     	if (quote.SP_Ext_Dist_Responsibility__c == null) {

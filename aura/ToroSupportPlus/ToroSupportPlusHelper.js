@@ -141,9 +141,9 @@
 		}
 
 		quote.SP_Total_Extended_DNET__c = totalDNet;
-		quote.Support_Plus_Rebate__c = rebate;
+		quote.SP_Toro_Responsibility__c = rebate;
 		quote.SP_Ext_Dist_Responsibility__c = (totalDNet - rebate) / totalDNet;
-		// quote.Support_Plus_Rebate__c = 0;
+		// quote.SP_Toro_Responsibility__c = 0;
 		return quote;
 	}
 })

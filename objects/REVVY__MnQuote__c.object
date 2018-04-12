@@ -579,19 +579,6 @@ CustomerCurrency_ISOCurrency</description>
         <type>Summary</type>
     </fields>
     <fields>
-        <fullName>Support_Plus_Rebate__c</fullName>
-        <description>Support Plus Rebate</description>
-        <externalId>false</externalId>
-        <label>Toro Responsibility</label>
-        <precision>18</precision>
-        <required>false</required>
-        <scale>2</scale>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Currency</type>
-    </fields>
-    <fields>
         <fullName>Support_Plus__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>

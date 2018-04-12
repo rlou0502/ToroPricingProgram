@@ -7,8 +7,8 @@
  */
 public class ToroQuoteDAO {
 	public static Revvy__MnQuote__c retrieveQuoteWithFieldset(Id quoteId) {
-		String quoteQuery = 'select ' + CMnQuoteUtil.getQuoteQuery('Setup_Fee__c, Toro_Support_Plus_Allowance__c, Toro_Blended_Percent_of_DN__c, Support_Plus_Rebate__c, SP_Ext_Dist_Responsibility__c, SP_Total_Extended_DNET__c,name,REVVY__Account__r.BillingStateCode, Performance_Part__c, Pricing_Program_Name__c, Price_Method__c, Agree_to_Support_Plus_T_C__c,Blended_Percent_of_DN__c') + ' from Revvy__MnQuote__c where id=:quoteId';
-        Revvy__MnQuote__c q = (Revvy__MnQuote__c) Database.query(quoteQuery);	
+		String quoteQuery = 'select ' + CMnQuoteUtil.getQuoteQuery('Setup_Fee__c, Toro_Support_Plus_Allowance__c, Toro_Blended_Percent_of_DN__c, SP_Toro_Responsibility__c, SP_Ext_Dist_Responsibility__c, SP_Total_Extended_DNET__c,name,REVVY__Account__r.BillingStateCode, Performance_Part__c, Pricing_Program_Name__c, Price_Method__c, Agree_to_Support_Plus_T_C__c,Blended_Percent_of_DN__c') + ' from Revvy__MnQuote__c where id=:quoteId';
+        Revvy__MnQuote__c q = (Revvy__MnQuote__c) Database.query(quoteQuery);
         return q;
 	}
     public static final Set<String> QUOTE_FIELDS = new Set<String> {

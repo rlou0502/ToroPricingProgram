@@ -87,7 +87,7 @@ public with sharing class ToroSupportPlusData {
 				, Name
 				, Toro_Support_Plus_Allowance__c
 				, Toro_Blended_Percent_of_DN__c
-				, Support_Plus_Rebate__c
+				, SP_Toro_Responsibility__c
 				, SP_Ext_Dist_Responsibility__c
 				, SP_Total_Extended_DNET__c
 			FROM
@@ -118,7 +118,7 @@ public with sharing class ToroSupportPlusData {
 		}
 		update quote;
 
-		quote.Support_Plus_Rebate__c        = CMnQuoteUtil.defaultDecimal(quote.Support_Plus_Rebate__c);
+		quote.SP_Toro_Responsibility__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
 		quote.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
 		quote.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
 
