@@ -1,6 +1,5 @@
 ({
 	rerender: function (cmp, helper) {
-		console.log('@ToroSupportPlusRenderer:rerender');
 		this.superRerender();
 
 		var previousSearchTerm = cmp.get('v.previousSearchTerm');
@@ -148,7 +147,7 @@
 				}
 			}
 		}
-		console.log('showAutoComplete: ' + showAutoComplete);
+
 		if (showAutoComplete) {
 			var autocompleteSectionCmp = cmp.find('autocomplete_section');
 			$A.util.removeClass(autocompleteSectionCmp, 'slds-hide');

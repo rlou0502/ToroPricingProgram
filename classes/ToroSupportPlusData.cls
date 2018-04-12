@@ -5,11 +5,10 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 		{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> supportPlusItems 	{ get; set; }
 
-
 	public ToroSupportPlusData() {
-		this.quoteItems = new List<ToroSupportPlusItem>();
+		this.quoteItems       = new List<ToroSupportPlusItem>();
 		this.supportPlusItems = new List<ToroSupportPlusItem>();
-		this.success = true;
+		this.success          = true;
 	}
 
 	/**
@@ -26,7 +25,8 @@ public with sharing class ToroSupportPlusData {
 			result.quote = getQuote(quoteId);
 
 			for (REVVY__MnQuoteItem__c quoteItem : [SELECT
-														REVVY__Product_Name_F__c
+														Id
+														, REVVY__Product_Name_F__c
 														, REVVY__Catalog_Node__r.Name
 														, REVVY__Product_ID_F__c
 														, REVVY__Id__c
@@ -37,7 +37,8 @@ public with sharing class ToroSupportPlusData {
 														, Distributor_Responsibility__c
 														, REVVY__SuggestedPrice__c
 														, (SELECT
-																REVVY__Quantity__c
+																Id
+																, REVVY__Quantity__c
 																, Support_Plus_Quantity__c
 																, REVVY__Catalog_Node__r.Name
 																, Product_ID2__c
@@ -53,12 +54,13 @@ public with sharing class ToroSupportPlusData {
 													WHERE
 														REVVY__Quote__c = :quoteId]
 			) {
-				if (quoteItem.Support_Plus_Item__c) {
-					result.supportPlusItems.add(new ToroSupportPlusItem(quoteItem));
+				ToroSupportPlusItem wrapper = new ToroSupportPlusItem(quoteItem);
+				if (wrapper.isSupportPlusItem) {
+					result.supportPlusItems.add(wrapper);
 				}
 
 				else {
-					result.quoteItems.add(new ToroSupportPlusItem(quoteItem));
+					result.quoteItems.add(wrapper);
 				}
 			}
 		}

@@ -8,6 +8,7 @@
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
+	<aura:attribute name="quoteItemMap" type="Map" />
 
 	<!-- search -->
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
@@ -18,7 +19,7 @@
 	<!-- add new support plus item fields (editable) -->
 	<aura:attribute name="newItemProductId" type="String" />
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1"/>
-	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="50.00"/>
+	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" />
 	<!-- add new support plus item fields (read-only) -->
 	<aura:attribute name="newItemProductName" type="String" default=""/>
 	<aura:attribute name="newItemDescription" type="String" default=""/>
@@ -66,10 +67,11 @@
 		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
 	</div>
 	<div id="support-plus-quote-item">
-		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}" />
+		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}" showSublines="true" />
 	</div>
     <div id="support-plus-new-item" >
-		<c:ToroSPAddNew aura:id="cmpSupportPlusItems" supportPlusItems="{!v.supportPlusItems}" />
+		<c:ToroSPQuoteItem aura:id="cmpSupportPlusItems" quoteItems="{!v.supportPlusItems}" showSublines="false"  />
+		<!-- <c:ToroSPAddNew aura:id="cmpSupportPlusItems" supportPlusItems="{!v.supportPlusItems}" /> -->
 	</div>
 	<br/><br/><br/>
 
@@ -118,11 +120,12 @@
 								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}" />
 							</div>
 						</div>
+						<!--
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
 								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="Distributor Responsibility" value="{!v.newItemDistributorResponsibility}" />
 							</div>
-						</div>
+						</div>-->
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_dnet_price">Product Name</label>
 							<div class="slds-form-element__control">

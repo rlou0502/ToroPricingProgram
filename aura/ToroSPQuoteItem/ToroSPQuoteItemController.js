@@ -1,11 +1,27 @@
 ({
+    handleDeleteClick: function(cmp, event, helper) {
+
+    },
     handleSPQuantityChange : function(cmp, event, helper) {
         console.log('@ToroSPQuoteItemController:handleSPQuantityChange');
-        var cmpEvent = cmp.getEvent("spQuantityChangeEvent");
-        cmpEvent.fire();
-    },
-    handleSPContributionChange : function(cmp, event, helper) {
-        console.log('@ToroSPQuoteItemController:handleSPContributionChange');
+
+        var sfid = event.getSource().get('v.name');
+        console.log(sfid);
+
+        var quoteItem = helper.getQuoteItem(sfid, cmp.get('v.quoteItems'));
+        var value = event.getSource().get('v.value');
+
+
+        console.log(quoteItem.description);
+
+        if (value > quoteItem.quantity && !quoteItem.isSupportPlusItem) {
+            event.getSource().set('v.value', quoteItem.quantity);
+        }
+
+        else if (value < 0) {
+            event.getSource().set('v.value', 0);
+        }
+
         var cmpEvent = cmp.getEvent("spQuantityChangeEvent");
         cmpEvent.fire();
     },

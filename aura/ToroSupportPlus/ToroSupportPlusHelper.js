@@ -7,11 +7,12 @@
 			, function(response) {
 				if (cmp.isValid() && response.getState() === "SUCCESS" ) {
 					var supportPlusData = response.getReturnValue();
-					console.log('- supportPlusData: ');
-					console.log(supportPlusData);
-                    cmp.set('v.quote', supportPlusData.quote);
 					cmp.set('v.quoteItems', supportPlusData.quoteItems);
 					cmp.set('v.supportPlusItems', supportPlusData.supportPlusItems);
+					cmp.set('v.quote', this.recalculateQuoteSupportPlusTotals(
+						supportPlusData.quote
+						, supportPlusData.quoteItems
+						, supportPlusData.supportPlusItems));
 	            }
 	        }
 	    );
@@ -93,7 +94,7 @@
 		$A.enqueueAction(action);
 	},
 	saveChanges: function(quote, quoteItems, supportPlusItems) {
-		console.log('@ToroSupportPlusHelper:submit');
+		console.log('@ToroSupportPlusHelper:saveChanges');
 		var action = cmp.get('c.save');
 		action.setParams({
 			quote: quote
@@ -109,22 +110,41 @@
 		);
 		$A.enqueueAction(action);
 	},
-	calculateTotalExtendedDNet: function(quoteItems, supportPlusItems) {
-		var totalExtendedDNet = 0;
-		console.log('quoteItems:');
-		console.log(quoteItems);
-		console.log('supportPlusItems:');
-		console.log(supportPlusItems);
-		for (var quoteItem in quoteItems) {
-			console.log(quoteItem.quantity + ' * ' + quoteItem.dnetPrice);
-			totalExtendedDNet += (quoteItem.quantity * quoteItem.dnetPrice);
+	recalculateQuoteSupportPlusTotals: function(quote, quoteItems, supportPlusItems) {
+		console.log('-recalculateQuoteSupportPlusTotals');
+		var rebate = 0;
+		var totalDNet           = 0;
+
+		for (var i = 0; i < quoteItems.length; i++) {
+			var qty       = quoteItems[i].quantity;
+			var spQty     = quoteItems[i].spQuantity;
+			var dnetPrice = quoteItems[i].dnetPrice;
+
+			rebate += dnetPrice * spQty;
+			totalDNet           += dnetPrice * qty;
+
+			for (var j = 0; j < quoteItems[i].sublines.length; j++) {
+				var sublineQty       = quoteItems[i].sublines[j].quantity;
+				var sublineSpQty     = quoteItems[i].sublines[j].spQuantity;
+				var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
+				var sublineDistResp  = quoteItems[i].sublines[j].distributorResponsibility
+
+				rebate += sublineDnetPrice * sublineSpQty;
+				totalDNet           += sublineDnetPrice * sublineQty;
+			}
 		}
 
-		for (var supportPlusItem in supportPlusItems) {
-			console.log(supportPlusItem.quantity + ' * ' + supportPlusItem.dnetPrice);
-			totalExtendedDNet += (supportPlusItem.quantity * supportPlusItem.dnetPrice);
+		for (var i = 0; i < supportPlusItems.length; i++) {
+			var spQty     = supportPlusItems[i].spQuantity;
+			var dnetPrice = supportPlusItems[i].dnetPrice;
+
+			rebate += dnetPrice * spQty;
 		}
 
-		return totalExtendedDNet;
+		quote.SP_Total_Extended_DNET__c = totalDNet;
+		quote.Support_Plus_Rebate__c = rebate;
+		quote.SP_Ext_Dist_Responsibility__c = (totalDNet - rebate) / totalDNet;
+		// quote.Support_Plus_Rebate__c = 0;
+		return quote;
 	}
 })
