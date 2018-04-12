@@ -68,7 +68,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Decimal newItemSPQuantity, Decimal newItemDistributorResponsibility) {
+	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Decimal newItemSPQuantity) {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				REVVY__Product__c
@@ -95,7 +95,6 @@ global class ToroSupportPlusController {
 			priceListLines[0].REVVY__Product__r
 			, priceListLines[0]
 			, newItemSPQuantity
-			, newItemDistributorResponsibility
 		);
 
 		return result;
@@ -179,7 +178,7 @@ global class ToroSupportPlusController {
 			}
 
 			List<REVVY__MnQuoteItemSubLine__c> qiSub = qItem.qislList;
- 
+
 			if (qiSub != null && qiSub.size() > 0) {
 				for (REVVY__MnQuoteItemSubline__c qis : qiSub) {
 					Decimal supportPlusQty2 = qis.Support_Plus_Quantity__c == null ? 0 : qis.Support_Plus_Quantity__c;

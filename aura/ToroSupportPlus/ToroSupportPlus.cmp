@@ -19,7 +19,7 @@
 	<!-- add new support plus item fields (editable) -->
 	<aura:attribute name="newItemProductId" type="String" />
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1"/>
-	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" />
+	<!-- <aura:attribute name="newItemDistributorResponsibility" type="Decimal" /> -->
 	<!-- add new support plus item fields (read-only) -->
 	<aura:attribute name="newItemProductName" type="String" default=""/>
 	<aura:attribute name="newItemDescription" type="String" default=""/>

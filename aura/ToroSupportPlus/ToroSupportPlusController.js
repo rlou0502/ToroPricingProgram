@@ -70,7 +70,7 @@
         }
 
         else {
-            helper.addProduct(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility);
+            helper.addProduct(cmp, productId, newItemSPQuantity);
         }
     },
     handleSubmitClick: function(cmp, event, helper) {

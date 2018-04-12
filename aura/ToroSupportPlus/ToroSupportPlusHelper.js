@@ -35,14 +35,13 @@
 
 		$A.enqueueAction(action);
 	},
-	addProduct: function(cmp, productId, newItemSPQuantity, newItemDistributorResponsibility) {
+	addProduct: function(cmp, productId, newItemSPQuantity) {
 		console.log('@ToroSupportPlusHelper:addProduct');
 		var action = cmp.get('c.addSupportPlustItem');
 		action.setParams({
 			  quoteId                         : cmp.get('v.quoteId')
 			, productId                       : productId
 			, newItemSPQuantity               : newItemSPQuantity
-			, newItemDistributorResponsibility: newItemDistributorResponsibility
 		});
 		action.setCallback(this
 			, function(response) {
@@ -57,7 +56,7 @@
 
 						cmp.set('v.newItemProductId', '');
 						cmp.set('v.newItemSPQuantity', 1);
-						cmp.set('v.newItemDistributorResponsibility', 50);
+						// cmp.set('v.newItemDistributorResponsibility', 50);
 
 						cmp.set('v.newItemProductName', '');
 						cmp.set('v.newItemDNetPrice', '');
