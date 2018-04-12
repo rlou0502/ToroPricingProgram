@@ -11,6 +11,7 @@
 	<!-- add new support plus item fields (editable) -->
 	<aura:attribute name="newItemProductId" type="String" />
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1" />
+	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="50" />
 
 	<!-- <aura:attribute name="newItemDistributorResponsibility" type="Decimal" /> -->
 	<!-- add new support plus item fields (read-only) -->
@@ -61,19 +62,19 @@
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_dnet_price">Product Name</label>
 							<div class="slds-form-element__control">
-								<ui:outputText value="{!v.newItemProductName}" />
+								<lightning:formattedText value="{!v.newItemProductName}" />
 							</div>
 						</div>
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_dnet_price">DNet Price</label>
 							<div class="slds-form-element__control">
-								<ui:outputText value="{!v.newItemDNetPrice}" />
+								<lightning:formattedText value="{!v.newItemDNetPrice}" />
 							</div>
 						</div>
 						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_description">Description</label>
 							<div class="slds-form-element__control">
-								<ui:outputText value="{!v.newItemDescription}" />
+								<lightning:formattedText value="{!v.newItemDescription}" style="word-wrap: break-word" />
 							</div>
 						</div>
 					</div>
