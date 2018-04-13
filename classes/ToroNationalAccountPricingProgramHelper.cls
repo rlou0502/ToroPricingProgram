@@ -192,6 +192,17 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		return quoteItemWrapperList;	
 	}        
 	
+	public Toro_QuoteItem__c retrieveSetupFeeQuoteItem(Id quoteId) {
+		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,Select_Price_Program_Type__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
+		quoteLineQuery += ' from  Toro_QuoteItem__c where Mn_Quote__c = :quoteId and Product_Id__c = \'S00001\'';
+		system.debug('quoteLineQuery=' + quoteLineQuery);
+		List<Toro_QuoteItem__c> quoteItems = Database.query(quoteLineQuery);
+		if(quoteItems.size() > 0) {
+			return quoteItems[0];
+		} else {
+			return null;
+		}
+	}
 	public override List<Toro_QuoteItem__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		
@@ -215,10 +226,15 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		    	dtoroTotalSetupFees = 0;
 		    	if(setupFeePercentage!= null && setupFeePercentage >0) {
 		    		dtoroTotalSetupFees = (CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) * setupFeePercentage) / 100;
-		    		addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
+		    		//addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
+		    		
 		    		system.debug('exiting addSetupFeeFuture 1'); 
-		    		this.initialize(this.quote.Id);	
+		    		//this.initialize(this.quote.Id);	
+		    		Toro_QuoteItem__c setupQi = retrieveSetupFeeQuoteItem(this.quote.Id);	
 		    		quoteItemList = this.quoteItems;
+		    		if(setupQi != null) {
+		    			//quoteItemList.add(setupQi);	
+		    		} 
 		    		system.debug('exiting addSetupFeeFuture 2'); 
 					//Read extended quote item
 					for(Toro_QuoteItem__c qi : quoteItemList) {
