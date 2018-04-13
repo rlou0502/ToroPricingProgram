@@ -222,26 +222,42 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
 			//if(dtoroTotalSetupFees > 0) {			
 				//Create Setup Fee Line Item
-				System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
+				System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees + ' setupFeePercentage=' + setupFeePercentage);
+				
 		    	dtoroTotalSetupFees = 0;
 		    	if(setupFeePercentage!= null && setupFeePercentage >0) {
 		    		dtoroTotalSetupFees = (CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) * setupFeePercentage) / 100;
-		    		//addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
+		    		System.debug('>>> +++++++++++++++++ NAT 202 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
+		    		addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
 		    		
 		    		system.debug('exiting addSetupFeeFuture 1'); 
 		    		//this.initialize(this.quote.Id);	
-		    		Toro_QuoteItem__c setupQi = retrieveSetupFeeQuoteItem(this.quote.Id);	
 		    		quoteItemList = this.quoteItems;
-		    		if(setupQi != null) {
-		    			//quoteItemList.add(setupQi);	
-		    		} 
+		    		Toro_QuoteItem__c setupQi = retrieveSetupFeeQuoteItem(this.quote.Id);	
 		    		system.debug('exiting addSetupFeeFuture 2'); 
 					//Read extended quote item
+					boolean foundSetupFeeQuoteItem = false;
 					for(Toro_QuoteItem__c qi : quoteItemList) {
 						System.debug('>>> +++++++++++++++++ SETUP FEE 222 ID='+qi.Product_Id__c);
 						if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-							qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
+							System.debug('>>> +++++++++++++++++ SETUP FEE 222 found' );
+							qi.Award_Price__c = setupQi.Award_Price__c;
+							qi.Total_Award__c = setupQi.Total_Award__c;
+							qi.Total_Toro_Award__c = setupQi.Total_Toro_Award__c;
+							qi.Extended_Award_Price__c = setupQi.Extended_Award_Price__c;
+							System.debug('>>> +++++++++++++++++ SETUP FEE 222 found qi=' + qi);
+							//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
+							foundSetupFeeQuoteItem=true;
+							break;
 						}
+					}
+					if(!foundSetupFeeQuoteItem) {						
+			    		System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found');
+			    		if(setupQi != null) {
+			    			//setupQi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
+			    			quoteItemList.add(setupQi);	
+			    			System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found = ' + quoteItemList);
+			    		} 	
 					}
 		    	}			
 			//this.chainCall = true;
@@ -250,7 +266,11 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			//};
 			//this.payloadOfChainCall = JSON.serialize(payload, false);
 		//}		
-		system.debug('exiting addSetupFeeFuture 3'); 
+		for(Toro_QuoteItem__c qi : quoteItemList) {
+			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
+				System.debug('>>> +++++++++++++++++ SETUP FEE 333 found qi=' + qi);	
+			}	
+		}
 		return 	quoteItemList;
 	}	
 	
@@ -279,13 +299,18 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			
 				
     	} else {
+    		List<Toro_QuoteItem__c> updateQuoteItems = new List<Toro_QuoteItem__c>();
     		system.debug('check point 1');
     		for(Revvy__MnQuoteItem__c qi : setupFees) {
     			qi.Revvy__Price__c = price;
-    			qi.REVVY__Unit_Price__c = unitPrice;   			
+    			qi.REVVY__Unit_Price__c = unitPrice;  
+    			updateQuoteItems.add(new Toro_QuoteItem__c(External_Id__c = qi.Id, award_price__c=qi.Revvy__Price__c,
+															extended_award_price__c= qi.Revvy__Price__c * qty, 
+															Total_Toro_Award__c = qi.Revvy__Price__c * qty, 
+															Total_Award__c=qi.Revvy__Price__c * qty)); 			
     		}
     		try {
-    			update setupFees; 
+    			upsert updateQuoteItems External_Id__c; 
     		} catch (Exception e) {
     			system.debug('-----' + e);	
     		}
