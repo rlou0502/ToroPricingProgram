@@ -1,6 +1,7 @@
 <aura:component controller="ToroSupportPlusController">
 	<aura:method name="showModal" action="{!c.showModal}" access="public"/>
 	<aura:handler name="change" value="{!v.newItemProductId}" action="{!c.handleAddNewProductIdChange}" />
+	<aura:registerEvent name="addNew" type="c:ToroSPAddNewEvent" />
 
 	<!-- search -->
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />

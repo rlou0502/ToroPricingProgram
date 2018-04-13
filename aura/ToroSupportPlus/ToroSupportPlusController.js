@@ -2,6 +2,9 @@
 	initialize: function(cmp, event, helper) {
         helper.initialize(cmp);
     },
+    addNewSupportPlusItem: function(cmp, event, helper) {
+
+    },
     handleAddNewProductIdChange: function(cmp, event, helper) {
         cmp.set('v.wasAutoCompleted', false);
         cmp.set('v.newItemProductName', '');
