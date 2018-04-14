@@ -143,6 +143,9 @@ public class ToroPricingProgramController {
 				}
 				 
 			}
+			if(!performancePart) {
+				qi.Performance_Parts_Product__c = false;	
+			}
 			system.debug('display qi=' + qi.PricingMethodValue__c );
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -175,6 +178,9 @@ public class ToroPricingProgramController {
 						}
 					}
 					system.debug('display qis=' + qis.PricingMethodValue__c ); 
+					if(!performancePart) {
+						qis.Performance_Part__c = false;	
+					}
 				}
     		}
 		}
