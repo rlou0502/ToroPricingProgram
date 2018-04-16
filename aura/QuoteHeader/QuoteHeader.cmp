@@ -8,6 +8,7 @@
     <aura:attribute name="selectedPricingMethod" type="String"/>
     <aura:attribute name="displayPerformancePart" type="Boolean"/>
     <aura:attribute name="displaySetupFee" type="Boolean"/>
+    <aura:attribute name="allowSupportPlus" type="Boolean"/>
     <aura:registerEvent name="pricingProgramEvent" type="c:PricingProgramChangeEvent"/>
     <aura:registerEvent name="pricingMethodEvent" type="c:PricingMethodChangeEvent"/>
     <aura:registerEvent name="pricingProgramSetEvent" type="c:PricingProgramSetFromDBEvent"/>

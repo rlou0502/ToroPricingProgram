@@ -20,6 +20,8 @@
 					component.set('v.displayPerformancePart', retResponse.displayPerformancePart); 
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
+                    component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
+                    
                     //component.find("pricingMethod").set("v.value", "");
                     
                     //selectedPricingMethod

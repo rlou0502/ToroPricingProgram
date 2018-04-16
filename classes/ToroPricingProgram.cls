@@ -4,6 +4,12 @@ public abstract class ToroPricingProgram {
 	public boolean performancePartFlag { get; set { performancePartFlag = value; if(quote != null) {quote.Performance_Part__c=value;}}}
 	public decimal setupFeePercentage { get; set; }
 	public String pricingMethod { get; set; }
+	public boolean getAllowSupportPlus(String pricingProgram) {
+		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+		Toro_PricingProgram__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
+		boolean ret = pp_header.AllowSupportPlus__c;
+		return ret == null ? false : ret;
+	}
 	public boolean chainCall { get; set;}
 	public string payloadOfChainCall { get; set; }
 	public Map<String,Decimal> performancePartMap {get;set;}

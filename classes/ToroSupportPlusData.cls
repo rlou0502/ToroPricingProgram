@@ -1,15 +1,15 @@
 public with sharing class ToroSupportPlusData {
 
-	@AuraEnabled public Boolean success                             { get; private set; }
-	@AuraEnabled public REVVY__MnQuote__c quote 					{ get; set; }
-	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 		{ get; set; }
-	@AuraEnabled public List<ToroSupportPlusItem> supportPlusItems 	{ get; set; }
-	@AuraEnabled public List<String> distributorResponsibilityOptions { get; private set; }
+	@AuraEnabled public Boolean success                             			{ get; private set; }
+	@AuraEnabled public REVVY__MnQuote__c quote 								{ get; set; }
+	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 					{ get; set; }
+	@AuraEnabled public List<ToroSupportPlusItem> supportPlusItems 				{ get; set; }
+	@AuraEnabled public Map<Decimal,String> distributorResponsibilityOptions 	{ get; private set; }
 
 	public ToroSupportPlusData() {
 		this.quoteItems                       = new List<ToroSupportPlusItem>();
 		this.supportPlusItems                 = new List<ToroSupportPlusItem>();
-		this.distributorResponsibilityOptions = new List<String>();
+		this.distributorResponsibilityOptions = new Map<Decimal,String>();
 		this.success                          = true;
 	}
 
@@ -84,12 +84,12 @@ public with sharing class ToroSupportPlusData {
 					&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
 				) {
 					quote.Distributor_Responsibility__c = contrib.Distributor_Contribution__c;
-					result.distributorResponsibilityOptions.add(contrib.Distributor_Contribution__c.format() + ' (default)');
+					result.distributorResponsibilityOptions.put(contrib.Distributor_Contribution__c, contrib.Distributor_Contribution__c.format() + ' (default)');
 					break;
 				}
 
 				else {
-					result.distributorResponsibilityOptions.add(contrib.Distributor_Contribution__c.format());
+					result.distributorResponsibilityOptions.put(contrib.Distributor_Contribution__c, contrib.Distributor_Contribution__c.format());
 				}
 			}
 
