@@ -64,20 +64,18 @@
                     component.set('v.selectedPricingMethod', retRecords[0]["Price_Method__c"]);
                     component.set('v.quote', retRecords[0]);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
-                    //console.log(component.get('v.selectedPricingProgram'));
-                    //console.log(component.get('v.selectedPricingMethod'));
-                    /*
-	                retRecords.forEach(function(s) {    
-	                    var tableRow = document.createElement('tr');
-	                    fields.forEach(function(field){ 
-	                        var tableData = document.createElement('td');
-	                        var tableDataNode = document.createTextNode(s[field.fieldPath]);
-	                        tableData.appendChild(tableDataNode);
-	                        tableRow.appendChild(tableData);
-	                    });
-	                    document.getElementById("quoteHeader").appendChild(tableRow);
-	                 });
-                     */
+                    component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
+                    
+                    var selectedProgram = component.get("v.selectedPricingProgram");
+                    var selectedMethod = component.find("v.selectedPricingMethod");
+                    var allowSupportPlus = component.get("v.allowSupportPlus");
+                    var cmpEvent = component.getEvent("pricingProgramEvent");
+                    cmpEvent.setParams({
+                        "selectedPricingProgram" : selectedProgram,
+                        "selectedPricingMethod" : selectedMethod,
+                        "allowSupportPlus" : allowSupportPlus
+                    });
+                    cmpEvent.fire();
 	            }
 	        }
 	    );

@@ -543,8 +543,10 @@ public class ToroPricingProgramController {
     	}
     	rs.selectedPricingProgram = pricingProgram; 
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+    	
     	system.debug(logginglevel.info,'pricingProgram=' + pricingProgram);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);	
     	system.debug(logginglevel.info,'pricingProgram pp=' + pp);
     	List<Schema.FieldSetMember> fieldSet = pp.getQuoteFields();
     	if(!Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
@@ -731,7 +733,6 @@ public class ToroPricingProgramController {
     		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 	    	rs.selectedPricingProgram = pricingProgram; 
 	    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-	    	
     	} 
     	pp.initialize(objId);
     	
@@ -758,7 +759,7 @@ public class ToroPricingProgramController {
 		//if(String.IsNotBlank(pricingProgram) && String.IsNotBlank(pricingMethod)) {
 			rs.nextAction = 'calculation';	
 		//}
-    			
+    		
     	rs.displaySetupFee=pp.displaySetupFee();
     	rs.values =  pp.quoteItems;
     	return rs;
