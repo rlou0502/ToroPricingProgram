@@ -5,9 +5,13 @@ public abstract class ToroPricingProgram {
 	public decimal setupFeePercentage { get; set; }
 	public String pricingMethod { get; set; }
 	public boolean getAllowSupportPlus(String pricingProgram) {
+		system.debug('getAllowSupportPlus pricingProgram=' + pricingProgram);
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+		system.debug('getAllowSupportPlus ppd.externalId=' + ppd.externalId);
 		Toro_PricingProgram__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
+		system.debug('getAllowSupportPlus header=' + pp_header);
 		boolean ret = pp_header.AllowSupportPlus__c;
+		system.debug('getAllowSupportPlus AllowSupportPlus__c=' + ret);
 		return ret == null ? false : ret;
 	}
 	public boolean chainCall { get; set;}

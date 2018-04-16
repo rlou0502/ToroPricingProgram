@@ -31,7 +31,10 @@ public class ToroPricingProgramController {
 		} else {
 			rs.selectedPricingMethod = null;
 		}
+		system.debug('svc_getPricingMethodOptions pricingProgram=' + pricingProgram);
+		
 		rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+		system.debug('rs.allowSupportPlus=' + rs.allowSupportPlus);
 		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.displaySetupFee=pp.displaySetupFee();
     	return rs;

@@ -136,20 +136,7 @@
            perP.set("v.value", false); 
         }
 	    console.log('-------onPricingProgramSelectChange source =' +whichOne);
-        helper.handlePricingProgramSelectChange(cmp);
-        var selectedProgram = cmp.find("pricingProgram").get("v.value");
-        //console.log('onPricingProgramSelectChange=' + selectedProgram);
-        var selectedMethod = cmp.find("pricingMethod").get("v.value");
-        //console.log('selectedMethod=' + selectedMethod);
-        //if(selectedMethod && selectedProgram) {
-            var cmpEvent = cmp.getEvent("pricingProgramEvent");
-            cmpEvent.setParams({
-                "selectedPricingProgram" : selectedProgram,
-                "selectedPricingMethod" : selectedMethod,
-            });
-            cmpEvent.fire();
-        //}
-        
+        helper.handlePricingProgramSelectChange(cmp);     
     },
     //this is a change event handler of a lightning:select field pricingMethod 
     //triggered by user's selection change

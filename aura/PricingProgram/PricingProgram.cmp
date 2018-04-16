@@ -4,6 +4,7 @@
     <aura:attribute name="forwardUrl" type="string" />
     <aura:attribute name="fields" type="Object[]" />
     <aura:attribute name="sObject" type="SObject" />
+    <aura:attribute name="allowSupportPlus" type="Boolean" />
     <aura:handler name="pricingProgramEvent" event="c:PricingProgramChangeEvent" action="{!c.handlePricingProgramChange}"/>
     <aura:handler name="pricingMethodEvent" event="c:PricingMethodChangeEvent" action="{!c.handlePricingMethodChange}"/>
     <aura:handler name="pricingProgramSetEvent" event="c:PricingProgramSetFromDBEvent" action="{!c.handleSetPricingProgram}"/>
@@ -55,9 +56,11 @@
                     <button class="slds-button slds-button_neutral" onclick="{!c.returnToQuote}">{!$Label.c.PP_ReturnToQuote}</button>
                     <button class="slds-button slds-button_neutral js-calculate" onclick="{!c.calculate}">{!$Label.c.PP_UpdateQuote}</button>
                     <button class="slds-button slds-button_neutral js-saveAndClose" onclick="{!c.saveAndClose}">{!$Label.c.PP_SaveAndClose}</button>
-                    <button class="slds-button slds-button_neutral" onclick="{!c.manageProduct}">{!$Label.c.PP_ManageProducts}</button>                
-                    <button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}">{!$Label.c.PP_SupportPlus}</button>
-                </div>
+                    <button class="slds-button slds-button_neutral" onclick="{!c.manageProduct}">{!$Label.c.PP_ManageProducts}</button>   
+                    <aura:if isTrue="{!v.allowSupportPlus}"> 
+                    	<button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}">{!$Label.c.PP_SupportPlus}</button>
+                    </aura:if>
+                    </div>
 	    </div>
 	    </div>
 	    

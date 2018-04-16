@@ -22,9 +22,16 @@
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
                     
-                    //component.find("pricingMethod").set("v.value", "");
-                    
-                    //selectedPricingMethod
+                    var selectedProgram = component.find("pricingProgram").get("v.value");
+                    var selectedMethod = component.find("pricingMethod").get("v.value");
+                    var allowSupportPlus = component.get("v.allowSupportPlus");
+                    var cmpEvent = component.getEvent("pricingProgramEvent");
+                    cmpEvent.setParams({
+                        "selectedPricingProgram" : selectedProgram,
+                        "selectedPricingMethod" : selectedMethod,
+                        "allowSupportPlus" : allowSupportPlus
+                    });
+                    cmpEvent.fire();
 	            }
 	        }
 	    );

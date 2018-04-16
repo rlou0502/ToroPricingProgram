@@ -117,6 +117,8 @@
     handlePricingProgramChange: function(component, event, helper) {
         var selectedPricingProgram=event.getParam("selectedPricingProgram");
         var selectedPricingMethod=event.getParam("selectedPricingMethod");
+        var allowSupportPlus = event.getParam("allowSupportPlus");
+        component.set("v.allowSupportPlus", allowSupportPlus);
         //console.log('handlePricingProgramChange :selectedPricingProgram ' + event.getParam("selectedPricingProgram"));
         //console.log('handlePricingProgramChange :selectedPricingMethod ' + event.getParam("selectedPricingMethod"));
         //component.set("v.appContacts", event.getParam("contacts"));
