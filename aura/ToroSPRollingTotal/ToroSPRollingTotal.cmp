@@ -23,14 +23,16 @@
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Extended Total Distributor Responsibility (%)">Disti Responsibility (%)</p>
-			<p class="slds-text-body_regular" title="{!v.quote.SP_Ext_Dist_Responsibility__c}">
-				<!-- <ui:outputText value="{!v.quote.SP_Ext_Dist_Responsibility__c}" /> -->
-				<lightning:formattedNumber value="{!v.quote.SP_Ext_Dist_Responsibility__c}" style="percent" />
+			<p>
+				<lightning:select name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.doSomething}">
+					<option value="{!v.quote.SP_Ext_Dist_Responsibility__c}">
+						<lightning:formattedNumber value="{!v.quote.SP_Ext_Dist_Responsibility__c}" style="percent" />
+					</option>
+				</lightning:select>
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Support Plus Rebate">Support Plus Rebate</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="Toro Contribution">Toro Contribution</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Toro_Responsibility__c}">
 				<ui:outputText value="{!v.quote.SP_Toro_Responsibility__c}" />
 			</p>

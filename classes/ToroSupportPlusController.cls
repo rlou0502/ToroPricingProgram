@@ -68,7 +68,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Decimal newItemSPQuantity) {
+	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Decimal dnetPrice, Decimal spQuantity, Decimal distributorResponsibility) {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				REVVY__Product__c
@@ -93,8 +93,9 @@ global class ToroSupportPlusController {
 
 		ToroSupportPlusItem result = new ToroSupportPlusItem(
 			priceListLines[0].REVVY__Product__r
-			, priceListLines[0]
-			, newItemSPQuantity
+			, dnetPrice
+			, spQuantity
+			, distributorResponsibility
 		);
 
 		return result;

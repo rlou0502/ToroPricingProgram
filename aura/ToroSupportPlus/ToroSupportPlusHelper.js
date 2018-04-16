@@ -7,6 +7,10 @@
 			, function(response) {
 				if (cmp.isValid() && response.getState() === "SUCCESS" ) {
 					var supportPlusData = response.getReturnValue();
+
+					console.log('supportPlusData:');
+					console.log(supportPlusData);
+
 					cmp.set('v.quoteItems', supportPlusData.quoteItems);
 					cmp.set('v.supportPlusItems', supportPlusData.supportPlusItems);
 					cmp.set('v.quote', this.recalculateQuoteSupportPlusTotals(
@@ -35,13 +39,15 @@
 
 		$A.enqueueAction(action);
 	},
-	addProduct: function(cmp, productId, newItemSPQuantity) {
+	addProduct: function(cmp, productId, dnetPrice, spQuantity, distributorResponsibility) {
 		console.log('@ToroSupportPlusHelper:addProduct');
 		var action = cmp.get('c.addSupportPlustItem');
 		action.setParams({
-			  quoteId                         : cmp.get('v.quoteId')
-			, productId                       : productId
-			, newItemSPQuantity               : newItemSPQuantity
+			  quoteId                  : cmp.get('v.quoteId')
+			, productId                : productId
+			, dnetPrice                : dnetPrice
+			, spQuantity               : spQuantity
+			, distributorResponsibility: distributorResponsibility
 		});
 		action.setCallback(this
 			, function(response) {
@@ -52,23 +58,7 @@
 						var supportPlusItems = cmp.get('v.supportPlusItems');
 						supportPlusItems.push(retVal);
 						cmp.set('v.supportPlusItems', supportPlusItems);
-
-
-						cmp.set('v.newItemProductId', '');
-						cmp.set('v.newItemSPQuantity', 1);
-						// cmp.set('v.newItemDistributorResponsibility', 50);
-
-						cmp.set('v.newItemProductName', '');
-						cmp.set('v.newItemDNetPrice', '');
-						cmp.set('v.newItemDescription', '');
-
-						cmp.set('v.previousSearchTerm', '');
-						cmp.set('v.currentSearchTerm', '');
-						cmp.set('v.wasAutoCompleted', false);
-						cmp.set('v.searchResults', null);
-
-						var modal = cmp.find("addModal");
-						$A.util.addClass(modal, 'hideDiv');
+						cmp.find('cmpAddNew').hideModal();
 					}
 				}
 
@@ -111,16 +101,16 @@
 	},
 	recalculateQuoteSupportPlusTotals: function(quote, quoteItems, supportPlusItems) {
 		console.log('-recalculateQuoteSupportPlusTotals');
-		var rebate = 0;
-		var totalDNet           = 0;
+		var rebate    = 0;
+		var totalDNet = 0;
 
 		for (var i = 0; i < quoteItems.length; i++) {
 			var qty       = quoteItems[i].quantity;
 			var spQty     = quoteItems[i].spQuantity;
 			var dnetPrice = quoteItems[i].dnetPrice;
 
-			rebate += dnetPrice * spQty;
-			totalDNet           += dnetPrice * qty;
+			rebate    += dnetPrice * spQty;
+			totalDNet += dnetPrice * qty;
 
 			for (var j = 0; j < quoteItems[i].sublines.length; j++) {
 				var sublineQty       = quoteItems[i].sublines[j].quantity;
@@ -128,8 +118,8 @@
 				var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
 				var sublineDistResp  = quoteItems[i].sublines[j].distributorResponsibility
 
-				rebate += sublineDnetPrice * sublineSpQty;
-				totalDNet           += sublineDnetPrice * sublineQty;
+				rebate    += sublineDnetPrice * sublineSpQty;
+				totalDNet += sublineDnetPrice * sublineQty;
 			}
 		}
 
@@ -140,10 +130,19 @@
 			rebate += dnetPrice * spQty;
 		}
 
-		quote.SP_Total_Extended_DNET__c = totalDNet;
-		quote.SP_Toro_Responsibility__c = rebate;
+		quote.SP_Total_Extended_DNET__c     = totalDNet;
+		quote.SP_Toro_Responsibility__c     = rebate;
 		quote.SP_Ext_Dist_Responsibility__c = (totalDNet - rebate) / totalDNet;
-		// quote.SP_Toro_Responsibility__c = 0;
 		return quote;
+	},
+	updateDistributorResponsibility: function(quote, items) {
+		for (var i = 0; i < items.length; i++) {
+			items[i].distributorResponsibility = items[i].spQuantity > 0 ? quote.Distributor_Responsibility__c : null;
+			for (var j = 0; j < items[i].sublines.length; j++) {
+				items[i].sublines[j].distributorResponsibility = items[i].sublines[j].spQuantity > 0 ? quote.Distributor_Responsibility__c : null;
+			}
+		}
+
+		return items;
 	}
 })

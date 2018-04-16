@@ -7,6 +7,19 @@
         var modal = cmp.find("addModal");
         $A.util.addClass(modal, 'hideDiv');
         cmp.set('v.searchResults', null);
+
+        cmp.set('v.newItemProductId', '');
+        cmp.set('v.newItemSPQuantity', 1);
+        // cmp.set('v.newItemDistributorResponsibility', 50);
+
+        cmp.set('v.newItemProductName', '');
+        cmp.set('v.newItemDNetPrice', '');
+        cmp.set('v.newItemDescription', '');
+
+        cmp.set('v.previousSearchTerm', '');
+        cmp.set('v.currentSearchTerm', '');
+        cmp.set('v.wasAutoCompleted', false);
+        cmp.set('v.searchResults', null);
     },
     handleAddNewProductIdChange: function (cmp, event, helper) {
         console.log('handleAddNewProductIdChange');
@@ -34,5 +47,16 @@
         cmp.set('v.newItemDNetPrice', dataset.dnetprice);
         cmp.set('v.newItemDescription', dataset.description);
         cmp.set('v.wasAutoCompleted', true);
+    },
+    addNewSupportPlusItem: function(cmp, event, helper) {
+        console.log('ToroSPAddNewController:addNewSupportPlusItem');
+        var cmpEvent = cmp.getEvent("addNew");
+        cmpEvent.setParams({
+            'newItemProductId': cmp.get('v.newItemProductId'),
+            'newItemDNetPrice': cmp.get('v.newItemDNetPrice'),
+            'newItemSPQuantity': cmp.get('v.newItemSPQuantity'),
+            'newItemDistributorResponsibility': cmp.get('v.newItemDistributorResponsibility')
+        });
+        cmpEvent.fire();
     }
 })

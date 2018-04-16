@@ -2,7 +2,7 @@
 <aura:registerEvent name="spQuantityChangeEvent" type="c:ToroSPQtyChangeEvent" />
 
 <aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
-<aura:attribute name="Distributor_Responsibility" type="decimal" />
+<aura:attribute name="distributorResponsibility" type="decimal" />
 <aura:attribute name="showSublines" type="Boolean" />
 
 <aura:renderIf isTrue="{!v.showSublines}">
@@ -74,6 +74,7 @@
 							<td><lightning:input name="{!item.sfid}" type="number" value="{!item.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
 							<td>{!item.productId}</td>
 							<td>{!item.description}</td>
+							<!-- <td><ui:outputText value="{!item.distributorResponsibility}"/></td> -->
 							<td><ui:outputText value="{!item.distributorResponsibility}"/></td>
 							<td>{!item.dnetPrice}</td>
 						</tr>

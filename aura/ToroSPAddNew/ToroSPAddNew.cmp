@@ -1,5 +1,7 @@
 <aura:component controller="ToroSupportPlusController">
 	<aura:method name="showModal" action="{!c.showModal}" access="public"/>
+	<aura:method name="hideModal" action="{!c.hideModal}" access="public"/>
+
 	<aura:handler name="change" value="{!v.newItemProductId}" action="{!c.handleAddNewProductIdChange}" />
 	<aura:registerEvent name="addNew" type="c:ToroSPAddNewEvent" />
 
@@ -50,6 +52,13 @@
 							</div>
 						</div>
 						<div class="slds-form-element">
+							<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
+							<div class="slds-form-element__control">
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="DNet Price" value="{!v.newItemDNetPrice}"
+								/>
+							</div>
+						</div>
+						<div class="slds-form-element">
 							<div class="slds-form-element__control">
 								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}"
 								/>
@@ -67,12 +76,6 @@
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add_dnet_price">DNet Price</label>
-							<div class="slds-form-element__control">
-								<lightning:formattedText value="{!v.newItemDNetPrice}" />
-							</div>
-						</div>
-						<div class="slds-form-element">
 							<label class="slds-form-element__label" for="add_description">Description</label>
 							<div class="slds-form-element__control">
 								<lightning:formattedText value="{!v.newItemDescription}" style="word-wrap: break-word" />
@@ -82,7 +85,7 @@
 				</div>
 				<footer class="slds-modal__footer">
 					<button class="slds-button slds-button_neutral" onclick="{!c.hideModal}">Cancel</button>
-					<button class="slds-button slds-button_brand" onclick="{!c.handleAddNewSupportPlusItem}">Add</button>
+					<button class="slds-button slds-button_brand" onclick="{!c.addNewSupportPlusItem}">Add</button>
 				</footer>
 			</div>
 		</section>

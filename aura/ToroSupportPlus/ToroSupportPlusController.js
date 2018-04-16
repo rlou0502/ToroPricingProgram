@@ -3,7 +3,32 @@
         helper.initialize(cmp);
     },
     addNewSupportPlusItem: function(cmp, event, helper) {
+        console.log('@ToroSupportPlusController:addNewSupportPlusItem');
+        var newItemProductId  = event.getParam('newItemProductId');
+        var newItemDNetPrice  = event.getParam('newItemDNetPrice');
+        var newItemSPQuantity = event.getParam('newItemSPQuantity');
+        var newItemDistributorResponsibility = event.getParam('newItemDistributorResponsibility');
 
+        var inputIsValid = true;
+        var errorMessage = 'The following values are required: ';
+
+        if (!newItemProductId) {
+            inputIsValid = false;
+            errorMessage += ' Product ID';
+        }
+
+        if (!newItemSPQuantity) {
+            inputIsValid = false;
+            errorMessage += ', SP Quantity';
+        }
+
+        if (!inputIsValid) {
+            alert(errorMessage);
+        }
+
+        else {
+            helper.addProduct(cmp, newItemProductId, newItemDNetPrice, newItemSPQuantity, newItemDistributorResponsibility);
+        }
     },
     handleAddNewProductIdChange: function(cmp, event, helper) {
         cmp.set('v.wasAutoCompleted', false);
@@ -29,6 +54,8 @@
         var supportPlusItems = cmp.get('v.supportPlusItems');
         var allowance        = quote.Toro_Support_Plus_Allowance__c;
 
+        cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
+        cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
         cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems));
 
         /*
