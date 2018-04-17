@@ -34,6 +34,9 @@ public with sharing class ToroContractChartPPHelper extends ToroPricingProgram  
 		ret.add(new ToroSelectOption('Gross Profit %','Gross Profit %'));
 		return ret;
 	}
+	public override boolean skipMSRPRangeCheck(){
+		return true;
+	}
 	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,
 															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();

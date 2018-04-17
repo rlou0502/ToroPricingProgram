@@ -708,7 +708,7 @@ public class ToroPricingProgramController {
 			ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 			system.debug('***************** pricing program  =' + ppd.externalId);	
 			Toro_PricingProgram__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
-			if('State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+			if('State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod) && !pp.skipMSRPRangeCheck()) {
 				rs.listenMSRPChange = true;	
 			}
 		} catch(Exception e) {

@@ -4,6 +4,9 @@ public abstract class ToroPricingProgram {
 	public boolean performancePartFlag { get; set { performancePartFlag = value; if(quote != null) {quote.Performance_Part__c=value;}}}
 	public decimal setupFeePercentage { get; set; }
 	public String pricingMethod { get; set; }
+	public virtual boolean skipMSRPRangeCheck(){
+		return false;
+	}
 	public boolean getAllowSupportPlus(String pricingProgram) {
 		if(String.isBlank(pricingProgram)) {
 			return false;	
