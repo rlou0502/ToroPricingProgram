@@ -5,6 +5,7 @@
 <aura:attribute name="distributorResponsibility" type="decimal" />
 <aura:attribute name="showSublines" type="Boolean" />
 
+<!--QUOTE ITEMS -->
 <aura:renderIf isTrue="{!v.showSublines}">
     <table class="slds-table slds-table_bordered  slds-table_col-bordered" role="grid">
 		<thead>
@@ -21,7 +22,7 @@
 		</thead>
 		<tbody>
 			<aura:iteration items="{!v.quoteItems}" var="quoteItem">
-				<tr class="quote_item">
+				<tr class="quote_item" data-sfid="{!quoteItem.sfid}">
 					<td class="chevron-cell" width="50px"><span style="width:50px" class="chevron right" data-id="{!quoteItem.sfid}" onclick="{!c.toggleChevron}"></span></td>
 					<td><ui:outputText value="{!quoteItem.quantity}" /></td>
 					<td><lightning:input name="{!quoteItem.sfid}" type="number" value="{!quoteItem.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
@@ -48,6 +49,8 @@
 		</tbody>
 	</table>
 
+
+	<!-- ADD NEW -->
 	<aura:set attribute="else">
 		<div>{!$Label.c.SP_Add_New}</div>
 		<div>

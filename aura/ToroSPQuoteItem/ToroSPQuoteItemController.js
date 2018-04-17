@@ -4,14 +4,9 @@
     },
     handleSPQuantityChange : function(cmp, event, helper) {
         console.log('@ToroSPQuoteItemController:handleSPQuantityChange');
-
-        var sfid = event.getSource().get('v.name');
-        console.log(sfid);
-
+        var sfid      = event.getSource().get('v.name');
         var quoteItem = helper.getQuoteItem(sfid, cmp.get('v.quoteItems'));
-        var value = event.getSource().get('v.value');
-
-        console.log(quoteItem.description);
+        var value     = event.getSource().get('v.value');
 
         if (value > quoteItem.quantity && !quoteItem.isSupportPlusItem) {
             event.getSource().set('v.value', quoteItem.quantity);

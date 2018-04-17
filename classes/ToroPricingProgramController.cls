@@ -506,17 +506,18 @@ public class ToroPricingProgramController {
     		rs.values =  pp.quoteItems;
     		rs.displaySetupFee=pp.displaySetupFee();
     		rs.displayPerformancePart = pp.displayPerformancePart();
+    		for(FieldSetMember fs : rs.fieldSetMembers) {
+	    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+	    			fs.label = rs.selectedPricingMethod;	
+	    		}	
+	    	}
+	    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
+	    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+	    			fss.label = rs.selectedPricingMethod;	
+	    		}	
+	    	}
     	}
-    	for(FieldSetMember fs : rs.fieldSetMembers) {
-    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-    			fs.label = rs.selectedPricingMethod;	
-    		}	
-    	}
-    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-    			fss.label = rs.selectedPricingMethod;	
-    		}	
-    	}
+    	
     	
     	return rs;
     }

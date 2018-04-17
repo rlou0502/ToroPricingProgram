@@ -43,15 +43,15 @@ public with sharing class ToroSupportPlusData {
 		try {
 			REVVY__MnQuote__c quote = [
 				SELECT
-					Toro_Total_DNet__c
+					Toro_Total_DNet__c // Total DNet BEFORE deducting Toro Contribution for Support Plus Items
 					, Id
 					, Name
-					, Toro_Support_Plus_Allowance__c
+					, Toro_Support_Plus_Allowance__c // (SHOWN)
 					, Toro_Blended_Percent_of_DN__c
-					, SP_Toro_Responsibility__c
+					, SP_Toro_Responsibility__c // (SHOWN) (Toro Contribution/Responsibility)
 					, SP_Ext_Dist_Responsibility__c
-					, SP_Total_Extended_DNET__c
-					, Distributor_Responsibility__c
+					, SP_Total_Extended_DNET__c // (SHOWN) Total DNet AFTER deducting Toro Contribution for Support Plus Items
+					, Distributor_Responsibility__c // (SHOWN) Set on load of Support Plus page. Can be overriden by user.
 				FROM
 					REVVY__MnQuote__c
 				WHERE

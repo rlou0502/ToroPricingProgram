@@ -5,6 +5,9 @@ public abstract class ToroPricingProgram {
 	public decimal setupFeePercentage { get; set; }
 	public String pricingMethod { get; set; }
 	public boolean getAllowSupportPlus(String pricingProgram) {
+		if(String.isBlank(pricingProgram)) {
+			return false;	
+		}
 		system.debug('getAllowSupportPlus pricingProgram=' + pricingProgram);
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		system.debug('getAllowSupportPlus ppd.externalId=' + ppd.externalId);

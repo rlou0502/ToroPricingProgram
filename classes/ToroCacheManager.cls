@@ -15,6 +15,9 @@ public with sharing class ToroCacheManager {
 		return (Map<String,Decimal>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPerformancePartCache.class, 'Commercial');		
 	}
 	public static Toro_PricingProgram__c getPricingProgram(String externalId) {
+		if(String.isBlank(externalId)) {
+			return null;	
+		}
 		system.debug('ToroCacheManager  ToroCacheManager.constPartitionName = ' + ToroCacheManager.constPartitionName);
 		system.debug('ToroCacheManager  Cache.Session.getPartition(ToroCacheManager.constPartitionName) = ' + Cache.Session.getPartition(ToroCacheManager.constPartitionName));
 		system.debug('ToroCacheManager  ToroPricingProgramCache.class = ' + ToroPricingProgramCache.class);
