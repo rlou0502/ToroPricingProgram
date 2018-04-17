@@ -4,6 +4,11 @@
     },
     handleSPQuantityChange : function(cmp, event, helper) {
         console.log('@ToroSPQuoteItemController:handleSPQuantityChange');
+
+        var domElement = event.currentTarget;
+        // console.log(domElement.closest('td'));
+        console.log(domElement.toString());
+
         var sfid      = event.getSource().get('v.name');
         var quoteItem = helper.getQuoteItem(sfid, cmp.get('v.quoteItems'));
         var value     = event.getSource().get('v.value');

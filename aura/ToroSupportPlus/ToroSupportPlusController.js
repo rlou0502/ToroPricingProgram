@@ -54,6 +54,7 @@
         var allowance        = quote.Toro_Support_Plus_Allowance__c;
 
         cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
+        cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
         cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems));
     },
     handleDistRespChange: function(cmp, event, helper) {

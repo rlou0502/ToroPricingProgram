@@ -404,7 +404,7 @@ public class ToroPricingProgramController {
     	rs.selectedPricingMethod = pricingMethod;
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
     	
-    	if(string.isNotBlank(pricingProgram)) {
+    	//if(string.isNotBlank(pricingProgram)) {
     		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
     		system.debug('pricingProgram pp=' + pp);	
     		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
@@ -516,7 +516,7 @@ public class ToroPricingProgramController {
 	    			fss.label = rs.selectedPricingMethod;	
 	    		}	
 	    	}
-    	}
+    	//}
     	
     	
     	return rs;
