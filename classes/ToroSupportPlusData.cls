@@ -4,13 +4,30 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public REVVY__MnQuote__c quote 								{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 					{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> supportPlusItems 				{ get; set; }
-	@AuraEnabled public Map<Decimal,String> distributorResponsibilityOptions 	{ get; private set; }
+	@AuraEnabled public List<DistRespPair> distributorResponsibilities 			{ get; private set; }
+
+	public class DistRespPair implements Comparable {
+		@AuraEnabled public Decimal value;
+		@AuraEnabled public String label;
+
+		public DistRespPair(Decimal value, String label) {
+			this.value = value;
+			this.label = label;
+		}
+
+		public Integer compareTo(Object compareTo) {
+			DistRespPair compareToObj = (DistRespPair) compareTo;
+			if (this.value == compareToObj.value) return 0;
+			if (this.value > compareToObj.value) return 1;
+			return -1;
+		}
+	}
 
 	public ToroSupportPlusData() {
-		this.quoteItems                       = new List<ToroSupportPlusItem>();
-		this.supportPlusItems                 = new List<ToroSupportPlusItem>();
-		this.distributorResponsibilityOptions = new Map<Decimal,String>();
-		this.success                          = true;
+		this.quoteItems                  = new List<ToroSupportPlusItem>();
+		this.supportPlusItems            = new List<ToroSupportPlusItem>();
+		this.distributorResponsibilities = new List<DistRespPair>();
+		this.success                     = true;
 	}
 
 	/**
@@ -78,19 +95,30 @@ public with sharing class ToroSupportPlusData {
 				ORDER BY
 					Award_Price_Low__c asc];
 
+			final Set<Decimal> distRespOptions = new Set<Decimal>();
 			for (Support_Plus_Contribution__c contrib : contributions) {
 				if (
 					quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
 					&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
 				) {
 					quote.Distributor_Responsibility__c = contrib.Distributor_Contribution__c;
-					result.distributorResponsibilityOptions.put(contrib.Distributor_Contribution__c, contrib.Distributor_Contribution__c.format() + ' (default)');
-					break;
+					// break;
+				}
+
+				distRespOptions.add(contrib.Distributor_Contribution__c);
+			}
+
+			for (Decimal option : distRespOptions) {
+				DistRespPair newOption;
+				if (option == quote.Distributor_Responsibility__c) {
+					newOption = new DistRespPair(option, option.format() + '% (default)');
 				}
 
 				else {
-					result.distributorResponsibilityOptions.put(contrib.Distributor_Contribution__c, contrib.Distributor_Contribution__c.format());
+					newOption = new DistRespPair(option, option.format() + '%');
 				}
+
+				result.distributorResponsibilities.add(newOption);
 			}
 
 			result.quote = quote;

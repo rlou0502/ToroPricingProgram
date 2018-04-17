@@ -1,6 +1,7 @@
 <aura:component controller="ToroSupportPlusController">
 	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
 	<aura:handler name="spQuantityChangeEvent" event="c:ToroSPQtyChangeEvent" action="{!c.handleSPQuantityChange}" />
+	<aura:handler name="spDistRespChangeEvent" event="c:ToroSPDistRespChangeEvent" action="{!c.handleDistRespChange}" />
 	<aura:handler name="addNew" event="c:ToroSPAddNewEvent" action="{!c.addNewSupportPlusItem}" />
 
 	<aura:attribute name="quoteId" type="String" />
@@ -8,6 +9,7 @@
 	<aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="quoteItemMap" type="Map" />
+	<aura:attribute name="distributorResponsibilities" type="Map" />
 
 	<!-- HEADER -->
 	<header class="slds-global-header_container" id="global-header" >
@@ -48,12 +50,12 @@
 
 	<!-- BODY -->
 	<div id="rolling-total" >
-		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" />
+		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" distributorResponsibilities="{!v.distributorResponsibilities}" />
 	</div>
 	<div id="support-plus-quote-item">
 		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}" distributorResponsibility="{!v.quote.distributorResponsibility}" showSublines="true" />
 	</div>
-    <div id="support-plus-new-item" >
+    <div id="support-plus-new-item">
 		<c:ToroSPQuoteItem aura:id="cmpSupportPlusItems" quoteItems="{!v.supportPlusItems}" distributorResponsibility="{!v.quote.distributorResponsibility}" showSublines="false"  />
 	</div>
 	<br/><br/><br/>

@@ -13,6 +13,7 @@
 
 					cmp.set('v.quoteItems', supportPlusData.quoteItems);
 					cmp.set('v.supportPlusItems', supportPlusData.supportPlusItems);
+					cmp.set('v.distributorResponsibilities', supportPlusData.distributorResponsibilities);
 					cmp.set('v.quote', this.recalculateQuoteSupportPlusTotals(
 						supportPlusData.quote
 						, supportPlusData.quoteItems

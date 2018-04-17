@@ -66,8 +66,12 @@
         cmpRollingTotals.updateRollingTotals(spQuantity, spContribution, spDNetPrice);
         */
     },
-    handleDistributorResponsibilityChange: function(cmp, event, helper) {
-        console.log('changed Distributor Responsibility');
+    handleDistRespChange: function(cmp, event, helper) {
+        var quote = cmp.get('v.quote');
+        quote.Distributor_Responsibility__c = event.getParam('distributorResponsibility');
+        cmp.set('v.quote', quote);
+        cmp.find('cmpRollingTotal').updateRollingTotals();
+
     },
     handleShowAddNewModal: function (cmp, event, helper) {
         cmp.find('cmpAddNew').showModal();
