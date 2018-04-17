@@ -15,9 +15,9 @@
 					cmp.set('v.supportPlusItems', supportPlusData.supportPlusItems);
 					cmp.set('v.distributorResponsibilities', supportPlusData.distributorResponsibilities);
 					cmp.set('v.quote', this.recalculateQuoteSupportPlusTotals(
-						supportPlusData.quote
-						, supportPlusData.quoteItems
-						, supportPlusData.supportPlusItems));
+											supportPlusData.quote
+											, supportPlusData.quoteItems
+											, supportPlusData.supportPlusItems));
 	            }
 	        }
 	    );
@@ -100,40 +100,30 @@
 		);
 		$A.enqueueAction(action);
 	},
-	recalculateQuoteSupportPlusTotals: function(quote, quoteItems, supportPlusItems) {
+	recalculateQuoteSupportPlusTotals: function(quote, quoteItems) {
 		console.log('-recalculateQuoteSupportPlusTotals');
-		var rebate    = 0;
-		var totalDNet = 0;
+		console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
+		var distResp = quote.Distributor_Responsibility__c;
+
+		var toroContrib = 0;
 
 		for (var i = 0; i < quoteItems.length; i++) {
-			var qty       = quoteItems[i].quantity;
 			var spQty     = quoteItems[i].spQuantity;
 			var dnetPrice = quoteItems[i].dnetPrice;
 
-			rebate    += dnetPrice * spQty;
-			totalDNet += dnetPrice * qty;
+			toroContrib += dnetPrice * spQty * distResp * 0.01;
 
 			for (var j = 0; j < quoteItems[i].sublines.length; j++) {
-				var sublineQty       = quoteItems[i].sublines[j].quantity;
 				var sublineSpQty     = quoteItems[i].sublines[j].spQuantity;
 				var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
-				var sublineDistResp  = quoteItems[i].sublines[j].distributorResponsibility
 
-				rebate    += sublineDnetPrice * sublineSpQty;
-				totalDNet += sublineDnetPrice * sublineQty;
+				toroContrib += sublineDnetPrice * sublineSpQty * distResp * 0.01;
 			}
 		}
 
-		for (var i = 0; i < supportPlusItems.length; i++) {
-			var spQty     = supportPlusItems[i].spQuantity;
-			var dnetPrice = supportPlusItems[i].dnetPrice;
-
-			rebate += dnetPrice * spQty;
-		}
-
-		quote.SP_Total_Extended_DNET__c     = totalDNet;
-		quote.SP_Toro_Responsibility__c     = rebate;
-		quote.SP_Ext_Dist_Responsibility__c = (totalDNet - rebate) / totalDNet;
+		quote.SP_Total_Extended_DNET__c     = quote.Toro_Total_DNet__c - toroContrib;
+		quote.SP_Toro_Responsibility__c     = toroContrib;
+		quote.SP_Ext_Dist_Responsibility__c = (quote.Toro_Total_DNet__c - toroContrib) / quote.Toro_Total_DNet__c;
 		return quote;
 	},
 	updateDistributorResponsibility: function(quote, items) {

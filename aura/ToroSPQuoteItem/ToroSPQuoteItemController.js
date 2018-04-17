@@ -1,6 +1,6 @@
 ({
     handleDeleteClick: function(cmp, event, helper) {
-
+        alert('todo');
     },
     handleSPQuantityChange : function(cmp, event, helper) {
         console.log('@ToroSPQuoteItemController:handleSPQuantityChange');
@@ -10,7 +10,6 @@
 
         var quoteItem = helper.getQuoteItem(sfid, cmp.get('v.quoteItems'));
         var value = event.getSource().get('v.value');
-
 
         console.log(quoteItem.description);
 

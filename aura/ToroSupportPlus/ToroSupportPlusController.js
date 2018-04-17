@@ -51,26 +51,17 @@
     handleSPQuantityChange: function(cmp, event, helper) {
         var quote            = cmp.get('v.quote');
         var quoteItems       = cmp.get('v.quoteItems');
-        var supportPlusItems = cmp.get('v.supportPlusItems');
         var allowance        = quote.Toro_Support_Plus_Allowance__c;
 
         cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
-        cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
-        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems));
-
-        /*
-        var spQuantity = 1;
-        var spContribution = 50;
-        var spDNetPrice = 5.55;
-        var cmpRollingTotals = cmp.find("cmpRollingTotal");
-        cmpRollingTotals.updateRollingTotals(spQuantity, spContribution, spDNetPrice);
-        */
+        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems));
     },
     handleDistRespChange: function(cmp, event, helper) {
+        console.log('@ToroSupportPlusController:handleDistRespChange');
         var quote = cmp.get('v.quote');
         quote.Distributor_Responsibility__c = event.getParam('distributorResponsibility');
-        cmp.set('v.quote', quote);
-        cmp.find('cmpRollingTotal').updateRollingTotals();
+        console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
+        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, cmp.get('v.quoteItems')));
 
     },
     handleShowAddNewModal: function (cmp, event, helper) {

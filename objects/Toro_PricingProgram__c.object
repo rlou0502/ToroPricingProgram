@@ -484,6 +484,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <columns>OverriddenPriceList__c</columns>
         <columns>StateProvince__c</columns>
         <columns>Exclude__c</columns>
+        <columns>ExternalId__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
         <language>en_US</language>

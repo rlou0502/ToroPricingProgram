@@ -1,9 +1,10 @@
 ({
+    /*
     updateRollingTotals : function(cmp, event) {
         console.log('@ToroSPRollingTotalController:updateRollingTotals');
         var quote = cmp.get('v.quote');
         console.log(quote);
-    },
+    },*/
     handleDistRespChange: function(cmp, event) {
         var quote = cmp.get('v.quote');
         console.log('quote: ');
