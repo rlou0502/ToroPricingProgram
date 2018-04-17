@@ -31,7 +31,6 @@ public with sharing class ToroContractChartPPHelper extends ToroPricingProgram  
 		}
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
 		ret.add(new ToroSelectOption('Total Award $','Total Award $'));
-		ret.add(new ToroSelectOption('Gross Profit %','Gross Profit %'));
 		return ret;
 	}
 	public override boolean skipMSRPRangeCheck(){
