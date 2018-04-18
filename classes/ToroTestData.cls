@@ -3,316 +3,81 @@
  *
  * helper class for creating test data
  *
- * @author Scott
+ * @author Roy Lou
  */
 public with sharing class ToroTestData {
-    public static final String CURRENCY_CODE       = 'USD';
-    public static final String CNODE_TYPE_CATALOG  = 'Catalog';
-    public static final String CNODE_TYPE_CATEGORY = 'Category';
-    public static final String CNODE_TYPE_PRODUCT  = 'Product';
-
-    public static final String CNODE_ATTR_TYPE_INT = 'Integer';
-    public static final String CNODE_ATTR_TYPE_DEC = 'Decimal';
-    public static final String CNODE_ATTR_TYPE_TEXT = 'Text';
-    public static final String CNODE_ATTR_TYPE_BOOL = 'Boolean';
-
-    private static Boolean insertedBaseData = false;
-    private static Account account;
-    private static Opportunity opportunity;
-    private static REVVY__MnCatalogNode__c catalog;
-    private static Map<String,REVVY__MnCatalogNode__c> productMap;
-    private static Map<String,REVVY__MnCatalogAttribute__c> catalogAttributeMap;
-    private static Map<String,Map<String,REVVY__MnCatalogNodeAttr__c>> catalogNodeAttributeMap;
-    private static REVVY__MnPriceList__c priceList;
+    public  static final String CURRENCY_CODE               = 'USD';
+    private static final Id RECTYPE_ACCOUNT_CHANNEL_PARTNER = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Channel Partner').getRecordTypeId();
+    private static final Id RECTYPE_ACCOUNT_END_USER        = Schema.SObjectType.Account.getRecordTypeInfosByName().get('End User').getRecordTypeId();
 
     /**
      *
-     * description
+     * load base test data
      *
-     * @param  name    description
-     * @return return_type
      */
-    public static void insertLargePackageTestData() {
+    public static void loadTestData() {
         if (!Test.isRunningTest()) return;
-        insertBaseData();
-        insertLargePackageModel();
 
-        REVVY__MnQuote__c quote = new REVVY__MnQuote__c(
-            Name                          = 'LargePackageQuote'
-            , REVVY__Account__c           = getAccount().Id
-            , REVVY__Opportunity__c       = getOpportunity().Id
-            , REVVY__Status__c            = 'Draft'
-            , REVVY__Expiration_Date__c   = System.Today().addDays(1)
-            , REVVY__StartDateContract__c = System.Today()
-            , REVVY__EndDateContract__c   = System.Today().addYears(1)
-            , REVVY__Currency__c          = CURRENCY_CODE
-        );
-        insert quote;
+		List<sObject> disti = Test.loadData(Account.sObjectType, 'TestData_PP_Distributor');
+		List<User_Distributor__c> userDistributors = new List<User_Distributor__c>();
+		for (sObject s : disti) {
+			Account a = (Account) s;
+			a.recordTypeId = RECTYPE_ACCOUNT_CHANNEL_PARTNER;
+			userDistributors.add(
+                new User_Distributor__c(
+                      User_Name__c   = UserInfo.getUserId()
+                    , Distributor__c = s.Id
+                )
+            );
+		}
+		update disti;
+		insert userDistributors;
 
-        REVVY__MnQuoteSolution__c quoteSolution = new REVVY__MnQuoteSolution__c(
-            REVVY__Quote__c         = quote.Id
-            , REVVY__CatalogNode__c = getCatalog().Id
-            , REVVY__ExtId__c       = '1'
-        );
-        insert quoteSolution;
+		List<sObject> corporateAccount = Test.loadData(Account.sObjectType, 'TestData_PP_CorporateAccount');
+		for (sObject s : corporateAccount) {
+			Account a = (Account) s;
+			a.recordTypeId = RECTYPE_ACCOUNT_END_USER;
+		}
+		update corporateAccount;
 
-        insert new List<REVVY__MnQuoteItem__c> {
-            createQuoteItem(quote, 'GR 1000', 0.00, 9359.00)
-            , createQuoteItem(quote, 'Greenmaster 3120', 0.00, 18170.00)
-            , createQuoteItem(quote, '2.5" dia. Full Front Roller Asm', 0.00, 155.75)
-        };
+		List<sObject> customerAccount = Test.loadData(Account.sObjectType, 'TestData_PP_CustomerAccount');
+		for (sObject s : customerAccount) {
+			Account a = (Account) s;
+			a.recordtypeid = RECTYPE_ACCOUNT_END_USER;
+		}
+		update customerAccount;
+
+		List<sObject> pricingProgram     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
+		List<sObject> eligilibility      = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
+		List<sObject> pricingProgramLine = Test.loadData(Revvy__MnStrategy2__c.sObjectType, 'TestData_PP_PricingProgramLine');
+		List<sObject> priceList          = Test.loadData(Revvy__MnPriceList__c.sObjectType, 'TestData_PP_PriceList');
+		List<sObject> products           = Test.loadData(Revvy__MnCatalogNode__c.sObjectType, 'TestData_PP_CatalogNode');
     }
 
-    /**
-     *
-     * description
-     *
-     * @param  name    description
-     * @return return_type
-     */
-    private static void insertLargePackageModel() {
-       REVVY__MnConfigEngineModel__c model = new REVVY__MnConfigEngineModel__c(
-            REVVY__Id__c = 'LargePackageModel'
-        );
-        insert model;
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public static void loadQuoteTestData() {
+		List<sObject> quote            = Test.loadData(Revvy__MnQuote__c.sObjectType, 'TestData_PP_Quote');
+		List<sObject> quoteItem        = Test.loadData(Revvy__MnQuoteItem__c.sObjectType, 'TestData_PP_QuoteItem');
+		List<sObject> quoteItemSubline = Test.loadData(Revvy__MnQuoteItemSubline__c.sObjectType, 'TestData_PP_QuoteItemSubline');
+	}
 
-        // ============================================================================
-        // Insert categories
-        catalog = new REVVY__MnCatalogNode__c(
-            Name                = 'TestCatalog'
-            , REVVY__Id__c      = 'TestCatalog'
-            , REVVY__Type__c    = CNODE_TYPE_CATALOG
-            , REVVY__SubType__c = null
-        );
-        REVVY__MnCatalogNode__c category1 = new REVVY__MnCatalogNode__c(
-            Name                = 'TestCategory1'
-            , REVVY__Id__c      = 'TestCategory1'
-            , REVVY__Type__c    = CNODE_TYPE_CATEGORY
-            , REVVY__SubType__c = null
-        );
-        REVVY__MnCatalogNode__c category2 = new REVVY__MnCatalogNode__c(
-            Name                = 'TestCategory2'
-            , REVVY__Id__c      = 'TestCategory2'
-            , REVVY__Type__c    = CNODE_TYPE_CATEGORY
-            , REVVY__SubType__c = null
-        );
-
-        List<REVVY__MnCatalogNode__c> categories = new List<REVVY__MnCatalogNode__c> {
-            catalog, category1, category2
-        };
-        insert categories;
-
-        REVVY__MnCatalogNode__c product1 = new REVVY__MnCatalogNode__c(
-              Name                            = 'GR 1000'
-            , REVVY__Id__c                    = 'GR 1000'
-            , REVVY__Status__c                = 'Active'
-            , REVVY__Type__c                  = CNODE_TYPE_PRODUCT
-            , REVVY__mainImage1__c            = 'MainImage1Path'
-            , REVVY__image2__c                = 'Image2Path'
-            , REVVY__image3__c                = 'Image3Path'
-            , REVVY__image4__c                = 'Image4Path'
-            , REVVY__Model__c                 = model.Id
-            , Brochure__c                     = ''
-            , Toro_Product_Type__c            = 'Finished Good'
-            , Toro_Product_Tier__c            = 'Tier 1'
-            , Performance_Parts_Product__c    = false
-            , Vehicle__c                      = false
-            , Hierarchy_Code__c               = '30515101'
-            , Hierarchy_Description__c        = 'Greens Walk'
-            , Business_Center_Code_Level_1__c = '30'
-            , Business_Center_Desc_Level_1__c = 'Commercial Division'
-            , Business_Group_Code_Level_2__c  = '305'
-            , Business_Group_Desc_Level_2__c  = 'Standard Products'
-            , Product_Line_Desc_Level_3__c    = '30515'
-            , Product_Line_Code_Level_3__c    = 'COMM Greensmowers'
-            , Product_Detail_Code_Level_4__c  = '3051510'
-            , Product_Detail_Desc_Level_4__c  = 'Greens Walk'
-        );
-        REVVY__MnCatalogNode__c product2 = new REVVY__MnCatalogNode__c(
-              Name                            = 'Greenmaster 3120'
-            , REVVY__Id__c                    = 'Greenmaster 3120'
-            , REVVY__Status__c                = 'Active'
-            , REVVY__Type__c                  = CNODE_TYPE_PRODUCT
-            , REVVY__mainImage1__c            = 'MainImage1Path'
-            , REVVY__image2__c                = 'Image2Path'
-            , REVVY__image3__c                = 'Image3Path'
-            , REVVY__image4__c                = 'Image4Path'
-            , REVVY__Model__c                 = model.Id
-            , Brochure__c                     = ''
-            , Toro_Product_Type__c            = 'Finished Good'
-            , Toro_Product_Tier__c            = 'Tier 1'
-            , Performance_Parts_Product__c    = false
-            , Vehicle__c                      = false
-            , Hierarchy_Code__c               = '30515201'
-            , Hierarchy_Description__c        = 'Greens Ride'
-            , Business_Center_Code_Level_1__c = '30'
-            , Business_Center_Desc_Level_1__c = 'Commercial Division'
-            , Business_Group_Code_Level_2__c  = '305'
-            , Business_Group_Desc_Level_2__c  = 'Standard Products'
-            , Product_Line_Desc_Level_3__c    = '30515'
-            , Product_Line_Code_Level_3__c    = 'COMM Greensmowers'
-            , Product_Detail_Code_Level_4__c  = '3051520'
-            , Product_Detail_Desc_Level_4__c  = 'Greens Ride'
-        );
-        REVVY__MnCatalogNode__c product3 = new REVVY__MnCatalogNode__c(
-              Name                            = '2.5" dia. Full Front Roller Asm'
-            , REVVY__Id__c                    = '2.5" dia. Full Front Roller Asm'
-            , REVVY__Status__c                = 'Active'
-            , REVVY__Type__c                  = CNODE_TYPE_PRODUCT
-            , REVVY__mainImage1__c            = 'MainImage1Path'
-            , REVVY__image2__c                = 'Image2Path'
-            , REVVY__image3__c                = 'Image3Path'
-            , REVVY__image4__c                = 'Image4Path'
-            , REVVY__Model__c                 = model.Id
-            , Brochure__c                     = ''
-            , Toro_Product_Type__c            = 'Semi-Finished Good'
-            , Toro_Product_Tier__c            = 'Parts'
-            , Performance_Parts_Product__c    = false
-            , Vehicle__c                      = false
-            , Hierarchy_Code__c               = '30515201'
-            , Hierarchy_Description__c        = 'Greens Ride'
-            , Business_Center_Code_Level_1__c = '30'
-            , Business_Center_Desc_Level_1__c = 'Commercial Division'
-            , Business_Group_Code_Level_2__c  = '305'
-            , Business_Group_Desc_Level_2__c  = 'Standard Products'
-            , Product_Line_Desc_Level_3__c    = '30515'
-            , Product_Line_Code_Level_3__c    = 'COMM Greensmowers'
-            , Product_Detail_Code_Level_4__c  = '3051520'
-            , Product_Detail_Desc_Level_4__c  = 'Greens Ride'
-        );
-        productMap.put(product1.REVVY__Id__c, product1);
-        productMap.put(product2.REVVY__Id__c, product2);
-        productMap.put(product3.REVVY__Id__c, product3);
-        insert productMap.values();
-
-        // ============================================================================
-        // Price List
-        priceList = createPriceList('TestPriceList', 'General');
-        insert priceList;
-
-        // ============================================================================
-        // Pricelist Line
-        insert new List<REVVY__MnPriceListLine__c> {
-            // Cost Price, List Price, Suggested Price (DNet Price)
-            createPriceListLine(pricelist, product1, 0.0, 9359.00, 6551.00)
-            , createPriceListLine(pricelist, product2, 0.0, 25959.00, 18170.00)
-            , createPriceListLine(pricelist, product3, 0.0, 283.18, 155.75)
-        };
-    }
-
-
-    // ============================================================================
-    // methods for getting the test data
-    // ============================================================================
-
-    public static Account getAccount() {
-        if (account == null) {
-            account = [SELECT Id FROM Account WHERE Name = 'TestAccount' LIMIT 1];
-        }
-
-        return account;
-    }
-
-    public static Opportunity getOpportunity() {
-        if (opportunity == null) {
-            opportunity = [SELECT Id FROM Opportunity WHERE Name = 'TestOpportunity' LIMIT 1];
-        }
-
-        return opportunity;
-    }
-
-    private static REVVY__MnCatalogNode__c getCatalog() {
-        if (catalog == null) {
-            catalog = [SELECT Id FROM REVVY__MnCatalogNode__c WHERE REVVY__Type__c = :CNODE_TYPE_CATALOG LIMIT 1];
-        }
-
-        return catalog;
-    }
-
-    /**
-     *
-     * @return Revvy ID => Catalog Node
-     */
-    public static Map<String,REVVY__MnCatalogNode__c> getProductMap() {
-        if (productMap == null) {
-            productMap = new Map<String,REVVY__MnCatalogNode__c>();
-            final List<REVVY__MnCatalogNode__c> catalogNodes = Database.query(ToroQuoteDAO.buildQuery(ToroQuoteDAO.CATALOG_NODE_FIELDS, 'REVVY__MnCatalogNode__c', 'REVVY__Type__c = \'' + CNODE_TYPE_PRODUCT + '\''));
-            for (REVVY__MnCatalogNode__c catalogNode : catalogNodes) {
-                productMap.put(catalogNode.REVVY__Id__c, catalogNode);
-            }
-        }
-
-        return productMap;
-    }
-
-    /**
-     *
-     * @return Revvy ID => Catalog Attribute
-     */
-    public static Map<String,REVVY__MnCatalogAttribute__c> getCatalogAttributeMap() {
-        if (catalogAttributeMap == null) {
-            catalogAttributeMap = new Map<String,REVVY__MnCatalogAttribute__c>();
-            List<REVVY__MnCatalogAttribute__c> catalogAttributes = [SELECT Id, REVVY__Id__c FROM REVVY__MnCatalogAttribute__c];
-            for (REVVY__MnCatalogAttribute__c catalogAttribute : catalogAttributes) {
-                catalogAttributeMap.put(catalogAttribute.REVVY__Id__c, catalogAttribute);
-            }
-        }
-
-        return catalogAttributeMap;
-    }
-
-    /**
-     *
-     * @return Catalog Node Revvy ID => (Catalog Attribute Revvy ID => Catalog Node Attribute)
-     */
-    public static Map<String,Map<String,REVVY__MnCatalogNodeAttr__c>> getCatalogNodettributeMap() {
-        if (catalogNodeAttributeMap == null) {
-            catalogNodeAttributeMap = new Map<String,Map<String,REVVY__MnCatalogNodeAttr__c>>();
-            final List<REVVY__MnCatalogNodeAttr__c> catalogNodeAttribues = Database.query(ToroQuoteDAO.buildQuery(ToroQuoteDAO.CATALOG_NODE_ATTRIBUTE_FIELDS, 'REVVY__MnCatalogNodeAttr__c'));
-            System.assert(catalogNodeAttribues.size() > 0);
-            for (REVVY__MnCatalogNodeAttr__c catalogNodeAttr: catalogNodeAttribues) {
-                if (catalogNodeAttributeMap.containsKey(catalogNodeAttr.REVVY__Catalog_Node__r.REVVY__Id__c)) {
-                    catalogNodeAttributeMap.get(catalogNodeAttr.REVVY__Catalog_Node__r.REVVY__Id__c).put(
-                        catalogNodeAttr.REVVY__Catalog_Attribute__r.REVVY__Id__c, catalogNodeAttr
-                    );
-                }
-
-                else {
-                    catalogNodeAttributeMap.put(catalogNodeAttr.REVVY__Catalog_Node__r.REVVY__Id__c
-                        , new Map<String,REVVY__MnCatalogNodeAttr__c> {
-                            catalogNodeAttr.REVVY__Catalog_Attribute__r.REVVY__Id__c => catalogNodeAttr
-                        }
-                    );
-                }
-            }
-        }
-
-        return catalogNodeAttributeMap;
-    }
-
-    /**
-     *
-     * inserts base CPQ/CLM data
-     *
-     * @return void
-     */
-    private static void insertBaseData() {
-        if (insertedBaseData) return;
-        insertedBaseData = true;
-
-        productMap = new Map<String,REVVY__MnCatalogNode__c>();
-        catalogAttributeMap = new Map<String,REVVY__MnCatalogAttribute__c>();
-
+	public static void loadGenericTestData() {
         // ============================================================================
         // Insert base CLM Data
-        insert new REVVY__MnLifeCycle__c(
+		insert new REVVY__MnLifeCycle__c(
             Name                   = 'Contract - NDA Lifecycle Configuration'
             , REVVY__Object__c     = 'MnContract__c'
             , REVVY__RecordType__c = 'SalesContract'
             , REVVY__Status__c     = 'Active'
         );
 
-        account = new Account(
+        Account account = new Account(
             Name                = 'TestAccount'
             , BillingStreet     = '1600 Seaport Boulevard, Suite 400'
             , BillingCity       = 'Redwood City'
@@ -322,7 +87,7 @@ public with sharing class ToroTestData {
         );
         insert account;
 
-        opportunity = new Opportunity(
+        Opportunity opportunity = new Opportunity(
             Name        = 'TestOpportunity'
             , closeDate = System.Today().addDays(30)
             , stageName = 'Prospecting'
@@ -347,81 +112,127 @@ public with sharing class ToroTestData {
             )
         };
         insert revvyProperties;
-    }
 
-    // ============================================================================
-    // HELPER METHODS FOR CREATING RECORDS
-    // ============================================================================
-    public static REVVY__MnQuoteItem__c createQuoteItem(REVVY__MnQuote__c quote, String productExtId, Decimal costPrice, Decimal unitPrice) {
-        return new REVVY__MnQuoteItem__c(
-            REVVY__Catalog_Node__c = getProductMap().get(productExtId).Id
-            , REVVY__Quantity__c   = 1
-            , REVVY__Quote__c      = quote.Id
-            , REVVY__CostPrice__c  = costPrice
-            , REVVY__Unit_Price__c = unitPrice
+        // ============================================================================
+        // Insert categories
+        REVVY__MnCatalogNode__c catalog = new REVVY__MnCatalogNode__c(
+            Name                = 'TestCatalog'
+            , REVVY__Id__c      = 'TestCatalog'
+            , REVVY__Type__c    = 'Catalog'
+            , REVVY__SubType__c = null
         );
-    }
-
-    public static REVVY__MnQuoteItemSubLine__c createSubline(REVVY__MnQuoteItem__c parentQuoteItem, String productExtId, Decimal costPrice, Decimal unitPrice) {
-        return new REVVY__MnQuoteItemSubLine__c(
-            REVVY__QuoteItem__c = parentQuoteItem.Id
-            , REVVY__Catalog_Node__c = getProductMap().get(productExtId).Id
-            , REVVY__Quantity__c = 1
-            , REVVY__CostPrice__c = costPrice
-            , REVVY__Unit_Price__c = unitPrice
+        REVVY__MnCatalogNode__c category1 = new REVVY__MnCatalogNode__c(
+            Name                = 'TestCategory1'
+            , REVVY__Id__c      = 'TestCategory1'
+            , REVVY__Type__c    = 'Category'
+            , REVVY__SubType__c = null
         );
-    }
-
-    private static REVVY__MnCatalogAttribute__c createCatalogAttribute(String revvyId
-                                                                     , String attribType)
-    {
-        return new REVVY__MnCatalogAttribute__c(
-            Name               = revvyId
-            , REVVY__Id__c     = revvyId
-            , REVVY__Format__c = attribType
+        REVVY__MnCatalogNode__c category2 = new REVVY__MnCatalogNode__c(
+            Name                = 'TestCategory2'
+            , REVVY__Id__c      = 'TestCategory2'
+            , REVVY__Type__c    = 'Category'
+            , REVVY__SubType__c = null
         );
-    }
+        List<REVVY__MnCatalogNode__c> categories = new List<REVVY__MnCatalogNode__c> { catalog, category1, category2 };
+        insert categories;
 
-    private static REVVY__MnCatalogNodeAttr__c createCatalogNodeAttribute(REVVY__MnCatalogNode__c product
-                                                                        , REVVY__MnCatalogAttribute__c catalogAttribute
-                                                                        , String value)
-    {
-        return new REVVY__MnCatalogNodeAttr__c(
-            REVVY__Catalog_Node__c               = product.Id
-            , REVVY__Catalog_Attribute__c        = catalogAttribute.Id
-            , REVVY__Value__c                    = value
-            , REVVY__IsServiceFilterAttribute__c = false
-            , REVVY__Id__c                       = (String)product.Id + (String)catalogAttribute.Id
+        REVVY__MnPriceList__c pricelist = createPriceList('Commercial', 'General');
+		insert pricelist;
+
+        // ============================================================================
+        // Model
+       REVVY__MnConfigEngineModel__c model = new REVVY__MnConfigEngineModel__c(
+            REVVY__Id__c = 'INTLTestModel'
+			, REVVY__Status__c = 'In Production'
         );
-    }
+        insert model;
 
-    public static REVVY__MnQuoteItemAttribute__c createQuoteItemAttribute(REVVY__MnQuoteItem__c quoteItem
-                                                                        , String catalogAttributeName
-                                                                        , String value)
-    {
-        return new REVVY__MnQuoteItemAttribute__c(
-                REVVY__QuoteItem__c        = quoteItem.Id
-              , REVVY__CatalogAttribute__c = getCatalogAttributeMap().get(catalogAttributeName).Id
-              , REVVY__ActualValue__c      = value
-              , REVVY__AttributeValue__c   = value
+        REVVY__MnCatalogNode__c product1 = new REVVY__MnCatalogNode__c(
+            Name                      = 'TestProduct1'
+            , REVVY__Id__c            = 'TestProduct1'
+            , REVVY__Status__c        = 'Active'
+            , REVVY__Type__c          = 'Product'
+            , REVVY__mainImage1__c    = 'MainImage1Path'
+            , REVVY__image2__c        = 'Image2Path'
+            , REVVY__image3__c        = 'Image3Path'
+            , REVVY__image4__c        = 'Image4Path'
+            , REVVY__Model__c         = model.Id
         );
-    }
-
-    public static REVVY__MnQiSubLineAttribute__c createSublineAttribute(REVVY__MnQuoteItemSubLine__c subline
-                                                                        , String catalogAttributeName
-                                                                        , String value)
-    {
-        return new REVVY__MnQiSubLineAttribute__c(
-                REVVY__QuoteItemSubLine__c = subline.Id
-              , REVVY__CatalogAttribute__c = getCatalogAttributeMap().get(catalogAttributeName).Id
-            //   , REVVY__ActualValue__c      = value
-              , REVVY__AttributeValue__c   = value // the quote wrapper refers to REVVY__ActualValue__c but the managed package overwrites REVVY__ActualValue__c with REVVY__AttributeValue__c
+        REVVY__MnCatalogNode__c product2 = new REVVY__MnCatalogNode__c(
+            Name                      = 'TestProduct2'
+            , REVVY__Id__c            = 'TestProduct2'
+            , REVVY__Status__c        = 'Active'
+            , REVVY__Type__c          = 'Product'
+            , REVVY__mainImage1__c    = 'MainImage1Path'
+            , REVVY__image2__c        = 'Image2Path'
+            , REVVY__image3__c        = 'Image3Path'
+            , REVVY__image4__c        = 'Image4Path'
+            , REVVY__Model__c         = model.Id
         );
-    }
+        REVVY__MnCatalogNode__c product3 = new REVVY__MnCatalogNode__c(
+            Name                      = 'TestProduct3'
+            , REVVY__Id__c            = 'TestProduct3'
+            , REVVY__Status__c        = 'Active'
+            , REVVY__Type__c          = 'Product'
+            , REVVY__mainImage1__c    = 'MainImage1Path'
+            , REVVY__image2__c        = 'Image2Path'
+            , REVVY__image3__c        = 'Image3Path'
+            , REVVY__image4__c        = 'Image4Path'
+            , REVVY__Model__c         = model.Id
+        );
 
-    private static REVVY__MnPriceList__c createPriceList(String name
-                                                       , String segment)
-    {
+        final List<REVVY__MnCatalogNode__c> products = new List<REVVY__MnCatalogNode__c> { product1, product2, product3 };
+        insert products;
+
+		// ============================================================================
+		// update "Product IDs" field on model
+		String modelProductIds = '[';
+		for (REVVY__MnCatalogNode__c product : products) {
+			modelProductIds += '"' + product.Name + '",';
+		}
+		modelProductIds = modelProductIds.removeEnd(',');
+		modelProductIds += ']';
+
+		model.REVVY__Product_IDs__c = modelProductIds;
+		update model;
+
+        // ============================================================================
+        // Pricelist Line
+        insert new List<REVVY__MnPriceListLine__c> {
+            createPriceListLine(pricelist, product1, 10.00, 20.00)
+            , createPriceListLine(pricelist, product2, 20.00, 40.00)
+            , createPriceListLine(pricelist, product3, 30.00, 60.00)
+        };
+
+		List<REVVY__MnConfigEngineOptionGroup__c> optionGroups = new List<REVVY__MnConfigEngineOptionGroup__c> {
+			new REVVY__MnConfigEngineOptionGroup__c(
+				  Name         = 'OptionGroup1'
+				, REVVY__Id__c = 'OptionGroup1'
+			)
+		};
+		insert optionGroups;
+
+		List<REVVY__MnConfigEngineOption__c> options = new List<REVVY__MnConfigEngineOption__c> {
+			new REVVY__MnConfigEngineOption__c(
+				  Name                   = 'Option1'
+				, REVVY__Label__c        = 'Option1'
+				, REVVY__Catalog_Node__c = product1.Id
+				, REVVY__Option_Group__c = optionGroups[0].Id
+				, REVVY__Option_Order__c = 1
+			)
+		};
+		insert options;
+
+		List<REVVY__MnConfigEngineModelOptionGroupJunction__c> optionJunctions = new List<REVVY__MnConfigEngineModelOptionGroupJunction__c> {
+			new REVVY__MnConfigEngineModelOptionGroupJunction__c(
+				  REVVY__OptionGroup_Id__c = optionGroups[0].Id
+				, REVVY__Model_Id__c       = model.Id
+			)
+		};
+		insert optionJunctions;
+	}
+
+    private static REVVY__MnPriceList__c createPriceList(String name, String segment) {
         return new REVVY__MnPriceList__c(
             Name                   = name
             , REVVY__Currency__c   = CURRENCY_CODE
@@ -436,29 +247,15 @@ public with sharing class ToroTestData {
     private static REVVY__MnPriceListLine__c createPriceListLine(REVVY__MnPriceList__c priceList
                                                                , REVVY__MnCatalogNode__c product
                                                                , Decimal costPrice
-                                                               , Decimal listPrice
-                                                               , Decimal suggestedPrice)
+                                                               , Decimal listPrice)
     {
         return new REVVY__MnPriceListLine__c(
-            REVVY__PriceList__c      = priceList.Id
-            , REVVY__Product__c        = product.Id
-            , REVVY__CostPrice__c      = costPrice
-            , REVVY__ListedPrice__c    = listPrice
-            , REVVY__SuggestedPrice__c = suggestedPrice
-            , REVVY__Start_Date__c     = System.today()
-            , REVVY__End_Date__c       = System.today().addDays(30)
-        );
-    }
-
-    private static REVVY__MnQuoteSolutionAttribute__c createQuoteSolutionAttribute(REVVY__MnQuoteSolution__c quoteSolution
-                                                                                 , String catalogAttributeName
-                                                                                 , String value)
-    {
-        return new REVVY__MnQuoteSolutionAttribute__c(
-            REVVY__ActualValue__c        = value
-            , REVVY__AttributeValue__c   = value
-            , REVVY__CatalogAttribute__c = getCatalogAttributeMap().get(catalogAttributeName).Id
-            , REVVY__QuoteSolution__c    = quoteSolution.Id
+              REVVY__PriceList__c   = priceList.Id
+            , REVVY__Product__c     = product.Id
+            , REVVY__CostPrice__c   = costPrice
+            , REVVY__ListedPrice__c = listPrice
+            , REVVY__Start_Date__c  = System.today()
+            , REVVY__End_Date__c    = System.today().addDays(30)
         );
     }
 }
