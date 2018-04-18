@@ -17,7 +17,7 @@ public with sharing class ToroTestData {
      */
     public static void loadTestData() {
         if (!Test.isRunningTest()) return;
-
+		List<sObject> user            = Test.loadData(User.sObjectType, 'TestData_PP_User');
 		List<sObject> disti = Test.loadData(Account.sObjectType, 'TestData_PP_Distributor');
 		List<User_Distributor__c> userDistributors = new List<User_Distributor__c>();
 		for (sObject s : disti) {
@@ -63,7 +63,9 @@ public with sharing class ToroTestData {
 	 */
 	public static void loadQuoteTestData() {
 		
-		List<sObject> user            = Test.loadData(User.sObjectType, 'TestData_PP_User');
+		
+		List<User> users = [select UserName from User where UserName = 'standarduser_pp@testorg.com'];
+		system.debug(users);
 		List<sObject> quote            = Test.loadData(Revvy__MnQuote__c.sObjectType, 'TestData_PP_Quote');
 		List<sObject> quoteItem        = Test.loadData(Revvy__MnQuoteItem__c.sObjectType, 'TestData_PP_QuoteItem');
 		List<sObject> quoteItemSubline = Test.loadData(Revvy__MnQuoteItemSubline__c.sObjectType, 'TestData_PP_QuoteItemSubline');
