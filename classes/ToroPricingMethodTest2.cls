@@ -24,13 +24,13 @@ private class ToroPricingMethodTest2 {
     static testMethod void testApplyTotalAwardDollars() {
     	ToroPricingProgram pp = new ToroLargePackagePricingProgramHelper();	
     	pp.initialize('a482F0000008zjx');
-    	List<Toro_QuoteItem__c> quoteItemList = ToroPricingMethodUtil.applyTotalAwordDollors('Market Support Chart Large Package', pp.quoteItems, 200000);
+    	List<Revvy__MnStrategy4__c> quoteItemList = ToroPricingMethodUtil.applyTotalAwordDollors('Market Support Chart Large Package', pp.quoteItems, 200000);
     	decimal awardprice = 0;
-    	for (Toro_QuoteItem__c qi : quoteItemList) {
+    	for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			system.debug(logginglevel.info, '% off msrp=' + qi.Off_MSRP__c + ' % off dnet=' + qi.Award_of_DN__c + ' rebate %=' + qi.Rebate_as_a_of_DN__c + ' gp%=' + qi.Toro_Gross_Profit_Percent__c + ' award price=' + qi.award_price__c);
 			awardprice += qi.award_price__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					system.debug(logginglevel.info, ' qis % off msrp=' + qis.Percent_Off_MSRP__c + ' % off dnet=' + qis.Percent_of_DNet__c + ' rebate %=' + qis.Rebate_as_of_DNet__c + ' gp%=' + qis.Gross_Profit_Percent__c + ' award price=' + qis.award_price__c);
 					awardprice += qis.award_price__c;
 				}	
@@ -41,13 +41,13 @@ private class ToroPricingMethodTest2 {
     static testMethod void testApplyGPPercent() {
     	ToroPricingProgram pp = new ToroLargePackagePricingProgramHelper();	
     	pp.initialize('a482F0000008zjx');
-    	List<Toro_QuoteItem__c> quoteItemList = ToroPricingMethodUtil.applyGPPercent('Market Support Chart Large Package', pp.quoteItems, 0.2);
+    	List<Revvy__MnStrategy4__c> quoteItemList = ToroPricingMethodUtil.applyGPPercent('Market Support Chart Large Package', pp.quoteItems, 0.2);
     	decimal awardprice = 0;
-    	for (Toro_QuoteItem__c qi : quoteItemList) {
+    	for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			system.debug(logginglevel.info, '% off msrp=' + qi.Off_MSRP__c + ' % off dnet=' + qi.Award_of_DN__c + ' rebate %=' + qi.Rebate_as_a_of_DN__c + ' gp%=' + qi.Toro_Gross_Profit_Percent__c + ' award price=' + qi.award_price__c);
 			awardprice += qi.award_price__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					system.debug(logginglevel.info, ' qis % off msrp=' + qis.Percent_Off_MSRP__c + ' % off dnet=' + qis.Percent_of_DNet__c + ' rebate %=' + qis.Rebate_as_of_DNet__c + ' gp%=' + qis.Gross_Profit_Percent__c + ' award price=' + qis.award_price__c);
 					awardprice += qis.award_price__c;
 				}	

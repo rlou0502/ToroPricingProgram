@@ -1,11 +1,11 @@
 public with sharing class ToroPricingMethodHelper {
 	private static Map<String, Map<decimal, ToroPricingMethodData> >DNetPercentMap = new Map<String, Map<decimal, ToroPricingMethodData> >();     
 	private static Map<String, Map<decimal, ToroPricingMethodData> >GPPercentMap = new Map<String, Map<decimal, ToroPricingMethodData> >(); 
-	public List<Toro_QuoteItem__c> quoteItemList { get; set;}
+	public List<Revvy__MnStrategy4__c> quoteItemList { get; set;}
 	public String pricingProgramExternalId { get; set;}
 	public ToroPricingMethodHelper() {		
 	}
-	public decimal setMSRPAwardPrice(Toro_QuoteItem_SubLine__c qis) {
+	public decimal setMSRPAwardPrice(Revvy__MnStrategy5__c qis) {
 		if(!qis.Unit_Award_Overridden__c) {
 			system.debug('check point 1');
 			if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
@@ -26,7 +26,7 @@ public with sharing class ToroPricingMethodHelper {
 		//System.debug(logginglevel.info, 'setMSRPAwardPrice-- subline ' + qis.Product_Name__c + ' -award=- ' + qis.Award_Price__c + ' qis.Unit_Award_Overridden__c=' + qis.Unit_Award_Overridden__c);
 		return qis.Award_Price__c;	
 	}
-	public decimal setDNetAwardPrice(Toro_QuoteItem_SubLine__c qis) {
+	public decimal setDNetAwardPrice(Revvy__MnStrategy5__c qis) {
 		if(!qis.Unit_Award_Overridden__c) {
 			system.debug('check point 1');
 			if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
@@ -49,7 +49,7 @@ public with sharing class ToroPricingMethodHelper {
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
 		
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			
 			if(qi.Off_MSRP__c != null) {
 				//qi.PricingMethodValue__c = string.valueOf(qi.Off_MSRP__c);
@@ -68,7 +68,7 @@ public with sharing class ToroPricingMethodHelper {
 				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- quote item --MSRP-- ' + qi.MSRP_Price__c + '--DNet--' + qi.DNet_Price__c + '--qty--' + qi.Quantity__c);
 				
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);	
 						qis.Toro_Extended_Qty__c = extQty;
 						if(!qis.Exclude_from_Rebate__c) {
@@ -113,7 +113,7 @@ public with sharing class ToroPricingMethodHelper {
 	}
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromDNet() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			if(qi.Award_of_DN__c != null) {
 				//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
 				decimal extDNet = 0;
@@ -131,7 +131,7 @@ public with sharing class ToroPricingMethodHelper {
 				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item --DNet-- ' + qi.Award_of_DN__c + '--DNet--' + qi.DNet_Price__c + '--qty--' + qi.Quantity__c);
 				System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item product- ' + qi.Product_Name__c + ' award =' + qi.Award_Price__c);
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);	
 						System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet --DNet=' + qis.DNet_Price__c + ' MSRP=' + qis.MSRP_Price__c);
 						qis.Toro_Extended_Qty__c = extQty;
@@ -173,13 +173,13 @@ public with sharing class ToroPricingMethodHelper {
 		return this;			
 	}
 	public ToroPricingMethodHelper calculateGP() {
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			if(qi.Award_of_DN__c != null) {
 				//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
 				decimal extDnet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				decimal extAward = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100 * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(!qis.Exclude_from_Rebate__c) {
 							if(qis.Percent_of_DNet__c == null) {
 								qis.Percent_of_DNet__c = qi.Award_of_DN__c;
@@ -214,12 +214,12 @@ public with sharing class ToroPricingMethodHelper {
 		return this;
 	}
 	
-	public ToroPricingMethodHelper retrieveRebate(decimal dnetPercent, Toro_QuoteItem__c qi) {
+	public ToroPricingMethodHelper retrieveRebate(decimal dnetPercent, Revvy__MnStrategy4__c qi) {
 		if(!DNetPercentMap.containsKey(pricingProgramExternalId)) {
-			Toro_PricingProgram__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
-			List<Toro_PricingProgramLine__c> pplList = pp.PricingProgramLines__r;
+			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
+			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
 		    Map<decimal, ToroPricingMethodData> dnet2PM = new Map<decimal, ToroPricingMethodData>();
-		    for(Toro_PricingProgramLine__c  ppl : pplList) {
+		    for(Revvy__MnStrategy2__c  ppl : pplList) {
 		    	ToroPricingMethodData pmd = new ToroPricingMethodData();
 		    	
 		    	dnet2PM.put((ppl.Award_Price_as_a_Percent_of_DN__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
@@ -275,7 +275,7 @@ public with sharing class ToroPricingMethodHelper {
 		System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- Rebate_as_a_of_DN__c ' + qi.Rebate_as_a_of_DN__c  );  
 		//set all sublines' rebate % as quote item's
 		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-			for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+			for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 				if(!qis.Exclude_from_Rebate__c) {
 					qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;					
 				}	
@@ -343,17 +343,17 @@ public with sharing class ToroPricingMethodHelper {
 	public ToroPricingMethodHelper convertGPPercentToDNetPercent() {
 		system.debug(logginglevel.info, 'convertGPPercentToDNetPercent--');
 		if(!GPPercentMap.containsKey(pricingProgramExternalId)) {
-			Toro_PricingProgram__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
-			List<Toro_PricingProgramLine__c> pplList = pp.PricingProgramLines__r;
+			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
+			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
 		    Map<decimal, ToroPricingMethodData> gpp2PM = new Map<decimal, ToroPricingMethodData>();
-		    for(Toro_PricingProgramLine__c  ppl : pplList) {
+		    for(Revvy__MnStrategy2__c  ppl : pplList) {
 		    	ToroPricingMethodData pmd = new ToroPricingMethodData();		    	
 		    	gpp2PM.put((ppl.Distributor_Margin__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
 									ppl.Rebate_as_a_Percent_of_DN__c, ppl.Distributor_Margin__c, null));	
 		    }
 			GPPercentMap.put(pricingProgramExternalId, gpp2PM);	
 		}
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			if(qi.Toro_Gross_Profit_Percent__c != null) {
 				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi gp%=' + qi.Toro_Gross_Profit_Percent__c);
 				qi.Award_of_DN__c = lookupDNetPercentFromGPPercent(qi.Toro_Gross_Profit_Percent__c);
@@ -363,7 +363,7 @@ public with sharing class ToroPricingMethodHelper {
 				}
 				qi.Off_MSRP__c = (1-qi.Award_Price__c/qi.MSRP_Price__c)*100 ;
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(!qis.Exclude_from_Rebate__c && qis.Gross_Profit_Percent__c != null) {
 							qis.Percent_of_DNet__c = lookupDNetPercentFromGPPercent(qis.Gross_Profit_Percent__c);
 							system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qis.Percent_of_DNet__c=' +qis.Percent_of_DNet__c);
@@ -381,14 +381,14 @@ public with sharing class ToroPricingMethodHelper {
 	}  
 	
 	public ToroPricingMethodHelper convertAwardPriceToDNetPercent() {
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
             qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c);
 			if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
 				qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c * 100;
 			}
 			qi.Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {
 						if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0) {
 							qis.Percent_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) / qis.DNet_Price__c * 100;
@@ -404,14 +404,14 @@ public with sharing class ToroPricingMethodHelper {
 		return this;	
 	} 
 	
-	public static List<Toro_QuoteItem__c> distributeTotalAwardDollors(List<Toro_QuoteItem__c> quoteItemList, decimal totalAwardDollors) {
+	public static List<Revvy__MnStrategy4__c> distributeTotalAwardDollors(List<Revvy__MnStrategy4__c> quoteItemList, decimal totalAwardDollors) {
 		decimal totalToroDNetPrice = 0;
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			decimal qiExtDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 			system.debug(logginglevel.info, 'distributeTotalAwordDollors qi dnet  =' + qiExtDNet);
 			qi.Extended_DNet_Price__c = qi.DNet_Price__c * qi.Quantity__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {
 						final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						qis.Toro_Extended_Qty__c = extQty;
@@ -435,12 +435,12 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		
 		system.debug(logginglevel.info, 'distributeTotalAwordDollors totalToroDNetPrice  =' + totalToroDNetPrice);
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			qi.Award_Price__c = (totalAwardDollors * (qi.DNet_Price__c * qi.Quantity__c /totalToroDNetPrice)/qi.Quantity__c); //.setScale(2,roundingMode.HALF_UP);
 			qi.PricingMethodValue__c = string.valueOf(qi.Award_Price__c.setScale(2, roundingMode.HALF_UP));
 			system.debug(logginglevel.info, 'distributeTotalAwordDollors qi product   =' + qi.product_name__c + 'qi product id   =' + qi.product_id__c + ' qi.Award_Price__c=' + qi.Award_Price__c);
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {
 						
 						final Decimal extQty = qi.Quantity__c * qis.Quantity__c;

@@ -9,18 +9,18 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 		return ret;
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.GSA_Quote_Line_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.GSA_Quote_Line_Cols.getFields();
 		
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.National_Account_Quote_Line_Updtbl_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.National_Account_Quote_Line_Updtbl_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSublineFields() {
-		return SObjectType.Toro_QuoteItem_SubLine__c.FieldSets.GSA_Quote_SubLine_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy5__c.FieldSets.GSA_Quote_SubLine_Cols.getFields();
 	}
 	
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Toro_QuoteItem__c.FieldSets.GSA_Quote_Summary.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.GSA_Quote_Summary.getFields();
 	}
 	
 	public override boolean displaySetupFee() {
@@ -30,21 +30,21 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 		return false;
 	}    
 								
-	public override List<Toro_QuoteItem__c> calculateRebateMarginImpl(Id quoteId, String priceProgramExternalId,
-		 				String priceMethod, List<Toro_QuoteItem__c> quoteItemList) {
+	public override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgramExternalId,
+		 				String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList) {
 		quoteItems = ToroPricingProgramUtil.loadPricesFromPricelist(priceProgramExternalId, quoteItemList);
-		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgramExternalId)};
+		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgramExternalId)};
 		decimal gpPercent = 0;
-		for(Toro_PricingProgram__c rh : rebates) {
+		for(Revvy__MnStrategy1__c rh : rebates) {
 			if(rh.PricingProgramLines__r != null) {
-				for(Toro_PricingProgramLine__c l : rh.PricingProgramLines__r) {
+				for(Revvy__MnStrategy2__c l : rh.PricingProgramLines__r) {
 					gpPercent = l.Distributor_Margin__c;		
 				}
 			}
 		} 	
 		
 		system.debug('Distributor_Margin__c = ' + gpPercent);
-		for(Toro_QuoteItem__c qi : quoteItems) {
+		for(Revvy__MnStrategy4__c qi : quoteItems) {
 			qi.award_price__c = CMnQuoteUtil.defaultDecimal(qi.award_price__c);
 			qi.Toro_Gross_Profit_Percent__c = gpPercent;
 			qi.Toro_Gross_Profit_Value__c = qi.award_price__c * qi.Toro_Gross_Profit_Percent__c/100;
@@ -61,7 +61,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 			qi.Off_MSRP__c = (1-qi.award_price__c/qi.MSRP_Price__c)*100;
 			system.debug('Distributor_Margin__c = ' + qi.Toro_Gross_Profit_Percent__c);
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					qis.Gross_Profit_Percent__c = gpPercent;
@@ -88,7 +88,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 		return quoteItems;		
 	}
 	
-	public override List<Toro_QuoteItem__c> calculateExtendedFields(List<Toro_QuoteItem__c> quoteItemList) {
+	public override List<Revvy__MnStrategy4__c> calculateExtendedFields(List<Revvy__MnStrategy4__c> quoteItemList) {
 		decimal quoteMSRP=0;
 		decimal quoteTotalAward =0;
 		decimal quoteTotalToroAward=0;
@@ -104,7 +104,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 		decimal quoteToroMSRP = 0;
         decimal quoteTPPAppliedAward = 0;
 		decimal quoteToroAward = 0;
-		for (Toro_QuoteItem__c qi : quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * qi.Award_of_DN__c/100;
 			qi.Toro_Total_Setup_Fees__c = 0;
 			decimal qiTotalDNet=0;
@@ -161,7 +161,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 				decimal qisRollupToroMSRP = 0;
 	        	decimal qisRollupTPPAppliedAward = 0;
 				decimal qisRollupToroAward = 0;
-				for (Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
 					qis.Toro_Extended_Qty__c = extQty;
 					qis.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);

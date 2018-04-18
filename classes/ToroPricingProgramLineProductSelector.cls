@@ -11,14 +11,14 @@ public with sharing class ToroPricingProgramLineProductSelector {
 	}
 
 	private ApexPages.StandardController ctrl;
-	private Toro_PricingProgramLine__c pricingProgramLine; // Revvy__MnStrategy2__c -> Toro_PricingProgramLine__c
+	private Revvy__MnStrategy2__c pricingProgramLine; // Revvy__MnStrategy2__c -> Revvy__MnStrategy2__c
 	private Id pricingProgramLineId;
 	private String previouslySelectedProducts;
 
 	public Boolean allProductsSelected 						{ get; set; }
 	public List<Wrapper> selectedProducts 					{ get; private set; }
 	public String toBeDeleted 								{ get; set; }
-	public Toro_PricingProgram__c dummyPricingProgram 			{ get; set; }
+	public Revvy__MnStrategy1__c dummyPricingProgram 			{ get; set; }
 	/**
 	 *
 	 * description
@@ -46,12 +46,12 @@ public with sharing class ToroPricingProgramLineProductSelector {
 			SELECT
 				PricingProgram__c, ApplicableProducts__c
 			FROM
-				Toro_PricingProgramLine__c
+				Revvy__MnStrategy2__c
 			WHERE
 				Id = :pricingProgramLineId
 		];
 
-		this.dummyPricingProgram = new Toro_PricingProgram__c();
+		this.dummyPricingProgram = new Revvy__MnStrategy1__c();
 
 		if (pricingProgramLine.ApplicableProducts__c == 'All') {
 			this.allProductsSelected = true;

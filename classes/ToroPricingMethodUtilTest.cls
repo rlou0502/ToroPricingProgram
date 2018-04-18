@@ -22,33 +22,33 @@
 @isTest
 private class ToroPricingMethodUtilTest {
 	@testSetup static void methodName() {
-		Toro_PricingProgram__c pp = new Toro_PricingProgram__c(NAME='Market Support Chart Large Package',APPLICABLEPRODUCTS__C='112-6769,131-6828,03921,30511,T0000-3423',EXTERNALID__C='Market Support Chart Large Package',MINIMUMTHRESHOLD__C=130000,PRICINGPROGRAMTYPE__C='Support Chart',PRICINGPROGRAMSTYLE__C='Large Package');
+		Revvy__MnStrategy1__c pp = new Revvy__MnStrategy1__c(NAME='Market Support Chart Large Package',APPLICABLEPRODUCTS__C='112-6769,131-6828,03921,30511,T0000-3423',EXTERNALID__C='Market Support Chart Large Package',MINIMUMTHRESHOLD__C=130000,PRICINGPROGRAMTYPE__C='Support Chart',PRICINGPROGRAMSTYLE__C='Large Package');
 		insert pp;
-		List<Toro_PricingProgramLine__c> ppls = new List<Toro_PricingProgramLine__c> {
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=101,DISTRIBUTOR_MARGIN__C=14.7,OFF_MFG_SUGG_TTL__C=29.3,REBATE_AS_A_PERCENT_OF_DN__C=13.8),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=100,DISTRIBUTOR_MARGIN__C=14.4,OFF_MFG_SUGG_TTL__C=30,REBATE_AS_A_PERCENT_OF_DN__C=14),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=120,DISTRIBUTOR_MARGIN__C=20.9,OFF_MFG_SUGG_TTL__C=16,REBATE_AS_A_PERCENT_OF_DN__C=5.1),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=119,DISTRIBUTOR_MARGIN__C=20.8,OFF_MFG_SUGG_TTL__C=16.7,REBATE_AS_A_PERCENT_OF_DN__C=5.7),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=118,DISTRIBUTOR_MARGIN__C=20.6,OFF_MFG_SUGG_TTL__C=17.4,REBATE_AS_A_PERCENT_OF_DN__C=6.3),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=117,DISTRIBUTOR_MARGIN__C=20.4,OFF_MFG_SUGG_TTL__C=18.1,REBATE_AS_A_PERCENT_OF_DN__C=6.9),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=116,DISTRIBUTOR_MARGIN__C=20.3,OFF_MFG_SUGG_TTL__C=18.8,REBATE_AS_A_PERCENT_OF_DN__C=7.5),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=115,DISTRIBUTOR_MARGIN__C=20.2,OFF_MFG_SUGG_TTL__C=19.5,REBATE_AS_A_PERCENT_OF_DN__C=8.2),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=114,DISTRIBUTOR_MARGIN__C=20,OFF_MFG_SUGG_TTL__C=20.2,REBATE_AS_A_PERCENT_OF_DN__C=8.8),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=113,DISTRIBUTOR_MARGIN__C=19.8,OFF_MFG_SUGG_TTL__C=20.9,REBATE_AS_A_PERCENT_OF_DN__C=9.4),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=112,DISTRIBUTOR_MARGIN__C=19.6,OFF_MFG_SUGG_TTL__C=21.6,REBATE_AS_A_PERCENT_OF_DN__C=10),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=111,DISTRIBUTOR_MARGIN__C=19.4,OFF_MFG_SUGG_TTL__C=22.3,REBATE_AS_A_PERCENT_OF_DN__C=10.5),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=110,DISTRIBUTOR_MARGIN__C=19.1,OFF_MFG_SUGG_TTL__C=23,REBATE_AS_A_PERCENT_OF_DN__C=11),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=109,DISTRIBUTOR_MARGIN__C=18.8,OFF_MFG_SUGG_TTL__C=23.7,REBATE_AS_A_PERCENT_OF_DN__C=11.5),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=108,DISTRIBUTOR_MARGIN__C=18.5,OFF_MFG_SUGG_TTL__C=24.4,REBATE_AS_A_PERCENT_OF_DN__C=12),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=107,DISTRIBUTOR_MARGIN__C=18.1,OFF_MFG_SUGG_TTL__C=25.1,REBATE_AS_A_PERCENT_OF_DN__C=12.4),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=106,DISTRIBUTOR_MARGIN__C=17.7,OFF_MFG_SUGG_TTL__C=25.8,REBATE_AS_A_PERCENT_OF_DN__C=12.8),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=105,DISTRIBUTOR_MARGIN__C=17.1,OFF_MFG_SUGG_TTL__C=26.5,REBATE_AS_A_PERCENT_OF_DN__C=13),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=104,DISTRIBUTOR_MARGIN__C=16.5,OFF_MFG_SUGG_TTL__C=27.2,REBATE_AS_A_PERCENT_OF_DN__C=13.2),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=103,DISTRIBUTOR_MARGIN__C=15.9,OFF_MFG_SUGG_TTL__C=27.9,REBATE_AS_A_PERCENT_OF_DN__C=13.4),
-			new Toro_PricingProgramLine__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=102,DISTRIBUTOR_MARGIN__C=15.3,OFF_MFG_SUGG_TTL__C=28.6,REBATE_AS_A_PERCENT_OF_DN__C=13.6)};
+		List<Revvy__MnStrategy2__c> ppls = new List<Revvy__MnStrategy2__c> {
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=101,DISTRIBUTOR_MARGIN__C=14.7,OFF_MFG_SUGG_TTL__C=29.3,REBATE_AS_A_PERCENT_OF_DN__C=13.8),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=100,DISTRIBUTOR_MARGIN__C=14.4,OFF_MFG_SUGG_TTL__C=30,REBATE_AS_A_PERCENT_OF_DN__C=14),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=120,DISTRIBUTOR_MARGIN__C=20.9,OFF_MFG_SUGG_TTL__C=16,REBATE_AS_A_PERCENT_OF_DN__C=5.1),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=119,DISTRIBUTOR_MARGIN__C=20.8,OFF_MFG_SUGG_TTL__C=16.7,REBATE_AS_A_PERCENT_OF_DN__C=5.7),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=118,DISTRIBUTOR_MARGIN__C=20.6,OFF_MFG_SUGG_TTL__C=17.4,REBATE_AS_A_PERCENT_OF_DN__C=6.3),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=117,DISTRIBUTOR_MARGIN__C=20.4,OFF_MFG_SUGG_TTL__C=18.1,REBATE_AS_A_PERCENT_OF_DN__C=6.9),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=116,DISTRIBUTOR_MARGIN__C=20.3,OFF_MFG_SUGG_TTL__C=18.8,REBATE_AS_A_PERCENT_OF_DN__C=7.5),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=115,DISTRIBUTOR_MARGIN__C=20.2,OFF_MFG_SUGG_TTL__C=19.5,REBATE_AS_A_PERCENT_OF_DN__C=8.2),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=114,DISTRIBUTOR_MARGIN__C=20,OFF_MFG_SUGG_TTL__C=20.2,REBATE_AS_A_PERCENT_OF_DN__C=8.8),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=113,DISTRIBUTOR_MARGIN__C=19.8,OFF_MFG_SUGG_TTL__C=20.9,REBATE_AS_A_PERCENT_OF_DN__C=9.4),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=112,DISTRIBUTOR_MARGIN__C=19.6,OFF_MFG_SUGG_TTL__C=21.6,REBATE_AS_A_PERCENT_OF_DN__C=10),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=111,DISTRIBUTOR_MARGIN__C=19.4,OFF_MFG_SUGG_TTL__C=22.3,REBATE_AS_A_PERCENT_OF_DN__C=10.5),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=110,DISTRIBUTOR_MARGIN__C=19.1,OFF_MFG_SUGG_TTL__C=23,REBATE_AS_A_PERCENT_OF_DN__C=11),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=109,DISTRIBUTOR_MARGIN__C=18.8,OFF_MFG_SUGG_TTL__C=23.7,REBATE_AS_A_PERCENT_OF_DN__C=11.5),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=108,DISTRIBUTOR_MARGIN__C=18.5,OFF_MFG_SUGG_TTL__C=24.4,REBATE_AS_A_PERCENT_OF_DN__C=12),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=107,DISTRIBUTOR_MARGIN__C=18.1,OFF_MFG_SUGG_TTL__C=25.1,REBATE_AS_A_PERCENT_OF_DN__C=12.4),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=106,DISTRIBUTOR_MARGIN__C=17.7,OFF_MFG_SUGG_TTL__C=25.8,REBATE_AS_A_PERCENT_OF_DN__C=12.8),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=105,DISTRIBUTOR_MARGIN__C=17.1,OFF_MFG_SUGG_TTL__C=26.5,REBATE_AS_A_PERCENT_OF_DN__C=13),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=104,DISTRIBUTOR_MARGIN__C=16.5,OFF_MFG_SUGG_TTL__C=27.2,REBATE_AS_A_PERCENT_OF_DN__C=13.2),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=103,DISTRIBUTOR_MARGIN__C=15.9,OFF_MFG_SUGG_TTL__C=27.9,REBATE_AS_A_PERCENT_OF_DN__C=13.4),
+			new Revvy__MnStrategy2__c(PricingProgram__c=pp.id,AWARD_PRICE_AS_A_PERCENT_OF_DN__C=102,DISTRIBUTOR_MARGIN__C=15.3,OFF_MFG_SUGG_TTL__C=28.6,REBATE_AS_A_PERCENT_OF_DN__C=13.6)};
 		insert ppls;
-		//List<sObject> qiList = Test.loadData(Toro_QuoteItem__c.sObjectType, 'TestData_PP_ToroQuoteItem_1');
-		//List<sObject> qisList = Test.loadData(Toro_QuoteItem_SubLine__c.sObjectType, 'TestData_PP_ToroQuoteSubline_1');
+		//List<sObject> qiList = Test.loadData(Revvy__MnStrategy4__c.sObjectType, 'TestData_PP_ToroQuoteItem_1');
+		//List<sObject> qisList = Test.loadData(Revvy__MnStrategy5__c.sObjectType, 'TestData_PP_ToroQuoteSubline_1');
 		//system.debug(logginglevel.info);
 	}
     static  void testAwardPrice() {

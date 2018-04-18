@@ -1,13 +1,13 @@
 public with sharing class ToroContractQuantityPPHelper extends ToroStateContractPricingProgramHelper  {
 	public class InnerClass implements Comparable {
-		public InnerClass(decimal min, decimal max, Toro_PricingProgramLine__c ppl) {
+		public InnerClass(decimal min, decimal max, Revvy__MnStrategy2__c ppl) {
 			this.maxQty = max;
 			this.minQty = min;
 			this.ppl = ppl;	
 		}
 		public decimal maxQty { get; set;}
 		public decimal minQty { get; set; }
-		public Toro_PricingProgramLine__c ppl { get; set;}
+		public Revvy__MnStrategy2__c ppl { get; set;}
 		public Integer compareTo(Object compareTo) {
 	        InnerClass compareToEmp = (InnerClass)compareTo;
 	        if (compareToEmp.minQty < this.minQty) {
@@ -20,15 +20,15 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 	    }
 	}
 	
-	public override List<Toro_QuoteItem__c> baseCalculateImplementation(Id quoteId, String priceProgram,
-															String priceMethod, List<Toro_QuoteItem__c> quoteItemList ){
+	public override List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		Integer numOfTractionUnits = CMnQuoteUtil.getNumberOfTractionUnits(quoteItemList);
-		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
+		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
 		List<ToroContractQuantityPPHelper.InnerClass> qtyTiers = new List<ToroContractQuantityPPHelper.InnerClass>();
-		for(Toro_PricingProgram__c rh : rebates) {
+		for(Revvy__MnStrategy1__c rh : rebates) {
 			if(rh.PricingProgramLines__r != null) {
-				for(Toro_PricingProgramLine__c l : rh.PricingProgramLines__r) {
+				for(Revvy__MnStrategy2__c l : rh.PricingProgramLines__r) {
 					qtyTiers.add(new ToroContractQuantityPPHelper.InnerClass(l.min_qty__c, l.max_qty__c, l));		
 				}
 			}
@@ -36,7 +36,7 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 		qtyTiers.sort();
 		decimal minQty = qtyTiers[0].minQty;
 		decimal maxQty = qtyTiers[qtyTiers.size()-1].maxQty;
-		Toro_PricingProgramLine__c line = null;
+		Revvy__MnStrategy2__c line = null;
 		if(numOfTractionUnits <= minQty)  {
 			line = qtyTiers[0].ppl;	
 		} else if(numOfTractionUnits >= maxQty) {
@@ -49,7 +49,7 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 			}
 		}
 		
-		for(Toro_QuoteItem__c qi : quoteItemList) {
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			if(line != null) {
 				qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 				qi.Original_off_MSRP__c = qi.Off_MSRP__c;
@@ -66,7 +66,7 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 				qi.Off_MSRP__c = 0;	
 			}				
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					qis.Percent_of_DNet__c = qi.Award_of_DN__c;
 					qis.Percent_Off_MSRP__c = qi.Off_MSRP__c;	
 					qi.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);

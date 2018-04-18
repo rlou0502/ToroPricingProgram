@@ -2,11 +2,11 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 
 	public static void reset(Id quoteId, String priceProgramExternalId, String priceMethod
 	                                                      , Boolean bperformancePart
-	                                                      , List<Toro_QuoteItem__c> quoteItemList) {
+	                                                      , List<Revvy__MnStrategy4__c> quoteItemList) {
 
 		system.debug('reset quoteItem' + quoteItemList);
 		
-		for(Toro_QuoteItem__c qi:quoteItemList) {
+		for(Revvy__MnStrategy4__c qi:quoteItemList) {
 			qi.Performance_Parts_Product__c = false;
 			qi.Performance_Parts_Product__c = false;
 			if(!qi.Unit_Award_Overridden__c) {
@@ -17,7 +17,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 	        //qi.revvy__freezepricing__c=false;
 	        
 	        if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-	        	for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+	        	for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					qis.Performance_Part__c = false;
 					if(!qis.Unit_Award_Overridden__c) {
 						//Todo
@@ -66,8 +66,8 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 	public static Map<String,Decimal> retrievePerformancePart() {
 		//Map<String,Decimal> ppMap = new Map<String,Decimal>();
 		/*
-		for(Toro_PricingProgramLine__c rl:[Select Id, ApplicableProducts__c, Pricing_1__c
-		                          From Toro_PricingProgramLine__c
+		for(Revvy__MnStrategy2__c rl:[Select Id, ApplicableProducts__c, Pricing_1__c
+		                          From Revvy__MnStrategy2__c
 		                         Where PricingProgram__r.Name = 'Performance Part'
 		                           and PricingProgram__r.PricingProgramType__c = 'Performance Part' ]) {
 			ppMap.put(rl.ApplicableProducts__c, rl.Pricing_1__c);                           	
@@ -90,7 +90,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 
 
 
-	public static boolean applyPerformancePartForQuoteItem(Boolean bperformancePart,  Toro_QuoteItem__c qi, Map<String,Decimal> ppMap, String priceMethod) {
+	public static boolean applyPerformancePartForQuoteItem(Boolean bperformancePart,  Revvy__MnStrategy4__c qi, Map<String,Decimal> ppMap, String priceMethod) {
 		system.debug('+++++++++++++++++ PP quoteItem qi.Product_Id__c=' + qi.Product_Id__c + ' ppMap size=' + ppMap.size() + ' test='+ppMap.containsKey(qi.Product_Id__c));
  		boolean result = false;
  		if(bperformancePart == null) {
@@ -123,7 +123,7 @@ public with sharing class ToroPerformancePartPricingProgramHelper {
 		return result;
 	}   
 	
-	public static void applyPerformancePartForQuoteItemSubLine(Boolean bperformancePart, Toro_QuoteItem_SubLine__c qi, Map<String,Decimal> ppMap, String priceMethod) {
+	public static void applyPerformancePartForQuoteItemSubLine(Boolean bperformancePart, Revvy__MnStrategy5__c qi, Map<String,Decimal> ppMap, String priceMethod) {
 		system.debug('+++++++++++++++++ Performance Part quoteItem' + qi);
 		if(bperformancePart == null) {
  			bperformancePart = false;

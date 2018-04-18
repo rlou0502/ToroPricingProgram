@@ -2,8 +2,8 @@ public with sharing class ToroPerformancePartCache implements Cache.CacheBuilder
 	public Object doLoad(String pricelistExternalId) {
         Map<String,Decimal> ppMap = new Map<String,Decimal>();
 		/*
-		for(Toro_PricingProgramLine__c rl:[Select Id, ApplicableProducts__c, Pricing_1__c
-		                          From Toro_PricingProgramLine__c
+		for(Revvy__MnStrategy2__c rl:[Select Id, ApplicableProducts__c, Pricing_1__c
+		                          From Revvy__MnStrategy2__c
 		                         Where PricingProgram__r.Name = 'Performance Part'
 		                           and PricingProgram__r.PricingProgramType__c = 'Performance Part' ]) {
 			ppMap.put(rl.ApplicableProducts__c, rl.Pricing_1__c);                           	

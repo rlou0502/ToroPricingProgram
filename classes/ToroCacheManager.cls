@@ -14,7 +14,7 @@ public with sharing class ToroCacheManager {
 	public static Map<String,Decimal> getPerformancePartMap() {
 		return (Map<String,Decimal>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPerformancePartCache.class, 'Commercial');		
 	}
-	public static Toro_PricingProgram__c getPricingProgram(String externalId) {
+	public static Revvy__MnStrategy1__c getPricingProgram(String externalId) {
 		if(String.isBlank(externalId)) {
 			return null;	
 		}
@@ -22,7 +22,7 @@ public with sharing class ToroCacheManager {
 		system.debug('ToroCacheManager  Cache.Session.getPartition(ToroCacheManager.constPartitionName) = ' + Cache.Session.getPartition(ToroCacheManager.constPartitionName));
 		system.debug('ToroCacheManager  ToroPricingProgramCache.class = ' + ToroPricingProgramCache.class);
 		system.debug('ToroCacheManager  externalId = ' + externalId);
-		return (Toro_PricingProgram__c) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramCache.class, externalId);	
+		return (Revvy__MnStrategy1__c) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramCache.class, externalId);	
 	}
 	
 	public static REVVY__MnQuote__c refreshQuote(Id quoteId) {

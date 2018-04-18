@@ -1,10 +1,10 @@
 public with sharing class ToroPricingProgramUtil {
-	public static List<Toro_QuoteItem__c> loadPricesFromPricelist(String priceProgram, List<Toro_QuoteItem__c> quoteItemList ){
-		List<Toro_PricingProgram__c> rebates = new List<Toro_PricingProgram__c>{ToroCacheManager.getPricingProgram(priceProgram)};
+	public static List<Revvy__MnStrategy4__c> loadPricesFromPricelist(String priceProgram, List<Revvy__MnStrategy4__c> quoteItemList ){
+		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
-		for(Toro_PricingProgram__c pp : rebates) {
+		for(Revvy__MnStrategy1__c pp : rebates) {
 			system.debug('ToroContractPriceListPPHelper--'+pp);
 			String priceListId = pp.OverriddenPriceList__c;
 			
@@ -18,7 +18,7 @@ public with sharing class ToroPricingProgramUtil {
 				prodPriceListLineMap.put(ppl.revvy__product__r.revvy__Id__c, ppl);		
 			}
 			system.debug('ToroContractPriceListPPHelper--prodPriceListLineMap='+prodPriceListLineMap);
-			for(Toro_QuoteItem__c qi : quoteItemList) {
+			for(Revvy__MnStrategy4__c qi : quoteItemList) {
 				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
 					revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
 					//qi.MSRP_Price__c = ppl.revvy__ListedPrice__c;
@@ -43,7 +43,7 @@ public with sharing class ToroPricingProgramUtil {
 				}
 				system.debug('ToroContractPriceListPPHelper--product = ' + qi.Product_Name__c + '  -OnlyExistedInCPL__c-- ' + qi.OnlyExistedInCPL__c);
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for(Toro_QuoteItem_SubLine__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
 							revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
 							//qis.MSRP_Price__c = ppl.revvy__ListedPrice__c;

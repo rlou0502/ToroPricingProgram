@@ -15,7 +15,7 @@ public with sharing class ToroPricingProgramProductSelector {
 	private Id pricingProgramId;
 	private String previouslySelectedProducts;
 
-	public Toro_PricingProgram__c pricingProgram { get; set; } // Revvy__MnStrategy1__c -> Toro_PricingProgram__c
+	public Revvy__MnStrategy1__c pricingProgram { get; set; } // Revvy__MnStrategy1__c -> Revvy__MnStrategy1__c
 
 	public Boolean allProductsSelected 			{ get; set; }
 	public List<Wrapper> selectedProducts 		{ get; set; }
@@ -49,7 +49,7 @@ public with sharing class ToroPricingProgramProductSelector {
 				Id, r.Name
 				, r.SelectProduct__c, r.ApplicableProducts__c
 			FROM
-				Toro_PricingProgram__c r
+				Revvy__MnStrategy1__c r
 			WHERE
 				Id = :pricingProgramId
 		];
