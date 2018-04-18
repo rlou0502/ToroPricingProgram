@@ -475,7 +475,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <type>Text</type>
         <unique>false</unique>
     </fields>
-    <label>Toro Pricing Program</label>
+    <label>Toro Pricing Program OLD</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
@@ -493,7 +493,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <label>Toro Pricing Program Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Toro Pricing Programs</pluralLabel>
+    <pluralLabel>Toro Pricing Programs OLD</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <webLinks>

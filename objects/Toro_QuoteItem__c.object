@@ -1724,7 +1724,7 @@
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
-    <label>Toro Quote Item</label>
+    <label>Toro Quote Item OLD</label>
     <listViews>
         <fullName>All</fullName>
         <filterScope>Everything</filterScope>
@@ -1735,7 +1735,7 @@
         <label>Toro Quote Item Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Toro Quote Item</pluralLabel>
+    <pluralLabel>Toro Quote Item OLD</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

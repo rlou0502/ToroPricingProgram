@@ -78,13 +78,13 @@
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
-    <label>Toro Pricing Program Eligibility</label>
+    <label>Toro Pricing Program Eligibility OLD</label>
     <nameField>
         <displayFormat>PPE-{0000}</displayFormat>
         <label>Toro Pricing Program Eligibility Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Toro Pricing Program Eligibilities</pluralLabel>
+    <pluralLabel>Toro Pricing Program Eligibilities OLD</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

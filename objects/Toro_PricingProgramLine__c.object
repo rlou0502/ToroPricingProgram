@@ -227,13 +227,13 @@
             </valueSetDefinition>
         </valueSet>
     </fields>
-    <label>Toro Pricing Program Line</label>
+    <label>Toro Pricing Program Line OLD</label>
     <nameField>
         <displayFormat>PPL-{00000}</displayFormat>
         <label>Toro Pricing Program Line Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Toro Pricing Program Lines</pluralLabel>
+    <pluralLabel>Toro Pricing Program Lines OLD</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>
