@@ -62,6 +62,8 @@ public with sharing class ToroTestData {
 	 * @return return_type
 	 */
 	public static void loadQuoteTestData() {
+		
+		List<sObject> user            = Test.loadData(User.sObjectType, 'TestData_PP_User');
 		List<sObject> quote            = Test.loadData(Revvy__MnQuote__c.sObjectType, 'TestData_PP_Quote');
 		List<sObject> quoteItem        = Test.loadData(Revvy__MnQuoteItem__c.sObjectType, 'TestData_PP_QuoteItem');
 		List<sObject> quoteItemSubline = Test.loadData(Revvy__MnQuoteItemSubline__c.sObjectType, 'TestData_PP_QuoteItemSubline');
