@@ -1,6 +1,9 @@
 global class ToroSupportPlusController {
 	public Id quoteId { get; private set; }
 
+	private static REVVY__MnSequenceGen__c sequenceGen;
+
+
 	/**
 	 *
 	 * description
@@ -117,18 +120,13 @@ global class ToroSupportPlusController {
 		List<REVVY__MnQuoteItemSubline__c> sublinesToUpdate   = new List<REVVY__MnQuoteItemSubline__c>();
 		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert   = new List<REVVY__MnQuoteItemSubline__c>();
 
-		REVVY__MnSequenceGen__c sequence = [
-			SELECT
-				REVVY__CurrentValue__c
-			FROM
-				REVVY__MnSequenceGen__c
-			WHERE
-				REVVY__ObjectName__c = 'MnQuoteItem__c' LIMIT 1
-		];
-
 		for (ToroSupportPlusItem quoteItem : quoteItems) {
 			if (quoteItem.spQuantity == quoteItem.quantity) {
+				// set quoteItem price to zero
+				// create new support plus quote items
+				REVVY__MnQUoteItem__c quoteItemToUpsert = new REVVY__MnQuoteItem__c(
 
+				);
 			}
 
 			else if (quoteItem.spQuantity == 0) {
@@ -139,6 +137,8 @@ global class ToroSupportPlusController {
 
 			}
 		}
+
+		// update sequenceGen;
 	}
 
 	/**
@@ -266,6 +266,26 @@ global class ToroSupportPlusController {
 		// update quote;
 	}
 
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	private Decimal generateRevvyId() {
+		if (sequenceGen == null) {
+			sequenceGen = [SELECT
+								REVVY__CurrentValue__c
+							FROM
+								REVVY__MnSequenceGen__c
+							WHERE
+								REVVY__ObjectName__c = 'MnQuoteItem__c' LIMIT 1
+			];
+		}
+
+		return ++sequenceGen.REVVY__CurrentValue__c;
+	}
 
 /*
     public void init() {

@@ -305,6 +305,7 @@
     </fields>
     <fields>
         <fullName>Currency2__c</fullName>
+        <defaultValue>IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;USD_USD&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;CAD_USD&quot;,&quot;EUR_EUR&quot;))</defaultValue>
         <description>Third Currency to break SFDC currency iso code and REVVY currency dependency
 
 CustomerCurrency_ISOCurrency</description>
@@ -316,12 +317,11 @@ CustomerCurrency_ISOCurrency</description>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
         <valueSet>
-            <controllingField>REVVY__Segment__c</controllingField>
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
                     <fullName>USD_USD</fullName>
-                    <default>true</default>
+                    <default>false</default>
                 </value>
                 <value>
                     <fullName>EUR_EUR</fullName>
@@ -332,21 +332,6 @@ CustomerCurrency_ISOCurrency</description>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
-            <valueSettings>
-                <controllingFieldValue>Commercial</controllingFieldValue>
-                <controllingFieldValue>FY17 EMEA CE - USD</controllingFieldValue>
-                <controllingFieldValue>FY17 EMEA CE - EURO</controllingFieldValue>
-                <valueName>USD_USD</valueName>
-            </valueSettings>
-            <valueSettings>
-                <controllingFieldValue>Commercial</controllingFieldValue>
-                <valueName>CAD_USD</valueName>
-            </valueSettings>
-            <valueSettings>
-                <controllingFieldValue>FY17 EMEA CE - USD</controllingFieldValue>
-                <controllingFieldValue>FY17 EMEA CE - EURO</controllingFieldValue>
-                <valueName>EUR_EUR</valueName>
-            </valueSettings>
         </valueSet>
     </fields>
     <fields>
@@ -590,7 +575,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Territory__c</fullName>
-        <defaultValue>IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;North_America&quot;, &quot;International&quot;)</defaultValue>
+        <defaultValue>IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;North_America&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;North_America&quot;,&quot;International&quot;))</defaultValue>
         <externalId>false</externalId>
         <label>Territory</label>
         <required>false</required>
