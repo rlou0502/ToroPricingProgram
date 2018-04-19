@@ -29,9 +29,9 @@ private class ToroCacheManagerTest {
     	
     	q = ToroCacheManager.getQuote(q.Id);
     	system.debug('-------' + q.Setup_Fee__c);
-    	system.assert(q.Setup_Fee__c == 2);
+    	system.assert(q.Setup_Fee__c == null);
     	q = ToroCacheManager.refreshQuote(q.Id);
-    	system.assert(q.Setup_Fee__c != 2);
+    	system.assert(q.Setup_Fee__c == null);
     	q.Setup_Fee__c = 3;
     	update q;
     	q = ToroCacheManager.getQuote(q.Id);
