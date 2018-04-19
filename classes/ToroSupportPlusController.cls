@@ -121,19 +121,15 @@ global class ToroSupportPlusController {
 		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert   = new List<REVVY__MnQuoteItemSubline__c>();
 
 		for (ToroSupportPlusItem quoteItem : quoteItems) {
-			if (quoteItem.spQuantity == quoteItem.quantity) {
-				// set quoteItem price to zero
-				// create new support plus quote items
-				REVVY__MnQUoteItem__c quoteItemToUpsert = new REVVY__MnQuoteItem__c(
-
-				);
-			}
-
-			else if (quoteItem.spQuantity == 0) {
+			if (quoteItem.quantity < 0) {
 
 			}
 
-			else if (quoteItem.spQuantity < quoteItem.quantity) {
+			else if (quoteItem.quantity <  quoteItem.spQuantity) {
+
+			}
+
+			else if (quoteItem.quantity == quoteItem.spQuantity) {
 
 			}
 		}
