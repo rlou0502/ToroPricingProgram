@@ -123,7 +123,7 @@ public with sharing class ToroSupportPlusData {
 
 			result.quote = quote;
 
-			for (REVVY__MnQuoteItem__c quoteItem : getQuoteItems(quoteId)) {
+			for (REVVY__MnQuoteItem__c quoteItem : getQuoteItemMap(quoteId).values()) {
 				ToroSupportPlusItem wrapper = new ToroSupportPlusItem(quoteItem);
 				if (wrapper.isSupportPlusItem) {
 					result.supportPlusItems.add(wrapper);
@@ -149,8 +149,10 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static List<REVVY__MnQuoteItem__c> getQuoteItems(Id quoteId) {
-		return [SELECT
+	public static Map<Id,REVVY__MnQuoteItem__c> getQuoteItemMap(Id quoteId) {
+		return new Map<Id,REVVY__MnQuoteItem__c>(
+			[
+				SELECT
 					Id
 					, REVVY__Product_Name_F__c
 					, REVVY__Catalog_Node__r.Name
@@ -178,6 +180,8 @@ public with sharing class ToroSupportPlusData {
 				FROM
 					REVVY__MnQuoteItem__c
 				WHERE
-					REVVY__Quote__c = :quoteId];
+					REVVY__Quote__c = :quoteId
+			]
+		);
 	}
 }
