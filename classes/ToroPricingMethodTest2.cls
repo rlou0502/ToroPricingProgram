@@ -19,6 +19,7 @@
  *
  * See the Apex Language Reference for more information about Testing and Code Coverage.
  */
+//@deprecate
 @isTest(SeeAllData=true)
 private class ToroPricingMethodTest2 {
     static testMethod void testApplyTotalAwardDollars() {

@@ -116,6 +116,29 @@ global class ToroSupportPlusController {
 		List<REVVY__MnQuoteItem__c>        quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
 		List<REVVY__MnQuoteItemSubline__c> sublinesToUpdate   = new List<REVVY__MnQuoteItemSubline__c>();
 		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert   = new List<REVVY__MnQuoteItemSubline__c>();
+
+		REVVY__MnSequenceGen__c sequence = [
+			SELECT
+				REVVY__CurrentValue__c
+			FROM
+				REVVY__MnSequenceGen__c
+			WHERE
+				REVVY__ObjectName__c = 'MnQuoteItem__c' LIMIT 1
+		];
+
+		for (ToroSupportPlusItem quoteItem : quoteItems) {
+			if (quoteItem.spQuantity == quoteItem.quantity) {
+
+			}
+
+			else if (quoteItem.spQuantity == 0) {
+
+			}
+
+			else if (quoteItem.spQuantity < quoteItem.quantity) {
+
+			}
+		}
 	}
 
 	/**
