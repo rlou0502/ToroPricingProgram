@@ -51,6 +51,7 @@
     handleSPQuantityChange: function(cmp, event, helper) {
         var quote            = cmp.get('v.quote');
         var quoteItems       = cmp.get('v.quoteItems');
+        var supportPlusItems = cmp.get('v.supportPlusItems');
         var allowance        = quote.Toro_Support_Plus_Allowance__c;
 
         cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
@@ -94,12 +95,11 @@
         }
     },
     handleSubmitClick: function(cmp, event, helper) {
-        alert ('submit placeholder');
         var quote = cmp.get('v.quote');
         var quoteItems = cmp.get('v.quoteItems');
         var supportPlusItems = cmp.get('v.supportPlusItems');
 
-        helper.saveChanges(quote, quoteItems, supportPlusItems);
+        helper.saveChanges(cmp, quote, quoteItems, supportPlusItems);
     },
     populateAddNewModalFields: function(cmp, event, helper) {
         var dataset = event.currentTarget.dataset;

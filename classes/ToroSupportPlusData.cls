@@ -3,7 +3,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Boolean success                             			{ get; private set; }
 	@AuraEnabled public REVVY__MnQuote__c quote 								{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 					{ get; set; }
-	@AuraEnabled public List<ToroSupportPlusItem> supportPlusItems 				{ get; set; }
+	@AuraEnabled public List<ToroSupportPlusItem> supportPlusOnlyItems 			{ get; set; }
 	@AuraEnabled public List<DistRespPair> distributorResponsibilities 			{ get; private set; }
 
 	public class DistRespPair implements Comparable {
@@ -25,7 +25,7 @@ public with sharing class ToroSupportPlusData {
 
 	public ToroSupportPlusData() {
 		this.quoteItems                  = new List<ToroSupportPlusItem>();
-		this.supportPlusItems            = new List<ToroSupportPlusItem>();
+		this.supportPlusOnlyItems        = new List<ToroSupportPlusItem>();
 		this.distributorResponsibilities = new List<DistRespPair>();
 		this.success                     = true;
 	}
@@ -57,6 +57,7 @@ public with sharing class ToroSupportPlusData {
 				WHERE
 					Id = :quoteId
 			];
+			System.debug('\n\n@@quote: ' + quote + '\n\n');
 
 			List<Support_Plus_Plan__c> supportPlusPlans = [
 				SELECT
@@ -123,15 +124,33 @@ public with sharing class ToroSupportPlusData {
 
 			result.quote = quote;
 
-			for (REVVY__MnQuoteItem__c quoteItem : getQuoteItemMap(quoteId).values()) {
+			List<REVVY__MnQuoteItem__c> quoteItems = getQuoteItems(quoteId);
+			System.debug('\n\n@@quoteItems: ' + quoteItems + '\n\n');
+
+			// gather Support Plus Split Item Ids
+			final Set<Id> splitSupportPlusItemIds = new Set<Id>();
+			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
+				if (quoteItem.Support_Plus_Item__c != null) {
+					splitSupportPlusItemIds.add(quoteItem.Support_Plus_Item__c);
+				}
+			}
+
+
+			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
 				ToroSupportPlusItem wrapper = new ToroSupportPlusItem(quoteItem);
-				if (wrapper.isSupportPlusItem) {
-					result.supportPlusItems.add(wrapper);
+				if (wrapper.isSupportPlusItemOnly) {
+					result.supportPlusOnlyItems.add(wrapper);
 				}
 
+				else if (!splitSupportPlusItemIds.contains(quoteItem.Id)) {
+					result.quoteItems.add(wrapper);
+				}
+
+				/*
 				else {
 					result.quoteItems.add(wrapper);
 				}
+				*/
 			}
 		}
 
@@ -149,39 +168,47 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static Map<Id,REVVY__MnQuoteItem__c> getQuoteItemMap(Id quoteId) {
-		return new Map<Id,REVVY__MnQuoteItem__c>(
-			[
-				SELECT
-					Id
-					, REVVY__Product_Name_F__c
-					, REVVY__Catalog_Node__r.Name
-					, REVVY__Product_ID_F__c
-					, REVVY__Id__c
-					, REVVY__Quantity__c
-					, Support_Plus_Quantity__c
-					, Support_Plus_Item__c
-					, Description__c
-					, Distributor_Responsibility__c
-					, REVVY__SuggestedPrice__c
-					, (SELECT
-							Id
-							, REVVY__Quantity__c
-							, Support_Plus_Quantity__c
-							, REVVY__Catalog_Node__r.Name
-							, Product_ID2__c
-							, Description__c
-							, Distributor_Responsibility__c
-							, REVVY__SuggestedPrice__c
-						FROM
-							REVVY__QuoteItemSubLine__r
-						ORDER BY
-							REVVY__Catalog_Node__r.Name)
-				FROM
-					REVVY__MnQuoteItem__c
-				WHERE
-					REVVY__Quote__c = :quoteId
-			]
-		);
+	public static List<REVVY__MnQuoteItem__c> getQuoteItems(Id quoteId) {
+		return [
+			SELECT
+				Id
+				, REVVY__Product_Name_F__c
+				, REVVY__Catalog_Node__r.Name
+				, REVVY__Product_ID_F__c
+				, REVVY__Id__c
+				, REVVY__Quantity__c
+				, Support_Plus_Quantity__c
+				, Is_Support_Plus_Item_Only__c
+				, Description__c
+				, Distributor_Responsibility__c
+				, REVVY__PricelistLine__c
+				, REVVY__Catalog_Node__c
+				, REVVY__SuggestedPrice__c
+				, REVVY__Price__c
+				, Support_Plus_Item__c
+				, Support_Plus_Item__r.Id
+				, Support_Plus_Item__r.REVVY__Quantity__c
+				, Support_Plus_Item__r.REVVY__Id__c
+				, (SELECT
+						Id
+						, REVVY__Quantity__c
+						, Support_Plus_Quantity__c
+						, REVVY__Catalog_Node__r.Name
+						, Product_ID2__c
+						, Description__c
+						, Distributor_Responsibility__c
+						, REVVY__SuggestedPrice__c
+						, REVVY__Price__c
+						, REVVY__Id__c
+						, Support_Plus_Item__r.REVVY__Quantity__c
+					FROM
+						REVVY__QuoteItemSubLine__r
+					ORDER BY
+						REVVY__Catalog_Node__r.Name)
+			FROM
+				REVVY__MnQuoteItem__c
+			WHERE
+				REVVY__Quote__c = :quoteId
+		];
 	}
 }

@@ -211,13 +211,17 @@
     </fields>
     <fields>
         <fullName>Support_Plus_Item__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Checks if quote item is applied to support plus</description>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Support Plus Item resulting from a split</description>
         <externalId>false</externalId>
         <label>Support Plus Item</label>
+        <referenceTo>REVVY__MnQuoteItem__c</referenceTo>
+        <relationshipLabel>Quote Line Items (Support Plus Item)</relationshipLabel>
+        <relationshipName>Support_Plus_Items</relationshipName>
+        <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
+        <type>Lookup</type>
     </fields>
     <fields>
         <fullName>Support_Plus_Items__c</fullName>

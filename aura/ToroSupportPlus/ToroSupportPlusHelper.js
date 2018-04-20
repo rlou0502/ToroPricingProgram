@@ -12,12 +12,12 @@
 					console.log(supportPlusData);
 
 					cmp.set('v.quoteItems', supportPlusData.quoteItems);
-					cmp.set('v.supportPlusItems', supportPlusData.supportPlusItems);
+					cmp.set('v.supportPlusItems', supportPlusData.supportPlusOnlyItems);
 					cmp.set('v.distributorResponsibilities', supportPlusData.distributorResponsibilities);
 					cmp.set('v.quote', this.recalculateQuoteSupportPlusTotals(
 											supportPlusData.quote
 											, supportPlusData.quoteItems
-											, supportPlusData.supportPlusItems));
+											, supportPlusData.supportPlusOnlyItems));
 	            }
 	        }
 	    );
@@ -83,15 +83,18 @@
 		);
 		$A.enqueueAction(action);
 	},
-	saveChanges: function(quote, quoteItems, supportPlusItems) {
+	saveChanges: function(cmp, quote, quoteItems, supportPlusItems) {
 		console.log('@ToroSupportPlusHelper:saveChanges');
-		var action = cmp.get('c.save');
+		var action = cmp.get('c.splitAndSaveItems');
+		console.log(JSON.stringify(quoteItems));
+		console.log(JSON.stringify(supportPlusItems));
+
 		action.setParams({
-			quote: quote
-			, quoteItems: quoteItems
-			, supportPlusItems: supportPlusItems
+			  quote               : quote
+			, quoteItemsJSON      : JSON.stringify(quoteItems)
+			, supportPlusItemsJSON: JSON.stringify(supportPlusItems)
 		});
-		acion.setCallback(this
+		action.setCallback(this
 			, function(response) {
 				if (cmp.isValid() && response.getState() == 'SUCCESS') {
 					// todo

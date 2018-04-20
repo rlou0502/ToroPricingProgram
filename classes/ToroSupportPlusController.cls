@@ -111,30 +111,128 @@ global class ToroSupportPlusController {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static void save(REVVY__MnQuoteItem__c quote
-							, List<ToroSupportPlusItem> quoteItems
-							, List<ToroSupportPlusItem> supportPlusItems
+	@AuraEnabled
+	public static Boolean splitAndSaveItems(REVVY__MnQuoteItem__c quote
+							, String quoteItemsJSON
+							, String supportPlusItemsJSON
 	) {
-		List<REVVY__MnQuoteItem__c>        quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
-		List<REVVY__MnQuoteItem__c>        quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
-		List<REVVY__MnQuoteItemSubline__c> sublinesToUpdate   = new List<REVVY__MnQuoteItemSubline__c>();
-		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert   = new List<REVVY__MnQuoteItemSubline__c>();
+		System.debug('\n\n@@@ToroSupportPlusController.splitAndSave\n\n');
+		List<REVVY__MnQuoteItem__c> quoteItemsToUpdate       = new List<REVVY__MnQuoteItem__c>();
+		List<REVVY__MnQuoteItem__c> supportPlusItemsToInsert = new List<REVVY__MnQuoteItem__c>();
+		List<REVVY__MnQuoteItem__c> supportPlusItemsToDelete = new List<REVVY__MnQuoteItem__c>();
 
+		List<REVVY__MnQuoteItemSubline__c> sublinesToUpdate = new List<REVVY__MnQuoteItemSubline__c>();
+		List<REVVY__MnQuoteItemSubline__c> sublinesToInsert = new List<REVVY__MnQuoteItemSubline__c>();
+
+		List<ToroSupportPlusItem> quoteItems = (List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class);
+		List<ToroSupportPlusItem> supportPlusItems = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);
+
+		final List<REVVY__MnQuoteItem__c> quoteItemObjs = ToroSupportPlusData.getQuoteItems(quote.Id);
+		final Map<Id,REVVY__MnQuoteItem__c> quoteItemMap = new Map<Id,REVVY__MnQuoteItem__c>(quoteItemObjs);
+		final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
+
+		// build map of the quote item to the existing split support plus item
+		for (REVVY__MnQuoteItem__c quoteItemObj : quoteItemObjs) {
+			if (quoteItemObj.Support_Plus_Item__c != null) {
+				quoteItemIdToSupportPlusItemMap.put(quoteItemObj.Id, quoteItemIdToSupportPlusItemMap.get(quoteItemObj.Support_Plus_Item__c));
+			}
+		}
+
+
+		final Map<Id,Decimal> quoteItemIdToNewSupportPlusItemExtIdMap = new Map<Id,Decimal>();
 		for (ToroSupportPlusItem quoteItem : quoteItems) {
-			if (quoteItem.quantity < 0) {
+			REVVY__MnQuoteItem__c quoteItemObj       = quoteItemMap.get(quoteItem.sfid);
+			REVVY__MnQuoteItem__c supportPlusItemObj = quoteItemIdToSupportPlusItemMap.get(quoteItem.sfid);
 
+			if (quoteItem.spQuantity == 0) {
+				if (supportPlusItemObj != null) {
+					supportPlusItemsToDelete.add(supportPlusItemObj);
+					quoteItemObj.REVVY__Quantity__c = quoteItem.quantity;
+					quoteItemsToUpdate.add(quoteItemObj);
+				}
 			}
 
-			else if (quoteItem.quantity <  quoteItem.spQuantity) {
+			else if (quoteItem.spQuantity > 0 && quoteItem.spQuantity < quoteItem.quantity) {
+				if (supportPlusItemObj == null) {
+					REVVY__MnQuoteItem__c newSupportPlusItem = new REVVY__MnQuoteItem__c(
+						    REVVY__Quantity__c           = quoteItem.spQuantity
+						  , REVVY__Price__c              = 0
+						  , REVVY__Unit_Price__c         = 0
+						  , REVVY__Quote__c              = quote.Id
+						  , REVVY__Id__c                 = generateRevvyId()
+						  , REVVY__PricelistLine__c      = quoteItemObj.REVVY__PricelistLine__c
+						  , REVVY__Catalog_Node__c       = quoteItemObj.REVVY__Catalog_Node__c
+						  , REVVY__SuggestedPrice__c     = 0
+						  , Description__c               = quoteItemObj.Description__c
+						  , Support_Plus_Quantity__c     = quoteItemObj.Support_Plus_Quantity__c
+						  , Is_Support_Plus_Item_Only__c = false
+						  , Misc_Style__c                = 'NoCharge'
+					);
 
+					quoteItemIdToNewSupportPlusItemExtIdMap.put(quoteItemObj.Id, newSupportPlusItem.REVVY__Id__c);
+					supportPlusItemsToInsert.add(newSupportPlusItem);
+
+					quoteItemObj.REVVY__Quantity__c = quoteItem.quantity - quoteItem.spQuantity;
+					quoteItemsToUpdate.add(quoteItemObj);
+				}
+
+				else {
+					quoteItemObj.REVVY__Quantity__c = quoteItem.quantity - quoteItem.spQuantity;
+					quoteItemsToUpdate.add(quoteItemObj);
+					supportPlusItemObj.REVVY__Quantity__c = quoteItem.spQuantity;
+					quoteItemsToUpdate.add(supportPlusItemObj);
+				}
 			}
 
-			else if (quoteItem.quantity == quoteItem.spQuantity) {
+			else if (quoteItem.spQuantity == quoteItem.quantity) {
 
 			}
 		}
 
-		// update sequenceGen;
+		Savepoint sp = Database.setSavepoint();
+		try {
+			insert supportPlusItemsToInsert;
+
+			final List<REVVY__MnQuoteItem__c> supportPlusItemObjs = [
+				SELECT
+					Id, REVVY__Id__c
+				FROM
+					REVVY__MnQuoteItem__c
+				WHERE
+					REVVY__Id__c IN :quoteItemIdToNewSupportPlusItemExtIdMap.values()
+			];
+
+			final Map<Decimal,Id> supportPlusExtIdToSfidMap = new Map<Decimal,Id>();
+			for (REVVY__MnQuoteItem__c supportPlusItemObj : supportPlusItemObjs) {
+				supportPlusExtIdToSfidMap.put(supportPlusItemObj.REVVY__Id__c, supportPlusItemObj.Id);
+			}
+
+			for (REVVY__MnQuoteItem__c quoteItemToUpdate : quoteItemsToUpdate) {
+				if (quoteItemIdToNewSupportPlusItemExtIdMap.containsKey(quoteItemToUpdate.Id)) {
+					final Decimal supportPlusExtId = quoteItemIdToNewSupportPlusItemExtIdMap.get(quoteItemToUpdate.Id);
+					if (supportPlusExtIdToSfidMap.containsKey(supportPlusExtId)) {
+						final Id supportPlusItemId = supportPlusExtIdToSfidMap.get(supportPlusExtId);
+						if (quoteItemToUpdate.Support_Plus_Item__c == null) {
+							quoteItemToUpdate.Support_Plus_Item__c = supportPlusItemId;
+						}
+					}
+				}
+			}
+
+			update quoteItemsToUpdate;
+
+			System.debug('\n\n@@supportPlusItemsToInsert: ' + supportPlusItemsToInsert + '\n\n');
+			System.debug('\n\n@@quoteItemsToUpdate: ' + quoteItemsToUpdate + '\n\n');
+			System.debug('\n\n@@supportPlusItemsToDelete: ' + supportPlusItemsToDelete + '\n\n');
+		}
+
+		catch (Exception e) {
+			Database.rollback(sp);
+			return false;
+
+		}
+
+		return true;
 	}
 
 	/**
@@ -168,21 +266,21 @@ global class ToroSupportPlusController {
 				if (diff != 0) {
 					REVVY__MnQuoteItem__c clonedQi = qi.clone(false, true, false, false); //keep Id and deep-clone
 					qi.REVVY__Quantity__c = diff;
-					qi.Support_Plus_Item__c = true;
+					qi.Is_Support_Plus_Item_Only__c = true;
 
 					REVVY__MnQuoteItem__c newQuote = new REVVY__MnQuoteItem__c(
-						  REVVY__Quantity__c       = supportPlusQty
-						, REVVY__Price__c          = 0
-						, REVVY__Unit_Price__c     = 0
-						, REVVY__Quote__c          = quote.Id
-						, REVVY__Id__c             = ++sequence.REVVY__CurrentValue__c
-						, REVVY__PricelistLine__c  = qi.REVVY__PricelistLine__c
-						, REVVY__Catalog_Node__c   = qi.REVVY__Catalog_Node__c
-						, REVVY__SuggestedPrice__c = 0
-						, Description__c           = qi.Description__c
-						, Support_Plus_Quantity__c = qi.Support_Plus_Quantity__c
-						, Support_Plus_Item__c     = true
-						, Misc_Style__c            = 'NoCharge'
+						    REVVY__Quantity__c           = supportPlusQty
+						  , REVVY__Price__c              = 0
+						  , REVVY__Unit_Price__c         = 0
+						  , REVVY__Quote__c              = quote.Id
+						  , REVVY__Id__c                 = ++sequence.REVVY__CurrentValue__c
+						  , REVVY__PricelistLine__c      = qi.REVVY__PricelistLine__c
+						  , REVVY__Catalog_Node__c       = qi.REVVY__Catalog_Node__c
+						  , REVVY__SuggestedPrice__c     = 0
+						  , Description__c               = qi.Description__c
+						  , Support_Plus_Quantity__c     = qi.Support_Plus_Quantity__c
+						  , Is_Support_Plus_Item_Only__c = true
+						  , Misc_Style__c                = 'NoCharge'
 					);
 
 					quoteItemsToUpdate.add(qi);
@@ -191,7 +289,7 @@ global class ToroSupportPlusController {
 
 				else {
 					qi.REVVY__Quantity__c   = 0.000001;
-					qi.Support_Plus_Item__c = true;
+					qi.Is_Support_Plus_Item_Only__c = true;
 					qi.Misc_Style__c        = 'NoCharge';
 					quoteItemsToUpdate.add(qi);
 				}
@@ -269,7 +367,7 @@ global class ToroSupportPlusController {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	private Decimal generateRevvyId() {
+	private static Decimal generateRevvyId() {
 		if (sequenceGen == null) {
 			sequenceGen = [SELECT
 								REVVY__CurrentValue__c
@@ -411,7 +509,7 @@ global class ToroSupportPlusController {
 				if(diff != 0) {
 					REVVY__MnQuoteItem__c clonedQi = qi.clone(false, true, false, false); //keep Id and deep-clone
 					qi.REVVY__Quantity__c = diff;
-					qi.Support_Plus_Item__c = true;
+					qi.Is_Support_Plus_Item_Only__c = true;
 
 					REVVY__MnQuoteItem__c newQuote = new REVVY__MnQuoteItem__c(REVVY__quantity__c=supportPlusQty,
 						REVVY__price__c = 0,
@@ -420,7 +518,7 @@ global class ToroSupportPlusController {
 						REVVY__pricelistline__c=qi.REVVY__pricelistline__c, REVVY__CATALOG_NODE__C = qi.REVVY__CATALOG_NODE__C,
 						description__c= qi.description__c, REVVY__suggestedprice__c = 0,
 						Support_Plus_Quantity__c=qi.Support_Plus_Quantity__c,
-						Support_Plus_Item__c = true,
+						Is_Support_Plus_Item_Only__c = true,
 						Misc_Style__c='NoCharge'
 						);
 
@@ -431,14 +529,14 @@ global class ToroSupportPlusController {
 					//clonedQi.REVVY__price__c=0;
 					clonedQi.REVVY__Id__c=++sequence.REVVY__currentvalue__c;
 
-					clonedQi.Support_Plus_Item__c=true;
+					clonedQi.Is_Support_Plus_Item_Only__c=true;
 					system.debug('------- new quote item Id=' + clonedQi.Id + ' quote Id = ' + clonedQi.REVVY__Quote__c);
 					*//*
 					updatedQuoteItems.add(qi);
 					insertQuoteItems.add(newQuote);
 				} else {
 					qi.REVVY__Quantity__c=0.000001;
-					qi.Support_Plus_Item__c = true;
+					qi.Is_Support_Plus_Item_Only__c = true;
 					qi.Misc_Style__c='NoCharge';
 					updatedQuoteItems.add(qi);
 				}
@@ -496,7 +594,7 @@ global class ToroSupportPlusController {
 					REVVY__pricelistline__c=sp.pricelistline__c, REVVY__CATALOG_NODE__C = prodId,
 					description__c= description, REVVY__suggestedprice__c = 0,
 					Support_Plus_Quantity__c=sp.Support_Plus_Quantity__c,
-					Support_Plus_Item__c = true,
+					Is_Support_Plus_Item_Only__c = true,
 					Misc_Style__c='NoCharge'
 					));
 			}
