@@ -148,9 +148,12 @@ public with sharing class ToroSupportPlusData {
 					final REVVY__MnQuoteItem__c supportPlusItem = quoteItemIdToSupportPlusItemMap.get(quoteItemObj.Id);
 					wrapper.quantity += supportPlusItem.REVVY__Quantity__c;
 					wrapper.spQuantity = supportPlusItem.REVVY__Quantity__c;
+					result.quoteItems.add(wrapper);
 				}
 
-				result.quoteItems.add(wrapper);
+				else {
+					result.quoteItems.add(wrapper);
+				}
 			}
 		}
 

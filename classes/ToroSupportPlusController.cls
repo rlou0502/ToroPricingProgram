@@ -141,18 +141,32 @@ global class ToroSupportPlusController {
 			}
 
 			for (ToroSupportPlusItem quoteItemWrapper : quoteItemWrappers) {
-				Decimal quantity = quoteItemWrapper.spQuantity;
-				Decimal spQuantity = quoteItemWrapper.spQuantity;
+				final Decimal quantity   = quoteItemWrapper.spQuantity;
+				final Decimal spQuantity = quoteItemWrapper.spQuantity;
 
 				REVVY__MnQuoteItem__c originalQuoteItemObj = originalQuoteItemMap.get(quoteItemWrapper.sfid);
 
 				if (spQuantity == 0) {
+					originalQuoteItemObj.REVVY__Quantity__c = quantity;
+					originalQuoteItemObj.REVVY__Price__c = 0.00;
 
+					if (quoteItemIdToSupportPlusItemMap.containsKey(quoteItemWrapper.sfid)) {
+
+					}
+
+					else {
+
+					}
 				}
 
 				else if (spQuantity > 0 && spQuantity < quantity) {
+					originalQuoteItemObj.REVVY__Quantity__c = quantity - spQuantity;
+					quoteItemsToUpdate.add(originalQuoteItemObj);
+
 					if (quoteItemIdToSupportPlusItemMap.containsKey(quoteItemWrapper.sfid)) {
 						REVVY__MnQuoteItem__c supportPlusItemObj = quoteItemIdToSupportPlusItemMap.get(quoteItemWrapper.sfid);
+						supportPlusItemObj.REVVY__Quantity__c = spQuantity;
+						quoteItemsToUpdate.add(supportPlusItemObj);
 					}
 
 					else {
@@ -169,6 +183,8 @@ global class ToroSupportPlusController {
 							, Description__c               = originalQuoteItemObj.Description__c
 							, Misc_Style__c                = 'NoCharge'
 						);
+
+						supportPlusItemsToInsert.add(newSupportPlusItemObj);
 					}
 				}
 
