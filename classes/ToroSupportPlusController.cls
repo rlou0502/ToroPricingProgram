@@ -141,17 +141,18 @@ global class ToroSupportPlusController {
 			}
 
 			for (ToroSupportPlusItem quoteItemWrapper : quoteItemWrappers) {
-				final Decimal quantity   = quoteItemWrapper.spQuantity;
+				final Decimal quantity   = quoteItemWrapper.quantity;
 				final Decimal spQuantity = quoteItemWrapper.spQuantity;
 
 				REVVY__MnQuoteItem__c originalQuoteItemObj = originalQuoteItemMap.get(quoteItemWrapper.sfid);
 				if (spQuantity == 0) {
-					originalQuoteItemObj.REVVY__Quantity__c = quantity;
-					quoteItemsToUpdate.add(originalQuoteItemObj);
 					if (quoteItemIdToSupportPlusItemMap.containsKey(quoteItemWrapper.sfid)) {
+						originalQuoteItemObj.Support_Plus_Original_Item__c = null;
 						REVVY__MnQuoteItem__c supportPlusItemObj = quoteItemIdToSupportPlusItemMap.get(quoteItemWrapper.sfid);
 						supportPlusItemsToDelete.add(supportPlusItemObj);
 					}
+					originalQuoteItemObj.REVVY__Quantity__c = quantity;
+					quoteItemsToUpdate.add(originalQuoteItemObj);
 				}
 
 				else if (spQuantity > 0 && spQuantity < quantity) {
@@ -166,15 +167,17 @@ global class ToroSupportPlusController {
 
 					else {
 						REVVY__MnQuoteItem__c newSupportPlusItemObj = new REVVY__MnQuoteItem__c(
-							  REVVY__Quantity__c           = spQuantity
+							REVVY__Quantity__c           = spQuantity
 							, REVVY__Id__c                 = generateRevvyId()
 							, Is_Support_Plus_Item_Only__c = false
 							, REVVY__Quote__c              = quote.Id
 							, REVVY__PricelistLine__c      = originalQuoteItemObj.REVVY__PricelistLine__c
 							, REVVY__Catalog_Node__c       = originalQuoteItemObj.REVVY__Catalog_Node__c
+							, REVVY__Price__c              = 0
 							, REVVY__SuggestedPrice__c     = 0
 							, Description__c               = originalQuoteItemObj.Description__c
 							, Misc_Style__c                = 'NoCharge'
+							, Support_Plus_Original_Item__c = originalQuoteItemObj.Id
 						);
 
 						supportPlusItemsToInsert.add(newSupportPlusItemObj);
@@ -211,16 +214,18 @@ global class ToroSupportPlusController {
 				}
 			}
 
+			System.debug('\n\n@@supportPlusItemsToInsert: ' + supportPlusItemsToInsert + '\n\n');
+			System.debug('\n\n@@quoteItemsToUpdate: ' + quoteItemsToUpdate + '\n\n');
+			System.debug('\n\n@@supportPlusItemsToDelete: ' + supportPlusItemsToDelete + '\n\n');
+
 			List<REVVY__MnQuoteItem__c> quoteItemsToUpsert = new List<REVVY__MnQuoteItem__c>();
 			quoteItemsToUpsert.addAll(quoteItemsToUpdate);
 			quoteItemsToUpsert.addAll(supportPlusItemsToInsert);
 			upsert quoteItemsToUpsert;
-
 			delete supportPlusItemsToDelete;
-
-			System.debug('\n\n@@supportPlusItemsToInsert: ' + supportPlusItemsToInsert + '\n\n');
-			System.debug('\n\n@@quoteItemsToUpdate: ' + quoteItemsToUpdate + '\n\n');
-			System.debug('\n\n@@supportPlusItemsToDelete: ' + supportPlusItemsToDelete + '\n\n');
+			if (sequenceGen != null) {
+				update sequenceGen;
+			}
 		}
 
 		catch (Exception e) {

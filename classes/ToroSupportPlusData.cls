@@ -148,7 +148,7 @@ public with sharing class ToroSupportPlusData {
 					final REVVY__MnQuoteItem__c supportPlusItem = quoteItemIdToSupportPlusItemMap.get(quoteItemObj.Id);
 					wrapper.quantity += supportPlusItem.REVVY__Quantity__c;
 					wrapper.spQuantity = supportPlusItem.REVVY__Quantity__c;
-					if (wrapper.quantity == wrapper.spQuantity) {
+					if (wrapper.dnetPrice == 0) {
 						wrapper.dnetPrice = quoteItemObj.Support_Plus_Original_Price__c;
 					}
 					result.quoteItems.add(wrapper);
@@ -183,13 +183,15 @@ public with sharing class ToroSupportPlusData {
 				, REVVY__Product_ID_F__c
 				, REVVY__Id__c
 				, REVVY__Quantity__c
-				, Is_Support_Plus_Item_Only__c
 				, Description__c
 				, Distributor_Responsibility__c
 				, REVVY__PricelistLine__c
 				, REVVY__Catalog_Node__c
 				, REVVY__SuggestedPrice__c
+				, Is_Support_Plus_Item_Only__c
+				, Support_Plus_Original_Price__c
 				, Support_Plus_Original_Item__c
+				, Support_Plus_Original_Item__r.Id
 				, Support_Plus_Original_Item__r.REVVY__Quantity__c
 				, (SELECT
 					Id
