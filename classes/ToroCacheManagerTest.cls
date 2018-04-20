@@ -28,7 +28,9 @@ private class ToroCacheManagerTest {
     	q.Setup_Fee__c = 2;
     	
     	q = ToroCacheManager.getQuote(q.Id);
+    	
     	system.debug('-------' + q.Setup_Fee__c);
+    	ToroCacheManager.putQuote(q);
     	system.assert(q.Setup_Fee__c == null);
     	q = ToroCacheManager.refreshQuote(q.Id);
     	system.assert(q.Setup_Fee__c == null);
@@ -37,6 +39,9 @@ private class ToroCacheManagerTest {
     	q = ToroCacheManager.getQuote(q.Id);
     	system.assert(q.Setup_Fee__c == 3);
     	
+    	ToroCacheManager.getPerformancePartMap();
+    	system.assert(ToroCacheManager.getPricingProgram(null) == null);
+    	ToroCacheManager.setPercentOffMSRP(new Map<Id, decimal>());
     	//system.assertEquals('Commercial', q.REVVY__Segment__c);
     }   
 }

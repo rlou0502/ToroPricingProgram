@@ -210,20 +210,6 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Support_Plus_Item__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <description>The Support Plus Item resulting from a split</description>
-        <externalId>false</externalId>
-        <label>Support Plus Item</label>
-        <referenceTo>REVVY__MnQuoteItem__c</referenceTo>
-        <relationshipLabel>Quote Line Items (Support Plus Item)</relationshipLabel>
-        <relationshipName>Support_Plus_Items</relationshipName>
-        <required>false</required>
-        <trackFeedHistory>false</trackFeedHistory>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>Support_Plus_Items__c</fullName>
         <description>Roll-up of sub-line count containing support plus</description>
         <externalId>false</externalId>

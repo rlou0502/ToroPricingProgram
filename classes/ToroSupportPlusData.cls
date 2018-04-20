@@ -124,33 +124,33 @@ public with sharing class ToroSupportPlusData {
 
 			result.quote = quote;
 
-			List<REVVY__MnQuoteItem__c> quoteItems = getQuoteItems(quoteId);
-			System.debug('\n\n@@quoteItems: ' + quoteItems + '\n\n');
+			// get quote items and support plus items
+			final List<REVVY__MnQuoteItem__c> originalQuoteItems = new List<REVVY__MnQuoteItem__c>();
+			final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
+			for (REVVY__MnQuoteItem__c quoteItem : getQuoteItems(quoteId)) {
+				if (quoteItem.Support_Plus_Original_Item__c == null) {
+					originalQuoteItems.add(quoteItem);
+				}
 
-			// gather Support Plus Split Item Ids
-			final Set<Id> splitSupportPlusItemIds = new Set<Id>();
-			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
-				if (quoteItem.Support_Plus_Item__c != null) {
-					splitSupportPlusItemIds.add(quoteItem.Support_Plus_Item__c);
+				else {
+					quoteItemIdToSupportPlusItemMap.put(quoteItem.Support_Plus_Original_Item__c, quoteItem);
 				}
 			}
 
-
-			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
-				ToroSupportPlusItem wrapper = new ToroSupportPlusItem(quoteItem);
-				if (wrapper.isSupportPlusItemOnly) {
+			// build wrappers
+			for (REVVY__MnQuoteItem__c quoteItemObj : originalQuoteItems) {
+				ToroSupportPlusItem wrapper = new ToroSupportPlusItem(quoteItemObj);
+				if (quoteItemObj.Is_Support_Plus_Item_Only__c) {
 					result.supportPlusOnlyItems.add(wrapper);
 				}
 
-				else if (!splitSupportPlusItemIds.contains(quoteItem.Id)) {
-					result.quoteItems.add(wrapper);
+				else if (quoteItemIdToSupportPlusItemMap.containsKey(quoteItemObj.Id)) {
+					final REVVY__MnQuoteItem__c supportPlusItem = quoteItemIdToSupportPlusItemMap.get(quoteItemObj.Id);
+					wrapper.quantity += supportPlusItem.REVVY__Quantity__c;
+					wrapper.spQuantity = supportPlusItem.REVVY__Quantity__c;
 				}
 
-				/*
-				else {
-					result.quoteItems.add(wrapper);
-				}
-				*/
+				result.quoteItems.add(wrapper);
 			}
 		}
 
@@ -185,10 +185,8 @@ public with sharing class ToroSupportPlusData {
 				, REVVY__Catalog_Node__c
 				, REVVY__SuggestedPrice__c
 				, REVVY__Price__c
-				, Support_Plus_Item__c
-				, Support_Plus_Item__r.Id
-				, Support_Plus_Item__r.REVVY__Quantity__c
-				, Support_Plus_Item__r.REVVY__Id__c
+				, Support_Plus_Original_Item__c
+				, Support_Plus_Original_Item__r.REVVY__Quantity__c
 				, (SELECT
 						Id
 						, REVVY__Quantity__c
