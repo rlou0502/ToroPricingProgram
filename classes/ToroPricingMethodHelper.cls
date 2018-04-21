@@ -110,16 +110,18 @@ public with sharing class ToroPricingMethodHelper {
 				*/
 				quoteDNet += extDNet;
 				quoteAward += extAward;
-			}
-			if(quoteDNet != null && quoteDNet !=0 ) {
-				quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quoteAward) / quoteDNet * 100;
-				retrieveRebateForQuote(quote.Toro_Blended_Percent_of_DN__c);
-			}
+			}	
+		}
+		if(quoteDNet != null && quoteDNet !=0 ) {
+			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quoteAward) / quoteDNet * 100;
+			retrieveRebateForQuote(quote.Toro_Blended_Percent_of_DN__c);
 		}
 		return this;			
 	}
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromDNet() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
+		decimal quoteDNet = 0;
+		decimal quoteAward = 0;	
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			if(qi.Award_of_DN__c != null) {
 				//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
@@ -168,15 +170,25 @@ public with sharing class ToroPricingMethodHelper {
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extDNet = ' + extDNet );
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extAward = ' + extAward  );				
 				}
+				/*
 				if(extDNet != null && extDNet !=0 ) {
 					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(extAward) / extDNet * 100;
 					retrieveRebateForQuoteItem(qi.Toro_Blend_Of_DN__c, qi);
 					//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
 				}
+				*/
+				quoteDNet += extDNet;
+				quoteAward += extAward;
 			}
 		}
-		
+		if(quoteDNet != null && quoteDNet !=0 ) {
+			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quoteAward) / quoteDNet * 100;
+			for (Revvy__MnStrategy4__c qi : quoteItemList) {
+				retrieveRebateForQuoteItem(quote.Toro_Blended_Percent_of_DN__c, qi);	
+			}
+			
+		}
 		return this;			
 	}
 	public ToroPricingMethodHelper calculateGP() {
