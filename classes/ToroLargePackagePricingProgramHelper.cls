@@ -76,7 +76,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
 		helper.pricingProgramExternalId = priceProgram;
 		helper.quoteItemList = quoteItemList;	
-			
+		helper.quote=this.quote;	
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
 
 			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().calculateExtensionFields();
