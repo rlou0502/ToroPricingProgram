@@ -2,15 +2,10 @@
 	initialize: function(cmp, event, helper) {
         helper.initialize(cmp);
     },
-    backToPricinPage: function(cmp, event, helper) {
-        var evt = $A.get('e.force:navigateToComponent');
-        evt.setParams({
-            componentDef: 'c:PricingProgramApp',
-            componentAttributes: {
-                quoteId : cmp.get('v.quote').Id
-            }
-        });
-        evt.fire();
+    backToPricingPage: function(cmp, event, helper) {
+        console.log('@ToroSupportPlusController:backToPricingPage');
+        var quote = cmp.get("v.quote");
+        document.location = '/';
     },
     addNewSupportPlusItem: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:addNewSupportPlusItem');

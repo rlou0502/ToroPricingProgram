@@ -49,7 +49,7 @@
 						<button class="slds-button slds-button_neutral"
 							onclick="{!c.handleSubmitClick}">Submit</button>
 						<button class="slds-button slds-button_neutral"
-							onclick="{!c.backToPricinPage}">Back to
+							onclick="{!c.backToPricingPage}">Back to
 							Pricing Page</button>
 					</div>
 				</div>

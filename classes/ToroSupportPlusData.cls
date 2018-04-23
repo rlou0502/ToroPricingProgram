@@ -144,6 +144,8 @@ public with sharing class ToroSupportPlusData {
 			// build wrappers
 			for (REVVY__MnQuoteItem__c quoteItemObj : originalQuoteItems) {
 				ToroSupportPlusItem wrapper = new ToroSupportPlusItem(quoteItemObj);
+				for (ToroSupportPlusItem sublineWrapper : wrapper.sublines) {
+				}
 				if (quoteItemObj.Is_Support_Plus_Item_Only__c) {
 					result.supportPlusOnlyItems.add(wrapper);
 				}
