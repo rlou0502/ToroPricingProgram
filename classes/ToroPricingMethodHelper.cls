@@ -170,14 +170,6 @@ public with sharing class ToroPricingMethodHelper {
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extDNet = ' + extDNet );
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extAward = ' + extAward  );				
 				}
-				/*
-				if(extDNet != null && extDNet !=0 ) {
-					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(extAward) / extDNet * 100;
-					retrieveRebateForQuoteItem(qi.Toro_Blend_Of_DN__c, qi);
-					//qi.PricingMethodValue__c = string.valueOf(qi.Award_of_DN__c);
-					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
-				}
-				*/
 				quoteDNet += extDNet;
 				quoteAward += extAward;
 			}
