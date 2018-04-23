@@ -6,7 +6,7 @@ public with sharing class ToroPricingProgramEligibility {
 													PricingProgram__r.MinimumTractionUnits__c, PricingProgram__r.OverriddenPriceList__c, 
 													PricingProgram__r.AllowSupportPlus__c, PricingProgram__r.PricingProgramStyle__c, 
 													PricingProgram__r.PricingProgramType__c, PricingProgram__r.ExternalId__c, PricingProgram__r.Name,
-													PricingProgram__r.Exclude__c, PricingProgram__r.ApplicableProducts__c, PricingProgram__c
+													PricingProgram__r.Exclude__c, PricingProgram__r.ApplicableProductsLong__c, PricingProgram__c
 													From Revvy__MnStrategy3__c where Distributor__c = :distributor and PricingProgram__r.IsFirstTee__c = FALSE and PricingProgram__r.CORPORATE_ACCOUNT__C=null];
 		system.debug(logginglevel.info, ' programs size= ' + programs.size());
 		for(Revvy__MnStrategy3__c e : programs) {
@@ -34,7 +34,7 @@ public with sharing class ToroPricingProgramEligibility {
 													PricingProgram__r.MinimumTractionUnits__c, PricingProgram__r.OverriddenPriceList__c, 
 													PricingProgram__r.AllowSupportPlus__c, PricingProgram__r.PricingProgramStyle__c, 
 													PricingProgram__r.PricingProgramType__c, PricingProgram__r.ExternalId__c, PricingProgram__r.Name,
-													PricingProgram__r.Exclude__c, PricingProgram__r.ApplicableProducts__c, PricingProgram__c
+													PricingProgram__r.Exclude__c, PricingProgram__r.ApplicableProductsLong__c, PricingProgram__c
 													From Revvy__MnStrategy3__c where Distributor__c = :customer.Id and PricingProgram__r.IsFirstTee__c = FALSE];
 		system.debug(logginglevel.info, ' programs size= ' + programs.size());
 		for(Revvy__MnStrategy3__c e : programs) {

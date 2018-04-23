@@ -47,14 +47,14 @@ public with sharing class ToroPricingProgramProductSelector {
 		pricingProgram = [
 			SELECT
 				Id, r.Name
-				, r.SelectProduct__c, r.ApplicableProducts__c
+				, r.SelectProduct__c, r.ApplicableProductsLong__c
 			FROM
 				Revvy__MnStrategy1__c r
 			WHERE
 				Id = :pricingProgramId
 		];
 
-		if (pricingProgram.ApplicableProducts__c == 'All') {
+		if (pricingProgram.ApplicableProductsLong__c == 'All') {
 			this.allProductsSelected = true;
 		}
 
@@ -62,8 +62,8 @@ public with sharing class ToroPricingProgramProductSelector {
 			this.allProductsSelected = false;
 		}
 
-		if (String.isNotBlank(pricingProgram.ApplicableProducts__c)) {
-			final List<String> productExtIds = pricingProgram.ApplicableProducts__c.split(',');
+		if (String.isNotBlank(pricingProgram.ApplicableProductsLong__c)) {
+			final List<String> productExtIds = pricingProgram.ApplicableProductsLong__c.split(',');
 
 			List<Revvy__MnCatalogNode__c> catalogNodes = [
 				SELECT
@@ -89,13 +89,13 @@ public with sharing class ToroPricingProgramProductSelector {
 	 */
 	public PageReference toggleAllProducts() {
 		if (allProductsSelected) {
-			previouslySelectedProducts = pricingProgram.ApplicableProducts__c;
-			pricingProgram.ApplicableProducts__c = 'All';
+			previouslySelectedProducts = pricingProgram.ApplicableProductsLong__c;
+			pricingProgram.ApplicableProductsLong__c = 'All';
 			update pricingProgram;
 		}
 
 		else {
-			pricingProgram.ApplicableProducts__c = previouslySelectedProducts;
+			pricingProgram.ApplicableProductsLong__c = previouslySelectedProducts;
 			update pricingProgram;
 		}
 
@@ -122,14 +122,14 @@ public with sharing class ToroPricingProgramProductSelector {
 
 		Set<String> newProdSet = new Set<String>{products[0].revvy__Id__c};
 		List<String> prodList = new List<String>();
-		if (pricingProgram.ApplicableProducts__c != null) {
-			prodList = pricingProgram.ApplicableProducts__c.split(',');
+		if (pricingProgram.ApplicableProductsLong__c != null) {
+			prodList = pricingProgram.ApplicableProductsLong__c.split(',');
 		}
 
 		newProdSet.addAll(prodList);
 		newProdSet.remove('All');
 		prodList = new List<String>(newProdSet);
-		pricingProgram.ApplicableProducts__c = String.join(prodList, ',');
+		pricingProgram.ApplicableProductsLong__c = String.join(prodList, ',');
 		update pricingProgram;
 		loadPageVariables();
 
@@ -143,11 +143,11 @@ public with sharing class ToroPricingProgramProductSelector {
 	 * @return return_type
 	 */
 	public PageReference deleteProduct() {
-		if (String.isNotBlank(pricingProgram.ApplicableProducts__c)) {
-			Set<String> existingProducts = new Set<String>(pricingProgram.ApplicableProducts__c.split(','));
+		if (String.isNotBlank(pricingProgram.ApplicableProductsLong__c)) {
+			Set<String> existingProducts = new Set<String>(pricingProgram.ApplicableProductsLong__c.split(','));
 			existingProducts.remove(toBeDeleted);
 			List<String> newProdList = new List<String>(existingProducts);
-			pricingProgram.ApplicableProducts__c = String.join(newProdList, ',');
+			pricingProgram.ApplicableProductsLong__c = String.join(newProdList, ',');
 			update pricingProgram;
 			loadPageVariables();
 		}
