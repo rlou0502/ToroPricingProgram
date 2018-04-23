@@ -86,9 +86,9 @@
 	saveChanges: function(cmp, quote, quoteItems, supportPlusItems) {
 		console.log('@ToroSupportPlusHelper:saveChanges');
 		var action = cmp.get('c.splitAndSaveItems');
-		console.log(JSON.stringify(quoteItems));
-		console.log(JSON.stringify(supportPlusItems));
-
+		this.showSpinner();
+		// console.log(JSON.stringify(quoteItems));
+		// console.log(JSON.stringify(supportPlusItems));
 		action.setParams({
 			  quote               : quote
 			, quoteItemsJSON      : JSON.stringify(quoteItems)
@@ -97,7 +97,7 @@
 		action.setCallback(this
 			, function(response) {
 				if (cmp.isValid() && response.getState() == 'SUCCESS') {
-					// todo
+					this.hideSpinner();
 				}
 			}
 		);
@@ -138,5 +138,11 @@
 		}
 
 		return items;
+	},
+	showSpinner: function (node) {
+		document.getElementById("spinner").style.display = "block";
+	},
+	hideSpinner: function (node) {
+		document.getElementById("spinner").style.display = "none";
 	}
 })

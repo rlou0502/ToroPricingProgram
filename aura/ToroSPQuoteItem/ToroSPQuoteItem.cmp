@@ -32,7 +32,7 @@
 					<td>{!quoteItem.dnetPrice}</td>
 				</tr>
 				<aura:iteration items="{!quoteItem.sublines}" var="subline">
-					<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}" style="display:none">
+					<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}">
 						<td>&nbsp;</td>
 						<td>{!subline.quantity}</td>
 						<td><lightning:input name="{!subline.sfid}" type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>

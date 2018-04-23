@@ -109,14 +109,18 @@ public with sharing class ToroSupportPlusData {
 				distRespOptions.add(contrib.Distributor_Contribution__c);
 			}
 
-			for (Decimal option : distRespOptions) {
+			if (quote.Distributor_Responsibility__c == null) {
+				quote.Distributor_Responsibility__c = 50.0;
+			}
+
+			for (Decimal optionValue : distRespOptions) {
 				DistRespPair newOption;
-				if (option == quote.Distributor_Responsibility__c) {
-					newOption = new DistRespPair(option, option.format() + '% (default)');
+				if (optionValue == quote.Distributor_Responsibility__c) {
+					newOption = new DistRespPair(optionValue, optionValue.format() + '% (default)');
 				}
 
 				else {
-					newOption = new DistRespPair(option, option.format() + '%');
+					newOption = new DistRespPair(optionValue, optionValue.format() + '%');
 				}
 
 				result.distributorResponsibilities.add(newOption);
@@ -197,7 +201,7 @@ public with sharing class ToroSupportPlusData {
 					Id
 					, Support_Plus_Item__c
 					FROM
-						Quote_Item__r) // Toro Quote Item (REVVY__MnStrategy4__c)
+						Toro_Quote_Item__r) // Toro Quote Item (REVVY__MnStrategy4__c)
 				, (SELECT
 						Id
 						, REVVY__Quantity__c
@@ -205,9 +209,15 @@ public with sharing class ToroSupportPlusData {
 						, Product_ID2__c
 						, Description__c
 						, Distributor_Responsibility__c
+						, REVVY__PricelistLine__c
+						, REVVY__Catalog_Node__c
+						, REVVY__QuoteItem__c
 						, REVVY__SuggestedPrice__c
 						, REVVY__Id__c
-						, Support_Plus_Item__r.REVVY__Quantity__c
+						, Support_Plus_Original_Price__c
+						, Support_Plus_Original_Item__c
+						, Support_Plus_Original_Item__r.Id
+						, Support_Plus_Original_Item__r.REVVY__Quantity__c
 					FROM
 						REVVY__QuoteItemSubLine__r
 					ORDER BY

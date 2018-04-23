@@ -11,6 +11,14 @@
 	<aura:attribute name="quoteItemMap" type="Map" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
 
+	<div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
+		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+		</div>
+	</div>
+
 	<!-- HEADER -->
 	<header class="slds-global-header_container" id="global-header" >
 		<div class="slds-global-header slds-grid slds-grid_align-spread">
@@ -40,7 +48,8 @@
 							onclick="{!c.handleShowAddNewModal}">Add New</button>
 						<button class="slds-button slds-button_neutral"
 							onclick="{!c.handleSubmitClick}">Submit</button>
-						<button class="slds-button slds-button_neutral">Back to
+						<button class="slds-button slds-button_neutral"
+							onclick="{!c.backToPricinPage}">Back to
 							Pricing Page</button>
 					</div>
 				</div>

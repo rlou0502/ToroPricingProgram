@@ -120,17 +120,16 @@ global class ToroSupportPlusController {
 		List<REVVY__MnQuoteItem__c> quoteItemsToUpdate       = new List<REVVY__MnQuoteItem__c>();
 		List<REVVY__MnQuoteItem__c> supportPlusItemsToInsert = new List<REVVY__MnQuoteItem__c>();
 		List<REVVY__MnQuoteItem__c> supportPlusItemsToDelete = new List<REVVY__MnQuoteItem__c>();
-
 		List<ToroSupportPlusItem> quoteItemWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class);
 		List<ToroSupportPlusItem> supportPlusItemWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);
-
-
 		Savepoint sp = Database.setSavepoint();
 		try {
+			List<REVVY__MnQUoteItem__c> quoteItemObjs = ToroSupportPlusData.getQuoteItems(quote.Id);
 			// get quote items and support plus items
 			final Map<Id,REVVY__MnQuoteItem__c> originalQuoteItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
 			final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
-			for (REVVY__MnQuoteItem__c quoteItemObj : ToroSupportPlusData.getQuoteItems(quote.Id)) {
+			// check if quote items have an existing support plus item
+			for (REVVY__MnQUoteItem__c quoteItemObj  : quoteItemObjs) {
 				if (quoteItemObj.Support_Plus_Original_Item__c == null) {
 					originalQuoteItemMap.put(quoteItemObj.Id, quoteItemObj);
 				}
@@ -140,11 +139,30 @@ global class ToroSupportPlusController {
 				}
 			}
 
+			// iterate the wrappers and build lists for quote item insert/update/delete
 			for (ToroSupportPlusItem quoteItemWrapper : quoteItemWrappers) {
 				final Decimal quantity   = quoteItemWrapper.quantity;
 				final Decimal spQuantity = quoteItemWrapper.spQuantity;
 
 				REVVY__MnQuoteItem__c originalQuoteItemObj = originalQuoteItemMap.get(quoteItemWrapper.sfid);
+
+				// skip if no change
+				if (quoteItemIdToSupportPlusItemMap.containsKey(originalQuoteItemObj.Id)) {
+					Decimal originalQuantity = originalQuoteItemObj.REVVY__Quantity__c;
+					Decimal originalSpQuantity = quoteItemIdToSupportPlusItemMap.get(originalQuoteItemObj.Id).REVVY__Quantity__c;
+					if (quantity == originalQuantity && spQuantity == originalSpQuantity) {
+						continue;
+					}
+				}
+
+				else {
+					Decimal originalQuantity = originalQuoteItemObj.REVVY__Quantity__c;
+					if (quantity == originalQuantity && spQuantity == 0) {
+						continue;
+					}
+				}
+
+				// handle the quote item
 				if (spQuantity == 0) {
 					if (quoteItemIdToSupportPlusItemMap.containsKey(quoteItemWrapper.sfid)) {
 						originalQuoteItemObj.Support_Plus_Original_Item__c = null;
@@ -207,6 +225,7 @@ global class ToroSupportPlusController {
 							, REVVY__SuggestedPrice__c     = 0
 							, Description__c               = originalQuoteItemObj.Description__c
 							, Misc_Style__c                = 'NoCharge'
+							, Support_Plus_Original_Item__c = originalQuoteItemObj.Id
 						);
 
 						supportPlusItemsToInsert.add(newSupportPlusItemObj);
@@ -214,15 +233,149 @@ global class ToroSupportPlusController {
 				}
 			}
 
-			System.debug('\n\n@@supportPlusItemsToInsert: ' + supportPlusItemsToInsert + '\n\n');
+			// handle the sublines
+			List<REVVY__MnQuoteItemSubLine__c> sublinesToUpdate            = new List<REVVY__MnQuoteItemSubLine__c>();
+			List<REVVY__MnQuoteItemSubLine__c> supportPlusSublinesToInsert = new List<REVVY__MnQuoteItemSubLine__c>();
+			List<REVVY__MnQuoteItemSubLine__c> supportPlusSublinesToDelete = new List<REVVY__MnQuoteItemSubLine__c>();
+			final Map<Id, REVVY__MnQuoteItemSubLine__c> originalSublineMap            = new Map<Id, REVVY__MnQuoteItemSubLine__c>();
+			final Map<Id, REVVY__MnQuoteItemSubline__c> sublineIdToSupportPlusItemMap = new Map<Id, REVVY__MnQuoteItemSubLine__c>();
+			// check if sublines have an existing support plus item
+			for (REVVY__MnQuoteItem__c quoteItemObj : quoteItemObjs) {
+				for (REVVY__MnQuoteItemSubLine__c sublineObj : quoteItemObj.REVVY__QuoteItemSubLine__r) {
+					if (sublineObj.Support_Plus_Original_Item__c == null) {
+						originalSublineMap.put(sublineObj.Id, sublineObj);
+					}
+
+					else {
+						sublineIdToSupportPlusItemMap.put(sublineObj.Support_Plus_Original_Item__c, sublineObj);
+					}
+				}
+			}
+
+			// iterate subline wrappers and build lists for subline insert/update/delete
+			for (ToroSupportPlusItem quoteItemWrapper : quoteItemWrappers) {
+				for (ToroSupportPlusItem sublineWrapper : quoteItemWrapper.sublines) {
+					final Decimal quantity = sublineWrapper.quantity;
+					final Decimal spQuantity = sublineWrapper.spQuantity;
+
+					// handle the subline
+					REVVY__MnQuoteItemSubline__c originalSublineObj = originalSublineMap.get(sublineWrapper.sfid);
+
+					// skip if no change
+					if (originalSublineObj == null) {
+						continue;
+					}
+					else if (sublineIdToSupportPlusItemMap.containsKey(originalSublineObj.Id)) {
+						Decimal originalQuantity = originalSublineObj.REVVY__Quantity__c;
+						Decimal originalSpQuantity = sublineIdToSupportPlusItemMap.get(originalSublineObj.Id).REVVY__Quantity__c;
+						if (quantity == originalQuantity && spQuantity == originalSpQuantity) {
+							continue;
+						}
+					}
+
+					else {
+						Decimal originalQuantity = originalSublineObj.REVVY__Quantity__c;
+						if (quantity == originalQuantity && spQuantity == 0) {
+							continue;
+						}
+					}
+
+					// handle changes
+					if (spQuantity == 0) {
+						if (sublineIdToSupportPlusItemMap.containsKey(sublineWrapper.sfid)) {
+							originalSublineObj.Support_Plus_Original_Item__c = null;
+							REVVY__MnQuoteItemSubLine__c supportPlusItemObj = sublineIdToSupportPlusItemMap.get(sublineWrapper.sfid);
+							supportPlusSublinesToDelete.add(supportPlusItemObj);
+						}
+						originalSublineObj.REVVY__Quantity__c = quantity;
+						sublinesToUpdate.add(originalSublineObj);
+					}
+
+
+					else if (spQuantity > 0 && spQuantity < quantity) {
+						originalSublineObj.REVVY__Quantity__c = quantity - spQuantity;
+						sublinesToUpdate.add(originalSublineObj);
+
+						if (sublineIdToSupportPlusItemMap.containsKey(sublineWrapper.sfid)) {
+							REVVY__MnQuoteItemSubLine__c supportPlusItemObj = sublineIdToSupportPlusItemMap.get(sublineWrapper.sfid);
+							supportPlusItemObj.REVVY__Quantity__c = spQuantity;
+							sublinesToUpdate.add(supportPlusItemObj);
+						}
+
+						else {
+							REVVY__MnQuoteItemSubLine__c newSupportPlusItemObj = new REVVY__MnQuoteItemSubLine__c(
+								  REVVY__Quantity__c            = spQuantity
+								, REVVY__Id__c                  = generateRevvyId()
+								, REVVY__QuoteItem__c           = quoteItemWrapper.sfid
+								, REVVY__PricelistLine__c       = originalSublineObj.REVVY__PricelistLine__c
+								, REVVY__Catalog_Node__c        = originalSublineObj.REVVY__Catalog_Node__c
+								, REVVY__Price__c               = 0
+								, REVVY__SuggestedPrice__c      = 0
+								, Description__c                = originalSublineObj.Description__c
+								, Misc_Style__c                 = 'NoCharge'
+								, Support_Plus_Original_Item__c = originalSublineObj.Id
+							);
+
+							supportPlusSublinesToInsert.add(newSupportPlusItemObj);
+						}
+					}
+
+					else if (spQuantity == quantity) {
+						originalSublineObj.REVVY__Quantity__c = quantity;
+						originalSublineObj.Support_Plus_Original_Price__c = originalSublineObj.REVVY__SuggestedPrice__c;
+						originalSublineObj.REVVY__SuggestedPrice__c = 0.0;
+						sublinesToUpdate.add(originalSublineObj);
+
+						if (sublineIdToSupportPlusItemMap.containsKey(sublineWrapper.sfid)) {
+							REVVY__MnQuoteItemSubline__c supportPlusItemObj = sublineIdToSupportPlusItemMap.get(sublineWrapper.sfid);
+							supportPlusItemObj.REVVY__Quantity__c = spQuantity;
+							sublinesToUpdate.add(supportPlusItemObj);
+						}
+
+						else {
+							REVVY__MnQuoteItemSubLine__c newSupportPlusItemObj = new REVVY__MnQuoteItemSubLine__c(
+								  REVVY__Quantity__c            = spQuantity
+								, REVVY__Id__c                  = generateRevvyId()
+								, REVVY__QuoteItem__c           = quoteItemWrapper.sfid
+								, REVVY__PricelistLine__c       = originalSublineObj.REVVY__PricelistLine__c
+								, REVVY__Catalog_Node__c        = originalSublineObj.REVVY__Catalog_Node__c
+								, REVVY__Price__c               = 0
+								, REVVY__SuggestedPrice__c      = 0
+								, Description__c                = originalSublineObj.Description__c
+								, Misc_Style__c                 = 'NoCharge'
+								, Support_Plus_Original_Item__c = originalSublineObj.Id
+							);
+
+							supportPlusSublinesToInsert.add(newSupportPlusItemObj);
+						}
+					}
+
+				}
+			}
+
 			System.debug('\n\n@@quoteItemsToUpdate: ' + quoteItemsToUpdate + '\n\n');
+			System.debug('\n\n@@supportPlusItemsToInsert: ' + supportPlusItemsToInsert + '\n\n');
 			System.debug('\n\n@@supportPlusItemsToDelete: ' + supportPlusItemsToDelete + '\n\n');
 
+			System.debug('\n\n@@sublinesToUpdate: ' + sublinesToUpdate + '\n\n');
+			System.debug('\n\n@@supportPlusSublinesToInsert: ' + supportPlusSublinesToInsert + '\n\n');
+			System.debug('\n\n@@supportPlusSublinesToDelete: ' + supportPlusSublinesToDelete + '\n\n');
+
+			// quote items
 			List<REVVY__MnQuoteItem__c> quoteItemsToUpsert = new List<REVVY__MnQuoteItem__c>();
 			quoteItemsToUpsert.addAll(quoteItemsToUpdate);
 			quoteItemsToUpsert.addAll(supportPlusItemsToInsert);
 			upsert quoteItemsToUpsert;
 			delete supportPlusItemsToDelete;
+
+			// sublines
+			List<REVVY__MnQuoteItemSubline__c> sublinesToUpsert = new List<REVVY__MnQuoteItemSubLine__c>();
+			sublinesToUpsert.addAll(sublinesToUpdate);
+			sublinesToUpsert.addAll(supportPlusSublinesToInsert);
+			upsert sublinesToUpsert;
+			delete supportPlusSublinesToDelete;
+
+			// sequence gen
 			if (sequenceGen != null) {
 				update sequenceGen;
 			}
@@ -236,6 +389,7 @@ global class ToroSupportPlusController {
 
 		return true;
 	}
+
 
 	/**
 	 *
