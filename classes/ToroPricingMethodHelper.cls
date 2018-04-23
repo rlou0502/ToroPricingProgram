@@ -100,14 +100,14 @@ public with sharing class ToroPricingMethodHelper {
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- total extDNet = ' + extDNet );
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- total award = ' + extAward);				
 				}
-				/*
+				
 				if(extDNet != null && extDNet !=0 ) {
 					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(extAward) / extDNet * 100;
 					//qi.Award_of_DN__c = qi.Toro_Blend_Of_DN__c;
-					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP 123 -- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
-					retrieveRebate(qi.Toro_Blend_Of_DN__c, qi);
+					//System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP 123 -- quote item Toro_Blend_Of_DN__c = ' + qi.Toro_Blend_Of_DN__c + ' --Award_of_DN__c-- ' + qi.Award_of_DN__c );
+					//retrieveRebate(qi.Toro_Blend_Of_DN__c, qi);
 				}
-				*/
+				
 				quoteDNet += extDNet;
 				quoteAward += extAward;
 			}	
@@ -169,6 +169,9 @@ public with sharing class ToroPricingMethodHelper {
 					
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extDNet = ' + extDNet );
 					System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet-- quote item extAward = ' + extAward  );				
+				}
+				if(extDNet != null && extDNet !=0 ) {
+					qi.Toro_Blend_Of_DN__c = CMnQuoteUtil.defaultDecimal(extAward) / extDNet * 100;
 				}
 				quoteDNet += extDNet;
 				quoteAward += extAward;
