@@ -29,7 +29,7 @@
 					<td>{!quoteItem.productId}</td>
 					<td>{!quoteItem.description}</td>
 					<td><ui:outputText value="{!quoteItem.distributorResponsibility}" /></td>
-					<td>{!quoteItem.dnetPrice}</td>
+					<td><lightning:formattedNumber value="{!quoteItem.dnetPrice}" style="currency" /></td>
 				</tr>
 				<aura:iteration items="{!quoteItem.sublines}" var="subline">
 					<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}">
@@ -39,11 +39,11 @@
 						<td>{!subline.productId}</td>
 						<td>{!subline.description}</td>
 						<td><ui:outputText value="{!subline.distributorResponsibility}" /></td>
-						<td>{!subline.dnetPrice}</td>
+						<td><lightning:formattedNumber value="{!subline.dnetPrice}" style="currency" /></td>
 					</tr>
 				</aura:iteration>
 				<tr>
-					<td colspan="7" style="display:'none'">&nbsp;</td>
+					<td colspan="7" style="display:none;">&nbsp;</td>
 				</tr>
 			</aura:iteration>
 		</tbody>
@@ -77,9 +77,8 @@
 							<td><lightning:input name="{!item.sfid}" type="number" value="{!item.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
 							<td>{!item.productId}</td>
 							<td>{!item.description}</td>
-							<!-- <td><ui:outputText value="{!item.distributorResponsibility}"/></td> -->
 							<td><ui:outputText value="{!item.distributorResponsibility}"/></td>
-							<td>{!item.dnetPrice}</td>
+							<td><lightning:formattedNumber value="{!item.dnetPrice}" style="currency" /></td>
 						</tr>
 					</aura:iteration>
 				</tbody>

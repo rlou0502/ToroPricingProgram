@@ -8,13 +8,13 @@
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="Support Plus Allowance">Support Plus Allowance</p>
 			<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance__c}">
-				<ui:outputText value="{!v.quote.Toro_Support_Plus_Allowance__c}" />
+				<lightning:formattedNumber value="{!v.quote.Toro_Support_Plus_Allowance__c}" style="currency" />
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="Extended Total DNet Price">Extended Total DNet Price</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Total_Extended_DNET__c}">
-				<ui:outputText value="{!v.quote.SP_Total_Extended_DNET__c}" />
+				<lightning:formattedNumber value="{!v.quote.SP_Total_Extended_DNET__c}" style="currency" />
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
@@ -29,7 +29,7 @@
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="Toro Contribution">Toro Contribution</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Toro_Responsibility__c}">
-				<ui:outputText value="{!v.quote.SP_Toro_Responsibility__c}" />
+				<lightning:formattedNumber value="{!v.quote.SP_Toro_Responsibility__c}" style="currency" />
 			</p>
 		</li>
 	</ul>

@@ -196,6 +196,17 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
+	public static Boolean removeSupportPlusItemsForQuote(Id quoteId) {
+		return true;
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
 	public static List<REVVY__MnQuoteItem__c> getQuoteItems(Id quoteId) {
 		return [
 			SELECT
