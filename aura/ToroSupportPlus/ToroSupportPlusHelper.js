@@ -11,8 +11,8 @@
 					console.log('supportPlusData:');
 					console.log(supportPlusData);
 
-					cmp.set('v.quoteItems', supportPlusData.quoteItems);
-					cmp.set('v.supportPlusItems', supportPlusData.supportPlusOnlyItems);
+					cmp.set('v.quoteItems', this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.quoteItems));
+					cmp.set('v.supportPlusItems', this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.supportPlusOnlyItems));
 					cmp.set('v.distributorResponsibilities', supportPlusData.distributorResponsibilities);
 					cmp.set('v.quote', this.recalculateQuoteSupportPlusTotals(
 											supportPlusData.quote

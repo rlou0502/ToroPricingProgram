@@ -13,6 +13,7 @@
         var newItemDNetPrice  = event.getParam('newItemDNetPrice');
         var newItemSPQuantity = event.getParam('newItemSPQuantity');
         var newItemDistributorResponsibility = event.getParam('newItemDistributorResponsibility');
+        console.log('newItemDistributorResponsibility: ' + newItemDistributorResponsibility);
 
         var inputIsValid = true;
         var errorMessage = 'The following values are required: ';
@@ -95,7 +96,25 @@
                 break;
             }
         }
-
+    },
+    handleToggleSublines: function(cmp, event, helper) {
+        console.log('@ToroSupportPlusController:handleToggleSublines');
+        var quoteItemId = event.getParam('quoteItemId');
+        var quoteItems = cmp.get('v.quoteItems');
+        for (var i = 0; i < quoteItems.length; i++) {
+            if (quoteItems[i].sfid == quoteItemId) {
+                if (quoteItems[i].sublines != null) {
+                    var displayStyle = 'display';
+                    if (quoteItems[i].sublines[0].displayStyle == 'display') {
+                        displayStyle = 'display:none;';
+                    }
+                    for (var j = 0; j < quoteItems[i].sublines.length; j++) {
+                        quoteItems[i].sublines[j].displayStyle = displayStyle;
+                    }
+                }
+            }
+        }
+        cmp.set('v.quoteItems', quoteItems);
     },
     handleDistRespChange: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:handleDistRespChange');
@@ -112,6 +131,7 @@
     handleShowAddNewModal: function (cmp, event, helper) {
         cmp.find('cmpAddNew').showModal();
     },
+    /*
     handleAddNewSupportPlusItem: function(cmp, event, helper) {
         var productId         = cmp.get('v.newItemProductId');
         var newItemSPQuantity = cmp.get('v.newItemSPQuantity');
@@ -136,7 +156,7 @@
         else {
             helper.addProduct(cmp, productId, newItemSPQuantity);
         }
-    },
+    },*/
     handleSubmitClick: function(cmp, event, helper) {
         var quote = cmp.get('v.quote');
         var quoteItems = cmp.get('v.quoteItems');

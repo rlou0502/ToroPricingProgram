@@ -1,6 +1,7 @@
 <aura:component controller="ToroSupportPlusController">
 <aura:registerEvent name="spQuantityChangeEvent" type="c:ToroSPQtyChangeEvent" />
 <aura:registerEvent name="spDeleteEvent" type="c:ToroSPDeleteEvent" />
+<aura:registerEvent name="spToggleSublines" type="c:ToroSPToggleSublines" />
 <aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
 <aura:attribute name="distributorResponsibility" type="decimal" />
 <aura:attribute name="showSublines" type="Boolean" />

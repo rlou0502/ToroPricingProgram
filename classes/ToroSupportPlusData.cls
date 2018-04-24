@@ -270,7 +270,7 @@ public with sharing class ToroSupportPlusData {
 				, REVVY__Id__c
 				, REVVY__Quantity__c
 				, Description__c
-				, Distributor_Responsibility__c
+				// , Distributor_Responsibility__c
 				, REVVY__PricelistLine__c
 				, REVVY__Catalog_Node__c
 				, REVVY__Catalog_Node__r.REVVY__Id__c
@@ -291,7 +291,7 @@ public with sharing class ToroSupportPlusData {
 						, REVVY__Catalog_Node__r.Name
 						, Product_ID2__c
 						, Description__c
-						, Distributor_Responsibility__c
+						// , Distributor_Responsibility__c
 						, REVVY__PricelistLine__c
 						, REVVY__Catalog_Node__c
 						, REVVY__QuoteItem__c

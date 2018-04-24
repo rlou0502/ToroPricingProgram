@@ -31,18 +31,22 @@
         var quoteItemId = event.currentTarget.dataset.id;
         console.log(quoteItemId);
 
-        var quoteItems = cmp.get('v.quoteItems');
-        /*
-    	if (event.currentTarget.classList.contains('chevron')) {
+        var cmpEvent = cmp.getEvent('spToggleSublines');
+        cmpEvent.setParams({
+            'quoteItemId': quoteItemId
+        });
+        cmpEvent.fire();
+
+        if (event.currentTarget.classList.contains('chevron')) {
             if (event.currentTarget.classList.contains('bottom')) {
-                event.currentTarget.classList.replace('bottom','right');
+                event.currentTarget.classList.replace('bottom', 'right');
             }
 
             else {
-                event.currentTarget.classList.replace('right','bottom') ;
+                event.currentTarget.classList.replace('right', 'bottom');
             }
         }
-
+        /*
         var qiId  = event.currentTarget.dataset.id;
         var tbody = event.currentTarget.closest('tbody');
 
