@@ -28,6 +28,11 @@
         cmpEvent.fire();
     },
     toggleChevron: function(cmp, event, helper) {
+        var quoteItemId = event.currentTarget.dataset.id;
+        console.log(quoteItemId);
+
+        var quoteItems = cmp.get('v.quoteItems');
+        /*
     	if (event.currentTarget.classList.contains('chevron')) {
             if (event.currentTarget.classList.contains('bottom')) {
                 event.currentTarget.classList.replace('bottom','right');
@@ -51,6 +56,6 @@
             	quoteItems[i].style.display = "none";
 
             }
-        }
+        }*/
     }
 })

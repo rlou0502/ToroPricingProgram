@@ -200,7 +200,57 @@ public with sharing class ToroSupportPlusData {
 	 * @return return_type
 	 */
 	public static Boolean removeSupportPlusItemsForQuote(Id quoteId) {
-		return true;
+		Boolean wasSuccessful = true;
+		try {
+			final List<REVVY__MnQuoteItem__c> quoteItemsToDelete = new List<REVVY__MnQuoteItem__c>();
+			final List<REVVY__MnQuoteItem__c> quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
+
+			final List<REVVY__MnQuoteItem__c> quoteItems = getQuoteItems(quoteId);
+
+			final List<REVVY__MnQuoteItem__c> originalQuoteItems = new List<REVVY__MnQuoteItem__c>();
+			final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
+
+			// build map of the original quote item to the support plus item
+			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
+				if (quoteItem.Support_Plus_Original_Item__c == null) {
+					originalQuoteItems.add(quoteItem);
+				}
+
+				else {
+					quoteItemIdToSupportPlusItemMap.put(quoteItem.Support_Plus_Original_Item__c, quoteItem);
+				}
+			}
+
+			// for quote items that also have a support plus item, the quantity allocated to Support Plus
+			// needs to be restored to the original quote item. Update the quantity and prepare it to be updated.
+			// Also, mark the support plus quote item for deletion.
+			for (REVVY__MnQuoteItem__c originalQuoteItem : originalQuoteItems) {
+				if (quoteItemIdToSupportPlusItemMap.containsKey(originalQuoteItem.Id)) {
+					REVVY__MnQuoteItem__c supportPlusItem = quoteItemIdToSupportPlusItemMap.get(originalQuoteItem.Id);
+					Decimal qty = originalQuoteItem.REVVY__Quantity__c;
+					Decimal spQty = supportPlusItem.REVVY__Quantity__c;
+					originalQuoteItem.REVVY__Quantity__c = qty + spQty;
+					quoteItemsToUpdate.add(originalQuoteItem);
+					quoteItemsToDelete.add(supportPlusItem);
+				}
+			}
+
+			// re-check the quote items and delete any support plus items that were added via "add new"
+			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
+				if (quoteItem.Is_Support_Plus_Item_Only__c) {
+					quoteItemsToDelete.add(quoteItem);
+				}
+			}
+
+			System.debug('\n\n@@quoteItemsToUpdate: ' + quoteItemsToUpdate + '\n\n');
+			System.debug('\n\n@@quoteItemsToDelete: ' + quoteItemsToDelete + '\n\n');
+		}
+
+		catch (Exception e) {
+			wasSuccessful = false;
+		}
+
+		return wasSuccessful;
 	}
 
 	/**
