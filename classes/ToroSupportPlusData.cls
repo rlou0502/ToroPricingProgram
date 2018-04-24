@@ -9,10 +9,12 @@ public with sharing class ToroSupportPlusData {
 	public class DistRespPair implements Comparable {
 		@AuraEnabled public Decimal value;
 		@AuraEnabled public String label;
+		@AuraEnabled public Boolean selected;
 
 		public DistRespPair(Decimal value, String label) {
 			this.value = value;
 			this.label = label;
+			this.selected = false;
 		}
 
 		public Integer compareTo(Object compareTo) {
@@ -70,6 +72,7 @@ public with sharing class ToroSupportPlusData {
 					Total_DNet_Low__c
 				LIMIT 1
 			];
+			System.debug('\n\n@@supportPlusPlans: ' + supportPlusPlans + '\n\n');
 
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
 				if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
@@ -97,12 +100,14 @@ public with sharing class ToroSupportPlusData {
 					Award_Price_Low__c asc];
 
 			final Set<Decimal> distRespOptions = new Set<Decimal>();
+			Decimal defaultResponsibility = 50.00;
 			for (Support_Plus_Contribution__c contrib : contributions) {
 				if (
 					quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
 					&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
 				) {
-					quote.Distributor_Responsibility__c = contrib.Distributor_Contribution__c;
+					defaultResponsibility = contrib.Distributor_Contribution__c;
+					// quote.Distributor_Responsibility__c = contrib.Distributor_Contribution__c;
 					// break;
 				}
 
@@ -110,17 +115,21 @@ public with sharing class ToroSupportPlusData {
 			}
 
 			if (quote.Distributor_Responsibility__c == null) {
-				quote.Distributor_Responsibility__c = 50.0;
+				quote.Distributor_Responsibility__c = defaultResponsibility;
 			}
 
 			for (Decimal optionValue : distRespOptions) {
 				DistRespPair newOption;
-				if (optionValue == quote.Distributor_Responsibility__c) {
+				if (optionValue == defaultResponsibility) {
 					newOption = new DistRespPair(optionValue, optionValue.format() + '% (default)');
 				}
 
 				else {
 					newOption = new DistRespPair(optionValue, optionValue.format() + '%');
+				}
+
+				if (optionValue == quote.Distributor_Responsibility__c) {
+					newOption.selected = true;
 				}
 
 				result.distributorResponsibilities.add(newOption);
@@ -147,7 +156,9 @@ public with sharing class ToroSupportPlusData {
 				for (ToroSupportPlusItem sublineWrapper : wrapper.sublines) {
 				}
 				if (quoteItemObj.Is_Support_Plus_Item_Only__c) {
+					wrapper.spQuantity = quoteItemObj.REVVY__Quantity__c;
 					result.supportPlusOnlyItems.add(wrapper);
+
 				}
 
 				else if (quoteItemIdToSupportPlusItemMap.containsKey(quoteItemObj.Id)) {
@@ -164,6 +175,11 @@ public with sharing class ToroSupportPlusData {
 					result.quoteItems.add(wrapper);
 				}
 			}
+
+			System.debug('\n\n@@result.quote: ' + result.quote + '\n\n');
+			System.debug('\n\n@@result.distributorResponsibilities: ' + result.distributorResponsibilities + '\n\n');
+			System.debug('\n\n@@result.quoteItems: ' + result.quoteItems + '\n\n');
+			System.debug('\n\n@@result.supportPlusOnlyItems: ' + result.supportPlusOnlyItems + '\n\n');
 		}
 
 		catch (Exception e) {
@@ -193,6 +209,7 @@ public with sharing class ToroSupportPlusData {
 				, Distributor_Responsibility__c
 				, REVVY__PricelistLine__c
 				, REVVY__Catalog_Node__c
+				, REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__SuggestedPrice__c
 				, Is_Support_Plus_Item_Only__c
 				, Support_Plus_Original_Price__c

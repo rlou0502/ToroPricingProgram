@@ -75,6 +75,7 @@ global class ToroSupportPlusController {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				REVVY__Product__c
+				, REVVY__Product__r.Id
 				, REVVY__Product__r.REVVY__Id__c
 				, REVVY__Product__r.Name
 				, REVVY__Product__r.REVVY__Description__c
@@ -96,6 +97,7 @@ global class ToroSupportPlusController {
 
 		ToroSupportPlusItem result = new ToroSupportPlusItem(
 			priceListLines[0].REVVY__Product__r
+			, priceListLines[0]
 			, dnetPrice
 			, spQuantity
 			, distributorResponsibility
@@ -112,7 +114,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static Boolean splitAndSaveItems(REVVY__MnQuoteItem__c quote
+	public static Boolean splitAndSaveItems(REVVY__MnQuote__c quote
 							, String quoteItemsJSON
 							, String supportPlusItemsJSON
 	) {
@@ -122,15 +124,43 @@ global class ToroSupportPlusController {
 		List<REVVY__MnQuoteItem__c> supportPlusItemsToDelete = new List<REVVY__MnQuoteItem__c>();
 		List<ToroSupportPlusItem> quoteItemWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class);
 		List<ToroSupportPlusItem> supportPlusItemWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);
+
+		System.debug('\n\n@@quoteItemWrappers: ' + quoteItemWrappers + '\n\n');
+		System.debug('\n\n@@supportPlusItemWrappers: ' + supportPlusItemWrappers + '\n\n');
+
 		Savepoint sp = Database.setSavepoint();
 		try {
+
+			// ============================================================================
+			// HANDLE THE QUOTE
+			// ============================================================================
+			REVVY__MnQuote__c quoteObjToUpdate = [
+				SELECT
+					Id
+				FROM
+					REVVY__MnQuote__c
+				WHERE
+					Id = :quote.Id
+			];
+
+			quoteObjToUpdate.Distributor_Responsibility__c = quote.Distributor_Responsibility__c;
+			update quoteObjToUpdate;
+
+
+			// ============================================================================
+			// HANDLE QUOTE ITEMS
+			// ============================================================================
 			List<REVVY__MnQUoteItem__c> quoteItemObjs = ToroSupportPlusData.getQuoteItems(quote.Id);
 			// get quote items and support plus items
 			final Map<Id,REVVY__MnQuoteItem__c> originalQuoteItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
 			final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
+			final Map<Id,REVVY__MnQuoteItem__c> existingSupportPlusOnlyItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
 			// check if quote items have an existing support plus item
 			for (REVVY__MnQUoteItem__c quoteItemObj  : quoteItemObjs) {
-				if (quoteItemObj.Support_Plus_Original_Item__c == null) {
+				if (quoteItemObj.Is_Support_Plus_Item_Only__c) {
+					existingSupportPlusOnlyItemMap.put(quoteItemObj.Id, quoteItemObj);
+				}
+				else if (quoteItemObj.Support_Plus_Original_Item__c == null) {
 					originalQuoteItemMap.put(quoteItemObj.Id, quoteItemObj);
 				}
 
@@ -138,6 +168,10 @@ global class ToroSupportPlusController {
 					quoteItemIdToSupportPlusItemMap.put(quoteItemObj.Support_Plus_Original_Item__c, quoteItemObj);
 				}
 			}
+
+			System.debug('\n\n@@existingSupportPlusOnlyItemMap: ' + existingSupportPlusOnlyItemMap + '\n\n');
+			System.debug('\n\n@@originalQuoteItemMap: ' + originalQuoteItemMap + '\n\n');
+			System.debug('\n\n@@quoteItemIdToSupportPlusItemMap: ' + quoteItemIdToSupportPlusItemMap + '\n\n');
 
 			// iterate the wrappers and build lists for quote item insert/update/delete
 			for (ToroSupportPlusItem quoteItemWrapper : quoteItemWrappers) {
@@ -349,7 +383,42 @@ global class ToroSupportPlusController {
 							supportPlusSublinesToInsert.add(newSupportPlusItemObj);
 						}
 					}
+				}
+			}
 
+			// handle add new support plus items
+			Map<Decimal,REVVY__MnQuoteItem__c> addNewSupportPlusExtIdItemMap = new Map<Decimal,REVVY__MnQuoteItem__c>();
+			for (ToroSupportPlusItem newItemWrapper : supportPlusItemWrappers) {
+				// existingSupportPlusOnlyItemMap
+				if (newItemWrapper.sfid == null) {
+					System.debug('\n\n@@add new:: ' + newItemWrapper + '\n\n');
+					REVVY__MnQuoteItem__c newSupportPlusItemObj = new REVVY__MnQuoteItem__c(
+						REVVY__Quantity__c           = newItemWrapper.spQuantity
+						, REVVY__Id__c                 = generateRevvyId()
+						, Is_Support_Plus_Item_Only__c = true
+						, REVVY__Quote__c              = quote.Id
+						, REVVY__PricelistLine__c      = newItemWrapper.supportPlusNewPricelistId
+						, REVVY__Catalog_Node__c       = newItemWrapper.supportPlusNewCatalogNodeId
+						, REVVY__SuggestedPrice__c     = newItemWrapper.dnetPrice
+						, Description__c               = newItemWrapper.description
+						, Misc_Style__c                = 'NoCharge'
+						, Support_Plus_Original_Item__c = null
+					);
+					supportPlusItemsToInsert.add(newSupportPlusItemObj);
+					addNewSupportPlusExtIdItemMap.put(newSupportPlusItemObj.REVVY__Id__c, newSupportPlusItemObj);
+					System.debug('\n\n@@newSupportPlusItemObj: ' + newSupportPlusItemObj + '\n\n');
+				}
+
+				else {
+					REVVY__MnQuoteItem__c existingNewItem = existingSupportPlusOnlyItemMap.get(newItemWrapper.sfid);
+					if (newItemWrapper.quantity == 0) {
+						supportPlusItemsToDelete.add(existingNewItem);
+					}
+
+					else if (existingNewItem.REVVY__Quantity__c != newItemWrapper.quantity) {
+						existingNewItem.REVVY__Quantity__c = newItemWrapper.quantity;
+						quoteItemsToUpdate.add(existingNewItem);
+					}
 				}
 			}
 
@@ -367,6 +436,27 @@ global class ToroSupportPlusController {
 			quoteItemsToUpsert.addAll(supportPlusItemsToInsert);
 			upsert quoteItemsToUpsert;
 			delete supportPlusItemsToDelete;
+
+			// we need to update the suggested price on the newly added support plus items again.
+			// it seems that when the quote item is inserted, the suggested price is populated using the
+			// price list.
+			if (!addNewSupportPlusExtIdItemMap.isEmpty()) {
+				List<REVVY__MnQuoteItem__c> newSupportPlusOnlyItems = [
+					SELECT
+						REVVY__Id__c
+						, REVVY__SuggestedPrice__c
+					FROM
+						REVVY__MnQuoteItem__c
+					WHERE
+						REVVY__Id__c IN :addNewSupportPlusExtIdItemMap.keySet()
+				];
+
+				for (REVVY__MnQuoteItem__c newSupportPlusOnlyItem : newSupportPlusOnlyItems) {
+					Decimal suggestedPrice = addNewSupportPlusExtIdItemMap.get(newSupportPlusOnlyItem.REVVY__Id__c).REVVY__SuggestedPrice__c;
+					newSupportPlusOnlyItem.REVVY__SuggestedPrice__c = suggestedPrice;
+				}
+				update newSupportPlusOnlyItems;
+			}
 
 			// sublines
 			List<REVVY__MnQuoteItemSubline__c> sublinesToUpsert = new List<REVVY__MnQuoteItemSubLine__c>();
@@ -390,6 +480,26 @@ global class ToroSupportPlusController {
 		return true;
 	}
 
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	private static Decimal generateRevvyId() {
+		if (sequenceGen == null) {
+			sequenceGen = [SELECT
+								REVVY__CurrentValue__c
+							FROM
+								REVVY__MnSequenceGen__c
+							WHERE
+								REVVY__ObjectName__c = 'MnQuoteItem__c' LIMIT 1
+			];
+		}
+
+		return ++sequenceGen.REVVY__CurrentValue__c;
+	}
 
 	/**
 	 *
@@ -398,6 +508,7 @@ global class ToroSupportPlusController {
 	 * @param  name    description
 	 * @return return_type
 	 */
+	 /*
 	@AuraEnabled
 	public static void submitSupportPlus(REVVY__MnQuoteItem__c quote, List<QuoteItem> quoteItems) {
 		List<REVVY__MnQuoteItem__c>        quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
@@ -515,27 +626,7 @@ global class ToroSupportPlusController {
 
 		// update quote;
 	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	private static Decimal generateRevvyId() {
-		if (sequenceGen == null) {
-			sequenceGen = [SELECT
-								REVVY__CurrentValue__c
-							FROM
-								REVVY__MnSequenceGen__c
-							WHERE
-								REVVY__ObjectName__c = 'MnQuoteItem__c' LIMIT 1
-			];
-		}
-
-		return ++sequenceGen.REVVY__CurrentValue__c;
-	}
+	*/
 
 /*
     public void init() {

@@ -21,7 +21,7 @@
 			<p>
 				<lightning:select name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
 					<aura:iteration var="distResp" items="{!v.distributorResponsibilities}" >
-						<option value="{!distResp.value}">{!distResp.label}</option>
+						<option value="{!distResp.value}" selected="{!distResp.selected}">{!distResp.label}</option>
 					</aura:iteration>
 				</lightning:select>
 			</p>
