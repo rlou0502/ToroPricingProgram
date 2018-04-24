@@ -24,7 +24,7 @@
 		<tbody>
 			<aura:iteration items="{!v.quoteItems}" var="quoteItem">
 				<tr class="quote_item" data-sfid="{!quoteItem.sfid}">
-					<td class="chevron-cell" width="50px"><span style="width:50px" class="chevron right" data-id="{!quoteItem.sfid}" onclick="{!c.toggleChevron}"></span></td>
+					<td class="chevron-cell" width="50px"><span style="width:50px" class="{!'chevron ' + quoteItem.chevronStyle}" data-id="{!quoteItem.sfid}" onclick="{!c.toggleChevron}"></span></td>
 					<td><ui:outputText value="{!quoteItem.quantity}" /></td>
 					<td><lightning:input name="{!quoteItem.sfid}" type="number" value="{!quoteItem.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
 					<td>{!quoteItem.productId}</td>
