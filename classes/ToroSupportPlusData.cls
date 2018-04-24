@@ -144,7 +144,9 @@ public with sharing class ToroSupportPlusData {
 			// get quote items and support plus items
 			final List<REVVY__MnQuoteItem__c> originalQuoteItems = new List<REVVY__MnQuoteItem__c>();
 			final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
-			for (REVVY__MnQuoteItem__c quoteItem : getQuoteItems(quoteId)) {
+			List<REVVY__MnQuoteItem__c> quoteItems = getQuoteItems(quoteId);
+			System.debug('\n\n@@quoteItems: ' + quoteItems + '\n\n');
+			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
 				if (quoteItem.Support_Plus_Original_Item__c == null) {
 					originalQuoteItems.add(quoteItem);
 				}

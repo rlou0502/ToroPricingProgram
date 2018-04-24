@@ -74,6 +74,10 @@
                     // just remove it from attribute
                     supportPlusItems.splice(i, 1);
                     cmp.set('v.supportPlusItems', supportPlusItems);
+                    var quote = cmp.get('v.quote');
+                    var quoteItems = cmp.get('v.quoteItems');
+                    quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems);
+                    cmp.set('v.quote', quote);
                 }
 
                 else {
@@ -88,6 +92,10 @@
                                 document.getElementById("spinner").style.display = "none";
                                 supportPlusItems.splice(i, 1);
                                 cmp.set('v.supportPlusItems', supportPlusItems);
+                                var quote = cmp.get('v.quote');
+                                var quoteItems = cmp.get('v.quoteItems');
+                                quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems);
+                                cmp.set('v.quote', quote);
                             }
                         }
                     );
@@ -132,7 +140,7 @@
         quote.Distributor_Responsibility__c = event.getParam('distributorResponsibility');
         console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
         quoteItems = helper.updateDistributorResponsibility(quote, quoteItems);
-        supportPlusItems = helper.updateDistributorResponsibility(quote, supportPlusItems)
+        supportPlusItems = helper.updateDistributorResponsibility(quote, supportPlusItems);
         cmp.set('v.quoteItems', quoteItems);
         cmp.set('v.supportPlusItems', supportPlusItems);
         cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems));

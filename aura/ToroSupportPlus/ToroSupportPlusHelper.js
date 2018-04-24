@@ -56,8 +56,12 @@
 				if (cmp.isValid() && state === 'SUCCESS') {
 					var retVal = response.getReturnValue();
 					if (retVal) {
+						var quote = cmp.get('v.quote');
+						var quoteItems = cmp.get('v.quoteItems');
 						var supportPlusItems = cmp.get('v.supportPlusItems');
 						supportPlusItems.push(retVal);
+						quote = this.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems);
+						cmp.set('v.quote', quote);
 						cmp.set('v.supportPlusItems', supportPlusItems);
 						cmp.find('cmpAddNew').hideModal();
 					}
