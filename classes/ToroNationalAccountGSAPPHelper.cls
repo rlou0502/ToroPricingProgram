@@ -49,7 +49,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 			qi.Toro_Gross_Profit_Percent__c = gpPercent;
 			qi.Toro_Gross_Profit_Value__c = qi.award_price__c * qi.Toro_Gross_Profit_Percent__c/100;
 			decimal rebate = qi.DNet_Price__c - qi.award_price__c + qi.Toro_Gross_Profit_Value__c;
-			qi.Toro_Rebate__c = rebate * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
+			qi.Toro_Rebate__c = rebate * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
 			qi.PricingMethodValue__c='';
 			if(qi.award_price__c != 0) {
 				qi.Rebate_as_a_of_DN__c = rebate/qi.dnet_price__c * 100;
@@ -62,7 +62,8 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 			system.debug('Distributor_Margin__c = ' + qi.Toro_Gross_Profit_Percent__c);
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
+					//final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
+					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);	
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					qis.Gross_Profit_Percent__c = gpPercent;
 					qis.PricingMethodValue__c='';
@@ -134,16 +135,16 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c );
 			
 			if(!excludeTPPAllied(qi)) {
-				qiToroDNet = qi.DNet_Price__c * qi.Quantity__c;	
-				qiToroMSRP = qi.MSRP_Price__c * qi.Quantity__c;
-				qiToroAward = qi.Award_Price__c * qi.Quantity__c;
+				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;	
+				qiToroMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
+				qiToroAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
 				qi.Extended_Award_Price__c = qiToroAward;
 				qi.Extended_DNet_Price__c = qiToroDNet;
 				qi.Extended_MSRP_Price__c = qiToroMSRP;
 			} else {
-				qiTPPAppliedDNet = qi.DNet_Price__c * qi.Quantity__c;
-				qiTPPAppliedMSRP = qi.MSRP_Price__c * qi.Quantity__c;
-				qiTPPAppliedAward = qi.Award_Price__c * qi.Quantity__c;
+				qiTPPAppliedDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
+				qiTPPAppliedMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
+				qiTPPAppliedAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
 				qi.Extended_Award_Price__c = qiTPPAppliedAward;
 				qi.Extended_DNet_Price__c = qiToroDNet;
 				qi.Extended_MSRP_Price__c = qiToroMSRP;
@@ -162,7 +163,8 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroPricingProg
 	        	decimal qisRollupTPPAppliedAward = 0;
 				decimal qisRollupToroAward = 0;
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
+					//final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
+					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);	
 					qis.Toro_Extended_Qty__c = extQty;
 					qis.DNet_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
 					qis.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c);
