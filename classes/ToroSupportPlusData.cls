@@ -193,7 +193,6 @@ public with sharing class ToroSupportPlusData {
 				, Distributor_Responsibility__c
 				, REVVY__PricelistLine__c
 				, REVVY__Catalog_Node__c
-				, REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__SuggestedPrice__c
 				, Is_Support_Plus_Item_Only__c
 				, Support_Plus_Original_Price__c
