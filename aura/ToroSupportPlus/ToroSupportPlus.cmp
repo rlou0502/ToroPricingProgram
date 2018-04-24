@@ -62,13 +62,13 @@
 		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" distributorResponsibilities="{!v.distributorResponsibilities}" selectedDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}" />
 	</div>
 	<div id="support-plus-quote-item">
-		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}" distributorResponsibility="{!v.quote.distributorResponsibility}" showSublines="true" />
+		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}" distributorResponsibility="{!v.quote.Distributor_Responsibility__c}" showSublines="true" />
 	</div>
     <div id="support-plus-new-item">
-		<c:ToroSPQuoteItem aura:id="cmpSupportPlusItems" quoteItems="{!v.supportPlusItems}" distributorResponsibility="{!v.quote.distributorResponsibility}" showSublines="false"  />
+		<c:ToroSPQuoteItem aura:id="cmpSupportPlusItems" quoteItems="{!v.supportPlusItems}" distributorResponsibility="{!v.quote.Distributor_Responsibility__c}" showSublines="false"  />
 	</div>
 	<br/><br/><br/>
 
-	<c:ToroSPAddNew aura:id="cmpAddNew" />
+	<c:ToroSPAddNew aura:id="cmpAddNew" newItemDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}" />
 
 </aura:component>

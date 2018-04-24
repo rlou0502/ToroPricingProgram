@@ -14,9 +14,8 @@
 	<!-- add new support plus item fields (editable) -->
 	<aura:attribute name="newItemProductId" type="String" />
 	<aura:attribute name="newItemSPQuantity" type="Integer" default="1" />
-	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" default="50" />
+	<aura:attribute name="newItemDistributorResponsibility" type="Decimal" />
 
-	<!-- <aura:attribute name="newItemDistributorResponsibility" type="Decimal" /> -->
 	<!-- add new support plus item fields (read-only) -->
 	<aura:attribute name="newItemProductName" type="String" default="" access="private" />
 	<aura:attribute name="newItemDescription" type="String" default="" access="private" />
@@ -65,8 +64,9 @@
 							</div>
 						</div>
 						<div class="slds-form-element">
+							<label class="slds-form-element__label" for="add_dnet_price">Distributor Responsibility (%)</label>
 							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="Distributor Responsibility" value="{!v.newItemDistributorResponsibility}" />
+								<ui:outputText value="{!v.newItemDistributorResponsibility}" />
 							</div>
 						</div>
 						<div class="slds-form-element">

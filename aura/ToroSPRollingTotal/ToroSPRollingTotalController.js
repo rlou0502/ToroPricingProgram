@@ -6,6 +6,7 @@
         console.log(quote);
     },*/
     handleDistRespChange: function(cmp, event) {
+        console.log('@ToroSPRollingTotalController:handleDistRespChange');
         var quote = cmp.get('v.quote');
         console.log('quote: ');
         console.log(quote.distributorResponsibility);

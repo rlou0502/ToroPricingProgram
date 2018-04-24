@@ -61,6 +61,8 @@ public with sharing class ToroSupportPlusData {
 			];
 			System.debug('\n\n@@quote: ' + quote + '\n\n');
 
+			quote.Toro_Support_Plus_Allowance__c = 0.0;
+
 			List<Support_Plus_Plan__c> supportPlusPlans = [
 				SELECT
 					Total_DNet_Low__c
@@ -70,7 +72,6 @@ public with sharing class ToroSupportPlusData {
 					Support_Plus_Plan__c
 				ORDER BY
 					Total_DNet_Low__c
-				LIMIT 1
 			];
 			System.debug('\n\n@@supportPlusPlans: ' + supportPlusPlans + '\n\n');
 
@@ -97,7 +98,9 @@ public with sharing class ToroSupportPlusData {
 				FROM
 					Support_Plus_Contribution__c
 				ORDER BY
-					Award_Price_Low__c asc];
+					Award_Price_Low__c asc
+			];
+			System.debug('\n\n@@contributions: ' + contributions + '\n\n');
 
 			final Set<Decimal> distRespOptions = new Set<Decimal>();
 			Decimal defaultResponsibility = 50.00;

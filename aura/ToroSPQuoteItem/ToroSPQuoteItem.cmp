@@ -70,7 +70,7 @@
 					<aura:iteration items="{!v.quoteItems}" var="item">
 						<tr>
 							<td>
-								<lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}" title="delete" />
+								<lightning:buttonIcon name="{!item.sfid}" iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}" title="delete" />
 								<!-- <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" /> -->
 							</td>
 							<td>&nbsp;</td>

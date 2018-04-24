@@ -66,8 +66,12 @@
     handleDistRespChange: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:handleDistRespChange');
         var quote = cmp.get('v.quote');
+        var quoteItems = cmp.get('v.quoteItems');
+        var supportPlusItems = cmp.get('v.supportPlusItems');
         quote.Distributor_Responsibility__c = event.getParam('distributorResponsibility');
         console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
+        cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
+        cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
         cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, cmp.get('v.quoteItems')));
 
     },

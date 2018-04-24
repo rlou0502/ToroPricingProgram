@@ -116,11 +116,13 @@
 
 			toroContrib += dnetPrice * spQty * distResp * 0.01;
 
-			for (var j = 0; j < quoteItems[i].sublines.length; j++) {
-				var sublineSpQty     = quoteItems[i].sublines[j].spQuantity;
-				var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
+			if (quoteItems[i].sublines != null) {
+				for (var j = 0; j < quoteItems[i].sublines.length; j++) {
+					var sublineSpQty     = quoteItems[i].sublines[j].spQuantity;
+					var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
 
-				toroContrib += sublineDnetPrice * sublineSpQty * distResp * 0.01;
+					toroContrib += sublineDnetPrice * sublineSpQty * distResp * 0.01;
+				}
 			}
 		}
 
@@ -132,8 +134,10 @@
 	updateDistributorResponsibility: function(quote, items) {
 		for (var i = 0; i < items.length; i++) {
 			items[i].distributorResponsibility = items[i].spQuantity > 0 ? quote.Distributor_Responsibility__c : null;
-			for (var j = 0; j < items[i].sublines.length; j++) {
-				items[i].sublines[j].distributorResponsibility = items[i].sublines[j].spQuantity > 0 ? quote.Distributor_Responsibility__c : null;
+			if (items[i].sublines != null) {
+				for (var j = 0; j < items[i].sublines.length; j++) {
+					items[i].sublines[j].distributorResponsibility = items[i].sublines[j].spQuantity > 0 ? quote.Distributor_Responsibility__c : null;
+				}
 			}
 		}
 

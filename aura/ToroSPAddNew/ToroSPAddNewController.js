@@ -16,6 +16,7 @@
         cmp.set('v.newItemDNetPrice', '');
         cmp.set('v.newItemDescription', '');
 
+
         cmp.set('v.previousSearchTerm', '');
         cmp.set('v.currentSearchTerm', '');
         cmp.set('v.wasAutoCompleted', false);
