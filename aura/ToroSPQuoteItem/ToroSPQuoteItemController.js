@@ -1,13 +1,16 @@
 ({
     handleDeleteClick: function(cmp, event, helper) {
-        alert('todo');
+        console.log('@ToroSPQuoteItemController:handleDeleteClick');
+        var cmpEvent = cmp.getEvent('spDeleteEvent');
+        var productExtId = event.getSource().get('v.name');
+        cmpEvent.setParams({
+            'productExtId': productExtId
+        });
+
+        cmpEvent.fire();
     },
     handleSPQuantityChange : function(cmp, event, helper) {
         console.log('@ToroSPQuoteItemController:handleSPQuantityChange');
-
-        var domElement = event.currentTarget;
-        // console.log(domElement.closest('td'));
-        console.log(domElement.toString());
 
         var sfid      = event.getSource().get('v.name');
         var quoteItem = helper.getQuoteItem(sfid, cmp.get('v.quoteItems'));

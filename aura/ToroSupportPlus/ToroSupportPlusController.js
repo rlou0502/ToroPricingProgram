@@ -63,6 +63,40 @@
         cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
         cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems));
     },
+    handleSPDelete: function(cmp, event, helper) {
+        console.log('@ToroSupportPlusController:handleSPDelete');
+        var productExtId = event.getParam('productExtId');
+        var supportPlusItems = cmp.get('v.supportPlusItems');
+        for (var i = 0; i < supportPlusItems.length; i++) {
+            if (supportPlusItems[i].productId == productExtId) {
+                if (supportPlusItems[i].sfid == null) {
+                    // just remove it from attribute
+                    supportPlusItems.splice(i, 1);
+                    cmp.set('v.supportPlusItems', supportPlusItems);
+                }
+
+                else {
+                    var action = cmp.get('c.deleteQuoteItem');
+                    document.getElementById("spinner").style.display = "block";
+                    action.setParams({
+                        quoteItemId: supportPlusItems[i].sfid
+                    });
+                    action.setCallback(this
+                        , function (response) {
+                            if (cmp.isValid() && response.getState() == 'SUCCESS') {
+                                document.getElementById("spinner").style.display = "none";
+                                supportPlusItems.splice(i, 1);
+                                cmp.set('v.supportPlusItems', supportPlusItems);
+                            }
+                        }
+                    );
+                    $A.enqueueAction(action);
+                }
+                break;
+            }
+        }
+
+    },
     handleDistRespChange: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:handleDistRespChange');
         var quote = cmp.get('v.quote');

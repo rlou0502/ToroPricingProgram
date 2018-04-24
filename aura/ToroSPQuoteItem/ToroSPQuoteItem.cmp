@@ -1,6 +1,6 @@
 <aura:component controller="ToroSupportPlusController">
 <aura:registerEvent name="spQuantityChangeEvent" type="c:ToroSPQtyChangeEvent" />
-
+<aura:registerEvent name="spDeleteEvent" type="c:ToroSPDeleteEvent" />
 <aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
 <aura:attribute name="distributorResponsibility" type="decimal" />
 <aura:attribute name="showSublines" type="Boolean" />
@@ -70,7 +70,7 @@
 					<aura:iteration items="{!v.quoteItems}" var="item">
 						<tr>
 							<td>
-								<lightning:buttonIcon name="{!item.sfid}" iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}" title="delete" />
+								<lightning:buttonIcon name="{!item.productId}" iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}" title="delete" />
 								<!-- <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" /> -->
 							</td>
 							<td>&nbsp;</td>

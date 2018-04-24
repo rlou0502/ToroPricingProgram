@@ -71,6 +71,39 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
+	public static Boolean deleteQuoteItem(Id quoteItemId) {
+		Boolean wasSuccessful = true;
+		try {
+			REVVY__MnQuoteItem__c quoteItemToDelete = [
+				SELECT
+					Id
+				FROM
+					REVVY__MnQuoteItem__c
+				WHERE
+					Id = :quoteItemId
+				LIMIT 1
+			];
+
+			if (quoteItemToDelete != null) {
+				delete quoteItemToDelete;
+			}
+		}
+
+		catch (Exception e) {
+			wasSuccessful = false;
+		}
+
+		return wasSuccessful;
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	@AuraEnabled
 	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Decimal dnetPrice, Decimal spQuantity, Decimal distributorResponsibility) {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
