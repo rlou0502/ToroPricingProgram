@@ -103,32 +103,40 @@
 		);
 		$A.enqueueAction(action);
 	},
-	recalculateQuoteSupportPlusTotals: function(quote, quoteItems) {
+	recalculateQuoteSupportPlusTotals: function(quote, quoteItems, supportPlusItems) {
 		console.log('-recalculateQuoteSupportPlusTotals');
 		console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
-		var distResp = quote.Distributor_Responsibility__c;
+		var distRespPct = quote.Distributor_Responsibility__c * 0.01;
+		var toroResp = (100 - quote.Distributor_Responsibility__c) * 0.01;
 
-		var toroContrib = 0;
-
+		var quoteItemContrib = 0;
 		for (var i = 0; i < quoteItems.length; i++) {
 			var spQty     = quoteItems[i].spQuantity;
 			var dnetPrice = quoteItems[i].dnetPrice;
 
-			toroContrib += dnetPrice * spQty * distResp * 0.01;
+			quoteItemContrib += dnetPrice * spQty * toroResp;
 
 			if (quoteItems[i].sublines != null) {
 				for (var j = 0; j < quoteItems[i].sublines.length; j++) {
 					var sublineSpQty     = quoteItems[i].sublines[j].spQuantity;
 					var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
 
-					toroContrib += sublineDnetPrice * sublineSpQty * distResp * 0.01;
+					quoteItemContrib += sublineDnetPrice * sublineSpQty * toroResp;
 				}
 			}
 		}
 
-		quote.SP_Total_Extended_DNET__c     = quote.Toro_Total_DNet__c - toroContrib;
-		quote.SP_Toro_Responsibility__c     = toroContrib;
-		quote.SP_Ext_Dist_Responsibility__c = (quote.Toro_Total_DNet__c - toroContrib) / quote.Toro_Total_DNet__c;
+		var supportPlusOnlyItemsContrib = 0; // amount paid by toro
+		for (var i = 0; i < supportPlusItems.length; i++) {
+			var spQuantity = supportPlusItems[i].spQuantity;
+			var dnetPrice = supportPlusItems[i].dnetPrice;
+			supportPlusOnlyItemsContrib += dnetPrice * spQuantity * toroResp;
+		}
+
+		quote.Toro_Support_Plus_Allowance_Used__c = quote.Toro_Support_Plus_Allowance__c - (quoteItemContrib + supportPlusOnlyItemsContrib);
+		quote.SP_Total_Extended_DNET__c = quote.Toro_Total_DNet__c - quoteItemContrib;
+		quote.SP_Toro_Responsibility__c = quoteItemContrib + supportPlusOnlyItemsContrib;
+		quote.SP_Ext_Dist_Responsibility__c = (quote.Toro_Total_DNet__c - quoteItemContrib) / quote.Toro_Total_DNet__c;
 		return quote;
 	},
 	updateDistributorResponsibility: function(quote, items) {

@@ -49,6 +49,7 @@ public with sharing class ToroSupportPlusData {
 					, Id
 					, Name
 					, Toro_Support_Plus_Allowance__c // (SHOWN)
+					, Toro_Support_Plus_Allowance_Used__c
 					, Toro_Blended_Percent_of_DN__c
 					, SP_Toro_Responsibility__c // (SHOWN) (Toro Contribution/Responsibility)
 					, SP_Ext_Dist_Responsibility__c
