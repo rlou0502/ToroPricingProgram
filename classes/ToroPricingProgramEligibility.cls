@@ -95,7 +95,7 @@ public with sharing class ToroPricingProgramEligibility {
 	}
 	public static List<Revvy__MnStrategy1__c> retrievePricingProgramsForQuote(Id quoteId) {
 		Revvy__MnQuote__c quote = [select id, REVVY__Account__r.Id, REVVY__Account__r.Commercial_Distributor__c, REVVY__Account__r.First_Tee__c, REVVY__Account__r.Tax_Supported__c from revvy__MnQuote__c where id = :quoteId];
-		system.debug(logginglevel.info, 'retrievePricingProgramsForQuote');
+		system.debug(logginglevel.info, 'retrievePricingProgramsForQuote quote account = ' + quote);
 		return retrievePricingProgramsForCustomerAccount(quote.REVVY__Account__r);
 	}  
 	public static List<ToroSelectOption> retrievePricingProgramOptions(Id quoteId) {

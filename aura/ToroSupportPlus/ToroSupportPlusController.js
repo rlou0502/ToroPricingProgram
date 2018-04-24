@@ -4,8 +4,8 @@
     },
     backToPricingPage: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:backToPricingPage');
-        var quote = cmp.get("v.quote");
-        document.location = '/';
+        var quoteId = cmp.get("v.quoteId");
+        document.location = '/apex/PricingProgramLgtnOut?Id=' + quoteId;
     },
     addNewSupportPlusItem: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:addNewSupportPlusItem');
