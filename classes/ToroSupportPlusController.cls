@@ -173,50 +173,30 @@ global class ToroSupportPlusController {
 			// build copy of Support Plus Data currently in database
 			final ToroSupportPlusData originalSupportPlusData = ToroSupportPlusData.createToroSupportPlusData(quote.Id);
 
-			// find the quote items that have changed
-			final Map<Id,ToroSupportPlusItem> newItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(
-				(List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)
-			);
-			final Map<Id,ToroSupportPlusItem> originalItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(originalSupportPlusData.quoteItems);
-			final List<ToroSupportPlusItem> changedQuoteItemWrappers = new List<ToroSupportPlusItem>();
-			for (Id quoteItemId : originalItemWrapperMap.keySet()) {
-				ToroSupportPlusItem originalWrapper = originalItemWrapperMap.get(quoteItemId);
-				ToroSupportPlusItem newWrapper = newItemWrapperMap.get(quoteItemId);
-				if (originalWrapper.spQuantity != newWrapper.spQuantity) {
-					changedQuoteItemWrappers.add(newWrapper);
-					System.debug('\n\n@@' + newWrapper.productId + ' ' + originalWrapper.spQuantity + ' to ' + newWrapper.spQuantity + '\n\n');
-				}
-			}
-
-			// find the support plus items that have changed
-			final Map<Id,ToroSupportPlusItem> newSupportPlusItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(
-				(List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class)
-			);
-			final Map<Id,ToroSupportPlusItem> originalSupportPlusOnlyItemWrapperMap =  ToroSupportPlusItem.buildIdToSupportPlusItemMap(originalSupportPlusData.supportPlusOnlyItems);
-			final List<ToroSupportPlusItem> newSupportPlusWrappersToInsert = new List<ToroSupportPlusItem>();
-			final List<ToroSupportPlusItem> changedSupportPlusWrappers = new List<ToroSupportPlusItem>();
-			for (Id itemId : newSupportPlusItemWrapperMap.keySet()) {
-				ToroSupportPlusItem newWrapper = newSupportPlusItemWrapperMap.get(itemId);
-				if (!originalSupportPlusOnlyItemWrapperMap.containsKey(itemId)) {
-					newSupportPlusWrappersToInsert.add(newWrapper);
-					System.debug('\n\n@@' + newWrapper.productId + ' (new) ' + newWrapper.spQuantity + '\n\n');
-				}
-
-				else {
-					ToroSupportPlusItem originalWrapper = originalSupportPlusOnlyItemWrapperMap.get(itemId);
-					if (originalWrapper.spQuantity != newWrapper.spQuantity) {
-						changedSupportPlusWrappers.add(newWrapper);
-						System.debug('\n\n@@' + newWrapper.productId + ' ' + originalWrapper.spQuantity + ' to ' + newWrapper.spQuantity + '\n\n');
-					}
-				}
-			}
-
 			// create lists of quote items to insert/update/delete
 			final List<REVVY__MnQuoteItem__c> quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
 			final List<REVVY__MnStrategy4__c> quoteItemExtensionsToUpdate = new List<REVVY__MnStrategy4__c>();
 			final List<REVVY__MnQuoteItem__c> quoteItemsToDelete = new List<REVVY__MnQuoteItem__c>();
 
-			final List<Decimal> quoteItemExternalIdsForExtensionObjectUpdate = new List<Decimal>();
+			// ============================================================================
+			// HANDLE MAIN QUOTE ITEMS
+			// ============================================================================
+
+			// find the quote items that have changed
+			final Map<Id,ToroSupportPlusItem> newItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(
+				(List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)
+			);
+			final Map<Id,ToroSupportPlusItem> currentQuoteItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(originalSupportPlusData.quoteItems);
+			final List<ToroSupportPlusItem> changedQuoteItemWrappers = new List<ToroSupportPlusItem>();
+			for (Id quoteItemId : currentQuoteItemWrapperMap.keySet()) {
+				ToroSupportPlusItem currentWrapper = currentQuoteItemWrapperMap.get(quoteItemId);
+				ToroSupportPlusItem newWrapper = newItemWrapperMap.get(quoteItemId);
+				if (currentWrapper.spQuantity != newWrapper.spQuantity) {
+					changedQuoteItemWrappers.add(newWrapper);
+					System.debug('\n\n@@quoteItem: ' + newWrapper.productId + ' ' + currentWrapper.spQuantity + ' to ' + newWrapper.spQuantity + '\n\n');
+				}
+			}
+			System.debug('\n\n@@changedQuoteItemWrappers: ' + changedQuoteItemWrappers + '\n\n');
 
 			for (ToroSupportPlusItem wrapper : changedQuoteItemWrappers) {
 				// we still need to determine if an existing support plus item exists for the main quote item
@@ -226,13 +206,13 @@ global class ToroSupportPlusController {
 				Decimal updatedSpQuantity = wrapper.spQuantity;
 				if (wrapper.hasExistingSupportPlusItem()) {
 					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
-						Id = wrapper.extensionObjId
+                        external_ID__c = wrapper.sfid
 						, Adjusted_Quantity__c = quantity - updatedSpQuantity
 					);
 
 					REVVY__MnStrategy4__c supportPlusExtensionToUpdate = new REVVY__MnStrategy4__c(
-						Id = wrapper.supportPlusExtensionObjId
-						, Adjusted_Quantity__c = updatedSpQuantity
+						Adjusted_Quantity__c = updatedSpQuantity		
+						, external_Id__c = wrapper.SupportPlusItemId
 					);
 					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
 					quoteItemExtensionsToUpdate.add(supportPlusExtensionToUpdate);
@@ -252,24 +232,99 @@ global class ToroSupportPlusController {
 						, Misc_Style__c                 = 'NoCharge'
 						, Support_Plus_Original_Item__c = wrapper.sfid
 					);
+					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
+						Id = wrapper.extensionObjId
+						, Adjusted_Quantity__c = quantity - updatedSpQuantity
+						, QuoteItem__r = new REVVY__MnQuoteItem__c(
+							REVVY__Id__c = wrapper.quoteItemExternalId
+						)
+					);
 					quoteItemsToInsert.add(supportPlusQuoteItemToInsert);
+					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
 				}
 			}
 
-			for (ToroSupportPlusItem wrapper : newSupportPlusWrappersToInsert) {
-				// we know these are new, so we can simply insert them
-			}
 
-			for (ToroSupportPlusItem wrapper : changedSupportPlusWrappers) {
-				// we still need to determine if an existing support plus item exists for the main quote item
-				if (wrapper.hasExistingSupportPlusItem()) {
+			// ============================================================================
+			// HANDLE SUPPORT PLUS ONLY ITEMS
+			// ============================================================================
 
+			// find the support plus items that have changed
+			final Map<Id,ToroSupportPlusItem> newSupportPlusItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(
+				(List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class)
+			);
+			final Map<Id,ToroSupportPlusItem> currentSupportPlusOnlyItemWrapperMap =  ToroSupportPlusItem.buildIdToSupportPlusItemMap(originalSupportPlusData.supportPlusOnlyItems);
+			final List<ToroSupportPlusItem> newSupportPlusWrappersToInsert = new List<ToroSupportPlusItem>();
+			final List<ToroSupportPlusItem> changedSupportPlusWrappers = new List<ToroSupportPlusItem>();
+
+			// iterate the updated wrappers passed from the support plus application
+			// these are support plus only items
+			for (Id itemId : newSupportPlusItemWrapperMap.keySet()) {
+				ToroSupportPlusItem newWrapper = newSupportPlusItemWrapperMap.get(itemId);
+				if (!currentSupportPlusOnlyItemWrapperMap.containsKey(itemId)) {
+					newSupportPlusWrappersToInsert.add(newWrapper);
+					System.debug('\n\n@@' + newWrapper.productId + ' (new) ' + newWrapper.spQuantity + '\n\n');
 				}
 
 				else {
-
+					// support plus item already exists, so we only need to update them.
+					ToroSupportPlusItem originalWrapper = currentSupportPlusOnlyItemWrapperMap.get(itemId);
+					if (originalWrapper.spQuantity != newWrapper.spQuantity) {
+						changedSupportPlusWrappers.add(newWrapper);
+						System.debug('\n\n@@' + newWrapper.productId + ' ' + originalWrapper.spQuantity + ' to ' + newWrapper.spQuantity + '\n\n');
+					}
 				}
 			}
+
+			System.debug('\n\n@@newSupportPlusWrappersToInsert: ' + newSupportPlusWrappersToInsert + '\n\n');
+			System.debug('\n\n@@changedSupportPlusWrappers: ' + changedSupportPlusWrappers + '\n\n');
+
+
+
+			// ============================================================================
+			// handle support plus only items
+
+			// these are support plus only items that need to be created
+			for (ToroSupportPlusItem wrapper : newSupportPlusWrappersToInsert) {
+					REVVY__MnQuoteItem__c supportPlusQuoteItemToInsert = new REVVY__MnQuoteItem__c(
+						  REVVY__Quantity__c            = 1
+						, REVVY__Id__c                  = generateRevvyId()
+						, Is_Support_Plus_Item_Only__c  = true
+						, REVVY__Quote__c               = quote.Id
+						, REVVY__PricelistLine__c       = wrapper.pricelistLineId
+						, REVVY__Catalog_Node__c        = wrapper.catalogNodeId
+						, REVVY__Price__c               = 0
+						, REVVY__SuggestedPrice__c      = 0
+						, Description__c                = wrapper.description
+						, Misc_Style__c                 = 'NoCharge'
+						, Support_Plus_Original_Item__c = null
+					);
+
+					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
+						Id = wrapper.extensionObjId
+						, Adjusted_Quantity__c = wrapper.spQuantity
+						, Support_Plus_Item__c = true
+					);
+
+					quoteItemsToInsert.add(supportPlusQuoteItemToInsert);
+					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
+			}
+
+			// these are support plus only items that have changed
+			for (ToroSupportPlusItem wrapper : changedSupportPlusWrappers) {
+				// we still need to determine if an existing support plus item exists for the main quote item
+				REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
+					Id = wrapper.extensionObjId
+					, Adjusted_Quantity__c = wrapper.spQuantity
+					, Support_Plus_Item__c = true
+				);
+				quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
+			}
+
+			System.debug('\n\n@@quoteItemsToInsert: ' + quoteItemsToInsert + '\n\n');
+			System.debug('\n\n@@quoteItemExtensionsToUpdate: ' + quoteItemExtensionsToUpdate + '\n\n');
+			insert quoteItemsToInsert;
+			upsert quoteItemExtensionsToUpdate external_Id__c;
 		}
 
 		catch (Exception e) {

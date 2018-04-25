@@ -14,18 +14,11 @@
 					cmp.set('v.quoteItems', this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.quoteItems));
 					cmp.set('v.supportPlusItems', this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.supportPlusOnlyItems));
 					cmp.set('v.distributorResponsibilities', supportPlusData.distributorResponsibilities);
-					cmp.set('v.quote', this.recalculateQuoteSupportPlusTotals(
+					var recalQuote = this.recalculateQuoteSupportPlusTotals(
 											supportPlusData.quote
 											, supportPlusData.quoteItems
-											, supportPlusData.supportPlusOnlyItems));
-                    debugger;
-                    var childCmp = cmp.find("cmpRollingTotal");
-                    if(childCmp) {
-                        childCmp.setDistributorResponsibility(supportPlusData.distributorResponsibilities, function(result) {
-                            //console.log("callback for aura:method was executed");
-                            //console.log("result: " + result);
-                        });
-                    }
+											, supportPlusData.supportPlusOnlyItems);
+                    cmp.set('v.quote', recalQuote);
 	            }
 	        }
 	    );

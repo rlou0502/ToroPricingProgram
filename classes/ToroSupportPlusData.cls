@@ -88,7 +88,9 @@ public with sharing class ToroSupportPlusData {
 			for (Decimal value : responsibilityValues) {
 				DistributorResponsibilityOption option = new DistributorResponsibilityOption(value);
 				if (value == defaultResponsibility) option.setAsDefault();
-				if (value == quote.Distributor_Contribution__c) option.setAsSelected();
+				system.debug('responsibility wrappers Distributor_Contribution__c=' + quote.Distributor_Contribution__c + ' value=' + value);
+				//if (value == quote.Distributor_Contribution__c) option.setAsSelected();
+				if (value == quote.Distributor_Responsibility__c) option.setAsSelected();
 				options.add(option);
 			}
 
