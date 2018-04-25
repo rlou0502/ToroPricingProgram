@@ -4,31 +4,49 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public REVVY__MnQuote__c quote 								{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 					{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> supportPlusOnlyItems 			{ get; set; }
-	@AuraEnabled public List<DistRespPair> distributorResponsibilities 			{ get; private set; }
+	@AuraEnabled public List<DistributorResponsibilityOption> distributorResponsibilities 	{ get; private set; }
 
-	public class DistRespPair implements Comparable {
+	// ============================================================================
+	// title
+	// ============================================================================
+	public class DistributorResponsibilityOption implements Comparable {
 		@AuraEnabled public Decimal value;
 		@AuraEnabled public String label;
 		@AuraEnabled public Boolean selected;
 
-		public DistRespPair(Decimal value, String label) {
+		public DistributorResponsibilityOption(Decimal value) {
 			this.value = value;
-			this.label = label;
+			this.label = value.format() + '%';
 			this.selected = false;
 		}
 
+		public void setAsDefault() {
+			this.label += ' (default)';
+		}
+
+		public void setAsSelected() {
+			this.selected = true;
+		}
+
 		public Integer compareTo(Object compareTo) {
-			DistRespPair compareToObj = (DistRespPair) compareTo;
+			DistributorResponsibilityOption compareToObj = (DistributorResponsibilityOption) compareTo;
 			if (this.value == compareToObj.value) return 0;
 			if (this.value > compareToObj.value) return 1;
 			return -1;
 		}
 	}
 
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
 	public ToroSupportPlusData() {
 		this.quoteItems                  = new List<ToroSupportPlusItem>();
 		this.supportPlusOnlyItems        = new List<ToroSupportPlusItem>();
-		this.distributorResponsibilities = new List<DistRespPair>();
+		this.distributorResponsibilities = new List<DistributorResponsibilityOption>();
 		this.success                     = true;
 	}
 
@@ -39,10 +57,126 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static ToroSupportPlusData retrieveAndBuildData(Id quoteId) {
+	public static ToroSupportPlusData createToroSupportPlusData(Id quoteId) {
 		ToroSupportPlusData result = new ToroSupportPlusData();
 
 		try {
+			// get the quote
+			REVVY__MnQuote__c quote = getQuote(quoteId);
+
+			// get the distributor responsibilities. update quote if necessary
+			Decimal defaultResponsibility = 50.0;
+			Set<Decimal> responsibilityValues = new Set<Decimal>();
+			for (Support_Plus_Contribution__c contribution : getSupportPlusContributions()) {
+				responsibilityValues.add(contribution.Distributor_Contribution__c);
+				if (
+					quote.Toro_Blended_Percent_of_DN__c >= contribution.Award_Price_Low__c
+					&& quote.Toro_Blended_Percent_of_DN__c < contribution.Award_Price_High__c
+				) {
+					defaultResponsibility = contribution.Distributor_Contribution__c;
+				}
+			}
+
+			// set the quote to the default responsibility if it is not set
+			if (quote.Distributor_Responsibility__c == null) {
+				quote.Distributor_Responsibility__c = defaultResponsibility;
+			}
+			update quote;
+
+			// build the responsibility wrappers
+			List<DistributorResponsibilityOption> options = new List<DistributorResponsibilityOption>();
+			for (Decimal value : responsibilityValues) {
+				DistributorResponsibilityOption option = new DistributorResponsibilityOption(value);
+				if (value == defaultResponsibility) option.setAsDefault();
+				if (value == quote.Distributor_Contribution__c) option.setAsSelected();
+				options.add(option);
+			}
+
+			result.quote = quote;
+			result.distributorResponsibilities = options;
+
+			// get the quote items and support plus items
+			List<REVVY__MnQuoteItem__c> quoteItems = ToroSupportPlusItem.getQuoteItems(quoteId);
+
+			// build a list of the main quote line item
+			// build a map of the main quote item to its support plus line item
+			// (note that support plus items added by "add new" are not handled here)
+			final List<REVVY__MnQuoteItem__c> mainQuoteItems = new List<REVVY__MnQuoteItem__c>();
+			final Map<Id,REVVY__MnQuoteItem__c> mainQuoteItemToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
+			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
+				if (quoteItem.Support_Plus_Original_Item__c == null) {
+					// this is not a support plus item since it is not linked to a main item
+					mainQuoteItems.add(quoteItem);
+				}
+
+				else {
+					// this is a support plus item since it points to a main item
+					mainQuoteItemToSupportPlusItemMap.put(quoteItem.Support_Plus_Original_Item__c, quoteItem);
+				}
+			}
+
+			// create wrappers for the main quote items. here, we need to differentiate between main quote items
+			// and support plus items added by "add new".
+			final List<ToroSupportPlusItem> mainQuoteItemWrappers = new List<ToroSupportPlusItem>();
+			final List<ToroSupportPlusItem> addNewSupportPlusItemWrappers = new List<ToroSupportPlusItem>();
+			for (REVVY__MnQuoteItem__c quoteItem : mainQuoteItems) {
+				if (quoteItem.Is_Support_Plus_Item_Only__c) {
+					// these are items previously added by "add new"
+					addNewSupportPlusItemWrappers.add(new ToroSupportPlusItem(quoteItem));
+				}
+
+				else if (mainQuoteItemToSupportPlusItemMap.containsKey(quoteItem.Id)) {
+					// these are items that have quantity allocated to support plus
+					REVVY__MnQuoteItem__c supportPlusItem = mainQuoteItemToSupportPlusItemMap.get(quoteItem.Id);
+					mainQuoteItemWrappers.add(new ToroSupportPlusItem(quoteItem, supportPlusItem));
+				}
+
+				else {
+					// these are items with no quantity allocated to support plus
+					mainQuoteItemWrappers.add(new ToroSupportPlusItem(quoteItem));
+				}
+			}
+
+			result.supportPlusOnlyItems = addNewSupportPlusItemWrappers;
+			result.quoteItems = mainQuoteItemWrappers;
+		}
+
+		catch (Exception e) {
+			result.success = false;
+		}
+
+		return result;
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	private static List<Support_Plus_Contribution__c> getSupportPlusContributions() {
+		return [
+			SELECT
+				Award_Price_Low__c
+				, Award_Price_High__c
+				, Toro_Contribution__c
+				, Distributor_Contribution__c
+			FROM
+				Support_Plus_Contribution__c
+			ORDER BY
+				Award_Price_Low__c asc
+		];
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	private static REVVY__MnQuote__c getQuote(Id quoteId) {
 			REVVY__MnQuote__c quote = [
 				SELECT
 					Toro_Total_DNet__c // Total DNet BEFORE deducting Toro Contribution for Support Plus Items
@@ -84,234 +218,11 @@ public with sharing class ToroSupportPlusData {
 					break;
 				}
 			}
-			update quote;
 
+			// update quote;
 			quote.SP_Toro_Responsibility__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
 			quote.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
 			quote.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
-
-			List<Support_Plus_Contribution__c> contributions = [
-				SELECT
-					Award_Price_Low__c
-					, Award_Price_High__c
-					, Toro_Contribution__c
-					, Distributor_Contribution__c
-				FROM
-					Support_Plus_Contribution__c
-				ORDER BY
-					Award_Price_Low__c asc
-			];
-			System.debug('\n\n@@contributions: ' + contributions + '\n\n');
-
-			final Set<Decimal> distRespOptions = new Set<Decimal>();
-			Decimal defaultResponsibility = 50.00;
-			for (Support_Plus_Contribution__c contrib : contributions) {
-				if (
-					quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
-					&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
-				) {
-					defaultResponsibility = contrib.Distributor_Contribution__c;
-					// quote.Distributor_Responsibility__c = contrib.Distributor_Contribution__c;
-					// break;
-				}
-
-				distRespOptions.add(contrib.Distributor_Contribution__c);
-			}
-
-			if (quote.Distributor_Responsibility__c == null) {
-				quote.Distributor_Responsibility__c = defaultResponsibility;
-			}
-
-			for (Decimal optionValue : distRespOptions) {
-				DistRespPair newOption;
-				if (optionValue == defaultResponsibility) {
-					newOption = new DistRespPair(optionValue, optionValue.format() + '% (default)');
-				}
-
-				else {
-					newOption = new DistRespPair(optionValue, optionValue.format() + '%');
-				}
-
-				if (optionValue == quote.Distributor_Responsibility__c) {
-					newOption.selected = true;
-				}
-
-				result.distributorResponsibilities.add(newOption);
-			}
-
-			result.quote = quote;
-
-			// get quote items and support plus items
-			final List<REVVY__MnQuoteItem__c> originalQuoteItems = new List<REVVY__MnQuoteItem__c>();
-			final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
-			List<REVVY__MnQuoteItem__c> quoteItems = getQuoteItems(quoteId);
-			System.debug('\n\n@@quoteItems: ' + quoteItems + '\n\n');
-			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
-				if (quoteItem.Support_Plus_Original_Item__c == null) {
-					originalQuoteItems.add(quoteItem);
-				}
-
-				else {
-					quoteItemIdToSupportPlusItemMap.put(quoteItem.Support_Plus_Original_Item__c, quoteItem);
-				}
-			}
-
-			// build wrappers
-			for (REVVY__MnQuoteItem__c quoteItemObj : originalQuoteItems) {
-				ToroSupportPlusItem wrapper = new ToroSupportPlusItem(quoteItemObj);
-				for (ToroSupportPlusItem sublineWrapper : wrapper.sublines) {
-				}
-				if (quoteItemObj.Is_Support_Plus_Item_Only__c) {
-					wrapper.spQuantity = quoteItemObj.REVVY__Quantity__c;
-					result.supportPlusOnlyItems.add(wrapper);
-
-				}
-
-				else if (quoteItemIdToSupportPlusItemMap.containsKey(quoteItemObj.Id)) {
-					final REVVY__MnQuoteItem__c supportPlusItem = quoteItemIdToSupportPlusItemMap.get(quoteItemObj.Id);
-					wrapper.quantity += supportPlusItem.REVVY__Quantity__c;
-					wrapper.spQuantity = supportPlusItem.REVVY__Quantity__c;
-					if (wrapper.dnetPrice == 0) {
-						wrapper.dnetPrice = quoteItemObj.Support_Plus_Original_Price__c;
-					}
-					result.quoteItems.add(wrapper);
-				}
-
-				else {
-					result.quoteItems.add(wrapper);
-				}
-			}
-
-			System.debug('\n\n@@result.quote: ' + result.quote + '\n\n');
-			System.debug('\n\n@@result.distributorResponsibilities: ' + result.distributorResponsibilities + '\n\n');
-			System.debug('\n\n@@result.quoteItems: ' + result.quoteItems + '\n\n');
-			System.debug('\n\n@@result.supportPlusOnlyItems: ' + result.supportPlusOnlyItems + '\n\n');
-		}
-
-		catch (Exception e) {
-			result.success = false;
-		}
-
-		return result;
-	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public static Boolean removeSupportPlusItemsForQuote(Id quoteId) {
-		Boolean wasSuccessful = true;
-		try {
-			final List<REVVY__MnQuoteItem__c> quoteItemsToDelete = new List<REVVY__MnQuoteItem__c>();
-			final List<REVVY__MnQuoteItem__c> quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
-
-			final List<REVVY__MnQuoteItem__c> quoteItems = getQuoteItems(quoteId);
-
-			final List<REVVY__MnQuoteItem__c> originalQuoteItems = new List<REVVY__MnQuoteItem__c>();
-			final Map<Id,REVVY__MnQuoteItem__c> quoteItemIdToSupportPlusItemMap = new Map<Id,REVVY__MnQuoteItem__c>();
-
-			// build map of the original quote item to the support plus item
-			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
-				if (quoteItem.Support_Plus_Original_Item__c == null) {
-					originalQuoteItems.add(quoteItem);
-				}
-
-				else {
-					quoteItemIdToSupportPlusItemMap.put(quoteItem.Support_Plus_Original_Item__c, quoteItem);
-				}
-			}
-
-			// for quote items that also have a support plus item, the quantity allocated to Support Plus
-			// needs to be restored to the original quote item. Update the quantity and prepare it to be updated.
-			// Also, mark the support plus quote item for deletion.
-			for (REVVY__MnQuoteItem__c originalQuoteItem : originalQuoteItems) {
-				if (quoteItemIdToSupportPlusItemMap.containsKey(originalQuoteItem.Id)) {
-					REVVY__MnQuoteItem__c supportPlusItem = quoteItemIdToSupportPlusItemMap.get(originalQuoteItem.Id);
-					Decimal qty = originalQuoteItem.REVVY__Quantity__c;
-					Decimal spQty = supportPlusItem.REVVY__Quantity__c;
-					originalQuoteItem.REVVY__Quantity__c = qty + spQty;
-					quoteItemsToUpdate.add(originalQuoteItem);
-					quoteItemsToDelete.add(supportPlusItem);
-				}
-			}
-
-			// re-check the quote items and delete any support plus items that were added via "add new"
-			for (REVVY__MnQuoteItem__c quoteItem : quoteItems) {
-				if (quoteItem.Is_Support_Plus_Item_Only__c) {
-					quoteItemsToDelete.add(quoteItem);
-				}
-			}
-
-			System.debug('\n\n@@quoteItemsToUpdate: ' + quoteItemsToUpdate + '\n\n');
-			System.debug('\n\n@@quoteItemsToDelete: ' + quoteItemsToDelete + '\n\n');
-		}
-
-		catch (Exception e) {
-			wasSuccessful = false;
-		}
-
-		return wasSuccessful;
-	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public static List<REVVY__MnQuoteItem__c> getQuoteItems(Id quoteId) {
-		return [
-			SELECT
-				Id
-				, REVVY__Product_Name_F__c
-				, REVVY__Catalog_Node__r.Name
-				, REVVY__Product_ID_F__c
-				, REVVY__Id__c
-				, REVVY__Quantity__c
-				, Description__c
-				// , Distributor_Responsibility__c
-				, REVVY__PricelistLine__c
-				, REVVY__Catalog_Node__c
-				, REVVY__Catalog_Node__r.REVVY__Id__c
-				, REVVY__SuggestedPrice__c
-				, Is_Support_Plus_Item_Only__c
-				, Support_Plus_Original_Price__c
-				, Support_Plus_Original_Item__c
-				, Support_Plus_Original_Item__r.Id
-				, Support_Plus_Original_Item__r.REVVY__Quantity__c
-				, (SELECT
-					Id
-					, Support_Plus_Item__c
-					FROM
-						Toro_Quote_Item__r) // Toro Quote Item (REVVY__MnStrategy4__c)
-				, (SELECT
-						Id
-						, REVVY__Quantity__c
-						, REVVY__Catalog_Node__r.Name
-						, Product_ID2__c
-						, Description__c
-						// , Distributor_Responsibility__c
-						, REVVY__PricelistLine__c
-						, REVVY__Catalog_Node__c
-						, REVVY__QuoteItem__c
-						, REVVY__SuggestedPrice__c
-						, REVVY__Id__c
-						, Support_Plus_Original_Price__c
-						, Support_Plus_Original_Item__c
-						, Support_Plus_Original_Item__r.Id
-						, Support_Plus_Original_Item__r.REVVY__Quantity__c
-					FROM
-						REVVY__QuoteItemSubLine__r
-					ORDER BY
-						REVVY__Catalog_Node__r.Name)
-			FROM
-				REVVY__MnQuoteItem__c
-			WHERE
-				REVVY__Quote__c = :quoteId
-		];
+			return quote;
 	}
 }

@@ -232,7 +232,7 @@ public with sharing class ToroPricingMethodHelper {
 	}
 	
 	public ToroPricingMethodHelper retrieveRebateForQuoteItem(decimal dnetPercent, Revvy__MnStrategy4__c qi) { 		
-		decimal rebatePercent = retrieveRebatePercentBasedOnBlendedDNet(dnetPercent);		
+		decimal rebatePercent = retrieveRebatePercentBasedOnBlendedDNet(dnetPercent, pricingProgramExternalId);		
 		qi.Rebate_as_a_of_DN__c = rebatePercent;	
 		//set all sublines' rebate % as quote item's
 		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -246,10 +246,10 @@ public with sharing class ToroPricingMethodHelper {
 		return this;
 	} 
 	
-	public decimal retrieveRebatePercentBasedOnBlendedDNet(decimal dnetPercent) {
+	public decimal retrieveRebatePercentBasedOnBlendedDNet(decimal dnetPercent, String pricingProgramExtId) {
 		decimal rebatePercent = 0;
-		if(!DNetPercentMap.containsKey(pricingProgramExternalId)) {
-			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(pricingProgramExternalId);
+		if(!DNetPercentMap.containsKey(pricingProgramExtId)) {
+			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(pricingProgramExtId);
 			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
 		    Map<decimal, ToroPricingMethodData> dnet2PM = new Map<decimal, ToroPricingMethodData>();
 		    for(Revvy__MnStrategy2__c  ppl : pplList) {
@@ -258,21 +258,21 @@ public with sharing class ToroPricingMethodHelper {
 		    	dnet2PM.put((ppl.Award_Price_as_a_Percent_of_DN__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
 									ppl.Rebate_as_a_Percent_of_DN__c, ppl.Distributor_Margin__c, null));	
 		    }
-			DNetPercentMap.put(pricingProgramExternalId, dnet2PM);	
+			DNetPercentMap.put(pricingProgramExtId, dnet2PM);	
 		}
 		system.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap=' + DNetPercentMap);		
 		dnetPercent = dnetPercent.setScale(5, roundingMode.HALF_UP);
 		System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnetPercent = ' + dnetPercent  );
 		System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent) = ' + (DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent))  );
-		if(DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent)) {
-			rebatePercent = DNetPercentMap.get(pricingProgramExternalId).get(dnetPercent).rebatePercent;
+		if(DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExtId).containsKey(dnetPercent)) {
+			rebatePercent = DNetPercentMap.get(pricingProgramExtId).get(dnetPercent).rebatePercent;
 			System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- rebatePercent ='  + rebatePercent);
-		} else if(DNetPercentMap.containsKey(pricingProgramExternalId)) {
+		} else if(DNetPercentMap.containsKey(pricingProgramExtId)) {
 			System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- no exact match'); 
 			ToroPricingMethodData topRow = null;
 			ToroPricingMethodData bottomRow = null;
 			//conver dnetPercent to percent format
-			Map<decimal, ToroPricingMethodData> dnet2PMMap = DNetPercentMap.get(pricingProgramExternalId);
+			Map<decimal, ToroPricingMethodData> dnet2PMMap = DNetPercentMap.get(pricingProgramExtId);
 			//System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnet2PMMap.values()[0].percentOfDNet ='  + dnet2PMMap.values()[0].percentOfDNet);
 			//System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnet2PMMap.values()[dnet2PMMap.values().size()-1].percentOfDNet ='  + dnet2PMMap.values()[dnet2PMMap.values().size()-1].percentOfDNet);
 			if(dnetPercent >= dnet2PMMap.values()[0].percentOfDNet) {
@@ -309,7 +309,7 @@ public with sharing class ToroPricingMethodHelper {
 	} 
 	
 	public ToroPricingMethodHelper retrieveRebateForQuote(decimal dnetPercent) {
-		decimal rebatePercent = retrieveRebatePercentBasedOnBlendedDNet(dnetPercent);
+		decimal rebatePercent = retrieveRebatePercentBasedOnBlendedDNet(dnetPercent, pricingProgramExternalId);
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			qi.Rebate_as_a_of_DN__c = rebatePercent;	
 			//set all sublines' rebate % as quote item's
