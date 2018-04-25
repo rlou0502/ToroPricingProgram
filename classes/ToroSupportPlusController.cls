@@ -176,18 +176,18 @@ global class ToroSupportPlusController {
 				// then we need to create the quote item object, then update the extension object
 				Decimal quantity = wrapper.quantity;
 				Decimal updatedSpQuantity = wrapper.spQuantity;
-				if (wrapper.hasExistingSupportPlusItem()) {
-					System.debug('\n\n@@wrapper.hasExistingSupportPlusItem(): ' + wrapper.hasExistingSupportPlusItem() + '\n\n');
+				if (wrapper.supportPlusWrapper != null) {
 					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
                         external_ID__c = wrapper.sfid
 						, Adjusted_Quantity__c = quantity - updatedSpQuantity
 					);
 
+					Id supportPlusItemId = wrapper.supportPlusWrapper.quoteItemObj.Id;
 					REVVY__MnStrategy4__c supportPlusExtensionToUpdate = new REVVY__MnStrategy4__c(
-						external_Id__c = wrapper.SupportPlusItemId
+						external_Id__c = supportPlusItemId
 						, Adjusted_Quantity__c = updatedSpQuantity
 					);
-					Map<String, decimal> extIdQtyMap = new Map<String, decimal>{wrapper.sfid=>(quantity - updatedSpQuantity), wrapper.SupportPlusItemId=>updatedSpQuantity};
+					Map<String, decimal> extIdQtyMap = new Map<String, decimal>{wrapper.sfid=>(quantity - updatedSpQuantity), SupportPlusItemId=>updatedSpQuantity};
 
 					List<REVVY__MnStrategy4__c> spQuoteItems = [select id, external_Id__c from REVVY__MnStrategy4__c where external_Id__c in :extIdQtyMap.keyset()];
 					for(REVVY__MnStrategy4__c qi : spQuoteItems) {
@@ -205,8 +205,8 @@ global class ToroSupportPlusController {
 						, REVVY__Id__c                  = ToroSupportPlusHelper.generateExternalId()
 						, Is_Support_Plus_Item_Only__c  = false
 						, REVVY__Quote__c               = quote.Id
-						, REVVY__PricelistLine__c       = wrapper.pricelistLineId
-						, REVVY__Catalog_Node__c        = wrapper.catalogNodeId
+						, REVVY__PricelistLine__c       = wrapper.quoteItemObj.REVVY__PricelistLine__c
+						, REVVY__Catalog_Node__c        = wrapper.quoteItemObj.REVVY__Catalog_Node__c
 						, REVVY__Price__c               = 0
 						, REVVY__SuggestedPrice__c      = 0
 						, Description__c                = wrapper.description

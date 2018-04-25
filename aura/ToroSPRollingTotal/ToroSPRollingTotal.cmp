@@ -3,6 +3,8 @@
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
 	<aura:attribute name="selectedDistributorResponsibility" type="Decimal" />
+    <aura:attribute name="showDistributorResponsibility" type="Boolean" />
+    
 	<!-- <aura:method name="updateRollingTotals" action="{!c.updateRollingTotals}" description="" /> -->
 	<ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
 		<li class="slds-page-header__detail-block">
@@ -27,13 +29,23 @@
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p>
-				<lightning:select class="slds-text-title_caps" name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
-					<aura:iteration var="distResp" items="{!v.distributorResponsibilities}" >
-						<option value="{!distResp.value}" selected="{!distResp.selected}">{!distResp.label}</option>
-					</aura:iteration>
-				</lightning:select>
-			</p>
+			
+                <aura:if isTrue="{!v.showDistributorResponsibility}">
+                    <p>
+                        <lightning:select class="slds-text-title_caps" name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
+                            <aura:iteration var="distResp" items="{!v.distributorResponsibilities}" >
+                                <option value="{!distResp.value}" selected="{!distResp.selected}">{!distResp.label}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </p>
+                    <aura:set attribute="else">
+                        <p class="slds-text-title_caps slds-m-bottom_small" title="Distributor Responsibility (%)">Distributor Responsibility (%)</p>
+                        <p class="slds-text-body_regular" >
+                            <lightning:formattedNumber value="{!v.quote.Distributor_Responsibility__c/100}" style="percent" />
+                        </p>
+                    </aura:set>
+                </aura:if>
+			
 		</li>
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="Toro Contribution">Toro Contribution</p>

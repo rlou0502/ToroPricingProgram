@@ -5,6 +5,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public List<ToroSupportPlusItem> quoteItems 					{ get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> supportPlusOnlyItems 			{ get; set; }
 	@AuraEnabled public List<DistributorResponsibilityOption> distributorResponsibilities 	{ get; private set; }
+	@AuraEnabled public Boolean showDistributorResponsibility                   { get; set; }
 
 	// ============================================================================
 	// title
@@ -48,6 +49,7 @@ public with sharing class ToroSupportPlusData {
 		this.supportPlusOnlyItems        = new List<ToroSupportPlusItem>();
 		this.distributorResponsibilities = new List<DistributorResponsibilityOption>();
 		this.success                     = true;
+		this.showDistributorResponsibility = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 	}
 
 	/**
@@ -98,7 +100,7 @@ public with sharing class ToroSupportPlusData {
 			result.distributorResponsibilities = options;
 
 			// get the quote items and support plus items
-			List<REVVY__MnQuoteItem__c> quoteItems = ToroSupportPlusItem.getQuoteItems(quoteId);
+			List<REVVY__MnQuoteItem__c> quoteItems = ToroSupportPlusHelper.getQuoteItems(quoteId);
 
 			// build a list of the main quote line item
 			// build a map of the main quote item to its support plus line item

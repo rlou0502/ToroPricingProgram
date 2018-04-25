@@ -12,6 +12,8 @@
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="quoteItemMap" type="Map" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
+    <aura:attribute name="showDistributorResponsibility" type="Boolean" />
+    
 
 	<div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
 		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
@@ -61,7 +63,7 @@
 
 	<!-- BODY -->
 	<div id="rolling-total" >
-		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" distributorResponsibilities="{!v.distributorResponsibilities}" selectedDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}" />
+		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" distributorResponsibilities="{!v.distributorResponsibilities}" selectedDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}" showDistributorResponsibility="{!v.showDistributorResponsibility}"/>
 	</div>
 	<br/>
 	<div id="support-plus-quote-item">

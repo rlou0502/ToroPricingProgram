@@ -19,6 +19,7 @@
 											, supportPlusData.quoteItems
 											, supportPlusData.supportPlusOnlyItems);
                     cmp.set('v.quote', recalQuote);
+                    cmp.set('v.showDistributorResponsibility', supportPlusData.showDistributorResponsibility);
 	            }
 	        }
 	    );
