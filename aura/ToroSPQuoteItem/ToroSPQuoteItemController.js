@@ -16,7 +16,7 @@
         var quoteItem = helper.getQuoteItem(sfid, cmp.get('v.quoteItems'));
         var value     = event.getSource().get('v.value');
 
-        if (value > quoteItem.quantity && !quoteItem.isSupportPlusItemOnly) {
+        if (value > quoteItem.quantity && !quoteItem.isFromAddNew) {
             event.getSource().set('v.value', quoteItem.quantity);
         }
 

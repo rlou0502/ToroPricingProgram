@@ -15,10 +15,10 @@
 				</th>
 				<th scope="col" width="10%"><div class="slds-truncate" title="QTY">QTY</div></th>
 				<th scope="col" width="10%"><div class="slds-truncate" title="SP QTY">SP QTY</div></th>
-				<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div></th>
+				<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">MODEL</div></th>
 				<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
 				<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>
-				<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET PRICE</div></th>
+				<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET</div></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -60,11 +60,11 @@
 					<tr class="slds-text-title_caps">
 						<th scope="col" width="50px"></th>
 						<th scope="col" width="10%"></th>
-						<th scope="col" width="10%"><div class="slds-truncate" title="SP QUANTITY">SP QUANTITY</div></th>
-						<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">PRODUCT ID</div></th>
+						<th scope="col" width="10%"><div class="slds-truncate" title="SP QUANTITY">SP QTY</div></th>
+						<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">MODEL</div></th>
 						<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
 						<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>
-						<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET PRICE</div></th>
+						<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET</div></th>
 					</tr>
 				</thead>
 				<tbody>

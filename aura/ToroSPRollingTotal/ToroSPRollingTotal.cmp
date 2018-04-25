@@ -21,14 +21,14 @@
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Extended Total DNet Price">Extended Total DNet Price</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="Extended Total DNet Price">EXT DNET</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Total_Extended_DNET__c}">
 				<lightning:formattedNumber value="{!v.quote.SP_Total_Extended_DNET__c}" style="currency" />
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
 			<p>
-				<lightning:select name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
+				<lightning:select class="slds-text-title_caps" name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
 					<aura:iteration var="distResp" items="{!v.distributorResponsibilities}" >
 						<option value="{!distResp.value}" selected="{!distResp.selected}">{!distResp.label}</option>
 					</aura:iteration>

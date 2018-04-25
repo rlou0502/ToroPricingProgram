@@ -1,9 +1,6 @@
 global class ToroSupportPlusController {
 	public Id quoteId { get; private set; }
 
-	private static REVVY__MnSequenceGen__c sequenceGen;
-
-
 	/**
 	 *
 	 * description
@@ -191,10 +188,10 @@ global class ToroSupportPlusController {
 						, Adjusted_Quantity__c = updatedSpQuantity
 					);
 					Map<String, decimal> extIdQtyMap = new Map<String, decimal>{wrapper.sfid=>(quantity - updatedSpQuantity), wrapper.SupportPlusItemId=>updatedSpQuantity};
-					
+
 					List<REVVY__MnStrategy4__c> spQuoteItems = [select id, external_Id__c from REVVY__MnStrategy4__c where external_Id__c in :extIdQtyMap.keyset()];
 					for(REVVY__MnStrategy4__c qi : spQuoteItems) {
-						qi.Adjusted_Quantity__c = extIdQtyMap.get(qi.external_Id__c);	
+						qi.Adjusted_Quantity__c = extIdQtyMap.get(qi.external_Id__c);
 					}
 					System.debug('\n\n@@before quoteItemExtensionsToUpdate : ' + quoteItemExtensionsToUpdate + '\n\n');
 
@@ -205,7 +202,7 @@ global class ToroSupportPlusController {
 				else {
 					REVVY__MnQuoteItem__c supportPlusQuoteItemToInsert = new REVVY__MnQuoteItem__c(
 						  REVVY__Quantity__c            = updatedSpQuantity
-						, REVVY__Id__c                  = generateRevvyId()
+						, REVVY__Id__c                  = ToroSupportPlusHelper.generateExternalId()
 						, Is_Support_Plus_Item_Only__c  = false
 						, REVVY__Quote__c               = quote.Id
 						, REVVY__PricelistLine__c       = wrapper.pricelistLineId
@@ -216,12 +213,12 @@ global class ToroSupportPlusController {
 						, Misc_Style__c                 = 'NoCharge'
 						, Support_Plus_Original_Item__c = wrapper.sfid
 					);
-					
+
 					List<REVVY__MnStrategy4__c> spQuoteItems = [select id, external_Id__c from REVVY__MnStrategy4__c where external_Id__c = :wrapper.sfid];
 					for(REVVY__MnStrategy4__c qi : spQuoteItems) {
 						qi.Adjusted_Quantity__c = quantity - updatedSpQuantity;
 					}
-					
+
 					quoteItemsToInsert.add(supportPlusQuoteItemToInsert);
 					quoteItemExtensionsToUpdate.addAll(spQuoteItems);
 				}
@@ -278,7 +275,7 @@ global class ToroSupportPlusController {
 			for (ToroSupportPlusItem wrapper : newSupportPlusWrappersToInsert) {
 					REVVY__MnQuoteItem__c supportPlusQuoteItemToInsert = new REVVY__MnQuoteItem__c(
 						  REVVY__Quantity__c            = 1
-						, REVVY__Id__c                  = generateRevvyId()
+						, REVVY__Id__c                  = ToroSupportPlusHelper.generateExternalId()
 						, Is_Support_Plus_Item_Only__c  = true
 						, REVVY__Quote__c               = quote.Id
 						, REVVY__PricelistLine__c       = wrapper.pricelistLineId
@@ -748,26 +745,5 @@ global class ToroSupportPlusController {
 		}
 		*/
 		return true;
-	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	private static Decimal generateRevvyId() {
-		if (sequenceGen == null) {
-			sequenceGen = [SELECT
-								REVVY__CurrentValue__c
-							FROM
-								REVVY__MnSequenceGen__c
-							WHERE
-								REVVY__ObjectName__c = 'MnQuoteItem__c' LIMIT 1
-			];
-		}
-
-		return ++sequenceGen.REVVY__CurrentValue__c;
 	}
 }

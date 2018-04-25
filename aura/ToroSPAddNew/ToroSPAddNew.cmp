@@ -36,7 +36,7 @@
 					<div class="slds-form slds-form_stacked">
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
-								<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label" label="Product ID" value="{!v.newItemProductId}"
+								<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" label="MODEL" value="{!v.newItemProductId}"
 								 placeholder="Select a product..." updateOn="keyup" />
 								<section aura:id="autocomplete_section" id="autocomplete_section" class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
 								 role="dialog" aria-label="Autocomplete Results" aria-describedby="dialog-body-id-4" style="position: absolute; left: 0px;">
@@ -53,30 +53,30 @@
 						<div class="slds-form-element">
 							<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
 							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_dist_resp" label="DNet Price" value="{!v.newItemDNetPrice}"
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dist_resp" label="DNET" value="{!v.newItemDNetPrice}"
 								/>
 							</div>
 						</div>
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label" aura:id="sp_quantity" label="SP Quantity" value="{!v.newItemSPQuantity}"
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="SP QTY" value="{!v.newItemSPQuantity}"
 								/>
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add_dnet_price">Distributor Responsibility (%)</label>
+							<label class="slds-form-element__label slds-text-title_caps" for="add_dnet_price">Distributor Responsibility (%)</label>
 							<div class="slds-form-element__control">
 								<ui:outputText value="{!v.newItemDistributorResponsibility}" />
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add_dnet_price">Product Name</label>
+							<label class="slds-form-element__label slds-text-title_caps" for="add_dnet_price">Product Name</label>
 							<div class="slds-form-element__control">
 								<lightning:formattedText value="{!v.newItemProductName}" />
 							</div>
 						</div>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="add_description">Description</label>
+							<label class="slds-form-element__label slds-text-title_caps" for="add_description">Description</label>
 							<div class="slds-form-element__control">
 								<lightning:formattedText value="{!v.newItemDescription}" style="word-wrap: break-word" />
 							</div>
