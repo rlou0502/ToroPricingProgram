@@ -213,19 +213,46 @@ global class ToroSupportPlusController {
 
 			// create lists of quote items to insert/update/delete
 			final List<REVVY__MnQuoteItem__c> quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
-			final List<REVVY__MnQuoteItem__c> quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
+			final List<REVVY__MnStrategy4__c> quoteItemExtensionsToUpdate = new List<REVVY__MnStrategy4__c>();
 			final List<REVVY__MnQuoteItem__c> quoteItemsToDelete = new List<REVVY__MnQuoteItem__c>();
+
+			final List<Decimal> quoteItemExternalIdsForExtensionObjectUpdate = new List<Decimal>();
 
 			for (ToroSupportPlusItem wrapper : changedQuoteItemWrappers) {
 				// we still need to determine if an existing support plus item exists for the main quote item
 				// if it does, then we only need to update the extension object. if it does not exist,
 				// then we need to create the quote item object, then update the extension object
+				Decimal quantity = wrapper.quantity;
+				Decimal updatedSpQuantity = wrapper.spQuantity;
 				if (wrapper.hasExistingSupportPlusItem()) {
+					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
+						Id = wrapper.extensionObjId
+						, Adjusted_Quantity__c = quantity - updatedSpQuantity
+					);
 
+					REVVY__MnStrategy4__c supportPlusExtensionToUpdate = new REVVY__MnStrategy4__c(
+						Id = wrapper.supportPlusExtensionObjId
+						, Adjusted_Quantity__c = updatedSpQuantity
+					);
+					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
+					quoteItemExtensionsToUpdate.add(supportPlusExtensionToUpdate);
 				}
 
 				else {
-
+					REVVY__MnQuoteItem__c supportPlusQuoteItemToInsert = new REVVY__MnQuoteItem__c(
+						  REVVY__Quantity__c            = updatedSpQuantity
+						, REVVY__Id__c                  = generateRevvyId()
+						, Is_Support_Plus_Item_Only__c  = false
+						, REVVY__Quote__c               = quote.Id
+						, REVVY__PricelistLine__c       = wrapper.pricelistLineId
+						, REVVY__Catalog_Node__c        = wrapper.catalogNodeId
+						, REVVY__Price__c               = 0
+						, REVVY__SuggestedPrice__c      = 0
+						, Description__c                = wrapper.description
+						, Misc_Style__c                 = 'NoCharge'
+						, Support_Plus_Original_Item__c = wrapper.sfid
+					);
+					quoteItemsToInsert.add(supportPlusQuoteItemToInsert);
 				}
 			}
 

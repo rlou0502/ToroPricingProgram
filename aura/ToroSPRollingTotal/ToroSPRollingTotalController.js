@@ -15,5 +15,12 @@
             distributorResponsibility: cmp.get('v.selectedDistributorResponsibility')
         });
         cmpEvent.fire();
+    },
+    setDistributorResponsibility: function(cmp, event, helper) {
+    	var params = event.getParam('arguments');
+        if(params) { 
+            var responsibility = params.distributorResponsibility;
+            cmp.set('v.selectedDistributorResponsibility', responsibility);
+        }
     }
 })

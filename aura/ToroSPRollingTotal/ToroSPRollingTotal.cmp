@@ -3,7 +3,9 @@
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
 	<aura:attribute name="selectedDistributorResponsibility" type="Decimal" />
-
+	<aura:method name="setDistributorResponsibility" description="Set Distributor Responsibility">
+        <aura:attribute name="distributorResponsibility" type="Decimal" />
+    </aura:method>
 	<!-- <aura:method name="updateRollingTotals" action="{!c.updateRollingTotals}" description="" /> -->
 	<ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
 		<li class="slds-page-header__detail-block">

@@ -18,6 +18,14 @@
 											supportPlusData.quote
 											, supportPlusData.quoteItems
 											, supportPlusData.supportPlusOnlyItems));
+                    debugger;
+                    var childCmp = cmp.find("cmpRollingTotal");
+                    if(childCmp) {
+                        childCmp.setDistributorResponsibility(supportPlusData.distributorResponsibilities, function(result) {
+                            //console.log("callback for aura:method was executed");
+                            //console.log("result: " + result);
+                        });
+                    }
 	            }
 	        }
 	    );
