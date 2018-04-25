@@ -149,7 +149,14 @@
            		performancePart = sObj["Performance_part__c"];    
             }
             var onlyInCPL = sObj["OnlyExistedInCPL__c"];
-            if((field.updatable && !freeze &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
+            
+            var supportPlusFlag = sObj["Support_Plus_Item__c"];
+            if(supportPlusFlag === undefined) {
+                //check quote item subline
+           		supportPlusFlag = sObj["Apply_Support_Plus__c"];    
+            }
+                    
+            if((field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';

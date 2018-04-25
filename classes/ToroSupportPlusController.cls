@@ -183,10 +183,10 @@ global class ToroSupportPlusController {
 			// ============================================================================
 
 			// find the quote items that have changed
-			final Map<Id,ToroSupportPlusItem> newItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(
+			final Map<Id,ToroSupportPlusItem> newItemWrapperMap = ToroSupportPlusItem.buildIdToItemMap(
 				(List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)
 			);
-			final Map<Id,ToroSupportPlusItem> currentQuoteItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(originalSupportPlusData.quoteItems);
+			final Map<Id,ToroSupportPlusItem> currentQuoteItemWrapperMap = ToroSupportPlusItem.buildIdToItemMap(originalSupportPlusData.quoteItems);
 			final List<ToroSupportPlusItem> changedQuoteItemWrappers = new List<ToroSupportPlusItem>();
 			for (Id quoteItemId : currentQuoteItemWrapperMap.keySet()) {
 				ToroSupportPlusItem currentWrapper = currentQuoteItemWrapperMap.get(quoteItemId);
@@ -205,15 +205,21 @@ global class ToroSupportPlusController {
 				Decimal quantity = wrapper.quantity;
 				Decimal updatedSpQuantity = wrapper.spQuantity;
 				if (wrapper.hasExistingSupportPlusItem()) {
+					System.debug('\n\n@@wrapper.hasExistingSupportPlusItem(): ' + wrapper.hasExistingSupportPlusItem() + '\n\n');
 					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
                         external_ID__c = wrapper.sfid
 						, Adjusted_Quantity__c = quantity - updatedSpQuantity
 					);
 
 					REVVY__MnStrategy4__c supportPlusExtensionToUpdate = new REVVY__MnStrategy4__c(
-						Adjusted_Quantity__c = updatedSpQuantity		
-						, external_Id__c = wrapper.SupportPlusItemId
+						external_Id__c = wrapper.SupportPlusItemId
+						, Adjusted_Quantity__c = updatedSpQuantity
+
 					);
+
+					System.debug('\n\n@@quoteItemExtensionToUpdate: ' + quoteItemExtensionToUpdate + '\n\n');
+					System.debug('\n\n@@supportPlusExtensionToUpdate: ' + supportPlusExtensionToUpdate + '\n\n');
+
 					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
 					quoteItemExtensionsToUpdate.add(supportPlusExtensionToUpdate);
 				}
@@ -233,11 +239,9 @@ global class ToroSupportPlusController {
 						, Support_Plus_Original_Item__c = wrapper.sfid
 					);
 					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
-						Id = wrapper.extensionObjId
+                        external_ID__c = wrapper.sfid
 						, Adjusted_Quantity__c = quantity - updatedSpQuantity
-						, QuoteItem__r = new REVVY__MnQuoteItem__c(
-							REVVY__Id__c = wrapper.quoteItemExternalId
-						)
+						, DNet_Price__c = 0
 					);
 					quoteItemsToInsert.add(supportPlusQuoteItemToInsert);
 					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
@@ -249,6 +253,7 @@ global class ToroSupportPlusController {
 			// HANDLE SUPPORT PLUS ONLY ITEMS
 			// ============================================================================
 
+			/*
 			// find the support plus items that have changed
 			final Map<Id,ToroSupportPlusItem> newSupportPlusItemWrapperMap = ToroSupportPlusItem.buildIdToSupportPlusItemMap(
 				(List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class)
@@ -320,7 +325,7 @@ global class ToroSupportPlusController {
 				);
 				quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
 			}
-
+			*/
 			System.debug('\n\n@@quoteItemsToInsert: ' + quoteItemsToInsert + '\n\n');
 			System.debug('\n\n@@quoteItemExtensionsToUpdate: ' + quoteItemExtensionsToUpdate + '\n\n');
 			insert quoteItemsToInsert;
