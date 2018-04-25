@@ -2,7 +2,7 @@
     doInit : function (component, event, helper) {
         var createRecordEvent = $A.get("e.force:createRecord");
         var recordId = component.get("v.recordId");
-        var recordTypeId = component.get("v.recordTypeId").toString();
+        var recordTypeId = component.get("v.recordTypeId");
         alert('recordTypeId: '+recordTypeId);
         var strParentId;
         var currentURL = window.location.toString();

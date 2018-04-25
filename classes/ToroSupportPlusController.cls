@@ -145,52 +145,27 @@ global class ToroSupportPlusController {
 	) {
 		Savepoint sp = Database.setSavepoint();
 		try {
-			// ============================================================================
-			// first, update quote with selected distributor responsibility
-			System.debug('\n\n@@quote: ' + quote + '\n\n');
-			//update quote;
+			// update the quote header values
+			updateQuote(quote);
 
-			REVVY__MnQuote__c quoteObjToUpdate = [
-				SELECT
-					Distributor_Responsibility__c
-					, Toro_Support_Plus_Allowance__c
-					, SP_Toro_Responsibility__c
-					, SP_Ext_Dist_Responsibility__c
-					, SP_Total_Extended_DNET__c
-				FROM
-					REVVY__MnQuote__c
-				WHERE
-					Id = :quote.Id
-			];
-			quoteObjToUpdate.Distributor_Responsibility__c = quote.Distributor_Responsibility__c;
-			quoteObjToUpdate.Toro_Support_Plus_Allowance__c = quote.Toro_Support_Plus_Allowance__c;
-			quoteObjToUpdate.SP_Toro_Responsibility__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
-			quoteObjToUpdate.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
-			quoteObjToUpdate.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
-			update quoteObjToUpdate;
-
-			// ============================================================================
 			// build copy of Support Plus Data currently in database
-			final ToroSupportPlusData originalSupportPlusData = ToroSupportPlusData.createToroSupportPlusData(quote.Id);
+			final ToroSupportPlusData currentSupportPlusDataWrapper = ToroSupportPlusData.createToroSupportPlusData(quote.Id);
 
-			// create lists of quote items to insert/update/delete
-			final List<REVVY__MnQuoteItem__c> quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
-			final List<REVVY__MnStrategy4__c> quoteItemExtensionsToUpdate = new List<REVVY__MnStrategy4__c>();
-			final List<REVVY__MnQuoteItem__c> quoteItemsToDelete = new List<REVVY__MnQuoteItem__c>();
+
 
 			// ============================================================================
 			// HANDLE MAIN QUOTE ITEMS
 			// ============================================================================
+			final List<REVVY__MnQuoteItem__c> quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
+			final List<REVVY__MnStrategy4__c> quoteItemExtensionsToUpdate = new List<REVVY__MnStrategy4__c>();
 
 			// find the quote items that have changed
-			final Map<Id,ToroSupportPlusItem> newItemWrapperMap = ToroSupportPlusItem.buildIdToItemMap(
-				(List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)
-			);
-			final Map<Id,ToroSupportPlusItem> currentQuoteItemWrapperMap = ToroSupportPlusItem.buildIdToItemMap(originalSupportPlusData.quoteItems);
+			final Map<Id,ToroSupportPlusItem> mainQuoteItemWrapperMap = ToroSupportPlusItem.buildQuoteItemIdToWrapperMap((List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class));
+			final Map<Id,ToroSupportPlusItem> currentQuoteItemWrapperMap = ToroSupportPlusItem.buildQuoteItemIdToWrapperMap(currentSupportPlusDataWrapper.quoteItems);
 			final List<ToroSupportPlusItem> changedQuoteItemWrappers = new List<ToroSupportPlusItem>();
 			for (Id quoteItemId : currentQuoteItemWrapperMap.keySet()) {
 				ToroSupportPlusItem currentWrapper = currentQuoteItemWrapperMap.get(quoteItemId);
-				ToroSupportPlusItem newWrapper = newItemWrapperMap.get(quoteItemId);
+				ToroSupportPlusItem newWrapper = mainQuoteItemWrapperMap.get(quoteItemId);
 				if (currentWrapper.spQuantity != newWrapper.spQuantity) {
 					changedQuoteItemWrappers.add(newWrapper);
 					System.debug('\n\n@@quoteItem: ' + newWrapper.productId + ' ' + currentWrapper.spQuantity + ' to ' + newWrapper.spQuantity + '\n\n');
@@ -214,14 +189,17 @@ global class ToroSupportPlusController {
 					REVVY__MnStrategy4__c supportPlusExtensionToUpdate = new REVVY__MnStrategy4__c(
 						external_Id__c = wrapper.SupportPlusItemId
 						, Adjusted_Quantity__c = updatedSpQuantity
-
 					);
+					Map<String, decimal> extIdQtyMap = new Map<String, decimal>{wrapper.sfid=>(quantity - updatedSpQuantity), wrapper.SupportPlusItemId=>updatedSpQuantity};
+					
+					List<REVVY__MnStrategy4__c> spQuoteItems = [select id, external_Id__c from REVVY__MnStrategy4__c where external_Id__c in :extIdQtyMap.keyset()];
+					for(REVVY__MnStrategy4__c qi : spQuoteItems) {
+						qi.Adjusted_Quantity__c = extIdQtyMap.get(qi.external_Id__c);	
+					}
+					System.debug('\n\n@@before quoteItemExtensionsToUpdate : ' + quoteItemExtensionsToUpdate + '\n\n');
 
-					System.debug('\n\n@@quoteItemExtensionToUpdate: ' + quoteItemExtensionToUpdate + '\n\n');
-					System.debug('\n\n@@supportPlusExtensionToUpdate: ' + supportPlusExtensionToUpdate + '\n\n');
-
-					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
-					quoteItemExtensionsToUpdate.add(supportPlusExtensionToUpdate);
+					quoteItemExtensionsToUpdate.addAll(spQuoteItems);
+					System.debug('\n\n@@after quoteItemExtensionsToUpdate: ' + quoteItemExtensionsToUpdate + '\n\n');
 				}
 
 				else {
@@ -238,15 +216,22 @@ global class ToroSupportPlusController {
 						, Misc_Style__c                 = 'NoCharge'
 						, Support_Plus_Original_Item__c = wrapper.sfid
 					);
-					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
-                        external_ID__c = wrapper.sfid
-						, Adjusted_Quantity__c = quantity - updatedSpQuantity
-						, DNet_Price__c = 0
-					);
+					
+					List<REVVY__MnStrategy4__c> spQuoteItems = [select id, external_Id__c from REVVY__MnStrategy4__c where external_Id__c = :wrapper.sfid];
+					for(REVVY__MnStrategy4__c qi : spQuoteItems) {
+						qi.Adjusted_Quantity__c = quantity - updatedSpQuantity;
+					}
+					
 					quoteItemsToInsert.add(supportPlusQuoteItemToInsert);
-					quoteItemExtensionsToUpdate.add(quoteItemExtensionToUpdate);
+					quoteItemExtensionsToUpdate.addAll(spQuoteItems);
 				}
 			}
+
+
+			// ============================================================================
+			// HANDLE MAIN QUOTE ITEM SUBLINES
+			// ============================================================================
+
 
 
 			// ============================================================================
@@ -329,7 +314,25 @@ global class ToroSupportPlusController {
 			System.debug('\n\n@@quoteItemsToInsert: ' + quoteItemsToInsert + '\n\n');
 			System.debug('\n\n@@quoteItemExtensionsToUpdate: ' + quoteItemExtensionsToUpdate + '\n\n');
 			insert quoteItemsToInsert;
-			upsert quoteItemExtensionsToUpdate external_Id__c;
+			update quoteItemExtensionsToUpdate;
+
+			/*
+			List<String> strat4ExtIds = new List<String>();
+			for (REVVY__MnStrategy4__c obj : quoteItemExtensionsToUpdate) {
+				strat4Extids.add(obj.external_Id__c);
+			}
+
+			List<REVVY__MnStrategy4__c> strat4List = [
+				SELECT
+					DNet_Price__c
+					, Adjusted_Quantity__c
+					, external_Id__c
+				FROM
+					REVVY__MnStrategy4__c
+				WHERE external_Id__c IN :strat4ExtIds];
+
+			System.debug('\n\n@@strat4List: ' + strat4List + '\n\n');
+			*/
 		}
 
 		catch (Exception e) {
@@ -338,6 +341,39 @@ global class ToroSupportPlusController {
 		}
 
 		return true;
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	private static void updateQuote(REVVY__MnQuote__c quote) {
+		// ============================================================================
+		// first, update quote with selected distributor responsibility
+		System.debug('\n\n@@quote: ' + quote + '\n\n');
+		//update quote;
+
+		REVVY__MnQuote__c quoteObjToUpdate = [
+			SELECT
+				Distributor_Responsibility__c
+				, Toro_Support_Plus_Allowance__c
+				, SP_Toro_Responsibility__c
+				, SP_Ext_Dist_Responsibility__c
+				, SP_Total_Extended_DNET__c
+			FROM
+				REVVY__MnQuote__c
+			WHERE
+				Id = :quote.Id
+		];
+		quoteObjToUpdate.Distributor_Responsibility__c = quote.Distributor_Responsibility__c;
+		quoteObjToUpdate.Toro_Support_Plus_Allowance__c = quote.Toro_Support_Plus_Allowance__c;
+		quoteObjToUpdate.SP_Toro_Responsibility__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
+		quoteObjToUpdate.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
+		quoteObjToUpdate.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
+		update quoteObjToUpdate;
 	}
 
 	/**
