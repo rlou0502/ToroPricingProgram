@@ -47,7 +47,7 @@ public with sharing class ToroPricingMethodHelper {
 		return qis.Award_Price__c;	
 	}
 	
-	public ToroPricingMethodHelper calculateBlendedDNetPercentFromMSRP() {
+	public decimal calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();	
 		decimal quoteDNet = 0;
 		decimal quoteAward = 0;	
@@ -115,11 +115,11 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		if(quoteDNet != null && quoteDNet !=0 ) {
 			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quoteAward) / quoteDNet * 100;
-			retrieveRebateForQuote(quote.Toro_Blended_Percent_of_DN__c);
+			//retrieveRebateForQuote(quote.Toro_Blended_Percent_of_DN__c);
 		}
-		return this;			
+		return quote.Toro_Blended_Percent_of_DN__c;			
 	}
-	public ToroPricingMethodHelper calculateBlendedDNetPercentFromDNet() {
+	public decimal calculateBlendedDNetPercentFromDNet() { 
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
 		decimal quoteDNet = 0;
 		decimal quoteAward = 0;	
@@ -181,12 +181,12 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		if(quoteDNet != null && quoteDNet !=0 ) {
 			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quoteAward) / quoteDNet * 100;
-			for (Revvy__MnStrategy4__c qi : quoteItemList) {
-				retrieveRebateForQuoteItem(quote.Toro_Blended_Percent_of_DN__c, qi);	
-			}
+			//for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			//	retrieveRebateForQuoteItem(quote.Toro_Blended_Percent_of_DN__c, qi);	
+			//}
 			
 		}
-		return this;			
+		return quote.Toro_Blended_Percent_of_DN__c;			
 	}
 	public ToroPricingMethodHelper calculateGP() {
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
