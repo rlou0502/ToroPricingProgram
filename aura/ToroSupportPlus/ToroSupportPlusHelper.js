@@ -11,19 +11,51 @@
 					console.log('supportPlusData:');
 					console.log(supportPlusData);
 
-					cmp.set('v.quoteItems', this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.quoteItems));
-					cmp.set('v.supportPlusItems', this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.supportPlusOnlyItems));
-					cmp.set('v.distributorResponsibilities', supportPlusData.distributorResponsibilities);
-					var recalQuote = this.recalculateQuoteSupportPlusTotals(
-											supportPlusData.quote
-											, supportPlusData.quoteItems
-											, supportPlusData.supportPlusOnlyItems);
-                    cmp.set('v.quote', recalQuote);
-                    cmp.set('v.showDistributorResponsibility', supportPlusData.showDistributorResponsibility);
+					var quoteItems                  = this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.qiWrappers);
+					quoteItems = this.restoreUiState(cmp.get('v.quoteItems'), quoteItems);
+					var supportPlusItems            = this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.addNewWrappers);
+					var distributorResponsibilities = supportPlusData.distributorResponsibilities;
+					var recalcQuote                 = this.recalculateQuoteSupportPlusTotals(supportPlusData.quote, supportPlusData.qiWrappers, supportPlusData.addNewWrappers);
+
+					cmp.set('v.quoteItems', quoteItems);
+					cmp.set('v.supportPlusItems', supportPlusItems);
+					cmp.set('v.distributorResponsibilities', distributorResponsibilities);
+                    cmp.set('v.quote', recalcQuote);
 	            }
 	        }
 	    );
 		$A.enqueueAction(action);
+	},
+	restoreUiState: function(previousQuoteItems, currentQuoteItems) {
+		console.log('previousQuoteItems:');
+		console.log(previousQuoteItems);
+		console.log('currentQuoteItems:');
+		console.log(currentQuoteItems);
+		if (previousQuoteItems.length > 0) {
+			var prevItemMap = {};
+			for (var i = 0; i < previousQuoteItems.length; i++) {
+				var quoteItemId = previousQuoteItems[i].sfid;
+				var quoteItem = previousQuoteItems[i];
+
+				prevItemMap[quoteItemId] = quoteItem;
+			}
+
+			console.log('prevItemMap:');
+			console.log(prevItemMap);
+
+			for (var i = 0; i < currentQuoteItems.length; i++) {
+				var prevQuoteItem = prevItemMap[currentQuoteItems[i].sfid];
+				if (prevQuoteItem.chevronStyle == 'bottom') {
+					currentQuoteItems[i].chevronStyle = prevQuoteItem.chevronStyle;
+
+					for (var j = 0; j < currentQuoteItems[i].sublines.length; j++) {
+						currentQuoteItems[i].sublines[j].displayStyle = 'display';
+					}
+				}
+			}
+		}
+
+		return currentQuoteItems;
 	},
 	refreshSearchResults: function(cmp, previousSearchTerm, currentSearchTerm) {
 		var action = cmp.get('c.fetchSearchResults');
@@ -50,7 +82,6 @@
 			, productId                : productId
 			, dnetPrice                : dnetPrice
 			, spQuantity               : spQuantity
-			, distributorResponsibility: distributorResponsibility
 		});
 		action.setCallback(this
 			, function(response) {
@@ -61,6 +92,7 @@
 						var quote = cmp.get('v.quote');
 						var quoteItems = cmp.get('v.quoteItems');
 						var supportPlusItems = cmp.get('v.supportPlusItems');
+						retVal.distributorResponsibility = quote.Distributor_Responsibility__c;
 						supportPlusItems.push(retVal);
 						quote = this.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems);
 						cmp.set('v.quote', quote);
@@ -95,6 +127,10 @@
 		this.showSpinner();
 		// console.log(JSON.stringify(quoteItems));
 		// console.log(JSON.stringify(supportPlusItems));
+		console.log('quoteItems:');
+		console.log(quoteItems);
+		console.log('supportPlusItems:');
+		console.log(supportPlusItems);
 		action.setParams({
 			  quote               : quote
 			, quoteItemsJSON      : JSON.stringify(quoteItems)
@@ -103,6 +139,7 @@
 		action.setCallback(this
 			, function(response) {
 				if (cmp.isValid() && response.getState() == 'SUCCESS') {
+					this.initialize(cmp);
 					this.hideSpinner();
 				}
 			}
