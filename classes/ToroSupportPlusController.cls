@@ -157,8 +157,8 @@ global class ToroSupportPlusController {
 			final List<REVVY__MnStrategy4__c> quoteItemExtensionsToUpdate = new List<REVVY__MnStrategy4__c>();
 
 			// find the quote items that have changed
-			final Map<Id,ToroSupportPlusItem> mainQuoteItemWrapperMap = ToroSupportPlusItem.buildQuoteItemIdToWrapperMap((List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class));
-			final Map<Id,ToroSupportPlusItem> currentQuoteItemWrapperMap = ToroSupportPlusItem.buildQuoteItemIdToWrapperMap(currentSupportPlusDataWrapper.quoteItems);
+			final Map<Id,ToroSupportPlusItem> mainQuoteItemWrapperMap = ToroSupportPlusHelper.buildQuoteItemWrapperMap((List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class));
+			final Map<Id,ToroSupportPlusItem> currentQuoteItemWrapperMap = ToroSupportPlusHelper.buildQuoteItemWrapperMap(currentSupportPlusDataWrapper.quoteItems);
 			final List<ToroSupportPlusItem> changedQuoteItemWrappers = new List<ToroSupportPlusItem>();
 			for (Id quoteItemId : currentQuoteItemWrapperMap.keySet()) {
 				ToroSupportPlusItem currentWrapper = currentQuoteItemWrapperMap.get(quoteItemId);
@@ -176,13 +176,13 @@ global class ToroSupportPlusController {
 				// then we need to create the quote item object, then update the extension object
 				Decimal quantity = wrapper.quantity;
 				Decimal updatedSpQuantity = wrapper.spQuantity;
-				if (wrapper.supportPlusWrapper != null) {
+				if (wrapper.qiSpObj != null) {
 					REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
                         external_ID__c = wrapper.sfid
 						, Adjusted_Quantity__c = quantity - updatedSpQuantity
 					);
 
-					Id supportPlusItemId = wrapper.supportPlusWrapper.quoteItemObj.Id;
+					Id supportPlusItemId = wrapper.qiSpObj.Id;
 					REVVY__MnStrategy4__c supportPlusExtensionToUpdate = new REVVY__MnStrategy4__c(
 						external_Id__c = supportPlusItemId
 						, Adjusted_Quantity__c = updatedSpQuantity
@@ -205,8 +205,8 @@ global class ToroSupportPlusController {
 						, REVVY__Id__c                  = ToroSupportPlusHelper.generateExternalId()
 						, Is_Support_Plus_Item_Only__c  = false
 						, REVVY__Quote__c               = quote.Id
-						, REVVY__PricelistLine__c       = wrapper.quoteItemObj.REVVY__PricelistLine__c
-						, REVVY__Catalog_Node__c        = wrapper.quoteItemObj.REVVY__Catalog_Node__c
+						, REVVY__PricelistLine__c       = wrapper.qiObj.REVVY__PricelistLine__c
+						, REVVY__Catalog_Node__c        = wrapper.qiObj.REVVY__Catalog_Node__c
 						, REVVY__Price__c               = 0
 						, REVVY__SuggestedPrice__c      = 0
 						, Description__c                = wrapper.description
