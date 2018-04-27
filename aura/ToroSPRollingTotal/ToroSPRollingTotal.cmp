@@ -22,7 +22,7 @@
 				<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance_Used__c}" style="color:red;">
 					<lightning:formattedNumber value="{!v.quote.Toro_Support_Plus_Allowance_Used__c}" style="currency" />
 				</p>
-				<p class="slds-text-body_regular" style="color:red;font-size:0.8em;">
+				<p class="slds-text-body_regular flashWarning" style="color:red;font-size:0.8em;">
 					Allowance has been exceeded.
 				</p>
 			<aura:set attribute="else">

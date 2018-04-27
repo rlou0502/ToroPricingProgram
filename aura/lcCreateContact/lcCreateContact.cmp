@@ -1,5 +1,26 @@
 <aura:component implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId" access="global">
 
-	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="account" type="Object"/>
+    <aura:attribute name="simpleFields" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    
+    <force:recordData aura:id="accountRecordLoader"
+                      recordId="0012F00000DPQUuQAP"
+                      layoutType="FULL"
+                      targetRecord="{!v.account}"
+                      targetFields="{!v.simpleFields}"
+                      targetError="{!v.recordError}"
+                      />
+
+    <!-- Display a header with details about the record -->
+    <div class="slds-page-header" role="banner">
+        <p class="slds-text-heading_label">{!v.simpleRecord.Name}</p>
+        <h1 class="slds-page-header__title slds-m-right_small
+            slds-truncate slds-align-left">{!v.simpleRecord.BillingCity}, {!v.simpleRecord.BillingState}</h1>
+    </div>    
+    
+   	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
 </aura:component>
