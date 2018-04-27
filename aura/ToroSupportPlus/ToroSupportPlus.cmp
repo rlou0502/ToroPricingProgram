@@ -13,7 +13,7 @@
 	<aura:attribute name="quoteItemMap" type="Map" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
     <aura:attribute name="showDistributorResponsibility" type="Boolean" />
-    
+
 
 	<div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
 		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
@@ -51,7 +51,7 @@
 						<button class="slds-button slds-button_neutral"
 							onclick="{!c.handleShowAddNewModal}">Add New</button>
 						<button class="slds-button slds-button_neutral"
-							onclick="{!c.handleSubmitClick}">Submit</button>
+							onclick="{!c.handleSubmitClick}">Save</button>
 						<button class="slds-button slds-button_neutral"
 							onclick="{!c.backToPricingPage}">Back to
 							Pricing Page</button>

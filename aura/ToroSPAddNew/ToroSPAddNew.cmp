@@ -59,7 +59,7 @@
 						</div>
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="SP QTY" value="{!v.newItemSPQuantity}"
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="SP+ QTY" value="{!v.newItemSPQuantity}"
 								/>
 							</div>
 						</div>

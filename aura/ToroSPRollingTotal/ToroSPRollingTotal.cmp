@@ -23,7 +23,13 @@
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Extended Total DNet Price">EXT DNET</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="ADJ AWARD">ADJ AWARD</p>
+			<p class="slds-text-body_regular" title="placeholder">
+				(placeholder)
+			</p>
+		</li>
+		<li class="slds-page-header__detail-block">
+			<p class="slds-text-title_caps slds-m-bottom_small" title="ADJ EXT DNET">ADJ EXT DNET</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Total_Extended_DNET__c}">
 				<lightning:formattedNumber value="{!v.quote.SP_Total_Extended_DNET__c}" style="currency" />
 			</p>

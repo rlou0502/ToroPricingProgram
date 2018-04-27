@@ -14,7 +14,7 @@
 				<th width="50px">&nbsp;&nbsp;&nbsp;
 				</th>
 				<th scope="col" width="10%"><div class="slds-truncate" title="QTY">QTY</div></th>
-				<th scope="col" width="10%"><div class="slds-truncate" title="SP QTY">SP QTY</div></th>
+				<th scope="col" width="10%"><div class="slds-truncate" title="SP+ QTY">SP+ QTY</div></th>
 				<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">MODEL</div></th>
 				<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
 				<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>
@@ -30,7 +30,7 @@
 											type="number"
 											value="{!quoteItem.spQuantity}"
 											onchange="{!c.handleSPQuantityChange}"
-											messageWhenBadInput='SP QTY cannot exceed QTY'/>
+											messageWhenBadInput='SP+ QTY cannot exceed QTY'/>
 					</td>
 					<td>{!quoteItem.productId}</td>
 					<td>{!quoteItem.description}</td>
@@ -65,7 +65,7 @@
 					<tr class="slds-text-title_caps">
 						<th scope="col" width="50px"></th>
 						<th scope="col" width="10%"></th>
-						<th scope="col" width="10%"><div class="slds-truncate" title="SP QUANTITY">SP QTY</div></th>
+						<th scope="col" width="10%"><div class="slds-truncate" title="SP+ QTY">SP+ QTY</div></th>
 						<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">MODEL</div></th>
 						<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
 						<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>

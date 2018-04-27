@@ -150,7 +150,7 @@ public with sharing class ToroSupportPlusData {
 			this.selected = false;
 		}
 
-		public void setAsDefault() { this.label += ' (default)'; }
+		public void setAsDefault() { this.label += ' (chart)'; }
 		public void setAsSelected() { this.selected = true; }
 
 		public Integer compareTo(Object compareTo) {
