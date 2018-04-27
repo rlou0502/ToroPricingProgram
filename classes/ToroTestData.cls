@@ -48,6 +48,7 @@ public with sharing class ToroTestData {
 		update customerAccount;
 
 		List<sObject> pricingProgram     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
+		List<sObject> pricingProgramChildren     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_ChildPricingProgram');
 		List<sObject> eligilibility      = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
 		List<sObject> pricingProgramLine = Test.loadData(Revvy__MnStrategy2__c.sObjectType, 'TestData_PP_PricingProgramLine');
 		List<sObject> priceList          = Test.loadData(Revvy__MnPriceList__c.sObjectType, 'TestData_PP_PriceList');

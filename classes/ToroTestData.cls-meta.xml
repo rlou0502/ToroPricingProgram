@@ -3,7 +3,7 @@
     <apiVersion>36.0</apiVersion>
     <packageVersions>
         <majorNumber>30</majorNumber>
-        <minorNumber>11</minorNumber>
+        <minorNumber>16</minorNumber>
         <namespace>REVVY</namespace>
     </packageVersions>
     <status>Active</status>
