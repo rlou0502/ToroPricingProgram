@@ -465,8 +465,7 @@ global class ToroSupportPlusController {
 			Map<Id,REVVY__MnQuoteItem__c> insertedQiMap = new Map<Id,REVVY__MnQuoteItem__c>(quoteItemsToInsert);
 			List<REVVY__MnStrategy4__c> qiExtObjs = [
 				SELECT
-					Id,
-					External_Id__c
+					Id, External_Id__c
 				FROM
 					REVVY__MnStrategy4__c
 				WHERE
