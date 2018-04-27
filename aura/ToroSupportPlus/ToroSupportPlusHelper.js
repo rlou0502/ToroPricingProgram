@@ -20,7 +20,8 @@
 					cmp.set('v.quoteItems', quoteItems);
 					cmp.set('v.supportPlusItems', supportPlusItems);
 					cmp.set('v.distributorResponsibilities', distributorResponsibilities);
-                    cmp.set('v.quote', recalcQuote);
+					cmp.set('v.quote', recalcQuote);
+					cmp.set('v.distRespIsEditable', supportPlusData.distRespIsEditable);
 	            }
 	        }
 	    );

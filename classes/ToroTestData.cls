@@ -46,7 +46,7 @@ public with sharing class ToroTestData {
 			a.recordtypeid = RECTYPE_ACCOUNT_END_USER;
 		}
 		update customerAccount;
-
+		Test.loadData(Toro_PricingProgramHelperFactory__c.sObjectType, 'TestData_PP_Helper');
 		List<sObject> pricingProgram     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
 		List<sObject> pricingProgramChildren     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_ChildPricingProgram');
 		List<sObject> eligilibility      = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');

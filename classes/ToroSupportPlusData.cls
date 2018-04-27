@@ -4,7 +4,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public List<ToroSupportPlusItem> qiWrappers 			 { get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> addNewWrappers 		 { get; set; }
 	@AuraEnabled public List<DistRespOption> distributorResponsibilities { get; private set; }
-	@AuraEnabled public Boolean showDistributorResponsibility            { get; set; }
+	@AuraEnabled public Boolean distRespIsEditable            { get; set; }
 
 	/**
 	 *
@@ -18,7 +18,21 @@ public with sharing class ToroSupportPlusData {
 		this.addNewWrappers                = new List<ToroSupportPlusItem>();
 		this.distributorResponsibilities   = new List<DistRespOption>();
 		this.success                       = true;
-		this.showDistributorResponsibility = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
+
+		/*
+		Profile currentProfile = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()];
+		if (currentProfile.Name == 'Toro - MTI CPQ Sales Representatives'
+			|| currentProfile.Name == 'Toro CPQ Sales Representatives'
+			|| currentProfile.Name == 'Toro CPQ Sales Representatives - INTL'
+		) {
+			this.distRespIsEditable = false;
+		}
+
+		else {
+			this.distRespIsEditable = true;
+		}*/
+
+		this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 	}
 
 	/**
