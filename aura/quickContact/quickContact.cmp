@@ -60,8 +60,8 @@
 							  value="{!v.simpleNewContact.LastName}" required="true"/>
 
                
-                <lightning:input aura:id="contactField" name="account" label="Account"
-                                 value="{!v.recordId}" required="true"/>
+                <lightning:input aura:id="contactField" name="accountId" label="Account"
+                                 value="0012F000007CuzZQAS" required="true"/>
                                 
 				<lightning:input aura:id="contactField" name="title" label="Title"
 							  value="{!v.simpleNewContact.Title}" class="slds-size--1-of-2 slds-p-horizontal_x-small"/>
