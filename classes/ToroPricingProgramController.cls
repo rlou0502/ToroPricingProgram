@@ -142,6 +142,8 @@ public class ToroPricingProgramController {
 					} else if('Off_MSRP_Overridden__c'.equalsIgnoreCase(key)){
 						qi.Off_MSRP_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
 						
+					} else if('Pricing_Program__c'.equalsIgnoreCase(key)) {
+						qi.Pricing_Program__c = strVal;		
 					}
 					
 				}
