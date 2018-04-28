@@ -22,8 +22,8 @@
         createRecordEvent.setParams({
             "entityApiName": "Contact",
             "defaultFieldValues":{
-            	'FirstName':'John',
-            	'LastName': 'Spinarski'
+                'RecordTypeId':strRecordTypeId,
+                'AccountId':strParentId,
 	        }
         });
         createRecordEvent.fire();
