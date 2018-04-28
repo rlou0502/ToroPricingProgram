@@ -400,13 +400,21 @@
         var fields = component.get('v.fields');
         var quoteItemMap = component.get('v.quoteItemMap');
         var pricingMethod = component.get('v.selectedPricingMethod');
+        var pricingProgram = component.get('v.selectedPricingProgram');
+        
         var fields = component.get("v.fields");
         var listenMSRPChange = component.get("v.listenMSRPChange");
         //console.log('----------- fields =' + fields);
         quoteItems.forEach(function(s) {
             var tableRow = document.createElement('tr');
             tableRow.id = s["Id"];
-            tableRow.className += " quoteItem";           
+            tableRow.className += " quoteItem";
+            if(s['Pricing_Program__c']) {
+            	pricingProgram = s['Pricing_Program__c'] 
+            }
+            
+            tableRow.dataset.pricingprogram=pricingProgram;
+            
             //tableRow.addEventListener('mouseenter', function(){self.handleQuoteItemInfo(component, tableRow.id);}, false);
             var chevronTd = document.createElement('td');
             var chevronSpan = document.createElement('span');
@@ -755,6 +763,7 @@
         var quoteItems = document.querySelectorAll(".quoteItem input[type=text]");
         for (var i=0; i<quoteItems.length; i++) {
             var qId = quoteItems[i].closest('tr').id;
+            var qPricingProgram = quoteItems[i].closest('tr').dataset.pricingprogram;
             var fieldname = quoteItems[i].dataset.fieldname;
             var value = quoteItems[i].value;
             var overridden = quoteItems[i].dataset.overridden;
@@ -763,6 +772,7 @@
             }
             var qiData = quoteItemsData[qId];
             qiData[fieldname] = value;
+            qiData['Pricing_Program__c'] = qPricingProgram;
             if(fieldname == "Award_Price__c" || fieldname == "Total_Toro_Award__c") {
                 qiData["Unit_Award_Overridden__c"] = overridden;	    
             } else if(fieldname == "PricingMethodValue__c") {
