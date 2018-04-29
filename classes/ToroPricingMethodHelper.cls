@@ -248,6 +248,7 @@ public with sharing class ToroPricingMethodHelper {
 	
 	public decimal retrieveRebatePercentBasedOnBlendedDNet(decimal dnetPercent, String pricingProgramExtId) {
 		decimal rebatePercent = 0;
+		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- pricingProgramExtId=' + pricingProgramExtId);
 		if(!DNetPercentMap.containsKey(pricingProgramExtId)) {
 			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(pricingProgramExtId);
 			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
@@ -260,7 +261,8 @@ public with sharing class ToroPricingMethodHelper {
 		    }
 			DNetPercentMap.put(pricingProgramExtId, dnet2PM);	
 		}
-		system.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap=' + DNetPercentMap);		
+		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- dnetPercent=' + dnetPercent);	
+		system.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap=' + DNetPercentMap);	
 		dnetPercent = dnetPercent.setScale(5, roundingMode.HALF_UP);
 		System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnetPercent = ' + dnetPercent  );
 		System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent) = ' + (DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent))  );

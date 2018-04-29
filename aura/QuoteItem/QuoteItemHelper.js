@@ -774,14 +774,16 @@
             }
             var qiData = quoteItemsData[qId];
             qiData[fieldname] = value;
-            qiData["Pricing_Program__c"] = qPricingProgram;
+            if(qPricingProgram !== undefined) {
+            	qiData["Pricing_Program__c"] = qPricingProgram;
+            }
+            
             if(fieldname == "Award_Price__c" || fieldname == "Total_Toro_Award__c") {
                 qiData["Unit_Award_Overridden__c"] = overridden;	    
             } else if(fieldname == "PricingMethodValue__c") {
                 qiData["Off_MSRP_Overridden__c"] = overridden;
             }
-            
-            console.log("qiData 2 =" + JSON.stringify(quoteItemsData));
+            console.log("qiData " + i + " =" + JSON.stringify(quoteItemsData));
             //
         }
         var qiSublines = document.querySelectorAll(".quoteItemSubline  input[type=text]");
