@@ -582,6 +582,7 @@
         getAction.setCallback(this, 
 	        function(response) {
                 var retResponse = response.getReturnValue();
+                debugger;
                 if(retResponse.nextAction == "calculation") {
                 	var cmpEvent = component.getEvent("calculateEvent");   
                     cmpEvent.fire();
@@ -764,6 +765,7 @@
         for (var i=0; i<quoteItems.length; i++) {
             var qId = quoteItems[i].closest('tr').id;
             var qPricingProgram = quoteItems[i].closest('tr').dataset.pricingprogram;
+            console.log("----qPricingProgram---" + qPricingProgram);
             var fieldname = quoteItems[i].dataset.fieldname;
             var value = quoteItems[i].value;
             var overridden = quoteItems[i].dataset.overridden;
@@ -772,13 +774,14 @@
             }
             var qiData = quoteItemsData[qId];
             qiData[fieldname] = value;
-            qiData['Pricing_Program__c'] = qPricingProgram;
+            qiData["Pricing_Program__c"] = qPricingProgram;
             if(fieldname == "Award_Price__c" || fieldname == "Total_Toro_Award__c") {
                 qiData["Unit_Award_Overridden__c"] = overridden;	    
             } else if(fieldname == "PricingMethodValue__c") {
                 qiData["Off_MSRP_Overridden__c"] = overridden;
             }
             
+            console.log("qiData 2 =" + JSON.stringify(quoteItemsData));
             //
         }
         var qiSublines = document.querySelectorAll(".quoteItemSubline  input[type=text]");
@@ -800,7 +803,7 @@
         }  
         var quoteItemsDataJSON = JSON.stringify(quoteItemsData);
         var qiSublinesDataJSON = JSON.stringify(qiSublinesData);
-        console.log(quoteItemsDataJSON);
+        console.log('quoteItemsDataJSON=' + quoteItemsDataJSON);
         console.log(qiSublinesDataJSON);
         var quoteId = component.get('v.quoteId');
         
@@ -883,7 +886,7 @@
         for(var j =0; j < summaryHeaderRows.length; j++) {
         	var summaryHeaderCells = summaryHeaderRows[j].querySelectorAll("th");
             for(var i=0; i < summaryHeaderCells.length; i++) {
-                console.log('---------------quote item--onRender set cell width =' + i);
+                //console.log('---------------quote item--onRender set cell width =' + i);
                 if(cellWidths[i+1]) {
                     summaryHeaderCells[i].style.width=cellWidths[i+1];    
                     if((i == summaryHeaderCells.length-1) && (summaryHeaderCells.length != cellWidths.length-1) ) {
@@ -896,7 +899,7 @@
         for(var j =0; j < sublineHeaderRows.length; j++) {
         	var sublineHeaderCells = sublineHeaderRows[j].querySelectorAll("th");
             for(var i=0; i < sublineHeaderCells.length; i++) {
-                console.log('---------------quote item--onRender set cell width =' + i);
+                //console.log('---------------quote item--onRender set cell width =' + i);
                 if(cellWidths[i+1]) {
                     sublineHeaderCells[i].style.width=cellWidths[i+1];    
                     if((i == sublineHeaderCells.length-1) && (sublineHeaderCells.length != cellWidths.length-1) ) {
@@ -906,6 +909,6 @@
             }    
         }
         
-        console.log('---------------quote item--onRender =' + cellWidths);
+        //console.log('---------------quote item--onRender =' + cellWidths);
     }
 })
