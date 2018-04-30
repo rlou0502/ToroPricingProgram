@@ -4,8 +4,8 @@
         var strRecordTypeId;
         var currentURL = window.location.toString();
 
- 	       var action = component.get("c.fetchUser");
-        action.setCallback(this, function(response) {
+		var action = component.get("c.fetchUser");
+		action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
                 var responseUser = response.getReturnValue();
@@ -15,12 +15,6 @@
             if(iRecordTypeId>=0){          // look for the record type id parameter in the requested URL
                 strRecordTypeId = currentURL.substring(iRecordTypeId+13,iRecordTypeId+28);
             }
-    
-            alert('strCountryCode en_US: '+getCountryCode('en_US'));
-            alert('strCountryCode fr: '+getCountryCode('fr'));
-            alert('strCountryCode en_US_America: '+getCountryCode('en_US_America'));
-            alert('strCountryCode en_US: '+getCountryCode('en_US'));
-            alert('strCountryCode en_IE_EURO: '+getCountryCode('en_IE_EURO'));
             
             createRecordEvent.setParams({
                 "entityApiName": "Account",

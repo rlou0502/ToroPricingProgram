@@ -24,17 +24,12 @@
                 strRecordTypeId = currentURL.substring(iRecordTypeId+13,iRecordTypeId+28);
             }
     
-            alert('responseUser JSON: '+JSON.stringify(responseUser));
-            alert('responseUser.Country: '+responseUser.Country);
-            alert('responseUser.Country.toString(): '+responseUser.Country.toString());
-            alert('responseUser.Id: '+responseUser.id);
-            
             createRecordEvent.setParams({
                 "entityApiName": "Contact",
                 "defaultFieldValues":{
                     'RecordTypeId':strRecordTypeId,
                     'AccountId':strParentId,
-                    'MailingCountryCode':responseUser.CountryCode.toString()
+                    'MailingCountryCode':getCountryCode(responseUser.CountryCode)
     
                     }
             });
@@ -42,6 +37,21 @@
             
         });
         $A.enqueueAction(action);
+
+        function getCountryCode(strLocale) {
+            var strCountryCode = '';
+            if(strLocale !== undefined && strLocale !== null) {
+                var iLocaleUnderScore = strLocale.toString().indexOf('_');
+                if(iLocaleUnderScore > 0) {
+                    strCountryCode = strLocale.substring(iLocaleUnderScore+1,iLocaleUnderScore+3);
+                } else {
+                    if(strLocale.length>=2){
+                        strCountryCode = strLocale.substring(0,2);
+                    }
+                }
+            }
+            return strCountryCode;
+        } 
         
 
     }
