@@ -4,7 +4,7 @@
         var strRecordTypeId;
         var currentURL = window.location.toString();
 
-        var action = component.get("c.fetchUser");
+ 	       var action = component.get("c.fetchUser");
         action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
@@ -17,17 +17,16 @@
             }
     
             alert('strCountryCode en_US: '+getCountryCode('en_US'));
+            alert('strCountryCode fr: '+getCountryCode('fr'));
+            alert('strCountryCode en_US_America: '+getCountryCode('en_US_America'));
             alert('strCountryCode en_US: '+getCountryCode('en_US'));
-            alert('strCountryCode en_US: '+getCountryCode('en_US'));
-            alert('strCountryCode en_US: '+getCountryCode('en_US'));
-
-			var strCountryCode = getCountryCode(responseUser.LocalSidKey.toString());
+            alert('strCountryCode en_IE_EURO: '+getCountryCode('en_IE_EURO'));
             
             createRecordEvent.setParams({
                 "entityApiName": "Account",
                 "defaultFieldValues":{
                     'RecordTypeId':strRecordTypeId,
-                    'BillingCountryCode':strCountryCode
+                    'BillingCountryCode':getCountryCode(responseUser.CountryCode)
                 }
             });
             createRecordEvent.fire();
@@ -37,12 +36,14 @@
         
         function getCountryCode(strLocale) {
             var strCountryCode = '';
-            var iLocaleUnderScore = strLocale.toString().indexOf('_');
-            if(iLocaleUnderScore > 0) {
-                strCountryCode = strLocale.substring(iLocaleUnderScore+1,iLocaleUnderScore+3);
-            } else {
-                if(strLocale.length()>=2){
-                    strCountryCode = strLocale.substring(0,2);
+            if(strLocale !== undefined && strLocale !== null) {
+                var iLocaleUnderScore = strLocale.toString().indexOf('_');
+                if(iLocaleUnderScore > 0) {
+                    strCountryCode = strLocale.substring(iLocaleUnderScore+1,iLocaleUnderScore+3);
+                } else {
+                    if(strLocale.length>=2){
+                        strCountryCode = strLocale.substring(0,2);
+                    }
                 }
             }
             return strCountryCode;
