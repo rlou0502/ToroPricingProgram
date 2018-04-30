@@ -3,6 +3,7 @@ public class ToroPriceProgramFactory {
 	public static final string constPricingProgramKey='pricingProgramHelpers';
 	
 	public static ToroPricingProgram newPricingProgramInstance(String className) {
+		system.debug('newPricingProgramInstance=' + className);
 		ToroPricingProgram pp = null;
 		if(String.isNotBlank(classname)) {
 			Type t = Type.forName(className);
