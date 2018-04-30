@@ -78,11 +78,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		helper.quoteItemList = quoteItemList;
 		helper.quote=this.quote;
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-
-			quote.Toro_Blended_Percent_of_DN__c = helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet();
-			for (Revvy__MnStrategy4__c qi : quoteItemList) {
-				helper.retrieveRebateForQuoteItem(quote.Toro_Blended_Percent_of_DN__c, qi);
-			}
+			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
 			quoteItemList = helper.quoteItemList;
 			for (Revvy__MnStrategy4__c qi : quoteItemList) {
 				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0 ) {
@@ -101,18 +97,13 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			}
 
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
-			quote.Toro_Blended_Percent_of_DN__c = helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet();
-			for (Revvy__MnStrategy4__c qi : quoteItemList) {
-				helper.retrieveRebateForQuoteItem(quote.Toro_Blended_Percent_of_DN__c, qi);
-			}
+			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();			
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
-			quote.Toro_Blended_Percent_of_DN__c = helper.calculateBlendedDNetPercentFromMSRP();
+			helper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
 		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
-			quote.Toro_Blended_Percent_of_DN__c = helper.calculateBlendedDNetPercentFromDNet();
-			for (Revvy__MnStrategy4__c qi : quoteItemList) {
-				helper.retrieveRebateForQuoteItem(quote.Toro_Blended_Percent_of_DN__c, qi);
-			}
+			helper.calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
 		}
+		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;
 		return quoteItemList;
 	}

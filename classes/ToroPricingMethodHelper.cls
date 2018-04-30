@@ -47,7 +47,7 @@ public with sharing class ToroPricingMethodHelper {
 		return qis.Award_Price__c;	
 	}
 	
-	public decimal calculateBlendedDNetPercentFromMSRP() {
+	public ToroPricingMethodHelper calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();	
 		decimal quoteDNet = 0;
 		decimal quoteAward = 0;	
@@ -117,9 +117,9 @@ public with sharing class ToroPricingMethodHelper {
 			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quoteAward) / quoteDNet * 100;
 			//retrieveRebateForQuote(quote.Toro_Blended_Percent_of_DN__c);
 		}
-		return quote.Toro_Blended_Percent_of_DN__c;			
+		return this;			
 	}
-	public decimal calculateBlendedDNetPercentFromDNet() { 
+	public ToroPricingMethodHelper calculateBlendedDNetPercentFromDNet() { 
 		Map<Id, decimal> retMap = new Map<Id, decimal>();
 		decimal quoteDNet = 0;
 		decimal quoteAward = 0;	
@@ -186,7 +186,7 @@ public with sharing class ToroPricingMethodHelper {
 			//}
 			
 		}
-		return quote.Toro_Blended_Percent_of_DN__c;			
+		return this;			
 	}
 	public ToroPricingMethodHelper calculateGP() {
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
@@ -246,6 +246,19 @@ public with sharing class ToroPricingMethodHelper {
 		return this;
 	} 
 	
+	public ToroPricingMethodHelper retrieveRebatePercent() {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			qi.Rebate_as_a_of_DN__c = retrieveRebatePercentBasedOnBlendedDNet(qi.Award_of_DN__c, qi.Pricing_Program__c);	
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!qis.Exclude_from_Rebate__c) {
+						qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;					
+					}	
+				}	
+			}
+		}	
+		return this;
+	}
 	public decimal retrieveRebatePercentBasedOnBlendedDNet(decimal dnetPercent, String pricingProgramExtId) {
 		decimal rebatePercent = 0;
 		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- pricingProgramExtId=' + pricingProgramExtId);
