@@ -1,0 +1,4 @@
+<aura:component controller="recordTypePicklistController" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="recordTypePicklistValues" type="Object" />	
+</aura:component>

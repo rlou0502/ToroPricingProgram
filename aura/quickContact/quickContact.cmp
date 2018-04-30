@@ -1,5 +1,7 @@
 <aura:component implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId" access="global">
 
+    <aura:attribute name="picklistValues" type="Object" />
+
     <aura:attribute name="account" type="Object"/>
     <aura:attribute name="simpleAccount" type="Object"/>
     <aura:attribute name="accountError" type="String"/>
@@ -22,6 +24,7 @@
         />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <c:recordTypePicklist sObjectName="Contact" recordTypePicklistValues="{!v.picklistValues}" />
 
     <!-- Display a header with details about the account -->
     <div class="slds-page-header" role="banner">
@@ -53,7 +56,14 @@
             </div>
             <div class="slds-modal__content slds-p-around--medium slds-grid slds-wrap ">
 				<!-- Display the new contact form -->
-				 <lightning:input aura:id="contactField" name="firstName" label="First Name"
+                
+                <lightning:select aura:id="recordTypeId" name="recordTypeId" label="Record Type" class="slds-size--1-of-2 slds-p-horizontal_x-small">
+                    <aura:iteration items="{!v.recordTypePicklistValues}" var="item">
+                        <option value="{!item}">{!item}</option>
+                    </aura:iteration>
+                </lightning:select>
+
+                <lightning:input aura:id="contactField" name="firstName" label="First Name"
 								 value="{!v.simpleNewContact.FirstName}" required="true" class="slds-size--1-of-1 slds-p-horizontal_x-small"/>
 			  
 				<lightning:input aura:id="contactField" name="lastname" label="Last Name"
