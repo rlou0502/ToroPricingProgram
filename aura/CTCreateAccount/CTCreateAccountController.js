@@ -16,17 +16,37 @@
                 strRecordTypeId = currentURL.substring(iRecordTypeId+13,iRecordTypeId+28);
             }
     
+            alert('strCountryCode en_US: '+getCountryCode('en_US'));
+            alert('strCountryCode en_US: '+getCountryCode('en_US'));
+            alert('strCountryCode en_US: '+getCountryCode('en_US'));
+            alert('strCountryCode en_US: '+getCountryCode('en_US'));
+
+			var strCountryCode = getCountryCode(responseUser.LocalSidKey.toString());
+            
             createRecordEvent.setParams({
                 "entityApiName": "Account",
                 "defaultFieldValues":{
                     'RecordTypeId':strRecordTypeId,
-                    'BillingCountryCode':responseUser.CountryCode.toString()
+                    'BillingCountryCode':strCountryCode
                 }
             });
             createRecordEvent.fire();
-            
+			
         });
         $A.enqueueAction(action);            
+        
+        function getCountryCode(strLocale) {
+            var strCountryCode = '';
+            var iLocaleUnderScore = strLocale.toString().indexOf('_');
+            if(iLocaleUnderScore > 0) {
+                strCountryCode = strLocale.substring(iLocaleUnderScore+1,iLocaleUnderScore+3);
+            } else {
+                if(strLocale.length()>=2){
+                    strCountryCode = strLocale.substring(0,2);
+                }
+            }
+            return strCountryCode;
+        } 
             
     }
 })
