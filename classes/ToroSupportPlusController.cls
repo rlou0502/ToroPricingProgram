@@ -196,6 +196,8 @@ global class ToroSupportPlusController {
 			final List<REVVY__MnQuoteItem__c> quoteItemsToDelete = new List<REVVY__MnQuoteItem__c>();
 			final List<REVVY__MnStrategy4__c> quoteItemExtensionsToUpdate = new List<REVVY__MnStrategy4__c>();
 
+			final Map<Id,Decimal> qiExtObjToAdjustedQuantityMap = new Map<Id,Decimal>();
+
 			for (ToroSupportPlusItem wrapper : changedQiWrappers) {
 				final Decimal quantity = wrapper.quantity;
 				final Decimal updatedSpQuantity = wrapper.spQuantity;
@@ -219,11 +221,10 @@ global class ToroSupportPlusController {
 					quoteItemsToInsert.add(spItemToInsert);
 					System.debug('\n\n@@spItemToInsert: ' + spItemToInsert + '\n\n');
 
-
+					qiExtObjToAdjustedQuantityMap.put(wrapper.sfid, quantity - updatedSpQuantity);
 					List<REVVY__MnStrategy4__c> spExtObjs = [
 						SELECT
-							Id
-							, External_Id__c
+							External_Id__c
 							, Adjusted_Quantity__c
 						FROM
 							REVVY__MnStrategy4__c
@@ -269,8 +270,7 @@ global class ToroSupportPlusController {
 
 						List<REVVY__MnStrategy4__c> qiExtObjs = [
 							SELECT
-								Id
-								, External_Id__c
+								External_Id__c
 								, Adjusted_Quantity__c
 							FROM
 								REVVY__MnStrategy4__c
