@@ -47,13 +47,12 @@
 			<div class="slds-global-header__item " style="float: right">
 				<div class="slds-col slds-no-flex slds-grid slds-align-top">
 					<div class="slds-button-group" role="group">
-						<button class="slds-button slds-button_neutral"
-							onclick="{!c.handleShowAddNewModal}">Add New</button>
-						<button class="slds-button slds-button_neutral"
-							onclick="{!c.handleSubmitClick}">Save</button>
-						<button class="slds-button slds-button_neutral"
-							onclick="{!c.backToPricingPage}">Back to
-							Pricing Page</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleShowAddNewModal}">Add New</button>
+					</div>
+					<div class="slds-button-group" role="group">
+						<button class="slds-button slds-button_neutral" onclick="{!c.returnToPricing}">Return to Pricing</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleSave}">Save</button>
+						<!-- <button class="slds-button slds-button_neutral" onclick="{!c.handleSaveAndClose}">Save and Close</button> -->
 					</div>
 				</div>
 			</div>

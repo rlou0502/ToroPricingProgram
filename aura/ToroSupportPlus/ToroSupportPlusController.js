@@ -2,8 +2,8 @@
 	initialize: function(cmp, event, helper) {
         helper.initialize(cmp);
     },
-    backToPricingPage: function(cmp, event, helper) {
-        console.log('@ToroSupportPlusController:backToPricingPage');
+    returnToPricing: function(cmp, event, helper) {
+        console.log('@ToroSupportPlusController:returnToPricing');
         var quoteId = cmp.get("v.quoteId");
         document.location = '/apex/PricingProgramLgtnOut?Id=' + quoteId;
     },
@@ -149,38 +149,17 @@
     handleShowAddNewModal: function (cmp, event, helper) {
         cmp.find('cmpAddNew').showModal();
     },
-    /*
-    handleAddNewSupportPlusItem: function(cmp, event, helper) {
-        var productId         = cmp.get('v.newItemProductId');
-        var newItemSPQuantity = cmp.get('v.newItemSPQuantity');
-
-        var inputIsValid = true;
-        var errorMessage = 'The following values are required: ';
-
-        if (!productId) {
-            inputIsValid = false;
-            errorMessage += ' Product ID';
-        }
-
-        if (!newItemSPQuantity) {
-            inputIsValid = false;
-            errorMessage += ', SP Quantity';
-        }
-
-        if (!inputIsValid) {
-            alert(errorMessage);
-        }
-
-        else {
-            helper.addProduct(cmp, productId, newItemSPQuantity);
-        }
-    },*/
-    handleSubmitClick: function(cmp, event, helper) {
+    handleSave: function(cmp, event, helper) {
         var quote = cmp.get('v.quote');
         var quoteItems = cmp.get('v.quoteItems');
         var supportPlusItems = cmp.get('v.supportPlusItems');
-
-        helper.saveChanges(cmp, quote, quoteItems, supportPlusItems);
+        helper.saveChanges(cmp, quote, quoteItems, supportPlusItems, false);
+    },
+    handleSaveAndClose: function(cmp, event, helper) {
+        var quote = cmp.get('v.quote');
+        var quoteItems = cmp.get('v.quoteItems');
+        var supportPlusItems = cmp.get('v.supportPlusItems');
+        helper.saveChanges(cmp, quote, quoteItems, supportPlusItems, true);
     },
     populateAddNewModalFields: function(cmp, event, helper) {
         var dataset = event.currentTarget.dataset;

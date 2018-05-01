@@ -204,10 +204,11 @@ global class ToroSupportPlusController {
 
 				// new support plus item needs to be created
 				// existing quote item needs to be updated
+				// update extension object
 				if (wrapper.qiSpObj == null) {
 					REVVY__MnQuoteItem__c spItemToInsert = new REVVY__MnQuoteItem__c(
 						  REVVY__Quantity__c            = updatedSpQuantity
-						, REVVY__Id__c                  = ToroSupportPlusHelper.generateExternalId()
+						, REVVY__Id__c                  = ToroSupportPlusHelper.generateQiExtId()
 						, Support_Plus_From_Add_New__c  = false
 						, REVVY__Quote__c               = quote.Id
 						, REVVY__PricelistLine__c       = wrapper.qiObj.REVVY__PricelistLine__c
@@ -215,76 +216,24 @@ global class ToroSupportPlusController {
 						, REVVY__Price__c               = 0
 						, REVVY__SuggestedPrice__c      = 0
 						, Description__c                = wrapper.description
-						, Misc_Style__c                 = 'NoCharge'
 						, Support_Plus_Original_Item__c = wrapper.sfid
 					);
 					quoteItemsToInsert.add(spItemToInsert);
 					System.debug('\n\n@@spItemToInsert: ' + spItemToInsert + '\n\n');
-
 					qiExtObjToAdjustedQuantityMap.put(wrapper.sfid, quantity - updatedSpQuantity);
-					List<REVVY__MnStrategy4__c> spExtObjs = [
-						SELECT
-							External_Id__c
-							, Adjusted_Quantity__c
-						FROM
-							REVVY__MnStrategy4__c
-						WHERE
-							External_Id__c = :wrapper.sfid
-					];
-
-					for(REVVY__MnStrategy4__c spExtObj : spExtObjs) {
-						spExtObj.Adjusted_Quantity__c = quantity - updatedSpQuantity;
-					}
-					quoteItemExtensionsToUpdate.addAll(spExtObjs);
-
-
-					// wrapper.qiExtObj.Adjusted_Quantity__c = quantity - updatedSpQuantity;
-					// quoteItemExtensionsToUpdate.add(wrapper.qiExtObj);
-					System.debug('\n\n@@wrapper.qiExtObj to update: ' + wrapper.qiExtObj + '\n\n');
 				}
 
+				// update extension object
 				else {
 					if (wrapper.spQuantity == 0) {
 						quoteItemsToDelete.add(wrapper.qiSpObj);
-
 						wrapper.qiExtObj.Adjusted_Quantity__c = wrapper.qiExtObj.Adjusted_Quantity__c + wrapper.qiSpExtObj.Adjusted_Quantity__c;
 						quoteItemExtensionsToUpdate.add(wrapper.qiExtObj);
 					}
 
 					else {
-						/*
-						REVVY__MnStrategy4__c quoteItemExtensionToUpdate = new REVVY__MnStrategy4__c(
-							External_ID__c = wrapper.sfid
-							, Adjusted_Quantity__c = quantity - updatedSpQuantity
-						);
-						REVVY__MnStrategy4__c supportPlusExtensionToUpdate = new REVVY__MnStrategy4__c(
-							external_Id__c = wrapper.qiSpObj.Id
-							, Adjusted_Quantity__c = updatedSpQuantity
-						);
-						*/
-
-						Map<String,Decimal> extIdQtyMap = new Map<String,Decimal>{
-							wrapper.sfid => (quantity - updatedSpQuantity)
-							, wrapper.qiSpObj.Id => updatedSpQuantity
-						};
-
-						List<REVVY__MnStrategy4__c> qiExtObjs = [
-							SELECT
-								External_Id__c
-								, Adjusted_Quantity__c
-							FROM
-								REVVY__MnStrategy4__c
-							WHERE
-								External_Id__c IN :extIdQtyMap.keyset()
-						];
-
-						for(REVVY__MnStrategy4__c qi : qiExtObjs) {
-							qi.Adjusted_Quantity__c = extIdQtyMap.get(qi.External_Id__c);
-						}
-						System.debug('\n\n@@before quoteItemExtensionsToUpdate : ' + quoteItemExtensionsToUpdate + '\n\n');
-
-						quoteItemExtensionsToUpdate.addAll(qiExtObjs);
-						System.debug('\n\n@@after quoteItemExtensionsToUpdate: ' + quoteItemExtensionsToUpdate + '\n\n');
+						qiExtObjToAdjustedQuantityMap.put(wrapper.sfid, quantity - updatedSpQuantity);
+						qiExtObjToAdjustedQuantityMap.put(wrapper.qiSpObj.Id, updatedSpQuantity);
 					}
 				}
 			}
@@ -297,6 +246,7 @@ global class ToroSupportPlusController {
 			final List<REVVY__MnQuoteItemSubline__c> sublinesToDelete = new List<REVVY__MnQuoteItemSubline__c>();
 			final List<REVVY__MnStrategy5__c> sublineExtensionsToUpdate = new List<REVVY__MnStrategy5__c>();
 
+			final Map<Id,Decimal> sublineExtObjToAdjustedQuantityMap = new Map<Id,Decimal>();
 
 			for (Id quoteItemId : existingQiWrapperMap.keySet()) {
 				final List<ToroSupportPlusItem> changedSublineWrappers = new List<ToroSupportPlusItem>();
@@ -316,79 +266,40 @@ global class ToroSupportPlusController {
 						System.debug('\n\n@@changed subline: ' + sublineWrapper.productId + ' ' + existingSublineWrapper.spQuantity + ' to ' + sublineWrapper.spQuantity + '\n\n');
 					}
 				}
+
 				System.debug('\n\n@@changedSublineWrappers: ' + changedSublineWrappers + '\n\n');
 
 				for (ToroSupportPlusItem wrapper : changedSublineWrappers) {
 					final Decimal quantity = wrapper.quantity;
 					final Decimal updatedSpQuantity = wrapper.spQuantity;
-
 					if (wrapper.sublineSpObj == null) {
 						REVVY__MnQuoteItemSubline__c spSublineToInsert = new REVVY__MnQuoteItemSubline__c(
 							  REVVY__Quantity__c            = updatedSpQuantity
-							, REVVY__Id__c                  = null //ToroSupportPlusHelper.generateExternalId()
+							, REVVY__Id__c                  = null // this is deprecated for sublines (causes issues when it is set)
 							, REVVY__QuoteItem__c           = wrapper.qiObj.Id
 							, REVVY__PricelistLine__c       = wrapper.sublineObj.REVVY__PricelistLine__c
 							, REVVY__Catalog_Node__c        = wrapper.sublineObj.REVVY__Catalog_Node__c
 							, REVVY__Price__c               = 0
 							, REVVY__SuggestedPrice__c      = 0
 							, Description__c                = wrapper.description
-							, Misc_Style__c                 = 'NoCharge'
 							, Support_Plus_Original_Item__c = wrapper.sublineObj.Id
 						);
+
 						sublinesToInsert.add(spSublineToInsert);
 						System.debug('\n\n@@spSublineToInsert: ' + spSublineToInsert + '\n\n');
-
-						List<REVVY__MnStrategy5__c> spExtObjs = [
-							SELECT
-								Id
-								, External_Id__c
-								, Adjusted_Quantity__c
-							FROM
-								REVVY__MnStrategy5__c
-							WHERE
-								External_Id__c = :wrapper.sublineObj.Id
-						];
-
-						for (REVVY__MnStrategy5__c spExtObj : spExtObjs) {
-							spExtObj.Adjusted_Quantity__c = quantity - updatedSpQuantity;
-						}
-
-						System.debug('\n\n@@sublines - spExtObjs: ' + spExtObjs + '\n\n');
-						sublineExtensionsToUpdate.addAll(spExtObjs);
-						System.debug('\n\n@@sublineExtensionsToUpdate: ' + sublineExtensionsToUpdate + '\n\n');
+						sublineExtObjToAdjustedQuantityMap.put(wrapper.sublineObj.Id, quantity - updatedSpQuantity);
 					}
 
 					else {
 						if (wrapper.spQuantity == 0) {
 							sublinesToDelete.add(wrapper.sublineSpObj);
-
 							wrapper.sublineExtObj.Adjusted_Quantity__c = wrapper.sublineExtObj.Adjusted_Quantity__c + wrapper.sublineSpExtObj.Adjusted_Quantity__c;
 							sublineExtensionsToUpdate.add(wrapper.sublineExtObj);
 						}
 
 						else {
-							Map<String,Decimal> extIdQtyMap = new Map<String,Decimal>{
-								wrapper.sfid => (quantity - updatedSpQuantity)
-								, wrapper.sublineSpObj.Id => updatedSpQuantity
-							};
-
-							List<REVVY__MnStrategy5__c> sublineExtObjs = [
-								SELECT
-									Id
-									, External_Id__c
-									, Adjusted_Quantity__c
-								FROM
-									REVVY__MnStrategy5__c
-								WHERE
-									External_Id__c IN :extIdQtyMap.keyset()
-							];
-
-							for (REVVY__MnStrategy5__c qi : sublineExtObjs) {
-								qi.Adjusted_Quantity__c = extIdQtyMap.get(qi.External_Id__c);
-							}
-							System.debug('\n\n@@before sublineExtensionsToUpdate : ' + quoteItemExtensionsToUpdate + '\n\n');
-							sublineExtensionsToUpdate.addAll(sublineExtObjs);
-							System.debug('\n\n@@after sublineExtensionsToUpdate: ' + quoteItemExtensionsToUpdate + '\n\n');
+							sublineExtObjToAdjustedQuantityMap.put(wrapper.sfid, quantity - updatedSpQuantity);
+							sublineExtObjToAdjustedQuantityMap.put(wrapper.sublineSpObj.Id, updatedSpQuantity);
 						}
 					}
 				}
@@ -397,7 +308,6 @@ global class ToroSupportPlusController {
 			// ============================================================================
 			// HANDLE SUPPORT PLUS ONLY ITEMS
 			// ============================================================================
-
 			final List<REVVY__MnQuoteItem__c> addNewItemsToInsert = new List<REVVY__MnQuoteItem__c>();
 			final List<REVVY__MnQuoteItem__c> addNewItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
 
@@ -426,6 +336,7 @@ global class ToroSupportPlusController {
 						for (REVVY__MnStrategy4__c spExtObj : spExtObjs) {
 							spExtObj.Adjusted_Quantity__c = addNewWrapper.spQuantity;
 						}
+
 						quoteItemExtensionsToUpdate.addAll(spExtObjs);
 					}
 				}
@@ -434,7 +345,7 @@ global class ToroSupportPlusController {
 					// create it
 					REVVY__MnQuoteItem__c spItemToInsert = new REVVY__MnQuoteItem__c(
 						  REVVY__Quantity__c            = addNewWrapper.spQuantity
-						, REVVY__Id__c                  = ToroSupportPlusHelper.generateExternalId()
+						, REVVY__Id__c                  = ToroSupportPlusHelper.generateQiExtId()
 						, Support_Plus_From_Add_New__c  = true
 						, REVVY__Quote__c               = quote.Id
 						, REVVY__PricelistLine__c       = addNewWrapper.pricelistLineId
@@ -443,7 +354,6 @@ global class ToroSupportPlusController {
 						, REVVY__SuggestedPrice__c      = 0
 						, Support_Plus_Original_Price__c = addNewWrapper.dnetPrice
 						, Description__c                = addNewWrapper.description
-						, Misc_Style__c                 = 'NoCharge'
 						, Support_Plus_Original_Item__c = null
 					);
 
@@ -451,14 +361,12 @@ global class ToroSupportPlusController {
 				}
 			}
 
-
 			// ============================================================================
 			// insert new quote items
 			// ============================================================================
 			insert quoteItemsToInsert;
 			System.debug('\n\n@@quoteItemsToInsert: ' + quoteItemsToInsert + '\n\n');
 			System.debug('\n\n@@quoteItemExtensionsToUpdate: ' + quoteItemExtensionsToUpdate + '\n\n');
-
 			// ============================================================================
 			// fix Quote_Item_Extension__c for new Support Plus Quote Items
 			// ============================================================================
@@ -491,13 +399,31 @@ global class ToroSupportPlusController {
 			}
 
 			update insertedQuoteItems;
+
+			// ============================================================================
+			// update quote item extensions
+			// ============================================================================
+			List<REVVY__MnStrategy4__c> quoteItemExtObjsToUpdate = [
+				SELECT
+					External_Id__c
+					, Adjusted_Quantity__c
+				FROM
+					REVVY__MnStrategy4__c
+				WHERE
+					External_Id__c IN :qiExtObjToAdjustedQuantityMap.keySet()
+			];
+
+			for (REVVY__MnStrategy4__c quoteItemExtObj : quoteItemExtObjsToUpdate) {
+				quoteItemExtObj.Adjusted_Quantity__c = qiExtObjToAdjustedQuantityMap.get(quoteItemExtObj.External_Id__c);
+				quoteItemExtensionsToUpdate.add(quoteItemExtObj);
+			}
+
 			update quoteItemExtensionsToUpdate;
 			delete quoteItemsToDelete;
 
 			// ============================================================================
 			// insert new sublines
 			// ============================================================================
-
 			System.debug('\n\n@@sublinesToInsert: ' + sublinesToInsert + '\n\n');
 			insert sublinesToInsert;
 
@@ -537,13 +463,29 @@ global class ToroSupportPlusController {
 			System.debug('\n\n@@sublineExtensionsToUpdate: ' + sublineExtensionsToUpdate + '\n\n');
 			System.debug('\n\n@@sublinesToDelete: ' + sublinesToDelete + '\n\n');
 			update insertedSublines;
+
+			// ============================================================================
+			// update subline extensions
+			// ============================================================================
+			List<REVVY__MnStrategy5__c> sublineExtObjsToUpdate = [
+				SELECT
+					External_Id__c
+					, Adjusted_Quantity__c
+				FROM
+					REVVY__MnStrategy5__c
+				WHERE
+					External_Id__c IN :sublineExtObjToAdjustedQuantityMap.keySet()
+			];
+
+			for (REVVY__MnStrategy5__c sublineExtObj : sublineExtObjsToUpdate) {
+				sublineExtObj.Adjusted_Quantity__c = sublineExtObjToAdjustedQuantityMap.get(sublineExtObj.External_Id__c);
+				sublineExtensionsToUpdate.add(sublineExtObj);
+			}
+
 			update sublineExtensionsToUpdate;
 			delete sublinesToDelete;
-
-			// Database.rollback(sp);
 			ToroSupportPlusHelper.saveSequenceGen();
 		}
-
 
 		catch (Exception e) {
 			System.debug('\n\n@@exception occurred: ' + e + '\n\n');

@@ -122,7 +122,7 @@
 		);
 		$A.enqueueAction(action);
 	},
-	saveChanges: function(cmp, quote, quoteItems, supportPlusItems) {
+	saveChanges: function(cmp, quote, quoteItems, supportPlusItems, goBackToPricingPage) {
 		console.log('@ToroSupportPlusHelper:saveChanges');
 		var action = cmp.get('c.splitAndSaveItems');
 		this.showSpinner();
@@ -142,6 +142,9 @@
 				if (cmp.isValid() && response.getState() == 'SUCCESS') {
 					this.initialize(cmp);
 					this.hideSpinner();
+					if (goBackToPricingPage) {
+						document.location = '/apex/PricingProgramLgtnOut?Id=' + quote.Id;
+					}
 				}
 			}
 		);
