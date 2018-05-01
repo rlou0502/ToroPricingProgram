@@ -4,6 +4,10 @@ public with sharing class ToroPricingMethodHelper {
 	public List<Revvy__MnStrategy4__c> quoteItemList { get; set;}
 	public String pricingProgramExternalId { get; set {pricingProgramExternalId=value; pricingProgramExternalIds.add(value);} }
 	public Set<String> pricingProgramExternalIds {get; set; }
+	public void addPricingProgramExtId(String extId) {
+		pricingProgramExternalIds.add(extId);	
+		pricingProgramExternalId = extId;
+	}
 	public REVVY__MnQuote__c quote { get; set; }
 	public ToroPricingMethodHelper() {
 		pricingProgramExternalIds=new Set<String>();		
