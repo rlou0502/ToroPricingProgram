@@ -259,6 +259,7 @@ public with sharing class ToroPricingMethodHelper {
 				qi.Pricing_Program__c = pricingProgramExternalId;	
 			}
 			ToroPricingProgramData ppd = new ToroPricingProgramData(qi.Pricing_Program__c);
+			system.debug('retrieveRebatePercent ppd=' + ppd );
 			qi.Rebate_as_a_of_DN__c = retrieveRebatePercentBasedOnBlendedDNet(qi.Award_of_DN__c, ppd.externalId);	
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -285,12 +286,14 @@ public with sharing class ToroPricingMethodHelper {
 		    }
 			DNetPercentMap.put(ppExtId, dnet2PM);	
 		}
-		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- dnetPercent=' + dnetPercent);	
-		system.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap=' + DNetPercentMap);	
+		//system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- dnetPercent=' + dnetPercent);	
+		//system.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap=' + DNetPercentMap);	
 		dnetPercent = dnetPercent.setScale(5, roundingMode.HALF_UP);
-		System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnetPercent = ' + dnetPercent  );
-		System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent) = ' + (DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent))  );
-		if(DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(ppExtId).containsKey(dnetPercent)) {
+		//System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnetPercent = ' + dnetPercent  );
+		//System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent) = ' + (DNetPercentMap.containsKey(pricingProgramExternalId) && DNetPercentMap.get(pricingProgramExternalId).containsKey(dnetPercent))  );
+		//System.debug(logginglevel.info, 'DNetPercentMap.containsKey(ppExtId)=' + DNetPercentMap.containsKey(ppExtId));
+		//System.debug(logginglevel.info, 'DNetPercentMap.get(ppExtId).containsKey(dnetPercent) =' + DNetPercentMap.get(ppExtId).containsKey(dnetPercent));
+		if(DNetPercentMap.containsKey(ppExtId) && DNetPercentMap.get(ppExtId).containsKey(dnetPercent)) {
 			rebatePercent = DNetPercentMap.get(ppExtId).get(dnetPercent).rebatePercent;
 			System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- rebatePercent ='  + rebatePercent);
 		} else if(DNetPercentMap.containsKey(ppExtId)) {
