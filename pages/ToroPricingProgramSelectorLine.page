@@ -1,4 +1,15 @@
-<apex:page standardController="Toro_PricingProgramLine__c" extensions="ToroPricingProgramLineProductSelector">
+<apex:page standardController="Toro_PricingProgramLine__c">
+
+
+<!-- <apex:page standardController="Toro_PricingProgramLine__c" extensions="ToroPricingProgramLineProductSelector"> -->
+
+
+<!--==========================================================================
+	DEPRECATED
+	==========================================================================-->
+
+
+<!--
 <script>
 var cleanSelectProductBox = function() {
 	var elms = getElementsByClassName("select-product");
@@ -10,12 +21,6 @@ var cleanSelectProductBox = function() {
 
 <apex:form >
 	<apex:pageBlock title="Select Products">
-		<!--
-		<apex:pageBlockButtons>
-			<apex:commandButton action="{!cancel}" value="Close" />
- 		</apex:pageBlockButtons>
-		-->
-
  		<apex:pageBlockSection title="Select Product(s)" columns="1">
  			<apex:pageBlockSectionItem id="SelectProductSectionItem">
          			<apex:outputLabel value="Select a Product"/>
@@ -53,4 +58,5 @@ var cleanSelectProductBox = function() {
 		</apex:outputPanel>
 	</apex:pageBlock>
 </apex:form>
+-->
 </apex:page>

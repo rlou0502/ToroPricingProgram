@@ -15,7 +15,8 @@ public with sharing class ToroPricingProgramProductSelector {
 	private Id pricingProgramId;
 	private String previouslySelectedProducts;
 
-	public Revvy__MnStrategy1__c pricingProgram { get; set; } // Revvy__MnStrategy1__c -> Revvy__MnStrategy1__c
+	public REVVY__MnStrategy1__c pricingProgram { get; set; }
+	private REVVY__MnStrategy2__c pricingProgramLine;
 
 	public Boolean allProductsSelected 			{ get; set; }
 	public List<Wrapper> selectedProducts 		{ get; set; }
@@ -49,7 +50,7 @@ public with sharing class ToroPricingProgramProductSelector {
 				Id, r.Name
 				, r.SelectProduct__c, r.ApplicableProductsLong__c
 			FROM
-				Revvy__MnStrategy1__c r
+				REVVY__MnStrategy1__c r
 			WHERE
 				Id = :pricingProgramId
 		];
@@ -65,16 +66,16 @@ public with sharing class ToroPricingProgramProductSelector {
 		if (String.isNotBlank(pricingProgram.ApplicableProductsLong__c)) {
 			final List<String> productExtIds = pricingProgram.ApplicableProductsLong__c.split(',');
 
-			List<Revvy__MnCatalogNode__c> catalogNodes = [
+			List<REVVY__MnCatalogNode__c> catalogNodes = [
 				SELECT
-					Id, Revvy__Id__c, Name
+					Id, REVVY__Id__c, Name
 				FROM
-					Revvy__MnCatalogNode__c
+					REVVY__MnCatalogNode__c
 				WHERE
-					Revvy__Id__c IN :productExtIds
+					REVVY__Id__c IN :productExtIds
 			];
 
-			for (Revvy__MnCatalogNode__c product : catalogNodes) {
+			for (REVVY__MnCatalogNode__c product : catalogNodes) {
 				selectedProducts.add(new Wrapper(product));
 			}
 		}
@@ -111,16 +112,16 @@ public with sharing class ToroPricingProgramProductSelector {
 	 * @return return_type
 	 */
 	public void addProduct() {
-		List<Revvy__MnCatalogNode__c> products = [
+		List<REVVY__MnCatalogNode__c> products = [
 			SELECT
-				Name, Revvy__Id__c
+				Name, REVVY__Id__c
 			FROM
-				Revvy__MnCatalogNode__c
+				REVVY__MnCatalogNode__c
 			WHERE
 				Id = :pricingProgram.SelectProduct__c
 		];
 
-		Set<String> newProdSet = new Set<String>{products[0].revvy__Id__c};
+		Set<String> newProdSet = new Set<String>{products[0].REVVY__Id__c};
 		List<String> prodList = new List<String>();
 		if (pricingProgram.ApplicableProductsLong__c != null) {
 			prodList = pricingProgram.ApplicableProductsLong__c.split(',');
