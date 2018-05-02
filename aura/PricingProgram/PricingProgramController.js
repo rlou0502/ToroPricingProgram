@@ -45,6 +45,9 @@
         helper.openSupportPlusDisclaimer(component, event, helper);
     },
     init : function(component, event, helper) {
+    	console.log('isLightning = ' + helper.isLightning());
+    	console.log('isMobile = ' + helper.isMobile());
+    	console.log('hasSforceOne = ' + helper.hasSforceOne());
         var quoteId = component.get('v.quoteId');
         if(quoteId) {
         	helper.loadQuoteHeader(component, quoteId);

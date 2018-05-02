@@ -175,5 +175,36 @@
             }
         );
         $A.enqueueAction(getAction);
+    },
+    isLightning: function() {
+        return $A.get("e.force:showToast");
+    },
+    isMobile: function() {
+        var userAgent=window.navigator.userAgent.toLowerCase();
+        return (-1!=userAgent.indexOf('mobile'));
+    },
+    hasSforceOne : function() {
+        var sf;
+        try {
+            sf=(sforce && sforce.one);
+        }
+        catch (exc) {
+            sf=false;
+        }
+          
+        return sf;
+    },
+    isSalesforceOne : function() {
+    	return isLightning() && isMobile();
+    },
+    isLightningX : function() {
+    	return isLightning() && (!isMobile())
+    },
+    isLightningOut : function() {
+    	return (!isLightning()) && hasSforceOne();
+    },
+    isClassic : function() {
+    	return (!isLightning()) && (!hasSforceOne());
     }
+
 })
