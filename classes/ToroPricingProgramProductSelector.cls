@@ -11,8 +11,7 @@ public with sharing class ToroPricingProgramProductSelector {
 		}
 	}
 
-	private ApexPages.StandardController ctrl;
-	private Id pricingProgramId;
+	private Id recordId;
 	private String previouslySelectedProducts;
 
 	public REVVY__MnStrategy1__c pricingProgram { get; set; }
@@ -30,8 +29,7 @@ public with sharing class ToroPricingProgramProductSelector {
 	 * @return return_type
 	 */
 	public ToroPricingProgramProductSelector(ApexPages.StandardController controller){
-		ctrl             = controller;
-		pricingProgramId = controller.getRecord().Id;
+		this.recordId         = controller.getRecord().Id;
 		selectedProducts = new List<wrapper>();
 		loadPageVariables();
 	}
@@ -45,6 +43,14 @@ public with sharing class ToroPricingProgramProductSelector {
 	 */
 	public void loadPageVariables() {
 		this.selectedProducts.clear();
+
+		String selectClause = 'SELECT Id, Name, SelectProduct__c, ApplicableProductsLong__c';
+		String fromClause   = ' FROM ' + 'REVVY__MnStrategy1__c';
+		String whereClause  = ' WHERE Id = \'' + this.recordId + '\' LIMIT 1';
+		final String queryString = selectClause + fromClause + whereClause;
+		this.pricingProgram = Database.query(queryString);
+
+		/*
 		pricingProgram = [
 			SELECT
 				Id, r.Name
@@ -52,8 +58,8 @@ public with sharing class ToroPricingProgramProductSelector {
 			FROM
 				REVVY__MnStrategy1__c r
 			WHERE
-				Id = :pricingProgramId
-		];
+				Id = :recordId
+		];*/
 
 		if (pricingProgram.ApplicableProductsLong__c == 'All') {
 			this.allProductsSelected = true;
@@ -133,7 +139,6 @@ public with sharing class ToroPricingProgramProductSelector {
 		pricingProgram.ApplicableProductsLong__c = String.join(prodList, ',');
 		update pricingProgram;
 		loadPageVariables();
-
 	}
 
 	/**
@@ -155,12 +160,4 @@ public with sharing class ToroPricingProgramProductSelector {
 
 		return null;
 	}
-
-	/*
-	public PageReference cancel() {
-		PageReference pg = new PageReference('/'+pricingProgramId);
-		pg.setRedirect(true);
-		return pg;
-	}
-	*/
 }

@@ -22,6 +22,8 @@ public class ToroPriceProgramFactory {
 	}
 	
 	public static ToroPricingProgram getPricingProgramHelper(String pricingProgram) {
+		system.debug('getPricingProgramHelper=' + constPricingProgramKey);
+		system.debug('getPricingProgramHelperpricingProgram=' + pricingProgram);
 		Map<String, ToroPricingProgram> pricingProgramHelperMap = (Map<String, ToroPricingProgram>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramHelperCache.class, constPricingProgramKey);		
 		if(!pricingProgramHelperMap.containsKey(pricingProgram)) {
 			pricingProgram = 'defaultPricingProgram';
