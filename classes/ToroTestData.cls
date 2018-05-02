@@ -47,12 +47,14 @@ public with sharing class ToroTestData {
 		}
 		update customerAccount;
 		Test.loadData(Toro_PricingProgramHelperFactory__c.sObjectType, 'TestData_PP_Helper');
+		List<sObject> priceList          = Test.loadData(Revvy__MnPriceList__c.sObjectType, 'TestData_PP_PriceList');
 		List<sObject> pricingProgram     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
 		List<sObject> pricingProgramChildren     = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_ChildPricingProgram');
 		List<sObject> eligilibility      = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
 		List<sObject> pricingProgramLine = Test.loadData(Revvy__MnStrategy2__c.sObjectType, 'TestData_PP_PricingProgramLine');
-		List<sObject> priceList          = Test.loadData(Revvy__MnPriceList__c.sObjectType, 'TestData_PP_PriceList');
+		
 		List<sObject> products           = Test.loadData(Revvy__MnCatalogNode__c.sObjectType, 'TestData_PP_CatalogNode');
+		Test.loadData(Revvy__MnPriceListLine__c.sObjectType, 'TestData_PP_PriceListLine');
     }
 
 	/**
