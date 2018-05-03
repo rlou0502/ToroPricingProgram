@@ -92,9 +92,11 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 							qi.Toro_Gross_Profit_Percent__c = line.Distributor_Margin__c;
 							qi.Toro_Gross_Profit_Value__c = qi.award_price__c * qi.Toro_Gross_Profit_Percent__c/100;
 							system.debug('qi.Toro_Gross_Profit_Percent__c =' + qi.Toro_Gross_Profit_Percent__c);
-							system.debug('qi.award price =' + qi.award_price__c + ' msrp =' + qi.msrp_price__c );
 							
-							decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
+							
+							//decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
+							decimal rebate = qi.DNET_Price__c - qi.award_price__c + qi.Toro_Gross_Profit_Value__c;
+							system.debug('qi.award price =' + qi.award_price__c + ' msrp =' + qi.msrp_price__c + ' qi.Toro_Gross_Profit_Value__c =' + qi.Toro_Gross_Profit_Value__c + ' rebate='+ rebate );
 							qi.Rebate_as_a_of_DN__c = rebate / qi.DNET_Price__c * 100;
 							system.debug('qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
 						}
