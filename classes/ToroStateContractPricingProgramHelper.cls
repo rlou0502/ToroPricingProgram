@@ -99,6 +99,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 							system.debug('qi.award price =' + qi.award_price__c + ' msrp =' + qi.msrp_price__c + ' qi.Toro_Gross_Profit_Value__c =' + qi.Toro_Gross_Profit_Value__c + ' rebate='+ rebate );
 							qi.Rebate_as_a_of_DN__c = rebate / qi.DNET_Price__c * 100;
 							system.debug('qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
+							qi.DrivenByGP__c = true;
 						}
 					} else if(qi.Rebate_as_a_of_DN__c == null && line.Rebate_as_a_Percent_of_DN__c != null) {
 						qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;

@@ -270,10 +270,13 @@ public abstract class ToroPricingProgram {
 			qi.Toro_Rebate__c = qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 			
 			decimal extRebate = qi.Toro_Rebate__c;
-			qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c - qi.Extended_DNet_Price__c + qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
-			if(qi.Extended_Award_Price__c != null && qi.Extended_Award_Price__c != 0) {
-				qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/qi.Extended_Award_Price__c*100;
+			if(!qi.DrivenByGP__c) {
+				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c - qi.Extended_DNet_Price__c + qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
+				if(qi.Extended_Award_Price__c != null && qi.Extended_Award_Price__c != 0) {
+					qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/qi.Extended_Award_Price__c*100;
+				}	
 			}
+			
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				decimal qisRollupTPPAppliedDNet = 0;
 				decimal qisRollupToroDNet = 0;
@@ -308,9 +311,13 @@ public abstract class ToroPricingProgram {
 					}
 					
 					if(!qis.Exclude_from_Rebate__c) {
-						qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
-						if(qis.Extended_Award_Price__c != 0) {
-							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;
+						if(!qi.DrivenByGP__c) {
+							qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
+							if(qis.Extended_Award_Price__c != 0) {
+								qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;
+							}
+						} else {
+							qis.Gross_Profit_Value__c = qis.Gross_Profit_Percent__c/100*qis.Extended_Award_Price__c;	
 						}
 						qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 						extRebate += qis.Toro_Subline_Rebate__c;
