@@ -84,7 +84,23 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					//qi.Original_Award_Price__c = qi.Award_Price__c ;
 					qi.Original_Award_Price__c = qi.MSRP_Price__c*(1-qi.Selected_Off_MSRP__c/100);
 					system.debug(logginglevel.info,'qi.Original_Award_Price__c =' + qi.Original_Award_Price__c );
+					system.debug(logginglevel.info,'line.Rebate_as_a_Percent_of_DN__c =' + line.Rebate_as_a_Percent_of_DN__c );
+					system.debug(logginglevel.info,'qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c );
 					qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;	
+					if(qi.Rebate_as_a_of_DN__c == null && line.Rebate_as_a_Percent_of_DN__c == null) {
+						if(line.Distributor_Margin__c != null && qi.DNET_Price__c != null && qi.DNET_Price__c != 0) {
+							qi.Toro_Gross_Profit_Percent__c = line.Distributor_Margin__c;
+							qi.Toro_Gross_Profit_Value__c = qi.award_price__c * qi.Toro_Gross_Profit_Percent__c/100;
+							system.debug('qi.Toro_Gross_Profit_Percent__c =' + qi.Toro_Gross_Profit_Percent__c);
+							system.debug('qi.award price =' + qi.award_price__c + ' msrp =' + qi.msrp_price__c );
+							
+							decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
+							qi.Rebate_as_a_of_DN__c = rebate / qi.DNET_Price__c * 100;
+							system.debug('qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
+						}
+					} else if(qi.Rebate_as_a_of_DN__c == null && line.Rebate_as_a_Percent_of_DN__c != null) {
+						qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;
+					}
 				}
 				if(excludedFromMSRP(qi)) {
 					qi.Off_MSRP__c = 0;	
