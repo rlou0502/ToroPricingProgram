@@ -50,6 +50,9 @@ public with sharing class ToroSupportPlusData {
 			// get the quote and dist resps.
 			// ============================================================================
 			REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
+
+			final String pricingProgramExtId = quote.Pricing_Program_Type__c.split(';')[0];
+
 			Decimal defaultDistRespValue = 50.0;
 			Set<Decimal> distRespValueSet = new Set<Decimal>();
 			for (Support_Plus_Contribution__c contrib : getSupportPlusContributions()) {
