@@ -36,6 +36,7 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 		qtyTiers.sort();
 		decimal minQty = qtyTiers[0].minQty;
 		decimal maxQty = qtyTiers[qtyTiers.size()-1].maxQty;
+		system.debug('tier : ' + qtyTiers + ' minQty:' + minQty + ' maxQty:' + maxQty);
 		Revvy__MnStrategy2__c line = null;
 		if(numOfTractionUnits <= minQty)  {
 			line = qtyTiers[0].ppl;	
