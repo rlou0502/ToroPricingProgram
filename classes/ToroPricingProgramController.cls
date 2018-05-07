@@ -219,7 +219,7 @@ public class ToroPricingProgramController {
     	rs.chainCall = pp.chainCall;
     	rs.payload = pp.payloadOfChainCall;
     	rs.displaySetupFee=pp.displaySetupFee();
-    	
+    	rs.secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
     	return rs;	
     }
   
@@ -722,7 +722,7 @@ public class ToroPricingProgramController {
     public static ToroSObjectResultSet getQuoteItemFields(String pricingProgram, String pricingMethod, ID objId) {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
     	rs.result=true;
-    	system.debug('***************** getQuoteItemFields' );  	
+    	system.debug(logginglevel.info, '***************** getQuoteItemFields pricingProgram=' +  pricingProgram);  	
     	Id quoteId = objId;
     	if(quoteId == null) {
     		quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);		
@@ -736,7 +736,9 @@ public class ToroPricingProgramController {
     		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 	    	rs.selectedPricingProgram = pricingProgram; 
 	    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+	    	rs.secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
     	} 
+    	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
     	pp.initialize(objId);
     	
     	Revvy__MnQuote__c q = pp.quote;
@@ -765,6 +767,7 @@ public class ToroPricingProgramController {
     		
     	rs.displaySetupFee=pp.displaySetupFee();
     	rs.values =  pp.quoteItems;
+    	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
     	return rs;
     }  
     

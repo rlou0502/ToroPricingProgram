@@ -483,11 +483,11 @@
             pricingMethod: pricingMethod,
             objId: quoteId
         });
-        
 		getAction.setCallback(this, 
 	        function(response) {
 	            var state = response.getState();
 	            if (component.isValid() && state === "SUCCESS") {  
+	            	debugger;
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
                     if(retResponse.nextAction == "calculation") {
@@ -582,7 +582,6 @@
         getAction.setCallback(this, 
 	        function(response) {
                 var retResponse = response.getReturnValue();
-                debugger;
                 if(retResponse.nextAction == "calculation") {
                 	var cmpEvent = component.getEvent("calculateEvent");   
                     cmpEvent.fire();
@@ -846,6 +845,7 @@
                     var retResponse = response.getReturnValue();
                     var retRecords = retResponse.values;
                     var fields = retResponse.fieldSetMembers;
+                    debugger;
                     component.set('v.fields', fields);
                     component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);

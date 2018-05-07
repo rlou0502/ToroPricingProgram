@@ -110,6 +110,7 @@ public abstract class ToroPricingProgram {
 	}
 
 	public virtual Map<String, Object >retrieveSecondaryPrograms(String pricingProgramExtId) {
+		system.debug('pricingProgramExtId = ' + pricingProgramExtId);
 		Map<String, Object > result = null;
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(pricingProgramExtId);	
 		if(String.isNotBlank(pricingProgram.SecondaryProgram__c)) {
@@ -131,6 +132,7 @@ public abstract class ToroPricingProgram {
 				result.put(pp.ExternalId__c, pp.Name);
 			}	
 		}
+		system.debug('retrieveSecondaryPrograms = ' + result);
 		return result;
 	}
 	
