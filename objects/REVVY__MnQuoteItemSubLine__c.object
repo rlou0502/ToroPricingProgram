@@ -137,18 +137,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Quote_Item_Sub_Line_Extension__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Quote Item Sub Line Extension</label>
-        <referenceTo>Toro_QuoteItem_SubLine__c</referenceTo>
-        <relationshipLabel>Quote Item Sub Line</relationshipLabel>
-        <relationshipName>Quote_Item_Sub_Line</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>Standard_Price__c</fullName>
         <externalId>false</externalId>
         <label>Standard Price</label>

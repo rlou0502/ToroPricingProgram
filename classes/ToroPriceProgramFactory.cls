@@ -21,7 +21,7 @@ public class ToroPriceProgramFactory {
 		Cache.Org.getPartition(ToroCacheManager.constPartitionName).remove(ToroPricingProgramHelperCache.class, constPricingProgramKey);
 	}
 	
-	public static ToroPricingProgram getPricingProgramHelper(String pricingProgram) {
+	public static ToroPricingProgram getPricingProgramHelperInstance(String pricingProgram) {
 		system.debug('getPricingProgramHelper=' + constPricingProgramKey);
 		system.debug('getPricingProgramHelperpricingProgram=' + pricingProgram);
 		Map<String, ToroPricingProgram> pricingProgramHelperMap = (Map<String, ToroPricingProgram>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramHelperCache.class, constPricingProgramKey);		
@@ -29,6 +29,11 @@ public class ToroPriceProgramFactory {
 			pricingProgram = 'defaultPricingProgram';
 		}
 		return (ToroPricingProgram) pricingProgramHelperMap.get(pricingProgram);
+	}
+	
+	public static ToroPricingProgram getPricingProgramHelper(String pricingProgram)  {
+		Toro_PricingProgramHelperFactory__c ppf = Toro_PricingProgramHelperFactory__c.getInstance(pricingProgram);	
+		return ToroPriceProgramFactory.newPricingProgramInstance(ppf.ClassName__c);
 	}
     
 }

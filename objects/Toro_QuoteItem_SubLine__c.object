@@ -77,101 +77,6 @@
         <label>DNet Field Set</label>
     </fieldSets>
     <fieldSets>
-        <fullName>GSA_Quote_SubLine_Cols</fullName>
-        <description>Used for GSA corporate and base contracts.</description>
-        <displayedFields>
-            <field>Product_Id__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Product_Name__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Extended_Qty__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>MSRP_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Extended_MSRP_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>DNet_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Extended_DNet_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Award_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Extended_Award_Price__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Apply_Support_Plus__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Performance_Part__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Gross_Profit_Percent__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Percent_Off_MSRP__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Percent_of_DNet__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Toro_Subline_Rebate__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Rebate_as_of_DNet__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Gross_Profit_Value__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <label>GSA Quote SubLine Cols</label>
-    </fieldSets>
-    <fieldSets>
         <fullName>Large_Package_Price_Program_Quote_SubLin</fullName>
         <description>Pricing Program</description>
         <displayedFields>
@@ -864,7 +769,6 @@
         <externalId>false</externalId>
         <label>Product</label>
         <referenceTo>REVVY__MnCatalogNode__c</referenceTo>
-        <relationshipLabel>Toro Quote Item Sub Lines</relationshipLabel>
         <relationshipName>Toro_Quote_Item_Sub_Lines</relationshipName>
         <relationshipOrder>1</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
@@ -890,7 +794,6 @@
         <externalId>false</externalId>
         <label>Quote Item Sub Line</label>
         <referenceTo>REVVY__MnQuoteItemSubLine__c</referenceTo>
-        <relationshipLabel>Toro Quote Item Sub Lines</relationshipLabel>
         <relationshipName>Toro_Quote_Item_Sub_Lines</relationshipName>
         <relationshipOrder>0</relationshipOrder>
         <reparentableMasterDetail>false</reparentableMasterDetail>
@@ -1017,7 +920,6 @@
         <externalId>false</externalId>
         <label>Quote Item</label>
         <referenceTo>Toro_QuoteItem__c</referenceTo>
-        <relationshipLabel>Toro Quote Item Sub Lines</relationshipLabel>
         <relationshipName>Toro_Quote_Item_Sub_Lines</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -1050,7 +952,7 @@
     </listViews>
     <nameField>
         <displayFormat>TQS-{00000}</displayFormat>
-        <label>Toro Quote Item Sub Line Name</label>
+        <label>Toro Quote Item Sub Line Name OLD</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Toro Quote Item Sub Lines OLD</pluralLabel>
