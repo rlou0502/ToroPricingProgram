@@ -111,13 +111,10 @@ public abstract class ToroPricingProgram {
 
 	public virtual Map<String, Object >retrieveSecondaryPrograms(String pricingProgramExtId) {
 		Map<String, Object > result = null;
-		system.debug('pricingProgramExtId =' + pricingProgramExtId);
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(pricingProgramExtId);	
-		system.debug('pricingProgram =' + pricingProgram);
 		if(String.isNotBlank(pricingProgram.SecondaryProgram__c)) {
 			result = new Map<String, Object >{pricingProgramExtId=>pricingProgram.Name};
 			String[] pps = pricingProgram.SecondaryProgram__c.split(';');	
-			system.debug('retrieveSecondaryPrograms pps =' + pps);
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
 					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps order by Sequence__c ];
 			for(Revvy__MnStrategy1__c pp : rebates) {

@@ -55,7 +55,7 @@ public with sharing class ToroSupportPlusData {
 
 			Decimal defaultDistRespValue = 50.0;
 			Set<Decimal> distRespValueSet = new Set<Decimal>();
-			for (Support_Plus_Contribution__c contrib : getSupportPlusContributions()) {
+			for (Support_Plus_Contribution__c contrib : getSupportPlusContributions(pricingProgramExtId)) {
 				distRespValueSet.add(contrib.Distributor_Contribution__c);
 				if (
 					quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
@@ -139,7 +139,7 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	private static List<Support_Plus_Contribution__c> getSupportPlusContributions() {
+	private static List<Support_Plus_Contribution__c> getSupportPlusContributions(Id pricingProgramExtId) {
 		return [
 			SELECT
 				Award_Price_Low__c
@@ -148,6 +148,8 @@ public with sharing class ToroSupportPlusData {
 				, Distributor_Contribution__c
 			FROM
 				Support_Plus_Contribution__c
+			WHERE
+				Pricing_Program__r.ExternalId__c = :pricingProgramExtId
 			ORDER BY
 				Award_Price_Low__c asc
 		];

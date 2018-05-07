@@ -41,4 +41,6 @@ public with sharing class ToroSObjectResultSet {
     public boolean listenMSRPChange { get;set; }
     @AuraEnabled
     public boolean allowSupportPlus { get;set; }
+    @AuraEnabled
+    public Map<String, Object> secondaryPrograms { get;set; }
 }
