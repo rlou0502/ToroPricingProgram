@@ -109,7 +109,34 @@ public abstract class ToroPricingProgram {
 		return ret;
 	}
 
-
+	public virtual Map<String, Object >retrieveSecondaryPrograms(String pricingProgramExtId) {
+		Map<String, Object > result = null;
+		system.debug('pricingProgramExtId =' + pricingProgramExtId);
+		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(pricingProgramExtId);	
+		system.debug('pricingProgram =' + pricingProgram);
+		if(String.isNotBlank(pricingProgram.SecondaryProgram__c)) {
+			result = new Map<String, Object >{pricingProgramExtId=>pricingProgramExtId};
+			String[] pps = pricingProgram.SecondaryProgram__c.split(';');	
+			system.debug('retrieveSecondaryPrograms pps =' + pps);
+			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
+					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps order by Sequence__c ];
+			for(Revvy__MnStrategy1__c pp : rebates) {
+				if(!result.containsKey(pp.Parent_Program__r.ExternalId__c)) {
+					result.put(pp.Parent_Program__r.ExternalId__c, new Map<String, String>());	
+				}
+				Map<String, String> ppOptions = (Map<String, String>) result.get(pp.Parent_Program__r.ExternalId__c);
+				ppOptions.put(pp.ExternalId__c, pp.Name);
+			}
+		} else {
+			List<Revvy__MnStrategy1__c> rebates = [Select Id, ExternalId__c, Name, Parent_Program__r.ExternalId__c
+					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c = :pricingProgramExtId order by Sequence__c];
+			for(Revvy__MnStrategy1__c pp : rebates) {
+				result.put(pp.ExternalId__c, pp.Name);
+			}	
+		}
+		return result;
+	}
+	
 	public virtual boolean displayPerformancePart() {
 		return false;
 	}
