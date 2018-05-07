@@ -487,7 +487,6 @@
 	        function(response) {
 	            var state = response.getState();
 	            if (component.isValid() && state === "SUCCESS") {  
-	            	debugger;
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
                     if(retResponse.nextAction == "calculation") {
@@ -852,6 +851,8 @@
                     component.set('v.quoteItems', retRecords);
                     component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
                     component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
+                    component.set('v.secondaryPrograms', retResponse.secondaryPrograms);
+                    
                      var cmpEvent = component.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
                             "quote" : retResponse.quote

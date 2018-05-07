@@ -15,6 +15,7 @@
     <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
     <aura:attribute name="listenMSRPChange" type="Boolean" default="false" />
     <aura:attribute name="demoPricingProgramOptions" type="List"/>
+    <aura:attribute name="secondaryPrograms" type="Map"/>
     <aura:registerEvent name="refreshInfoBoxEvent" type="c:RefreshInfoBoxEvent"/>
     <aura:registerEvent name="calculationCompleteEvent" type="c:ToroCalculationCompleteEvent"/>
     <aura:registerEvent name="calculateEvent" type="c:ToroCalculateEvent"/>
