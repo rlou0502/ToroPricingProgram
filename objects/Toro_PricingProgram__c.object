@@ -496,15 +496,4 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     <pluralLabel>Toro Pricing Programs OLD</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
-    <webLinks>
-        <fullName>Select_Applicable_Product</fullName>
-        <availability>online</availability>
-        <displayType>button</displayType>
-        <height>600</height>
-        <linkType>page</linkType>
-        <masterLabel>Select Applicable Products</masterLabel>
-        <openType>noSidebar</openType>
-        <page>ToroPricingProgramSelector</page>
-        <protected>false</protected>
-    </webLinks>
 </CustomObject>

@@ -115,7 +115,7 @@ public abstract class ToroPricingProgram {
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(pricingProgramExtId);	
 		system.debug('pricingProgram =' + pricingProgram);
 		if(String.isNotBlank(pricingProgram.SecondaryProgram__c)) {
-			result = new Map<String, Object >{pricingProgramExtId=>pricingProgramExtId};
+			result = new Map<String, Object >{pricingProgramExtId=>pricingProgram.Name};
 			String[] pps = pricingProgram.SecondaryProgram__c.split(';');	
 			system.debug('retrieveSecondaryPrograms pps =' + pps);
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
