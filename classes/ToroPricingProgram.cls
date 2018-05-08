@@ -1,4 +1,4 @@
-public abstract class ToroPricingProgram { 
+public abstract class ToroPricingProgram {
 	public Revvy__MnQuote__c quote { get; set; }
 	public List<Revvy__MnStrategy4__c> quoteItems { get; set; }
 	public boolean performancePartFlag { get; set { performancePartFlag = value; if(quote != null) {quote.Performance_Part__c=value;}}}
@@ -9,7 +9,7 @@ public abstract class ToroPricingProgram {
 	}
 	public boolean getAllowSupportPlus(String pricingProgram) {
 		if(String.isBlank(pricingProgram)) {
-			return false;	
+			return false;
 		}
 		system.debug('getAllowSupportPlus pricingProgram=' + pricingProgram);
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
@@ -112,15 +112,15 @@ public abstract class ToroPricingProgram {
 	public virtual Map<String, Object >retrieveSecondaryPrograms(String pricingProgramExtId) {
 		system.debug('pricingProgramExtId = ' + pricingProgramExtId);
 		Map<String, Object > result = null;
-		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(pricingProgramExtId);	
+		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(pricingProgramExtId);
 		if(String.isNotBlank(pricingProgram.SecondaryProgram__c)) {
 			result = new Map<String, Object >{pricingProgramExtId=>pricingProgram.Name};
-			String[] pps = pricingProgram.SecondaryProgram__c.split(';');	
+			String[] pps = pricingProgram.SecondaryProgram__c.split(';');
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
 					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps order by Sequence__c ];
 			for(Revvy__MnStrategy1__c pp : rebates) {
 				if(!result.containsKey(pp.Parent_Program__r.ExternalId__c)) {
-					result.put(pp.Parent_Program__r.ExternalId__c, new Map<String, String>());	
+					result.put(pp.Parent_Program__r.ExternalId__c, new Map<String, String>());
 				}
 				Map<String, String> ppOptions = (Map<String, String>) result.get(pp.Parent_Program__r.ExternalId__c);
 				ppOptions.put(pp.ExternalId__c, pp.Name);
@@ -131,17 +131,21 @@ public abstract class ToroPricingProgram {
 			result = new Map<String, Object >();
 			for(Revvy__MnStrategy1__c pp : rebates) {
 				result.put(pp.ExternalId__c, pp.Name);
-			}	
+			}
 		}
 		system.debug('retrieveSecondaryPrograms = ' + result);
 		return result;
 	}
-	
+
 	public virtual boolean displayPerformancePart() {
 		return false;
 	}
 	public virtual boolean displaySetupFee() {
 		return false;
+	}
+
+	public virtual String displayContractMessage() {
+		return 'displaycontractMessage';
 	}
 
 	public virtual List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
@@ -159,7 +163,7 @@ public abstract class ToroPricingProgram {
 	@future
 	public static void deleteSetupFee(Set<Id> toroQIList, Set<Id> QIList) {
 		delete [Select Id From Revvy__MnStrategy4__c where Id in :toroQIList];
-		delete [Select Id From REVVY__MnQuoteItem__c where Id in :QIList];	
+		delete [Select Id From REVVY__MnQuoteItem__c where Id in :QIList];
 	}
 	public virtual List<Revvy__MnStrategy4__c> calculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList, boolean save ){
@@ -176,15 +180,15 @@ public abstract class ToroPricingProgram {
 					deleteSetupFeeLineItemId.add(qi.Id);
 					deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
 					itemsToDelete.add(index);
-					
+
 				}
 				index++;
 			}
 			if(itemsToDelete.size() != 0) {
 				for(Integer i=itemsToDelete.size()-1 ; i >= 0; i--) {
-					quoteItemList.remove(itemsToDelete[i]);	
+					quoteItemList.remove(itemsToDelete[i]);
 				}
-				
+
 			}
 			if(deleteSetupFeeLineItemId.size() > 0) {
 				deleteSetupFee(deleteSetupFeeLineItemId, deleteSetupFeeLineItemId);
@@ -193,8 +197,8 @@ public abstract class ToroPricingProgram {
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl quoteId =' + quoteId + ' -- priceProgram' + priceProgram);
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl priceMethod =' + priceMethod + ' -- ' + quoteItemList);
-		List<Revvy__MnStrategy4__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);		
-		
+		List<Revvy__MnStrategy4__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
+
 		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
@@ -271,9 +275,9 @@ public abstract class ToroPricingProgram {
 			qi.Total_Toro_DNET__c=CMnQuoteUtil.defaultDecimal(qi.Total_Toro_DNET__c);
 			qi.Total_DNET__c=CMnQuoteUtil.defaultDecimal(qi.Total_DNET__c);
 			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c );
-			
+
 			if(!excludeTPPAllied(qi)) {
-				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;	
+				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 				qiToroMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
 				qiToroAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
 				qi.Extended_Award_Price__c = qiToroAward;
@@ -289,21 +293,21 @@ public abstract class ToroPricingProgram {
 			}
 			qiTotalDNet = qiToroDNet + qiTPPAppliedDNet;
 			qiTotalMSRP = qiToroMSRP + qiTPPAppliedMSRP;
-			qiTotalAward = qiToroAward + qiTPPAppliedAward; 		
+			qiTotalAward = qiToroAward + qiTPPAppliedAward;
 			qi.Total_Award__c = qiTotalAward;
-			
+
 			qi.Toro_Fee_Amount__c = CMnQuoteUtil.defaultDecimal(qi.Extended_Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100;
 			decimal extFeeAmount = qi.Toro_Fee_Amount__c;
 			qi.Toro_Rebate__c = qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
-			
+
 			decimal extRebate = qi.Toro_Rebate__c;
 			if(!qi.DrivenByGP__c) {
 				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c - qi.Extended_DNet_Price__c + qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 				if(qi.Extended_Award_Price__c != null && qi.Extended_Award_Price__c != 0) {
 					qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/qi.Extended_Award_Price__c*100;
-				}	
+				}
 			}
-			
+
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				decimal qisRollupTPPAppliedDNet = 0;
 				decimal qisRollupToroDNet = 0;
@@ -321,7 +325,7 @@ public abstract class ToroPricingProgram {
 					qis.TPP_DNet__c = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
 					qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c);
 					if(!qis.Exclude_from_Rebate__c) {
-						qisRollupToroDNet += qis.DNet_Price__c * extQty;	
+						qisRollupToroDNet += qis.DNet_Price__c * extQty;
 						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
 						qisRollupToroAward += qis.Award_Price__c * extQty;
 						qis.Extended_MSRP_Price__c = qis.MSRP_Price__c * extQty;
@@ -336,7 +340,7 @@ public abstract class ToroPricingProgram {
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;
 						qis.Extended_DNet_Price__c = qis.TPP_DNet__c * extQty;
 					}
-					
+
 					if(!qis.Exclude_from_Rebate__c) {
 						if(!qi.DrivenByGP__c) {
 							qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
@@ -344,28 +348,28 @@ public abstract class ToroPricingProgram {
 								qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;
 							}
 						} else {
-							qis.Gross_Profit_Value__c = qis.Gross_Profit_Percent__c/100*qis.Extended_Award_Price__c;	
+							qis.Gross_Profit_Value__c = qis.Gross_Profit_Percent__c/100*qis.Extended_Award_Price__c;
 						}
 						qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 						extRebate += qis.Toro_Subline_Rebate__c;
 						//qis.Toro_Extended_Award_Price__c = subExtAward;
 						qis.Toro_Fee_Amount__c = qis.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
 						extFeeAmount += qis.Toro_Fee_Amount__c;
-						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);							
+						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
-					} 
+					}
 					qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward;
 					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
-					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward; 
+					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
 					system.debug('check total award for each qi -- 1 qi.Total_Toro_Award__c= ' + qi.Total_Toro_Award__c + ' qiTPPAppliedAward='+qiTPPAppliedAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_MSRP__c = qiTotalMSRP + qisRollupToroMSRP+ qisRollupTPPAppliedMSRP;
-					qi.Total_Toro_MSRP__c = qi.Total_MSRP__c - qisRollupTPPAppliedMSRP - qiTPPAppliedMSRP; 
+					qi.Total_Toro_MSRP__c = qi.Total_MSRP__c - qisRollupTPPAppliedMSRP - qiTPPAppliedMSRP;
 					qi.Total_DNET__c = qiTotalDNET + qisRollupToroDNET+ qisRollupTPPAppliedDNET;
-					qi.Total_Toro_DNET__c = qi.Total_DNET__c - qisRollupTPPAppliedDNET - qiTPPAppliedDNET; 
+					qi.Total_Toro_DNET__c = qi.Total_DNET__c - qisRollupTPPAppliedDNET - qiTPPAppliedDNET;
 				}
 			}
-			
-			
+
+
 			qi.Toro_Total_Setup_Fees__c = extFeeAmount;
 			qi.Toro_Total_Rebate__c = extRebate;
 			//qi.Toro_Total_Extended_Award_Price__c = extAward;
@@ -379,12 +383,12 @@ public abstract class ToroPricingProgram {
 				qi.Toro_Blend_Of_DN__c = qi.Total_Toro_Award__c/qi.Total_Toro_DNET__c*100;
 				qi.Blended_Rebate__c = qi.Toro_Total_Rebate__c/qi.Total_Toro_DNET__c*100;
 			}
-			
+
 			qi.Total_Gross_Profit_Value__c = qi.Total_Toro_Award__c - qi.Total_Toro_DNET__c + qi.Toro_Total_Rebate__c;
 			if(qi.Total_Toro_Award__c != 0) {
 				qi.Blended_GP__c = qi.Total_Gross_Profit_Value__c/qi.Total_Toro_Award__c*100;
 			}
-			
+
 			//system.debug('checking MSRP ext qi.Toro_Total_Extended_MSRP_Price__c=' + qi.Toro_Total_Extended_MSRP_Price__c);
 			system.debug('check total award for each qi -- 1 quoteTotalAward= ' + quoteTotalAward + ' quoteTotalToroAward='+quoteTotalToroAward);
 			quoteTotalAward       		+= qi.Total_Award__c;
@@ -418,7 +422,7 @@ public abstract class ToroPricingProgram {
 		if(quote.Toro_Rollup_Award_Price__c != null && quote.Toro_Rollup_Award_Price__c != 0) {
 			quote.Toro_Total_Quote_Gross_Profit_Percent__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Quote_Gross_Profit__c) / quote.Toro_Rollup_Award_Price__c *100;
 		}
-		
+
 		System.debug('\n\n@@quote: ' + quote + '\n\n');
 		return quoteItemList;
 	}
@@ -515,7 +519,7 @@ public abstract class ToroPricingProgram {
 			update updateQuoteItemSublines;
 		}
 		update quote;
-		
+
 		return quoteItemList;
 	}
 
@@ -579,14 +583,14 @@ public abstract class ToroPricingProgram {
 	public virtual boolean getQuoteLevelMSQPDNetEditable() {
 		return true;
 	}
-	
+
 	public virtual boolean excludeTPPAllied(Revvy__MnStrategy4__c qi) {
 		boolean ret = false;
 		String productId = qi.Product_Id__c;
 		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
 			ret = true;
 		}
-		return ret;	
+		return ret;
 	}
 	public virtual boolean excludeTPPAllied(Revvy__MnStrategy5__c qis) {
 		boolean ret = false;
@@ -594,7 +598,7 @@ public abstract class ToroPricingProgram {
 		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
 			ret = true;
 		}
-		return ret;	
+		return ret;
 	}
 	public virtual boolean excludedFromMSRP(Revvy__MnStrategy4__c qi) {
 		boolean ret = false;

@@ -52,6 +52,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			//Performance Part
 
 			for(Revvy__MnStrategy4__c qi : quoteItemList) {
+				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper pricing program ='+qi.pricing_program__c  );
 				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Revvy__MnStrategy4__c 222 performancePartFlag='+performancePartFlag  );
 				ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap, priceMethod);
 					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
@@ -79,6 +80,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		
 		helper.quoteItemList = quoteItemList;
 		helper.quote=this.quote;
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			helper.addPricingProgramExtId(qi.pricing_program__c);	
+		}
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
 			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
 			quoteItemList = helper.quoteItemList;

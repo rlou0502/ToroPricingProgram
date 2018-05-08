@@ -270,7 +270,7 @@
         var target = document.getElementById(selectedQuoteItem);
     	target.parentNode.insertBefore(tableRow, target.nextSibling );
     },
-    renderQuoteItemPricingProgramSection : function(component, fields, selectedQuoteItem) {
+    renderQuoteItemPricingProgramSection : function(component, quoteItem, fields, selectedQuoteItem) {
     	//console.log('fields.length=' + fields.length); 
     	
         var quoteItem = component.get('v.quoteItemMap')[selectedQuoteItem];
@@ -319,6 +319,7 @@
                 }
             }, false);    
         var secondaryPrograms = component.get('v.secondaryPrograms');
+        var selectedPricingProgram = quoteItem['Pricing_Program__c'];
         debugger;
         for(var k=0; k <secondaryProgramKeys.length; k++ ) {
             var key = secondaryProgramKeys[k];
@@ -327,6 +328,10 @@
             	var option1 = document.createElement("option");
         		option1.value = key;
     			option1.text = spVal;
+                option1.selected = false;
+                if(selectedPricingProgram == option1.value) {
+                    option1.selected = true;
+                }
             	pricingProgramSelect.appendChild(option1);	    
             } else if(typeof spVal == "object") {
             	var optionGroup = document.createElement("optgroup");
@@ -335,6 +340,10 @@
                 	var opt = document.createElement('option');
                     opt.text = spVal[prop];
                     opt.value = prop;
+                    opt.selected = false;
+                    if(selectedPricingProgram == opt.value) {
+                        opt.selected = true;
+                    }
                     optionGroup.appendChild(opt);
                 }
                 pricingProgramSelect.appendChild(optionGroup);
@@ -455,7 +464,7 @@
             	self.populateQuoteItemSubLine(component, sublines, fields, sublineFields, qiId); 
             }
             self.renderQuoteItemSummarySection(component, s, fields, summaryFields, qiId);
-            self.renderQuoteItemPricingProgramSection(component, fields, qiId); 
+            self.renderQuoteItemPricingProgramSection(component, s, fields, qiId); 
             var nodeList = document.getElementsByClassName("collapsible");
             var collapsibles = component.get('v.collapsibles');
             for(var index=0; index < nodeList.length; index++ ) {

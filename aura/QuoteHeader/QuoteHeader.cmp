@@ -55,9 +55,8 @@
                      </aura:iteration>
                 </ui:inputSelect>
                 </div>
-                <div>{!v.contractMessage}</div>
             </td>
-
+            <div>{!v.contractMessage}</div>
             <td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Pricing Methods</div>
                 <div>

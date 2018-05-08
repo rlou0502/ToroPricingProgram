@@ -21,7 +21,7 @@
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
-                    component.set('v.contractMessage', 'scotttest');
+                    component.set('v.contractMessage', retResponse.contractMessage);
 
                     var selectedProgram = component.find("pricingProgram").get("v.value");
                     var selectedMethod = component.find("pricingMethod").get("v.value");
