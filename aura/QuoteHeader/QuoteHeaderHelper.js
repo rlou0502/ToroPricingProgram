@@ -65,6 +65,7 @@
                     component.set('v.quote', retRecords[0]);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
+                    component.set('v.contractMessage', retResponse.contractMessage);
 
                     var selectedProgram = component.get("v.selectedPricingProgram");
                     var selectedMethod = component.find("v.selectedPricingMethod");

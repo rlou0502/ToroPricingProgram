@@ -37,7 +37,7 @@ public class ToroPricingProgramController {
 		system.debug('rs.allowSupportPlus=' + rs.allowSupportPlus);
 		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.displaySetupFee=pp.displaySetupFee();
-		rs.contractMessage = pp.displayContractMessage();
+		rs.contractMessage = pp.displayContractMessage(pricingProgram);
     	return rs;
     }
 
@@ -572,6 +572,7 @@ public class ToroPricingProgramController {
     	system.debug(logginglevel.info,'pricingProgram=' + pricingProgram);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
     	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+		rs.contractMessage = pp.displayContractMessage(pricingProgram);
     	system.debug(logginglevel.info,'pricingProgram pp=' + pp);
     	List<Schema.FieldSetMember> fieldSet = pp.getQuoteFields();
     	if(!Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
