@@ -309,6 +309,9 @@
         var pricingProgramSelectDiv = document.createElement('div');
         dataRowCellPricingProgram.appendChild(pricingProgramSelectDiv);
         var pricingProgramSelect = document.createElement('select');
+        pricingProgramSelect.dataset.quoteitemid=selectedQuoteItem;
+        // pricingProgramSelect.addEventListener('change', function(event){ 
+        //                    this.dataset.overridden =true;}, false);    
         var secondaryPrograms = component.get('v.secondaryPrograms');
         debugger;
         for(var k=0; k <secondaryProgramKeys.length; k++ ) {
