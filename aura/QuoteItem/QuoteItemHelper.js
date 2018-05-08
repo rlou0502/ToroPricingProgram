@@ -276,15 +276,16 @@
         var quoteItem = component.get('v.quoteItemMap')[selectedQuoteItem];
         var pricingProgram = component.get('v.selectedPricingProgram'); //quoteItem["Pricing_Program__c"];
         console.log('-------------pricingProgram=' + pricingProgram);
-        if(!pricingProgram) {
+        var secondaryProgramKeys = component.get('v.secondaryProgramKeys');
+        if(!secondaryProgramKeys) {
             return;
         }
-        
+        /*
         var pps = pricingProgram.split(";");
         if(pps.length == 2 && pps[1] != "Large_Package") {           
             return;
         }
-        
+        */
         var tableRow = document.createElement('tr');
         tableRow.className += " noBorder collapsible "+selectedQuoteItem;
         tableRow.style.display="none";
@@ -303,27 +304,32 @@
         var cellTextPricingProgram = document.createElement('div');
         
         cellTextPricingProgram.className += ' slds-p-bottom_x-small';
-        cellTextPricingProgram.innerHTML = "PRICING PROGRAMS";
+        cellTextPricingProgram.innerHTML = "SECONDARY PROGRAMS";
         dataRowCellPricingProgram.appendChild(cellTextPricingProgram);
         var pricingProgramSelectDiv = document.createElement('div');
         dataRowCellPricingProgram.appendChild(pricingProgramSelectDiv);
         var pricingProgramSelect = document.createElement('select');
-        
-        var dempPPs = component.get('v.demoPricingProgramOptions');
-        var selectedPricingProgram = component.get('v.selectedPricingProgram');
-        if(selectedPricingProgram){
-        	var option1 = document.createElement("option");
-        	option1.value = selectedPricingProgram;
-    		option1.text = "Large Package";
-            pricingProgramSelect.appendChild(option1);
-        }
-        if(dempPPs){
-            for(var i=0; i <dempPPs.length; i++ ){
-            	var option = document.createElement("option");
-                option.value = dempPPs[i].value;
-                option.text = dempPPs[i].label;
-                pricingProgramSelect.appendChild(option);    
-            }    
+        var secondaryPrograms = component.get('v.secondaryPrograms');
+        debugger;
+        for(var k=0; k <secondaryProgramKeys.length; k++ ) {
+            var key = secondaryProgramKeys[k];
+        	var spVal = secondaryPrograms[key];
+            if(typeof spVal == "string" ) {
+            	var option1 = document.createElement("option");
+        		option1.value = key;
+    			option1.text = spVal;
+            	pricingProgramSelect.appendChild(option1);	    
+            } else if(typeof spVal == "object") {
+            	var optionGroup = document.createElement("optgroup");
+                optionGroup.label = key;
+                for (var prop in spVal) {
+                	var opt = document.createElement('option');
+                    opt.text = spVal[prop];
+                    opt.value = prop;
+                    optionGroup.appendChild(opt);
+                }
+                pricingProgramSelect.appendChild(optionGroup);
+            }
         }
         
         dataRow.appendChild(dataRowCellPricingProgram);
@@ -548,6 +554,8 @@
             component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
             component.set('v.selectedPricingProgram', retResponse.selectedPricingProgram);
             component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
+            component.set('v.secondaryPrograms', retResponse.secondaryPrograms);
+            component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
             var sublineMap = {};  
             var quoteItemMap={};
             retRecords.forEach(function(s) {

@@ -528,6 +528,17 @@ public class ToroPricingProgramController {
 	    			fss.label = rs.selectedPricingMethod;	
 	    		}	
 	    	}
+	    	List<String> spKeys = new List<String>();
+    	
+	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+	    	for(String key : secondaryPrograms.keyset()) {
+	    		spKeys.add(key);	
+	    	}
+	    	
+	    	if(spKeys.size() > 0) {
+	    		rs.secondaryPrograms = secondaryPrograms;
+	    		rs.secondaryProgramKeys = spKeys;
+	    	}
     	//}
     	
     	
