@@ -411,8 +411,10 @@ public with sharing class ToroPricingMethodHelper {
 	public ToroPricingMethodHelper convertGPPercentToDNetPercent() {
 		system.debug(logginglevel.info, 'convertGPPercentToDNetPercent--');
 		for(String ppExtId : pricingProgramExternalIds) {
-			if(!GPPercentMap.containsKey(ppExtId)) {
+			system.debug('convertGPPercentToDNetPercent ppExtId=' + ppExtId);
+			if(ppExtId != null && !GPPercentMap.containsKey(ppExtId)) {
 				Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(ppExtId);
+				system.debug('convertGPPercentToDNetPercent pp=' + pp);
 				List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
 			    Map<decimal, ToroPricingMethodData> gpp2PM = new Map<decimal, ToroPricingMethodData>();
 			    for(Revvy__MnStrategy2__c  ppl : pplList) {

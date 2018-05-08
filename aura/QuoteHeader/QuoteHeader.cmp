@@ -111,7 +111,7 @@
         <span class="slds-icon_container slds-icon-utility-user slds-m-right_x-small" title="Description of icon when needed">
 <lightning:icon iconName="action:info" size="x-small"/>
         </span>
-        <h2>{!v.contractMessage}</h2>
+        <h2 style="font-size:14px;">{!v.contractMessage}</h2>
         <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
             <span class="slds-assistive-text">Close</span>
         </button>

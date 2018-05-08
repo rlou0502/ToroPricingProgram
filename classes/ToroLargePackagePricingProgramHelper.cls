@@ -81,7 +81,9 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		helper.quoteItemList = quoteItemList;
 		helper.quote=this.quote;
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
-			helper.addPricingProgramExtId(qi.pricing_program__c);	
+			if(String.isNotBlank(qi.pricing_program__c)) {
+				helper.addPricingProgramExtId(qi.pricing_program__c);	
+			}
 		}
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
 			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
