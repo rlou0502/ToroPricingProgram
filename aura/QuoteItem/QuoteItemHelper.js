@@ -310,8 +310,14 @@
         dataRowCellPricingProgram.appendChild(pricingProgramSelectDiv);
         var pricingProgramSelect = document.createElement('select');
         pricingProgramSelect.dataset.quoteitemid=selectedQuoteItem;
-        // pricingProgramSelect.addEventListener('change', function(event){ 
-        //                    this.dataset.overridden =true;}, false);    
+        pricingProgramSelect.addEventListener('change', 
+        	function(event){ 
+            	var sfdcid = this.dataset.quoteitemid;
+                var qi = document.getElementById(sfdcid);
+                if(qi) {
+                    qi.dataset.pricingprogram = event.currentTarget.value;
+                }
+            }, false);    
         var secondaryPrograms = component.get('v.secondaryPrograms');
         debugger;
         for(var k=0; k <secondaryProgramKeys.length; k++ ) {
