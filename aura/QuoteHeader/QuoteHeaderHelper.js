@@ -8,20 +8,21 @@
             pricingProgram: pricingProgram,
             quoteId: quoteId
         });
-        getAction.setCallback(this, 
+        getAction.setCallback(this,
 	        function(response) {
                 console.log("set pricing Program " + Date.now());
 	            var state = response.getState();
-	            if (component.isValid() && state === "SUCCESS") {  
+	            if (component.isValid() && state === "SUCCESS") {
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
-	                
+
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
-					component.set('v.displayPerformancePart', retResponse.displayPerformancePart); 
+					component.set('v.displayPerformancePart', retResponse.displayPerformancePart);
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
-                    
+                    component.set('v.contractMessage', 'scotttest');
+
                     var selectedProgram = component.find("pricingProgram").get("v.value");
                     var selectedMethod = component.find("pricingMethod").get("v.value");
                     var allowSupportPlus = component.get("v.allowSupportPlus");
@@ -44,17 +45,17 @@
 	        pricingProgram: "",
 	        objId: quoteId
 	    });
-		getAction.setCallback(this, 
+		getAction.setCallback(this,
 	        function(response) {
 	            var state = response.getState();
 	            //console.log('ToroPricingProgramController getFormAction callback');
 	            //console.log("callback state: " + state);
-	            if (component.isValid() && state === "SUCCESS") {  
+	            if (component.isValid() && state === "SUCCESS") {
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
 	                var retRecords = retResponse.values;
 	                var fields = retResponse.fieldSetMembers;
-	                
+
 	                component.set('v.fields', fields);
                     component.set('v.pricingProgramOptions', retResponse.pricingProgramOptions);
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
@@ -64,7 +65,7 @@
                     component.set('v.quote', retRecords[0]);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
-                    
+
                     var selectedProgram = component.get("v.selectedPricingProgram");
                     var selectedMethod = component.find("v.selectedPricingMethod");
                     var allowSupportPlus = component.get("v.allowSupportPlus");
@@ -79,5 +80,5 @@
 	        }
 	    );
 		$A.enqueueAction(getAction);
-	}    
+	}
 })

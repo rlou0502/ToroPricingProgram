@@ -9,6 +9,7 @@
     <aura:attribute name="displayPerformancePart" type="Boolean"/>
     <aura:attribute name="displaySetupFee" type="Boolean"/>
     <aura:attribute name="allowSupportPlus" type="Boolean"/>
+    <aura:attribute name="contractMessage" type="String"/>
     <aura:registerEvent name="pricingProgramEvent" type="c:PricingProgramChangeEvent"/>
     <aura:registerEvent name="pricingMethodEvent" type="c:PricingMethodChangeEvent"/>
     <aura:registerEvent name="pricingProgramSetEvent" type="c:PricingProgramSetFromDBEvent"/>
@@ -40,7 +41,7 @@
 	<tbody id="quoteHeader">
     </tbody>
 	</table>
-	
+
     <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout slds-size--8-of-12">
 	<tbody >
         <tr class="slds-text-heading--label">
@@ -51,31 +52,32 @@
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingProgram}" />
                     <aura:iteration items="{!v.pricingProgramOptions}" var="item">
                         <ui:inputSelectOption text="{!item.value}" label="{!item.label}" value="{!item.value==v.selectedPricingProgram}"/>
-                     </aura:iteration>               
+                     </aura:iteration>
                 </ui:inputSelect>
                 </div>
+                <div>{!v.contractMessage}</div>
             </td>
-            
+
             <td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Pricing Methods</div>
                 <div>
                 <ui:inputSelect class="slds-select" aura:id="pricingMethod" value="{!v.selectedPricingMethod}" change="{!c.onPricingMethodSelectChange}"  >
-                    <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingMethod}" />                   
+                    <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingMethod}" />
                     <aura:iteration items="{!v.pricingMethodOptions}" var="item2">
                         <ui:inputSelectOption text="{!item2.value}" label="{!item2.label}" value="{!item2.value==v.selectedPricingMethod}"/>
-                     </aura:iteration>               
+                     </aura:iteration>
                 </ui:inputSelect>
                </div>
             </td>
-            <aura:if isTrue="{!v.selectedPricingMethod == 'Total Award $'}"> 
-            	<td scope="col" class="pricing-method">  
+            <aura:if isTrue="{!v.selectedPricingMethod == 'Total Award $'}">
+            	<td scope="col" class="pricing-method">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Total Award $">Total Award $</div>
                     <div>
-                        <input type="text" value="{!v.quote.Total_Award_Dollars__c}" onchange="{!c.onTotalAwardPriceChange}" onkeypress="{!c.onInputPress}"/>              	
+                        <input type="text" value="{!v.quote.Total_Award_Dollars__c}" onchange="{!c.onTotalAwardPriceChange}" onkeypress="{!c.onInputPress}"/>
                     </div>
             	</td>
                 <aura:set attribute="else">
-                    <td scope="col" class="pricing-method"> 
+                    <td scope="col" class="pricing-method">
                     <aura:if isTrue="{!v.selectedPricingMethod == 'Gross Profit %'}">
                         <div class="slds-truncate slds-p-bottom_x-small" title="Gross Profit %">Gross Profit %</div>
                         <div>
@@ -83,25 +85,25 @@
                         </div>
                     </aura:if>
                     </td>
-    			</aura:set>     
+    			</aura:set>
             </aura:if>
-            <aura:if isTrue="{!v.displaySetupFee}"> 
-            	<td scope="col" class="setup-fee">  
+            <aura:if isTrue="{!v.displaySetupFee}">
+            	<td scope="col" class="setup-fee">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Setup Fee">Setup Fee %</div>
                     <div>
-                        <ui:inputNumber aura:id="setupFeePercent" value="{!v.quote.Setup_Fee__c}"/> 
+                        <ui:inputNumber aura:id="setupFeePercent" value="{!v.quote.Setup_Fee__c}"/>
                     </div>
             	</td>
             </aura:if>
-            <aura:if isTrue="{!v.displayPerformancePart}"> 
-            	<td scope="col" class="performance-part">  
+            <aura:if isTrue="{!v.displayPerformancePart}">
+            	<td scope="col" class="performance-part">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Performance Part</div>
                     <div>
-                        <ui:inputCheckbox value="{!v.quote.Performance_Part__c}" aura:id="performancePart"/> 
+                        <ui:inputCheckbox value="{!v.quote.Performance_Part__c}" aura:id="performancePart"/>
                     </div>
             	</td>
             </aura:if>
-            
+
 		</tr>
     </tbody>
 	</table>

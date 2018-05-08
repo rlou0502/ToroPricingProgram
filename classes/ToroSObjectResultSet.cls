@@ -1,5 +1,5 @@
 public with sharing class ToroSObjectResultSet {
-	public ToroSObjectResultSet() {	
+	public ToroSObjectResultSet() {
 	}
 	@AuraEnabled
 	public SObject quote { get; set; }
@@ -16,7 +16,7 @@ public with sharing class ToroSObjectResultSet {
     @AuraEnabled
     public List<FieldSetMember> fieldSetSubMembers { get;set; }
     @AuraEnabled
-    public List<SObject> values { get;set; } 
+    public List<SObject> values { get;set; }
     @AuraEnabled
     public List<ToroSelectOption> pricingProgramOptions { get;set; }
     @AuraEnabled
@@ -45,4 +45,6 @@ public with sharing class ToroSObjectResultSet {
     public List<String> secondaryProgramKeys { get;set; }
     @AuraEnabled
     public Map<String, Object> secondaryPrograms { get;set; }
+    @AuraEnabled
+    public String contractMessage { get; set; }
 }
