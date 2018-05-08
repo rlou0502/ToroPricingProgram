@@ -42,5 +42,7 @@ public with sharing class ToroSObjectResultSet {
     @AuraEnabled
     public boolean allowSupportPlus { get;set; }
     @AuraEnabled
+    public List<String> secondaryProgramKeys { get;set; }
+    @AuraEnabled
     public Map<String, Object> secondaryPrograms { get;set; }
 }

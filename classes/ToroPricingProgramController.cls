@@ -219,7 +219,17 @@ public class ToroPricingProgramController {
     	rs.chainCall = pp.chainCall;
     	rs.payload = pp.payloadOfChainCall;
     	rs.displaySetupFee=pp.displaySetupFee();
-    	rs.secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+    	List<String> spKeys = new List<String>();
+    	
+    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+    	for(String key : secondaryPrograms.keyset()) {
+    		spKeys.add(key);	
+    	}
+    	
+    	if(spKeys.size() > 0) {
+    		rs.secondaryPrograms = secondaryPrograms;
+    		rs.secondaryProgramKeys = spKeys;
+    	}
     	return rs;	
     }
   
@@ -736,7 +746,7 @@ public class ToroPricingProgramController {
     		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 	    	rs.selectedPricingProgram = pricingProgram; 
 	    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-	    	rs.secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+	    	//rs.secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
     	} 
     	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
     	pp.initialize(objId);

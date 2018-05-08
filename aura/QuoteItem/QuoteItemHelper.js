@@ -852,6 +852,7 @@
                     component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
                     component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
                     component.set('v.secondaryPrograms', retResponse.secondaryPrograms);
+                    component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
                     
                      var cmpEvent = component.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
