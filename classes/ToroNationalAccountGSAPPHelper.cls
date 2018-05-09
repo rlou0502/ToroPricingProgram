@@ -8,7 +8,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroGSAPricingP
 		return SObjectType.Revvy__MnStrategy4__c.FieldSets.CMAS_Contracts_Quote_Line_Cols.getFields();
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
-		return SObjectType.Revvy__MnStrategy4__c.FieldSets.State_Contract_Quote_Line_Updatable_Cols.getFields();
+		return null;
 	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemSublineFields() {
 		return SObjectType.Revvy__MnStrategy5__c.FieldSets.CMAS_Contract_Price_Program_Quote_SubLin.getFields();

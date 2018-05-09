@@ -148,8 +148,8 @@ public with sharing class ToroSupportPlusData {
 				, Distributor_Contribution__c
 			FROM
 				Support_Plus_Contribution__c
-			WHERE
-				Pricing_Program__r.ExternalId__c = :pricingProgramExtId
+			// WHERE
+				// Pricing_Program__r.ExternalId__c = :pricingProgramExtId
 			ORDER BY
 				Award_Price_Low__c asc
 		];
