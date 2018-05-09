@@ -52,10 +52,15 @@ public with sharing class ToroSupportPlusData {
 			REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
 
 			final String pricingProgramExtId = quote.Pricing_Program_Type__c.split(';')[0];
+			System.debug('\n\n@@pricingProgramExtId: ' + pricingProgramExtId + '\n\n');
 
 			Decimal defaultDistRespValue = 50.0;
 			Set<Decimal> distRespValueSet = new Set<Decimal>();
-			for (Support_Plus_Contribution__c contrib : getSupportPlusContributions(pricingProgramExtId)) {
+
+			List<Support_Plus_Contribution__c> contribs = getSupportPlusContributions(pricingProgramExtId);
+			System.debug('\n\n@@contribs: ' + contribs + '\n\n');
+
+			for (Support_Plus_Contribution__c contrib : contribs) {
 				distRespValueSet.add(contrib.Distributor_Contribution__c);
 				if (
 					quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
@@ -68,6 +73,7 @@ public with sharing class ToroSupportPlusData {
 				quote.Distributor_Responsibility__c = defaultDistRespValue;
 			}
 			update quote;
+			System.debug('\n\n@@quote: ' + quote + '\n\n');
 
 			// build the responsibility wrappers
 			List<DistRespOption> options = new List<DistRespOption>();
@@ -148,8 +154,8 @@ public with sharing class ToroSupportPlusData {
 				, Distributor_Contribution__c
 			FROM
 				Support_Plus_Contribution__c
-			// WHERE
-				// Pricing_Program__r.ExternalId__c = :pricingProgramExtId
+			WHERE
+				Pricing_Program__r.ExternalId__c = :pricingProgramExtId
 			ORDER BY
 				Award_Price_Low__c asc
 		];
