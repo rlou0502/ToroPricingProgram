@@ -145,9 +145,15 @@ public abstract class ToroPricingProgram {
 	}
 
 	public virtual String displayContractMessage(String pricingProgram) {
-		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
-		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
-		return pp_header.Contract_Message__c;
+		String ret = null;
+		if(String.isNotBlank(pricingProgram)) {
+			ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+			Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
+			if(pp_header != null) {
+				ret = pp_header.Contract_Message__c;
+			} 
+		}
+		return ret;
 	}
 
 	public virtual List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,

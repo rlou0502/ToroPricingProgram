@@ -50,8 +50,9 @@ public with sharing class ToroSupportPlusData {
 			// get the quote and dist resps.
 			// ============================================================================
 			REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
+			System.debug('\n\n@@quote.Pricing_Program_Name__c: ' + quote.Pricing_Program_Name__c + '\n\n');
 
-			final String pricingProgramExtId = quote.Pricing_Program_Type__c.split(';')[0];
+			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
 			System.debug('\n\n@@pricingProgramExtId: ' + pricingProgramExtId + '\n\n');
 
 			Decimal defaultDistRespValue = 50.0;
@@ -154,8 +155,8 @@ public with sharing class ToroSupportPlusData {
 				, Distributor_Contribution__c
 			FROM
 				Support_Plus_Contribution__c
-			WHERE
-				Pricing_Program__r.ExternalId__c = :pricingProgramExtId
+			// WHERE
+				// Pricing_Program__r.ExternalId__c = :pricingProgramExtId
 			ORDER BY
 				Award_Price_Low__c asc
 		];

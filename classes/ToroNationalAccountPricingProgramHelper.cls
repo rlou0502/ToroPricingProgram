@@ -53,6 +53,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		//Exception
 
 		Map<String,Revvy__MnStrategy2__c> ppMapExceptionMap = retrieveNationalAccountException(priceProgramExternalId);
+		System.debug('\n\n@@ppMapExceptionMap: ' + ppMapExceptionMap + '\n\n');
 		/*
 		Set<String> exceptionSkuSet = retrieveNationalAccountException
 		if(tierMap.containsKey('Exception')) {

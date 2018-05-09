@@ -221,16 +221,17 @@ public class ToroPricingProgramController {
     	rs.payload = pp.payloadOfChainCall;
     	rs.displaySetupFee=pp.displaySetupFee();
     	List<String> spKeys = new List<String>();
-
-    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
-    	for(String key : secondaryPrograms.keyset()) {
-    		spKeys.add(key);
-    	}
-
-    	if(spKeys.size() > 0) {
-    		rs.secondaryPrograms = secondaryPrograms;
-    		rs.secondaryProgramKeys = spKeys;
-    	}
+		if(String.isNotBlank(ppd.externalId)) {
+	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+	    	for(String key : secondaryPrograms.keyset()) {
+	    		spKeys.add(key);
+	    	}
+	
+	    	if(spKeys.size() > 0) {
+	    		rs.secondaryPrograms = secondaryPrograms;
+	    		rs.secondaryProgramKeys = spKeys;
+	    	}
+		}
     	return rs;
     }
 
@@ -530,16 +531,17 @@ public class ToroPricingProgramController {
 	    		}
 	    	}
 	    	List<String> spKeys = new List<String>();
-
-	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
-	    	for(String key : secondaryPrograms.keyset()) {
-	    		spKeys.add(key);
-	    	}
-
-	    	if(spKeys.size() > 0) {
-	    		rs.secondaryPrograms = secondaryPrograms;
-	    		rs.secondaryProgramKeys = spKeys;
-	    	}
+			if(String.isNotBlank(ppd.externalId)) {
+		    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+		    	for(String key : secondaryPrograms.keyset()) {
+		    		spKeys.add(key);
+		    	}
+	
+		    	if(spKeys.size() > 0) {
+		    		rs.secondaryPrograms = secondaryPrograms;
+		    		rs.secondaryProgramKeys = spKeys;
+		    	}
+			}
     	//}
 
 
