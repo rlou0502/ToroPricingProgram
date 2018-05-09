@@ -276,7 +276,14 @@ public with sharing class ToroPricingMethodHelper {
 		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- ppExtId=' + ppExtId);
 		if(!DNetPercentMap.containsKey(ppExtId)) {
 			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(ppExtId);
+			//Equipment Partnership
 			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
+			if(pplList != null && pplList.size() == 1) {
+				Revvy__MnStrategy2__c ppl = pp.PricingProgramLines__r[0];
+				if(ppl.Award_Price_as_a_Percent_of_DN__c == null && ppl.Rebate_as_a_Percent_of_DN__c != null) {
+					return ppl.Rebate_as_a_Percent_of_DN__c;	
+				}		
+			}
 		    Map<decimal, ToroPricingMethodData> dnet2PM = new Map<decimal, ToroPricingMethodData>();
 		    for(Revvy__MnStrategy2__c  ppl : pplList) {
 		    	ToroPricingMethodData pmd = new ToroPricingMethodData();
