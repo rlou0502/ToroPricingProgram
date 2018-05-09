@@ -158,8 +158,25 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 						//Run Exception
 						if(ppMapExceptionMap.size() > 0 && ppMapExceptionMap.containsKey(qis.Product_Id__c)) {
 							Revvy__MnStrategy2__c rb = ppMapExceptionMap.get(qis.Product_Id__c);
+							System.debug('\n\n@@qis: ' + qis + '\n\n');
 							System.debug('>>> +++++++++++++++++ NAT 113 =  rb='+rb);
-							applyQISLPercentage(qis,rb,dSetupFeeHeader);
+
+							if (qis.Product_Id__c.startsWithIgnoreCase('TPP')) {
+								Set<String> applicableProductSet = new Set<String>();
+								applicableProductSet.addAll(rb.ApplicableProducts__c.split(','));
+								if (applicableProductSet.contains(qis.Product_Id__c)) {
+									applyQISLPercentageTPP(qis,rb,dSetupFeeHeader);
+								}
+
+								else {
+									applyQISLPercentage(qis,rb,dSetupFeeHeader);
+								}
+							}
+
+							else {
+								applyQISLPercentage(qis,rb,dSetupFeeHeader);
+							}
+
 						}
 						if(excludedFromMSRP(qis)) {
 							qis.Fee_Percentage__c = 0;
@@ -425,6 +442,20 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 				qis.Fee_Percentage__c = getSetupFeePercentage(dsetupFeeHeader, CMnQuoteUtil.defaultDecimal(rb.Fee_Percentage__c));
 			}
 		}
+		if(!qis.Unit_Award_Overridden__c) {
+			qis.Award_Price__c = qis.MSRP_Price__c * (1 - (qis.percent_off_msrp__c)/100);
+		}
+		qis.PricingMethodValue__c = String.valueOf(qis.percent_off_msrp__c);
+		qis.Percent_of_DNet__c=rb.Award_Price_as_a_Percent_of_DN__c;
+
+	}
+
+	public void applyQISLPercentageTPP(Revvy__MnStrategy5__c qis, Revvy__MnStrategy2__c rb, decimal dsetupFeeHeader) {
+
+		qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(rb.Rebate_as_a_Percent_of_DN__c);
+
+		qis.percent_off_msrp__c =  CMnQuoteUtil.defaultDecimal(rb.Off_Mfg_Sugg_Ttl__c);
+
 		if(!qis.Unit_Award_Overridden__c) {
 			qis.Award_Price__c = qis.MSRP_Price__c * (1 - (qis.percent_off_msrp__c)/100);
 		}
