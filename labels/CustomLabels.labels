@@ -490,6 +490,13 @@
         <value>Do you want to save?</value>
     </labels>
     <labels>
+        <fullName>PP_NonToroProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_NonToroProducts</shortDescription>
+        <value>Add Non-Toro Products</value>
+    </labels>
+    <labels>
         <fullName>PP_Ok</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

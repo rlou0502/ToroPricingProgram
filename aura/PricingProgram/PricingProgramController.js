@@ -39,10 +39,14 @@
                            result.SetupFeePercent, result.PerformancePart, returnUrl);
         quoteHeaderCmp.savePricingProgramMethod();
     },
-    addSupportPlus: function(component, event, helper) {       
+    addSupportPlus: function(component, event, helper) {
         var quoteId =component.get("v.quoteId");
         component.set("v.forwardUrl", "/apex/ToroSupportPlusLgtnOut?Id="+quoteId);
         helper.openSupportPlusDisclaimer(component, event, helper);
+    },
+    addNonToroProducts: function(component, event, helper) {
+        var quoteId = component.get('v.quoteId');
+        document.location = '/apex/ToroNTLgtnOut?Id=' + quoteId;
     },
     init : function(component, event, helper) {
     	console.log('isLightning = ' + helper.isLightning());

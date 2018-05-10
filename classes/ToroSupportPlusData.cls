@@ -136,6 +136,7 @@ public with sharing class ToroSupportPlusData {
 
 		catch (Exception e) {
 			this.success = false;
+			throw e;
 		}
 	}
 
@@ -146,7 +147,7 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	private static List<Support_Plus_Contribution__c> getSupportPlusContributions(Id pricingProgramExtId) {
+	private static List<Support_Plus_Contribution__c> getSupportPlusContributions(String pricingProgramExtId) {
 		return [
 			SELECT
 				Award_Price_Low__c
@@ -155,8 +156,8 @@ public with sharing class ToroSupportPlusData {
 				, Distributor_Contribution__c
 			FROM
 				Support_Plus_Contribution__c
-			// WHERE
-				// Pricing_Program__r.ExternalId__c = :pricingProgramExtId
+			WHERE
+				Pricing_Program__r.ExternalId__c = :pricingProgramExtId
 			ORDER BY
 				Award_Price_Low__c asc
 		];

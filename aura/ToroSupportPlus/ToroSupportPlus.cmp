@@ -52,7 +52,7 @@
 					<div class="slds-button-group" role="group">
 						<button class="slds-button slds-button_neutral" onclick="{!c.returnToPricing}">Return to Pricing</button>
 						<button class="slds-button slds-button_neutral" onclick="{!c.handleSave}">Save</button>
-						<!-- <button class="slds-button slds-button_neutral" onclick="{!c.handleSaveAndClose}">Save and Close</button> -->
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleSaveAndClose}">Save and Close</button>
 					</div>
 				</div>
 			</div>
