@@ -176,6 +176,7 @@
                     if(listenMSRPChange) {
                         if(field.fieldPath=="PricingMethodValue__c") {
                             tableDataNode.dataset.originalvalue=sObj["Selected_Off_MSRP__c"]; 
+                            tableDataNode.dataset.overridden=sObj['Off_MSRP_Overridden__c'];
                         } else if(field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") {
                             tableDataNode.dataset.originalvalue=sObj["Original_Award_Price__c"];
                         }
