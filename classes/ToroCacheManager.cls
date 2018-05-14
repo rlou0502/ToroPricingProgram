@@ -25,6 +25,14 @@ public with sharing class ToroCacheManager {
 		return (Revvy__MnStrategy1__c) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramCache.class, externalId);	
 	}
 	
+	public static void refreshAllPricingPrograms() {
+		List<Revvy__MnStrategy1__c> rebates = [Select ExternalId__c From Revvy__MnStrategy1__c ];
+		for(Revvy__MnStrategy1__c pp : rebates) {
+			if(String.isNotBlank(pp.ExternalId__c))
+			Cache.Session.getPartition(ToroCacheManager.constPartitionName).remove(ToroPricingProgramCache.class, pp.ExternalId__c);		
+		} 
+	}
+	
 	public static REVVY__MnQuote__c refreshQuote(Id quoteId) {
 		REVVY__MnQuote__c q = null;
 		if(String.isNotBlank(quoteId)){
