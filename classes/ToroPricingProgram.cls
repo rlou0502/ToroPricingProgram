@@ -116,6 +116,7 @@ public abstract class ToroPricingProgram {
 		if(String.isNotBlank(pricingProgram.SecondaryProgram__c)) {
 			result = new Map<String, Object >{pricingProgramExtId=>pricingProgram.Name};
 			String[] pps = pricingProgram.SecondaryProgram__c.split(';');
+			Set<String> senondaryPricingProgramSet = new Set<String>();
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
 					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps order by Sequence__c ];
 			for(Revvy__MnStrategy1__c pp : rebates) {
@@ -124,6 +125,13 @@ public abstract class ToroPricingProgram {
 				}
 				Map<String, String> ppOptions = (Map<String, String>) result.get(pp.Parent_Program__r.ExternalId__c);
 				ppOptions.put(pp.ExternalId__c, pp.Name);
+				senondaryPricingProgramSet.add(pp.Parent_Program__r.ExternalId__c);
+			}
+			for(String k : pps) {
+				if(!senondaryPricingProgramSet.contains(k)) {
+					Revvy__MnStrategy1__c ppTemp = ToroCacheManager.getPricingProgram(k);
+					result.put(k, ppTemp.Name);	
+				}
 			}
 		} else {
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, ExternalId__c, Name, Parent_Program__r.ExternalId__c

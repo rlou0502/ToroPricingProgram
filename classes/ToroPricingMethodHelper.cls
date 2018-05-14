@@ -315,34 +315,36 @@ public with sharing class ToroPricingMethodHelper {
 			Map<decimal, ToroPricingMethodData> dnet2PMMap = DNetPercentMap.get(ppExtId);
 			//System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnet2PMMap.values()[0].percentOfDNet ='  + dnet2PMMap.values()[0].percentOfDNet);
 			//System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- dnet2PMMap.values()[dnet2PMMap.values().size()-1].percentOfDNet ='  + dnet2PMMap.values()[dnet2PMMap.values().size()-1].percentOfDNet);
-			if(dnetPercent >= dnet2PMMap.values()[0].percentOfDNet) {
-				rebatePercent = dnet2PMMap.values()[0].rebatePercent;
-				System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- cap at max ' + rebatePercent  ); 
-			} else if(dnetPercent <= dnet2PMMap.values()[dnet2PMMap.values().size()-1].percentOfDNet){
-				rebatePercent = dnet2PMMap.values()[dnet2PMMap.values().size()-1].rebatePercent;
-				System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- cap at min ' + rebatePercent  );
-			} else {
-				for(integer i=0; i < dnet2PMMap.values().size()-1; i++) {
-					//system.debug(logginglevel.info,'------------dnet2PMMap.values()[i]----------' + dnet2PMMap.values()[i]);
-					system.debug(dnetPercent + '---' + dnet2PMMap.values()[i].percentOfDNet + '---' + dnet2PMMap.values()[i+1].percentOfDNet);
-					if(dnetPercent < dnet2PMMap.values()[i].percentOfDNet && dnetPercent > dnet2PMMap.values()[i+1].percentOfDNet ) {
-						topRow = dnet2PMMap.values()[i];
-						bottomRow = dnet2PMMap.values()[i+1];
-						break;
-					}	
-				}  
-				if(topRow != null && bottomRow != null) {
-					decimal x1=topRow.percentOfDNet/100;
-					decimal x2=bottomRow.percentOfDNet/100;
-					decimal y1=topRow.rebatePercent/100;
-					decimal y2=bottomRow.rebatePercent/100;
-					decimal x3 = dnetPercent/100;
-					rebatePercent  = y2 -(((x3-x2)*(y2-y1)) * 100);
-					
-					system.debug(logginglevel.info,'retrievePricingInfoForDNet---x1----' + x1 + '  x2= ' + x2 + ' y1=' + y1 + ' y2=' + y2 + 'x3=' + x3 + ' ' + rebatePercent);
-					rebatePercent = rebatePercent*100;
-				}   
-				System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- calculated ' + rebatePercent  );       
+			if(dnet2PMMap != null && dnet2PMMap.size() > 0) {
+				if(dnetPercent >= dnet2PMMap.values()[0].percentOfDNet) {
+					rebatePercent = dnet2PMMap.values()[0].rebatePercent;
+					System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- cap at max ' + rebatePercent  ); 
+				} else if(dnetPercent <= dnet2PMMap.values()[dnet2PMMap.values().size()-1].percentOfDNet){
+					rebatePercent = dnet2PMMap.values()[dnet2PMMap.values().size()-1].rebatePercent;
+					System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- cap at min ' + rebatePercent  );
+				} else {
+					for(integer i=0; i < dnet2PMMap.values().size()-1; i++) {
+						//system.debug(logginglevel.info,'------------dnet2PMMap.values()[i]----------' + dnet2PMMap.values()[i]);
+						system.debug(dnetPercent + '---' + dnet2PMMap.values()[i].percentOfDNet + '---' + dnet2PMMap.values()[i+1].percentOfDNet);
+						if(dnetPercent < dnet2PMMap.values()[i].percentOfDNet && dnetPercent > dnet2PMMap.values()[i+1].percentOfDNet ) {
+							topRow = dnet2PMMap.values()[i];
+							bottomRow = dnet2PMMap.values()[i+1];
+							break;
+						}	
+					}  
+					if(topRow != null && bottomRow != null) {
+						decimal x1=topRow.percentOfDNet/100;
+						decimal x2=bottomRow.percentOfDNet/100;
+						decimal y1=topRow.rebatePercent/100;
+						decimal y2=bottomRow.rebatePercent/100;
+						decimal x3 = dnetPercent/100;
+						rebatePercent  = y2 -(((x3-x2)*(y2-y1)) * 100);
+						
+						system.debug(logginglevel.info,'retrievePricingInfoForDNet---x1----' + x1 + '  x2= ' + x2 + ' y1=' + y1 + ' y2=' + y2 + 'x3=' + x3 + ' ' + rebatePercent);
+						rebatePercent = rebatePercent*100;
+					}   
+					System.debug(logginglevel.info, 'retrievePricingInfoForDNet-- calculated ' + rebatePercent  );       
+				}
 			}
 		}
 		return rebatePercent;
