@@ -8,7 +8,7 @@
     	document.location = '/apex/PricingProgramLgtnOut?Id=' + quoteId;
 	},
 	handleShowAddNewModal: function(cmp, event, helper) {
-		alert('handleShowAddNewModal placeholder');
+		cmp.find('cmpAddNew').showModal();
 	},
 	handleSave: function(cmp, event, helper) {
 		alert('handleSave placeholder');

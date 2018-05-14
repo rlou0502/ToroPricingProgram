@@ -6,6 +6,7 @@
 	<aura:registerEvent name="addNew" type="c:ToroSPAddNewEvent" />
 
 	<!-- search -->
+	<aura:attribute name="searchType" type="String"/>
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
 	<aura:attribute name="previousSearchTerm" type="String" />
 	<aura:attribute name="currentSearchTerm" type="String" />
