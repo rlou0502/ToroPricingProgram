@@ -28,8 +28,9 @@ public with sharing class ToroCacheManager {
 	public static void refreshAllPricingPrograms() {
 		List<Revvy__MnStrategy1__c> rebates = [Select ExternalId__c From Revvy__MnStrategy1__c ];
 		for(Revvy__MnStrategy1__c pp : rebates) {
-			if(String.isNotBlank(pp.ExternalId__c))
-			Cache.Session.getPartition(ToroCacheManager.constPartitionName).remove(ToroPricingProgramCache.class, pp.ExternalId__c);		
+			if(String.isNotBlank(pp.ExternalId__c) && pp.ExternalId__c.isAlphanumeric()) {
+				Cache.Session.getPartition(ToroCacheManager.constPartitionName).remove(ToroPricingProgramCache.class, pp.ExternalId__c);
+			}		
 		} 
 	}
 	
