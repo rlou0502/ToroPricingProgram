@@ -1,3 +1,46 @@
-<aura:component >
-	hello world
+<aura:component controller="ToroNTController">
+	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+
+	<aura:attribute name="quoteId" type="String" />
+	<aura:attribute name="quote" type="SObject" />
+	<aura:attribute name="quoteItems" type="ToroQIBase[]"/>
+
+
+	<header class="slds-global-header_container" id="global-header">
+		<div class="slds-global-header slds-grid slds-grid_align-spread">
+			<div class="slds-global-header__item">
+
+				<span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+					<lightning:icon iconName="utility:opportunity" size="x-small" />
+				</span>
+
+				<div class="slds-media__body" style="display: inline-block; vertical-align: text-top; margin-left: 10px">
+					<nav>
+						<ol class="slds-breadcrumb slds-line-height_reset">
+							<li class="slds-breadcrumb__item">
+								<span>{!v.quote.Name}</span>
+							</li>
+						</ol>
+					</nav>
+					<h2 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="Non-Toro Products">Non-Toro Products</h2>
+				</div>
+			</div>
+
+			<div class="slds-global-header__item " style="float: right">
+				<div class="slds-col slds-no-flex slds-grid slds-align-top">
+					<div class="slds-button-group" role="group">
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleShowAddNewModal}">Add New</button>
+					</div>
+					<div class="slds-button-group" role="group">
+						<button class="slds-button slds-button_neutral" onclick="{!c.returnToPricing}">Return to Pricing</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleSave}">Save</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleSaveAndClose}">Save and Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+
+	{!v.ntData}
 </aura:component>
