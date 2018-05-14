@@ -317,6 +317,7 @@
                 var qi = document.getElementById(sfdcid);
                 if(qi) {
                     qi.dataset.pricingprogram = event.currentTarget.value;
+                    qi.dataset.pricingprogram_overridden = true;
                 }
             }, false);    
         var secondaryPrograms = component.get('v.secondaryPrograms');
@@ -439,6 +440,7 @@
             }
             
             tableRow.dataset.pricingprogram=pricingProgram;
+            tableRow.dataset.pricingprogram_overridden=s["Pricing_Program_Overridden__c"];
             
             //tableRow.addEventListener('mouseenter', function(){self.handleQuoteItemInfo(component, tableRow.id);}, false);
             var chevronTd = document.createElement('td');
@@ -790,6 +792,8 @@
         for (var i=0; i<quoteItems.length; i++) {
             var qId = quoteItems[i].closest('tr').id;
             var qPricingProgram = quoteItems[i].closest('tr').dataset.pricingprogram;
+            var qiPricingProgramOverridden = quoteItems[i].closest('tr').dataset.pricingprogram_overridden;
+            
             console.log("----qPricingProgram---" + qPricingProgram);
             var fieldname = quoteItems[i].dataset.fieldname;
             var value = quoteItems[i].value;
@@ -802,6 +806,10 @@
             if(qPricingProgram !== undefined) {
             	qiData["Pricing_Program__c"] = qPricingProgram;
             }
+            
+            if(qiPricingProgramOverridden) {
+            	qiData["Pricing_Program_Overridden__c"] = qiPricingProgramOverridden;
+            } 
             
             if(fieldname == "Award_Price__c" || fieldname == "Total_Toro_Award__c") {
                 qiData["Unit_Award_Overridden__c"] = overridden;	    
