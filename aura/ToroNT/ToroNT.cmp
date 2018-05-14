@@ -41,6 +41,8 @@
 		</div>
 	</header>
 
-
+	<div id="non-toro-quote-items">
+		<c:ToroNTQuoteItems aura:id="cmpNTQuoteItems" quoteItems="{!v.quoteItems}"/>
+	</div>
 	{!v.ntData}
 </aura:component>

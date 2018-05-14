@@ -37,6 +37,8 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 		decimal minQty = qtyTiers[0].minQty;
 		decimal maxQty = qtyTiers[qtyTiers.size()-1].maxQty;
 		system.debug('tier : ' + qtyTiers + ' minQty:' + minQty + ' maxQty:' + maxQty);
+		
+		
 		Revvy__MnStrategy2__c line = null;
 		if(numOfTractionUnits <= minQty)  {
 			line = qtyTiers[0].ppl;	
@@ -49,12 +51,15 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 				}		
 			}
 		}
-		
+		system.debug('numOfTractionUnits : ' + numOfTractionUnits );
+		system.debug('line : ' + line );
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			system.debug(logginglevel.info,'baseCalculateImplementation Off_MSRP_Overridden__c =' + qi.Off_MSRP_Overridden__c );
 			if(line != null) {
 				if(!qi.Off_MSRP_Overridden__c) {
 					qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 				}
+				system.debug(logginglevel.info,'baseCalculateImplementation Off_MSRP__c =' + qi.Off_MSRP__c );
 				//qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 				qi.Original_off_MSRP__c = qi.Off_MSRP__c;
 				qi.Award_of_DN__c = line.Award_Price_as_a_Percent_of_DN__c;

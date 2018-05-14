@@ -1,0 +1,46 @@
+<aura:component>
+    <aura:attribute name="quoteItems" type="ToroQIBase[]" />
+
+    <div>
+        <table class="slds-table slds-table_bordered  slds-table_col-bordered" role="grid">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col" width="50px"></th>
+                    <th scope="col" width="10%"></th>
+                    <th scope="col" width="10%">
+                        <div class="slds-truncate" title="QTY">QTY</div>
+                    </th>
+                    <th scope="col" width="20%">
+                        <div class="slds-truncate" title="PRODUCT ID">MODEL</div>
+                    </th>
+                    <th scope="col" width="45%">
+                        <div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div>
+                    </th>
+                    <th scope="col" width="15%">
+                        <div class="slds-truncate" title="DNET PRICE">DNET</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.quoteItems}" var="item">
+                    <tr>
+                        <td>
+                            <lightning:buttonIcon name="{!item.productId}" iconName="utility:delete" variant="bare" onclick="{!c.handleDeleteClick}"
+                                title="delete" />
+                            <!-- <lightning:buttonIcon iconName="utility:edit" variant="bare" onclick="{! c.handleClick }" title="edit" /> -->
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <lightning:input name="{!item.sfid}" type="number" value="{!item.quantity}" />
+                        </td>
+                        <td>{!item.productId}</td>
+                        <td>{!item.description}</td>
+                        <td>
+                            <lightning:formattedNumber value="{!item.dnetPrice}" style="currency" />
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+</aura:component>
