@@ -3,7 +3,6 @@
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
 	<aura:attribute name="selectedDistributorResponsibility" type="Decimal" />
-	<aura:attribute name="manualDistributorResponsibility" type="Decimal" />
 	<aura:attribute name="distRespIsEditable" type="Boolean" />
 
 	<!-- <aura:method name="updateRollingTotals" action="{!c.updateRollingTotals}" description="" /> -->
@@ -52,10 +51,7 @@
 						<aura:iteration var="distResp" items="{!v.distributorResponsibilities}" >
 							<option value="{!distResp.value}" selected="{!distResp.selected}">{!distResp.label}</option>
 						</aura:iteration>
-					</lightning:select>{!v.selectedDistributorResponsibility}
-					<aura:if isTrue="{!v.selectedDistributorResponsibility == '-1'}">
-						<lightning:input type="number" value="{!v.manualDistributorResponsibility}" onchange="" />
-					</aura:if>
+					</lightning:select>
 				</p>
 				<aura:set attribute="else">
 					<p class="slds-text-title_caps slds-m-bottom_small" title="Distributor Responsibility (%)">Distributor Responsibility (%)</p>
