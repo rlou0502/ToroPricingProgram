@@ -22,6 +22,7 @@
 					cmp.set('v.distributorResponsibilities', distributorResponsibilities);
 					cmp.set('v.quote', recalcQuote);
 					cmp.set('v.distRespIsEditable', supportPlusData.distRespIsEditable);
+
 	            }
 	        }
 	    );
@@ -58,6 +59,7 @@
 
 		return currentQuoteItems;
 	},
+	/*
 	refreshSearchResults: function(cmp, previousSearchTerm, currentSearchTerm) {
 		var action = cmp.get('c.fetchSearchResults');
 		action.setStorable();
@@ -74,7 +76,7 @@
 		);
 
 		$A.enqueueAction(action);
-	},
+	},*/
 	addProduct: function(cmp, productId, dnetPrice, spQuantity, distributorResponsibility) {
 		console.log('@ToroSupportPlusHelper:addProduct');
 		var action = cmp.get('c.addSupportPlustItem');

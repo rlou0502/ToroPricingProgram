@@ -1,10 +1,19 @@
 <aura:component controller="ToroNTController">
 	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+	<aura:handler name="addNew" event="c:ToroSPAddNewEvent" action="{!c.addNewItem}" />
+	<aura:handler name="ntDeleteEvent" event="c:ToroSPDeleteEvent" action="{!c.handleNTDelete}" />
 
 	<aura:attribute name="quoteId" type="String" />
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="quoteItems" type="ToroQIBase[]"/>
 
+	<div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
+		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+		</div>
+	</div>
 
 	<header class="slds-global-header_container" id="global-header">
 		<div class="slds-global-header slds-grid slds-grid_align-spread">
@@ -44,5 +53,6 @@
 	<div id="non-toro-quote-items">
 		<c:ToroNTQuoteItems aura:id="cmpNTQuoteItems" quoteItems="{!v.quoteItems}"/>
 	</div>
-	<c:ToroSPAddNew aura:id="cmpAddNew"/>
+
+	<c:ToroSPAddNew aura:id="cmpAddNew" searchType="nontoro" />
 </aura:component>

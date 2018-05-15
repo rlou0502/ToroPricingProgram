@@ -1,4 +1,5 @@
 <aura:component>
+    <aura:registerEvent name="ntDeleteEvent" type="c:ToroSPDeleteEvent" />
     <aura:attribute name="quoteItems" type="ToroQIBase[]" />
 
     <div>

@@ -72,5 +72,5 @@
 	</div>
 	<br/><br/><br/>
 
-	<c:ToroSPAddNew aura:id="cmpAddNew" newItemDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}" />
+	<c:ToroSPAddNew aura:id="cmpAddNew" newItemDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}"/>
 </aura:component>

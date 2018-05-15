@@ -1,8 +1,11 @@
 ({
-	refreshSearchResults: function (cmp, previousSearchTerm, currentSearchTerm) {
+	refreshSearchResults: function (cmp, previousSearchTerm, currentSearchTerm, searchType) {
 		var action = cmp.get('c.fetchSearchResults');
 		action.setStorable();
-		action.setParams({ searchTerm: currentSearchTerm });
+		action.setParams({
+			searchTerm: currentSearchTerm
+			, searchType: searchType
+		});
 		action.setCallback(this
 			, function (response) {
 				var state = response.getState();

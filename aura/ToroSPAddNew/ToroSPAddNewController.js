@@ -31,9 +31,10 @@
 
         var previousValue = event.getParam('oldValue');
         var currentValue = event.getParam('value');
+        var searchType = cmp.get('v.searchType');
 
         if (currentValue.length == 3) {
-            helper.refreshSearchResults(cmp, previousValue, currentValue);
+            helper.refreshSearchResults(cmp, previousValue, currentValue, searchType);
         }
 
         else {

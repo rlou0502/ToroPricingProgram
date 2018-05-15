@@ -6,7 +6,7 @@
 	<aura:registerEvent name="addNew" type="c:ToroSPAddNewEvent" />
 
 	<!-- search -->
-	<aura:attribute name="searchType" type="String"/>
+	<aura:attribute name="searchType" type="String" default="supportplus" />
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
 	<aura:attribute name="previousSearchTerm" type="String" />
 	<aura:attribute name="currentSearchTerm" type="String" />
@@ -21,6 +21,8 @@
 	<aura:attribute name="newItemProductName" type="String" default="" access="private" />
 	<aura:attribute name="newItemDescription" type="String" default="" access="private" />
 	<aura:attribute name="newItemDNetPrice" type="Decimal" default="" access="private" />
+	<aura:attribute name="showDistributorResponsibility" type="Boolean" default="true" />
+
 
 	<div aura:id="addModal" class="hideDiv" style="height: 640px;">
 		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1"
@@ -60,16 +62,22 @@
 						</div>
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="SP+ QTY" value="{!v.newItemSPQuantity}"
-								/>
+								<aura:if isTrue="{!v.searchType == 'supportplus'}">
+									<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="SP+ QTY" value="{!v.newItemSPQuantity}"/>
+									<aura:set attribute="else">
+										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="QTY" value="{!v.newItemSPQuantity}" />
+									</aura:set>
+								</aura:if>
 							</div>
 						</div>
-						<div class="slds-form-element">
-							<label class="slds-form-element__label slds-text-title_caps" for="add_dnet_price">Distributor Responsibility (%)</label>
-							<div class="slds-form-element__control">
-								<ui:outputText value="{!v.newItemDistributorResponsibility}" />
+						<aura:if isTrue="{!v.searchType == 'supportplus'}">
+							<div class="slds-form-element">
+								<label class="slds-form-element__label slds-text-title_caps" for="add_dnet_price">Distributor Responsibility (%)</label>
+								<div class="slds-form-element__control">
+									<ui:outputText value="{!v.newItemDistributorResponsibility}" />
+								</div>
 							</div>
-						</div>
+						</aura:if>
 						<div class="slds-form-element">
 							<label class="slds-form-element__label slds-text-title_caps" for="add_dnet_price">Product Name</label>
 							<div class="slds-form-element__control">

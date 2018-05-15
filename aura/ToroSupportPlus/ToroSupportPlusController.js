@@ -36,6 +36,7 @@
             helper.addProduct(cmp, newItemProductId, newItemDNetPrice, newItemSPQuantity, newItemDistributorResponsibility);
         }
     },
+
     handleAddNewProductIdChange: function(cmp, event, helper) {
         cmp.set('v.wasAutoCompleted', false);
         cmp.set('v.newItemProductName', '');
