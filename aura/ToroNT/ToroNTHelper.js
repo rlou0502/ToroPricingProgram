@@ -80,6 +80,7 @@
 				}
 			}
 		);
+		$A.enqueueAction(action);
 	},
 	showSpinner: function (node) {
 		document.getElementById("spinner").style.display = "block";

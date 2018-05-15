@@ -261,7 +261,7 @@ public with sharing class ToroPricingMethodHelper {
 			system.debug('qi.Pricing_Program__c = ' + qi.Pricing_Program__c);
 			ToroPricingProgramData ppd = new ToroPricingProgramData(qi.Pricing_Program__c);
 			system.debug('retrieveRebatePercent ppd=' + ppd  + ' qi.Award_of_DN__c=' + qi.Award_of_DN__c);
-			qi.Rebate_as_a_of_DN__c = retrieveRebatePercentBasedOnBlendedDNet(qi.Award_of_DN__c, ppd.externalId);	
+			qi.Rebate_as_a_of_DN__c = retrieveRebatePercentBasedOnBlendedDNet(qi.Toro_Blend_Of_DN__c, ppd.externalId);	
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {

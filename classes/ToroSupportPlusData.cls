@@ -90,6 +90,7 @@ public with sharing class ToroSupportPlusData {
 				if (value == quote.Distributor_Responsibility__c) option.setAsSelected();
 				options.add(option);
 			}
+			options.add(new DistRespOption('Enter manually...'));
 
 			this.quote = quote;
 			this.distributorResponsibilities = options;
@@ -180,6 +181,12 @@ public with sharing class ToroSupportPlusData {
 		public DistRespOption(Decimal value) {
 			this.value = value;
 			this.label = value.format() + '%';
+			this.selected = false;
+		}
+
+		public DistRespOption(String label) {
+			this.value = -1;
+			this.label = label;
 			this.selected = false;
 		}
 
