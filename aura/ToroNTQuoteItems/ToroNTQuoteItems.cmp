@@ -14,11 +14,14 @@
                     <th scope="col" width="20%">
                         <div class="slds-truncate" title="PRODUCT ID">MODEL</div>
                     </th>
-                    <th scope="col" width="45%">
+                    <th scope="col" width="30%">
                         <div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div>
                     </th>
                     <th scope="col" width="15%">
-                        <div class="slds-truncate" title="DNET PRICE">DNET</div>
+                        <div class="slds-truncate" title="MSRP">MSRP</div>
+                    </th>
+                    <th scope="col" width="15%">
+                        <div class="slds-truncate" title="AWARD PRICE">AWARD PRICE</div>
                     </th>
                 </tr>
             </thead>
@@ -37,7 +40,10 @@
                         <td>{!item.productId}</td>
                         <td>{!item.description}</td>
                         <td>
-                            <lightning:formattedNumber value="{!item.dnetPrice}" style="currency" />
+                            <lightning:formattedNumber value="{!item.msrpPrice}" style="currency" />
+                        </td>
+                        <td>
+                            <lightning:formattedNumber value="{!item.awardPrice}" style="currency" />
                         </td>
                     </tr>
                 </aura:iteration>
