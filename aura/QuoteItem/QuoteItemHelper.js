@@ -328,6 +328,9 @@
         	var spVal = secondaryPrograms[key];
             if(typeof spVal == "string" ) {
             	var option1 = document.createElement("option");
+            	if(key == 'Please Select a Pricing Program') {
+            		key = null;
+            	}
         		option1.value = key;
     			option1.text = spVal;
                 option1.selected = false;

@@ -46,12 +46,16 @@
 		</li>
 		<li class="slds-page-header__detail-block">
 			<aura:if isTrue="{!v.distRespIsEditable}">
-				<p>
+				<p class="slds-text-title_caps slds-m-bottom_small" title="Distributor Responsibility (%)">Distributor Responsibility (%)</p>
+				<p class="slds-text-body_regular">
+					<!--
 					<lightning:select class="slds-text-title_caps" name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
 						<aura:iteration var="distResp" items="{!v.distributorResponsibilities}" >
 							<option value="{!distResp.value}" selected="{!distResp.selected}">{!distResp.label}</option>
 						</aura:iteration>
 					</lightning:select>
+					 -->
+					<lightning:input type="number" value="{!v.selectedDistributorResponsibility}" onchange="{!c.handleDistRespChange}"/>
 				</p>
 				<aura:set attribute="else">
 					<p class="slds-text-title_caps slds-m-bottom_small" title="Distributor Responsibility (%)">Distributor Responsibility (%)</p>

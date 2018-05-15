@@ -137,6 +137,7 @@ public abstract class ToroPricingProgram {
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, ExternalId__c, Name, Parent_Program__r.ExternalId__c
 					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c = :pricingProgramExtId order by Sequence__c];
 			result = new Map<String, Object >();
+			result.put('Please Select a Pricing Program', 'Please Select a Pricing Program');
 			for(Revvy__MnStrategy1__c pp : rebates) {
 				result.put(pp.ExternalId__c, pp.Name);
 			}
