@@ -17,6 +17,24 @@ public class ToroPriceProgramFactory {
 		}
 		return pp;	
 	} 
+	
+	public static ToroSecondaryPricingProgram newSecondaryPricingProgramInstance(String className) {
+		system.debug('newSecondaryPricingProgramInstance=' + className);
+		ToroSecondaryPricingProgram pp = null;
+		if(String.isNotBlank(classname)) {
+			Type t = Type.forName(className);
+			system.debug('newSecondaryPricingProgramInstance type=' + t);
+            if(t != null){
+            	pp = (ToroSecondaryPricingProgram)t.newInstance();    
+            } else {
+                pp = new ToroSecondaryPricingProgram();
+            }  		
+		} else {
+			pp = new ToroSecondaryPricingProgram();
+		}
+		return pp;	
+	} 
+	
 	public static void refreshAllPricingProgramHelpers() {
 		Cache.Org.getPartition(ToroCacheManager.constPartitionName).remove(ToroPricingProgramHelperCache.class, constPricingProgramKey);
 	}
@@ -34,6 +52,16 @@ public class ToroPriceProgramFactory {
 	public static ToroPricingProgram getPricingProgramHelper(String pricingProgram)  {
 		Toro_PricingProgramHelperFactory__c ppf = Toro_PricingProgramHelperFactory__c.getInstance(pricingProgram);	
 		return ToroPriceProgramFactory.newPricingProgramInstance(ppf.ClassName__c);
+	}
+	
+	public static ToroSecondaryPricingProgram getSecondaryPricingProgram(String pricingProgram)  {
+		List<Toro_SecondaryPricingProgramFactory__mdt> secondary = [Select DeveloperName,ClassName__c From Toro_SecondaryPricingProgramFactory__mdt where DeveloperName = :pricingProgram];
+		String className = null;
+		if(secondary.size() > 0) {
+			className = secondary[0].ClassName__c;	
+		} 
+		return ToroPriceProgramFactory.newSecondaryPricingProgramInstance(className); 
+		
 	}
     
 }

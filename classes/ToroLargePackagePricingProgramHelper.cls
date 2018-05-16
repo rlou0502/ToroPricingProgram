@@ -76,6 +76,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		system.debug(logginglevel.info, 'checkpoint 1 pp='+ priceProgram + ' pm=' + priceMethod);
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
 		helper.pricingProgramExternalId = priceProgram;
+		helper.primaryPricingProgramExtId = priceProgram;
 		system.debug(logginglevel.info, 'helper.pricingProgramExternalId='+ helper.pricingProgramExternalId );
 		
 		helper.quoteItemList = quoteItemList;

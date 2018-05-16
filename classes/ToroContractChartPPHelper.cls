@@ -41,6 +41,7 @@ public with sharing class ToroContractChartPPHelper extends ToroPricingProgram  
 																
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
 		helper.pricingProgramExternalId = priceProgram;
+		helper.primaryPricingProgramExtId = priceProgram;
 		helper.quoteItemList = quoteItemList;	
 		helper.quote=this.quote;	
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {

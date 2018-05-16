@@ -239,7 +239,7 @@ public with sharing class ToroPricingMethodHelper {
 	}
 	
 	public ToroPricingMethodHelper retrieveRebateForQuoteItem(decimal dnetPercent, Revvy__MnStrategy4__c qi) { 		
-		decimal rebatePercent = retrieveRebatePercentBasedOnBlendedDNet(dnetPercent, pricingProgramExternalId);		
+		decimal rebatePercent = retrieveRebatePercentBasedOnBlendedDNet(qi, dnetPercent, pricingProgramExternalId);		
 		qi.Rebate_as_a_of_DN__c = rebatePercent;	
 		//set all sublines' rebate % as quote item's
 		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -262,7 +262,7 @@ public with sharing class ToroPricingMethodHelper {
 			system.debug('qi.Pricing_Program__c = ' + qi.Pricing_Program__c);
 			ToroPricingProgramData ppd = new ToroPricingProgramData(qi.Pricing_Program__c);
 			system.debug('retrieveRebatePercent ppd=' + ppd  + ' qi.Award_of_DN__c=' + qi.Award_of_DN__c);
-			qi.Rebate_as_a_of_DN__c = retrieveRebatePercentBasedOnBlendedDNet(qi.Toro_Blend_Of_DN__c, ppd.externalId);	
+			qi.Rebate_as_a_of_DN__c = retrieveRebatePercentBasedOnBlendedDNet(qi, qi.Toro_Blend_Of_DN__c, ppd.externalId);	
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					if(!qis.Exclude_from_Rebate__c) {
@@ -273,10 +273,15 @@ public with sharing class ToroPricingMethodHelper {
 		}	
 		return this;
 	}
-	public decimal retrieveRebatePercentBasedOnBlendedDNet(decimal dnetPercent, String ppExtId) {
+	public decimal retrieveRebatePercentBasedOnBlendedDNet(Revvy__MnStrategy4__c qi, decimal dnetPercent, String ppExtId) {
+		ToroSecondaryPricingProgram secondary = ToroPriceProgramFactory.getSecondaryPricingProgram(ppExtId);
+		system.debug('secondary = ' + secondary);
+		return secondary.retrieveRebatePercentBasedOnBlendedDNet(qi, dnetPercent, ppExtId, primaryPricingProgramExtId);
+		/*
 		if(dnetPercent == null) {
 			return 0;	
 		}
+		
 		decimal rebatePercent = 0;
 		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- ppExtId=' + ppExtId);
 		if(!DNetPercentMap.containsKey(ppExtId)) {
@@ -349,23 +354,9 @@ public with sharing class ToroPricingMethodHelper {
 			}
 		}
 		return rebatePercent;
+		*/
 	} 
 	
-	public ToroPricingMethodHelper retrieveRebateForQuote(decimal dnetPercent) {
-		decimal rebatePercent = retrieveRebatePercentBasedOnBlendedDNet(dnetPercent, pricingProgramExternalId);
-		for(Revvy__MnStrategy4__c qi : quoteItemList) {
-			qi.Rebate_as_a_of_DN__c = rebatePercent;	
-			//set all sublines' rebate % as quote item's
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate__c) {
-						qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;					
-					}	
-				}	
-			}
-		}			
-		return this;
-	} 
 	
 	private decimal lookupDNetPercentFromGPPercent(String ppExtId, decimal gpPercent) {
 		decimal dnetPercent = null;
