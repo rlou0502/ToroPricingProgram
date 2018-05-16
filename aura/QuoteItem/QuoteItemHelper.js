@@ -910,6 +910,8 @@
                     var items = document.getElementById("quoteItems");
                     self.cleanInnerNodes(items);
                     self.renderQuoteItems(component);
+                } else {
+                	self.hideSpinner();
                 }
             }
         );
