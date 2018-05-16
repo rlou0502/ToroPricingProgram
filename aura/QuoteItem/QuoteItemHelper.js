@@ -909,20 +909,13 @@
                     self.cleanInnerNodes(items);
                     self.renderQuoteItems(component);
                 } else {
-                	debugger;
                 	self.hideSpinner();
                 	// Parse custom error data & report it
                 	let errors = response.getError();
-                	let toastParams = {
-                	        title: "Error",
-                	        message: "Unknown error", // Default error message
-                	        type: "error"
-                	    };
                 	let message = 'Unknown error'; // Default error message
                 	// Retrieve the error message sent by the server
                 	if (errors && Array.isArray(errors) && errors.length > 0) {
                 	    message = errors[0].message;
-                	    toastParams.message = errors[0].message;
                 	}
                 	// Display the message
                 	console.error(JSON.parse(message).message);

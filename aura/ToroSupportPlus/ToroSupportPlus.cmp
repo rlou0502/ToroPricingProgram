@@ -40,19 +40,19 @@
 						</ol>
 					</nav>
 					<h2 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate"
-						title="Support Plus">Support Plus</h2>
+						title="{!$Label.c.SP_Support_Plus}">{!$Label.c.SP_Support_Plus}</h2>
 				</div>
 			</div>
 
 			<div class="slds-global-header__item " style="float: right">
 				<div class="slds-col slds-no-flex slds-grid slds-align-top">
 					<div class="slds-button-group" role="group">
-						<button class="slds-button slds-button_neutral" onclick="{!c.handleShowAddNewModal}">Add New</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleShowAddNewModal}">{!$Label.c.SP_Add_New}</button>
 					</div>
 					<div class="slds-button-group" role="group">
-						<button class="slds-button slds-button_neutral" onclick="{!c.returnToPricing}">Return to Pricing</button>
-						<button class="slds-button slds-button_neutral" onclick="{!c.handleSave}">Save</button>
-						<button class="slds-button slds-button_neutral" onclick="{!c.handleSaveAndClose}">Save and Close</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.returnToPricing}">{!$Label.c.SP_Return}</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleSave}">{!$Label.c.SP_Save}</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleSaveAndClose}">{!$Label.c.SP_Save_and_Close}</button>
 					</div>
 				</div>
 			</div>

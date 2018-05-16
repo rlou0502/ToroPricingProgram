@@ -574,7 +574,63 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Add New</shortDescription>
-        <value>Add New:</value>
+        <value>Add New</value>
+    </labels>
+    <labels>
+        <fullName>SP_Adjusted_Extended_DNet</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Adjusted Extended DNet</shortDescription>
+        <value>ADJ EXT DNET</value>
+    </labels>
+    <labels>
+        <fullName>SP_Adjusted_Extended_DNet_Tooltip</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Adjusted Extended DNet Tooltip</shortDescription>
+        <value>ADJ EXT DNET</value>
+    </labels>
+    <labels>
+        <fullName>SP_Allowance</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Allowance</shortDescription>
+        <value>Support Plus Allowance</value>
+    </labels>
+    <labels>
+        <fullName>SP_Allowance_Exceeded</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Allowance Exceeded</shortDescription>
+        <value>Allowance has been exceeded.</value>
+    </labels>
+    <labels>
+        <fullName>SP_Allowance_Tooltip</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Allowance Tooltip</shortDescription>
+        <value>Support Plus Allowance</value>
+    </labels>
+    <labels>
+        <fullName>SP_Allowance_Used</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Allowance Used</shortDescription>
+        <value>Support Plus Allowance Used</value>
+    </labels>
+    <labels>
+        <fullName>SP_Allowance_Used_Tooltip</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Allowance Used Tooltip</shortDescription>
+        <value>Support Plus Allowance Used</value>
     </labels>
     <labels>
         <fullName>SP_Condition_1</fullName>
@@ -601,6 +657,22 @@
         <value>All Support Plus claims and packages less than $130,000 at DN, and those outside of the program parameters require a deviation and prior approval by the Toro Regional Business Manager.</value>
     </labels>
     <labels>
+        <fullName>SP_Distributor_Responsibility</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Distributor Responsibility</shortDescription>
+        <value>Distributor Responsibility (%)</value>
+    </labels>
+    <labels>
+        <fullName>SP_Distributor_Responsibility_Tooltip</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Distributor Responsibility Tooltip</shortDescription>
+        <value>Distributor Responsibility (%)</value>
+    </labels>
+    <labels>
         <fullName>SP_Extended_Total_DNET_Price</fullName>
         <categories>Support_Plus</categories>
         <language>en_US</language>
@@ -623,6 +695,30 @@
         <protected>false</protected>
         <shortDescription>From Quote</shortDescription>
         <value>from quote</value>
+    </labels>
+    <labels>
+        <fullName>SP_Return</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Return</shortDescription>
+        <value>Return to Pricing</value>
+    </labels>
+    <labels>
+        <fullName>SP_Save</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>SP_Save_and_Close</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Save and Close</shortDescription>
+        <value>Save and Close</value>
     </labels>
     <labels>
         <fullName>SP_Select_Support_Plus</fullName>
@@ -655,5 +751,21 @@
         <protected>false</protected>
         <shortDescription>T &amp; C</shortDescription>
         <value>I agree to the above terms and conditions</value>
+    </labels>
+    <labels>
+        <fullName>SP_Toro_Contribution</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Toro Contribution</shortDescription>
+        <value>Toro Contribution</value>
+    </labels>
+    <labels>
+        <fullName>SP_Toro_Contribution_Tooltip</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Toro Contribution Tooltip</shortDescription>
+        <value>Toro Contribution</value>
     </labels>
 </CustomLabels>

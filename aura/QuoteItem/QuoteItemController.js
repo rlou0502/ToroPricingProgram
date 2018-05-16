@@ -132,37 +132,51 @@
                     
                     if (cmp.isValid() && state === "SUCCESS") {  
                         var data = response.getReturnValue();
-                    var retResponse = response.getReturnValue();
-                    var retRecords = retResponse.values;
-                    var fields = retResponse.fieldSetMembers;
-                    cmp.set('v.fields', fields);
-                    cmp.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
-                    cmp.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
-                    cmp.set('v.quoteItems', retRecords);
-                    cmp.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
-                    cmp.set('v.listenMSRPChange', retResponse.listenMSRPChange);
-                     var cmpEvent = cmp.getEvent("calculationCompleteEvent");
-                        cmpEvent.setParams({
-                            "quote" : retResponse.quote
-                        });
-                        cmpEvent.fire();
-                    
-                    var sublineMap = {};  
-                    var quoteItemMap={};
-                    retRecords.forEach(function(s) {
-                        quoteItemMap[s["Id"]]=s;
-                        if(s["Toro_Quote_Item_Sub_Lines__r"]) {
-                            sublineMap[s["Id"]]= s["Toro_Quote_Item_Sub_Lines__r"];  
-                        }
-                    });
-                    cmp.set('v.sublineMap', sublineMap);
-                    cmp.set('v.quoteItemMap', quoteItemMap);
-                    helper.hideSpinner();
-                    var items = document.getElementById("quoteItems");
-                    helper.cleanInnerNodes(items);
-                    helper.renderQuoteItems(cmp);
+	                    var retResponse = response.getReturnValue();
+	                    var retRecords = retResponse.values;
+	                    var fields = retResponse.fieldSetMembers;
+	                    cmp.set('v.fields', fields);
+	                    cmp.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
+	                    cmp.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
+	                    cmp.set('v.quoteItems', retRecords);
+	                    cmp.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+	                    cmp.set('v.listenMSRPChange', retResponse.listenMSRPChange);
+	                     var cmpEvent = cmp.getEvent("calculationCompleteEvent");
+	                        cmpEvent.setParams({
+	                            "quote" : retResponse.quote
+	                        });
+	                        cmpEvent.fire();
+	                    
+	                    var sublineMap = {};  
+	                    var quoteItemMap={};
+	                    retRecords.forEach(function(s) {
+	                        quoteItemMap[s["Id"]]=s;
+	                        if(s["Toro_Quote_Item_Sub_Lines__r"]) {
+	                            sublineMap[s["Id"]]= s["Toro_Quote_Item_Sub_Lines__r"];  
+	                        }
+	                    });
+	                    cmp.set('v.sublineMap', sublineMap);
+	                    cmp.set('v.quoteItemMap', quoteItemMap);
+	                    helper.hideSpinner();
+	                    var items = document.getElementById("quoteItems");
+	                    helper.cleanInnerNodes(items);
+	                    helper.renderQuoteItems(cmp);
+                    } else {
+                    	helper.hideSpinner();
+                    	// Parse custom error data & report it
+                    	let errors = response.getError();
+                    	let message = 'Unknown error'; // Default error message
+                    	// Retrieve the error message sent by the server
+                    	if (errors && Array.isArray(errors) && errors.length > 0) {
+                    	    message = errors[0].message;
+                    	}
+                    	// Display the message
+                    	console.error(JSON.parse(message).message);
+                    	console.error(JSON.parse(message).stackTrace);              	    
+                	    // Fire error toast
+                	    alert(JSON.parse(message).message);
+                	    
                     }
-                    helper.hideSpinner();
                 }
             );
             $A.enqueueAction(getAction);
@@ -220,6 +234,20 @@
                         var items = document.getElementById("quoteItems");
                         helper.cleanInnerNodes(items);
                         helper.renderQuoteItems(cmp);           			
+                    } else {
+                    	helper.hideSpinner();
+                    	// Parse custom error data & report it
+                    	let errors = response.getError();
+                    	let message = 'Unknown error'; // Default error message
+                    	// Retrieve the error message sent by the server
+                    	if (errors && Array.isArray(errors) && errors.length > 0) {
+                    	    message = errors[0].message;
+                    	}
+                    	// Display the message
+                    	console.error(JSON.parse(message).message);
+                    	console.error(JSON.parse(message).stackTrace);              	    
+                	    // Fire error toast
+                	    alert(JSON.parse(message).message);
                     }
                 }
             );

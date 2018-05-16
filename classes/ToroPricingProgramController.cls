@@ -53,194 +53,194 @@ public class ToroPricingProgramController {
     		return rs;
     	}
     	try{
-    	String pricingMethod = (String) values.get('pricingMethod');
-    	String pricingProgram = (String) values.get('pricingProgram');
-    	rs.selectedPricingMethod = pricingMethod;
-    	rs.selectedPricingProgram = pricingProgram;
-    	Id quoteId = (Id) values.get('quoteId');
-    	Id qiId = (Id) values.get('qiId');
-    	decimal setupFeePercent = null;
-    	if(values.get('setupFeePercent') != null) {
-    		setupFeePercent = (Decimal)values.get('setupFeePercent');
-    	}
-    	boolean performancePart = false;
-    	if(values.get('performancePart') != null) {
-    		performancePart = (Boolean)values.get('performancePart');
-    	}
-    	ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
-    	rs.currentQuoteItem = qiId;
-		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-		 
-		Revvy__MnStrategy1__c pricingProgramData = ToroCacheManager.getPricingProgram(ppd.externalId);
-		
-		pp.performancePartFlag = performancePart != null ? performancePart : false;
-		pp.setupFeePercentage = setupFeePercent;
-		System.debug('pricingProgram=' +pricingProgram);
-		System.debug('pricingMethod=' +pricingMethod);
-		System.debug('quoteItemsDataJSON=' +quoteItemsDataJSON);
-		System.debug('qiSublinesDataJSON=' +qiSublinesDataJSON);
-		system.debug('values=' + values);
-		Map<String, object> quoteItemsData = (Map<String, object>) JSON.deserializeUntyped(quoteItemsDataJSON);
-		for(String key : quoteItemsData.keyset()) {
-			Map<String, Object>	data1 = (Map<String, Object>) quoteItemsData.get(key);
-			system.debug('key =' + key + ' obj =' + data1);
-			for(String key2 : data1.keyset()) {
-				String	data2 = (String) data1.get(key2);
-				system.debug('key2 =' + key2 + ' obj =' + data2);
-			}
-		}
-		Map<String, object> qiSublinesData = (Map<String, object>) JSON.deserializeUntyped(qiSublinesDataJSON);
-
-		system.debug('quoteItemsData=' + quoteItemsData);
-		system.debug('qiSublinesData=' + qiSublinesData);
-		system.debug('setPricingMethodValueRemote pp=' + pp);
-		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
-		rs.pricingMethodOptions = options;
-		system.debug('setPricingMethodValueRemote options=' + options);
-		//if there is only one pricing method + "Please select" item, auto apply it
-		pp.initialize(quoteId);
-		pp.quote.Pricing_Program_Name__c=pricingProgram;
-		pp.quote.Contract_Number__c = pricingProgramData.Contract_Number__c;
-		pp.quote.Pricing_Program_Type__c = pricingProgramData.PricingProgramType__c;
-		pp.quote.Price_Method__c=pricingMethod;
-		pp.quote.Setup_Fee__c = setupFeePercent;
-		pp.quote.Performance_Part__c=performancePart;
-		ToroCacheManager.putQuote(pp.quote);
-		for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
-			//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
-			//	qi.FreezeLine__c = true;
-			//}
-			system.debug(logginglevel.info,'checkpoint 4 qi.Award_of_DN__c =' + qi.Award_of_DN__c + ' sku =' + qi.Product_Name__c);
-			qi.Select_a_Price_Method__c = pricingMethod;
-			Map<String, Object> qiUpdateData = 	(Map<String, Object>) quoteItemsData.get(qi.Id);
-			system.debug(logginglevel.info, 'qiUpdateData =' + qiUpdateData);
-			if(qiUpdateData != null) {
-				for(String key : qiUpdateData.keyset()) {
-					system.debug(logginglevel.info, 'key =' + key);
-					String strVal = (String)qiUpdateData.get(key);
-					system.debug(logginglevel.info, '1 strVal =' + strVal);
-					//qi.PricingMethodValue__c=null;
-					system.debug(logginglevel.info, '2 strVal =' + strVal);
-					if('PricingMethodValue__c'.equalsIgnoreCase(key)){
-						system.debug(logginglevel.info, '3 key =' + key);
-						qi.PricingMethodValue__c = strVal;
-						system.debug(logginglevel.info, '3 pricingMethod =' + pricingMethod);
-						if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-			    			qi.Award_of_DN__c = string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-			    			system.debug(logginglevel.info, '3 % of DNET =' + qi.Award_of_DN__c);
-			    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-			    			qi.Off_MSRP__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-			    			system.debug(logginglevel.info, '3 qi.Off_MSRP__c =' + qi.Off_MSRP__c);
-			    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-			    			qi.Toro_Gross_Profit_Percent__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-			    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-			    			qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
-			    		}
-					} else if('Award_Price__c'.equalsIgnoreCase(key)){
-						system.debug('---------------Award_Price__c =' + strVal);
-
-						qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
-
-					} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
-						qi.Unit_Award_Overridden__c=false;
-						system.debug('---------------Unit_Award_Overridden__c =' + strVal);
-						qi.Unit_Award_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
-
-					} else if('Off_MSRP_Overridden__c'.equalsIgnoreCase(key)){
-						qi.Off_MSRP_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
-
-					} else if('Pricing_Program__c'.equalsIgnoreCase(key)) {
-						system.debug('Pricing_Program__c = ' + key + ' value =' + strVal);
-						qi.Pricing_Program__c = strVal;
-					} else if('Pricing_Program_Overridden__c'.equalsIgnoreCase(key)) {
-						qi.Pricing_Program_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
-					}
-
+	    	String pricingMethod = (String) values.get('pricingMethod');
+	    	String pricingProgram = (String) values.get('pricingProgram');
+	    	rs.selectedPricingMethod = pricingMethod;
+	    	rs.selectedPricingProgram = pricingProgram;
+	    	Id quoteId = (Id) values.get('quoteId');
+	    	Id qiId = (Id) values.get('qiId');
+	    	decimal setupFeePercent = null;
+	    	if(values.get('setupFeePercent') != null) {
+	    		setupFeePercent = (Decimal)values.get('setupFeePercent');
+	    	}
+	    	boolean performancePart = false;
+	    	if(values.get('performancePart') != null) {
+	    		performancePart = (Boolean)values.get('performancePart');
+	    	}
+	    	ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
+	    	rs.currentQuoteItem = qiId;
+			ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+			 
+			Revvy__MnStrategy1__c pricingProgramData = ToroCacheManager.getPricingProgram(ppd.externalId);
+			
+			pp.performancePartFlag = performancePart != null ? performancePart : false;
+			pp.setupFeePercentage = setupFeePercent;
+			System.debug('pricingProgram=' +pricingProgram);
+			System.debug('pricingMethod=' +pricingMethod);
+			System.debug('quoteItemsDataJSON=' +quoteItemsDataJSON);
+			System.debug('qiSublinesDataJSON=' +qiSublinesDataJSON);
+			system.debug('values=' + values);
+			Map<String, object> quoteItemsData = (Map<String, object>) JSON.deserializeUntyped(quoteItemsDataJSON);
+			for(String key : quoteItemsData.keyset()) {
+				Map<String, Object>	data1 = (Map<String, Object>) quoteItemsData.get(key);
+				system.debug('key =' + key + ' obj =' + data1);
+				for(String key2 : data1.keyset()) {
+					String	data2 = (String) data1.get(key2);
+					system.debug('key2 =' + key2 + ' obj =' + data2);
 				}
-
 			}
-			if(!performancePart) {
-				qi.Performance_Parts_Product__c = false;
-			}
-			system.debug('display qi=' + qi.PricingMethodValue__c );
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					//if(pp.performancePartFlag && qis.Performance_part__c) {
-					//	qis.FreezeLine__c = true;
-					//}
-					//qis.PricingMethodValue__c=null;
-					Map<String, Object>  qisUpdateData = (Map<String, Object>) qiSublinesData.get(qis.id);
-					if(qisUpdateData != null) {
-						for(String key : qisUpdateData.keyset()) {
-							String strVal = (String)qisUpdateData.get(key);
-							if(string.isNotBlank(strVal)) {
-								if('PricingMethodValue__c'.equalsIgnoreCase(key)){
-									qis.PricingMethodValue__c = strVal;
-									if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-						    			qis.Percent_of_DNet__c = Double.valueOf(strVal);
-						    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-						    			qis.Percent_Off_MSRP__c = Double.valueOf(strVal);
-						    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-						    			qis.Gross_Profit_Percent__c = Double.valueOf(strVal);
-						    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-						    			qis.Award_Price__c = decimal.valueOf(strVal);
-						    		}
-								} else if('Award_Price__c'.equalsIgnoreCase(key)){
-									qis.Award_Price__c = decimal.valueOf(strVal);
-								} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
-									qis.Unit_Award_Overridden__c = boolean.valueOf(strVal);
+			Map<String, object> qiSublinesData = (Map<String, object>) JSON.deserializeUntyped(qiSublinesDataJSON);
+	
+			system.debug('quoteItemsData=' + quoteItemsData);
+			system.debug('qiSublinesData=' + qiSublinesData);
+			system.debug('setPricingMethodValueRemote pp=' + pp);
+			List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
+			rs.pricingMethodOptions = options;
+			system.debug('setPricingMethodValueRemote options=' + options);
+			//if there is only one pricing method + "Please select" item, auto apply it
+			pp.initialize(quoteId);
+			pp.quote.Pricing_Program_Name__c=pricingProgram;
+			pp.quote.Contract_Number__c = pricingProgramData.Contract_Number__c;
+			pp.quote.Pricing_Program_Type__c = pricingProgramData.PricingProgramType__c;
+			pp.quote.Price_Method__c=pricingMethod;
+			pp.quote.Setup_Fee__c = setupFeePercent;
+			pp.quote.Performance_Part__c=performancePart;
+			ToroCacheManager.putQuote(pp.quote);
+			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
+				//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
+				//	qi.FreezeLine__c = true;
+				//}
+				system.debug(logginglevel.info,'checkpoint 4 qi.Award_of_DN__c =' + qi.Award_of_DN__c + ' sku =' + qi.Product_Name__c);
+				qi.Select_a_Price_Method__c = pricingMethod;
+				Map<String, Object> qiUpdateData = 	(Map<String, Object>) quoteItemsData.get(qi.Id);
+				system.debug(logginglevel.info, 'qiUpdateData =' + qiUpdateData);
+				if(qiUpdateData != null) {
+					for(String key : qiUpdateData.keyset()) {
+						system.debug(logginglevel.info, 'key =' + key);
+						String strVal = (String)qiUpdateData.get(key);
+						system.debug(logginglevel.info, '1 strVal =' + strVal);
+						//qi.PricingMethodValue__c=null;
+						system.debug(logginglevel.info, '2 strVal =' + strVal);
+						if('PricingMethodValue__c'.equalsIgnoreCase(key)){
+							system.debug(logginglevel.info, '3 key =' + key);
+							qi.PricingMethodValue__c = strVal;
+							system.debug(logginglevel.info, '3 pricingMethod =' + pricingMethod);
+							if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Award_of_DN__c = string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
+				    			system.debug(logginglevel.info, '3 % of DNET =' + qi.Award_of_DN__c);
+				    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Off_MSRP__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
+				    			system.debug(logginglevel.info, '3 qi.Off_MSRP__c =' + qi.Off_MSRP__c);
+				    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Toro_Gross_Profit_Percent__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
+				    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
+				    		}
+						} else if('Award_Price__c'.equalsIgnoreCase(key)){
+							system.debug('---------------Award_Price__c =' + strVal);
+	
+							qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
+	
+						} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
+							qi.Unit_Award_Overridden__c=false;
+							system.debug('---------------Unit_Award_Overridden__c =' + strVal);
+							qi.Unit_Award_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
+	
+						} else if('Off_MSRP_Overridden__c'.equalsIgnoreCase(key)){
+							qi.Off_MSRP_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
+	
+						} else if('Pricing_Program__c'.equalsIgnoreCase(key)) {
+							system.debug('Pricing_Program__c = ' + key + ' value =' + strVal);
+							qi.Pricing_Program__c = strVal;
+						} else if('Pricing_Program_Overridden__c'.equalsIgnoreCase(key)) {
+							qi.Pricing_Program_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
+						}
+	
+					}
+	
+				}
+				if(!performancePart) {
+					qi.Performance_Parts_Product__c = false;
+				}
+				system.debug('display qi=' + qi.PricingMethodValue__c );
+				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						//if(pp.performancePartFlag && qis.Performance_part__c) {
+						//	qis.FreezeLine__c = true;
+						//}
+						//qis.PricingMethodValue__c=null;
+						Map<String, Object>  qisUpdateData = (Map<String, Object>) qiSublinesData.get(qis.id);
+						if(qisUpdateData != null) {
+							for(String key : qisUpdateData.keyset()) {
+								String strVal = (String)qisUpdateData.get(key);
+								if(string.isNotBlank(strVal)) {
+									if('PricingMethodValue__c'.equalsIgnoreCase(key)){
+										qis.PricingMethodValue__c = strVal;
+										if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Percent_of_DNet__c = Double.valueOf(strVal);
+							    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Percent_Off_MSRP__c = Double.valueOf(strVal);
+							    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Gross_Profit_Percent__c = Double.valueOf(strVal);
+							    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Award_Price__c = decimal.valueOf(strVal);
+							    		}
+									} else if('Award_Price__c'.equalsIgnoreCase(key)){
+										qis.Award_Price__c = decimal.valueOf(strVal);
+									} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
+										qis.Unit_Award_Overridden__c = boolean.valueOf(strVal);
+									}
 								}
 							}
 						}
+						system.debug('display qis=' + qis.PricingMethodValue__c );
+						if(!performancePart) {
+							qis.Performance_Part__c = false;
+						}
 					}
-					system.debug('display qis=' + qis.PricingMethodValue__c );
-					if(!performancePart) {
-						qis.Performance_Part__c = false;
-					}
-				}
-    		}
-		}
-
-
-		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
-		system.debug(logginglevel.info, 'entering---calculateRebateMargin');
-    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
-    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-    	/*
-    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
-    		system.debug('display qi=' + qi.PricingMethodValue__c );
-    		for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-    			system.debug('display qis=' + qis.PricingMethodValue__c );
-    		}
-    	}
-    	*/
-    	for(FieldSetMember fs : rs.fieldSetMembers) {
-    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-    			fs.label = rs.selectedPricingMethod;
-    		}
-    	}
-    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-    			fss.label = rs.selectedPricingMethod;
-    		}
-    	}
-    	rs.quote = pp.quote;
-    	rs.values =  pp.quoteItems;
-    	rs.chainCall = pp.chainCall;
-    	rs.payload = pp.payloadOfChainCall;
-    	rs.displaySetupFee=pp.displaySetupFee();
-    	List<String> spKeys = new List<String>();
-		if(String.isNotBlank(ppd.externalId)) {
-	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
-	    	for(String key : secondaryPrograms.keyset()) {
-	    		spKeys.add(key);
-	    	}
+	    		}
+			}
 	
-	    	if(spKeys.size() > 0) {
-	    		rs.secondaryPrograms = secondaryPrograms;
-	    		rs.secondaryProgramKeys = spKeys;
+	
+			rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
+			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
+	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+	    	/*
+	    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
+	    		system.debug('display qi=' + qi.PricingMethodValue__c );
+	    		for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+	    			system.debug('display qis=' + qis.PricingMethodValue__c );
+	    		}
 	    	}
-		}
+	    	*/
+	    	for(FieldSetMember fs : rs.fieldSetMembers) {
+	    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+	    			fs.label = rs.selectedPricingMethod;
+	    		}
+	    	}
+	    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
+	    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+	    			fss.label = rs.selectedPricingMethod;
+	    		}
+	    	}
+	    	rs.quote = pp.quote;
+	    	rs.values =  pp.quoteItems;
+	    	rs.chainCall = pp.chainCall;
+	    	rs.payload = pp.payloadOfChainCall;
+	    	rs.displaySetupFee=pp.displaySetupFee();
+	    	List<String> spKeys = new List<String>();
+			if(String.isNotBlank(ppd.externalId)) {
+		    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+		    	for(String key : secondaryPrograms.keyset()) {
+		    		spKeys.add(key);
+		    	}
+		
+		    	if(spKeys.size() > 0) {
+		    		rs.secondaryPrograms = secondaryPrograms;
+		    		rs.secondaryProgramKeys = spKeys;
+		    	}
+			}
 		
     	} catch (Exception e) {
     		System.debug(logginglevel.error, e);
@@ -267,45 +267,7 @@ public class ToroPricingProgramController {
 		//if there is only one pricing method + "Please select" item, auto apply it
 		pp.initialize(quoteId);
 		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
-		/*
-    	List<Schema.FieldSetMember> fieldSet = pp.getToroQuoteItemFields();
-    	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields();
-    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
-    	List<Schema.FieldSetMember> fieldSetSub = pp.getToroQuoteItemSublineFields();
-    	List<Schema.FieldSetMember> updatableFieldSetSub = pp.getToroQuoteItemSublineUpdatableFields();
-    	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub);
-    	List<Schema.FieldSetMember> fieldSetSummary = pp.getToroQuoteItemSummaryFields();
-    	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, null);
-
-    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
-    		if(qiId == qi.id) {
-	    		qi.PricingMethodValue__c = value;
-	    		if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-	    			qi.Award_of_DN__c = Double.valueOf(value);
-	    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-	    			qi.Off_MSRP__c = Double.valueOf(value);
-	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-	    			qi.Toro_Gross_Profit_Percent__c = Double.valueOf(value);
-	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-	    			qi.Award_Price__c = decimal.valueOf(value);
-	    		}
-	    		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-						qis.PricingMethodValue__c = value;
-						if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-			    			qis.Percent_of_DNet__c = Double.valueOf(value);
-			    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-			    			qis.Percent_Off_MSRP__c = Double.valueOf(value);
-			    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-			    			qis.Gross_Profit_Percent__c = Double.valueOf(value);
-			    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-			    			qis.Award_Price__c = decimal.valueOf(value);
-			    		}
-					}
-	    		}
-    		}
-    	}
-    	*/
+		
     	List<Revvy__MnStrategy4__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
     	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(FieldSetMember fs : rs.fieldSetMembers) {
@@ -327,38 +289,44 @@ public class ToroPricingProgramController {
     public static ToroSObjectResultSet setTotalAwardDollarPMRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal awardPrice, boolean performancePart) {
     	system.debug('--------------calling setTotalAwardDollarPMRemote');
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
-    	rs.result=false;
-    	rs.selectedPricingMethod = pricingMethod;
-    	rs.selectedPricingProgram = pricingProgram;
-    	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
-    	if(string.isNotBlank(pricingProgram)) {
-    		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-    		pp.initialize(quoteId);
-    		pp.performancePartFlag = performancePart != null ? performancePart : false;
-    		pp.quoteItems = ToroPricingMethodHelper.distributeTotalAwardDollors(pp.quoteItems, awardPrice);
-    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
-			//system.debug(logginglevel.info, 'entering---calculateRebateMargin');
-	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
-
-	    	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-	    	for(FieldSetMember fs : rs.fieldSetMembers) {
-	    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fs.label = rs.selectedPricingMethod;
-	    		}
+    	try {
+	    	rs.result=false;
+	    	rs.selectedPricingMethod = pricingMethod;
+	    	rs.selectedPricingProgram = pricingProgram;
+	    	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+	    	if(string.isNotBlank(pricingProgram)) {
+	    		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+	    		pp.initialize(quoteId);
+	    		pp.performancePartFlag = performancePart != null ? performancePart : false;
+	    		pp.quoteItems = ToroPricingMethodHelper.distributeTotalAwardDollors(pp.quoteItems, awardPrice);
+	    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
+				//system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+		    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
+	
+		    	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+		    	for(FieldSetMember fs : rs.fieldSetMembers) {
+		    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+		    			fs.label = rs.selectedPricingMethod;
+		    		}
+		    	}
+		    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
+		    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+		    			fss.label = rs.selectedPricingMethod;
+		    		}
+		    	}
+		    	pp.quote.Total_Award_Dollars__c = awardPrice;
+		    	ToroCacheManager.putQuote(pp.quote);
+		    	rs.quote = pp.quote;
+		    	rs.values =  pp.quoteItems;
+		    	rs.chainCall = pp.chainCall;
+		    	rs.payload = pp.payloadOfChainCall;
+		    	rs.displaySetupFee=pp.displaySetupFee();
+		    	rs.result=true;
 	    	}
-	    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-	    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fss.label = rs.selectedPricingMethod;
-	    		}
-	    	}
-	    	pp.quote.Total_Award_Dollars__c = awardPrice;
-	    	ToroCacheManager.putQuote(pp.quote);
-	    	rs.quote = pp.quote;
-	    	rs.values =  pp.quoteItems;
-	    	rs.chainCall = pp.chainCall;
-	    	rs.payload = pp.payloadOfChainCall;
-	    	rs.displaySetupFee=pp.displaySetupFee();
-	    	rs.result=true;
+    	} catch (Exception e) {
+    		System.debug(logginglevel.error, e);
+    		ToroCustomExceptionData data = new ToroCustomExceptionData(e.getStackTraceString(), e.getMessage());
+    		throw new AuraHandledException(JSON.serialize(data));	
     	}
     	return rs;
     }
@@ -367,48 +335,54 @@ public class ToroPricingProgramController {
     public static ToroSObjectResultSet setGPPercentRemote(Id quoteId, String pricingProgram, String pricingMethod, decimal gpPercent, boolean performancePart) {
     	system.debug('--------------calling setGPPercentRemote');
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
-    	rs.result=false;
-    	rs.selectedPricingMethod = pricingMethod;
-    	rs.selectedPricingProgram = pricingProgram;
-    	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
-    	if(string.isNotBlank(pricingProgram)) {
-    		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-    		pp.initialize(quoteId);
-    		pp.performancePartFlag = performancePart != null ? performancePart : false;
-    		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {
-    			qi.Toro_Gross_Profit_Percent__c = gpPercent;
-    			qi.PricingMethodValue__c = String.valueOf(gpPercent);
-				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-						qis.Gross_Profit_Percent__c = gpPercent;
-						qis.PricingMethodValue__c = String.valueOf(gpPercent);
+    	try {
+	    	rs.result=false;
+	    	rs.selectedPricingMethod = pricingMethod;
+	    	rs.selectedPricingProgram = pricingProgram;
+	    	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+	    	if(string.isNotBlank(pricingProgram)) {
+	    		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+	    		pp.initialize(quoteId);
+	    		pp.performancePartFlag = performancePart != null ? performancePart : false;
+	    		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {
+	    			qi.Toro_Gross_Profit_Percent__c = gpPercent;
+	    			qi.PricingMethodValue__c = String.valueOf(gpPercent);
+					if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							qis.Gross_Profit_Percent__c = gpPercent;
+							qis.PricingMethodValue__c = String.valueOf(gpPercent);
+						}
 					}
 				}
-			}
-
-    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
-			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
-	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
-
-	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-	    	for(FieldSetMember fs : rs.fieldSetMembers) {
-	    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fs.label = rs.selectedPricingMethod;
-	    		}
+	
+	    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
+				system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+		    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
+	
+		    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+		    	for(FieldSetMember fs : rs.fieldSetMembers) {
+		    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+		    			fs.label = rs.selectedPricingMethod;
+		    		}
+		    	}
+		    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
+		    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+		    			fss.label = rs.selectedPricingMethod;
+		    		}
+		    	}
+		    	pp.quote.Gross_Profit_Percent__c = gpPercent;
+		    	ToroCacheManager.putQuote(pp.quote);
+		    	rs.quote = pp.quote;
+		    	rs.values =  pp.quoteItems;
+		    	rs.chainCall = pp.chainCall;
+		    	rs.payload = pp.payloadOfChainCall;
+		    	rs.displaySetupFee=pp.displaySetupFee();
+		    	rs.result=true;
 	    	}
-	    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-	    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fss.label = rs.selectedPricingMethod;
-	    		}
-	    	}
-	    	pp.quote.Gross_Profit_Percent__c = gpPercent;
-	    	ToroCacheManager.putQuote(pp.quote);
-	    	rs.quote = pp.quote;
-	    	rs.values =  pp.quoteItems;
-	    	rs.chainCall = pp.chainCall;
-	    	rs.payload = pp.payloadOfChainCall;
-	    	rs.displaySetupFee=pp.displaySetupFee();
-	    	rs.result=true;
+    	} catch (Exception e) {
+    		System.debug(logginglevel.error, e);
+    		ToroCustomExceptionData data = new ToroCustomExceptionData(e.getStackTraceString(), e.getMessage());
+    		throw new AuraHandledException(JSON.serialize(data));	
     	}
     	return rs;
     }

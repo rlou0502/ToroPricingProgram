@@ -8,7 +8,7 @@
 	<!-- <aura:method name="updateRollingTotals" action="{!c.updateRollingTotals}" description="" /> -->
 	<ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Support Plus Allowance">Support Plus Allowance</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Allowance_Tooltip}">{!$Label.c.SP_Allowance}</p>
 			<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance__c}">
 				<lightning:formattedNumber value="{!v.quote.Toro_Support_Plus_Allowance__c}" style="currency" />
 				<aura:if isTrue="{!v.quote.Toro_Support_Plus_Allowance__c == 0}">
@@ -17,13 +17,13 @@
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Support Plus Allowance Used">Support Plus Allowance Used</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Allowance_Used_Tooltip}">{!$Label.c.SP_Allowance_Used}</p>
 			<aura:if isTrue="{!greaterthan(v.quote.Toro_Support_Plus_Allowance_Used__c,v.quote.Toro_Support_Plus_Allowance__c)}">
 				<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance_Used__c}" style="color:red;">
 					<lightning:formattedNumber value="{!v.quote.Toro_Support_Plus_Allowance_Used__c}" style="currency" />
 				</p>
 				<p class="slds-text-body_regular flashWarning" style="color:red;font-size:0.8em;">
-					Allowance has been exceeded.
+ 					{!$Label.c.SP_Allowance_Exceeded}
 				</p>
 			<aura:set attribute="else">
 				<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance_Used__c}">
@@ -32,24 +32,26 @@
 			</aura:set>
 			</aura:if>
 		</li>
+		<!--
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="ADJ AWARD">ADJ AWARD</p>
 			<p class="slds-text-body_regular" title="placeholder">
 				(placeholder)
 			</p>
 		</li>
+		-->
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="ADJ EXT DNET">ADJ EXT DNET</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Adjusted_Extended_DNet_Tooltip}">{!$Label.c.SP_Adjusted_Extended_DNet}</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Total_Extended_DNET__c}">
 				<lightning:formattedNumber value="{!v.quote.SP_Total_Extended_DNET__c}" style="currency" />
 			</p>
 		</li>
 		<li class="slds-page-header__detail-block">
 			<aura:if isTrue="{!v.distRespIsEditable}">
-				<p class="slds-text-title_caps slds-m-bottom_small" title="Distributor Responsibility (%)">Distributor Responsibility (%)</p>
+				<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Distributor_Responsibility_Tooltip}">{!$Label.c.SP_Distributor_Responsibility}</p>
 				<p class="slds-text-body_regular">
 					<!--
-					<lightning:select class="slds-text-title_caps" name="selectItem" label="Distributor Responsibility (%)" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
+					<lightning:select class="slds-text-title_caps" name="selectItem" label="{!$Label.c.SP_Distributor_Responsibility}" onchange="{!c.handleDistRespChange}" value="{!v.selectedDistributorResponsibility}">
 						<aura:iteration var="distResp" items="{!v.distributorResponsibilities}" >
 							<option value="{!distResp.value}" selected="{!distResp.selected}">{!distResp.label}</option>
 						</aura:iteration>
@@ -58,7 +60,7 @@
 					<lightning:input type="number" value="{!v.selectedDistributorResponsibility}" onchange="{!c.handleDistRespChange}"/>
 				</p>
 				<aura:set attribute="else">
-					<p class="slds-text-title_caps slds-m-bottom_small" title="Distributor Responsibility (%)">Distributor Responsibility (%)</p>
+					<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Distributor_Responsibility_Tooltip}">{!$Label.c.SP_Distributor_Responsibility}</p>
 					<p class="slds-text-body_regular" >
 						<lightning:formattedNumber value="{!v.quote.Distributor_Responsibility__c/100}" style="percent" />
 					</p>
@@ -66,7 +68,7 @@
 			</aura:if>
 		</li>
 		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="Toro Contribution">Toro Contribution</p>
+			<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Toro_Contribution_Tooltip}">{!$Label.c.SP_Toro_Contribution}</p>
 			<p class="slds-text-body_regular" title="{!v.quote.SP_Toro_Responsibility__c}">
 				<lightning:formattedNumber value="{!v.quote.SP_Toro_Responsibility__c}" style="currency" />
 			</p>
