@@ -2,6 +2,7 @@ public with sharing class ToroPricingMethodHelper {
 	private static Map<String, Map<decimal, ToroPricingMethodData> >DNetPercentMap = new Map<String, Map<decimal, ToroPricingMethodData> >();     
 	private static Map<String, Map<decimal, ToroPricingMethodData> >GPPercentMap = new Map<String, Map<decimal, ToroPricingMethodData> >(); 
 	public List<Revvy__MnStrategy4__c> quoteItemList { get; set;}
+	public String primaryPricingProgramExtId { get; set; }
 	public String pricingProgramExternalId { get; set {pricingProgramExternalId=value; pricingProgramExternalIds.add(value);} }
 	public Set<String> pricingProgramExternalIds {get; set; }
 	public void addPricingProgramExtId(String extId) {
