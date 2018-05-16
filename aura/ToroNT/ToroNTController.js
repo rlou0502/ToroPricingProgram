@@ -14,6 +14,9 @@
 		var newItemAwardPrice = event.getParam('newItemAwardPrice');
 		var newItemQuantity = event.getParam('newItemSPQuantity');
 
+		console.log('newItemMSRPPrice: ' + newItemMSRPPrice);
+		console.log('newItemAwardPrice: ' + newItemAwardPrice);
+
 		var inputIsValid = true;
 		var errorMessage = 'The following values are required: ';
 

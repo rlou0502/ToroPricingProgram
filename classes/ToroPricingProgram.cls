@@ -118,7 +118,7 @@ public abstract class ToroPricingProgram {
 			String[] pps = pricingProgram.SecondaryProgram__c.split(';');
 			Set<String> senondaryPricingProgramSet = new Set<String>();
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
-					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps and Parent_Program__r.ExternalId__c <> 'SouthernDemo'  order by Sequence__c ];
+					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps and Parent_Program__r.Hide_Children__c = FALSE  order by Sequence__c ];
 			for(Revvy__MnStrategy1__c pp : rebates) {
 				if(!result.containsKey(pp.Parent_Program__r.ExternalId__c)) {
 					result.put(pp.Parent_Program__r.ExternalId__c, new Map<String, String>());
@@ -135,11 +135,13 @@ public abstract class ToroPricingProgram {
 			}
 		} else {
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, ExternalId__c, Name, Parent_Program__r.ExternalId__c
-					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c = :pricingProgramExtId order by Sequence__c];
+					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c = :pricingProgramExtId and Parent_Program__r.Hide_Children__c = FALSE order by Sequence__c];
 			result = new Map<String, Object >();
-			result.put(pricingProgramExtId, 'Please Select a Pricing Program');
-			for(Revvy__MnStrategy1__c pp : rebates) {
-				result.put(pp.ExternalId__c, pp.Name);
+			if(rebates.size() > 0) {
+				result.put(pricingProgramExtId, 'Please Select a Pricing Program');
+				for(Revvy__MnStrategy1__c pp : rebates) {
+					result.put(pp.ExternalId__c, pp.Name);
+				}
 			}
 		}
 		system.debug('retrieveSecondaryPrograms = ' + result);

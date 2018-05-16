@@ -1,17 +1,14 @@
 <aura:component >
     <aura:attribute name="quote" type="SObject" />
 
-<!--
+
 <ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
     <li class="slds-page-header__detail-block">
-        <p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Allowance_Tooltip}">{!$Label.c.SP_Allowance}</p>
-        <p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance__c}">
-            <lightning:formattedNumber value="{!v.quote.Toro_Support_Plus_Allowance__c}" style="currency" />
-            <aura:if isTrue="{!v.quote.Toro_Support_Plus_Allowance__c == 0}">
-                &nbsp; {!$Label.c.SP_Allowance_NONE}
-            </aura:if>
+        <p class="slds-text-title_caps slds-m-bottom_small" title="ADJ Award">ADJ Award</p>
+        <p class="slds-text-body_regular" title="555">
+            <lightning:formattedNumber value="555" style="currency" />
         </p>
     </li>
 </ul>
--->
+
 </aura:component>

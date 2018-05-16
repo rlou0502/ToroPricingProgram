@@ -1,6 +1,8 @@
 <aura:event type="APPLICATION" description="Event template" >
     <aura:attribute name="newItemProductId" type="String"/>
     <aura:attribute name="newItemDNetPrice" type="Decimal"/>
+    <aura:attribute name="newItemMSRPPrice" type="Decimal"/>
+    <aura:attribute name="newItemAwardPrice" type="Decimal"/>
     <aura:attribute name="newItemSPQuantity" type="Decimal" />
     <aura:attribute name="newItemDistributorResponsibility" type="Decimal" />
 </aura:event>
