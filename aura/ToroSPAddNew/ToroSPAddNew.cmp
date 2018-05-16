@@ -56,8 +56,7 @@
 						<div class="slds-form-element">
 							<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
 							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dist_resp" label="DNET" value="{!v.newItemDNetPrice}"
-								/>
+								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dist_resp" label="DNET" value="{!v.newItemDNetPrice}"/>
 							</div>
 						</div>
 						<div class="slds-form-element">

@@ -458,6 +458,14 @@
         <value>Collapse All</value>
     </labels>
     <labels>
+        <fullName>PP_Exception_Header</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Exception Header</shortDescription>
+        <value>An internal server error has occurred</value>
+    </labels>
+    <labels>
         <fullName>PP_ExpandAll</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

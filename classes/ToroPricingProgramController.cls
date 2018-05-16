@@ -52,6 +52,7 @@ public class ToroPricingProgramController {
     		rs.result=false;
     		return rs;
     	}
+    	try{
     	String pricingMethod = (String) values.get('pricingMethod');
     	String pricingProgram = (String) values.get('pricingProgram');
     	rs.selectedPricingMethod = pricingMethod;
@@ -240,6 +241,12 @@ public class ToroPricingProgramController {
 	    		rs.secondaryProgramKeys = spKeys;
 	    	}
 		}
+		
+    	} catch (Exception e) {
+    		System.debug(logginglevel.error, e);
+    		ToroCustomExceptionData data = new ToroCustomExceptionData(e.getStackTraceString(), e.getMessage());
+    		throw new AuraHandledException(JSON.serialize(data));
+    	}
     	return rs;
     }
 

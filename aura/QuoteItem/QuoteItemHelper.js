@@ -322,7 +322,6 @@
             }, false);    
         var secondaryPrograms = component.get('v.secondaryPrograms');
         var selectedPricingProgram = quoteItem['Pricing_Program__c'];
-        debugger;
         for(var k=0; k <secondaryProgramKeys.length; k++ ) {
             var key = secondaryProgramKeys[k];
         	var spVal = secondaryPrograms[key];
@@ -879,7 +878,6 @@
                     var retResponse = response.getReturnValue();
                     var retRecords = retResponse.values;
                     var fields = retResponse.fieldSetMembers;
-                    debugger;
                     component.set('v.fields', fields);
                     component.set('v.fieldsSub', retResponse.fieldSetSubMembers); 
                     component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
@@ -911,7 +909,26 @@
                     self.cleanInnerNodes(items);
                     self.renderQuoteItems(component);
                 } else {
+                	debugger;
                 	self.hideSpinner();
+                	// Parse custom error data & report it
+                	let errors = response.getError();
+                	let toastParams = {
+                	        title: "Error",
+                	        message: "Unknown error", // Default error message
+                	        type: "error"
+                	    };
+                	let message = 'Unknown error'; // Default error message
+                	// Retrieve the error message sent by the server
+                	if (errors && Array.isArray(errors) && errors.length > 0) {
+                	    message = errors[0].message;
+                	    toastParams.message = errors[0].message;
+                	}
+                	// Display the message
+                	console.error(JSON.parse(message).message);
+                	console.error(JSON.parse(message).stackTrace);              	    
+            	    // Fire error toast
+            	    alert(JSON.parse(message).message);
                 }
             }
         );
