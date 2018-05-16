@@ -458,14 +458,6 @@
         <value>Collapse All</value>
     </labels>
     <labels>
-        <fullName>PP_Exception_Header</fullName>
-        <categories>Pricing Program</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Exception Header</shortDescription>
-        <value>An internal server error has occurred</value>
-    </labels>
-    <labels>
         <fullName>PP_ExpandAll</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>
@@ -607,6 +599,14 @@
         <protected>false</protected>
         <shortDescription>SP Allowance Exceeded</shortDescription>
         <value>Allowance has been exceeded.</value>
+    </labels>
+    <labels>
+        <fullName>SP_Allowance_NONE</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Allowance (NONE)</shortDescription>
+        <value>(no allowance for current quote Total DNet)</value>
     </labels>
     <labels>
         <fullName>SP_Allowance_Tooltip</fullName>

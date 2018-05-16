@@ -12,7 +12,7 @@
 			<p class="slds-text-body_regular" title="{!v.quote.Toro_Support_Plus_Allowance__c}">
 				<lightning:formattedNumber value="{!v.quote.Toro_Support_Plus_Allowance__c}" style="currency" />
 				<aura:if isTrue="{!v.quote.Toro_Support_Plus_Allowance__c == 0}">
-					&nbsp; (no allowance for current quote Total DNet)
+					&nbsp; {!$Label.c.SP_Allowance_NONE}
 				</aura:if>
 			</p>
 		</li>
@@ -57,7 +57,7 @@
 						</aura:iteration>
 					</lightning:select>
 					 -->
-					<lightning:input type="number" value="{!v.selectedDistributorResponsibility}" onchange="{!c.handleDistRespChange}"/>
+					<lightning:input type="number" value="{!v.selectedDistributorResponsibility}" onchange="{!c.handleDistRespChange}" />
 				</p>
 				<aura:set attribute="else">
 					<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Distributor_Responsibility_Tooltip}">{!$Label.c.SP_Distributor_Responsibility}</p>

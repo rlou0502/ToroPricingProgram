@@ -14,8 +14,10 @@
 			for (var x = 0; x < searchResults.length; x++) {
 
 				var productName = searchResults[x].REVVY__Product__r.Name;
-				var productId = searchResults[x].REVVY__Product__r.REVVY__Id__c;
-				var dnetPrice = searchResults[x].REVVY__SuggestedPrice__c;
+				var productId   = searchResults[x].REVVY__Product__r.REVVY__Id__c;
+				var dnetPrice   = searchResults[x].REVVY__SuggestedPrice__c;
+				var msrpPrice   = searchResults[x].REVVY__SuggestedPrice__c;
+				var awardPrice  = searchResults[x].REVVY__SuggestedPrice__c;
 				var description = searchResults[x].REVVY__Product__r.REVVY__Description__c ? searchResults[x].REVVY__Product__r.REVVY__Description__c : productName;
 
 				if (regEx.test(productId)) {
@@ -84,12 +86,14 @@
 						{
 							tag: 'li',
 							HTMLAttributes: {
-								class: 'slds-listbox__item',
-								'data-productid': productId,
+								class             : 'slds-listbox__item',
+								'data-productid'  : productId,
 								'data-productname': productName,
-								'data-dnetprice': dnetPrice,
+								'data-dnetprice'  : dnetPrice,
+								'data-msrpprice'  : msrpPrice,
+								'data-awardprice' : awardPrice,
 								'data-description': description,
-								onclick: cmp.getReference('c.populateAddNewModalFields')
+								onclick           : cmp.getReference('c.populateAddNewModalFields')
 							}
 						}
 					];

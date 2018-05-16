@@ -118,7 +118,7 @@ public abstract class ToroPricingProgram {
 			String[] pps = pricingProgram.SecondaryProgram__c.split(';');
 			Set<String> senondaryPricingProgramSet = new Set<String>();
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
-					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps order by Sequence__c ];
+					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps and Parent_Program__r.ExternalId__c <> 'SouthernDemo'  order by Sequence__c ];
 			for(Revvy__MnStrategy1__c pp : rebates) {
 				if(!result.containsKey(pp.Parent_Program__r.ExternalId__c)) {
 					result.put(pp.Parent_Program__r.ExternalId__c, new Map<String, String>());

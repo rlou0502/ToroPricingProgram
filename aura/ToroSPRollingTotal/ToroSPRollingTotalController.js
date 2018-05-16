@@ -7,9 +7,7 @@
     },*/
     handleDistRespChange: function(cmp, event) {
         console.log('@ToroSPRollingTotalController:handleDistRespChange');
-
         var value = event.getSource().get('v.value');
-
         if (value < 0) {
             event.getSource().set('v.value', 0);
         }

@@ -50,8 +50,11 @@
 		</div>
 	</header>
 
+	<div id="non-toro-header">
+		<c:ToroNTHeader aura:id="cmpNTHeader" quote="{!v.quote}" />
+	</div>
 	<div id="non-toro-quote-items">
-		<c:ToroNTQuoteItems aura:id="cmpNTQuoteItems" quoteItems="{!v.quoteItems}"/>
+		<c:ToroNTQuoteItems aura:id="cmpNTQuoteItems" quoteItems="{!v.quoteItems}" />
 	</div>
 
 	<c:ToroSPAddNew aura:id="cmpAddNew" searchType="nontoro" />

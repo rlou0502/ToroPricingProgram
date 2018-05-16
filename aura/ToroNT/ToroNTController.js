@@ -9,9 +9,10 @@
 	},
 	addNewItem: function(cmp, event, helper) {
 		console.log('@ToroNTController:addNewItem');
-        var newItemProductId = event.getParam('newItemProductId');
-        var newItemDNetPrice = event.getParam('newItemDNetPrice');
-		var newItemSPQuantity = event.getParam('newItemSPQuantity');
+		var newItemProductId = event.getParam('newItemProductId');
+		var newItemMSRPPrice = event.getParam('newItemMSRPPrice');
+		var newItemAwardPrice = event.getParam('newItemAwardPrice');
+		var newItemQuantity = event.getParam('newItemSPQuantity');
 
 		var inputIsValid = true;
 		var errorMessage = 'The following values are required: ';
@@ -21,9 +22,9 @@
 			errorMessage += ' Product ID';
 		}
 
-		if (!newItemSPQuantity) {
+		if (!newItemQuantity) {
 			inputIsValid = false;
-			errorMessage += ', SP Quantity';
+			errorMessage += ', Quantity';
 		}
 
 		if (!inputIsValid) {
@@ -31,7 +32,7 @@
 		}
 
         else {
-        	helper.addProduct(cmp, newItemProductId, newItemDNetPrice, newItemSPQuantity);
+        	helper.addProduct(cmp, newItemProductId, newItemMSRPPrice, newItemAwardPrice, newItemQuantity);
         }
 	},
 	handleShowAddNewModal: function(cmp, event, helper) {

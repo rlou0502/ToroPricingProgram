@@ -21,13 +21,14 @@
 
 		$A.enqueueAction(action);
 	},
-	addProduct: function(cmp, productId, dnetPrice, quantity) {
+	addProduct: function(cmp, productId, msrpPrice, awardPrice, quantity) {
 		console.log('ToroNTHelper:addProduct');
 		var action = cmp.get('c.addNonToroItem');
 		action.setParams({
 			  quoteId  : cmp.get('v.quoteId')
 			, productId: productId
-			, dnetPrice: dnetPrice
+			, msrpPrice: msrpPrice
+			, awardPrice: awardPrice
 			, quantity : quantity
 		});
 		action.setCallback(this
@@ -35,6 +36,8 @@
 				var state = response.getState();
 				if (cmp.isValid() && state === 'SUCCESS') {
 					var retVal = response.getReturnValue();
+					console.log('addProduct retVal:');
+					console.log(retVal);
 					if (retVal) {
 						var quoteItems = cmp.get('v.quoteItems');
 						quoteItems.push(retVal);

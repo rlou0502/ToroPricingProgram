@@ -21,6 +21,8 @@
 	<aura:attribute name="newItemProductName" type="String" default="" access="private" />
 	<aura:attribute name="newItemDescription" type="String" default="" access="private" />
 	<aura:attribute name="newItemDNetPrice" type="Decimal" default="" access="private" />
+	<aura:attribute name="newItemMSRPPrice" type="Decimal" default="" access="private" />
+	<aura:attribute name="newItemAwardPrice" type="Decimal" default="" access="private" />
 	<aura:attribute name="showDistributorResponsibility" type="Boolean" default="true" />
 
 
@@ -53,12 +55,26 @@
 								</section>
 							</div>
 						</div>
-						<div class="slds-form-element">
-							<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
-							<div class="slds-form-element__control">
-								<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dist_resp" label="DNET" value="{!v.newItemDNetPrice}"/>
+						<aura:if isTrue="{!v.searchType == 'supportplus'}">
+							<div class="slds-form-element">
+								<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
+								<div class="slds-form-element__control">
+									<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dnet" label="DNET" value="{!v.newItemDNetPrice}"/>
+								</div>
 							</div>
-						</div>
+							<aura:set attribute="else">
+								<div class="slds-form-element">
+									<div class="slds-form-element__control">
+										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="MSRP" value="{!v.newItemMSRPPrice}"/>
+									</div>
+								</div>
+								<div class="slds-form-element">
+									<div class="slds-form-element__control">
+										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_award" label="Award Price" value="{!v.newItemAwardPrice}"/>
+									</div>
+								</div>
+							</aura:set>
+						</aura:if>
 						<div class="slds-form-element">
 							<div class="slds-form-element__control">
 								<aura:if isTrue="{!v.searchType == 'supportplus'}">
@@ -71,14 +87,14 @@
 						</div>
 						<aura:if isTrue="{!v.searchType == 'supportplus'}">
 							<div class="slds-form-element">
-								<label class="slds-form-element__label slds-text-title_caps" for="add_dnet_price">Distributor Responsibility (%)</label>
+								<label class="slds-form-element__label slds-text-title_caps" for="add_dist_resp">Distributor Responsibility (%)</label>
 								<div class="slds-form-element__control">
 									<ui:outputText value="{!v.newItemDistributorResponsibility}" />
 								</div>
 							</div>
 						</aura:if>
 						<div class="slds-form-element">
-							<label class="slds-form-element__label slds-text-title_caps" for="add_dnet_price">Product Name</label>
+							<label class="slds-form-element__label slds-text-title_caps" for="add_product_name">Product Name</label>
 							<div class="slds-form-element__control">
 								<lightning:formattedText value="{!v.newItemProductName}" />
 							</div>

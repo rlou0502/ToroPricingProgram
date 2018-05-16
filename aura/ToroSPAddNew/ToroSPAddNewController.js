@@ -14,6 +14,8 @@
 
         cmp.set('v.newItemProductName', '');
         cmp.set('v.newItemDNetPrice', '');
+        cmp.set('v.newItemMSRPPrice', '');
+        cmp.set('v.newItemAwardPrice', '');
         cmp.set('v.newItemDescription', '');
 
 
@@ -27,6 +29,8 @@
         cmp.set('v.wasAutoCompleted', false);
         cmp.set('v.newItemProductName', '');
         cmp.set('v.newItemDNetPrice', '');
+        cmp.set('v.newItemMSRPPrice', '');
+        cmp.set('v.newItemAwardPrice', '');
         cmp.set('v.newItemDescription', '');
 
         var previousValue = event.getParam('oldValue');
@@ -47,6 +51,8 @@
         cmp.set('v.newItemProductId', dataset.productid);
         cmp.set('v.newItemProductName', dataset.productname);
         cmp.set('v.newItemDNetPrice', dataset.dnetprice);
+        cmp.set('v.newItemMSRPPrice', dataset.msrpprice);
+        cmp.set('v.newItemAwardPrice', dataset.awardprice);
         cmp.set('v.newItemDescription', dataset.description);
         cmp.set('v.wasAutoCompleted', true);
     },
@@ -54,9 +60,11 @@
         console.log('ToroSPAddNewController:addNewSupportPlusItem');
         var cmpEvent = cmp.getEvent("addNew");
         cmpEvent.setParams({
-            'newItemProductId': cmp.get('v.newItemProductId'),
-            'newItemDNetPrice': cmp.get('v.newItemDNetPrice'),
-            'newItemSPQuantity': cmp.get('v.newItemSPQuantity'),
+            'newItemProductId'                : cmp.get('v.newItemProductId'),
+            'newItemDNetPrice'                : cmp.get('v.newItemDNetPrice'),
+            'newItemMSRPPrice'                : cmp.get('v.newItemMSRPPrice'),
+            'newItemAwardPrice'               : cmp.get('v.newItemAwardPrice'),
+            'newItemSPQuantity'               : cmp.get('v.newItemSPQuantity'),
             'newItemDistributorResponsibility': cmp.get('v.newItemDistributorResponsibility')
         });
         cmpEvent.fire();
