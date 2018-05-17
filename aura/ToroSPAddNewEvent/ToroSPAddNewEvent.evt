@@ -5,4 +5,5 @@
     <aura:attribute name="newItemAwardPrice" type="Decimal"/>
     <aura:attribute name="newItemSPQuantity" type="Decimal" />
     <aura:attribute name="newItemDistributorResponsibility" type="Decimal" />
+    <aura:attribute name="newItemDescription" type="String" />
 </aura:event>

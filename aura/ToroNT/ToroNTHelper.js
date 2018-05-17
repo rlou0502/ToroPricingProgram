@@ -21,7 +21,7 @@
 
 		$A.enqueueAction(action);
 	},
-	addProduct: function(cmp, productId, msrpPrice, awardPrice, quantity) {
+	addProduct: function(cmp, productId, msrpPrice, awardPrice, quantity, description) {
 		console.log('ToroNTHelper:addProduct');
 		var action = cmp.get('c.addNonToroItem');
 		action.setParams({
@@ -30,6 +30,7 @@
 			, msrpPrice: msrpPrice
 			, awardPrice: awardPrice
 			, quantity : quantity
+			, description: description
 		});
 		action.setCallback(this
 			, function(response) {

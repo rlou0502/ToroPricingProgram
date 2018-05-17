@@ -303,6 +303,7 @@ public class ToroPricingProgramController {
 	    		pp.quoteItems = ToroPricingMethodHelper.distributeTotalAwardDollors(pp.quoteItems, awardPrice);
 	    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 				//system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+		    	/*
 		    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 	
 		    	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
@@ -316,6 +317,7 @@ public class ToroPricingProgramController {
 		    			fss.label = rs.selectedPricingMethod;
 		    		}
 		    	}
+		    	*/
 		    	pp.quote.Total_Award_Dollars__c = awardPrice;
 		    	ToroCacheManager.putQuote(pp.quote);
 		    	rs.quote = pp.quote;
@@ -359,6 +361,7 @@ public class ToroPricingProgramController {
 	
 	    		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 				system.debug(logginglevel.info, 'entering---calculateRebateMargin');
+				/*
 		    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 	
 		    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
@@ -372,6 +375,7 @@ public class ToroPricingProgramController {
 		    			fss.label = rs.selectedPricingMethod;
 		    		}
 		    	}
+		    	*/
 		    	pp.quote.Gross_Profit_Percent__c = gpPercent;
 		    	ToroCacheManager.putQuote(pp.quote);
 		    	rs.quote = pp.quote;

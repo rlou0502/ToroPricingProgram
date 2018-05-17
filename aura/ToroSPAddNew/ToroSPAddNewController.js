@@ -65,7 +65,8 @@
             'newItemMSRPPrice'                : cmp.get('v.newItemMSRPPrice'),
             'newItemAwardPrice'               : cmp.get('v.newItemAwardPrice'),
             'newItemSPQuantity'               : cmp.get('v.newItemSPQuantity'),
-            'newItemDistributorResponsibility': cmp.get('v.newItemDistributorResponsibility')
+            'newItemDistributorResponsibility': cmp.get('v.newItemDistributorResponsibility'),
+            'newItemDescription'              : cmp.get('v.newItemDescription')
         });
         cmpEvent.fire();
     }

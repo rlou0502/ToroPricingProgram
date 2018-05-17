@@ -102,7 +102,7 @@
 						<div class="slds-form-element">
 							<label class="slds-form-element__label slds-text-title_caps" for="add_description">Description</label>
 							<div class="slds-form-element__control">
-								<lightning:formattedText value="{!v.newItemDescription}" style="word-wrap: break-word" />
+								<lightning:input value="{!v.newItemDescription}" style="word-wrap: break-word" />
 							</div>
 						</div>
 					</div>

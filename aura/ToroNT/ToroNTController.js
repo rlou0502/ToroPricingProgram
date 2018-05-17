@@ -13,6 +13,7 @@
 		var newItemMSRPPrice = event.getParam('newItemMSRPPrice');
 		var newItemAwardPrice = event.getParam('newItemAwardPrice');
 		var newItemQuantity = event.getParam('newItemSPQuantity');
+		var newItemDescription = event.getParam('newItemDescription');
 
 		console.log('newItemMSRPPrice: ' + newItemMSRPPrice);
 		console.log('newItemAwardPrice: ' + newItemAwardPrice);
@@ -35,7 +36,7 @@
 		}
 
         else {
-        	helper.addProduct(cmp, newItemProductId, newItemMSRPPrice, newItemAwardPrice, newItemQuantity);
+        	helper.addProduct(cmp, newItemProductId, newItemMSRPPrice, newItemAwardPrice, newItemQuantity, newItemDescription);
         }
 	},
 	handleShowAddNewModal: function(cmp, event, helper) {
