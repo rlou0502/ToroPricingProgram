@@ -39,22 +39,31 @@
 				</header>
 				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="min-height:500px;">
 					<div class="slds-form slds-form_stacked">
-						<div class="slds-form-element">
-							<div class="slds-form-element__control">
-								<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" label="MODEL" value="{!v.newItemProductId}"
-								 placeholder="Select a product..." updateOn="keyup" />
-								<section aura:id="autocomplete_section" id="autocomplete_section" class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
-								 role="dialog" aria-label="Autocomplete Results" aria-describedby="dialog-body-id-4" style="position: absolute; left: 0px;">
-									<div class="slds-popover__body slds-p-horizontal_none" id="dialog-body-id-4">
-										<div id="listbox-unique-id" role="listbox">
-											<ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-10" role="group" aria-label="" aura:id="autocomplete_results">
-											</ul>
+						<aura:if isTrue="{!v.searchType == 'supportplus'}">
+							<div class="slds-form-element">
+								<div class="slds-form-element__control">
+									<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" label="MODEL" value="{!v.newItemProductId}"
+									placeholder="Select a product..." updateOn="keyup" />
+									<section aura:id="autocomplete_section" id="autocomplete_section" class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
+									role="dialog" aria-label="Autocomplete Results" aria-describedby="dialog-body-id-4" style="position: absolute; left: 0px;">
+										<div class="slds-popover__body slds-p-horizontal_none" id="dialog-body-id-4">
+											<div id="listbox-unique-id" role="listbox">
+												<ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-10" role="group" aria-label="" aura:id="autocomplete_results">
+												</ul>
+											</div>
 										</div>
-									</div>
-									<footer class="slds-popover__footer"> </footer>
-								</section>
+										<footer class="slds-popover__footer"> </footer>
+									</section>
+								</div>
 							</div>
-						</div>
+							<aura:set attribute="else">
+								<lightning:select class="slds-text-title_caps" name="selectItem" label="Select Product..." value="{!v.newItemProductId}">
+									<!-- <aura:iteration var="searchResult" items="{!v.searchResults}" > -->
+										<option value="L00001">Allied Product</option>
+									<!-- </aura:iteration> -->
+								</lightning:select>
+							</aura:set>
+						</aura:if>
 						<aura:if isTrue="{!v.searchType == 'supportplus'}">
 							<div class="slds-form-element">
 								<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->

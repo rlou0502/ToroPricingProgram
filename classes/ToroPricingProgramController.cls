@@ -137,6 +137,7 @@ public class ToroPricingProgramController {
 				    			qi.Toro_Gross_Profit_Percent__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
 				    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
 				    			qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
+				    			qi.total_Toro_award__c = qi.Award_Price__c;
 				    		}
 						} else if('Award_Price__c'.equalsIgnoreCase(key)){
 							system.debug('---------------Award_Price__c =' + strVal);

@@ -21,7 +21,7 @@
                         <div class="slds-truncate" title="MSRP">MSRP</div>
                     </th>
                     <th scope="col" width="15%">
-                        <div class="slds-truncate" title="AWARD PRICE">AWARD PRICE</div>
+                        <div class="slds-truncate" title="AWARD">AWARD</div>
                     </th>
                 </tr>
             </thead>
