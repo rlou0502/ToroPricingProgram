@@ -255,27 +255,29 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		    		system.debug('exiting addSetupFeeFuture 2');
 					//Read extended quote item
 					boolean foundSetupFeeQuoteItem = false;
-					for(Revvy__MnStrategy4__c qi : quoteItemList) {
-						System.debug('>>> +++++++++++++++++ SETUP FEE 222 ID='+qi.Product_Id__c);
-						if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-							System.debug('>>> +++++++++++++++++ SETUP FEE 222 found' );
-							qi.Award_Price__c = setupQi.Award_Price__c;
-							qi.Total_Award__c = setupQi.Total_Award__c;
-							qi.Total_Toro_Award__c = setupQi.Total_Toro_Award__c;
-							qi.Extended_Award_Price__c = setupQi.Extended_Award_Price__c;
-							System.debug('>>> +++++++++++++++++ SETUP FEE 222 found qi=' + qi);
-							//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
-							foundSetupFeeQuoteItem=true;
-							break;
+					if(setupQi != null) {
+						for(Revvy__MnStrategy4__c qi : quoteItemList) {
+							System.debug('>>> +++++++++++++++++ SETUP FEE 222 ID='+qi.Product_Id__c);
+							if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
+								System.debug('>>> +++++++++++++++++ SETUP FEE 222 found' );
+								qi.Award_Price__c = setupQi.Award_Price__c;
+								qi.Total_Award__c = setupQi.Total_Award__c;
+								qi.Total_Toro_Award__c = setupQi.Total_Toro_Award__c;
+								qi.Extended_Award_Price__c = setupQi.Extended_Award_Price__c;
+								System.debug('>>> +++++++++++++++++ SETUP FEE 222 found qi=' + qi);
+								//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
+								foundSetupFeeQuoteItem=true;
+								break;
+							}
 						}
-					}
-					if(!foundSetupFeeQuoteItem) {
-			    		System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found');
-			    		if(setupQi != null) {
-			    			//setupQi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
-			    			quoteItemList.add(setupQi);
-			    			System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found = ' + quoteItemList);
-			    		}
+						if(!foundSetupFeeQuoteItem) {
+				    		System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found');
+				    		if(setupQi != null) {
+				    			//setupQi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
+				    			quoteItemList.add(setupQi);
+				    			System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found = ' + quoteItemList);
+				    		}
+						}
 					}
 		    	}
 			//this.chainCall = true;
