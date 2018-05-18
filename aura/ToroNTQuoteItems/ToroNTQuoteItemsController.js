@@ -17,7 +17,19 @@
 			event.getSource().set('v.value', 0);
 		}
 
-		var cmpEvent = cmp.getEvent('ntQuantityChangeEvent');
+		var cmpEvent = cmp.getEvent('ntValueChangeEvent');
+		cmpEvent.fire();
+	},
+	handleAwardPriceChange: function(cmp, event, helper) {
+		console.log('@ToroNTQuoteItemsController:handleAwardPriceChange');
+
+		var award = event.getSource().get('v.value');
+
+		if (award < 0) {
+			event.getSource().set('v.value', 0);
+		}
+
+		var cmpEvent = cmp.getEvent('ntValueChangeEvent');
 		cmpEvent.fire();
 	}
 })

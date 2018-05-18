@@ -1,6 +1,6 @@
 <aura:component>
     <aura:registerEvent name="ntDeleteEvent" type="c:ToroSPDeleteEvent" />
-    <aura:registerEvent name="ntQuantityChangeEvent" type="c:ToroSPQtyChangeEvent" />
+    <aura:registerEvent name="ntValueChangeEvent" type="c:ToroSPQtyChangeEvent" />
     <aura:attribute name="quoteItems" type="ToroQIBase[]" />
 
     <div>
@@ -42,12 +42,17 @@
                                                 onchange="{!c.handleQuantityChange}" />
                         </td>
                         <td>{!item.productId}</td>
-                        <td>{!item.description}</td>
+                        <td>
+                            <lightning:input name="{!item.sfid}"
+                                                value="{!item.description}" />
+                        </td>
                         <td>
                             <lightning:formattedNumber value="{!item.msrpPrice}" style="currency" />
                         </td>
                         <td>
-                            <lightning:formattedNumber value="{!item.awardPrice}" style="currency" />
+                            <lightning:input type="number" formatter="currency" step="0.01"
+                                                value="{!item.awardPrice}"
+                                                onchange="{!c.handleAwardPriceChange}" />
                         </td>
                     </tr>
                 </aura:iteration>

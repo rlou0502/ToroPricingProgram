@@ -2,7 +2,7 @@
 	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
 	<aura:handler name="addNew" event="c:ToroSPAddNewEvent" action="{!c.addNewItem}" />
 	<aura:handler name="ntDeleteEvent" event="c:ToroSPDeleteEvent" action="{!c.handleNTDelete}" />
-	<aura:handler name="ntQuantityChangeEvent" event="c:ToroSPQtyChangeEvent" action="{!c.handleNTQuantityChange}" />
+	<aura:handler name="ntValueChangeEvent" event="c:ToroSPQtyChangeEvent" action="{!c.handleNTValueChange}" />
 
 	<aura:attribute name="quoteId" type="String" />
 	<aura:attribute name="quote" type="SObject" />
@@ -52,7 +52,7 @@
 	</header>
 
 	<div id="non-toro-header">
-		<c:ToroNTHeader aura:id="cmpNTHeader" quote="{!v.quote}" />
+		<c:ToroNTHeader aura:id="cmpNTHeader" quote="{!v.quote}" quoteItems="{!v.quoteItems}"/>
 	</div>
 	<div id="non-toro-quote-items">
 		<c:ToroNTQuoteItems aura:id="cmpNTQuoteItems" quoteItems="{!v.quoteItems}" />

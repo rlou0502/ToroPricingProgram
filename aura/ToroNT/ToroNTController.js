@@ -39,8 +39,8 @@
         	helper.addProduct(cmp, newItemProductId, newItemMSRPPrice, newItemAwardPrice, newItemQuantity, newItemDescription);
         }
 	},
-	handleNTQuantityChange: function(cmp, event, helper) {
-		console.log('ToroNTController:handleNTQuantityChange');
+	handleNTValueChange: function(cmp, event, helper) {
+		console.log('ToroNTController:handleNTValueChange');
 		cmp.find('cmpNTHeader').updateTotals();
 	},
 	handleShowAddNewModal: function(cmp, event, helper) {
