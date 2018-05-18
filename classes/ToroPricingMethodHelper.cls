@@ -54,6 +54,13 @@ public with sharing class ToroPricingMethodHelper {
 		return qis.Award_Price__c;	
 	}
 	
+	public ToroPricingMethodHelper setToroAwardPriceToQuoteItem() {
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);
+		}
+		return this;
+	}
+	
 	public ToroPricingMethodHelper calculateBlendedDNetPercentFromMSRP() {
 		Map<Id, decimal> retMap = new Map<Id, decimal>();	
 		decimal quoteDNet = 0;
@@ -137,7 +144,11 @@ public with sharing class ToroPricingMethodHelper {
 				decimal extAward = 0;
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) *CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;										
-				} 
+				} else {
+					if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
+						qi.Award_of_DN__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) / CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * 100;
+					}
+				}
 				qi.Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
 				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c!=0){
 					qi.Off_MSRP__c = (1 - qi.Award_Price__c/qi.MSRP_Price__c)*100;

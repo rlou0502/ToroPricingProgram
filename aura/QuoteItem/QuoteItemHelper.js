@@ -62,10 +62,12 @@
                     curObj.dataset.overridden="true";
                 } 
             } else {
-                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
-                for (var i=0; i<sublines.length; i++) {
-                    sublines[i].value=newVal;
-                }
+            	if(fieldName == "PricingMethodValue__c") {
+	                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
+	                for (var i=0; i<sublines.length; i++) {
+	                    sublines[i].value=newVal;
+	                }
+            	}
             }
         } else {
             event.currentTarget.dataset.overridden="true";
@@ -217,7 +219,7 @@
                     var dispVal = sObj[field.fieldPath];
                     if(field.fieldPath=="PricingMethodValue__c") {
                     	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
-                    }
+                    } 
                     if(dispVal != "NaN") {
                         cellText.innerHTML = dispVal;
                         cellText.title=dispVal;

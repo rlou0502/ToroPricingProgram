@@ -661,7 +661,7 @@ public class ToroPricingProgramController {
 	    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
 						rs.fieldSetMembers.remove(i);
 					}
-	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
 	    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 						rs.fieldSetMembers.remove(i);
 					}
@@ -688,13 +688,20 @@ public class ToroPricingProgramController {
 	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Toro_Gross_Profit_Percent__c')) {
 						rs.fieldSetSummaryMembers.remove(i);
 					}
-	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
 	    			if(rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 						rs.fieldSetSummaryMembers.remove(i);
 					}
 	    		}
     		}
 		}
+		for ( Integer i = rs.fieldSetSummaryMembers.size() - 1; i >= 0; --i ) {
+			if('Total Award $'.equalsIgnoreCase(pricingMethod) && rs.fieldSetSummaryMembers.get(i).fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+    			rs.fieldSetSummaryMembers.get(i).fieldPath='Award_Price__c';
+    			rs.fieldSetSummaryMembers.get(i).type='currency';
+    		}
+		}
+		
 		system.debug('***************** 1   fieldset size =' + rs.fieldSetSubMembers.size());
 		system.debug('***************** 1   pm' + pricingMethod);
 		for ( Integer i = rs.fieldSetSubMembers.size() - 1; i >= 0; --i ) {
@@ -717,7 +724,7 @@ public class ToroPricingProgramController {
 	    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Gross_Profit_Percent__c')) {
 						rs.fieldSetSubMembers.remove(i);
 					}
-	    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+	    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
 	    			if(rs.fieldSetSubMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
 						rs.fieldSetSubMembers.remove(i);
 					}

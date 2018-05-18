@@ -87,7 +87,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			}
 		}
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-			helper.distributeQuoteItemTotalAwardDollors().convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
+			helper.distributeQuoteItemTotalAwardDollors().convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent().setToroAwardPriceToQuoteItem();
 			quoteItemList = helper.quoteItemList;
 			for (Revvy__MnStrategy4__c qi : quoteItemList) {
 				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0 ) {
