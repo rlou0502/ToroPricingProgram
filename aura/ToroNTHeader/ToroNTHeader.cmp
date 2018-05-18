@@ -18,7 +18,7 @@
         </p>
     </li>
     <li class="slds-page-header__detail-block">
-        <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Allied)">Total Award (Allied)</p>
+        <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Allied Products)">Total Award (Allied Products)</p>
         <p class="slds-text-body_regular" title="">
             <lightning:formattedNumber value="{!v.totalAwardAllied}" style="currency" />
         </p>
@@ -30,7 +30,7 @@
         </p>
     </li>
     <li class="slds-page-header__detail-block">
-        <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Services)">Total Award (Services)</p>
+        <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Service Contracts)">Total Award (Service Contracts)</p>
         <p class="slds-text-body_regular" title="">
             <lightning:formattedNumber value="{!v.totalAwardServices}" style="currency" />
         </p>

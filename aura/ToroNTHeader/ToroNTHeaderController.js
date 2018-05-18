@@ -26,7 +26,7 @@
 			}
 		}
 
-		var totalAdjAward = totalAwardAllied - totalAwardTradeIns + totalAwardServices;
+		var totalAdjAward = (totalAwardAllied + totalAwardServices) - totalAwardTradeIns;
 
 		cmp.set('v.totalAdjAward', totalAdjAward);
 		cmp.set('v.totalAwardAllied', totalAwardAllied);
