@@ -7,11 +7,6 @@
         console.log('@ToroSPAddNewController:showModal');
         var modal = cmp.find("addModal");
         $A.util.removeClass(modal, 'hideDiv');
-
-        if (cmp.get('v.searchType') == 'nontoro') {
-            cmp.set('v.newItemProductId', 'L00');
-        }
-        // console.log(cmp.get('v.newItemProductId'));
     },
     hideModal: function (cmp, event, helper) {
         var modal = cmp.find("addModal");

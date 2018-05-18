@@ -15,8 +15,11 @@
 		var newItemQuantity = event.getParam('newItemSPQuantity');
 		var newItemDescription = event.getParam('newItemDescription');
 
+		console.log('newItemProductId: ' + newItemProductId);
 		console.log('newItemMSRPPrice: ' + newItemMSRPPrice);
 		console.log('newItemAwardPrice: ' + newItemAwardPrice);
+		console.log('newItemQuantity: ' + newItemQuantity);
+		console.log('newItemDescription: ' + newItemDescription); 
 
 		var inputIsValid = true;
 		var errorMessage = 'The following values are required: ';
@@ -47,8 +50,11 @@
 		cmp.find('cmpAddNew').showModal();
 	},
 	handleSave: function(cmp, event, helper) {
+		console.log('@ToroNTController:handleSave');
 		var quote = cmp.get('v.quote');
 		var quoteItems = cmp.get('v.quoteItems');
+		console.log('quoteItems:');
+		console.log(quoteItems);
 		helper.saveChanges(cmp, quote, quoteItems, false);
 	},
 	handleSaveAndClose: function (cmp, event, helper) {
