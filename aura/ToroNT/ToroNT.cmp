@@ -2,6 +2,7 @@
 	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
 	<aura:handler name="addNew" event="c:ToroSPAddNewEvent" action="{!c.addNewItem}" />
 	<aura:handler name="ntDeleteEvent" event="c:ToroSPDeleteEvent" action="{!c.handleNTDelete}" />
+	<aura:handler name="ntQuantityChangeEvent" event="c:ToroSPQtyChangeEvent" action="{!c.handleNTQuantityChange}" />
 
 	<aura:attribute name="quoteId" type="String" />
 	<aura:attribute name="quote" type="SObject" />

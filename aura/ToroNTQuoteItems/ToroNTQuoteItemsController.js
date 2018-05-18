@@ -8,5 +8,16 @@
 		});
 
 		cmpEvent.fire();
+	},
+	handleQuantityChange: function(cmp, event, helper) {
+		console.log('@ToroNTQuoteItemsController:handleQuantityChange');
+		var qty = event.getSource().get('v.value');
+
+		if (qty < 0) {
+			event.getSource().set('v.value', 0);
+		}
+
+		var cmpEvent = cmp.getEvent('ntQuantityChangeEvent');
+		cmpEvent.fire();
 	}
 })

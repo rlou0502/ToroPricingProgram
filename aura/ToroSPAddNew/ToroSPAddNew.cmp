@@ -1,4 +1,5 @@
 <aura:component controller="ToroSupportPlusController">
+	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />
 	<aura:method name="showModal" action="{!c.showModal}" access="public"/>
 	<aura:method name="hideModal" action="{!c.hideModal}" access="public"/>
 
@@ -57,13 +58,23 @@
 								</div>
 							</div>
 							<aura:set attribute="else">
-								<lightning:select class="slds-text-title_caps" name="selectItem" label="Select Product..." value="{!v.newItemProductId}">
-									<!-- <aura:iteration var="searchResult" items="{!v.searchResults}" > -->
-										<option value="L00001">Allied Product</option>
-									<!-- </aura:iteration> -->
-								</lightning:select>
+								<aura:if isTrue="{!v.searchType == 'nontoro'}">
+									<lightning:select class="slds-text-title_caps" name="selectItem" label="Select Product..." value="{!v.newItemProductId}">
+										<!-- <aura:iteration var="searchResult" items="{!v.searchResults}" > -->
+											<option value="L00001">Allied Product</option>
+											<option value="L00002">Service Contract</option>
+											<option value="L00004">Trade-In</option>
+										<!-- </aura:iteration> -->
+									</lightning:select>
+								</aura:if>
 							</aura:set>
 						</aura:if>
+						<div class="slds-form-element">
+							<label class="slds-form-element__label slds-text-title_caps" for="add_description">Description</label>
+							<div class="slds-form-element__control">
+								<lightning:input value="{!v.newItemDescription}" style="word-wrap: break-word" />
+							</div>
+						</div>
 						<aura:if isTrue="{!v.searchType == 'supportplus'}">
 							<div class="slds-form-element">
 								<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
@@ -72,16 +83,18 @@
 								</div>
 							</div>
 							<aura:set attribute="else">
-								<div class="slds-form-element">
-									<div class="slds-form-element__control">
-										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="MSRP" value="{!v.newItemMSRPPrice}"/>
+								<aura:if isTrue="{!v.searchType == 'nontoro'}">
+									<div class="slds-form-element">
+										<div class="slds-form-element__control">
+											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="MSRP" value="{!v.newItemMSRPPrice}"/>
+										</div>
 									</div>
-								</div>
-								<div class="slds-form-element">
-									<div class="slds-form-element__control">
-										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_award" label="Award Price" value="{!v.newItemAwardPrice}"/>
+									<div class="slds-form-element">
+										<div class="slds-form-element__control">
+											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_award" label="Award Price" value="{!v.newItemAwardPrice}"/>
+										</div>
 									</div>
-								</div>
+								</aura:if>
 							</aura:set>
 						</aura:if>
 						<div class="slds-form-element">
@@ -89,7 +102,9 @@
 								<aura:if isTrue="{!v.searchType == 'supportplus'}">
 									<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="SP+ QTY" value="{!v.newItemSPQuantity}"/>
 									<aura:set attribute="else">
-										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="QTY" value="{!v.newItemSPQuantity}" />
+										<aura:if isTrue="{!v.searchType == 'nontoro'}">
+											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_quantity" label="QTY" value="{!v.newItemSPQuantity}" />
+										</aura:if>
 									</aura:set>
 								</aura:if>
 							</div>
@@ -101,19 +116,13 @@
 									<ui:outputText value="{!v.newItemDistributorResponsibility}" />
 								</div>
 							</div>
+							<div class="slds-form-element">
+								<label class="slds-form-element__label slds-text-title_caps" for="add_product_name">Product Name</label>
+								<div class="slds-form-element__control">
+									<lightning:formattedText value="{!v.newItemProductName}" />
+								</div>
+							</div>
 						</aura:if>
-						<div class="slds-form-element">
-							<label class="slds-form-element__label slds-text-title_caps" for="add_product_name">Product Name</label>
-							<div class="slds-form-element__control">
-								<lightning:formattedText value="{!v.newItemProductName}" />
-							</div>
-						</div>
-						<div class="slds-form-element">
-							<label class="slds-form-element__label slds-text-title_caps" for="add_description">Description</label>
-							<div class="slds-form-element__control">
-								<lightning:input value="{!v.newItemDescription}" style="word-wrap: break-word" />
-							</div>
-						</div>
 					</div>
 				</div>
 				<footer class="slds-modal__footer">

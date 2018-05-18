@@ -30,7 +30,8 @@
 											type="number"
 											value="{!quoteItem.spQuantity}"
 											onchange="{!c.handleSPQuantityChange}"
-											messageWhenBadInput='SP+ QTY cannot exceed QTY'/>
+											messageWhenBadInput='SP+ QTY cannot exceed QTY'
+											disabled="{!quoteItem.isNonToroProduct}"/>
 					</td>
 					<td>{!quoteItem.productId}</td>
 					<td>{!quoteItem.description}</td>
@@ -41,7 +42,9 @@
 					<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}" style="{!subline.displayStyle}">
 						<td>&nbsp;</td>
 						<td>{!subline.quantity}</td>
-						<td><lightning:input name="{!subline.sfid}" type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}" /></td>
+						<td>
+							<lightning:input name="{!subline.sfid}" type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}"/>
+						</td>
 						<td>{!subline.productId}</td>
 						<td>{!subline.description}</td>
 						<td><ui:outputText value="{!subline.distributorResponsibility}" /></td>

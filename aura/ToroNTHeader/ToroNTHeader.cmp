@@ -1,13 +1,38 @@
 <aura:component >
-    <aura:attribute name="quote" type="SObject" />
+    <aura:handler name="change" value="{!v.quoteItems}" action="{!c.updateTotals}"/>
+    <aura:method name="updateTotals" action="{!c.updateTotals}" access="public" />
 
+    <aura:attribute name="quote" type="SObject" />
+    <aura:attribute name="quoteItems" type="ToroQIBase[]" />
+
+    <aura:attribute name="totalAdjAward" type="Decimal"/>
+    <aura:attribute name="totalAwardAllied" type="Decimal"/>
+    <aura:attribute name="totalAwardTradeIns" type="Decimal"/>
+    <aura:attribute name="totalAwardServices" type="Decimal"/>
 
 <ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
     <li class="slds-page-header__detail-block">
-        <p class="slds-text-title_caps slds-m-bottom_small" title="ADJ Award">ADJ Award</p>
+        <p class="slds-text-title_caps slds-m-bottom_small" title="Total ADJ Award">Total ADJ Award</p>
         <p class="slds-text-body_regular" title="">
-            <lightning:formattedNumber value="" style="currency" />
-            TODO
+            <lightning:formattedNumber value="{!v.totalAdjAward}" style="currency" />
+        </p>
+    </li>
+    <li class="slds-page-header__detail-block">
+        <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Allied)">Total Award (Allied)</p>
+        <p class="slds-text-body_regular" title="">
+            <lightning:formattedNumber value="{!v.totalAwardAllied}" style="currency" />
+        </p>
+    </li>
+    <li class="slds-page-header__detail-block">
+        <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Trade-Ins)">Total Award (Trade-Ins)</p>
+        <p class="slds-text-body_regular" title="">
+            <lightning:formattedNumber value="{!v.totalAwardTradeIns}" style="currency" />
+        </p>
+    </li>
+    <li class="slds-page-header__detail-block">
+        <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Services)">Total Award (Services)</p>
+        <p class="slds-text-body_regular" title="">
+            <lightning:formattedNumber value="{!v.totalAwardServices}" style="currency" />
         </p>
     </li>
 </ul>
