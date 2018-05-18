@@ -662,7 +662,7 @@ public class ToroPricingProgramController {
 						rs.fieldSetMembers.remove(i);
 					}
 	    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-	    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Award_Price__c')) {
+	    			if(rs.fieldSetMembers.get(i).fieldPath.equalsIgnoreCase('Total_Award__c')) {
 						rs.fieldSetMembers.remove(i);
 					}
 	    		}

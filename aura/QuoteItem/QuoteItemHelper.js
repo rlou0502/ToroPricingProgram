@@ -62,7 +62,8 @@
                     curObj.dataset.overridden="true";
                 } 
             } else {
-            	if(fieldName == "PricingMethodValue__c") {
+            	var pm = component.get("v.selectedPricingMethod");
+            	if(fieldName == "PricingMethodValue__c" && pm !="Total Award $") {
 	                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
 	                for (var i=0; i<sublines.length; i++) {
 	                    sublines[i].value=newVal;
@@ -688,6 +689,7 @@
             component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
             component.set('v.quoteItems', retRecords);  
             component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
+            component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
             var sublineMap = {};  
             var quoteItemMap={};
             retRecords.forEach(function(s) {
@@ -899,7 +901,7 @@
                     component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
                     component.set('v.secondaryPrograms', retResponse.secondaryPrograms);
                     component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
-                    
+                    component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                      var cmpEvent = component.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
                             "quote" : retResponse.quote

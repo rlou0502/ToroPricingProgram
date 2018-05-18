@@ -589,7 +589,7 @@ public with sharing class ToroPricingMethodHelper {
 			}
 			//qi.Toro_DNetWOTPPAllied__c = qi.Toro_Extended_DNet_Price__c + qi.Toro_Rollup_DNet_Price__c;
 			qi.Toro_DNetWOTPPAllied__c = qiExtDNet;
-			qi.Award_Price__c = (qi.total_Toro_award__c * (qi.DNet_Price__c * qi.Adjusted_Quantity__c /qi.Toro_DNetWOTPPAllied__c)/qi.Adjusted_Quantity__c); 
+			qi.Award_Price__c = (CMnQuoteUtil.defaultDecimal(qi.total_Toro_award__c) * (CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c) /CMnQuoteUtil.defaultDecimal(qi.Toro_DNetWOTPPAllied__c))/CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c)); 
 			qi.PricingMethodValue__c = string.valueOf(qi.Award_Price__c.setScale(2, roundingMode.HALF_UP));
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -597,7 +597,7 @@ public with sharing class ToroPricingMethodHelper {
 						
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
-						qis.Award_Price__c = qi.total_Toro_award__c * (qis.Toro_DNet_Price__c /qi.Toro_DNetWOTPPAllied__c)/extQty;
+						qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.total_Toro_award__c) * (CMnQuoteUtil.defaultDecimal(qis.Toro_DNet_Price__c) /qi.Toro_DNetWOTPPAllied__c)/extQty;
 						//qis.Award_Price__c = qis.Award_Price__c.setScale(2,roundingMode.HALF_UP);
 						system.debug(logginglevel.info, 'distributeTotalAwordDollors qis product   =' + qis.product_name__c + 'qis product id   =' + qis.product_id__c + ' qis award price =' + qis.Award_Price__c);
 					} else {
