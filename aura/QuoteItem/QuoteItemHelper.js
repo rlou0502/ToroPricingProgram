@@ -25,7 +25,7 @@
         var self=this;
         var listenMSRPChange = component.get('v.listenMSRPChange');
         var fieldName = event.currentTarget.dataset.fieldname;
-        
+        debugger;
         var curObj = event.currentTarget;
         if(fieldName == "PricingMethodValue__c" || fieldName == "Award_Price__c") {
             var newVal = event.currentTarget.value; 
@@ -68,6 +68,9 @@
 	                    sublines[i].value=newVal;
 	                }
             	}
+            	
+            	
+                curObj.dataset.overridden="true";
             }
         } else {
             event.currentTarget.dataset.overridden="true";
@@ -168,9 +171,17 @@
                     //this is a subline
                 	tableDataNode.dataset.parentquoteitem=quoteItemId; 
                     
-                    if(field.fieldPath=="Award_Price__c") {
+                    if(field.fieldPath=="Award_Price__c" || field.fieldPath=="PricingMethodValue__c") {
                     	tableDataNode.addEventListener('change', function(event){ 
-                            this.dataset.overridden =true;}, false);    
+                    		debugger;
+                            this.dataset.overridden =true;
+                            var elms =event.currentTarget.closest("tr").querySelectorAll("input[type=text]");
+                            for(var i = 0; i < elms.length; i++) {
+                                if(elms[i] != event.currentTarget) {
+                                    elms[i].dataset.overridden = false;    
+                                }    
+                            }
+                        }, false);    
                     }
                 } else {
                     //this is a quote line                   

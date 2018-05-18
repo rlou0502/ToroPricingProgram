@@ -110,7 +110,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
 			helper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
 		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
-			helper.calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
+			helper.calculateBlendedDNetPercentFromDNet().retrieveRebatePercent().setDNetPercentToQuoteItem();
 		}
 		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;
