@@ -44,7 +44,7 @@
 	</table>
 	</div>
     <div id="pricing_program_selector">
-    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout slds-size--8-of-12">
+    <table class="slds-table slds-table--cell-buffer slds-table--fixed-layout slds-size--8-of-12">
 	<tbody >
         <tr class="slds-text-heading--label">
 			<td scope="col">
