@@ -56,17 +56,29 @@ public with sharing class ToroSupportPlusData {
 			// get the quote and dist resps.
 			// ============================================================================
 			REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
+
+			// get support plus plans
+			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
+			REVVY__MnStrategy1__c pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
+			Decimal totalValue = quote.Toro_Total_DNet__c;
+			if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Toro_Award__c') {
+				totalValue = quote.Total_Award__c; 
+			}
+
+			for (Support_Plus_Plan__c plan : ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId)) {
+				if (totalValue >= plan.Total_DNet_Low__c
+					&& totalValue < plan.Total_DNet_High__c
+				) {
+					quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					break;
+				}
+			}
 			System.debug('\n\n@@quote.Pricing_Program_Name__c: ' + quote.Pricing_Program_Name__c + '\n\n');
 
-			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
-			System.debug('\n\n@@pricingProgramExtId: ' + pricingProgramExtId + '\n\n');
-
+			// get support plus contributions
 			Decimal defaultDistRespValue = 50.0;
 			Set<Decimal> distRespValueSet = new Set<Decimal>();
-
 			List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(pricingProgramExtId);
-			System.debug('\n\n@@contribs: ' + contribs + '\n\n');
-
 			for (Support_Plus_Contribution__c contrib : contribs) {
 				distRespValueSet.add(contrib.Distributor_Contribution__c);
 				if (
@@ -76,6 +88,8 @@ public with sharing class ToroSupportPlusData {
 					defaultDistRespValue = contrib.Distributor_Contribution__c;
 				}
 			}
+			System.debug('\n\n@@contribs: ' + contribs + '\n\n');
+
 			if (quote.Distributor_Responsibility__c == null) {
 				quote.Distributor_Responsibility__c = defaultDistRespValue;
 			}
