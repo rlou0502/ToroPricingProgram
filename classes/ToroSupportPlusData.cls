@@ -64,7 +64,7 @@ public with sharing class ToroSupportPlusData {
 			Decimal defaultDistRespValue = 50.0;
 			Set<Decimal> distRespValueSet = new Set<Decimal>();
 
-			List<Support_Plus_Contribution__c> contribs = getSupportPlusContributions(pricingProgramExtId);
+			List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(pricingProgramExtId);
 			System.debug('\n\n@@contribs: ' + contribs + '\n\n');
 
 			for (Support_Plus_Contribution__c contrib : contribs) {
@@ -144,29 +144,6 @@ public with sharing class ToroSupportPlusData {
 			this.success = false;
 			throw e;
 		}
-	}
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	private static List<Support_Plus_Contribution__c> getSupportPlusContributions(String pricingProgramExtId) {
-		return [
-			SELECT
-				Award_Price_Low__c
-				, Award_Price_High__c
-				, Toro_Contribution__c
-				, Distributor_Contribution__c
-			FROM
-				Support_Plus_Contribution__c
-			WHERE
-				Pricing_Program__r.ExternalId__c = :pricingProgramExtId
-			ORDER BY
-				Award_Price_Low__c asc
-		];
 	}
 
 	// ============================================================================

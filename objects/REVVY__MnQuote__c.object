@@ -402,6 +402,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Freight_Delivery__c</fullName>
+        <defaultValue>0.00</defaultValue>
         <externalId>false</externalId>
         <label>Freight &amp; Delivery</label>
         <precision>18</precision>
