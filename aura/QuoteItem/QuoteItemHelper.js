@@ -544,6 +544,7 @@
                     self.hideSpinner();
                     var items = document.getElementById("quoteItems");
                     self.cleanInnerNodes(items);
+                    debugger;
                     self.renderQuoteItems(component);
                     if(retResponse.nextAction == "calculation") {
                         var cmpEvent = component.getEvent("calculateEvent");   
