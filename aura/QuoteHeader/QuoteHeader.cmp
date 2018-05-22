@@ -29,7 +29,6 @@
     <aura:method name="savePricingProgramMethod"
       description="This method makes an aura call to set pricing program at quote item">
     </aura:method>
-    <div id="docked_quote_header">
     <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
         <thead>
 		<tr class="slds-text-heading--label">
@@ -42,9 +41,8 @@
 	<tbody id="quoteHeader">
     </tbody>
 	</table>
-	</div>
-    <div id="pricing_program_selector">
-    <table class="slds-table slds-table--cell-buffer slds-table--fixed-layout slds-size--8-of-12">
+
+    <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout slds-size--8-of-12">
 	<tbody >
         <tr class="slds-text-heading--label">
 			<td scope="col">
@@ -106,7 +104,7 @@
         </tr>
     </tbody>
     </table>
-</div>
+
 <aura:if isTrue="{! !empty(v.contractMessage)}">
     <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
         <span class="slds-assistive-text">info</span>

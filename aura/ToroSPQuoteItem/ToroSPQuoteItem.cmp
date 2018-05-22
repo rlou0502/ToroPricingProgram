@@ -5,6 +5,8 @@
 <aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
 <aura:attribute name="distributorResponsibility" type="decimal" />
 <aura:attribute name="showSublines" type="Boolean" />
+<aura:attribute name="showDNet" type="Boolean" />
+<aura:attribute name="showToroAward" type="Boolean" />
 
 <!--QUOTE ITEMS -->
 <aura:renderIf isTrue="{!v.showSublines}">
@@ -18,7 +20,12 @@
 				<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">MODEL</div></th>
 				<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
 				<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>
-				<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET</div></th>
+				<aura:renderIf isTrue="{!v.showDNet}">
+					<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET</div></th>
+				</aura:renderIf>
+				<aura:renderIf isTrue="{!v.showToroAward}">
+					<th scope="col" width="15%"><div class="slds-truncate" title="AWARD PRICE">TORO AWARD</div></th>
+				</aura:renderIf>
 			</tr>
 		</thead>
 		<tbody>
@@ -36,7 +43,12 @@
 					<td>{!quoteItem.productId}</td>
 					<td>{!quoteItem.description}</td>
 					<td><ui:outputText value="{!quoteItem.distributorResponsibility}" /></td>
-					<td><lightning:formattedNumber value="{!quoteItem.dnetPrice}" style="currency" /></td>
+					<aura:renderIf isTrue="{!v.showDNet}">
+						<td><lightning:formattedNumber value="{!quoteItem.dnetPrice}" style="currency" /></td>
+					</aura:renderIf>
+					<aura:renderIf isTrue="{!v.showToroAward}">
+						<td><lightning:formattedNumber value="{!quoteItem.awardPrice}" style="currency" /></td>
+					</aura:renderIf>
 				</tr>
 				<aura:iteration items="{!quoteItem.sublines}" var="subline">
 					<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}" style="{!subline.displayStyle}">
@@ -48,7 +60,12 @@
 						<td>{!subline.productId}</td>
 						<td>{!subline.description}</td>
 						<td><ui:outputText value="{!subline.distributorResponsibility}" /></td>
-						<td><lightning:formattedNumber value="{!subline.dnetPrice}" style="currency" /></td>
+						<aura:renderIf isTrue="{!v.showDNet}">
+							<td><lightning:formattedNumber value="{!subline.dnetPrice}" style="currency" /></td>
+						</aura:renderIf>
+						<aura:renderIf isTrue="{!v.showToroAward}">
+							<td><lightning:formattedNumber value="{!subline.awardPrice}" style="currency" /></td>
+						</aura:renderIf>
 					</tr>
 				</aura:iteration>
 				<tr>
@@ -72,7 +89,12 @@
 						<th scope="col" width="20%"><div class="slds-truncate" title="PRODUCT ID">MODEL</div></th>
 						<th scope="col" width="30%"><div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div></th>
 						<th scope="col" width="15%"><div class="slds-truncate" title="DISTRIBUTOR RESPONSIBILITY (%)">DISTRIBUTOR RESPONSIBILITY (%)</div></th>
-						<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET</div></th>
+						<aura:renderIf isTrue="{!v.showDNet}">
+							<th scope="col" width="15%"><div class="slds-truncate" title="DNET PRICE">DNET</div></th>
+						</aura:renderIf>
+						<aura:renderIf isTrue="{!v.showToroAward}">
+							<th scope="col" width="15%"><div class="slds-truncate" title="AWARD PRICE">TORO AWARD</div></th>
+						</aura:renderIf>
 					</tr>
 				</thead>
 				<tbody>
@@ -87,7 +109,12 @@
 							<td>{!item.productId}</td>
 							<td>{!item.description}</td>
 							<td><ui:outputText value="{!item.distributorResponsibility}"/></td>
-							<td><lightning:formattedNumber value="{!item.dnetPrice}" style="currency" /></td>
+							<aura:renderIf isTrue="{!v.showDNet}">
+								<td><lightning:formattedNumber value="{!item.dnetPrice}" style="currency" /></td>
+							</aura:renderIf>
+							<aura:renderIf isTrue="{!v.showToroAward}">
+								<td><lightning:formattedNumber value="{!item.awardPrice}" style="currency" /></td>
+							</aura:renderIf>
 						</tr>
 					</aura:iteration>
 				</tbody>

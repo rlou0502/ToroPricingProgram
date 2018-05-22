@@ -126,7 +126,12 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId, String productId, Decimal dnetPrice, Decimal spQuantity) {
+	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId
+															, String productId
+															, Decimal dnetPrice
+															, Decimal awardPrice
+															, Decimal spQuantity
+	) {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				Id
@@ -151,6 +156,7 @@ global class ToroSupportPlusController {
 			priceListLines[0].REVVY__Product__r
 			, priceListLines[0]
 			, dnetPrice
+			, awardPrice
 			, spQuantity
 		);
 

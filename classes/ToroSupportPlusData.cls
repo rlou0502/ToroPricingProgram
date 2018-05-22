@@ -10,8 +10,9 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public List<ToroSupportPlusItem> qiWrappers 			 { get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> addNewWrappers 		 { get; set; }
 	@AuraEnabled public List<DistRespOption> distributorResponsibilities { get; private set; }
-	@AuraEnabled public Boolean distRespIsEditable            { get; set; }
-
+	@AuraEnabled public Boolean distRespIsEditable            			 { get; set; }
+	@AuraEnabled public Boolean showDNet 								 { get; private set; }
+	@AuraEnabled public Boolean showToroAward 							 { get; private set; }
 	/**
 	 *
 	 * description
@@ -20,11 +21,10 @@ public with sharing class ToroSupportPlusData {
 	 * @return return_type
 	 */
 	public ToroSupportPlusData() {
-		this.qiWrappers                    = new List<ToroSupportPlusItem>();
-		this.addNewWrappers                = new List<ToroSupportPlusItem>();
-		this.distributorResponsibilities   = new List<DistRespOption>();
-		this.success                       = true;
-
+		this.qiWrappers                  = new List<ToroSupportPlusItem>();
+		this.addNewWrappers              = new List<ToroSupportPlusItem>();
+		this.distributorResponsibilities = new List<DistRespOption>();
+		this.success                     = true;
 		/*
 		Profile currentProfile = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()];
 		if (currentProfile.Name == 'Toro - MTI CPQ Sales Representatives'
@@ -60,9 +60,17 @@ public with sharing class ToroSupportPlusData {
 			// get support plus plans
 			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
 			REVVY__MnStrategy1__c pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			Decimal totalValue = quote.Toro_Total_DNet__c;
+			Decimal totalValue;
 			if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Toro_Award__c') {
-				totalValue = quote.Toro_Award__c; 
+				totalValue         = quote.Toro_Award__c;
+				this.showDNet      = false;
+				this.showToroAward = true;
+			}
+
+			else {
+				totalValue         = quote.Toro_Total_DNet__c;
+				this.showDNet      = true;
+				this.showToroAward = false;
 			}
 
 			List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);

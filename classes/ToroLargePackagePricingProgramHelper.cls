@@ -87,7 +87,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			}
 		}
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
-			helper.distributeQuoteItemTotalAwardDollors().convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent().setToroAwardPriceToQuoteItem();
+			helper.convertAwardPriceToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
 			quoteItemList = helper.quoteItemList;
 			for (Revvy__MnStrategy4__c qi : quoteItemList) {
 				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0 ) {
@@ -110,7 +110,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {
 			helper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
 		} else if('% of DNET'.equalsIgnoreCase(priceMethod)) {
-			helper.calculateBlendedDNetPercentFromDNet().retrieveRebatePercent().setDNetPercentToQuoteItem();
+			helper.calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
 		}
 		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;

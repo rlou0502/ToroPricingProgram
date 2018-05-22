@@ -12,7 +12,10 @@
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="quoteItemMap" type="Map" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
-    <aura:attribute name="distRespIsEditable" type="Boolean" />
+	<aura:attribute name="distRespIsEditable" type="Boolean" />
+	<aura:attribute name="showDNet" type="Boolean" />
+	<aura:attribute name="showToroAward" type="Boolean" />
+
 
 	<div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
 		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
@@ -65,12 +68,24 @@
 	</div>
 	<br/>
 	<div id="support-plus-quote-item">
-		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}" distributorResponsibility="{!v.quote.Distributor_Responsibility__c}" showSublines="true" />
+		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}"
+							distributorResponsibility="{!v.quote.Distributor_Responsibility__c}"
+							showSublines="true"
+							showDNet="{!v.showDNet}"
+							showToroAward="{!v.showToroAward}" />
 	</div>
     <div id="support-plus-new-item">
-		<c:ToroSPQuoteItem aura:id="cmpSupportPlusItems" quoteItems="{!v.supportPlusItems}" distributorResponsibility="{!v.quote.Distributor_Responsibility__c}" showSublines="false"  />
+		<c:ToroSPQuoteItem aura:id="cmpSupportPlusItems"
+							quoteItems="{!v.supportPlusItems}"
+							distributorResponsibility="{!v.quote.Distributor_Responsibility__c}"
+							showSublines="false"
+							showDNet="{!v.showDNet}"
+							showToroAward="{!v.showToroAward}" />
 	</div>
 	<br/><br/><br/>
 
-	<c:ToroSPAddNew aura:id="cmpAddNew" newItemDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}"/>
+	<c:ToroSPAddNew aura:id="cmpAddNew"
+					newItemDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}"
+					showDNet="{!v.showDNet}" 
+					showToroAward="{!v.showToroAward}" />
 </aura:component>

@@ -22,7 +22,8 @@
 					cmp.set('v.distributorResponsibilities', distributorResponsibilities);
 					cmp.set('v.quote', recalcQuote);
 					cmp.set('v.distRespIsEditable', supportPlusData.distRespIsEditable);
-
+					cmp.set('v.showDNet', supportPlusData.showDNet);
+					cmp.set('v.showToroAward', supportPlusData.showToroAward);
 	            }
 	        }
 	    );
@@ -84,6 +85,7 @@
 			  quoteId                  : cmp.get('v.quoteId')
 			, productId                : productId
 			, dnetPrice                : dnetPrice
+			, awardPrice               : 0
 			, spQuantity               : spQuantity
 		});
 		action.setCallback(this

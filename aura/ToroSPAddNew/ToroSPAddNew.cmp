@@ -25,6 +25,8 @@
 	<aura:attribute name="newItemMSRPPrice" type="Decimal" default="" access="private" />
 	<aura:attribute name="newItemAwardPrice" type="Decimal" default="" access="private" />
 	<aura:attribute name="showDistributorResponsibility" type="Boolean" default="true" />
+	<aura:attribute name="showDNet" type="Boolean" />
+	<aura:attribute name="showToroAward" type="Boolean" />
 
 
 	<div aura:id="addModal" class="hideDiv" style="height: 640px;">
@@ -76,12 +78,23 @@
 							</div>
 						</div>
 						<aura:if isTrue="{!v.searchType == 'supportplus'}">
-							<div class="slds-form-element">
-								<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
-								<div class="slds-form-element__control">
-									<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dnet" label="DNET" value="{!v.newItemDNetPrice}"/>
+							<aura:if isTrue="{!v.showDNet}">
+								<div class="slds-form-element">
+									<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
+									<div class="slds-form-element__control">
+										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dnet" label="DNET" value="{!v.newItemDNetPrice}"/>
+									</div>
 								</div>
-							</div>
+							</aura:if>
+							<aura:if isTrue="{!v.showToroAward}">
+								<div class="slds-form-element">
+									<!-- <label class="slds-form-element__label" for="add_dnet_price">DNet Price</label> -->
+									<div class="slds-form-element__control">
+										<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_dnet" label="Award Price" value="{!v.newItemAwardPrice}"/>
+									</div>
+								</div>
+							</aura:if>
+
 							<aura:set attribute="else">
 								<aura:if isTrue="{!v.searchType == 'nontoro'}">
 									<div class="slds-form-element">

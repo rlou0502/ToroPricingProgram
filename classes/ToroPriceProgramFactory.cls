@@ -51,8 +51,6 @@ public class ToroPriceProgramFactory {
 	
 	public static ToroPricingProgram getPricingProgramHelper(String pricingProgram)  {
 		Toro_PricingProgramHelperFactory__c ppf = Toro_PricingProgramHelperFactory__c.getInstance(pricingProgram);	
-		system.debug('getPricingProgramHelper= pricing program=' + pricingProgram);
-		system.debug('getPricingProgramHelper= ppf=' + ppf);
 		return ToroPriceProgramFactory.newPricingProgramInstance(ppf.ClassName__c);
 	}
 	

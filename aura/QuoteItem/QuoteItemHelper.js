@@ -25,7 +25,7 @@
         var self=this;
         var listenMSRPChange = component.get('v.listenMSRPChange');
         var fieldName = event.currentTarget.dataset.fieldname;
-        debugger;
+        
         var curObj = event.currentTarget;
         if(fieldName == "PricingMethodValue__c" || fieldName == "Award_Price__c") {
             var newVal = event.currentTarget.value; 
@@ -62,16 +62,10 @@
                     curObj.dataset.overridden="true";
                 } 
             } else {
-            	var pm = component.get("v.selectedPricingMethod");
-            	if(fieldName == "PricingMethodValue__c" && pm !="Total Award $") {
-	                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
-	                for (var i=0; i<sublines.length; i++) {
-	                    sublines[i].value=newVal;
-	                }
-            	}
-            	
-            	
-                curObj.dataset.overridden="true";
+                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
+                for (var i=0; i<sublines.length; i++) {
+                    sublines[i].value=newVal;
+                }
             }
         } else {
             event.currentTarget.dataset.overridden="true";
@@ -172,17 +166,9 @@
                     //this is a subline
                 	tableDataNode.dataset.parentquoteitem=quoteItemId; 
                     
-                    if(field.fieldPath=="Award_Price__c" || field.fieldPath=="PricingMethodValue__c") {
+                    if(field.fieldPath=="Award_Price__c") {
                     	tableDataNode.addEventListener('change', function(event){ 
-                    		debugger;
-                            this.dataset.overridden =true;
-                            var elms =event.currentTarget.closest("tr").querySelectorAll("input[type=text]");
-                            for(var i = 0; i < elms.length; i++) {
-                                if(elms[i] != event.currentTarget) {
-                                    elms[i].dataset.overridden = false;    
-                                }    
-                            }
-                        }, false);    
+                            this.dataset.overridden =true;}, false);    
                     }
                 } else {
                     //this is a quote line                   
@@ -231,7 +217,7 @@
                     var dispVal = sObj[field.fieldPath];
                     if(field.fieldPath=="PricingMethodValue__c") {
                     	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
-                    } 
+                    }
                     if(dispVal != "NaN") {
                         cellText.innerHTML = dispVal;
                         cellText.title=dispVal;
@@ -689,7 +675,6 @@
             component.set('v.fieldsSummary', retResponse.fieldSetSummaryMembers);
             component.set('v.quoteItems', retRecords);  
             component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
-            component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
             var sublineMap = {};  
             var quoteItemMap={};
             retRecords.forEach(function(s) {
@@ -901,7 +886,7 @@
                     component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
                     component.set('v.secondaryPrograms', retResponse.secondaryPrograms);
                     component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
-                    component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
+                    
                      var cmpEvent = component.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
                             "quote" : retResponse.quote
