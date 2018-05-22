@@ -11,6 +11,7 @@
         console.log('@ToroSupportPlusController:addNewSupportPlusItem');
         var newItemProductId  = event.getParam('newItemProductId');
         var newItemDNetPrice  = event.getParam('newItemDNetPrice');
+        var newItemAwardPrice = event.getParam('newItemAwardPrice');
         var newItemSPQuantity = event.getParam('newItemSPQuantity');
         var newItemDistributorResponsibility = event.getParam('newItemDistributorResponsibility');
         console.log('newItemDistributorResponsibility: ' + newItemDistributorResponsibility);
@@ -33,7 +34,7 @@
         }
 
         else {
-            helper.addProduct(cmp, newItemProductId, newItemDNetPrice, newItemSPQuantity, newItemDistributorResponsibility);
+            helper.addProduct(cmp, newItemProductId, newItemDNetPrice, newItemAwardPrice, newItemSPQuantity, newItemDistributorResponsibility);
         }
     },
 

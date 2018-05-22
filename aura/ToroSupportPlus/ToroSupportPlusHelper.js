@@ -78,14 +78,14 @@
 
 		$A.enqueueAction(action);
 	},*/
-	addProduct: function(cmp, productId, dnetPrice, spQuantity, distributorResponsibility) {
+	addProduct: function(cmp, productId, dnetPrice, awardPrice, spQuantity, distributorResponsibility) {
 		console.log('@ToroSupportPlusHelper:addProduct');
 		var action = cmp.get('c.addSupportPlustItem');
 		action.setParams({
 			  quoteId                  : cmp.get('v.quoteId')
 			, productId                : productId
 			, dnetPrice                : dnetPrice
-			, awardPrice               : 0
+			, awardPrice               : awardPrice
 			, spQuantity               : spQuantity
 		});
 		action.setCallback(this

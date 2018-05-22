@@ -44,6 +44,7 @@ global class ToroSupportPlusController {
 					, REVVY__Product__r.REVVY__Id__c
 					, REVVY__Product__r.Name
 					, REVVY__Product__r.REVVY__Description__c
+					, REVVY__Product__r.Non_Toro_Product__c
 					, REVVY__SuggestedPrice__c
 				FROM
 					REVVY__MnPriceListLine__c
@@ -137,6 +138,7 @@ global class ToroSupportPlusController {
 				Id
 				, REVVY__Product__r.REVVY__Id__c
 				, REVVY__Product__r.Name
+				, REVVY__Product__r.Non_Toro_Product__c
 			FROM
 				REVVY__MnPriceListLine__c
 			WHERE
@@ -159,6 +161,12 @@ global class ToroSupportPlusController {
 			, awardPrice
 			, spQuantity
 		);
+		System.debug('\n\n@@ToroSupportPlusController:addSupportPlusItem\n\n');
+		System.debug('\n@@productId: ' + productId + '\n');
+		System.debug('\n@@dnetPrice: ' + dnetPrice + '\n');
+		System.debug('\n@@awardPrice: ' + awardPrice + '\n');
+		System.debug('\n@@spQuantity: ' + spQuantity + '\n');
+		System.debug('\n\n@@result: ' + result + '\n\n');
 
 		return result;
 	}
@@ -377,17 +385,18 @@ global class ToroSupportPlusController {
 				else {
 					// create it
 					REVVY__MnQuoteItem__c spItemToInsert = new REVVY__MnQuoteItem__c(
-						  REVVY__Quantity__c            = addNewWrapper.spQuantity
-						, REVVY__Id__c                  = ToroSupportPlusHelper.generateQiExtId()
-						, Support_Plus_From_Add_New__c  = true
-						, REVVY__Quote__c               = quote.Id
-						, REVVY__PricelistLine__c       = addNewWrapper.pricelistLineId
-						, REVVY__Catalog_Node__c        = addNewWrapper.catalogNodeId
-						, REVVY__Price__c               = 0
-						, REVVY__SuggestedPrice__c      = 0
+						  REVVY__Quantity__c             = addNewWrapper.spQuantity
+						, REVVY__Id__c                   = ToroSupportPlusHelper.generateQiExtId()
+						, Support_Plus_From_Add_New__c   = true
+						, REVVY__Quote__c                = quote.Id
+						, REVVY__PricelistLine__c        = addNewWrapper.pricelistLineId
+						, REVVY__Catalog_Node__c         = addNewWrapper.catalogNodeId
+						, REVVY__Price__c                = 0
+						, REVVY__SuggestedPrice__c       = 0
+						, Award_Price__c                 = addNewWrapper.awardPrice
 						, Support_Plus_Original_Price__c = addNewWrapper.dnetPrice
-						, Description__c                = addNewWrapper.description
-						, Support_Plus_Original_Item__c = null
+						, Description__c                 = addNewWrapper.description
+						, Support_Plus_Original_Item__c  = null
 					);
 
 					quoteItemsToInsert.add(spItemToInsert);
