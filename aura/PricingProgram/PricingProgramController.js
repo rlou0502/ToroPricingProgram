@@ -11,6 +11,7 @@
         //document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
     },
     calculate : function(component, event, helper) {
+    	debugger;
         var quoteId = component.get('v.quoteId');
         if (quoteId) {
             helper.calculateHelper(component, quoteId);
