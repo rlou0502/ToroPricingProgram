@@ -64,7 +64,13 @@
 
 	<!-- BODY -->
 	<div id="rolling-total" >
-		<c:ToroSPRollingTotal aura:id="cmpRollingTotal" quote="{!v.quote}" distributorResponsibilities="{!v.distributorResponsibilities}" selectedDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}" distRespIsEditable="{!v.distRespIsEditable}"/>
+		<c:ToroSPRollingTotal aura:id="cmpRollingTotal"
+								quote="{!v.quote}"
+								distributorResponsibilities="{!v.distributorResponsibilities}"
+								selectedDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}"
+								distRespIsEditable="{!v.distRespIsEditable}"
+								showDNet="{!v.showDNet}"
+								showToroAward="{!v.showToroAward}" />
 	</div>
 	<br/>
 	<div id="support-plus-quote-item">

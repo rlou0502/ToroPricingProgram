@@ -161,18 +161,23 @@
 		var toroResp = (100 - quote.Distributor_Responsibility__c) * 0.01;
 
 		var spDNetTotal = 0;
+		var spAwardTotal = 0;
 		for (var i = 0; i < quoteItems.length; i++) {
 			var spQty     = quoteItems[i].spQuantity;
 			var dnetPrice = quoteItems[i].dnetPrice;
+			var awardPrice = quoteItems[i].awardPrice;
 
 			spDNetTotal += dnetPrice * spQty;
+			spAwardTotal += awardPrice * spQty;
 
 			if (quoteItems[i].sublines != null) {
 				for (var j = 0; j < quoteItems[i].sublines.length; j++) {
 					var sublineSpQty     = quoteItems[i].sublines[j].spQuantity;
 					var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
+					var sublineAwardPrice = quoteItems[i].sublines[j].awardPrice;
 
 					spDNetTotal += sublineDnetPrice * sublineSpQty;
+					spAwardTotal += sublineAwardPrice * sublineSpQty;
 				}
 			}
 		}
@@ -186,6 +191,7 @@
 
 		quote.Toro_Support_Plus_Allowance_Used__c = spDNetTotal + supportPlusDNetTotal;
 		quote.SP_Total_Extended_DNET__c = quote.Toro_Total_DNet__c - spDNetTotal;
+		quote.SP_Adjusted_Toro_Award__c = quote.Toro_Award__c - spAwardTotal;
 		quote.SP_Toro_Responsibility__c = toroResp * (spDNetTotal + supportPlusDNetTotal);
 		quote.SP_Ext_Dist_Responsibility__c = (quote.Toro_Total_DNet__c - spDNetTotal) / quote.Toro_Total_DNet__c;
 		return quote;

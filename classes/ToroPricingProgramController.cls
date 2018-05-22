@@ -70,7 +70,7 @@ public class ToroPricingProgramController {
 	    	ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
 	    	rs.currentQuoteItem = qiId;
 			ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-			 
+			system.debug('ppd =' + ppd); 
 			Revvy__MnStrategy1__c pricingProgramData = ToroCacheManager.getPricingProgram(ppd.externalId);
 			
 			pp.performancePartFlag = performancePart != null ? performancePart : false;
@@ -100,8 +100,11 @@ public class ToroPricingProgramController {
 			//if there is only one pricing method + "Please select" item, auto apply it
 			pp.initialize(quoteId);
 			pp.quote.Pricing_Program_Name__c=pricingProgram;
-			pp.quote.Contract_Number__c = pricingProgramData.Contract_Number__c;
-			pp.quote.Pricing_Program_Type__c = pricingProgramData.PricingProgramType__c;
+			if(pricingProgramData != null) {
+				pp.quote.Contract_Number__c = pricingProgramData.Contract_Number__c;
+				pp.quote.Pricing_Program_Type__c = pricingProgramData.PricingProgramType__c;
+			}
+			
 			pp.quote.Price_Method__c=pricingMethod;
 			pp.quote.Setup_Fee__c = setupFeePercent;
 			pp.quote.Performance_Part__c=performancePart;

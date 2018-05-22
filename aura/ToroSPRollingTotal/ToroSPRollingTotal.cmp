@@ -4,6 +4,8 @@
 	<aura:attribute name="distributorResponsibilities" type="Map" />
 	<aura:attribute name="selectedDistributorResponsibility" type="Decimal" />
 	<aura:attribute name="distRespIsEditable" type="Boolean" />
+	<aura:attribute name="showDNet" type="Boolean" />
+	<aura:attribute name="showToroAward" type="Boolean" />
 
 	<!-- <aura:method name="updateRollingTotals" action="{!c.updateRollingTotals}" description="" /> -->
 	<ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
@@ -40,12 +42,22 @@
 			</p>
 		</li>
 		-->
-		<li class="slds-page-header__detail-block">
-			<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Adjusted_Extended_DNet_Tooltip}">{!$Label.c.SP_Adjusted_Extended_DNet}</p>
-			<p class="slds-text-body_regular" title="{!v.quote.SP_Total_Extended_DNET__c}">
-				<lightning:formattedNumber value="{!v.quote.SP_Total_Extended_DNET__c}" style="currency" />
-			</p>
-		</li>
+		<aura:renderIf isTrue="{!v.showDNet}">
+			<li class="slds-page-header__detail-block">
+				<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Adjusted_Extended_DNet_Tooltip}">{!$Label.c.SP_Adjusted_Extended_DNet}</p>
+				<p class="slds-text-body_regular" title="{!v.quote.SP_Total_Extended_DNET__c}">
+					<lightning:formattedNumber value="{!v.quote.SP_Total_Extended_DNET__c}" style="currency" />
+				</p>
+			</li>
+		</aura:renderIf>
+		<aura:renderIf isTrue="{!v.showToroAward}">
+			<li class="slds-page-header__detail-block">
+				<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Adjusted_Toro_Award_Tooltip}">{!$Label.c.SP_Adjusted_Toro_Award}</p>
+				<p class="slds-text-body_regular" title="{!v.quote.SP_Adjusted_Toro_Award__c}">
+					<lightning:formattedNumber value="{!v.quote.SP_Adjusted_Toro_Award__c}" style="currency" />
+				</p>
+			</li>
+		</aura:renderIf>
 		<li class="slds-page-header__detail-block">
 			<aura:if isTrue="{!v.distRespIsEditable}">
 				<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Distributor_Responsibility_Tooltip}">{!$Label.c.SP_Distributor_Responsibility}</p>
