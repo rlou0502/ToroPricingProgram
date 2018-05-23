@@ -316,8 +316,15 @@ public abstract class ToroPricingProgram {
 			qiTotalMSRP = qiToroMSRP + qiTPPAppliedMSRP;
 			qiTotalAward = qiToroAward + qiTPPAppliedAward;
 			qi.Total_Award__c = qiTotalAward;
+			
+			
 			qi.Total_MSRP__c = qiTotalMSRP;
-			qi.Total_DNET__c = qiTotalDNET;
+			qi.Total_Toro_MSRP__c = qi.Total_MSRP__c;
+			qi.Total_DNET__c = qiTotalDNET ;
+			qi.Total_Toro_DNET__c = qi.Total_DNET__c ;
+			qi.Total_Award__c = qiTotalAward ;
+			qi.Total_Toro_Award__c = qi.Total_Award__c;		
+					
 			qi.Toro_Fee_Amount__c = CMnQuoteUtil.defaultDecimal(qi.Extended_Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100;
 			decimal extFeeAmount = qi.Toro_Fee_Amount__c;
 			qi.Toro_Rebate__c = qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
@@ -384,10 +391,9 @@ public abstract class ToroPricingProgram {
 					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
 					system.debug('check total award for each qi -- 1 qi.Total_Toro_Award__c= ' + qi.Total_Toro_Award__c + ' qiTPPAppliedAward='+qiTPPAppliedAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
-					qi.Total_MSRP__c =  qisRollupToroMSRP+ qisRollupTPPAppliedMSRP;
-					
+					qi.Total_MSRP__c = qiTotalMSRP + qisRollupToroMSRP+ qisRollupTPPAppliedMSRP;
 					qi.Total_Toro_MSRP__c = qi.Total_MSRP__c - qisRollupTPPAppliedMSRP - qiTPPAppliedMSRP;
-					qi.Total_DNET__c = qisRollupToroDNET+ qisRollupTPPAppliedDNET;
+					qi.Total_DNET__c = qiTotalDNET + qisRollupToroDNET+ qisRollupTPPAppliedDNET;
 					qi.Total_Toro_DNET__c = qi.Total_DNET__c - qisRollupTPPAppliedDNET - qiTPPAppliedDNET;
 					if(qis.Product_Id__c.startsWith('TPP')) {
 						qi.TPP_Quoteitem_Total__c += qis.Award_Price__c * qis.Adjusted_Quantity__c;
