@@ -781,7 +781,7 @@ public class ToroPricingProgramController {
 		//if(String.IsNotBlank(pricingProgram) && String.IsNotBlank(pricingMethod)) {
 			rs.nextAction = 'calculation';
 		//}
-
+		rs.selectedPricingMethod = pricingMethod;
     	rs.displaySetupFee=pp.displaySetupFee();
     	rs.values =  pp.quoteItems;
     	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);

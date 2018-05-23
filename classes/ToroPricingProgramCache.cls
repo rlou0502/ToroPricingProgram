@@ -8,7 +8,7 @@ public with sharing class ToroPricingProgramCache implements Cache.CacheBuilder 
 				Max_Qty__c, Min_Qty__c, Award_Price__c,
 				Distributor_Margin__c, ApplicableProducts__c From PricingProgramLines__r order by Award_Price_as_a_Percent_of_DN__c desc) 
 				From Revvy__MnStrategy1__c r where ExternalId__c = :pricingProgramExternalId ];
-				
+			
 		system.debug('ToroPricingProgramCache --- ' + pricingProgramExternalId + '  rebate =' + rebates[0]); 
 		return rebates[0]; 
     }    
