@@ -177,6 +177,13 @@ public abstract class ToroPricingProgram {
 	}
 	public virtual List<Revvy__MnStrategy4__c> postCalculateRebateMarginImpl(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			if(qi.Product_Id__c.startsWIth('L000')){
+				qi.Off_MSRP__c=0;
+				qi.PricingMethodValue__c='0';
+			}
+		}
+			
 		return 	quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> postSaveQuoteItemList(Id quoteId, String priceProgram,
