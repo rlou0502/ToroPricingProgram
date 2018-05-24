@@ -175,7 +175,11 @@ public abstract class ToroPricingProgram {
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		return 	quoteItemList;
 	}
-	public virtual List<Revvy__MnStrategy4__c> postCalculateRebateMargin(Id quoteId, String priceProgram,
+	public virtual List<Revvy__MnStrategy4__c> postCalculateRebateMarginImpl(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+		return 	quoteItemList;
+	}
+	public virtual List<Revvy__MnStrategy4__c> postSaveQuoteItemList(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		return 	quoteItemList;
 	}
@@ -217,9 +221,8 @@ public abstract class ToroPricingProgram {
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl quoteId =' + quoteId + ' -- priceProgram' + priceProgram);
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl priceMethod =' + priceMethod + ' -- ' + quoteItemList);
 		List<Revvy__MnStrategy4__c> lQuoteItemList = preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
-
 		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
-
+		lQuoteItemList = postCalculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
 		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
 		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
@@ -230,7 +233,7 @@ public abstract class ToroPricingProgram {
 
 		if(save) {
 			lQuoteItemList = saveQuoteItemList(lQuoteItemList);
-			lQuoteItemList = postCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
+			lQuoteItemList = postSaveQuoteItemList(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		}
 
 		ToroCacheManager.putQuote(quote);
@@ -297,6 +300,12 @@ public abstract class ToroPricingProgram {
 			qi.TPP_Quoteitem_Total__c = 0;
 			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c );
 
+			//Non Toro Indra
+            if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {  
+                qi.Award_Price__c = 0;
+                qi.Rebate_as_a_of_DN__c = 0;
+            }
+            
 			if(!excludeTPPAllied(qi)) {
 				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 				qiToroMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
@@ -315,8 +324,14 @@ public abstract class ToroPricingProgram {
 			qiTotalDNet = qiToroDNet + qiTPPAppliedDNet;
 			qiTotalMSRP = qiToroMSRP + qiTPPAppliedMSRP;
 			qiTotalAward = qiToroAward + qiTPPAppliedAward;
-			qi.Total_Award__c = qiTotalAward;
-			
+            
+			//Non Toro Indra
+            if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {  
+                qiTotalAward = 0;
+				qi.Total_Award__c = 0;
+            } else {
+				qi.Total_Award__c = qiTotalAward;
+            }
 			
 			qi.Total_MSRP__c = qiTotalMSRP;
 			qi.Total_Toro_MSRP__c = qi.Total_MSRP__c;
@@ -338,9 +353,15 @@ public abstract class ToroPricingProgram {
 			}
 			
 			//Non Toro Indra
-            //if(String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {
+            if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {
                 qi.Total_Award__c = 0;
-            //}        
+            	qi.Total_Toro_Award__c=0;
+            	qi.Off_MSRP__c = 0;
+                qi.Award_Price__c =0;
+                qi.Toro_Gross_Profit_Percent__c =0;
+                qi.Award_of_DN__c = 0; 
+                qi.Rebate_as_a_of_DN__c = 0;
+            }        
             
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				decimal qisRollupTPPAppliedDNet = 0;

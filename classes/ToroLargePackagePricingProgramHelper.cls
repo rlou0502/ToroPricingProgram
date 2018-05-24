@@ -126,12 +126,12 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public override List<Revvy__MnStrategy4__c> postCalculateRebateMargin(Id quoteId
+	public override List<Revvy__MnStrategy4__c> postSaveQuoteItemList(Id quoteId 
 																		, String priceProgram
 																		, String priceMethod
 																		, List<Revvy__MnStrategy4__c> quoteItemList
 	) {
-		System.debug('\n\n@@postCalculateRebateMargin called\n\n');
+		System.debug('\n\n@@postSaveQuoteItemList called\n\n');
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
 
 		Revvy__MnQuote__c quote = [SELECT

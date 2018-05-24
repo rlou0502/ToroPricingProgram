@@ -149,6 +149,12 @@
             var cellText = document.createElement('div');
             cellText.className += " slds-truncate slds-cell-wrap";
             var freeze = sObj["Freeze_Line__c"];
+            var prodId = sObj["Product_Id__c"];
+            var vToroProd = true;
+            if(prodId != "" && prodId.startsWith("L00")) {
+                vToroProd = false;
+            }
+			console.log("--- renderTable +" + prodId + " - " + vToroProd);            
             //check quote item
             var performancePart = sObj["Performance_Parts_Product__c"];
             if(performancePart === undefined) {
@@ -163,7 +169,9 @@
            		supportPlusFlag = sObj["Apply_Support_Plus__c"];    
             }
                     
-            if((field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) || (onlyInCPL && field.fieldPath=="Award_Price__c"))   {
+            if((vToroProd && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
+            || (onlyInCPL && field.fieldPath=="Award_Price__c")
+            ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
