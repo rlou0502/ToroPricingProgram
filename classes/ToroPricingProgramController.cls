@@ -204,7 +204,9 @@ public class ToroPricingProgramController {
 	    		}
 			}
 	
-	
+			if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+				pp.quoteItems = ToroPricingMethodHelper.distributeQuoteItemTotalAwardDollors(pp.quoteItems);	
+			}
 			rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
 	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
