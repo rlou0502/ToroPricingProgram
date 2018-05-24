@@ -22,6 +22,11 @@ public with sharing class ToroCacheManager {
 		system.debug('ToroCacheManager  Cache.Session.getPartition(ToroCacheManager.constPartitionName) = ' + Cache.Session.getPartition(ToroCacheManager.constPartitionName));
 		system.debug('ToroCacheManager  ToroPricingProgramCache.class = ' + ToroPricingProgramCache.class);
 		system.debug('ToroCacheManager  externalId = ' + externalId);
+		if(externalId.contains(';')) {
+			ToroPricingProgramData ppd = new ToroPricingProgramData(externalId); 
+			externalId = ppd.externalId;
+		}
+		system.debug('ToroCacheManager  externalId = ' + externalId);	
 		return (Revvy__MnStrategy1__c) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramCache.class, externalId);	
 	}
 	

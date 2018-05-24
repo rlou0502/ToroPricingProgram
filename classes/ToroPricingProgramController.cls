@@ -208,6 +208,7 @@ public class ToroPricingProgramController {
 			rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
 	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
+	    	system.debug(logginglevel.info, 'exiting---calculateRebateMargin');
 	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
 	    	/*
 	    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
@@ -233,6 +234,7 @@ public class ToroPricingProgramController {
 	    	rs.payload = pp.payloadOfChainCall;
 	    	rs.displaySetupFee=pp.displaySetupFee();
 	    	List<String> spKeys = new List<String>();
+	    	system.debug(logginglevel.info, 'ppd.externalId---calculateRebateMargin' + ppd.externalId);
 			if(String.isNotBlank(ppd.externalId)) {
 		    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
 		    	for(String key : secondaryPrograms.keyset()) {

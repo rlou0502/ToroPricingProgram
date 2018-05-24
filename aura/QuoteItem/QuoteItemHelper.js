@@ -24,6 +24,7 @@
     onUpdatableValueChange: function( event, component) {
         var self=this;
         var listenMSRPChange = component.get('v.listenMSRPChange');
+        var pricingMethod = component.get('v.selectedPricingMethod');
         var fieldName = event.currentTarget.dataset.fieldname;
         
         var curObj = event.currentTarget;
@@ -62,10 +63,12 @@
                     curObj.dataset.overridden="true";
                 } 
             } else {
-                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
-                for (var i=0; i<sublines.length; i++) {
-                    sublines[i].value=newVal;
-                }
+            	if(pricingMethod != "Total Award $") {
+	                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
+	                for (var i=0; i<sublines.length; i++) {
+	                    sublines[i].value=newVal;
+	                }
+	            }
             }
         } else {
             event.currentTarget.dataset.overridden="true";

@@ -67,24 +67,7 @@
                 </ui:inputSelect>
                </div>
             </td>
-            <aura:if isTrue="{!v.selectedPricingMethod == 'Total Award $'}">
-            	<td scope="col" class="pricing-method">
-                    <div class="slds-truncate slds-p-bottom_x-small" title="Total Award $">Total Award $</div>
-                    <div>
-                        <input type="text" value="{!v.quote.Total_Award_Dollars__c}" onchange="{!c.onTotalAwardPriceChange}" onkeypress="{!c.onInputPress}"/>
-                    </div>
-            	</td>
-                <aura:set attribute="else">
-                    <td scope="col" class="pricing-method">
-                    <aura:if isTrue="{!v.selectedPricingMethod == 'Gross Profit %'}">
-                        <div class="slds-truncate slds-p-bottom_x-small" title="Gross Profit %">Gross Profit %</div>
-                        <div>
-                            <input type="text" value="{!v.quote.Gross_Profit_Percent__c}" onchange="{!c.onGpPercentChange}" onkeypress="{!c.onInputPress}"/>
-                        </div>
-                    </aura:if>
-                    </td>
-    			</aura:set>
-            </aura:if>
+            
             <aura:if isTrue="{!v.displaySetupFee}">
             	<td scope="col" class="setup-fee">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Setup Fee">Setup Fee %</div>
