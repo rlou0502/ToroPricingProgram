@@ -337,6 +337,11 @@ public abstract class ToroPricingProgram {
 				}
 			}
 			
+			//Non Toro Indra
+            //if(String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {
+                qi.Total_Award__c = 0;
+            //}        
+            
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				decimal qisRollupTPPAppliedDNet = 0;
 				decimal qisRollupToroDNet = 0;

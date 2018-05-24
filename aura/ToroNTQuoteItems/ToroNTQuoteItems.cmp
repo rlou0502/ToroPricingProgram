@@ -37,7 +37,7 @@
                         <td>&nbsp;</td>
                         <td>
                             <lightning:input name="{!item.sfid}"
-                                                type="number" min="0"
+                                                type="number" min="0" max="25"
                                                 value="{!item.quantity}"
                                                 onchange="{!c.handleQuantityChange}" />
                         </td>
