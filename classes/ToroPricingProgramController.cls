@@ -576,6 +576,7 @@ public class ToroPricingProgramController {
 
 	    	pricingProgram = q.Pricing_Program_Name__c;
     	}
+    	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
     	rs.selectedPricingProgram = pricingProgram;
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 
@@ -760,6 +761,10 @@ public class ToroPricingProgramController {
     	if(quoteId == null) {
     		quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);
     	}
+    	Revvy__MnQuote__c q = ToroCacheManager.getQuote(quoteId);
+    	if(String.isBlank(pricingProgram)) {
+    		pricingProgram = q.Pricing_Program_Name__c;	
+    	}
     	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
     	//	quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);
     	//}
@@ -773,8 +778,9 @@ public class ToroPricingProgramController {
     	}
     	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
     	pp.initialize(objId);
-
-    	Revvy__MnQuote__c q = pp.quote;
+		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
+		rs.pricingMethodOptions = options;
+    	q = pp.quote;
     	//String pm = pricingMethod;
     	String pm = q.Price_Method__c;
     	rs = retrieveFieldSets(rs, pp, pm, pricingProgram);
@@ -795,8 +801,22 @@ public class ToroPricingProgramController {
 			}
 		}
 		//if(String.IsNotBlank(pricingProgram) && String.IsNotBlank(pricingMethod)) {
-			rs.nextAction = 'calculation';
+			//rs.nextAction = 'calculation';
 		//}
+		List<String> spKeys = new List<String>();
+		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+		if(String.isNotBlank(ppd.externalId)) {
+	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+	    	for(String key : secondaryPrograms.keyset()) {
+	    		spKeys.add(key);
+	    	}
+	
+	    	if(spKeys.size() > 0) {
+	    		rs.secondaryPrograms = secondaryPrograms;
+	    		rs.secondaryProgramKeys = spKeys;
+	    	}
+		}
+	    rs.selectedPricingProgram = pricingProgram;
 		rs.selectedPricingMethod = pricingMethod;
     	rs.displaySetupFee=pp.displaySetupFee();
     	rs.values =  pp.quoteItems;
