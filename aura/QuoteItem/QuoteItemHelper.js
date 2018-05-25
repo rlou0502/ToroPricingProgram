@@ -137,11 +137,11 @@
         }
         return lPercent.toFixed(4);
     },
-    renderTable : function(fields, sObj, parentRow, quoteItemId, component) {
+    renderTable : function(fields, sObj, parentRow, quoteItemId, component, isTractionUnitLine) {
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
-        
+        var pricingMethod = component.get('v.selectedPricingMethod');
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
             var tableData = document.createElement('td');
@@ -183,7 +183,7 @@
                     
                     if(field.fieldPath=="Award_Price__c" || field.fieldPath=="PricingMethodValue__c") {
                     	tableDataNode.addEventListener('change', function(event){ 
-                    		debugger;
+                    	
                             this.dataset.overridden =true;
                             var elms =event.currentTarget.closest("tr").querySelectorAll("input[type=text]");
                             for(var i = 0; i < elms.length; i++) {
@@ -239,7 +239,11 @@
                 } else if(field.type.toLowerCase() === 'string') {
                     var dispVal = sObj[field.fieldPath];
                     if(field.fieldPath=="PricingMethodValue__c") {
-                    	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
+                        if(isTractionUnitLine && pricingMethod == "Total Award $"){
+                        	dispVal = parseFloat(sObj["Award_Price__c"]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});      
+                        } else {
+                    		dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
+                        }
                     } 
                     if(dispVal != "NaN") {
                         cellText.innerHTML = dispVal;
@@ -287,7 +291,7 @@
         var summaryLineTableRow = document.createElement('tr');
         summaryLineTableRow.id = quoteItem["Id"];
         summaryLineTableRow.className += " quoteItem summary";
-        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component);           
+        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component, true);           
         childTableBody.appendChild(summaryLineTableRow);
         childTable.appendChild(childTableBody);
         //var target = document.getElementById("QuoteItemSubLine");
@@ -426,7 +430,7 @@
                 subLineTableRow.className += " quoteItemSubline ";
                 subLineTableRow.id = s["Id"];
                 //subLineTableRow.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, subLineTableRow.id);}, false);
-                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem, component);           
+                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem, component, false);           
                 childTableBody.appendChild(subLineTableRow);
             });    
         }
@@ -480,7 +484,7 @@
             }, false);
             chevronTd.appendChild(chevronSpan);
             tableRow.appendChild(chevronTd);
-            self.renderTable(fields, s, tableRow, null, component); 
+            self.renderTable(fields, s, tableRow, null, component, false); 
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];

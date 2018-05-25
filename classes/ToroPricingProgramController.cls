@@ -205,18 +205,22 @@ public class ToroPricingProgramController {
 	    		}
 			}
 	
-			if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-				pp.quoteItems = ToroPricingMethodHelper.distributeQuoteItemTotalAwardDollors(pp.quoteItems);	
-			}
+			
 			rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
 	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
+	    	system.debug(logginglevel.info, 'pricingMethod =' + pricingMethod);
 	    	if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
 	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
 	    			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);	
-	    		}
+	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c);	
+						}
+	    			}
 					
-			}
+				}
+	    	}
 	    	system.debug(logginglevel.info, 'exiting---calculateRebateMargin');
 	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
 	    	/*
