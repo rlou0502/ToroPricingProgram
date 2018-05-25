@@ -137,7 +137,7 @@
         }
         return lPercent.toFixed(4);
     },
-    renderTable : function(fields, sObj, parentRow, quoteItemId, component, isTractionUnitLine) {
+    renderTable : function(fields, sObj, parentRow, quoteItemId, component, isMainLine) {
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
@@ -168,8 +168,12 @@
                 //check quote item subline
            		supportPlusFlag = sObj["Apply_Support_Plus__c"];    
             }
-                    
-            if((vToroProd && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
+            var totalAwardUpdatable = true;
+            if(!isMainLine && pricingMethod == "Total Award $") {
+            	totalAwardUpdatable = false;
+                sObj["PricingMethodValue__c"]="";
+            }        
+            if((totalAwardUpdatable && vToroProd && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
             || (onlyInCPL && field.fieldPath=="Award_Price__c")
             ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
@@ -203,7 +207,11 @@
                         } else if(field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") {
                             tableDataNode.dataset.originalvalue=sObj["Original_Award_Price__c"];
                         }
-                    }                  
+                    } else {
+                        if(pricingMethod == "Total Award $" && field.fieldPath=="PricingMethodValue__c") {
+                        	tableDataNode.dataset.overridden = false;    
+                        }
+                    }                 
                     tableDataNode.dataset.quoteitem=sObj["Id"];
                     tableDataNode.addEventListener('change', function(event){this.dataset.overridden =true; self.onUpdatableValueChange(event, component);}, false);
                     tableDataNode.addEventListener('focus', function(event){ this.dataset.oldvalue=this.value;}, false);
@@ -238,12 +246,8 @@
                     } 
                 } else if(field.type.toLowerCase() === 'string') {
                     var dispVal = sObj[field.fieldPath];
-                    if(field.fieldPath=="PricingMethodValue__c") {
-                        if(isTractionUnitLine && pricingMethod == "Total Award $"){
-                        	dispVal = parseFloat(sObj["Award_Price__c"]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});      
-                        } else {
-                    		dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
-                        }
+                    if(field.fieldPath=="PricingMethodValue__c") {                       
+                    	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
                     } 
                     if(dispVal != "NaN") {
                         cellText.innerHTML = dispVal;
@@ -291,7 +295,7 @@
         var summaryLineTableRow = document.createElement('tr');
         summaryLineTableRow.id = quoteItem["Id"];
         summaryLineTableRow.className += " quoteItem summary";
-        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component, true);           
+        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component, false);           
         childTableBody.appendChild(summaryLineTableRow);
         childTable.appendChild(childTableBody);
         //var target = document.getElementById("QuoteItemSubLine");
@@ -484,7 +488,7 @@
             }, false);
             chevronTd.appendChild(chevronSpan);
             tableRow.appendChild(chevronTd);
-            self.renderTable(fields, s, tableRow, null, component, false); 
+            self.renderTable(fields, s, tableRow, null, component, true); 
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];
