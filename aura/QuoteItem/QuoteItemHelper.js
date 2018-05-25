@@ -170,7 +170,7 @@
             }
                     
             var totalAwardUpdatable = true;
-            if(!isMainLine && pricingMethod == "Total Award $") {
+            if(!isMainLine && pricingMethod == "Total Award $" && field.fieldPath=="PricingMethodValue__c") {
             	totalAwardUpdatable = false;
                 sObj["PricingMethodValue__c"]="";
             }        
