@@ -137,7 +137,8 @@ public class ToroPricingProgramController {
 				    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 				    			qi.Toro_Gross_Profit_Percent__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
 				    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-				    			qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
+				    			//qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
+				    			qi.Total_Toro_Award__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
 				    		}
 						} else if('Award_Price__c'.equalsIgnoreCase(key)){
 							system.debug('---------------Award_Price__c =' + strVal);
@@ -210,6 +211,12 @@ public class ToroPricingProgramController {
 			rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
 	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
+	    	if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+	    			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);	
+	    		}
+					
+			}
 	    	system.debug(logginglevel.info, 'exiting---calculateRebateMargin');
 	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
 	    	/*
@@ -251,6 +258,7 @@ public class ToroPricingProgramController {
 		
     	} catch (Exception e) {
     		System.debug(logginglevel.error, e);
+    		System.debug(logginglevel.error, e.getStackTraceString());
     		ToroCustomExceptionData data = new ToroCustomExceptionData(e.getStackTraceString(), e.getMessage());
     		throw new AuraHandledException(JSON.serialize(data));
     	}

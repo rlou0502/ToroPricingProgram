@@ -510,7 +510,7 @@ public with sharing class ToroPricingMethodHelper {
 		return this;	
 	} 
 	
-	public static List<Revvy__MnStrategy4__c> distributeQuoteItemTotalAwardDollors(List<Revvy__MnStrategy4__c> quoteItemList) {
+	public ToroPricingMethodHelper distributeQuoteItemTotalAwardDollors() {
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			decimal qiExtDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi dnet  =' + qiExtDNet);
@@ -534,7 +534,7 @@ public with sharing class ToroPricingMethodHelper {
 		}
 		
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
-			decimal totalAwardPrice = decimal.valueOf(qi.PricingMethodValue__c);
+			decimal totalAwardPrice = String.isNotBlank(qi.PricingMethodValue__c) ? decimal.valueOf(qi.PricingMethodValue__c) : 0;
 			qi.Award_Price__c = (totalAwardPrice * (qi.DNet_Price__c * qi.Adjusted_Quantity__c /qi.Total_Toro_DNET__c)/qi.Adjusted_Quantity__c); //.setScale(2,roundingMode.HALF_UP);
 			qi.PricingMethodValue__c = string.valueOf(qi.Award_Price__c.setScale(2, roundingMode.HALF_UP));
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi product   =' + qi.product_name__c + 'qi product id   =' + qi.product_id__c + ' qi.Award_Price__c=' + qi.Award_Price__c);
@@ -554,7 +554,7 @@ public with sharing class ToroPricingMethodHelper {
 			}
 		}
 		
-		return quoteItemList;	
+		return this;	
 	} 
 	
 	public static List<Revvy__MnStrategy4__c> distributeTotalAwardDollors(List<Revvy__MnStrategy4__c> quoteItemList, decimal totalAwardDollors) {
