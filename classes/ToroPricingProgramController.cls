@@ -765,6 +765,10 @@ public class ToroPricingProgramController {
     	if(String.isBlank(pricingProgram)) {
     		pricingProgram = q.Pricing_Program_Name__c;	
     	}
+    	if(String.isBlank(pricingMethod)) {
+    		pricingMethod = q.Price_Method__c;	
+    	}
+    	system.debug(logginglevel.info, '***************** getQuoteItemFields pricingMethod=' +  pricingMethod);
     	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
     	//	quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);
     	//}
