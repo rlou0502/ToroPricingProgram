@@ -34,7 +34,14 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 	public virtual List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quoteId, String priceProgram, 
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		//priceMethod = '% off MSRP';
-		system.debug('inside state calculateRebateMarginImpl quoteItemList='+ quoteItemList);
+		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			if(String.isNotBlank(qi.pricing_program__c)) {
+				system.debug('qi.pricing_program__c=' + qi.pricing_program__c);
+				helper.addPricingProgramExtId(qi.pricing_program__c);	
+			}
+		}
+		system.debug('inside state calculateRebateMarginImpl quoteItemList=');
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
 		Map<String, Revvy__MnStrategy2__c> productPricingProgramLineMap = new Map<String, Revvy__MnStrategy2__c>();

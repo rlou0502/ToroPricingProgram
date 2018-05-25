@@ -135,7 +135,7 @@
         if(typeof percent == "string") {
         	lPercent = parseFloat(percent);    
         }
-        return lPercent.toFixed(4);
+        return lPercent.toFixed(scale);
     },
     renderTable : function(fields, sObj, parentRow, quoteItemId, component, isMainLine) {
         var self=this;
@@ -178,7 +178,11 @@
             ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
-                tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
+                var decimalPoint = 4;
+                if(pricingMethod == "Total Award $") {
+                	decimalPoint=2;    
+                }
+                tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], decimalPoint) : '';
                 tableDataNode.type='text';
                 tableDataNode.dataset.overridden=sObj['Unit_Award_Overridden__c'];
                 if(quoteItemId) {

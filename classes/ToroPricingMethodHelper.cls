@@ -515,6 +515,17 @@ public with sharing class ToroPricingMethodHelper {
 		system.debug('distributeQuoteItemTotalAwardDollors -----');
 		
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			system.debug('distributeQuoteItemTotalAwardDollors -----product=' + qi.Product_Id__c);
+			system.debug('distributeQuoteItemTotalAwardDollors -----qi.Off_MSRP_Overridden__c=' + qi.Off_MSRP_Overridden__c);
+			if(String.isBlank(qi.PricingMethodValue__c) || decimal.valueOf(qi.PricingMethodValue__c) == 0) {
+				qi.Award_Price__c = 0;
+				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.Award_Price__c=0;
+					}
+				}	
+			}	
+			
 			if(!qi.Off_MSRP_Overridden__c) {
 				continue;	
 			}
@@ -547,6 +558,7 @@ public with sharing class ToroPricingMethodHelper {
 			if(!qi.Off_MSRP_Overridden__c) {
 				continue;	
 			}
+			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.PricingMethodValue__c  =' + qi.PricingMethodValue__c);
 			decimal totalAwardPrice = String.isNotBlank(qi.PricingMethodValue__c) ? decimal.valueOf(qi.PricingMethodValue__c) : 0;
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors totalAwardPrice  =' + totalAwardPrice);
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors ratio  =' + qi.DNet_Price__c * qi.Adjusted_Quantity__c /qi.Total_Toro_DNET__c);
