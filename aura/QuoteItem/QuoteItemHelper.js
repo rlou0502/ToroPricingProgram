@@ -135,13 +135,13 @@
         if(typeof percent == "string") {
         	lPercent = parseFloat(percent);    
         }
-        return lPercent.toFixed(4);
+        return lPercent.toFixed(scale);
     },
-    renderTable : function(fields, sObj, parentRow, quoteItemId, component) {
+    renderTable : function(fields, sObj, parentRow, quoteItemId, component, isMainLine) {
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
-        
+        var pricingMethod = component.get('v.selectedPricingMethod');
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
             var tableData = document.createElement('td');
@@ -169,12 +169,22 @@
            		supportPlusFlag = sObj["Apply_Support_Plus__c"];    
             }
                     
-            if((vToroProd && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
+            var totalAwardUpdatable = true;
+            if(!isMainLine && pricingMethod == "Total Award $") {
+            	totalAwardUpdatable = false;
+                sObj["PricingMethodValue__c"]="";
+            }        
+            if((totalAwardUpdatable && vToroProd && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
             || (onlyInCPL && field.fieldPath=="Award_Price__c")
             ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
+                var decimalPoint = 4;
+                if(pricingMethod == "Total Award $") {
+                	decimalPoint=2;    
+                }
+                tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], decimalPoint) : '';
                 tableDataNode.type='text';
                 tableDataNode.dataset.overridden=sObj['Unit_Award_Overridden__c'];
                 if(quoteItemId) {
@@ -203,7 +213,12 @@
                         } else if(field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") {
                             tableDataNode.dataset.originalvalue=sObj["Original_Award_Price__c"];
                         }
-                    }                  
+                    } else {
+                        if(pricingMethod == "Total Award $" && field.fieldPath=="PricingMethodValue__c") {
+                        	tableDataNode.dataset.overridden = false;    
+                        }
+                    }                 
+                  
                     tableDataNode.dataset.quoteitem=sObj["Id"];
                     tableDataNode.addEventListener('change', function(event){this.dataset.overridden =true; self.onUpdatableValueChange(event, component);}, false);
                     tableDataNode.addEventListener('focus', function(event){ this.dataset.oldvalue=this.value;}, false);
@@ -238,8 +253,9 @@
                     } 
                 } else if(field.type.toLowerCase() === 'string') {
                     var dispVal = sObj[field.fieldPath];
-                    if(field.fieldPath=="PricingMethodValue__c") {
+                    if(field.fieldPath=="PricingMethodValue__c") {                       
                     	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
+
                     } 
                     if(dispVal != "NaN") {
                         cellText.innerHTML = dispVal;
@@ -287,7 +303,8 @@
         var summaryLineTableRow = document.createElement('tr');
         summaryLineTableRow.id = quoteItem["Id"];
         summaryLineTableRow.className += " quoteItem summary";
-        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component);           
+        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component, false);           
+
         childTableBody.appendChild(summaryLineTableRow);
         childTable.appendChild(childTableBody);
         //var target = document.getElementById("QuoteItemSubLine");
@@ -425,8 +442,8 @@
                 var subLineTableRow = document.createElement('tr');
                 subLineTableRow.className += " quoteItemSubline ";
                 subLineTableRow.id = s["Id"];
-                //subLineTableRow.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, subLineTableRow.id);}, false);
-                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem, component);           
+                //subLineTableRow.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, subLineTableRow.id);}, false); 
+                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem, component, false);           
                 childTableBody.appendChild(subLineTableRow);
             });    
         }
@@ -479,8 +496,8 @@
                 self.handleRowClick(component, tableRow.id);
             }, false);
             chevronTd.appendChild(chevronSpan);
-            tableRow.appendChild(chevronTd);
-            self.renderTable(fields, s, tableRow, null, component); 
+            tableRow.appendChild(chevronTd); 
+            self.renderTable(fields, s, tableRow, null, component, true); 
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];

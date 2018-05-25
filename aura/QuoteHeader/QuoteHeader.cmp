@@ -67,7 +67,6 @@
                 </ui:inputSelect>
                </div>
             </td>
-            
             <aura:if isTrue="{!v.displaySetupFee}">
             	<td scope="col" class="setup-fee">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Setup Fee">Setup Fee %</div>

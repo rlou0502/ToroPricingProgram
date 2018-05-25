@@ -70,6 +70,7 @@
                     var selectedProgram = component.get("v.selectedPricingProgram");
                     var selectedMethod = component.find("v.selectedPricingMethod");
                     var allowSupportPlus = component.get("v.allowSupportPlus");
+                    /*
                     var cmpEvent = component.getEvent("pricingProgramEvent");
                     cmpEvent.setParams({
                         "selectedPricingProgram" : selectedProgram,
@@ -77,6 +78,7 @@
                         "allowSupportPlus" : allowSupportPlus
                     });
                     cmpEvent.fire();
+                    */
 	            }
 	        }
 	    );
