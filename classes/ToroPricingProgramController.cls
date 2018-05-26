@@ -555,9 +555,7 @@ public class ToroPricingProgramController {
 
     	return rs;
     }
-    public static void resetPricingProgramAndMethod() {
-
-    }
+    
 	@AuraEnabled
     public static ToroSObjectResultSet getQuoteHeaderFields(String pricingProgram, ID objId) {
     	system.debug(logginglevel.info, 'getQuoteHeaderFields=' + pricingProgram + ' objId=' + objId);
