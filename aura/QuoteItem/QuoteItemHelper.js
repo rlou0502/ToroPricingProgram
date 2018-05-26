@@ -581,6 +581,14 @@
                      });
                     component.set('v.sublineMap', sublineMap);
                     component.set('v.quoteItemMap', quoteItemMap);
+                    component.set('v.selectedPricingProgram', retResponse.selectedPricingProgram);
+        			component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
+                    component.set('v.fields', fields);
+            		component.set('v.demoPricingProgramOptions', retResponse.demoPricingProgramOptions);
+            
+            		component.set('v.listenMSRPChange', retResponse.listenMSRPChange);
+            		component.set('v.secondaryPrograms', retResponse.secondaryPrograms);
+            		component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
                     self.hideSpinner();
                     var items = document.getElementById("quoteItems");
                     self.cleanInnerNodes(items);
