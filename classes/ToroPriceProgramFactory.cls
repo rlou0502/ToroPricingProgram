@@ -51,7 +51,11 @@ public class ToroPriceProgramFactory {
 	
 	public static ToroPricingProgram getPricingProgramHelper(String pricingProgram)  {
 		Toro_PricingProgramHelperFactory__c ppf = Toro_PricingProgramHelperFactory__c.getInstance(pricingProgram);	
-		return ToroPriceProgramFactory.newPricingProgramInstance(ppf.ClassName__c);
+		String className = null;
+		if(ppf != null) {
+			className = ppf.ClassName__c;	
+		}
+		return ToroPriceProgramFactory.newPricingProgramInstance(className);
 	}
 	
 	public static ToroSecondaryPricingProgram getSecondaryPricingProgram(String pricingProgram)  {
