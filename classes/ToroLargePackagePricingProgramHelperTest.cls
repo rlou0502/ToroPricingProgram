@@ -20,6 +20,10 @@ private class ToroLargePackagePricingProgramHelperTest {
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, 'Gross Profit %', tlpp.quoteItems, false);
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% of DNET', tlpp.quoteItems, true);
 		
+		ToroDefaultPricingProgramHelper defaultHelper = new ToroDefaultPricingProgramHelper();
+		defaultHelper.getQuoteFields();
+		defaultHelper.getPriceMethodOptions();
+		
 		
 	}
 
