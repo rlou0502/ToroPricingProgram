@@ -23,6 +23,7 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 	public override List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		Integer numOfTractionUnits = CMnQuoteUtil.getNumberOfTractionUnits(quoteItemList);
+		system.debug('inside state calculateRebateMarginImpl--numOfTractionUnits =' + numOfTractionUnits);
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
 		List<ToroContractQuantityPPHelper.InnerClass> qtyTiers = new List<ToroContractQuantityPPHelper.InnerClass>();
