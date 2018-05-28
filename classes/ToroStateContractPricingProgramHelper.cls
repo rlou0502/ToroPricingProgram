@@ -113,7 +113,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 							system.debug('qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
 							
 						}
-					} else if(qi.Rebate_as_a_of_DN__c == null && line.Rebate_as_a_Percent_of_DN__c != null) {
+					} else {
 						qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;
 					}					
 				}
