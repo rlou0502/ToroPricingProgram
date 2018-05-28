@@ -23,7 +23,16 @@ private class ToroLargePackagePricingProgramHelperTest {
 		ToroDefaultPricingProgramHelper defaultHelper = new ToroDefaultPricingProgramHelper();
 		defaultHelper.getQuoteFields();
 		defaultHelper.getPriceMethodOptions();
+		defaultHelper.getQuoteFields();
+		defaultHelper.getToroQuoteItemFields();
+		defaultHelper.getToroQuoteItemUpdatableFields();
+		defaultHelper.getToroQuoteItemSublineFields();
+		defaultHelper.getToroQuoteItemSublineUpdatableFields();
+		defaultHelper.getToroQuoteItemSummaryFields();
 		
+		List<Schema.FieldSetMember> fieldSet = defaultHelper.getQuoteFields();   	
+    	List<Schema.FieldSetMember> dNetfieldSet = defaultHelper.getToroQuoteDNetFields();
+    	fieldSet = defaultHelper.removeDNetFieldsFromSet(fieldSet, dNetfieldSet);
 		
 	}
 
