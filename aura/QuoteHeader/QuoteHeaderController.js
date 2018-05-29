@@ -133,8 +133,10 @@
         if(perP) {
            perP.set("v.value", false); 
         }
+        
 	    console.log('-------onPricingProgramSelectChange source =' +whichOne);
-        helper.handlePricingProgramSelectChange(cmp);     
+        helper.handlePricingProgramSelectChange(cmp);  
+        cmp.set('v.selectedPricingMethod','% off MSRP');
     },
     //this is a change event handler of a lightning:select field pricingMethod 
     //triggered by user's selection change

@@ -30,7 +30,7 @@ public class ToroPricingProgramController {
 		if(options.size() == 1) {
 			rs.selectedPricingMethod = options[0].value;
 		} else {
-			rs.selectedPricingMethod = null;
+			rs.selectedPricingMethod = '% off MSRP';
 		}
 		system.debug('svc_getPricingMethodOptions pricingProgram=' + pricingProgram);
 

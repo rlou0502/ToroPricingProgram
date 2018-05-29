@@ -342,12 +342,13 @@
         var dataRow = document.createElement('tr');       
         var dataRowCellPricingProgram = document.createElement('td');
         dataRowCellPricingProgram.scope="col";
-        var cellTextPricingProgram = document.createElement('div');
+        var cellTextPricingProgram = document.createElement('span');
         
         cellTextPricingProgram.className += ' slds-p-bottom_x-small';
         cellTextPricingProgram.innerHTML = "SECONDARY PROGRAMS";
         dataRowCellPricingProgram.appendChild(cellTextPricingProgram);
-        var pricingProgramSelectDiv = document.createElement('div');
+        var pricingProgramSelectDiv = document.createElement('span');
+        pricingProgramSelectDiv.className += ' secondary-pricing-program';
         dataRowCellPricingProgram.appendChild(pricingProgramSelectDiv);
         var pricingProgramSelect = document.createElement('select');
         pricingProgramSelect.dataset.quoteitemid=selectedQuoteItem;

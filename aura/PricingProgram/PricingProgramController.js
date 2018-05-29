@@ -133,7 +133,8 @@
         var childCmp = component.find("cmpQuoteItem");
 		childCmp.setPricingProgramSvc(selectedPricingProgram, function(result) {
             //console.log("callback for aura:method was executed");
-            //console.log("result: " + result);
+            debugger;
+            console.log("result: " + result);
         });
     },
 	//Handle component event c:PricingMethodChangeEvent
