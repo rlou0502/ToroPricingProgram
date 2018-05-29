@@ -1,4 +1,5 @@
 public class ToroPricingProgramController {
+	public static final String defaultPricingMethod='% off MSRP';
 	public static final String constCachedQuoteId = 'quoteId';
 	public static final String constCachedSetupFee = 'setupFee';
     public Id quoteId {get; set;}
@@ -468,7 +469,9 @@ public class ToroPricingProgramController {
     			rs.nextAction = 'calculation';
     		} else {
     			//update new Revvy__MnQuote__c(Id = objId, Pricing_Program_Name__c=pricingProgram, Pricing_Program_Type__c=pricingProgram,Price_Method__c=options[0].value);
-    			rs.selectedPricingMethod = string.isNotBlank(pricingMethod) ? pricingMethod : '';
+    			system.debug('pricingMethod = ' + pricingMethod);
+    			rs.selectedPricingMethod = string.isNotBlank(pricingMethod) ? pricingMethod : defaultPricingMethod;
+    			system.debug('rs.selectedPricingMethod = ' + rs.selectedPricingMethod);
     			list<Revvy__MnStrategy4__c> items = pp.quoteItems;
     			for(Revvy__MnStrategy4__c qi : items) {
     				qi.Pricing_Program__c = pricingProgram;

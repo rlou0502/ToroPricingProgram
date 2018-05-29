@@ -375,8 +375,7 @@
                 }
             	pricingProgramSelect.appendChild(option1);	    
             } else if(typeof spVal == "object") {
-            	var optionGroup = document.createElement("optgroup");
-                optionGroup.label = key;
+            	
                 for (var prop in spVal) {
                 	var opt = document.createElement('option');
                     opt.text = spVal[prop];
@@ -385,9 +384,9 @@
                     if(selectedPricingProgram == opt.value) {
                         opt.selected = true;
                     }
-                    optionGroup.appendChild(opt);
+                    pricingProgramSelect.appendChild(opt);
                 }
-                pricingProgramSelect.appendChild(optionGroup);
+                
             }
         }
         
