@@ -86,7 +86,7 @@ public with sharing class ToroGenModelBOM {
 					double seq = modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0;
 					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name  , 
 																		seq,
-																		OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values()));
+																		OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values(), tractionUnits));
 				}
 			}
 
@@ -105,31 +105,38 @@ public with sharing class ToroGenModelBOM {
 		public List<DNetMSRGPair> options { get; set; }
 		public boolean hasTractionUnit {get; set; }
 		public double sequence {get; set;}
-		OptionGroup(string ogName, double sequence, List<DNetMSRGPair> options) {
+		public Set<String> tractionUnits { get;set; }
+		OptionGroup(string ogName, double sequence, List<DNetMSRGPair> options, Set<String> tractionUnits) {
 			this.optionGroupName = ogName;
 			this.options = options;
 			this.sequence = sequence;
+			this.tractionUnits = tractionUnits;
 			hasTractionUnit=false;
 			for(DNetMSRGPair p : options) {
-				if(p.hasTractionUnit())	 {
+				if(this.tractionUnits.contains(p.sku))	 {
 					hasTractionUnit = true;	 
+					break;
 				}
 			}
 		}
-		OptionGroup(string ogName, List<DNetMSRGPair> options) {
+		OptionGroup(string ogName, List<DNetMSRGPair> options, Set<String> tractionUnits) {
 			this.optionGroupName = ogName;
 			this.options = options;
 			hasTractionUnit=false;
+			this.tractionUnits = tractionUnits;
 			for(DNetMSRGPair p : options) {
-				if(p.hasTractionUnit())	 {
+				if(this.tractionUnits.contains(p.sku))	 {
 					hasTractionUnit = true;	 
+					break;
 				}
 			}
 		}
 		public Integer compareTo(Object compareTo) {
 	        OptionGroup compareToEmp = (OptionGroup)compareTo;
-	        if (compareToEmp.hasTractionUnit || compareToEmp.optionGroupName.containsIgnoreCase('Traction Unit')) {
-	        	 return 1; 
+	        if (compareToEmp.hasTractionUnit ) {
+	        	return 1; 
+	        } else if (this.hasTractionUnit) {
+	        	return -1;
 	        } else {
 	        	//system.debug('------------' + sequence + '----' + compareToEmp.sequence);
 	        	return (Integer) (compareToEmp.sequence -sequence);
