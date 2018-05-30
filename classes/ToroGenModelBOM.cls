@@ -9,7 +9,7 @@ public with sharing class ToroGenModelBOM {
 		Map<String, String> modelHierarchyCode = new Map<String, String>();
 		map<String, Id> modelNameIdMap = new map<String, Id>();
 		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__VerNum__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c From REVVY__Products__r) 
-				FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__IsSolution__c <> true and name = 'Reelmaster 5in - 3555_5410' order by REVVY__VerNum__c asc ]) {
+				FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__IsSolution__c <> true order by REVVY__VerNum__c asc ]) {
 			if(!mdl.name.endsWith('(INTL)') && !mdl.name.containsIgnoreCase('test')) {
 				modelNameIdMap.put(mdl.name, mdl.Id);
 				//modelNameSet.add(mdl.name);
@@ -36,7 +36,6 @@ public with sharing class ToroGenModelBOM {
 							REVVY__Option_Group_Id__c, REVVY__OG_Section_Order__c]) {
 			modelOGOrder.put(junction.REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__c+'_' + junction.REVVY__Option_Group_Id__c,
 				junction.REVVY__OG_Section_Order__c);	
-			System.debug(junction.REVVY__Option_Group_Id__r.revvy__Id__c + '---' +junction.REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__r.name );		
 		}
 		
 		system.debug('modelOGOrder---' + modelOGOrder);
@@ -57,12 +56,19 @@ public with sharing class ToroGenModelBOM {
 				OGOptionMap.put(option.REVVY__Option_Group__c, new Map<Id, DNetMSRGPair>());	
 			}
 			REVVY__MnPriceListLine__c pli = prodCode2Price.get(option.REVVY__Catalog_Node__r.revvy__Id__c);
+			if(pli == null) {
+				pli = prodCode2Price.get(option.REVVY__OptId__c);	
+			}
 			decimal dNetPrice = null;
-			if(pli != null && !option.REVVY__Catalog_Node__r.revvy__Id__c.startsWith('TPP')) {
+			if(pli != null && (!option.REVVY__OptId__c.startsWith('TPP') || !option.REVVY__Catalog_Node__r.revvy__Id__c.startsWith('TPP'))) {
 				if (Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
 					dNetPrice = pli.REVVY__SuggestedPrice__c;	
 				}
-				OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__OptId__c,option.REVVY__Catalog_Node__r.revvy__Id__c, option.REVVY__Catalog_Node__r.Toro_Product_Type__c, option.REVVY__Catalog_Node__r.Hierarchy_Code__c, pli.REVVY__ListedPrice__c, dNetPrice));
+				if(option.REVVY__Catalog_Node__r != null) {
+					OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__Catalog_Node__r.revvy__Id__c, option.REVVY__Catalog_Node__r.Toro_Product_Type__c, option.REVVY__Catalog_Node__r.Hierarchy_Code__c, pli.REVVY__ListedPrice__c, dNetPrice));
+				} else {
+					OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__OptId__c, null, null, pli.REVVY__ListedPrice__c, dNetPrice));
+				}
 			}
 		}
 
@@ -116,8 +122,7 @@ public with sharing class ToroGenModelBOM {
 			this.tractionUnits = tractionUnits;
 			hasTractionUnit=false;
 			for(DNetMSRGPair p : options) {
-				if(this.tractionUnits.contains(p.optionId))	 {
-					this.optionGroupName += ' traction ';
+				if(this.tractionUnits.contains(p.sku))	 {
 					hasTractionUnit = true;	 
 					break;
 				}
@@ -129,8 +134,7 @@ public with sharing class ToroGenModelBOM {
 			hasTractionUnit=false;
 			this.tractionUnits = tractionUnits;
 			for(DNetMSRGPair p : options) {
-				if(this.tractionUnits.contains(p.optionId))	 {
-					this.optionGroupName += ' traction ';
+				if(this.tractionUnits.contains(p.sku))	 {
 					hasTractionUnit = true;	 
 					break;
 				}
@@ -370,14 +374,13 @@ public with sharing class ToroGenModelBOM {
    
 	 
 	public class DNetMSRGPair {
-		DNetMSRGPair(String n, String optionId, String sku, String productType, String hierarchyCode, decimal msrp, decimal dNet)	{
+		DNetMSRGPair(String n, String sku, String productType, String hierarchyCode, decimal msrp, decimal dNet)	{
 			this.dNet = dNet;
 			this.msrp = msrp;
 			this.optionName = n;
 			this.sku = sku;
 			this.productType = productType;
 			this.hierarchyCode = hierarchyCode;
-			this.optionId = optionId;
 		}
 		public decimal dNet { get; set;}
 		public decimal msrp {get; set;}
@@ -385,13 +388,6 @@ public with sharing class ToroGenModelBOM {
 		public String sku { get; set; }
 		public String productType { get; set;}
 		public String hierarchyCode { get; set;}
-		public String optionId { get; set; }
-		public boolean hasTractionUnit() {
-			if('Finished Good'.equalsIgnoreCase(productType) && String.isNotBlank(hierarchyCode) && hierarchyCode.endsWith('1')) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		
 	}
 }

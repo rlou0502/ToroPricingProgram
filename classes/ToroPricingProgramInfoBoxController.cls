@@ -25,6 +25,25 @@ public class ToroPricingProgramInfoBoxController {
 		rs.values = dataObjs;
     	return rs;
     }
+    
+    public static List<FieldSetMember> convertFieldSet(List<Schema.FieldSetMember> fs) {
+    	List<FieldSetMember> fset = new List<FieldSetMember>();
+    	for (Schema.FieldSetMember f: fs) {
+        	FieldSetMember nfsm = new FieldSetMember(f);
+            fset.add(nfsm);
+        }	
+        return fset;
+    }
+    @AuraEnabled
+    public static ToroInfoBoxResultSet getInfoBoxFieldSets() {
+    	ToroInfoBoxResultSet rs = new ToroInfoBoxResultSet();
+    	system.debug('refreshInfoBox');
+    	rs.result=true;
+    	rs.quoteItemTractionUnitFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Traction_Unit_Info.getFields());
+    	rs.quoteItemMainFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Line_Info_Cols.getFields());
+    	rs.quoteSublineFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy5__c.FieldSets.Price_Program_Subline_Info_Cols.getFields());
+    	return rs;
+    }
     @AuraEnabled
     public static Revvy__MnQuote__c loadQuoteHeader(Id quoteId) {
     	return ToroCacheManager.getQuote(quoteId);

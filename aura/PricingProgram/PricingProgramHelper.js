@@ -73,6 +73,7 @@
 		$A.enqueueAction(getAction);
     },
     renderInfoBox : function(component) {
+        debugger;
         if(document.getElementById("popover-root")) {
             var fields = component.get("v.fields");
             var sObj = component.get("v.sObject");

@@ -52,6 +52,7 @@
         });
     },
     renderInfoBox : function(component) {
+        debugger;
 		var fields = component.get("v.fields");	
         var sObj = component.get("v.sObject");	      
         var self = this;
