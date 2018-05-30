@@ -233,13 +233,23 @@
                 } 
                 cellText.appendChild(tableDataNode);
             } else {
+                if(quoteItemId) {
+					//this is a subline
+					if(field.fieldPath == "Product_Id__c") {
+                        tableData.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, sObj["Id"]);}, false);
+                    }                    
+                } else {
+                    if(field.fieldPath == "Product_Id__c") {
+                        tableData.addEventListener('mouseenter', function(){self.handleQuoteItemInfo(component, sObj["Id"]);}, false);
+                    }
+                }
                 if(field.type.toLowerCase() === 'double') {
                     if(sObj[field.fieldPath]!= undefined) {
                         cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}); 
                     }  
                 } else if(field.type.toLowerCase() === 'currency') {
                     if(sObj[field.fieldPath]!= undefined) {
-                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toFixed(2).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
                     }
                 } else if(field.type.toLowerCase() === 'boolean') {
                     var tableDataNode = document.createElement('input');
@@ -348,7 +358,7 @@
         cellTextPricingProgram.innerHTML = "SECONDARY PROGRAMS";
         dataRowCellPricingProgram.appendChild(cellTextPricingProgram);
         var pricingProgramSelectDiv = document.createElement('span');
-        pricingProgramSelectDiv.className += ' secondary';
+        pricingProgramSelectDiv.className += ' secondary-pricing-program';
         dataRowCellPricingProgram.appendChild(pricingProgramSelectDiv);
         var pricingProgramSelect = document.createElement('select');
         pricingProgramSelect.dataset.quoteitemid=selectedQuoteItem;

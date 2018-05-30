@@ -5,7 +5,8 @@ public class ToroPricingProgramInfoBoxController {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
     	system.debug('refreshInfoBox');
     	rs.result=true;
-    	List<Schema.FieldSetMember> fs= objId.getSObjectType().getDescribe().FieldSets.getMap().get('Price_Program_Line_Info_Cols').getFields();
+    	system.debug('ToroPricingProgramInfoBoxController obj type = ' + objId.getSObjectType());
+    	List<Schema.FieldSetMember> fs= objId.getSObjectType().getDescribe().FieldSets.getMap().get('Price_Program_Traction_Unit_Info').getFields();
     	String objName = objId.getSObjectType().getDescribe().getName();
     	List<String> fieldNames = new List<String>();
     	List<FieldSetMember> fset = new List<FieldSetMember>();
