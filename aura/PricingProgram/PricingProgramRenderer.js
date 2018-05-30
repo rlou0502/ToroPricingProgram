@@ -10,7 +10,8 @@
     */
     afterRender : function(cmp, helper) {
         document.getElementById("popover-root").addEventListener('dragend', function(e) {
-            
+            if(e.preventDefault) { e.preventDefault(); }
+    		if(e.stopPropagation) { e.stopPropagation(); }
             var xOffset = document.getElementById("xOffset").value;
             var yOffset = document.getElementById("yOffset").value;
             var xCurrent = document.getElementById("xCurrent").value;
@@ -34,12 +35,13 @@
             console.log('xOffset  = ' + xOffset);
             //console.log('rect x = ' + rect.left);
             //console.log('rect y = ' + rect.top);
-             
+            return false; 
             
         });
         document.getElementById("popover-root").addEventListener('dragstart', function(e) {
             console.log('drag start x = ' + e.clientX);
             console.log('drag start y = ' + e.clientY);
+            //e.dataTransfer.setData('Text', 'foo');
             var rect = document.getElementById("popover-root").getBoundingClientRect();
             
             console.log('drag rect x = ' + rect.left);
@@ -56,6 +58,7 @@
             //document.getElementById("popover-root").style.left = e.clientY + "px";
         });
         document.getElementById("popover-root").addEventListener('drag', function(e) {
+            e.preventDefault();
             console.log('----drag  x = ' + e.clientX);
             console.log('----drag  y = ' + e.clientY);
             var xc = document.getElementById("xCurrent").value ;

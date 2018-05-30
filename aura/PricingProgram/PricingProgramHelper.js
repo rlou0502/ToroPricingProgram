@@ -94,6 +94,7 @@
                 tableColLabel.appendChild(cellLabel);
                 tableRow.appendChild(tableColLabel);
                 var tableColValue = document.createElement('td');
+                tableColValue.className += " slds-truncate attr-value";
                 var cellValue = document.createElement('span');
                 cellValue.className += " slds-truncate";
                 cellValue.innerHTML = sObj[field.fieldPath];
