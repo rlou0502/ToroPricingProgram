@@ -252,7 +252,9 @@ public with sharing class ToroGenModelBOM {
 		
 		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c,  REVVY__Product_Name__c, REVVY__Product__r.Hierarchy_Code__c, 
 				REVVY__Product__r.Toro_Product_Type__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c 
-				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good', 'Semi-Finished Good') ];
+				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false 
+					and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good') 
+					and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) ];
 		
 		Integer count=0;
 		//Integer remainder = math.mod(12, 2);
