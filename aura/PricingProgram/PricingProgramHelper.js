@@ -73,7 +73,6 @@
 		$A.enqueueAction(getAction);
     },
     renderInfoBox : function(component) {
-        debugger;
         if(document.getElementById("popover-root")) {
             var fields = component.get("v.fields");
             var sObj = component.get("v.sObject");
@@ -98,6 +97,39 @@
                 var cellValue = document.createElement('span');
                 cellValue.className += " slds-truncate";
                 cellValue.innerHTML = sObj[field.fieldPath];
+                if(type === 'double') {
+                    if(sObj[field.fieldPath] != undefined) {
+                        cellValue.innerHTML= parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}); 
+                    }  
+                } else if(type === 'currency') {
+                    if(sObj[field.fieldPath] != undefined) {
+                        cellValue.innerHTML =	'$'+parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, 
+                                                   {minimumFractionDigits: 2, 
+                                                    maximumFractionDigits: 2
+                                                    
+                                                   });
+                    }
+                } else if(type === 'boolean') {
+                    var tableDataNode = document.createElement('input');
+                    tableDataNode.type='checkbox'; 
+                    tableDataNode.checked = sObj[field.fieldPath];
+                    tableDataNode.disabled=true;
+                    cellValue.appendChild(tableDataNode);
+                } else if(type === 'percent') {
+                   if(sObj[field.fieldPath] != undefined) {
+                       cellValue.innerHTML=parseFloat(sObj[field.fieldPath]/100).toLocaleString(undefined, 
+                                                    {minimumFractionDigits: 4, 
+                                                     maximumFractionDigits: 4,
+													 style : 'percent'                                                     
+                                                    }); 
+                    } 
+                } else if(type === 'string') {
+                    var dispVal = sObj[field.fieldPath]; 
+                    if(dispVal != "NaN") {
+                        cellValue.innerHTML = dispVal;
+                        cellValue.title=dispVal;
+                    }
+                }                           
                 tableColValue.appendChild(cellValue);
                 tableRow.appendChild(tableColValue);
                 table.appendChild(tableRow);
@@ -153,14 +185,11 @@
         elm.removeEventListener('mousemove', function(e) { self.handleMouseMove(cmp, e); });
     	elm.removeEventListener('mouseup', function(e) { self.handleMouseUp(cmp, e); });
     },
-    retrieveObjectInfo : function(component, objId) {
+    retrieveObjectInfo : function(component, infoBoxData, infoBoxType) {
         var self = this;
         //console.log('----------retrieveObjectInfo');
-    	var getAction = component.get('c.refreshInfoBoxSvc');
+    	var getAction = component.get('c.getInfoBoxFieldSets');
         getAction.setStorable();
-        getAction.setParams({
-            objId: objId
-        });
         getAction.setCallback(this,
         	function(response) {
                 //console.log('----------retrieveObjectInfo 3');
@@ -168,8 +197,21 @@
                 if (component.isValid() && state === "SUCCESS") {
                     var data = response.getReturnValue();
                     var retResponse = response.getReturnValue();
-                    component.set('v.fields', retResponse.fieldSetMembers);
-                    component.set('v.sObject', retResponse.values[0]);
+                    switch(infoBoxType) {
+                        case "TractionUnit":
+                            component.set('v.fields', retResponse.quoteItemTractionUnitFieldSet);
+                            break;
+                        case "Subline":
+                            component.set('v.fields', retResponse.quoteSublineFieldSet);
+                            break;
+                        case "MainLine":
+                            component.set('v.fields', retResponse.quoteItemMainFieldSet);
+                            break;
+                        default:
+    						console.log('Sorry, we are out of ' + infoBoxType + '.');
+                            
+                    }
+                    component.set('v.sObject', infoBoxData);
                     self.renderInfoBox(component);
                 }
             }

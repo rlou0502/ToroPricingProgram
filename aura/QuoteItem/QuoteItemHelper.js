@@ -13,6 +13,14 @@
         });
         cmpEvent.fire(); 
     },
+    handleInfoBoxRefresh : function(component, obj, lineType) {
+    	var cmpEvent = component.getEvent("refreshInfoBoxEvent");
+        cmpEvent.setParams({
+            "infoBoxData" : obj,
+            "infoBoxType" : lineType
+        });
+        cmpEvent.fire();    
+    },
     showToast : function(component, event, helper) {
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
@@ -137,7 +145,7 @@
         }
         return lPercent.toFixed(scale);
     },
-    renderTable : function(fields, sObj, parentRow, quoteItemId, component, isMainLine) {
+    renderTable : function(fields, sObj, parentRow, quoteItemId, component, isMainLine, lineType) {
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
@@ -233,15 +241,8 @@
                 } 
                 cellText.appendChild(tableDataNode);
             } else {
-                if(quoteItemId) {
-					//this is a subline
-					if(field.fieldPath == "Product_Id__c") {
-                        tableData.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, sObj["Id"]);}, false);
-                    }                    
-                } else {
-                    if(field.fieldPath == "Product_Id__c") {
-                        tableData.addEventListener('mouseenter', function(){self.handleQuoteItemInfo(component, sObj["Id"]);}, false);
-                    }
+                if(field.fieldPath == "Product_Id__c") {
+                	tableData.addEventListener('mouseenter', function(){self.handleInfoBoxRefresh(component, sObj, lineType);}, false);
                 }
                 if(field.type.toLowerCase() === 'double') {
                     if(sObj[field.fieldPath]!= undefined) {
@@ -313,7 +314,7 @@
         var summaryLineTableRow = document.createElement('tr');
         summaryLineTableRow.id = quoteItem["Id"];
         summaryLineTableRow.className += " quoteItem summary";
-        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component, false);           
+        self.renderTable(summaryFields, quoteItem, summaryLineTableRow, null, component, false, "TractionUnit");           
 
         childTableBody.appendChild(summaryLineTableRow);
         childTable.appendChild(childTableBody);
@@ -453,7 +454,7 @@
                 subLineTableRow.className += " quoteItemSubline ";
                 subLineTableRow.id = s["Id"];
                 //subLineTableRow.addEventListener('mouseenter', function(){self.handleQuoteItemSublineInfo(component, subLineTableRow.id);}, false); 
-                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem, component, false);           
+                self.renderTable(sublineFields, s, subLineTableRow, selectedQuoteItem, component, false,"Subline");           
                 childTableBody.appendChild(subLineTableRow);
             });    
         }
@@ -507,7 +508,7 @@
             }, false);
             chevronTd.appendChild(chevronSpan);
             tableRow.appendChild(chevronTd); 
-            self.renderTable(fields, s, tableRow, null, component, true); 
+            self.renderTable(fields, s, tableRow, null, component, true, "MainLine"); 
             document.getElementById("quoteItems").appendChild(tableRow);   
             var qiId = s["Id"];
             var sublines = sublinesMap[qiId];
