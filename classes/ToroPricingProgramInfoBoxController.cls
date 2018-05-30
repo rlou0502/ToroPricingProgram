@@ -20,6 +20,7 @@ public class ToroPricingProgramInfoBoxController {
         String query = 'Select ' + String.join(fieldNames, ',') + ' from ' + objName + ' where id=\'' + objId + '\'';
         system.debug('refreshInfoBox=' + query);
 		sObject[] dataObjs = database.query(query);
+		system.debug('refreshInfoBox=' + dataObjs);
 		rs.fieldSetMembers = fset;
 		rs.values = dataObjs;
     	return rs;
