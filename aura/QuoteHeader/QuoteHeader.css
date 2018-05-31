@@ -13,3 +13,14 @@
 .THIS tr.slds-text-heading--label th div {
     background-color : #DCDCDC;
 }
+
+.THIS#docked_quote_header {
+    position: fixed;
+    z-index: 1;
+    top: 40px;
+    margin-top: 10px;
+    width: 100%;
+}
+.THIS#pricing_program_selector {
+    margin-top: 60px;
+}
