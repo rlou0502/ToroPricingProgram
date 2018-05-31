@@ -20,6 +20,18 @@
 		var cmpEvent = cmp.getEvent('ntValueChangeEvent');
 		cmpEvent.fire();
 	},
+	handleDNetPriceChange: function(cmp, event, helper) {
+		console.log('@ToroNTQuoteItemsController:handleDNetPriceChange');
+
+		var dnet = event.getSource().get('v.value');
+
+		if (dnet < 0) {
+			event.getSource().set('v.value', 0);
+		}
+
+		var cmpEvent = cmp.getEvent('ntValueChangeEvent');
+		cmpEvent.fire();
+	},	
 	handleAwardPriceChange: function(cmp, event, helper) {
 		console.log('@ToroNTQuoteItemsController:handleAwardPriceChange');
 

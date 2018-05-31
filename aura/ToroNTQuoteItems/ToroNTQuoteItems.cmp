@@ -22,7 +22,7 @@
                         <div class="slds-truncate" title="MSRP">MSRP</div>
                     </th>
                     <th scope="col" width="10%">
-                        <div class="slds-truncate" title="AWARD">DNET</div>
+                        <div class="slds-truncate" title="DNET">DNET</div>
                     </th>
                     <th scope="col" width="10%">
                         <div class="slds-truncate" title="AWARD">AWARD</div>
@@ -53,7 +53,9 @@
                             <lightning:formattedNumber value="{!item.msrpPrice}" style="currency" />
                         </td>
                         <td>
-                            <lightning:formattedNumber value="{!item.msrpPrice}" style="currency" />
+                            <lightning:input type="number" formatter="currency" step="0.01" min="0"
+                                                value="{!item.dnetPrice}"
+                                                onchange="{!c.handleDNetPriceChange}" />
                         </td>
                         <td>
                             <lightning:input type="number" formatter="currency" step="0.01" min="0"
