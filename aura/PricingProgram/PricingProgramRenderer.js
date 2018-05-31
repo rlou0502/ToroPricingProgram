@@ -41,6 +41,7 @@
             console.log('-----drag end  offsetY = ' + e.offsetY);
             console.log('-----drag end  movementX = ' + e.movementX);
             console.log('-----drag end  movementY = ' + e.movementY);
+            console.log('-----drag end  rect.bottom = ' + rect.bottom);
             
             //if(rect) {
             //debugger;
@@ -51,9 +52,17 @@
             
             var xPos = e.clientX - xOffset;
             var yPos = e.clientY - yOffset;
+            if(!e.clientX){
+            	xPos = e.screenX - xOffset;
+                yPos = e.screenY - 255 - yOffset;
+            }
             if(rect && yPos <= rect.bottom ) {
             	yPos = rect.bottom;  
             }
+            console.log('-----drag end  xOffset = ' + xOffset);
+            console.log('-----drag end  yOffset = ' + yOffset);
+            console.log('-----drag end  xPos = ' + xPos);
+            console.log('-----drag end  yPos = ' + yPos);
                 document.getElementById("popover-root").style.top =  yPos + "px";
             	document.getElementById("popover-root").style.left = xPos + "px";
             //}
