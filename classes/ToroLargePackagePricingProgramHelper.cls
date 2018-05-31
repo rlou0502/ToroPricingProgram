@@ -92,6 +92,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 			for (Revvy__MnStrategy4__c qi : quoteItemList) {
 				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0 ) {
 					qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;
+
 				}
 				if(qi.Award_of_DN__c != null) {
 					if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -103,6 +104,8 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 						}
 					}
 				}
+				
+				
 			}
 
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {

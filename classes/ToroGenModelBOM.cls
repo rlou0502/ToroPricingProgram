@@ -1,8 +1,15 @@
 public with sharing class ToroGenModelBOM {
+	static Set<String> tractionUnits = null;
 	public ToroGenModelBOM() {
 		
 	}
-	
+	static {
+		tractionUnits = new Set<String>();
+		List<REVVY__MnCatalogNode__c> configurableProducts = [Select REVVY__Model__c,  name, REVVY__Id__c From REVVY__MnCatalogNode__c  where REVVY__Model__c != null];
+		for(REVVY__MnCatalogNode__c p : configurableProducts) {
+			tractionUnits.add(p.REVVY__Id__c);	
+		}	
+	}
 	public static GenModelBOMResult genBOM() {
 		List<String> modelNames = new List<String> ();
 		Set<String> modelNameSet = new Set<String> ();
@@ -19,11 +26,7 @@ public with sharing class ToroGenModelBOM {
 			}
 			
 		}
-		Set<String> tractionUnits = new Set<String>();
-		List<REVVY__MnCatalogNode__c> configurableProducts = [Select REVVY__Model__c,  name, REVVY__Id__c From REVVY__MnCatalogNode__c  where REVVY__Model__c != null];
-		for(REVVY__MnCatalogNode__c p : configurableProducts) {
-			tractionUnits.add(p.REVVY__Id__c);	
-		}
+		
 		list<Id> modelIds = modelNameIdMap.values();
 		system.debug('modelIds---' + modelIds);
 		map<String, double> modelOGOrder = new map<String, double>();

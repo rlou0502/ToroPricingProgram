@@ -18,10 +18,13 @@
                     <th scope="col" width="30%">
                         <div class="slds-truncate" title="DESCRIPTION">DESCRIPTION</div>
                     </th>
-                    <th scope="col" width="15%">
+                    <th scope="col" width="10%">
                         <div class="slds-truncate" title="MSRP">MSRP</div>
                     </th>
-                    <th scope="col" width="15%">
+                    <th scope="col" width="10%">
+                        <div class="slds-truncate" title="AWARD">DNET</div>
+                    </th>
+                    <th scope="col" width="10%">
                         <div class="slds-truncate" title="AWARD">AWARD</div>
                     </th>
                 </tr>
@@ -45,6 +48,9 @@
                         <td>
                             <lightning:input name="{!item.sfid}"
                                                 value="{!item.description}" />
+                        </td>
+                        <td>
+                            <lightning:formattedNumber value="{!item.msrpPrice}" style="currency" />
                         </td>
                         <td>
                             <lightning:formattedNumber value="{!item.msrpPrice}" style="currency" />
