@@ -481,39 +481,6 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>REVVY__MnCatalogNode__c.CatalogFieldSet</members>
-        <members>REVVY__MnCatalogNode__c.Catalog_Node_Calc_Engine_FS</members>
-        <members>REVVY__MnCatalogNode__c.Catalog_Node_Editable_FS</members>
-        <members>REVVY__MnCatalogNode__c.Catalog_Node_FS</members>
-        <members>REVVY__MnCatalogNode__c.Catalog_Node_List_FS</members>
-        <members>REVVY__MnCatalogNode__c.Category_Node_FS</members>
-        <members>REVVY__MnCatalogNode__c.Category_Node_FS_2</members>
-        <members>REVVY__MnCatalogNode__c.Category_Node_List_FS</members>
-        <members>REVVY__MnCatalogNode__c.Node_Images_FS</members>
-        <members>REVVY__MnCatalogNode__c.Product_Node_FS</members>
-        <members>REVVY__MnCatalogNode__c.Product_Node_List_FS</members>
-        <members>REVVY__MnCatalogNode__c.Solution_Node_FS</members>
-        <members>REVVY__MnCatalogNode__c.Solution_Node_List_FS</members>
-        <members>REVVY__MnPriceListLine__c.PriceListLine_ContainedList_FS</members>
-        <members>REVVY__MnPriceListLine__c.PriceListLine_CustomEditList_FS</members>
-        <members>REVVY__MnPriceListLine__c.PriceListLine_List_FS</members>
-        <members>REVVY__MnPriceList__c.PriceList_CustomEditList_FS</members>
-        <members>REVVY__MnPriceList__c.PriceList_List_FS</members>
-        <members>REVVY__MnQuoteItemSubLine__c.EditableWhenLockedFieldsFS</members>
-        <members>REVVY__MnQuoteItemSubLine__c.Quote_Bundle_Cols</members>
-        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Additional_Fields</members>
-        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_CE_Exclusion</members>
-        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Cols</members>
-        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Pricing</members>
-        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Pricing_2</members>
-        <members>REVVY__MnQuoteItem__c.EditableWhenLockedFieldsFS</members>
-        <members>REVVY__MnQuoteItem__c.Line_Detail_Fields</members>
-        <members>REVVY__MnQuoteItem__c.Line_Level_Approval_Fields</members>
-        <members>REVVY__MnQuoteItem__c.Quote_Item_CE_Exclusion</members>
-        <members>REVVY__MnQuoteItem__c.Quote_Line_Cols</members>
-        <members>REVVY__MnQuoteItem__c.Quote_Line_Item_Pricing</members>
-        <members>REVVY__MnQuoteItem__c.Quote_Line_Item_Pricing_2</members>
-        <members>REVVY__MnQuoteItem__c.ServiceCoveredItemsFS</members>
         <members>REVVY__MnQuote__c.DNet_Field_Set</members>
         <members>REVVY__MnQuote__c.FieldsDisplayedInQuoteLinesCopied</members>
         <members>REVVY__MnQuote__c.GroupQuoteMembersFS</members>

@@ -117,9 +117,9 @@
         <externalId>false</externalId>
         <label>Contains Incomplete Configurations</label>
         <summaryFilterItems>
-            <field>REVVY__MnQuoteItem__c.REVVY__Is_Configuration_Complete__c</field>
+            <field>REVVY__MnQuoteItem__c.REVVY__Weekly_Price_Before_Discount_Display_F__c</field>
             <operation>equals</operation>
-            <value>True</value>
+            <value>0</value>
         </summaryFilterItems>
         <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
         <summaryOperation>count</summaryOperation>
