@@ -12,7 +12,7 @@
         document.getElementById("popover-root").addEventListener('dragend', function(e) {
             if(e.preventDefault) { e.preventDefault(); }
     		if(e.stopPropagation) { e.stopPropagation(); }
-            console.log('----drag end transfer data=' + e.dataTransfer.getData('text/plain'));
+            //console.log('----drag end transfer data=' + e.dataTransfer.getData('text/plain'));
             var xOffset = document.getElementById("xOffset").value;
             var yOffset = document.getElementById("yOffset").value;
             var xCurrent = document.getElementById("xCurrent").value;
@@ -20,78 +20,68 @@
             
             var xc = document.getElementById("xCurrent").value ;
             var yc = document.getElementById("yCurrent").value ;
-            console.log('-----drag end  xc = ' + xc);
-            console.log('------drag end  yc = ' + yc);
-			console.log('-----drag end  clientX = ' + e.clientX);
-            console.log('------drag end  clientY = ' + e.clientY); 
-            console.log('-----drag end  screenX = ' + e.screenX);
-            console.log('------drag end  screenY = ' + e.screenY);
+            //console.log('-----drag end  xc = ' + xc);
+            //console.log('------drag end  yc = ' + yc);
+			//console.log('-----drag end  clientX = ' + e.clientX);
+            //console.log('------drag end  clientY = ' + e.clientY); 
+            //console.log('-----drag end  screenX = ' + e.screenX);
+            //console.log('------drag end  screenY = ' + e.screenY);
             //document.getElementById("popover-root").style.top = (e.clientX-xOffset) + "px";
             //document.getElementById("popover-root").style.left = (e.clientY-yOffset) + "px";
             var rect = document.getElementById("ppContainer").getBoundingClientRect();
             //if(rect) {
-                document.getElementById("popover-root").style.top =  (yCurrent - yOffset ) + "px";
-            	document.getElementById("popover-root").style.left = (xCurrent - xOffset ) + "px";
+            
+            if(yCurrent != 0) {
+             	document.getElementById("popover-root").style.top =  (yCurrent - yOffset ) + "px";
+            	document.getElementById("popover-root").style.left = (xCurrent - xOffset ) + "px";   
+            } else {
+                document.getElementById("popover-root").style.top =  (e.screenY - 117 - yOffset ) + "px";
+            	document.getElementById("popover-root").style.left = (e.screenX - xOffset ) + "px";
+            }
+            
             //}
-            console.log('yCurrent = ' + yCurrent);
-            console.log('yOffset = ' + yOffset);
-            console.log('xCurrent  = ' + xCurrent);
-            console.log('xOffset  = ' + xOffset);
+            //console.log('yCurrent = ' + yCurrent);
+            //console.log('yOffset = ' + yOffset);
+            //console.log('xCurrent  = ' + xCurrent);
+            //console.log('xOffset  = ' + xOffset);
             //console.log('rect x = ' + rect.left);
             //console.log('rect y = ' + rect.top);
             return false; 
             
         });
         document.getElementById("popover-root").addEventListener('dragstart', function(e) {
-            console.log('drag start x = ' + e.clientX);
-            console.log('drag start y = ' + e.clientY);
+            //console.log('drag start x = ' + e.clientX);
+            //console.log('drag start y = ' + e.clientY);
             e.dataTransfer.setData('text/plain', e.clientX + ";" + e.clientY);
+            e.dataTransfer.effectAllowed = "move";
+            e.dataTransfer.dropEffect="move";
             var rect = document.getElementById("popover-root").getBoundingClientRect();
             
-            console.log('drag rect x = ' + rect.left);
-            console.log('drag rect y = ' + rect.top);
+            //console.log('drag rect x = ' + rect.left);
+            //console.log('drag rect y = ' + rect.top);
             var offsetX =e.clientX-rect.left;
             var offsetY =e.clientY-rect.top;
             document.getElementById("xOffset").value = offsetX;
             document.getElementById("yOffset").value = offsetY;
             
-            console.log('drag offset x = ' + document.getElementById("xOffset").value);
-            console.log('drag offset y = ' + document.getElementById("yOffset").value);
+            //console.log('drag offset x = ' + document.getElementById("xOffset").value);
+            //console.log('drag offset y = ' + document.getElementById("yOffset").value);
             
             //document.getElementById("popover-root").style.top = e.clientX + "px";
             //document.getElementById("popover-root").style.left = e.clientY + "px";
         });
         document.getElementById("popover-root").addEventListener('drag', function(e) {
             
-            console.log('----drag  clientX = ' + e.clientX);
-            console.log('----drag  clientY = ' + e.clientY);
-            console.log('----drag  screenX = ' + e.screenX);
-            console.log('----drag  screenY = ' + e.screenY);
-            console.log('----drag transfer data=' + e.dataTransfer.getData('text/plain'));
-            e.dataTransfer.setData('text/plain', e.clientX + ";" + e.clientY);
-            var xc = document.getElementById("xCurrent").value ;
-            var yc = document.getElementById("yCurrent").value ;
-            console.log('-----drag  xc = ' + xc);
-            console.log('------drag  yc = ' + yc);
-            if(e.clientX) {
-            	document.getElementById("xCurrent").value = e.clientX;
-            }
-            if(e.clientY) {
-            	document.getElementById("yCurrent").value = e.clientY;
-            }
-        });
-        document.getElementById("popover-root").addEventListener('dragover', function(e) {
+            //console.log('----drag  clientX = ' + e.clientX);
+            //console.log('----drag  clientY = ' + e.clientY);
+            //console.log('----drag  screenX = ' + e.screenX);
+            //console.log('----drag  screenY = ' + e.screenY);
+            //console.log('----drag transfer data=' + e.dataTransfer.getData('text/plain'));
             
-            console.log('----drag over clientX = ' + e.clientX);
-            console.log('----drag over clientY = ' + e.clientY);
-            console.log('----drag over screenX = ' + e.screenX);
-            console.log('----drag over screenY = ' + e.screenY);
-            console.log('----drag over transfer data=' + e.dataTransfer.getData('text/plain'));
-            e.dataTransfer.setData('text/plain', e.clientX + ";" + e.clientY);
             var xc = document.getElementById("xCurrent").value ;
             var yc = document.getElementById("yCurrent").value ;
-            console.log('-----drag  xc = ' + xc);
-            console.log('------drag  yc = ' + yc);
+            //console.log('-----drag  xc = ' + xc);
+            //console.log('------drag  yc = ' + yc);
             if(e.clientX) {
             	document.getElementById("xCurrent").value = e.clientX;
             }
@@ -99,6 +89,7 @@
             	document.getElementById("yCurrent").value = e.clientY;
             }
         });
+        
         /*
         var svg = cmp.find("icon_container");
         if(svg) {
