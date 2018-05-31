@@ -53,6 +53,7 @@
 	    <div class="slds-global-header__item " style="float:right">
 	    <div class="slds-col slds-no-flex slds-grid slds-align-top">
 	            <div class="slds-button-group" role="group">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.showDetailInfoBox}">{!$Label.c.PP_ShowDetailInfoBox}</button>
                     <button class="slds-button slds-button_neutral" onclick="{!c.returnToQuote}">{!$Label.c.PP_ReturnToQuote}</button>
                     <button class="slds-button slds-button_neutral js-calculate" onclick="{!c.calculate}">{!$Label.c.PP_UpdateQuote}</button>
                     <button class="slds-button slds-button_neutral js-saveAndClose" onclick="{!c.saveAndClose}">{!$Label.c.PP_SaveAndClose}</button>

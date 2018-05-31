@@ -1,4 +1,7 @@
 ({
+    showDetailInfoBox : function(component, event, helper) {
+        helper.retrieveObjectInfo(component, null, null);
+    },
     returnToQuote : function(component, event, helper) {
         component.set("v.forwardUrl", "/");
         helper.openWindow(component, event, helper);
@@ -11,7 +14,6 @@
         //document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
     },
     calculate : function(component, event, helper) {
-    	debugger;
         var quoteId = component.get('v.quoteId');
         if (quoteId) {
             helper.calculateHelper(component, quoteId);

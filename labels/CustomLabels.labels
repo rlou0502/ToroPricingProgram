@@ -545,6 +545,14 @@
         <value>Please Select a Pricing Program</value>
     </labels>
     <labels>
+        <fullName>PP_ShowDetailInfoBox</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ShowDetailInfoBox</shortDescription>
+        <value>Show Details</value>
+    </labels>
+    <labels>
         <fullName>PP_SupportPlus</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

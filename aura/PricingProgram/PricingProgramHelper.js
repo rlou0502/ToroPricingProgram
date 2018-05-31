@@ -209,10 +209,10 @@
                             component.set('v.fields', retResponse.quoteItemMainFieldSet);
                             break;
                         default:
-    						console.log('Sorry, we are out of ' + infoBoxType + '.');
+    						component.set('v.fields', retResponse.quoteItemMainFieldSet);
                             
                     }
-                    component.set('v.sObject', infoBoxData);
+                    component.set('v.sObject', {});
                     self.renderInfoBox(component);
                 }
             }
