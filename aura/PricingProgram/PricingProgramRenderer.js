@@ -28,16 +28,35 @@
             //console.log('------drag end  screenY = ' + e.screenY);
             //document.getElementById("popover-root").style.top = (e.clientX-xOffset) + "px";
             //document.getElementById("popover-root").style.left = (e.clientY-yOffset) + "px";
-            var rect = document.getElementById("ppContainer").getBoundingClientRect();
-            //if(rect) {
+            var rect = document.getElementById("docked_quote_header").getBoundingClientRect();
+            var lLeft = rect.left;
+            var bottom = rect.bottom;
+            console.log('-----drag end  clientX = ' + e.clientX);
+            console.log('-----drag end  clientY = ' + e.clientY);
+            console.log('-----drag end  screenX = ' + e.screenX);
+            console.log('-----drag end  screenY = ' + e.screenY);
+            console.log('-----drag end  pageX = ' + e.pageX);
+            console.log('-----drag end  pageY = ' + e.pageY);
+            console.log('-----drag end  offsetX = ' + e.offsetX);
+            console.log('-----drag end  offsetY = ' + e.offsetY);
+            console.log('-----drag end  movementX = ' + e.movementX);
+            console.log('-----drag end  movementY = ' + e.movementY);
             
-            if(yCurrent != 0) {
-             	document.getElementById("popover-root").style.top =  (yCurrent - yOffset ) + "px";
-            	document.getElementById("popover-root").style.left = (xCurrent - xOffset ) + "px";   
-            } else {
-                document.getElementById("popover-root").style.top =  (e.screenY - 117 - yOffset ) + "px";
-            	document.getElementById("popover-root").style.left = (e.screenX - xOffset ) + "px";
+            //if(rect) {
+            //debugger;
+            //if(yCurrent != 0) {
+             	//document.getElementById("popover-root").style.top =  (yCurrent - yOffset ) + "px";
+            	//document.getElementById("popover-root").style.left = (xCurrent - xOffset ) + "px";   
+            //} else {
+            
+            var xPos = e.clientX - xOffset;
+            var yPos = e.clientY - yOffset;
+            if(rect && yPos <= rect.bottom ) {
+            	yPos = rect.bottom;  
             }
+                document.getElementById("popover-root").style.top =  yPos + "px";
+            	document.getElementById("popover-root").style.left = xPos + "px";
+            //}
             
             //}
             //console.log('yCurrent = ' + yCurrent);
