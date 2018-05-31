@@ -11,12 +11,22 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Award_Price_as_a_Percent_of_DN__c</fullName>
         <externalId>false</externalId>
         <label>Award Price as a Percent of DN(%)</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>4</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
     </fields>
@@ -26,7 +36,7 @@
         <label>Distributor Margin(%)</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>4</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
     </fields>
@@ -34,9 +44,9 @@
         <fullName>Fee_Percentage__c</fullName>
         <externalId>false</externalId>
         <label>Fee Percentage</label>
-        <precision>5</precision>
+        <precision>11</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>4</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
     </fields>
@@ -70,7 +80,7 @@
         <label>Off Mfg. Sugg. Rtl(%)</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>4</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
     </fields>
@@ -91,7 +101,7 @@
         <externalId>false</externalId>
         <label>Pricing Program</label>
         <referenceTo>REVVY__MnStrategy1__c</referenceTo>
-        <relationshipLabel>Pricing Program Lines</relationshipLabel>
+        <relationshipLabel>Strategy 2</relationshipLabel>
         <relationshipName>PricingProgramLines</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -123,7 +133,7 @@
         <label>Rebate as a Percent of DN(%)</label>
         <precision>18</precision>
         <required>false</required>
-        <scale>2</scale>
+        <scale>4</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
     </fields>

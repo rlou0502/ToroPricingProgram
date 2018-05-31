@@ -1,0 +1,15 @@
+<apex:page controller="ToroNTController">
+<apex:includeLightning />
+    <div id="ntproducts"></div>
+    <script>
+        $Lightning.use("c:ToroNTVFApp", function() {
+          $Lightning.createComponent("c:ToroNT",
+          { label : "Non-Toro Products",
+            quoteId : "{!quoteId}" },
+          "ntproducts",
+          function(cmp) {
+            // do some stuff
+          });
+        });
+    </script>
+</apex:page>

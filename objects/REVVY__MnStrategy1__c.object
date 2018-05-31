@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fields>
+        <fullName>Admin_Fee__c</fullName>
+        <externalId>false</externalId>
+        <label>Admin Fee</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
         <fullName>AllowSupportPlus__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Allow Support Plus</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ApplicableProductsLong__c</fullName>
+        <externalId>false</externalId>
+        <label>Applicable Products</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
     </fields>
     <fields>
         <fullName>ApplicableProducts__c</fullName>
@@ -28,13 +47,70 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Contract_Number__c</fullName>
+        <description>If the pricing program is based on the contract, this is the contract number</description>
+        <externalId>false</externalId>
+        <label>Contract Number</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contract_message__c</fullName>
+        <description>Enter the message that would display when price program is selected.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the message that would display when price program is selected.</inlineHelpText>
+        <label>Contract message</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CopyFromField__c</fullName>
+        <externalId>false</externalId>
+        <label>Copy From Field</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MSRP</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CopyToField__c</fullName>
+        <externalId>false</externalId>
+        <label>Copy To Field</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MSRP</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
         <fullName>Corporate_Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
         <label>Corporate Account</label>
         <referenceTo>Account</referenceTo>
         <relationshipLabel>Toro Pricing Programs</relationshipLabel>
-        <relationshipName>Pricing_Programs</relationshipName>
+        <relationshipName>Toro_Pricing_Programs_mp</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -46,6 +122,37 @@
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Determines_Support_Plus_Allowance__c</fullName>
+        <externalId>false</externalId>
+        <label>Determines Support Plus Allowance</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Toro_Total_DNet__c</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Toro_Award__c</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>DrivenByGP__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Pay by GP % and not Rebate %</description>
+        <externalId>false</externalId>
+        <label>DrivenByGP</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Exclude__c</fullName>
@@ -66,6 +173,15 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Hide_Children__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Hide Children Pricing Programs in Secondary Pricing Program Picklist</description>
+        <externalId>false</externalId>
+        <label>Hide Children from Secondary Program</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>IsFirstTee__c</fullName>
@@ -127,7 +243,20 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <label>Overridden Price List</label>
         <referenceTo>REVVY__MnPriceList__c</referenceTo>
         <relationshipLabel>Toro Pricing Programs</relationshipLabel>
-        <relationshipName>Pricing_Programs</relationshipName>
+        <relationshipName>Toro_Pricing_Programs_mp</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Parent_Program__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Parent Pricing Program</description>
+        <externalId>false</externalId>
+        <label>Parent Program</label>
+        <referenceTo>REVVY__MnStrategy1__c</referenceTo>
+        <relationshipLabel>Toro Pricing Programs</relationshipLabel>
+        <relationshipName>Toro_Pricing_Programs</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -240,6 +369,18 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                     <fullName>Stock_Order_Demo_Program</fullName>
                     <default>false</default>
                 </value>
+                <value>
+                    <fullName>Equipment_Partnership</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Base_w_Qty_Model_Pricing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Performance_Part</fullName>
+                    <default>false</default>
+                </value>
             </valueSetDefinition>
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
@@ -271,19 +412,11 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
-                <valueName>Equipment_Partnership_0-6_Months</valueName>
-            </valueSettings>
-            <valueSettings>
-                <controllingFieldValue>Support Chart</controllingFieldValue>
-                <valueName>Equipment_Partnership_7-9_Months</valueName>
-            </valueSettings>
-            <valueSettings>
-                <controllingFieldValue>Support Chart</controllingFieldValue>
-                <valueName>Equipment_Partnership_10-18_Months</valueName>
-            </valueSettings>
-            <valueSettings>
-                <controllingFieldValue>Support Chart</controllingFieldValue>
                 <valueName>Stock_Order_Demo_Program</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Equipment_Partnership</valueName>
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>Corporate Account</controllingFieldValue>
@@ -313,6 +446,10 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                 <valueName>NAF</valueName>
             </valueSettings>
             <valueSettings>
+                <controllingFieldValue>Performance Part</controllingFieldValue>
+                <valueName>Performance_Part</valueName>
+            </valueSettings>
+            <valueSettings>
                 <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>Base</valueName>
             </valueSettings>
@@ -330,7 +467,19 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Chart</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Price_List</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>Base_w_Model_Pricing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base_w_Qty_Model_Pricing</valueName>
             </valueSettings>
         </valueSet>
     </fields>
@@ -364,6 +513,38 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         </valueSet>
     </fields>
     <fields>
+        <fullName>SecondaryProgram__c</fullName>
+        <description>Copy the External ID of the pricing program to be used as secondary program as a value in this picklist.</description>
+        <externalId>false</externalId>
+        <label>Secondary Program</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Demo</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EquipmentPartnership</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SouthernDemo</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>StockOrderDemoProgram</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
         <fullName>SelectProduct__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>This field is used to lookup a product</description>
@@ -386,10 +567,21 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         </lookupFilter>
         <referenceTo>REVVY__MnCatalogNode__c</referenceTo>
         <relationshipLabel>Pricing Programs</relationshipLabel>
-        <relationshipName>Pricing_Programs</relationshipName>
+        <relationshipName>PricingPrograms_mp</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Sequence__c</fullName>
+        <externalId>false</externalId>
+        <label>Sequence</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Setup_Fee__c</fullName>
@@ -400,5 +592,31 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ShowSecondaryProgram__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Show Secondary Program</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>StateProvince__c</fullName>
+        <externalId>false</externalId>
+        <label>StateProvince</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UseDesignatedPriceList__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Use Designated Price List</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
 </CustomObject>

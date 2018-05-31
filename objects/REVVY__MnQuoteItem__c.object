@@ -154,6 +154,17 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Non_Toro_Product_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Non-Toro Product Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Performance_Parts_Product__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
@@ -186,6 +197,19 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Quote_Item_Extension__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Quote Item Extension</label>
+        <referenceTo>REVVY__MnStrategy4__c</referenceTo>
+        <relationshipLabel>Quote Line Items</relationshipLabel>
+        <relationshipName>Quote_Line_Items</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Standard_Price__c</fullName>
         <externalId>false</externalId>
         <label>Standard Price</label>
@@ -195,6 +219,16 @@
         <trackFeedHistory>false</trackFeedHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_From_Add_New__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Identified quote items added in Support Plus (not splits)</description>
+        <externalId>false</externalId>
+        <label>Support Plus From Add New</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Support_Plus_Items__c</fullName>
@@ -210,6 +244,32 @@
         <summaryOperation>count</summaryOperation>
         <trackTrending>false</trackTrending>
         <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Original_Item__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Original Item from which the Quantity was split</description>
+        <externalId>false</externalId>
+        <label>Support Plus Original Item</label>
+        <referenceTo>REVVY__MnQuoteItem__c</referenceTo>
+        <relationshipLabel>Quote Line Items (Support Plus)</relationshipLabel>
+        <relationshipName>Support_Plus_Items</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Original_Price__c</fullName>
+        <description>Used to cache the original price of a quote item when all items are set to Support Plus.</description>
+        <externalId>false</externalId>
+        <label>Support Plus Original Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>6</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>Support_Plus_Quantity__c</fullName>

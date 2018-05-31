@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Comm_Dist__c</fullName>
+        <externalId>false</externalId>
+        <formula>Text(Distributor__r.Comm_Dist__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Comm Dist</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Distributor__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Toro Pricing Program Eligibilities</description>
+        <externalId>false</externalId>
+        <label>Distributor</label>
+        <lookupFilter>
+            <active>true</active>
+            <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+            <filterItems>
+                <field>Account.RecordType.Name</field>
+                <operation>equals</operation>
+                <value>Channel Partner</value>
+            </filterItems>
+            <filterItems>
+                <field>Account.Comm_Dist__c</field>
+                <operation>notEqual</operation>
+                <value></value>
+            </filterItems>
+            <filterItems>
+                <field>Account.Commercial_Distributor_Location_ID__c</field>
+                <operation>notEqual</operation>
+                <value></value>
+            </filterItems>
+            <filterItems>
+                <field>Account.Location__c</field>
+                <operation>equals</operation>
+                <value>Headquarters</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Strategy 3</relationshipLabel>
+        <relationshipName>Toro_Pricing_Program_Eligibilities_mp</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Location__c</fullName>
+        <externalId>false</externalId>
+        <formula>Text(Distributor__r.Location__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Location</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PricingProgram__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Toro Pricing Program</label>
+        <referenceTo>REVVY__MnStrategy1__c</referenceTo>
+        <relationshipLabel>Strategy 3</relationshipLabel>
+        <relationshipName>Toro_Pricing_Program_Eligibilities</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+</CustomObject>

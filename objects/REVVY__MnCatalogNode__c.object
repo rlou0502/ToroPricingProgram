@@ -59,6 +59,15 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Exclude_from_Rebate__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This product is excluded from Rebate Calculation in the Pricing Program page.</description>
+        <externalId>false</externalId>
+        <label>Exclude from Rebate</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Hierarchy_Code__c</fullName>
         <externalId>false</externalId>
         <label>Hierarchy Code</label>
@@ -77,6 +86,14 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Non_Toro_Product__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Non-Toro Product</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Performance_Parts_Product__c</fullName>
@@ -121,6 +138,18 @@
         <externalId>false</externalId>
         <label>Product Line Desc Level 3</label>
         <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SAP_Name__c</fullName>
+        <description>Source is the Product Description on the Product object which is integrated from SAP Material Description</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Source is the Product Description on the Product object which is integrated from SAP Material Description</inlineHelpText>
+        <label>SAP Name</label>
+        <length>80</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>

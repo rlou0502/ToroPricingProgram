@@ -1,0 +1,146 @@
+public with sharing class ToroPricingProgramLineProdSel {
+
+	public class Wrapper {
+		public String revvyId 		{ get; set; }
+		public String productName 	{ get; set; }
+
+		public Wrapper(REVVY__MnCatalogNode__c product) {
+			this.revvyId     = product.REVVY__Id__c;
+			this.productName = product.Name;
+		}
+	}
+
+	private ApexPages.StandardController ctrl;
+	private Revvy__MnStrategy2__c pricingProgramLine; // Revvy__MnStrategy2__c -> Revvy__MnStrategy2__c
+	private Id pricingProgramLineId;
+	private String previouslySelectedProducts;
+
+	public Boolean allProductsSelected 						{ get; set; }
+	public List<Wrapper> selectedProducts 					{ get; private set; }
+	public String toBeDeleted 								{ get; set; }
+	public Revvy__MnStrategy1__c dummyPricingProgram 			{ get; set; }
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public ToroPricingProgramLineProdSel(ApexPages.StandardController controller) {
+		ctrl                 = controller;
+		pricingProgramLineId = controller.getRecord().Id;
+		selectedProducts     = new List<wrapper>();
+		loadPageVariables();
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public void loadPageVariables() {
+		this.selectedProducts.clear();
+		pricingProgramLine = [
+			SELECT
+				PricingProgram__c, ApplicableProducts__c
+			FROM
+				Revvy__MnStrategy2__c
+			WHERE
+				Id = :pricingProgramLineId
+		];
+
+		this.dummyPricingProgram = new Revvy__MnStrategy1__c();
+
+		if (pricingProgramLine.ApplicableProducts__c == 'All') {
+			this.allProductsSelected = true;
+		}
+
+		else {
+			this.allProductsSelected = false;
+		}
+
+		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)) {
+			final List<String> productExtIds = pricingProgramLine.ApplicableProducts__c.split(',');
+			List<REVVY__MnCatalogNode__c> catalogNodes = [
+				SELECT
+					REVVY__Id__c, Name
+				FROM
+					REVVY__MnCatalogNode__c
+				WHERE
+					REVVY__Id__c IN :productExtIds];
+
+			for (REVVY__MnCatalogNode__c product : catalogNodes) {
+				selectedProducts.add(new Wrapper(product));
+			}
+		}
+	}
+
+	public PageReference toggleAllProducts() {
+		if (allProductsSelected) {
+			previouslySelectedProducts = pricingProgramLine.ApplicableProducts__c;
+			pricingProgramLine.ApplicableProducts__c = 'All';
+			update pricingProgramLine;
+		}
+
+		else {
+			pricingProgramLine.ApplicableProducts__c = previouslySelectedProducts;
+			update pricingProgramLine;
+		}
+
+		loadPageVariables();
+		return null;
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public void addProduct() {
+		List<REVVY__MnCatalogNode__c> products = [
+			SELECT
+				Name, REVVY__Id__c
+			FROM
+				REVVY__MnCatalogNode__c
+			WHERE
+				Id = :dummyPricingProgram.SelectProduct__c
+		];
+
+		Set<String> newProdSet = new Set<String> { products[0].REVVY__Id__c };
+		List<String> prodList = new List<String>();
+		if (pricingProgramLine.ApplicableProducts__c != null) {
+			prodList = pricingProgramLine.ApplicableProducts__c.split(',');
+		}
+
+		newProdSet.addAll(prodList);
+		newProdSet.remove('All');
+		prodList = new List<String>(newProdSet);
+		pricingProgramLine.ApplicableProducts__c = String.join(prodList, ',');
+		update pricingProgramLine;
+		loadPageVariables();
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public PageReference deleteProduct() {
+		if (String.isNotBlank(pricingProgramLine.ApplicableProducts__c)){
+			Set<String> existingProducts = new Set<String>(pricingProgramLine.ApplicableProducts__c.split(','));
+			existingProducts.remove(toBeDeleted);
+			List<String> newProdList = new List<String>(existingProducts);
+			pricingProgramLine.ApplicableProducts__c = String.join(newProdList, ',');
+			update pricingProgramLine;
+			loadPageVariables();
+		}
+
+		return null;
+	}
+}

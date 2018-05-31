@@ -1,58 +1,134 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>CMnQuoteUtil</members>
+        <members>FieldSetMember</members>
+        <members>KMnQuoteLifeCycleAbandoned</members>
+        <members>KMnQuoteLifeCycleClosedLost</members>
         <members>KMnQuoteLifeCycleSelectPriceProgram</members>
+        <members>PP_UpdateExtensionTest</members>
+        <members>QuoteItem</members>
+        <members>QuoteItemTest</members>
+        <members>ToroBaseWithValueDollarHelper</members>
+        <members>ToroBaseWithValueDollarHelperTest</members>
         <members>ToroCacheManager</members>
         <members>ToroCacheManagerTest</members>
+        <members>ToroCascadingDeleteTest</members>
+        <members>ToroChartABPricingProgramHelper</members>
+        <members>ToroChartABPricingProgramHelperTest</members>
+        <members>ToroChartWithAccessoryDiscount</members>
         <members>ToroContractChartPPHelper</members>
+        <members>ToroContractChartPPHelperTest</members>
         <members>ToroContractPriceListPPHelper</members>
+        <members>ToroContractPriceListPPHelperTest</members>
         <members>ToroContractQuantityPPHelper</members>
+        <members>ToroContractQuantityPPHelperTest</members>
+        <members>ToroCustomExceptionData</members>
         <members>ToroDefaultPricingProgramHelper</members>
         <members>ToroExportToExcelMultipleSheets</members>
+        <members>ToroGSAPricingProgramHelper</members>
         <members>ToroGenModelBOM</members>
+        <members>ToroGenModelBOMTest</members>
+        <members>ToroGenModelIBOMTest</members>
+        <members>ToroInfoBoxResultSet</members>
+        <members>ToroKemperSportsPricingProgramHelper</members>
+        <members>ToroKemperSportsPricingProgramHelperTest</members>
         <members>ToroLargePackagePricingProgramHelper</members>
         <members>ToroLargePackagePricingProgramHelperTest</members>
+        <members>ToroLargePackageSTIHelper</members>
+        <members>ToroLargePackageSTIHelperTest</members>
+        <members>ToroNTController</members>
+        <members>ToroNTControllerTest</members>
+        <members>ToroNTData</members>
+        <members>ToroNTDataTest</members>
+        <members>ToroNationAccountNAFPPHelper</members>
+        <members>ToroNationAccountNAFPPHelperTest</members>
+        <members>ToroNationalAccountArmyHelper</members>
+        <members>ToroNationalAccountArmyHelperTest</members>
         <members>ToroNationalAccountGSAPPHelper</members>
+        <members>ToroNationalAccountGSAPPHelperTest</members>
+        <members>ToroNationalAccountPricingProgramHTest</members>
         <members>ToroNationalAccountPricingProgramHelper</members>
         <members>ToroPerformancePartCache</members>
+        <members>ToroPerformancePartPricingProgramHTest</members>
         <members>ToroPerformancePartPricingProgramHelper</members>
         <members>ToroPriceProgramFactory</members>
+        <members>ToroPriceProgramFactoryTest</members>
         <members>ToroPricingMethodData</members>
+        <members>ToroPricingMethodDataTest</members>
         <members>ToroPricingMethodHelper</members>
-        <members>ToroPricingMethodTest2</members>
-        <members>ToroPricingMethodUtil</members>
-        <members>ToroPricingMethodUtilTest</members>
+        <members>ToroPricingMethodHelperTest</members>
         <members>ToroPricingProgram</members>
         <members>ToroPricingProgramCache</members>
+        <members>ToroPricingProgramCacheTest</members>
         <members>ToroPricingProgramController</members>
+        <members>ToroPricingProgramControllerTest</members>
         <members>ToroPricingProgramData</members>
+        <members>ToroPricingProgramDataTest</members>
         <members>ToroPricingProgramEligibility</members>
         <members>ToroPricingProgramEligibilityTest</members>
         <members>ToroPricingProgramHelperCache</members>
         <members>ToroPricingProgramInfoBoxController</members>
+        <members>ToroPricingProgramInfoBoxControllerTest</members>
+        <members>ToroPricingProgramLineProdSel</members>
+        <members>ToroPricingProgramLineProdSelTest</members>
         <members>ToroPricingProgramLineProductSelector</members>
+        <members>ToroPricingProgramProdSel</members>
+        <members>ToroPricingProgramProdSelTest</members>
         <members>ToroPricingProgramProductSelector</members>
+        <members>ToroPricingProgramTest</members>
         <members>ToroPricingProgramUtil</members>
+        <members>ToroPricingProgramUtilTest</members>
         <members>ToroProductEligibilityPlugin</members>
+        <members>ToroProductEligibilityPluginTest</members>
+        <members>ToroQIBase</members>
+        <members>ToroQIBaseTest</members>
         <members>ToroQIExtensionCreatedBatch</members>
         <members>ToroQISLExtensionCreatedBatch</members>
         <members>ToroQuoteCache</members>
-        <members>ToroQuoteDAO</members>
         <members>ToroSObjectResultSet</members>
+        <members>ToroSecondaryPricingProgram</members>
         <members>ToroSelectOption</members>
         <members>ToroSelectPriceProgramController</members>
+        <members>ToroSouthernDemoPricingProgramHelper</members>
+        <members>ToroSouthernDemoPricingProgramHelperTest</members>
+        <members>ToroSouthernDemoSecondaryPricingProgram</members>
+        <members>ToroStateContractPricingProgramHTest</members>
         <members>ToroStateContractPricingProgramHelper</members>
+        <members>ToroStateContractQtyModelHelper</members>
         <members>ToroSupportPlusController</members>
+        <members>ToroSupportPlusControllerTest</members>
         <members>ToroSupportPlusData</members>
+        <members>ToroSupportPlusDataTest</members>
+        <members>ToroSupportPlusHelper</members>
+        <members>ToroSupportPlusHelperTest</members>
+        <members>ToroSupportPlusItem</members>
+        <members>ToroSupportPlusItemTest</members>
         <members>ToroTestData</members>
+        <members>Toro_UpdateData</members>
         <name>ApexClass</name>
     </types>
     <types>
+        <members>PricingProgramLgtnOut</members>
         <members>ToroExportToExcelMultipleSheets</members>
-        <members>ToroPricingProgramSelector</members>
-        <members>ToroPricingProgramSelectorLine</members>
+        <members>ToroNTLgtnOut</members>
+        <members>ToroPricingProgramProductSelector</members>
+        <members>ToroPricingProgramProductSelectorLine</members>
         <members>ToroSupportPlusLgtnOut</members>
         <name>ApexPage</name>
+    </types>
+    <types>
+        <members>PP_CreateQIExtension</members>
+        <members>PP_CreateQISLExtension</members>
+        <members>PP_PricingProgramDelete</members>
+        <members>PP_QuoteItemDelete</members>
+        <members>PP_QuoteItemSublineDelete</members>
+        <members>PP_UpdateQIExtension</members>
+        <members>PP_UpdateQISLExtension</members>
+        <members>Populate_DNet_Price</members>
+        <members>Populate_QI_DNet_Price</members>
+        <members>SetQuoteCurrencyISOCode</members>
+        <name>ApexTrigger</name>
     </types>
     <types>
         <members>*</members>
@@ -65,13 +141,16 @@
         <members>REVVY__MnCatalogNode__c.Business_Group_Code_Level_2__c</members>
         <members>REVVY__MnCatalogNode__c.Business_Group_Desc_Level_2__c</members>
         <members>REVVY__MnCatalogNode__c.Exclude_from_CPL__c</members>
+        <members>REVVY__MnCatalogNode__c.Exclude_from_Rebate__c</members>
         <members>REVVY__MnCatalogNode__c.Hierarchy_Code__c</members>
         <members>REVVY__MnCatalogNode__c.Hierarchy_Description__c</members>
+        <members>REVVY__MnCatalogNode__c.Non_Toro_Product__c</members>
         <members>REVVY__MnCatalogNode__c.Performance_Parts_Product__c</members>
         <members>REVVY__MnCatalogNode__c.Product_Detail_Code_Level_4__c</members>
         <members>REVVY__MnCatalogNode__c.Product_Detail_Desc_Level_4__c</members>
         <members>REVVY__MnCatalogNode__c.Product_Line_Code_Level_3__c</members>
         <members>REVVY__MnCatalogNode__c.Product_Line_Desc_Level_3__c</members>
+        <members>REVVY__MnCatalogNode__c.SAP_Name__c</members>
         <members>REVVY__MnCatalogNode__c.Toro_Product_Tier__c</members>
         <members>REVVY__MnCatalogNode__c.Toro_Product_Type__c</members>
         <members>REVVY__MnCatalogNode__c.Vehicle__c</members>
@@ -89,8 +168,10 @@
         <members>REVVY__MnQuoteItemSubLine__c.Product_ID2__c</members>
         <members>REVVY__MnQuoteItemSubLine__c.Product_ID_F__c</members>
         <members>REVVY__MnQuoteItemSubLine__c.Product_Name_F__c</members>
-        <members>REVVY__MnQuoteItemSubLine__c.Quote_Item_Sub_Line_Extension__c</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Quote_Item_Subline_Extension__c</members>
         <members>REVVY__MnQuoteItemSubLine__c.Standard_Price__c</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Support_Plus_Original_Item__c</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Support_Plus_Original_Price__c</members>
         <members>REVVY__MnQuoteItemSubLine__c.Support_Plus_Quantity__c</members>
         <members>REVVY__MnQuoteItemSubLine__c.TPP_DNET__c</members>
         <members>REVVY__MnQuoteItemSubLine__c.TPP_Line_Item__c</members>
@@ -107,13 +188,16 @@
         <members>REVVY__MnQuoteItem__c.Extended_Cost__c</members>
         <members>REVVY__MnQuoteItem__c.First_Year_Value__c</members>
         <members>REVVY__MnQuoteItem__c.Misc_Style__c</members>
+        <members>REVVY__MnQuoteItem__c.Non_Toro_Product_Price__c</members>
         <members>REVVY__MnQuoteItem__c.Performance_Parts_Product__c</members>
         <members>REVVY__MnQuoteItem__c.Pricing_Program__c</members>
         <members>REVVY__MnQuoteItem__c.Product_ID_2__c</members>
-        <members>REVVY__MnQuoteItem__c.QuoteItem_Extension__c</members>
+        <members>REVVY__MnQuoteItem__c.Quote_Item_Extension__c</members>
         <members>REVVY__MnQuoteItem__c.Standard_Price__c</members>
-        <members>REVVY__MnQuoteItem__c.Support_Plus_Item__c</members>
+        <members>REVVY__MnQuoteItem__c.Support_Plus_From_Add_New__c</members>
         <members>REVVY__MnQuoteItem__c.Support_Plus_Items__c</members>
+        <members>REVVY__MnQuoteItem__c.Support_Plus_Original_Item__c</members>
+        <members>REVVY__MnQuoteItem__c.Support_Plus_Original_Price__c</members>
         <members>REVVY__MnQuoteItem__c.Support_Plus_Quantity__c</members>
         <members>REVVY__MnQuoteItem__c.Support_Price__c</members>
         <members>REVVY__MnQuoteItem__c.Total_Award_price__c</members>
@@ -123,14 +207,26 @@
         <members>REVVY__MnQuoteItem__c.Trade_In_Price__c</members>
         <members>REVVY__MnQuote__c.Account_Manager__c</members>
         <members>REVVY__MnQuote__c.Agree_to_Support_Plus_T_C__c</members>
+        <members>REVVY__MnQuote__c.Allied_Non_Toro_Total__c</members>
         <members>REVVY__MnQuote__c.Award_Price__c</members>
+        <members>REVVY__MnQuote__c.Commission_Dollar__c</members>
+        <members>REVVY__MnQuote__c.Commission__c</members>
+        <members>REVVY__MnQuote__c.Contains_Demo_Product__c</members>
+        <members>REVVY__MnQuote__c.Contains_Incomplete_Configurations__c</members>
+        <members>REVVY__MnQuote__c.Contract_Number__c</members>
         <members>REVVY__MnQuote__c.Currency2__c</members>
         <members>REVVY__MnQuote__c.Currency_Conversion_Rate__c</members>
         <members>REVVY__MnQuote__c.DSM_Approved_Amount__c</members>
         <members>REVVY__MnQuote__c.Distributor_Contribution__c</members>
         <members>REVVY__MnQuote__c.Distributor_Responsibility__c</members>
+        <members>REVVY__MnQuote__c.Ext_MSRP__c</members>
         <members>REVVY__MnQuote__c.Favorite__c</members>
+        <members>REVVY__MnQuote__c.Financing__c</members>
         <members>REVVY__MnQuote__c.Freight_Delivery__c</members>
+        <members>REVVY__MnQuote__c.Grand_Total__c</members>
+        <members>REVVY__MnQuote__c.Gross_Profit_Percent__c</members>
+        <members>REVVY__MnQuote__c.Incumbent_Business__c</members>
+        <members>REVVY__MnQuote__c.Misc__c</members>
         <members>REVVY__MnQuote__c.Non_Vehicle_Total__c</members>
         <members>REVVY__MnQuote__c.Performance_Part__c</members>
         <members>REVVY__MnQuote__c.Price_Method__c</members>
@@ -138,34 +234,220 @@
         <members>REVVY__MnQuote__c.Pricing_Program_Type__c</members>
         <members>REVVY__MnQuote__c.Probability_Goes_Toro__c</members>
         <members>REVVY__MnQuote__c.Project_Probability__c</members>
+        <members>REVVY__MnQuote__c.SP_Adjusted_Toro_Award__c</members>
         <members>REVVY__MnQuote__c.SP_Ext_Dist_Responsibility__c</members>
+        <members>REVVY__MnQuote__c.SP_Toro_Responsibility__c</members>
         <members>REVVY__MnQuote__c.SP_Total_Extended_DNET__c</members>
         <members>REVVY__MnQuote__c.Sales_Tax_Percent__c</members>
+        <members>REVVY__MnQuote__c.Service_Contract_Total__c</members>
+        <members>REVVY__MnQuote__c.Set_Up_Total__c</members>
         <members>REVVY__MnQuote__c.Setup_Fee__c</members>
+        <members>REVVY__MnQuote__c.State_Sales_Tax__c</members>
         <members>REVVY__MnQuote__c.Support_Plus_Quantity__c</members>
-        <members>REVVY__MnQuote__c.Support_Plus_Rebate__c</members>
         <members>REVVY__MnQuote__c.Support_Plus__c</members>
+        <members>REVVY__MnQuote__c.TPP_Total__c</members>
         <members>REVVY__MnQuote__c.Territory__c</members>
         <members>REVVY__MnQuote__c.Toro_ApprovalReason__c</members>
         <members>REVVY__MnQuote__c.Toro_ApprovalRequired__c</members>
+        <members>REVVY__MnQuote__c.Toro_Approval_Required_STI__c</members>
+        <members>REVVY__MnQuote__c.Toro_Award__c</members>
         <members>REVVY__MnQuote__c.Toro_Blended_Percent_of_DN__c</members>
+        <members>REVVY__MnQuote__c.Toro_Cash_or_Financing__c</members>
         <members>REVVY__MnQuote__c.Toro_Contribution__c</members>
         <members>REVVY__MnQuote__c.Toro_Rollup_Award_Price__c</members>
         <members>REVVY__MnQuote__c.Toro_Rollup_DNET__c</members>
         <members>REVVY__MnQuote__c.Toro_Rollup_DNetWOTPPAllied__c</members>
         <members>REVVY__MnQuote__c.Toro_Rollup_Setup_Fees__c</members>
+        <members>REVVY__MnQuote__c.Toro_Support_Plus_Allowance_Used__c</members>
         <members>REVVY__MnQuote__c.Toro_Support_Plus_Allowance__c</members>
         <members>REVVY__MnQuote__c.Toro_Total_DNet__c</members>
         <members>REVVY__MnQuote__c.Toro_Total_Quote_Gross_Profit_Percent__c</members>
         <members>REVVY__MnQuote__c.Toro_Total_Quote_Gross_Profit__c</members>
         <members>REVVY__MnQuote__c.Toro_Total_Quote_Rebate__c</members>
         <members>REVVY__MnQuote__c.Toro_Total_Rebate__c</members>
+        <members>REVVY__MnQuote__c.Total_Award_Dollars__c</members>
         <members>REVVY__MnQuote__c.Total_Award_Price_Alternate_Currency__c</members>
+        <members>REVVY__MnQuote__c.Total_Award__c</members>
         <members>REVVY__MnQuote__c.Total_Extended_DNet__c</members>
         <members>REVVY__MnQuote__c.Total_Quote_Award_Price_Alt_Currency__c</members>
         <members>REVVY__MnQuote__c.Total_Quote_Award_Price__c</members>
         <members>REVVY__MnQuote__c.Total_Rebate__c</members>
+        <members>REVVY__MnQuote__c.Trade_In_Total__c</members>
         <members>REVVY__MnQuote__c.Vehicle_Total__c</members>
+        <members>Revvy__MnStrategy1__c.Admin_Fee__c</members>
+        <members>Revvy__MnStrategy1__c.AllowSupportPlus__c</members>
+        <members>Revvy__MnStrategy1__c.ApplicableProductsLong__c</members>
+        <members>Revvy__MnStrategy1__c.ApplicableProducts__c</members>
+        <members>Revvy__MnStrategy1__c.Blended_DNet_Threshold__c</members>
+        <members>Revvy__MnStrategy1__c.Contract_Number__c</members>
+        <members>Revvy__MnStrategy1__c.Contract_message__c</members>
+        <members>Revvy__MnStrategy1__c.CopyFromField__c</members>
+        <members>Revvy__MnStrategy1__c.CopyToField__c</members>
+        <members>Revvy__MnStrategy1__c.Corporate_Account__c</members>
+        <members>Revvy__MnStrategy1__c.CurrentDate__c</members>
+        <members>Revvy__MnStrategy1__c.Determines_Support_Plus_Allowance__c</members>
+        <members>Revvy__MnStrategy1__c.DrivenByGP__c</members>
+        <members>Revvy__MnStrategy1__c.Exclude__c</members>
+        <members>Revvy__MnStrategy1__c.ExternalId__c</members>
+        <members>Revvy__MnStrategy1__c.Hide_Children__c</members>
+        <members>Revvy__MnStrategy1__c.IsFirstTee__c</members>
+        <members>Revvy__MnStrategy1__c.IsTaxSupported__c</members>
+        <members>Revvy__MnStrategy1__c.MinimumThreshold__c</members>
+        <members>Revvy__MnStrategy1__c.MinimumTractionUnits__c</members>
+        <members>Revvy__MnStrategy1__c.OutCrossThreshold__c</members>
+        <members>Revvy__MnStrategy1__c.OverriddenPriceList__c</members>
+        <members>Revvy__MnStrategy1__c.Parent_Program__c</members>
+        <members>Revvy__MnStrategy1__c.PricingProgramStyle__c</members>
+        <members>Revvy__MnStrategy1__c.PricingProgramType__c</members>
+        <members>Revvy__MnStrategy1__c.SecondaryProgram__c</members>
+        <members>Revvy__MnStrategy1__c.SelectProduct__c</members>
+        <members>Revvy__MnStrategy1__c.Sequence__c</members>
+        <members>Revvy__MnStrategy1__c.Setup_Fee__c</members>
+        <members>Revvy__MnStrategy1__c.ShowSecondaryProgram__c</members>
+        <members>Revvy__MnStrategy1__c.StateProvince__c</members>
+        <members>Revvy__MnStrategy1__c.UseDesignatedPriceList__c</members>
+        <members>Revvy__MnStrategy2__c.ApplicableProducts__c</members>
+        <members>Revvy__MnStrategy2__c.Award_Price__c</members>
+        <members>Revvy__MnStrategy2__c.Award_Price_as_a_Percent_of_DN__c</members>
+        <members>Revvy__MnStrategy2__c.Distributor_Margin__c</members>
+        <members>Revvy__MnStrategy2__c.Fee_Percentage__c</members>
+        <members>Revvy__MnStrategy2__c.Max_Qty__c</members>
+        <members>Revvy__MnStrategy2__c.Min_Qty__c</members>
+        <members>Revvy__MnStrategy2__c.Off_Mfg_Sugg_Ttl__c</members>
+        <members>Revvy__MnStrategy2__c.Part_Percentage__c</members>
+        <members>Revvy__MnStrategy2__c.PricingProgram__c</members>
+        <members>Revvy__MnStrategy2__c.Pricing_1__c</members>
+        <members>Revvy__MnStrategy2__c.Pricing_2__c</members>
+        <members>Revvy__MnStrategy2__c.Rebate_as_a_Percent_of_DN__c</members>
+        <members>Revvy__MnStrategy2__c.Sequence__c</members>
+        <members>Revvy__MnStrategy2__c.Tier__c</members>
+        <members>Revvy__MnStrategy3__c.Comm_Dist__c</members>
+        <members>Revvy__MnStrategy3__c.Distributor__c</members>
+        <members>Revvy__MnStrategy3__c.Location__c</members>
+        <members>Revvy__MnStrategy3__c.PricingProgram__c</members>
+        <members>Revvy__MnStrategy4__c.Adjusted_Quantity__c</members>
+        <members>Revvy__MnStrategy4__c.Approval_Reason__c</members>
+        <members>Revvy__MnStrategy4__c.Award_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Award_of_DN__c</members>
+        <members>Revvy__MnStrategy4__c.Blended_GP__c</members>
+        <members>Revvy__MnStrategy4__c.Blended_MSRP__c</members>
+        <members>Revvy__MnStrategy4__c.Blended_Rebate__c</members>
+        <members>Revvy__MnStrategy4__c.Commission_Dollar__c</members>
+        <members>Revvy__MnStrategy4__c.Commission__c</members>
+        <members>Revvy__MnStrategy4__c.DNet_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Demo_Product__c</members>
+        <members>Revvy__MnStrategy4__c.Description__c</members>
+        <members>Revvy__MnStrategy4__c.DrivenByGP__c</members>
+        <members>Revvy__MnStrategy4__c.Exc_Rbt__c</members>
+        <members>Revvy__MnStrategy4__c.Extended_Award_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Extended_DNet_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Extended_MSRP_Price__c</members>
+        <members>Revvy__MnStrategy4__c.External_Id__c</members>
+        <members>Revvy__MnStrategy4__c.Fee_Percentage__c</members>
+        <members>Revvy__MnStrategy4__c.FreezePricing__c</members>
+        <members>Revvy__MnStrategy4__c.Freeze_Line__c</members>
+        <members>Revvy__MnStrategy4__c.Hidden_SP_for_Sublines__c</members>
+        <members>Revvy__MnStrategy4__c.MSRP_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Misc_Style__c</members>
+        <members>Revvy__MnStrategy4__c.Mn_Quote__c</members>
+        <members>Revvy__MnStrategy4__c.Off_MSRP_Overridden__c</members>
+        <members>Revvy__MnStrategy4__c.Off_MSRP__c</members>
+        <members>Revvy__MnStrategy4__c.OnlyExistedInCPL__c</members>
+        <members>Revvy__MnStrategy4__c.Original_Award_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Original_off_MSRP__c</members>
+        <members>Revvy__MnStrategy4__c.Oroginal_of_DNet__c</members>
+        <members>Revvy__MnStrategy4__c.Part_Percentage__c</members>
+        <members>Revvy__MnStrategy4__c.Performance_Parts_Product__c</members>
+        <members>Revvy__MnStrategy4__c.Placeholder1__c</members>
+        <members>Revvy__MnStrategy4__c.Placeholder2__c</members>
+        <members>Revvy__MnStrategy4__c.Placeholder3__c</members>
+        <members>Revvy__MnStrategy4__c.PricingMethodValue__c</members>
+        <members>Revvy__MnStrategy4__c.Pricing_Program_Overridden__c</members>
+        <members>Revvy__MnStrategy4__c.Pricing_Program__c</members>
+        <members>Revvy__MnStrategy4__c.Product_Id__c</members>
+        <members>Revvy__MnStrategy4__c.Product_Name__c</members>
+        <members>Revvy__MnStrategy4__c.Product__c</members>
+        <members>Revvy__MnStrategy4__c.Quantity__c</members>
+        <members>Revvy__MnStrategy4__c.QuoteItem__c</members>
+        <members>Revvy__MnStrategy4__c.Rebate_as_a_of_DN__c</members>
+        <members>Revvy__MnStrategy4__c.Select_a_Price_Method__c</members>
+        <members>Revvy__MnStrategy4__c.Selected_Off_MSRP__c</members>
+        <members>Revvy__MnStrategy4__c.Standard_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Support_Plus_Item__c</members>
+        <members>Revvy__MnStrategy4__c.Support_Plus_Quantity__c</members>
+        <members>Revvy__MnStrategy4__c.Support_Price__c</members>
+        <members>Revvy__MnStrategy4__c.TPP_Quoteitem_Total__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Blend_Of_DN__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Com_Dollar__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_DNetWOTPPAllied__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Distributor_Responsibility__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Extended_Award_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Fee_Amount__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Gross_Profit_Percent__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Gross_Profit_Value__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Product_Tier__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Rebate__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Total_Rebate__c</members>
+        <members>Revvy__MnStrategy4__c.Toro_Total_Setup_Fees__c</members>
+        <members>Revvy__MnStrategy4__c.Total_Award__c</members>
+        <members>Revvy__MnStrategy4__c.Total_DNet__c</members>
+        <members>Revvy__MnStrategy4__c.Total_Gross_Profit_Value__c</members>
+        <members>Revvy__MnStrategy4__c.Total_MSRP__c</members>
+        <members>Revvy__MnStrategy4__c.Total_Toro_Award__c</members>
+        <members>Revvy__MnStrategy4__c.Total_Toro_DNET__c</members>
+        <members>Revvy__MnStrategy4__c.Total_Toro_MSRP__c</members>
+        <members>Revvy__MnStrategy4__c.Traction_Unit__c</members>
+        <members>Revvy__MnStrategy4__c.Trade_In_Price__c</members>
+        <members>Revvy__MnStrategy4__c.Unit_Award_Overridden__c</members>
+        <members>Revvy__MnStrategy4__c.Unit_Total_Award__c</members>
+        <members>Revvy__MnStrategy5__c.Adjusted_Quantity__c</members>
+        <members>Revvy__MnStrategy5__c.Apply_Support_Plus__c</members>
+        <members>Revvy__MnStrategy5__c.Award_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Commission_Dollar__c</members>
+        <members>Revvy__MnStrategy5__c.Commission__c</members>
+        <members>Revvy__MnStrategy5__c.DNet_Price_2__c</members>
+        <members>Revvy__MnStrategy5__c.DNet_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Description__c</members>
+        <members>Revvy__MnStrategy5__c.Exclude_from_Rebate__c</members>
+        <members>Revvy__MnStrategy5__c.Extended_Award_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Extended_DNet_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Extended_MSRP_Price__c</members>
+        <members>Revvy__MnStrategy5__c.External_Id__c</members>
+        <members>Revvy__MnStrategy5__c.Fee_Percentage__c</members>
+        <members>Revvy__MnStrategy5__c.Freeze_Line__c</members>
+        <members>Revvy__MnStrategy5__c.Gross_Profit_Percent__c</members>
+        <members>Revvy__MnStrategy5__c.Gross_Profit_Value__c</members>
+        <members>Revvy__MnStrategy5__c.MSRP_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Misc_Style__c</members>
+        <members>Revvy__MnStrategy5__c.OnlyExistedInCPL__c</members>
+        <members>Revvy__MnStrategy5__c.Original_off_MSRP__c</members>
+        <members>Revvy__MnStrategy5__c.Part_Percentage__c</members>
+        <members>Revvy__MnStrategy5__c.Percent_Off_MSRP__c</members>
+        <members>Revvy__MnStrategy5__c.Percent_of_DNet__c</members>
+        <members>Revvy__MnStrategy5__c.Performance_Part__c</members>
+        <members>Revvy__MnStrategy5__c.PlaceHolder1__c</members>
+        <members>Revvy__MnStrategy5__c.PricingMethodValue__c</members>
+        <members>Revvy__MnStrategy5__c.Product_ID2__c</members>
+        <members>Revvy__MnStrategy5__c.Product_Id__c</members>
+        <members>Revvy__MnStrategy5__c.Product_Name__c</members>
+        <members>Revvy__MnStrategy5__c.Product__c</members>
+        <members>Revvy__MnStrategy5__c.Quantity__c</members>
+        <members>Revvy__MnStrategy5__c.Quote_Item_Sub_Line__c</members>
+        <members>Revvy__MnStrategy5__c.Rebate_as_of_DNet__c</members>
+        <members>Revvy__MnStrategy5__c.Standard_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Support_Plus_Quantity__c</members>
+        <members>Revvy__MnStrategy5__c.TPP_DNET__c</members>
+        <members>Revvy__MnStrategy5__c.TPP_Line_Item__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_DNet_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Extended_Award_Price__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Extended_Qty__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Fee_Amount__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Product_Tier__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Quantity__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Quote_Item_2__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Quote_Item__c</members>
+        <members>Revvy__MnStrategy5__c.Toro_Subline_Rebate__c</members>
+        <members>Revvy__MnStrategy5__c.Unit_Award_Overridden__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -173,28 +455,132 @@
         <name>CustomLabels</name>
     </types>
     <types>
-        <members>Toro_PricingProgramEligibility__c</members>
+        <members>Toro_SecondaryPricingProgramFactory.SouthernDemo</members>
+        <members>Toro_Traction_Unit_Tier.All_other_Commercial_Wholegoods</members>
+        <members>Toro_Traction_Unit_Tier.GreensPro_Rollers</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_1337_Series</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_300_3280_Series</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_3500_4300_Series</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_360_Series</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_4000_4100_Series</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_4500_4700_Series</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_5900_5910_Series</members>
+        <members>Toro_Traction_Unit_Tier.Groundsmaster_7200_7210_Series</members>
+        <members>Toro_Traction_Unit_Tier.HoverPro_400_450_550</members>
+        <members>Toro_Traction_Unit_Tier.MH_400</members>
+        <members>Toro_Traction_Unit_Tier.Outcross_9060</members>
+        <members>Toro_Traction_Unit_Tier.ProCore_Aerators_Processor</members>
+        <members>Toro_Traction_Unit_Tier.ProPass_200</members>
+        <members>Toro_Traction_Unit_Tier.ProSweep</members>
+        <members>Toro_Traction_Unit_Tier.Pro_Force</members>
+        <members>Toro_Traction_Unit_Tier.Workman_Vehicles</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
         <members>Toro_PricingProgramHelperFactory__c</members>
-        <members>Toro_PricingProgramLine__c</members>
-        <members>Toro_PricingProgram__c</members>
-        <members>Toro_QuoteItem_SubLine__c</members>
-        <members>Toro_QuoteItem__c</members>
         <name>CustomObject</name>
     </types>
     <types>
-        <members>REVVY__MnQuote__c.dnet_field_set</members>
-        <members>REVVY__MnQuote__c.quote_header_updatable_fields</members>
-        <members>REVVY__MnQuote__c.revvy__quote_header_fields</members>
+        <members>REVVY__MnCatalogNode__c.CatalogFieldSet</members>
+        <members>REVVY__MnCatalogNode__c.Catalog_Node_Calc_Engine_FS</members>
+        <members>REVVY__MnCatalogNode__c.Catalog_Node_Editable_FS</members>
+        <members>REVVY__MnCatalogNode__c.Catalog_Node_FS</members>
+        <members>REVVY__MnCatalogNode__c.Catalog_Node_List_FS</members>
+        <members>REVVY__MnCatalogNode__c.Category_Node_FS</members>
+        <members>REVVY__MnCatalogNode__c.Category_Node_FS_2</members>
+        <members>REVVY__MnCatalogNode__c.Category_Node_List_FS</members>
+        <members>REVVY__MnCatalogNode__c.Node_Images_FS</members>
+        <members>REVVY__MnCatalogNode__c.Product_Node_FS</members>
+        <members>REVVY__MnCatalogNode__c.Product_Node_List_FS</members>
+        <members>REVVY__MnCatalogNode__c.Solution_Node_FS</members>
+        <members>REVVY__MnCatalogNode__c.Solution_Node_List_FS</members>
+        <members>REVVY__MnPriceListLine__c.PriceListLine_ContainedList_FS</members>
+        <members>REVVY__MnPriceListLine__c.PriceListLine_CustomEditList_FS</members>
+        <members>REVVY__MnPriceListLine__c.PriceListLine_List_FS</members>
+        <members>REVVY__MnPriceList__c.PriceList_CustomEditList_FS</members>
+        <members>REVVY__MnPriceList__c.PriceList_List_FS</members>
+        <members>REVVY__MnQuoteItemSubLine__c.EditableWhenLockedFieldsFS</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Quote_Bundle_Cols</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Additional_Fields</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_CE_Exclusion</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Cols</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Pricing</members>
+        <members>REVVY__MnQuoteItemSubLine__c.Quote_SubLine_Pricing_2</members>
+        <members>REVVY__MnQuoteItem__c.EditableWhenLockedFieldsFS</members>
+        <members>REVVY__MnQuoteItem__c.Line_Detail_Fields</members>
+        <members>REVVY__MnQuoteItem__c.Line_Level_Approval_Fields</members>
+        <members>REVVY__MnQuoteItem__c.Quote_Item_CE_Exclusion</members>
+        <members>REVVY__MnQuoteItem__c.Quote_Line_Cols</members>
+        <members>REVVY__MnQuoteItem__c.Quote_Line_Item_Pricing</members>
+        <members>REVVY__MnQuoteItem__c.Quote_Line_Item_Pricing_2</members>
+        <members>REVVY__MnQuoteItem__c.ServiceCoveredItemsFS</members>
+        <members>REVVY__MnQuote__c.DNet_Field_Set</members>
+        <members>REVVY__MnQuote__c.FieldsDisplayedInQuoteLinesCopied</members>
+        <members>REVVY__MnQuote__c.GroupQuoteMembersFS</members>
+        <members>REVVY__MnQuote__c.Header_Fields</members>
+        <members>REVVY__MnQuote__c.Header_View_Fields</members>
+        <members>REVVY__MnQuote__c.QuoteEditableWhenLockedFieldsFS</members>
+        <members>REVVY__MnQuote__c.Quote_Header_Fields</members>
+        <members>REVVY__MnQuote__c.Quote_Header_Updatable_Fields</members>
+        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_1</members>
+        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_2</members>
+        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_3</members>
+        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_4</members>
+        <members>REVVY__MnQuote__c.Quote_Readonly_OnUpdate_List</members>
+        <members>REVVY__MnQuote__c.Quote_Summary_Column_1</members>
+        <members>REVVY__MnQuote__c.Quote_Summary_Column_2</members>
+        <members>REVVY__MnQuote__c.Quote_list_FS</members>
+        <members>REVVY__MnQuote__c.ThirdPartyPaperFields</members>
+        <members>Revvy__MnStrategy4__c.CMAS_Contracts_Quote_Line_Cols</members>
+        <members>Revvy__MnStrategy4__c.CMAS_Contracts_Quote_Line_Summary_Cols</members>
+        <members>Revvy__MnStrategy4__c.DNet_Field_Set</members>
+        <members>Revvy__MnStrategy4__c.GSA_Quote_Line_Cols</members>
+        <members>Revvy__MnStrategy4__c.GSA_Quote_Summary</members>
+        <members>Revvy__MnStrategy4__c.Large_Package_QI_Summary_Updatable_Cols</members>
+        <members>Revvy__MnStrategy4__c.Large_Package_Quote_Line_Cols</members>
+        <members>Revvy__MnStrategy4__c.Large_Package_Quote_Line_Summary_Cols</members>
+        <members>Revvy__MnStrategy4__c.Large_Package_Quote_Line_Updatable_Cols</members>
+        <members>Revvy__MnStrategy4__c.National_Account_Quote_Line_Cols</members>
+        <members>Revvy__MnStrategy4__c.National_Account_Quote_Line_Updtbl_Cols</members>
+        <members>Revvy__MnStrategy4__c.Price_Program_Line_Info_Cols</members>
+        <members>Revvy__MnStrategy4__c.Price_Program_Quote_Line_Cols</members>
+        <members>Revvy__MnStrategy4__c.Price_Program_Quote_Line_Updatable_Cols</members>
+        <members>Revvy__MnStrategy4__c.Price_Program_Quote_Summary</members>
+        <members>Revvy__MnStrategy4__c.Price_Program_Traction_Unit_Info</members>
+        <members>Revvy__MnStrategy4__c.Pricing_Program_Quote_Item_Data_Set</members>
+        <members>Revvy__MnStrategy4__c.State_Contract_Quote_Line_Updatable_Cols</members>
+        <members>Revvy__MnStrategy4__c.State_Contracts_Quote_Line_Cols</members>
+        <members>Revvy__MnStrategy4__c.State_Contracts_Quote_Line_Summary_Cols</members>
+        <members>Revvy__MnStrategy5__c.CMAS_Contract_Price_Program_Quote_SubLin</members>
+        <members>Revvy__MnStrategy5__c.DNet_Field_Set</members>
+        <members>Revvy__MnStrategy5__c.GSA_Quote_SubLine_Cols</members>
+        <members>Revvy__MnStrategy5__c.Large_Package_Price_Program_Quote_SubLin</members>
+        <members>Revvy__MnStrategy5__c.Large_Package_Quote_SubLine_Updatable_Co</members>
+        <members>Revvy__MnStrategy5__c.National_Account_Quote_SubLine_Cols</members>
+        <members>Revvy__MnStrategy5__c.Price_Program_Quote_SubLine_Cols</members>
+        <members>Revvy__MnStrategy5__c.Price_Program_Subline_Info_Cols</members>
+        <members>Revvy__MnStrategy5__c.Pricing_Program_Quote_Subline_Data_Set</members>
+        <members>Revvy__MnStrategy5__c.State_Contract_Price_Program_Quote_SubLi</members>
         <name>FieldSet</name>
     </types>
     <types>
+        <members>TestData_PP_CatalogNode</members>
+        <members>TestData_PP_ChildPricingProgram</members>
         <members>TestData_PP_CorporateAccount</members>
         <members>TestData_PP_CustomerAccount</members>
         <members>TestData_PP_Distributor</members>
         <members>TestData_PP_Eligibility</members>
+        <members>TestData_PP_Helper</members>
+        <members>TestData_PP_PriceList</members>
+        <members>TestData_PP_PriceListLine</members>
         <members>TestData_PP_PricingProgram</members>
+        <members>TestData_PP_PricingProgramLine</members>
+        <members>TestData_PP_Quote</members>
+        <members>TestData_PP_QuoteItem</members>
+        <members>TestData_PP_QuoteItemSubline</members>
         <members>TestData_PP_ToroQuoteItem_1</members>
         <members>TestData_PP_ToroQuoteSubline_1</members>
+        <members>TestData_PP_User</members>
         <name>StaticResource</name>
     </types>
     <types>

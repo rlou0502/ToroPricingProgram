@@ -137,12 +137,47 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Quote_Item_Subline_Extension__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Quote Item Subline Extension</label>
+        <referenceTo>REVVY__MnStrategy5__c</referenceTo>
+        <relationshipLabel>Quote Item Sub Line</relationshipLabel>
+        <relationshipName>Quote_Item_Sub_Line</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>Standard_Price__c</fullName>
         <externalId>false</externalId>
         <label>Standard Price</label>
         <precision>18</precision>
         <required>false</required>
         <scale>6</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Original_Item__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Support Plus Original Item</label>
+        <referenceTo>REVVY__MnQuoteItemSubLine__c</referenceTo>
+        <relationshipLabel>Quote Subline Items (Support Plus)</relationshipLabel>
+        <relationshipName>Support_Plus_Items</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Original_Price__c</fullName>
+        <description>Used to cache the original price of a subline when all items are set to Support Plus.</description>
+        <externalId>false</externalId>
+        <label>Support Plus Original Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>
