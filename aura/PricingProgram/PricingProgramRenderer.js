@@ -5,11 +5,7 @@
             e.preventDefault();
     		return false;
         });
-        document.getElementById("popover-root").addEventListener('drag', function(e) {
-            console.log('drag');
-            e.preventDefault();
-    		return false;
-        });
+        
         document.body.addEventListener('drop', function(e) {
             console.log('drop --------');
             var rect = document.getElementById("docked_quote_header").getBoundingClientRect();
@@ -27,9 +23,9 @@
         });
         document.getElementById("popover-root").addEventListener('dragstart', function(e) {
             console.log('drag start --------');
-            //var style = window.getComputedStyle(e.target, null);
-    		e.dataTransfer.setData("text/plain", "foo");
-    		//(parseInt(style.getPropertyValue("left"),10) - e.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - e.clientY));
+            var style = window.getComputedStyle(e.target, null);
+    		e.dataTransfer.setData("text/plain",
+    		(parseInt(style.getPropertyValue("left"),10) - e.clientX) + ',' + (parseInt(style.getPropertyValue("top"),10) - e.clientY));
         });
         
     }
