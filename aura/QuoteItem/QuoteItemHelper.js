@@ -201,7 +201,6 @@
                     
                     if(field.fieldPath=="Award_Price__c" || field.fieldPath=="PricingMethodValue__c") {
                     	tableDataNode.addEventListener('change', function(event){ 
-                    		debugger;
                             this.dataset.overridden =true;
                             var elms =event.currentTarget.closest("tr").querySelectorAll("input[type=text]");
                             for(var i = 0; i < elms.length; i++) {
@@ -603,7 +602,6 @@
                     self.hideSpinner();
                     var items = document.getElementById("quoteItems");
                     self.cleanInnerNodes(items);
-                    debugger;
                     self.renderQuoteItems(component);
                     if(retResponse.nextAction == "calculation") {
                         var cmpEvent = component.getEvent("calculateEvent");   
@@ -675,7 +673,6 @@
                 	var cmpEvent = component.getEvent("calculateEvent");   
                     cmpEvent.fire();
                 } else {
-                	debugger;
             		self.renderView(component, response); 
                 }
 	        }
