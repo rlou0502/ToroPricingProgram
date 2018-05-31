@@ -104,9 +104,13 @@
     	document.getElementById("popover-root").style.display="none";
     },
     handleRefeshInfoBox : function(component, event, helper) {
-        var infoBoxData =event.getParam("infoBoxData");
-        var infoBoxType =event.getParam("infoBoxType");
-        helper.retrieveObjectInfo(component, infoBoxData, infoBoxType);
+        var dm = document.getElementById("popover-root");
+        debugger;
+        if(dm.style.display != "none") {
+        	var infoBoxData =event.getParam("infoBoxData");
+        	var infoBoxType =event.getParam("infoBoxType");
+        	helper.retrieveObjectInfo(component, infoBoxData, infoBoxType);
+    	}
     },
     //Handle component event c:PricingProgramSetFromDBEvent, this handler simply set each subline's
     //pricing program, but not actually re-calculate rebate/discount

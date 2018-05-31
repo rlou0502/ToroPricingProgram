@@ -337,7 +337,7 @@ public abstract class ToroPricingProgram {
             //    qiTotalAward = 0;
 			//	qi.Total_Award__c = 0;
             //} else {
-			//	qi.Total_Award__c = qiTotalAward;
+			qi.Total_Award__c = qiTotalAward;
             //}
 			
 			qi.Total_MSRP__c = qiTotalMSRP;
@@ -362,7 +362,7 @@ public abstract class ToroPricingProgram {
 			//Non Toro Indra
             if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {
                 //qi.Total_Award__c = 0;
-            	//qi.Total_Toro_Award__c=0;
+            	qi.Total_Toro_Award__c=0;
             	//qi.Off_MSRP__c = 0;
                 //qi.Award_Price__c =0;
                 //qi.Toro_Gross_Profit_Percent__c =0;

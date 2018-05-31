@@ -212,7 +212,7 @@
     						component.set('v.fields', retResponse.quoteItemMainFieldSet);
                             
                     }
-                    component.set('v.sObject', {});
+                    component.set('v.sObject', infoBoxData || {});
                     self.renderInfoBox(component);
                 }
             }
