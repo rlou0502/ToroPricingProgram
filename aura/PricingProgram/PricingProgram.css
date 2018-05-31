@@ -15,13 +15,16 @@
     height: 24px;
     width: 100%;
     z-index: 1;
-    background-color: #2196F3;
+    background-color: rgba(200,200,200);
     color: #fff;
     
 }
 
 .THIS #close-info-box {
     float: right;
+    height: 24px;
+    color: black;
+    vertical-align: middle;
 }
 
 .THIS .icon_container {
@@ -39,7 +42,7 @@
     width: 15%; /* Full width */
     height: 50%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(255,255,255); /* Fallback color */
+    background-color: rgb(255,255,255); 
     border-style: solid;
     border-color: black;
 }
