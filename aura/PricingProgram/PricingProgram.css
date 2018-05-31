@@ -12,10 +12,12 @@
     padding: 10px;
     padding-top: 1px;
     cursor: move;
+    height: 24px;
+    width: 100%;
     z-index: 1;
-    /*background-color: #2196F3;
+    background-color: #2196F3;
     color: #fff;
-    */
+    
 }
 
 .THIS #close-info-box {
@@ -32,12 +34,20 @@
     z-index: 1; /* Sit on top */
     right: 5px;
     top: 20;
+    padding: 1px;
     padding-top:1px;
     width: 15%; /* Full width */
     height: 50%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(255,255,255); /* Fallback color */
-    background-color: rgba(200,200,200); /* Black w/ opacity */  
+    border-style: solid;
+    border-color: black;
+}
+.THIS #popover-body {
+    background-color: rgb(255,255,255); 
+    height: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 .THIS #infoBox .attr-value {
     text-align: right;
