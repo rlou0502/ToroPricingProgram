@@ -248,6 +248,9 @@
     },
     isClassic : function() {
     	return (!isLightning()) && (!hasSforceOne());
+    },
+    closeInfoBox : function(component) {
+    	document.getElementById("popover-root").style.display="none";
     }
 
 })

@@ -126,6 +126,7 @@ public with sharing class ToroGenModelBOM {
 			hasTractionUnit=false;
 			for(DNetMSRGPair p : options) {
 				if(this.tractionUnits.contains(p.sku))	 {
+					
 					hasTractionUnit = true;	 
 					break;
 				}
@@ -138,6 +139,7 @@ public with sharing class ToroGenModelBOM {
 			this.tractionUnits = tractionUnits;
 			for(DNetMSRGPair p : options) {
 				if(this.tractionUnits.contains(p.sku))	 {
+					
 					hasTractionUnit = true;	 
 					break;
 				}
@@ -145,13 +147,12 @@ public with sharing class ToroGenModelBOM {
 		}
 		public Integer compareTo(Object compareTo) {
 	        OptionGroup compareToEmp = (OptionGroup)compareTo;
-	        if (compareToEmp.hasTractionUnit ) {
-	        	return 1; 
-	        } else if (this.hasTractionUnit) {
-	        	return -1;
+	        if (compareToEmp.hasTractionUnit && this.hasTractionUnit ) {
+	        	return(Integer) (compareToEmp.sequence -sequence); 
+	        } else if (compareToEmp.hasTractionUnit) {
+	        	return 1;
 	        } else {
-	        	//system.debug('------------' + sequence + '----' + compareToEmp.sequence);
-	        	return (Integer) (compareToEmp.sequence -sequence);
+	        	return -1;
 	        }     
 	    }
 	}
@@ -272,7 +273,7 @@ public with sharing class ToroGenModelBOM {
 				REVVY__Product__r.Toro_Product_Type__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c 
 				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false 
 					and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good') 
-					and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) ];
+					and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) and  (NOT REVVY__Product__r.REVVY__Id__c like 'L%')  ];
 		
 		Integer count=0;
 		//Integer remainder = math.mod(12, 2);
@@ -317,8 +318,8 @@ public with sharing class ToroGenModelBOM {
      	public StockOrder(String modelNumber, String productTab, String description, decimal distributorNet, 
      		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType, boolean isTractionUnit) {
      		this.modelNumber =modelNumber;
-     		this.productTab =  modelSortCode + '-'+productTab;
-     		this.description = productSortCode + '-'+productType + '-' +description;
+     		this.productTab =  productTab;
+     		this.description = description;
      		this.distributorNet = distributorNet;
      		this.suggestedRetail = suggestedRetail;
      		this.stockOrder = stockOrder;
@@ -337,6 +338,9 @@ public with sharing class ToroGenModelBOM {
      		} else {
      			this.productTypeSortCode = 0;
      		}	
+     		//if(this.isTractionUnit) {
+     		//	this.modelNumber += 'traction ';	
+     		//}
      	}
      	
     	public String modelNumber { get; set; }
@@ -367,11 +371,12 @@ public with sharing class ToroGenModelBOM {
 	            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
 	            		if(productTab.compareTo(compareToEmp.productTab) == 0) {
 	            			if(productTypeSortCode == compareToEmp.productTypeSortCode) {
-	            				if(compareToEmp.isTractionUnit) {
-	            					modelNumber += ' traction ';
-	            					return 1;	
+	            				if(compareToEmp.isTractionUnit == this.isTractionUnit) {
+	            					return productSortCode.compareTo(compareToEmp.productSortCode);	
+	            				} else if(compareToEmp.isTractionUnit) {
+		            				return 1;			
 	            				} else {
-		            				return productSortCode.compareTo(compareToEmp.productSortCode);		
+	            					return -1;
 	            				}
 		            		} else {
 		            			return compareToEmp.productTypeSortCode-productTypeSortCode;

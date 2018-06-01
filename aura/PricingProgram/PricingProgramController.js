@@ -18,6 +18,7 @@
         if (quoteId) {
             helper.calculateHelper(component, quoteId);
         }
+        helper.closeInfoBox(component);
     },
     handleCalculationComplete: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
@@ -101,7 +102,7 @@
         }
     },
     closeInfoBox : function(component, event, helper) {
-    	document.getElementById("popover-root").style.display="none";
+    	helper.closeInfoBox(component);
     },
     handleRefeshInfoBox : function(component, event, helper) {
         var dm = document.getElementById("popover-root");
