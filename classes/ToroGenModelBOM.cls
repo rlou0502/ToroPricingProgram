@@ -11,7 +11,8 @@ public with sharing class ToroGenModelBOM {
 			tractionUnits.add(p.REVVY__Id__c);	
 		}	
 		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__VerNum__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c From REVVY__Products__r) 
-				FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__IsSolution__c <> true order by REVVY__VerNum__c asc ]) {
+				FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__Id__c not in ('Model_r3mdg','Model_5d9lm','Model_aa3ds')
+				and REVVY__IsSolution__c <> true order by REVVY__VerNum__c asc ]) {
 			if(!mdl.name.endsWith('(INTL)') && !mdl.name.containsIgnoreCase('test')) {
 				modelNameIdMap.put(mdl.name, mdl.Id);
 				//modelNameSet.add(mdl.name);
@@ -52,7 +53,7 @@ public with sharing class ToroGenModelBOM {
 		}
 
 		List<REVVY__MnConfigEngineOption__c> options = [Select REVVY__Option_Group__r.revvy__Id__c, REVVY__OptId__c, REVVY__Option_Group__r.Name, REVVY__Option_Group__r.Full_OG_Name__c,REVVY__Label__c, REVVY__Option_Group__c,
-											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, REVVY__Catalog_Node__r.Toro_Product_Type__c, REVVY__Catalog_Node__r.Hierarchy_Code__c, Id, name From REVVY__MnConfigEngineOption__c 
+											 REVVY__Catalog_Node__r.revvy__Id__c, REVVY__Catalog_Node__r.name, REVVY__Catalog_Node__r.Toro_Product_Type__c, REVVY__Catalog_Node__r.Hierarchy_Code__c, Id, name, REVVY__LocaleName_F__c From REVVY__MnConfigEngineOption__c 
 											 where REVVY__Option_Group__c in 
 											(select REVVY__OptionGroup_Id__c from REVVY__MnConfigEngineModelOptionGroupJunction__c where 
 											REVVY__Model_Id__c in :modelNameIdMap.values()) and REVVY__Excluded__c = false ];
@@ -71,9 +72,9 @@ public with sharing class ToroGenModelBOM {
 					dNetPrice = pli.REVVY__SuggestedPrice__c;	
 				}
 				if(option.REVVY__Catalog_Node__r != null) {
-					OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__Catalog_Node__r.revvy__Id__c, option.REVVY__Catalog_Node__r.Toro_Product_Type__c, option.REVVY__Catalog_Node__r.Hierarchy_Code__c, pli.REVVY__ListedPrice__c, dNetPrice));
+					OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.REVVY__LocaleName_F__c, option.REVVY__Catalog_Node__r.revvy__Id__c, option.REVVY__Catalog_Node__r.Toro_Product_Type__c, option.REVVY__Catalog_Node__r.Hierarchy_Code__c, pli.REVVY__ListedPrice__c, dNetPrice));
 				} else {
-					OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.name, option.REVVY__OptId__c, null, null, pli.REVVY__ListedPrice__c, dNetPrice));
+					OGOptionMap.get(option.REVVY__Option_Group__c).put(option.Id, new DNetMSRGPair(option.REVVY__LocaleName_F__c, option.REVVY__OptId__c, null, null, pli.REVVY__ListedPrice__c, dNetPrice));
 				}
 			}
 		}
@@ -170,6 +171,7 @@ public with sharing class ToroGenModelBOM {
      		if(this.modelSortCode == null) {
      			this.modelSortCode='';
      		}
+     		modelName += ' ' + this.modelSortCode;
 		}
 		
 		public Integer compareTo(Object compareTo) {
@@ -251,7 +253,7 @@ public with sharing class ToroGenModelBOM {
 		
     	list<list<ToroGenModelBOM.StockOrder>> stockOrderLists = new list<list<ToroGenModelBOM.StockOrder>>();
 		
-		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c,  REVVY__Product_Name__c, REVVY__Product__r.Hierarchy_Code__c, 
+		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c,  REVVY__Product_Name__c, REVVY__Product__r.REVVY__LocaleName_F__c, REVVY__Product__r.Hierarchy_Code__c, 
 				REVVY__Product__r.Toro_Product_Type__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c 
 				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false 
 					and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good') 
@@ -270,11 +272,11 @@ public with sharing class ToroGenModelBOM {
 			if(!prodModelMap.containsKey(pli.REVVY__Product_Id__c)) {
 				system.debug('--------no models found----');
 				solist.add(new ToroGenModelBOM.StockOrder(pli.REVVY__Product_Id__c, '',
-					pli.REVVY__Product_Name__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0, null,null,null,false));	
+					pli.REVVY__Product__r.REVVY__LocaleName_F__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0, null,null,null,false));	
 			} else {
 				for(string key : prodModelMap.get(pli.REVVY__Product_Id__c))	{
 					solist.add(new ToroGenModelBOM.StockOrder(pli.REVVY__Product_Id__c, key,
-						pli.REVVY__Product_Name__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0,
+						pli.REVVY__Product__r.REVVY__LocaleName_F__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0,
 						modelHierarchyCode.get(key), pli.REVVY__Product__r.Hierarchy_Code__c, pli.REVVY__Product__r.Toro_Product_Type__c, tractionUnits.contains(pli.REVVY__Product_Id__c)));	
 				}	
 			}	
