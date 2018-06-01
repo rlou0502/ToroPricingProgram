@@ -167,30 +167,18 @@ public with sharing class ToroGenModelBOM {
      		if(this.modelSortCode == null) {
      			this.modelSortCode='';
      		}
+     		this.modelName += '-'+ modelSortCode;
 		}
 		
 		public Integer compareTo(Object compareTo) {
 	        Model compareToEmp = (Model)compareTo;
-	        if (string.isBlank(modelSortCode)) {
-	            if (string.isBlank(compareToEmp.modelSortCode)) { 
-	                return 0;
-	            } else {  
-	                return 1;
-	            }
-	        } else { 
-	            if (string.isBlank(compareToEmp.modelSortCode))
-	            // ...and y is null, x is greater.
-	            {
-	                return -1;
-	            } else {
-	            	
-	            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
-	            		return modelName.compareTo(compareToEmp.modelName);	
-            		} else {	
-            			return modelSortCode.compareTo(compareToEmp.modelSortCode);
-            		}	            		
-	            }
-	        }  
+	        if ((string.isBlank(modelSortCode) && string.isBlank(compareToEmp.modelSortCode)) || (modelSortCode.compareTo(compareToEmp.modelSortCode) == 0)) {
+	        	return modelName.compareTo(compareToEmp.modelName);
+	        } else if(string.isBlank(modelSortCode) || string.isBlank(compareToEmp.modelSortCode)) {
+	        	return -1;		
+	        } else {
+	        	return modelSortCode.compareTo(compareToEmp.modelSortCode);
+	        }
 	    }       
 	}
     
@@ -318,8 +306,8 @@ public with sharing class ToroGenModelBOM {
      	public StockOrder(String modelNumber, String productTab, String description, decimal distributorNet, 
      		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType, boolean isTractionUnit) {
      		this.modelNumber =modelNumber;
-     		this.productTab =  productTab;
-     		this.description = description;
+     		this.productTab =  modelSortCode + '-'+productTab;
+     		this.description = productSortCode + '-'+productType + '-' +description;
      		this.distributorNet = distributorNet;
      		this.suggestedRetail = suggestedRetail;
      		this.stockOrder = stockOrder;
