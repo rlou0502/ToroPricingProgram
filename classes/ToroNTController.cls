@@ -104,6 +104,7 @@ global class ToroNTController {
 						, REVVY__Quantity__c = qiw.quantity
 						, Award_Price__c = qiw.awardPrice
 						, Description__c = qiw.description
+						, REVVY__SuggestedPrice__c  = qiw.dnetPrice
 					);
 
 					quoteITemsToUpdate.add(qiToUpdate);
@@ -120,7 +121,7 @@ global class ToroNTController {
 						, REVVY__Price__c           = qiw.msrpPrice
 						, Award_Price__c            = qiw.awardPrice
 						, Description__c            = qiw.description
-						// , REVVY__SuggestedPrice__c  = qiw.dnetPrice // DNet not applicable here
+						, REVVY__SuggestedPrice__c  = qiw.dnetPrice // DNet not applicable here
 					);
 
 					quoteItemsToInsert.add(qiToInsert);

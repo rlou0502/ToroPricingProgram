@@ -13,6 +13,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Boolean distRespIsEditable            			 { get; set; }
 	@AuraEnabled public Boolean showDNet 								 { get; private set; }
 	@AuraEnabled public Boolean showToroAward 							 { get; private set; }
+
 	/**
 	 *
 	 * description

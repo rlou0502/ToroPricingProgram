@@ -24,6 +24,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	@AuraEnabled public Boolean isFromAddNew { get; private set; }
 	@AuraEnabled public String chevronStyle  { get; private set; }
 	@AuraEnabled public String displayStyle  { get; private set; }
+	@AuraEnabled public Boolean isToroProduct { get; private set; }
 
 	// this value is not set here. it is a placeholder for displaying the responsibility
 	// based of the quote header

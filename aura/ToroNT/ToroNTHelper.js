@@ -69,6 +69,7 @@
 		console.log('@ToroNTHelper:saveChanges');
 		var action = cmp.get('c.saveChanges');
 		this.showSpinner();
+		console.log("---quoteItemsJSON ="+ JSON.stringify(quoteItems));
 		action.setParams({
 			'quote': quote
 			, 'quoteItemsJSON' : JSON.stringify(quoteItems)
