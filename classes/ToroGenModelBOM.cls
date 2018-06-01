@@ -235,8 +235,8 @@ public with sharing class ToroGenModelBOM {
 			}
 		}
 		Map<String, String> modelHierarchyCode = new Map<String, String>();
-		Map<String, List<String>> prodModelMap = new Map<String, List<String>>();
-		for(REVVY__MnConfigEngineModel__c model : [Select Id, name, REVVY__Product_IDs__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c From REVVY__Products__r) from REVVY__MnConfigEngineModel__c where id in :modelNameIdMap.values()]) {
+		Map<String, Set<String>> prodModelMap = new Map<String, Set<String>>();
+		for(REVVY__MnConfigEngineModel__c model : [Select Id, name, REVVY__Product_IDs__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c, REVVY__Id__c From REVVY__Products__r) from REVVY__MnConfigEngineModel__c where id in :modelNameIdMap.values()]) {
 			if(String.isNotBlank(model.REVVY__Product_IDs__c)) {
 				system.debug(model.REVVY__Product_IDs__c);
 				model.REVVY__Product_IDs__c=model.REVVY__Product_IDs__c.removeStart('[');
@@ -245,20 +245,26 @@ public with sharing class ToroGenModelBOM {
 				List<String> pIds = model.REVVY__Product_IDs__c.split(',');
 				for(String s : pIds) {
 					if(!prodModelMap.containsKey(s)) {
-						prodModelMap.put(s, new List<String>());	
+						prodModelMap.put(s, new Set<String>());	
 					}
 					prodModelMap.get(s).add(model.name);
 				}
 			}	
 			if(model.REVVY__Products__r != null && model.REVVY__Products__r.size() > 0) {
+				for(REVVY__MnCatalogNode__c p : model.REVVY__Products__r) {
+					if(!prodModelMap.containsKey(p.REVVY__Id__c)) {
+						prodModelMap.put(p.REVVY__Id__c, new Set<String>());	
+					}
+					prodModelMap.get(p.REVVY__Id__c).add(model.name);	
+				}
 				modelHierarchyCode.put(model.name, model.REVVY__Products__r[0].Hierarchy_Code__c);	
 			}
 		}
 		
-		system.debug('size='+ prodModelMap.size());
-		for(String key : prodModelMap.keySet()) {
-			system.debug(key + ' -- ' + String.join(prodModelMap.get(key), ','));	
-		}
+		//system.debug('size='+ prodModelMap.size());
+		//for(String key : prodModelMap.keySet()) {
+		//	system.debug(key + ' -- ' + String.join(prodModelMap.get(key), ','));	
+		//}
 		
     	list<list<ToroGenModelBOM.StockOrder>> stockOrderLists = new list<list<ToroGenModelBOM.StockOrder>>();
 		
@@ -281,12 +287,12 @@ public with sharing class ToroGenModelBOM {
 			if(!prodModelMap.containsKey(pli.REVVY__Product_Id__c)) {
 				system.debug('--------no models found----');
 				solist.add(new ToroGenModelBOM.StockOrder(pli.REVVY__Product_Id__c, '',
-					pli.REVVY__Product_Name__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0, null,null,null));	
+					pli.REVVY__Product_Name__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0, null,null,null,false));	
 			} else {
 				for(string key : prodModelMap.get(pli.REVVY__Product_Id__c))	{
 					solist.add(new ToroGenModelBOM.StockOrder(pli.REVVY__Product_Id__c, key,
 						pli.REVVY__Product_Name__c.escapeXml(), pli.REVVY__SuggestedPrice__c, pli.REVVY__ListedPrice__c, 0, 0,
-						modelHierarchyCode.get(key), pli.REVVY__Product__r.Hierarchy_Code__c, pli.REVVY__Product__r.Toro_Product_Type__c));	
+						modelHierarchyCode.get(key), pli.REVVY__Product__r.Hierarchy_Code__c, pli.REVVY__Product__r.Toro_Product_Type__c, tractionUnits.contains(pli.REVVY__Product_Id__c)));	
 				}	
 			}	
 		}
@@ -309,7 +315,7 @@ public with sharing class ToroGenModelBOM {
     public class StockOrder implements Comparable {
     	private Map<String, Integer> productTypeSortCodeMap = new Map<String, Integer>{'Finished Good'=>3, 'Semi-Finished Good'=>2, 'Non-Stock Material'=>1};
      	public StockOrder(String modelNumber, String productTab, String description, decimal distributorNet, 
-     		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType) {
+     		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType, boolean isTractionUnit) {
      		this.modelNumber =modelNumber;
      		this.productTab =  modelSortCode + '-'+productTab;
      		this.description = productSortCode + '-'+productType + '-' +description;
@@ -318,6 +324,7 @@ public with sharing class ToroGenModelBOM {
      		this.stockOrder = stockOrder;
      		this.totalDollors = totalDollors;
      		this.modelSortCode = modelSortCode;
+     		this.isTractionUnit = isTractionUnit;
      		if(this.modelSortCode == null) {
      			this.modelSortCode='';
      		}
@@ -341,6 +348,7 @@ public with sharing class ToroGenModelBOM {
     	public decimal totalDollors { get; set; }
     	public String modelSortCode {get; set;}
     	public String productSortCode {get; set;}
+    	public boolean isTractionUnit {get; set;}
     	private Integer productTypeSortCode;
     	public Integer compareTo(Object compareTo) {
 	        StockOrder compareToEmp = (StockOrder)compareTo;
@@ -359,7 +367,12 @@ public with sharing class ToroGenModelBOM {
 	            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
 	            		if(productTab.compareTo(compareToEmp.productTab) == 0) {
 	            			if(productTypeSortCode == compareToEmp.productTypeSortCode) {
-		            			return productSortCode.compareTo(compareToEmp.productSortCode);		
+	            				if(compareToEmp.isTractionUnit) {
+	            					modelNumber += ' traction ';
+	            					return 1;	
+	            				} else {
+		            				return productSortCode.compareTo(compareToEmp.productSortCode);		
+	            				}
 		            		} else {
 		            			return compareToEmp.productTypeSortCode-productTypeSortCode;
 		            		}		
