@@ -1,31 +1,34 @@
 public with sharing class ToroGenModelBOM {
-	static Set<String> tractionUnits = null;
+	static Set<String> tractionUnits = new Set<String>();
+	static map<String, Id> modelNameIdMap = new map<String, Id>();
+	static Map<String, String> modelHierarchyCode = new Map<String, String>();
 	public ToroGenModelBOM() {
 		
 	}
 	static {
-		tractionUnits = new Set<String>();
 		List<REVVY__MnCatalogNode__c> configurableProducts = [Select REVVY__Model__c,  name, REVVY__Id__c From REVVY__MnCatalogNode__c  where REVVY__Model__c != null];
 		for(REVVY__MnCatalogNode__c p : configurableProducts) {
 			tractionUnits.add(p.REVVY__Id__c);	
 		}	
-	}
-	public static GenModelBOMResult genBOM() {
-		List<String> modelNames = new List<String> ();
-		Set<String> modelNameSet = new Set<String> ();
-		Map<String, String> modelHierarchyCode = new Map<String, String>();
-		map<String, Id> modelNameIdMap = new map<String, Id>();
 		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__VerNum__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c From REVVY__Products__r) 
 				FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__IsSolution__c <> true order by REVVY__VerNum__c asc ]) {
 			if(!mdl.name.endsWith('(INTL)') && !mdl.name.containsIgnoreCase('test')) {
 				modelNameIdMap.put(mdl.name, mdl.Id);
 				//modelNameSet.add(mdl.name);
-				if(mdl.REVVY__Products__r != null && mdl.REVVY__Products__r.size() > 0) {
-					modelHierarchyCode.put(mdl.name, mdl.REVVY__Products__r[0].Hierarchy_Code__c);	
-				}
-			}
-			
+				
+			}			
 		}
+		for(REVVY__MnConfigEngineModel__c mdl : [Select Id, name, REVVY__Product_IDs__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c, 
+													REVVY__Id__c From REVVY__Products__r) from REVVY__MnConfigEngineModel__c 
+													where id in :modelNameIdMap.values()]) {
+			if(mdl.REVVY__Products__r != null && mdl.REVVY__Products__r.size() > 0) {
+				modelHierarchyCode.put(mdl.name, mdl.REVVY__Products__r[0].Hierarchy_Code__c);	
+			}
+		}
+	}
+	public static GenModelBOMResult genBOM() {
+		List<String> modelNames = new List<String> ();
+		Set<String> modelNameSet = new Set<String> ();
 		
 		list<Id> modelIds = modelNameIdMap.values();
 		system.debug('modelIds---' + modelIds);
@@ -167,7 +170,6 @@ public with sharing class ToroGenModelBOM {
      		if(this.modelSortCode == null) {
      			this.modelSortCode='';
      		}
-     		this.modelName += '-'+ modelSortCode;
 		}
 		
 		public Integer compareTo(Object compareTo) {
@@ -216,14 +218,7 @@ public with sharing class ToroGenModelBOM {
 
     }
     public static list<list<ToroGenModelBOM.StockOrder>> getStockOrder() {
-    	map<String, Id> modelNameIdMap = new map<String, Id>();
-		for(REVVY__MnConfigEngineModel__c mdl : [SELECT Name, REVVY__Product_IDs__c, REVVY__VerNum__c FROM REVVY__MnConfigEngineModel__c where REVVY__User_id__c = null and REVVY__Status__c = 'In Production' and REVVY__IsSolution__c <> true order by REVVY__VerNum__c asc ]) {
-			if(!mdl.name.endsWith('(INTL)') && !mdl.name.containsIgnoreCase('test')) {
-				modelNameIdMap.put(mdl.name, mdl.Id);
-				//modelNameSet.add(mdl.name);
-			}
-		}
-		Map<String, String> modelHierarchyCode = new Map<String, String>();
+    	
 		Map<String, Set<String>> prodModelMap = new Map<String, Set<String>>();
 		for(REVVY__MnConfigEngineModel__c model : [Select Id, name, REVVY__Product_IDs__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c, REVVY__Id__c From REVVY__Products__r) from REVVY__MnConfigEngineModel__c where id in :modelNameIdMap.values()]) {
 			if(String.isNotBlank(model.REVVY__Product_IDs__c)) {
@@ -246,7 +241,6 @@ public with sharing class ToroGenModelBOM {
 					}
 					prodModelMap.get(p.REVVY__Id__c).add(model.name);	
 				}
-				modelHierarchyCode.put(model.name, model.REVVY__Products__r[0].Hierarchy_Code__c);	
 			}
 		}
 		
@@ -306,8 +300,10 @@ public with sharing class ToroGenModelBOM {
      	public StockOrder(String modelNumber, String productTab, String description, decimal distributorNet, 
      		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType, boolean isTractionUnit) {
      		this.modelNumber =modelNumber;
-     		this.productTab =  modelSortCode + '-'+productTab;
-     		this.description = productSortCode + '-'+productType + '-' +description;
+     		//this.productTab =  modelSortCode + '-'+productTab;
+     		//this.description = productSortCode + '-'+productType + '-' +description;
+     		this.productTab =  productTab;
+     		this.description = description;
      		this.distributorNet = distributorNet;
      		this.suggestedRetail = suggestedRetail;
      		this.stockOrder = stockOrder;
