@@ -340,40 +340,49 @@ public with sharing class ToroGenModelBOM {
     	private Integer productTypeSortCode;
     	public Integer compareTo(Object compareTo) {
 	        StockOrder compareToEmp = (StockOrder)compareTo;
-	        if (string.isBlank(modelSortCode)) {
-	            if (string.isBlank(compareToEmp.modelSortCode)) { 
+	        if(string.isBlank(modelSortCode + productTab)) {
+	        	if (string.isBlank(compareToEmp.modelSortCode + compareToEmp.productTab)) { 
 	                return 0;
 	            } else {  
 	                return 1;
-	            }
-	        } else { 
-	            if (string.isBlank(compareToEmp.modelSortCode))
-	            // ...and y is null, x is greater.
-	            {
-	                return -1;
-	            } else {
-	            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
-	            		if(productTab.compareTo(compareToEmp.productTab) == 0) {
-	            			if(productTypeSortCode == compareToEmp.productTypeSortCode) {
-	            				if(compareToEmp.isTractionUnit == this.isTractionUnit) {
-	            					return productSortCode.compareTo(compareToEmp.productSortCode);	
-	            				} else if(compareToEmp.isTractionUnit) {
-		            				return 1;			
-	            				} else {
-	            					return -1;
-	            				}
+	            }	
+	        } else {
+	        	if(string.isBlank(compareToEmp.modelSortCode + compareToEmp.productTab)) {
+	        		return -1;	
+	        	}
+		        if (string.isBlank(modelSortCode)) {
+		            if (string.isBlank(compareToEmp.modelSortCode)) { 
+		                return 0;
+		            } else {  
+		                return 1;
+		            }
+		        } else { 
+		            if (string.isBlank(compareToEmp.modelSortCode))
+		            {
+		                return -1;
+		            } else {
+		            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
+		            		if(productTab.compareTo(compareToEmp.productTab) == 0) {
+		            			if(productTypeSortCode == compareToEmp.productTypeSortCode) {
+		            				if(compareToEmp.isTractionUnit == this.isTractionUnit) {
+		            					return productSortCode.compareTo(compareToEmp.productSortCode);	
+		            				} else if(compareToEmp.isTractionUnit) {
+			            				return 1;			
+		            				} else {
+		            					return -1;
+		            				}
+			            		} else {
+			            			return compareToEmp.productTypeSortCode-productTypeSortCode;
+			            		}		
 		            		} else {
-		            			return compareToEmp.productTypeSortCode-productTypeSortCode;
-		            		}		
-	            		} else {
-	            			return productTab.compareTo(compareToEmp.productTab);
-	            		}
-	            		
-	            	} else {
-	                	return modelSortCode.compareTo(compareToEmp.modelSortCode);
-	            	}
-	            }
-	        }
+		            			return productTab.compareTo(compareToEmp.productTab);
+		            		}        		
+		            	} else {
+		            		return modelSortCode.compareTo(compareToEmp.modelSortCode);
+		            	}
+		            }
+		        }
+	    	}
 	    }
     }
    
