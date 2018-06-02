@@ -24,7 +24,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	@AuraEnabled public Boolean isFromAddNew { get; private set; }
 	@AuraEnabled public String chevronStyle  { get; private set; }
 	@AuraEnabled public String displayStyle  { get; private set; }
-	@AuraEnabled public Boolean isToroProduct { get; private set; }
+	@AuraEnabled public Boolean isNonToroProduct { get; private set; }
 
 	// this value is not set here. it is a placeholder for displaying the responsibility
 	// based of the quote header
@@ -46,6 +46,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		// this.qiExtObj        = qi.Quote_Item_Extension__r;
 		this.qiSpObj         = null;
 		this.qiSpExtObj      = null;
+		this.isNonToroProduct = qi.REVVY__Catalog_Node__r.Non_Toro_Product__c;
 
 		// this.sublineObj      = null;
 		// this.sublineExtObj   = null;

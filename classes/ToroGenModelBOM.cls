@@ -20,9 +20,10 @@ public with sharing class ToroGenModelBOM {
 			}			
 		}
 		for(REVVY__MnConfigEngineModel__c mdl : [Select Id, name, REVVY__Product_IDs__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c, 
-													REVVY__Id__c From REVVY__Products__r) from REVVY__MnConfigEngineModel__c 
+													REVVY__Id__c, REVVY__Model__c From REVVY__Products__r) from REVVY__MnConfigEngineModel__c 
 													where id in :modelNameIdMap.values()]) {
 			if(mdl.REVVY__Products__r != null && mdl.REVVY__Products__r.size() > 0) {
+				
 				modelHierarchyCode.put(mdl.name, mdl.REVVY__Products__r[0].Hierarchy_Code__c);	
 			}
 		}
@@ -171,7 +172,6 @@ public with sharing class ToroGenModelBOM {
      		if(this.modelSortCode == null) {
      			this.modelSortCode='';
      		}
-     		modelName += ' ' + this.modelSortCode;
 		}
 		
 		public Integer compareTo(Object compareTo) {

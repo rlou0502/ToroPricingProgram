@@ -30,6 +30,8 @@
 		</thead>
 		<tbody>
 			<aura:iteration items="{!v.quoteItems}" var="quoteItem">
+			<aura:if isTrue="{!quoteItem.isNonToroProduct == false}">
+			
 				<tr class="quote_item" data-sfid="{!quoteItem.sfid}">
 					<td class="chevron-cell" width="50px"><span style="width:50px" class="{!'chevron ' + quoteItem.chevronStyle}" data-id="{!quoteItem.sfid}" onclick="{!c.toggleChevron}"></span></td>
 					<td><ui:outputText value="{!quoteItem.quantity}" /></td>
@@ -71,6 +73,7 @@
 				<tr>
 					<td colspan="7" style="display:none;">&nbsp;</td>
 				</tr>
+			</aura:if>	
 			</aura:iteration>
 		</tbody>
 	</table>
