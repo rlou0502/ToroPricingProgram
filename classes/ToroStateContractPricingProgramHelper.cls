@@ -31,6 +31,11 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		return null;
 	}
 	
+	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+		system.debug('ToroStateContractPricingProgramHelper preCalculateRebateMargin');
+		return 	loadMSRPPriceFromPricelist(priceProgram, quoteItemList);
+	}
 	public virtual List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quoteId, String priceProgram, 
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		//priceMethod = '% off MSRP';

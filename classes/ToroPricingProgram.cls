@@ -169,6 +169,7 @@ public abstract class ToroPricingProgram {
 
 	public virtual List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+		system.debug('ToroPricingProgram preCalculateRebateMargin');
 		return 	quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
@@ -671,7 +672,8 @@ public abstract class ToroPricingProgram {
 			}	
 		}
 		Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
-		List<REVVY__MnPriceListLine__c> plis = [SELECT Id, REVVY__ListedPrice__c,REVVY__SuggestedPrice__c,REVVY__product__c,
+		List<REVVY__MnPriceListLine__c> plis = [SELECT Id, REVVY__ListedPrice__c,REVVY__SuggestedPrice__c,
+				REVVY__product__c,REVVY__Product_Id__c,REVVY__Start_Date__c,REVVY__End_Date__c,
 				REVVY__Product__r.REVVY__Id__c, REVVY__PriceField1__c, REVVY__PriceField2__c, REVVY__PriceField3__c
 				FROM REVVY__MnPriceListLine__c  WHERE REVVY__Price_List_ID__c = 'Commercial'  and (REVVY__Start_Date__c <= Today AND REVVY__End_Date__c > Today)];
 		
