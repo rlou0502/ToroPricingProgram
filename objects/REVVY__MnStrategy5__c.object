@@ -459,6 +459,21 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Commission_Dollar__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Commission__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Fee_Percentage__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>

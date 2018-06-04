@@ -35,15 +35,19 @@ public with sharing class ToroGenModelBOM {
 		list<Id> modelIds = modelNameIdMap.values();
 		system.debug('modelIds---' + modelIds);
 		map<String, double> modelOGOrder = new map<String, double>();
+		map<String, double> optionGroupOrder = new map<String, double>();
 		for(REVVY__MnConfigEngineOGUISectionJunction__c junction : [SELECT REVVY__Option_Group_Id__c, 
 							REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__c, 
+							REVVY__Config_Engine_UI_Section__r.REVVY__Section_Number__c,
 							REVVY__Option_Group_Id__r.revvy__Id__c, REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__r.name ,
 							REVVY__OG_Section_Order__c FROM REVVY__MnConfigEngineOGUISectionJunction__c 
 							where REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__c in :modelIds
 							order by  REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__c, 
 							REVVY__Option_Group_Id__c, REVVY__OG_Section_Order__c]) {
 			modelOGOrder.put(junction.REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__c+'_' + junction.REVVY__Option_Group_Id__c,
-				junction.REVVY__OG_Section_Order__c);	
+				junction.REVVY__OG_Section_Order__c);
+			optionGroupOrder.put(junction.REVVY__Config_Engine_UI_Section__r.REVVY__Config_Engine_UI_Layout__r.revvy__Model__c+'_' + junction.REVVY__Option_Group_Id__c,
+				junction.REVVY__Config_Engine_UI_Section__r.REVVY__Section_Number__c);
 		}
 		
 		system.debug('modelOGOrder---' + modelOGOrder);
@@ -101,8 +105,9 @@ public with sharing class ToroGenModelBOM {
 				if(OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values() != null && OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values().size() != 0) {
 					//system.debug('----------------' + mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c);
 					double seq = modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0;
+					double sectionNumber = optionGroupOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? optionGroupOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0;
 					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name  , 
-																		seq,
+																		sectionNumber, seq,
 																		OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values(), tractionUnits));
 				}
 			}
@@ -122,13 +127,16 @@ public with sharing class ToroGenModelBOM {
 		public List<DNetMSRGPair> options { get; set; }
 		public boolean hasTractionUnit {get; set; }
 		public double sequence {get; set;}
+		public double sectionNumber { get; set;}
 		public Set<String> tractionUnits { get;set; }
-		OptionGroup(string ogName, double sequence, List<DNetMSRGPair> options, Set<String> tractionUnits) {
+		OptionGroup(string ogName, double sectionNumber, double sequence, List<DNetMSRGPair> options, Set<String> tractionUnits) {
 			this.optionGroupName = ogName;
 			this.options = options;
 			this.sequence = sequence;
 			this.tractionUnits = tractionUnits;
 			hasTractionUnit=false;
+			this.sectionNumber = sectionNumber;
+			//this.optionGroupName += ' ' + sectionNumber + ' ' + sequence;
 			for(DNetMSRGPair p : options) {
 				if(this.tractionUnits.contains(p.sku))	 {
 					
@@ -152,8 +160,12 @@ public with sharing class ToroGenModelBOM {
 		}
 		public Integer compareTo(Object compareTo) {
 	        OptionGroup compareToEmp = (OptionGroup)compareTo;
-	        if (compareToEmp.hasTractionUnit && this.hasTractionUnit ) {
-	        	return(Integer) (compareToEmp.sequence -sequence); 
+	        if (compareToEmp.hasTractionUnit == this.hasTractionUnit ) {
+	        	if(this.sectionNumber == compareToEmp.sectionNumber) {
+	        		return (Integer) (sequence-compareToEmp.sequence);	
+	        	} else {
+	        		return (Integer) (sectionNumber-compareToEmp.sectionNumber);
+	        	}        	 
 	        } else if (compareToEmp.hasTractionUnit) {
 	        	return 1;
 	        } else {
