@@ -668,9 +668,9 @@ public abstract class ToroPricingProgram {
 		List<Id> priceListIds = new List<Id>();
 		Date targetDate = null;
 		for(Revvy__MnStrategy1__c pp : rebates) {
-			if(pp.UseDesignatedPriceList__c && pp.Previous_Price_Date__c != null) {
+			if(pp.UseDesignatedPriceList__c && pp.Previous_Price_List__c != null) {
 				priceListIds.add(pp.OverriddenPriceList__c);	
-				targetDate = pp.Previous_Price_Date__c;
+				targetDate = Date.newInstance(Integer.valueOf(pp.Previous_Price_List__c), 1,1);
 			}	
 		}
 		if(targetDate != null) {
@@ -687,18 +687,20 @@ public abstract class ToroPricingProgram {
 			
 		
 			for(REVVY__MnStrategy4__c qi : quoteItemList) {
-				system.debug('ToroContractPriceListPPHelper--prodPriceListLineMap='+prodPriceListLineMap);
+				
 				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
 					REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
 					qi.MSRP_Price__c = ppl.REVVY__ListedPrice__c;
 					qi.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+					system.debug('ToroContractPriceListPPHelper--product Id='+qi.Product_Id__c + ' msrp = ' + qi.MSRP_Price__c + ' dnet =' + qi.DNet_Price__c);
 				} 
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
 							revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
 							qis.MSRP_Price__c = ppl.REVVY__ListedPrice__c;		
-							qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;				
+							qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+							system.debug('QIS ToroContractPriceListPPHelper--product Id='+qis.Product_Id__c + ' msrp = ' + qis.MSRP_Price__c + ' dnet =' + qis.DNet_Price__c);				
 						} 
 					}
 				}	
