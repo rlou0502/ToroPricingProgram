@@ -673,9 +673,10 @@ public abstract class ToroPricingProgram {
 		Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
 		List<REVVY__MnPriceListLine__c> plis = [SELECT Id, REVVY__ListedPrice__c,REVVY__SuggestedPrice__c,REVVY__product__c,
 				REVVY__Product__r.REVVY__Id__c, REVVY__PriceField1__c, REVVY__PriceField2__c, REVVY__PriceField3__c
-				FROM REVVY__MnPriceListLine__c  WHERE REVVY__PriceList__r.name like 'Commercial%'  and (REVVY__Start_Date__c <= Today AND REVVY__End_Date__c > Today)];
-		system.debug('ToroContractPriceListPPHelper--plis='+plis);
+				FROM REVVY__MnPriceListLine__c  WHERE REVVY__Price_List_ID__c = 'Commercial'  and (REVVY__Start_Date__c <= Today AND REVVY__End_Date__c > Today)];
+		
 		for(REVVY__MnPriceListLine__c ppl : plis) {
+			system.debug('ToroContractPriceListPPHelper--product Id='+ppl.REVVY__Product_Id__c + ' start date=' + ppl.REVVY__Start_Date__c + ' end date = ' + ppl.REVVY__End_Date__c + ' msrp=' + ppl.REVVY__ListedPrice__c + ' dnet=' + ppl.REVVY__SuggestedPrice__c);
 			prodPriceListLineMap.put(ppl.REVVY__product__r.REVVY__Id__c, ppl);		
 		}
 		
