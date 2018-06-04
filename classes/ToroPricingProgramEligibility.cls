@@ -102,8 +102,8 @@ public with sharing class ToroPricingProgramEligibility {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		system.debug(logginglevel.info, 'retrievePricingProgramOptions');
 		List<Revvy__MnStrategy1__c> ppList = retrievePricingProgramsForQuote(quoteId);
-		
-		for(Revvy__MnStrategy1__c pp : ppList) {
+		Set<Revvy__MnStrategy1__c> uniquePP = new Set<Revvy__MnStrategy1__c>(ppList);
+		for(Revvy__MnStrategy1__c pp : uniquePP) {
 	        //ret.add(new ToroSelectOption(pp.name, pp.name));
 	        system.debug(logginglevel.info, 'retrievePricingProgramOptions ' + pp.ExternalId__c + ' ' + pp.PricingProgramStyle__c + ' ' + pp.name);
 	        ret.add(new ToroSelectOption(pp.ExternalId__c+ ';' + pp.PricingProgramStyle__c, pp.name));

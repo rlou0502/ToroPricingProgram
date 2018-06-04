@@ -666,40 +666,44 @@ public abstract class ToroPricingProgram {
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
 		List<Id> priceListIds = new List<Id>();
+		Date targetDate = null;
 		for(Revvy__MnStrategy1__c pp : rebates) {
 			if(pp.UseDesignatedPriceList__c && pp.Previous_Price_Date__c != null) {
 				priceListIds.add(pp.OverriddenPriceList__c);	
+				targetDate = pp.Previous_Price_Date__c;
 			}	
 		}
-		Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
-		List<REVVY__MnPriceListLine__c> plis = [SELECT Id, REVVY__ListedPrice__c,REVVY__SuggestedPrice__c,
-				REVVY__product__c,REVVY__Product_Id__c,REVVY__Start_Date__c,REVVY__End_Date__c,
-				REVVY__Product__r.REVVY__Id__c, REVVY__PriceField1__c, REVVY__PriceField2__c, REVVY__PriceField3__c
-				FROM REVVY__MnPriceListLine__c  WHERE REVVY__Price_List_ID__c = 'Commercial'  and (REVVY__Start_Date__c <= Today AND REVVY__End_Date__c > Today)];
-		
-		for(REVVY__MnPriceListLine__c ppl : plis) {
-			system.debug('ToroContractPriceListPPHelper--product Id='+ppl.REVVY__Product_Id__c + ' start date=' + ppl.REVVY__Start_Date__c + ' end date = ' + ppl.REVVY__End_Date__c + ' msrp=' + ppl.REVVY__ListedPrice__c + ' dnet=' + ppl.REVVY__SuggestedPrice__c);
-			prodPriceListLineMap.put(ppl.REVVY__product__r.REVVY__Id__c, ppl);		
-		}
-		
-	
-		for(REVVY__MnStrategy4__c qi : quoteItemList) {
-			system.debug('ToroContractPriceListPPHelper--prodPriceListLineMap='+prodPriceListLineMap);
-			if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
-				REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
-				qi.MSRP_Price__c = ppl.REVVY__ListedPrice__c;
-				qi.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
-			} 
-			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
-						revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
-						qis.MSRP_Price__c = ppl.REVVY__ListedPrice__c;		
-						qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;				
-					} 
-				}
-			}	
+		if(targetDate != null) {
+			Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
+			List<REVVY__MnPriceListLine__c> plis = [SELECT Id, REVVY__ListedPrice__c,REVVY__SuggestedPrice__c,
+					REVVY__product__c,REVVY__Product_Id__c,REVVY__Start_Date__c,REVVY__End_Date__c,
+					REVVY__Product__r.REVVY__Id__c, REVVY__PriceField1__c, REVVY__PriceField2__c, REVVY__PriceField3__c
+					FROM REVVY__MnPriceListLine__c  WHERE REVVY__Price_List_ID__c = 'Commercial'  and (REVVY__Start_Date__c <= :targetDate AND REVVY__End_Date__c > :targetDate)];
 			
+			for(REVVY__MnPriceListLine__c ppl : plis) {
+				system.debug('ToroContractPriceListPPHelper--product Id='+ppl.REVVY__Product_Id__c + ' start date=' + ppl.REVVY__Start_Date__c + ' end date = ' + ppl.REVVY__End_Date__c + ' msrp=' + ppl.REVVY__ListedPrice__c + ' dnet=' + ppl.REVVY__SuggestedPrice__c);
+				prodPriceListLineMap.put(ppl.REVVY__product__r.REVVY__Id__c, ppl);		
+			}
+			
+		
+			for(REVVY__MnStrategy4__c qi : quoteItemList) {
+				system.debug('ToroContractPriceListPPHelper--prodPriceListLineMap='+prodPriceListLineMap);
+				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
+					REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
+					qi.MSRP_Price__c = ppl.REVVY__ListedPrice__c;
+					qi.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+				} 
+				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
+							revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
+							qis.MSRP_Price__c = ppl.REVVY__ListedPrice__c;		
+							qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;				
+						} 
+					}
+				}	
+				
+			}
 		}
 		return 	quoteItemList;															
 	}   
