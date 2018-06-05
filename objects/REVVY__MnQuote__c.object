@@ -812,7 +812,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Total_Quote_Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>Toro GP %</label>
+        <label>GP %</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
@@ -888,7 +888,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Total_Award__c</fullName>
         <externalId>false</externalId>
-        <label>Total Award</label>
+        <label>Ext Award</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

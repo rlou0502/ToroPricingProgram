@@ -134,6 +134,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>PlaceHolder1__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>MSRP_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -164,7 +169,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>PlaceHolder1__c</field>
+            <field>Placeholder2__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
