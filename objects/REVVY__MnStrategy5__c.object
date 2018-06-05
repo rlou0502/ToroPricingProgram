@@ -54,6 +54,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>PlaceHolder1__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Gross_Profit_Percent__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -159,6 +164,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>PlaceHolder1__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Commission__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -230,6 +240,11 @@
         </displayedFields>
         <displayedFields>
             <field>Extended_Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>PlaceHolder1__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -320,6 +335,11 @@
         </displayedFields>
         <displayedFields>
             <field>Extended_Award_Price__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>PlaceHolder1__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -689,6 +709,11 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>PlaceHolder1__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Gross_Profit_Percent__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -725,7 +750,7 @@
         <fullName>Apply_Support_Plus__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>SP</label>
+        <label>SP+</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -843,7 +868,7 @@
     <fields>
         <fullName>Fee_Percentage__c</fullName>
         <externalId>false</externalId>
-        <label>Fee Percentage</label>
+        <label>Setup Fee</label>
         <precision>5</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1143,7 +1168,7 @@
         <fullName>Toro_Product_Tier__c</fullName>
         <externalId>false</externalId>
         <formula>Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c</formula>
-        <label>Toro Product Tier</label>
+        <label>Tier</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
