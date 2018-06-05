@@ -85,8 +85,9 @@
         } else {
             event.currentTarget.dataset.overridden="true";
         }
-        var cmpEvent2 = cmp.getEvent("onPricingMethodSelectChange");
-        cmpEvent2.setParams({
+        var cmpEvent2 = component.getEvent("setDirtyFlagEvent");
+        	cmpEvent2.setParams({
+                warningMessage : "Please Click Calculate Button"
         });
         cmpEvent2.fire();
     },

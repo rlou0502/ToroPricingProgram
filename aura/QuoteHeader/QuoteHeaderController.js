@@ -3,6 +3,7 @@
         //console.log('QuoteHeader.init');
         helper.populateQuoteHeader(cmp);
     },
+    
     getPricingProgramMethod: function(cmp, event, helper) {
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
@@ -146,6 +147,8 @@
         var selectedProgram = cmp.find("pricingProgram").get("v.value");
         //console.log('onPricingMethodSelectChange=' + selectedProgram);
         var selectedMethod = cmp.find("pricingMethod").get("v.value");
+        
+        cmp.set("v.contractMessage","Please Click Calculate button");
         //console.log('selectedMethod=' + selectedMethod);
         if(selectedMethod && selectedProgram) {
             var cmpEvent = cmp.getEvent("pricingMethodEvent");
@@ -154,12 +157,6 @@
             	"selectedPricingProgram" : selectedProgram
             });
             cmpEvent.fire();
-            
-            var cmpEvent2 = cmp.getEvent("onPricingMethodSelectChange");
-            cmpEvent2.setParams({
-            });
-            cmpEvent2.fire();
-            
         }
     },
     savePricingProgramMethod: function(cmp, event, helper) {

@@ -1,15 +1,8 @@
 ({
-    handleSetDirtyFlag: function(component, evt, helper) {
-    $A.createComponent("c:ToroDirtyWarningPopover", {},
-    	function(content, status) {
-        	if (status === "SUCCESS") {
-            	component.find("overlayLibParent").showCustomModal({
-           			referenceSelector: ".js-calculate",
-                	body: "Please Click Calculate Button",
-                	cssClass: "popoverclass"
-                })
-            }
-        });
+    handleSetDirtyFlag: function(component, evt, helper) { 	
+        var msg=evt.getParam("warningMessage");
+        var quoteHeaderCmp = component.find("cmpQuoteHeader");
+        quoteHeaderCmp.set("v.contractMessage", msg);
     },
     showDetailInfoBox : function(component, event, helper) {
         helper.retrieveObjectInfo(component, null, null);
@@ -36,6 +29,7 @@
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
         quoteHeaderCmp.set("v.quote", quote);
+        quoteHeaderCmp.set("v.contractMessage", null);
     },
     saveAndClose: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
