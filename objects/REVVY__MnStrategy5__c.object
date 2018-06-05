@@ -178,11 +178,6 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <displayedFields>
-            <field>Commission_Dollar__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
         <label>GSA Quote SubLine Cols</label>
     </fieldSets>
     <fieldSets>
