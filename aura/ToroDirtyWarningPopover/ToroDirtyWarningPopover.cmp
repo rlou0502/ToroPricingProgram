@@ -1,0 +1,5 @@
+<aura:component >
+	<aura:attribute name="message" type="String" />	
+    <lightning:overlayLibrary aura:id="warningOverlayLib"/>
+    <aura:method name="closeMe"></aura:method>
+</aura:component>
