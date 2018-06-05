@@ -1,4 +1,16 @@
 ({
+    handleSetDirtyFlag: function(component, evt, helper) {
+    $A.createComponent("c:ToroDirtyWarningPopover", {},
+    	function(content, status) {
+        	if (status === "SUCCESS") {
+            	component.find("overlayLibParent").showCustomModal({
+           			referenceSelector: ".js-calculate",
+                	body: "Please Click Calculate Button",
+                	cssClass: "popoverclass"
+                })
+            }
+        });
+    },
     showDetailInfoBox : function(component, event, helper) {
         helper.retrieveObjectInfo(component, null, null);
     },

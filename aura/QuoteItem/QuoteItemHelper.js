@@ -85,6 +85,10 @@
         } else {
             event.currentTarget.dataset.overridden="true";
         }
+        var cmpEvent2 = cmp.getEvent("onPricingMethodSelectChange");
+        cmpEvent2.setParams({
+        });
+        cmpEvent2.fire();
     },
 	handleRowClick : function(component, selectedQuoteItem) {
         var nodeList = document.querySelectorAll(".collapsible."+selectedQuoteItem);

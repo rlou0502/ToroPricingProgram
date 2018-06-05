@@ -154,6 +154,12 @@
             	"selectedPricingProgram" : selectedProgram
             });
             cmpEvent.fire();
+            
+            var cmpEvent2 = cmp.getEvent("onPricingMethodSelectChange");
+            cmpEvent2.setParams({
+            });
+            cmpEvent2.fire();
+            
         }
     },
     savePricingProgramMethod: function(cmp, event, helper) {
