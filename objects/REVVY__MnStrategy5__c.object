@@ -454,6 +454,11 @@
         <fullName>Price_Program_Subline_Info_Cols</fullName>
         <description>Pricing Program</description>
         <displayedFields>
+            <field>Product_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Percent_Off_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>

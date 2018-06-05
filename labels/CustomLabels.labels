@@ -458,6 +458,14 @@
         <value>Collapse All</value>
     </labels>
     <labels>
+        <fullName>PP_Dirty_Warning_Message</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Dirty Warning Message</shortDescription>
+        <value>Please Click on Calculate or Save Button.</value>
+    </labels>
+    <labels>
         <fullName>PP_ExpandAll</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

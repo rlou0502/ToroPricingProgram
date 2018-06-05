@@ -86,8 +86,9 @@
             event.currentTarget.dataset.overridden="true";
         }
         var cmpEvent2 = component.getEvent("setDirtyFlagEvent");
+        	var msg = $A.get("$Label.c.PP_Dirty_Warning_Message");
         	cmpEvent2.setParams({
-                warningMessage : "Please Click Calculate Button"
+                warningMessage : msg
         });
         cmpEvent2.fire();
     },

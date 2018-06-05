@@ -664,6 +664,11 @@
         <fullName>Price_Program_Line_Info_Cols</fullName>
         <description>Price_Program_Line_Info_Cols</description>
         <displayedFields>
+            <field>Product_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Blended_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -893,6 +898,11 @@
     <fieldSets>
         <fullName>Price_Program_Traction_Unit_Info</fullName>
         <description>Price_Program_Line_Info_Cols</description>
+        <displayedFields>
+            <field>Product_Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <displayedFields>
             <field>Off_MSRP__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -2051,7 +2061,7 @@
     <fields>
         <fullName>Total_Award__c</fullName>
         <externalId>false</externalId>
-        <label>Total Award</label>
+        <label>EXT Award</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

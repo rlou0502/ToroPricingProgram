@@ -147,8 +147,8 @@
         var selectedProgram = cmp.find("pricingProgram").get("v.value");
         //console.log('onPricingMethodSelectChange=' + selectedProgram);
         var selectedMethod = cmp.find("pricingMethod").get("v.value");
-        
-        cmp.set("v.contractMessage","Please Click Calculate button");
+        var msg = $A.get("$Label.c.PP_Dirty_Warning_Message");
+        cmp.set("v.contractMessage",msg);
         //console.log('selectedMethod=' + selectedMethod);
         if(selectedMethod && selectedProgram) {
             var cmpEvent = cmp.getEvent("pricingMethodEvent");
