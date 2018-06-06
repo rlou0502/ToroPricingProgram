@@ -852,6 +852,25 @@
     updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save, returnUrl) {
     	//console.log('updateQuote'); 
     	var self = this;
+        debugger;
+        var requiredFieldlist = document.querySelectorAll("input:required");
+        var invalidElement = [];
+    	for(var i=0; i < requiredFieldlist.length; i++) {
+    		var elm = requiredFieldlist[i];
+    		var clsList = elm.classList;
+            for(var j=0; j < clsList.length; j++) {
+            	var cls = clsList[j];
+                if(cls.startsWith("sfdcid-")) {
+                    if(!elm.value) {
+                    	invalidElement.push(cls);    
+                    }
+                }
+            }
+    	}
+        if(invalidElement.length !=0) {
+        	console.log(invalidElement);  
+            return false;
+        }
         var quoteItemsData = {};
         var qiSublinesData = {};
         component.set('v.performancePart', performancePart);
