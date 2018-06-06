@@ -184,9 +184,11 @@
             }
                     
             var totalAwardUpdatable = true;
-            if(!isMainLine && pricingMethod == "Total Award $" && field.fieldPath=="PricingMethodValue__c") {
+            if(!isMainLine && (pricingMethod == "Total Award $" || pricingMethod == "Gross Profit %")  && field.fieldPath=="PricingMethodValue__c") {
             	totalAwardUpdatable = false;
-                sObj["PricingMethodValue__c"]="";
+                if(pricingMethod == "Total Award $") {
+                	sObj["PricingMethodValue__c"]="";
+                }
             }        
             if((totalAwardUpdatable && vToroProd && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
             || (onlyInCPL && field.fieldPath=="Award_Price__c")

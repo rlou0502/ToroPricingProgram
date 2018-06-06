@@ -534,7 +534,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Save And Close</shortDescription>
-        <value>Save And Close</value>
+        <value>Save</value>
     </labels>
     <labels>
         <fullName>PP_SelectPricingMethod</fullName>

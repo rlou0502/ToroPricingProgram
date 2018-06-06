@@ -214,6 +214,7 @@ CustomerCurrency_ISOCurrency</description>
         <fullName>Distributor_Responsibility__c</fullName>
         <description>Distributor Responsibility on Support Plus</description>
         <externalId>false</externalId>
+        <inlineHelpText>% of SP+ that distributor is responsible for covering</inlineHelpText>
         <label>Distributor Responsibility</label>
         <precision>18</precision>
         <required>false</required>
@@ -456,6 +457,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>SP_Adjusted_Toro_Award__c</fullName>
         <externalId>false</externalId>
+        <inlineHelpText>Net impact on the Award based on the use of SP+ on Configured product</inlineHelpText>
         <label>SP Adjusted Toro Award</label>
         <precision>18</precision>
         <required>false</required>
@@ -495,6 +497,7 @@ CustomerCurrency_ISOCurrency</description>
         <fullName>SP_Total_Extended_DNET__c</fullName>
         <description>Field &quot;Support Plus Total Extended DNET&quot; is used in support plus page</description>
         <externalId>false</externalId>
+        <inlineHelpText>Net impact on the DNet based on the use of SP+ on Configured product</inlineHelpText>
         <label>Support Plus Total Extended DNET</label>
         <precision>18</precision>
         <required>false</required>
@@ -715,6 +718,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Contribution__c</fullName>
         <externalId>false</externalId>
+        <inlineHelpText>Amount of SP+ to be claimed from Toro</inlineHelpText>
         <label>Toro Contribution</label>
         <precision>18</precision>
         <required>false</required>
@@ -776,6 +780,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Support_Plus_Allowance_Used__c</fullName>
         <externalId>false</externalId>
+        <inlineHelpText>Total Amount of Support Dollars Used Based on Selections</inlineHelpText>
         <label>Toro Support Plus Allowance Used</label>
         <precision>18</precision>
         <required>false</required>
@@ -789,6 +794,7 @@ CustomerCurrency_ISOCurrency</description>
         <fullName>Toro_Support_Plus_Allowance__c</fullName>
         <description>Toro Support Plus Allowance</description>
         <externalId>false</externalId>
+        <inlineHelpText>Allowable Program Support Dollars Based on Program</inlineHelpText>
         <label>Toro Support Plus Allowance</label>
         <precision>18</precision>
         <required>false</required>

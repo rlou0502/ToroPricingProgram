@@ -222,6 +222,17 @@ public class ToroPricingProgramController {
 					
 				}
 	    	}
+	    	if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+	    			qi.PricingMethodValue__c = String.valueOf(qi.Toro_Gross_Profit_Percent__c);	
+	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							qis.PricingMethodValue__c = String.valueOf(qis.Gross_Profit_Percent__c);	
+						}
+	    			}
+					
+				}
+	    	}
 	    	system.debug(logginglevel.info, 'exiting---calculateRebateMargin');
 	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
 	    	/*
