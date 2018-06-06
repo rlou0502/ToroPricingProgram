@@ -416,7 +416,7 @@
         <displayedFields>
             <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Placeholder1__c</field>

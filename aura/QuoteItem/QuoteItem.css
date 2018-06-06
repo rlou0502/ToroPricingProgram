@@ -6,8 +6,9 @@
   border: 0;
 }
 
-.THIS tr.slds-text-heading--label th {
-    background-color : #DCDCDC;
+.THIS .has-required-field {
+    border-left: 2px solid red;
+    padding-left: 2px;
 }
 
 .THIS tr.quoteItemSubline td {

@@ -52,7 +52,7 @@
         <tr class="slds-text-heading--label">
 			<td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Programs">Pricing Programs</div>
-                <div>
+                <div class="has-required-field">
                 <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}" required="true">
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingProgram}" />
                     <aura:iteration items="{!v.pricingProgramOptions}" var="item">
@@ -63,7 +63,7 @@
             </td>
             <td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Pricing Methods</div>
-                <div>
+                <div class="has-required-field">
                 <ui:inputSelect class="slds-select" aura:id="pricingMethod" value="{!v.selectedPricingMethod}" change="{!c.onPricingMethodSelectChange}" required="true">
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingMethod}" />
                     <aura:iteration items="{!v.pricingMethodOptions}" var="item2">

@@ -216,7 +216,7 @@
         <displayedFields>
             <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
             <field>MSRP_Price__c</field>
