@@ -582,7 +582,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Validation Error Message</shortDescription>
-        <value>PLEASE FILL OUT THIS FIELD.</value>
+        <value>Please Fill Out Value.</value>
     </labels>
     <labels>
         <fullName>SP_Add_New</fullName>

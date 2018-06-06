@@ -233,6 +233,28 @@ public class ToroPricingProgramController {
 					
 				}
 	    	}
+	    	if ('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+	    			qi.PricingMethodValue__c = String.valueOf(qi.Award_of_DN__c);	
+	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							qis.PricingMethodValue__c = String.valueOf(qis.Percent_of_DNet__c);	
+						}
+	    			}
+					
+				}
+	    	}
+	    	if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+	    			qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);	
+	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);	
+						}
+	    			}
+					
+				}
+	    	}
 	    	system.debug(logginglevel.info, 'exiting---calculateRebateMargin');
 	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
 	    	/*

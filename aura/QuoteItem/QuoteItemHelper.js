@@ -979,15 +979,11 @@
         	function(response) {
             	var state = response.getState();
                 if (component.isValid() && state === "SUCCESS") { 
-                    /*
-                    if(save) {
-                        if(!returnUrl) {
-                        	document.location = "/"+quoteId;	 
-                        } else {
-                        	document.location = returnUrl;
-                        }
+                    
+                    if(save && returnUrl) {
+                        document.location = returnUrl;
                     }
-                    */
+                    
                     var data = response.getReturnValue();
                     var retResponse = response.getReturnValue();
                     var retRecords = retResponse.values;
