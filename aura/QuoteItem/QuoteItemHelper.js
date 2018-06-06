@@ -977,6 +977,7 @@
         	function(response) {
             	var state = response.getState();
                 if (component.isValid() && state === "SUCCESS") { 
+                    /*
                     if(save) {
                         if(!returnUrl) {
                         	document.location = "/"+quoteId;	 
@@ -984,6 +985,7 @@
                         	document.location = returnUrl;
                         }
                     }
+                    */
                     var data = response.getReturnValue();
                     var retResponse = response.getReturnValue();
                     var retRecords = retResponse.values;

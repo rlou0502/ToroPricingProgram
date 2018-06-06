@@ -140,7 +140,17 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 							qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
 						}
 						if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
-							qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;
+							if(qi.DrivenByGP__c) {
+								qis.Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Percent__c;
+								qis.Gross_Profit_Value__c = qis.award_price__c * qis.Gross_Profit_Percent__c/100;
+								
+								//decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
+								decimal rebate = qis.DNET_Price__c - qis.award_price__c + qis.Gross_Profit_Value__c;						
+								qis.Rebate_as_of_DNet__c = rebate / qis.DNET_Price__c * 100;
+								qis.Gross_Profit_Value__c *= qi.adjusted_quantity__c;	
+							} else {
+								qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;
+							}
 						}
 						if(excludedFromMSRP(qis)) {
 							qis.Percent_Off_MSRP__c = 0;	
