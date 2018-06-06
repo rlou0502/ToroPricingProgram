@@ -577,6 +577,14 @@
         <value>Calculate</value>
     </labels>
     <labels>
+        <fullName>PP_Validation_Error_Message</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Validation Error Message</shortDescription>
+        <value>PLEASE FILL OUT THIS FIELD.</value>
+    </labels>
+    <labels>
         <fullName>SP_Add_New</fullName>
         <categories>Support_Plus</categories>
         <language>en_US</language>

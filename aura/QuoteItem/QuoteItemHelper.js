@@ -284,6 +284,13 @@
                 }              
             }
             tableData.appendChild(cellText);
+            if(field.required) {
+                var cellErrorMsg = document.createElement('div');
+                cellErrorMsg.className += "  validation-error sfdcid-"+sObj["Id"];
+                var msg = $A.get("$Label.c.PP_Validation_Error_Message");
+                cellErrorMsg.innerHTML = msg;
+                tableData.appendChild(cellErrorMsg);
+            }
             parentRow.appendChild(tableData);
     	});      
     },
@@ -852,23 +859,37 @@
     updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save, returnUrl) {
     	//console.log('updateQuote'); 
     	var self = this;
-        debugger;
+        var invalid = false;
+        if(!pricingProgram) {
+        	invalid = true;
+            document.querySelector(".pricing-program.validation-error").style.display="block";    
+        } else {
+            document.querySelector(".pricing-program.validation-error").style.display="none";  
+        }
+        if(!pricingMethod) {
+        	invalid = true;
+            document.querySelector(".pricing-method.validation-error").style.display="block";    
+        } else {
+            document.querySelector(".pricing-method.validation-error").style.display="none";  
+        }
         var requiredFieldlist = document.querySelectorAll("input:required");
-        var invalidElement = [];
     	for(var i=0; i < requiredFieldlist.length; i++) {
     		var elm = requiredFieldlist[i];
     		var clsList = elm.classList;
             for(var j=0; j < clsList.length; j++) {
             	var cls = clsList[j];
                 if(cls.startsWith("sfdcid-")) {
-                    if(!elm.value) {
-                    	invalidElement.push(cls);    
+                    if(!elm.value) { 
+                        invalid = true;
+                        document.querySelector(".validation-error."+cls).style.display="block"; 
+                    } else {
+                        document.querySelector(".validation-error."+cls).style.display="none";
                     }
                 }
             }
     	}
-        if(invalidElement.length !=0) {
-        	console.log(invalidElement);  
+        if(invalid) {
+            self.hideSpinner();
             return false;
         }
         var quoteItemsData = {};

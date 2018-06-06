@@ -59,6 +59,9 @@
                         <ui:inputSelectOption text="{!item.value}" label="{!item.label}" value="{!item.value==v.selectedPricingProgram}"/>
                      </aura:iteration>
                 </ui:inputSelect>
+                    <div class="pricing-program validation-error ">
+                    	{!$Label.c.PP_Validation_Error_Message}    
+                    </div>
                 </div>
             </td>
             <td scope="col">
@@ -70,6 +73,9 @@
                         <ui:inputSelectOption text="{!item2.value}" label="{!item2.label}" value="{!item2.value==v.selectedPricingMethod}"/>
                      </aura:iteration>
                 </ui:inputSelect>
+                    <div class="pricing-method validation-error ">
+                    	{!$Label.c.PP_Validation_Error_Message}    
+                    </div>
                </div>
             </td>
             <aura:if isTrue="{!v.displaySetupFee}">
