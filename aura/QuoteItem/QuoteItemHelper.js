@@ -955,7 +955,8 @@
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                      var cmpEvent = component.getEvent("calculationCompleteEvent");
                         cmpEvent.setParams({
-                            "quote" : retResponse.quote
+                            "quote" : retResponse.quote,
+                            "allowSupportPlus" : retResponse.allowSupportPlus
                         });
                         cmpEvent.fire();
                     

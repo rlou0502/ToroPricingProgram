@@ -28,6 +28,8 @@
     handleCalculationComplete: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
+        var allowSupportPlus=event.getParam("allowSupportPlus");
+        component.set("v.allowSupportPlus", allowSupportPlus);
         quoteHeaderCmp.set("v.quote", quote);
         quoteHeaderCmp.set("v.contractMessage", null);
     },

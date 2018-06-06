@@ -3,4 +3,5 @@
     <aura:attribute name="selectedPricingMethod" type="String"/>
     <aura:attribute name="setupFeePercent" type="decimal" />
     <aura:attribute name="performancePart" type="boolean" />
+    <aura:attribute name="allowSupportPlus" type="boolean" />
 </aura:event>

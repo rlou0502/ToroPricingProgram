@@ -247,6 +247,7 @@ public class ToroPricingProgramController {
 	    	rs.chainCall = pp.chainCall;
 	    	rs.payload = pp.payloadOfChainCall;
 	    	rs.displaySetupFee=pp.displaySetupFee();
+	    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
 	    	List<String> spKeys = new List<String>();
 	    	system.debug(logginglevel.info, 'ppd.externalId---calculateRebateMargin' + ppd.externalId);
 			if(String.isNotBlank(ppd.externalId)) {
