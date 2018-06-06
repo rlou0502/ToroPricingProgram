@@ -1,8 +1,12 @@
 ({
-    handleSetDirtyFlag: function(component, evt, helper) { 	
+    handleSetDirtyFlag: function(component, evt, helper) { 	    
         var msg=evt.getParam("warningMessage");
         var quoteHeaderCmp = component.find("cmpQuoteHeader");
         quoteHeaderCmp.set("v.contractMessage", msg);
+    },
+    handleQuoteHeaderLoaded : function(component, evt, helper) { 	
+        var allowSupportPlus=evt.getParam("allowSupportPlus");
+        component.set("v.allowSupportPlus", allowSupportPlus);
     },
     showDetailInfoBox : function(component, event, helper) {
         helper.retrieveObjectInfo(component, null, null);

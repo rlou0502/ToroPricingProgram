@@ -66,10 +66,17 @@
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
                     component.set('v.contractMessage', retResponse.contractMessage);
-
                     var selectedProgram = component.get("v.selectedPricingProgram");
                     var selectedMethod = component.find("v.selectedPricingMethod");
                     var allowSupportPlus = component.get("v.allowSupportPlus");
+                    var cmpEvent = component.getEvent("quoteHeaderLoaded");
+                    cmpEvent.setParams({
+                        "selectedPricingProgram" : selectedProgram,
+                        "selectedPricingMethod" : selectedMethod,
+                        "allowSupportPlus" : allowSupportPlus 
+                    });
+                    cmpEvent.fire();
+                    
                     /*
                     var cmpEvent = component.getEvent("pricingProgramEvent");
                     cmpEvent.setParams({
