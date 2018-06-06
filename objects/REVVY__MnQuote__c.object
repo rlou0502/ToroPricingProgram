@@ -173,6 +173,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Currency_Conversion_Rate__c</fullName>
+        <defaultValue>1.3</defaultValue>
         <description>This the currency conversion rate that the distributor can use</description>
         <externalId>false</externalId>
         <label>Currency Conversion Rate</label>

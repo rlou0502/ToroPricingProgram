@@ -53,7 +53,7 @@
 			<td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Programs">Pricing Programs</div>
                 <div>
-                <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}"  >
+                <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}" required="true">
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingProgram}" />
                     <aura:iteration items="{!v.pricingProgramOptions}" var="item">
                         <ui:inputSelectOption text="{!item.value}" label="{!item.label}" value="{!item.value==v.selectedPricingProgram}"/>
@@ -64,7 +64,7 @@
             <td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Pricing Methods</div>
                 <div>
-                <ui:inputSelect class="slds-select" aura:id="pricingMethod" value="{!v.selectedPricingMethod}" change="{!c.onPricingMethodSelectChange}"  >
+                <ui:inputSelect class="slds-select" aura:id="pricingMethod" value="{!v.selectedPricingMethod}" change="{!c.onPricingMethodSelectChange}" required="true">
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingMethod}" />
                     <aura:iteration items="{!v.pricingMethodOptions}" var="item2">
                         <ui:inputSelectOption text="{!item2.value}" label="{!item2.label}" value="{!item2.value==v.selectedPricingMethod}"/>

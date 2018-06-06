@@ -193,6 +193,10 @@
             ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
                 var tableDataNode = document.createElement('input');
+                if(field.required) {
+                	tableDataNode.required=true;  
+                    cellText.className += " has-required-field";
+                }
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 var decimalPoint = 4;
                 if(pricingMethod == "Total Award $") {
