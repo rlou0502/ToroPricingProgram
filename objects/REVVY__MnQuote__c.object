@@ -400,9 +400,9 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Pricing_Program_Name__c</fullName>
-        <description>Store the name of Pricing Program selected in Pricing Page</description>
+        <description>Store the name of Pricing Program selected in Pricing Page - Admin use for Pricing Program code</description>
         <externalId>false</externalId>
-        <label>Pricing Program Name</label>
+        <label>Pricing Program Name Admin</label>
         <length>255</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>

@@ -71,7 +71,7 @@ public with sharing class ToroSupportPlusData {
 			else {
 				totalValue         = quote.Toro_Total_DNet__c;
 				this.showDNet      = true;
-				this.showToroAward = false;
+				this.showToroAward = true;
 			}
 
 			List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);

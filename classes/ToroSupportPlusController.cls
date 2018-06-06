@@ -55,6 +55,8 @@ global class ToroSupportPlusController {
 					AND REVVY__Product__r.REVVY__Status__c = 'Active'
 					AND REVVY__PriceList__r.Name = 'Commercial'
 					AND REVVY__Product__r.REVVY__Id__c LIKE :term
+					AND REVVY__Product__r.Non_Toro_Product__c = false // exclude Trade-In, Allied Product, Service Contract
+					
 				ORDER BY
 					REVVY__Product__r.Name asc
 			];
@@ -191,6 +193,7 @@ global class ToroSupportPlusController {
 				SELECT
 					Distributor_Responsibility__c
 					, Toro_Support_Plus_Allowance__c
+					, SP_Adjusted_Ext_Award__c
 					, SP_Toro_Responsibility__c
 					, SP_Ext_Dist_Responsibility__c
 					, SP_Total_Extended_DNET__c
@@ -199,11 +202,12 @@ global class ToroSupportPlusController {
 				WHERE
 					Id = :quote.Id
 			];
-			quoteObjToUpdate.Distributor_Responsibility__c = quote.Distributor_Responsibility__c;
+			quoteObjToUpdate.Distributor_Responsibility__c  = quote.Distributor_Responsibility__c;
 			quoteObjToUpdate.Toro_Support_Plus_Allowance__c = quote.Toro_Support_Plus_Allowance__c;
-			quoteObjToUpdate.SP_Toro_Responsibility__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
-			quoteObjToUpdate.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
-			quoteObjToUpdate.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
+			quoteObjToUpdate.SP_Adjusted_Ext_Award__c       = quote.SP_Adjusted_Ext_Award__c;
+			quoteObjToUpdate.SP_Toro_Responsibility__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
+			quoteObjToUpdate.SP_Ext_Dist_Responsibility__c  = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
+			quoteObjToUpdate.SP_Total_Extended_DNET__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
 			update quoteObjToUpdate;
 			System.debug('\n\n@@quoteObjToUpdate: ' + quoteObjToUpdate + '\n\n');
 

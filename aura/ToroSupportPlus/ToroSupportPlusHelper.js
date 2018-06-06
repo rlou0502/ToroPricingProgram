@@ -190,10 +190,11 @@
 		}
 
 		quote.Toro_Support_Plus_Allowance_Used__c = spDNetTotal + supportPlusDNetTotal;
-		quote.SP_Total_Extended_DNET__c = quote.Toro_Total_DNet__c - spDNetTotal;
-		quote.SP_Adjusted_Toro_Award__c = quote.Toro_Award__c - spAwardTotal;
-		quote.SP_Toro_Responsibility__c = toroResp * (spDNetTotal + supportPlusDNetTotal);
-		quote.SP_Ext_Dist_Responsibility__c = (quote.Toro_Total_DNet__c - spDNetTotal) / quote.Toro_Total_DNet__c;
+		quote.SP_Total_Extended_DNET__c           = quote.Toro_Total_DNet__c - spDNetTotal;
+		quote.SP_Adjusted_Toro_Award__c           = quote.Toro_Award__c - spAwardTotal;
+		quote.SP_Adjusted_Ext_Award__c            = spAwardTotal;
+		quote.SP_Toro_Responsibility__c           = toroResp * (spDNetTotal + supportPlusDNetTotal);
+		quote.SP_Ext_Dist_Responsibility__c       = (quote.Toro_Total_DNet__c - spDNetTotal) / quote.Toro_Total_DNet__c;
 		return quote;
 	},
 	updateDistributorResponsibility: function(quote, items) {

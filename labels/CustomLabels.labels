@@ -593,6 +593,22 @@
         <value>Add New</value>
     </labels>
     <labels>
+        <fullName>SP_Adjusted_Extended_Award</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Adjusted Extended Award</shortDescription>
+        <value>Adj. Ext. Award</value>
+    </labels>
+    <labels>
+        <fullName>SP_Adjusted_Extended_Award_Tooltip</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Adjusted Extended Award Tooltip</shortDescription>
+        <value>Net impact on the Award based on the use of SP+ on Configured product</value>
+    </labels>
+    <labels>
         <fullName>SP_Adjusted_Extended_DNet</fullName>
         <categories>Support_Plus</categories>
         <language>en_US</language>

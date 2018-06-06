@@ -57,6 +57,12 @@
 					<lightning:formattedNumber value="{!v.quote.SP_Adjusted_Toro_Award__c}" style="currency" />
 				</p>
 			</li>
+			<li class="slds-page-header__detail-block">
+				<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Adjusted_Extended_Award_Tooltip}">{!$Label.c.SP_Adjusted_Extended_Award}</p>
+				<p class="slds-text-body_regular" title="{!v.quote.SP_Adjusted_Ext_Award__c}">
+					<lightning:formattedNumber value="{!v.quote.SP_Adjusted_Ext_Award__c}" style="currency" />
+				</p>
+			</li>
 		</aura:renderIf>
 		<li class="slds-page-header__detail-block">
 			<aura:if isTrue="{!v.distRespIsEditable}">

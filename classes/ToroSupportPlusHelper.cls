@@ -96,6 +96,7 @@ public with sharing class ToroSupportPlusHelper {
 				, Toro_Blended_Percent_of_DN__c
 				, SP_Toro_Responsibility__c // (SHOWN) (Toro Contribution/Responsibility)
 				, SP_Ext_Dist_Responsibility__c
+				, SP_Adjusted_Ext_Award__c
 				, SP_Total_Extended_DNET__c // (SHOWN) Total DNet AFTER deducting Toro Contribution for Support Plus Items
 				, Distributor_Responsibility__c // (SHOWN) Set on load of Support Plus page. Can be overriden by user.
 				, Pricing_Program_Name__c
@@ -108,6 +109,7 @@ public with sharing class ToroSupportPlusHelper {
 		quote.Toro_Support_Plus_Allowance__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Support_Plus_Allowance__c);
 		quote.SP_Toro_Responsibility__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
 		quote.SP_Ext_Dist_Responsibility__c  = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
+		quote.SP_Adjusted_Ext_Award__c       = CMnQuoteUtil.defaultDecimal(quote.SP_Adjusted_Ext_Award__c);
 		quote.SP_Total_Extended_DNET__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
 		return quote;
 	}
