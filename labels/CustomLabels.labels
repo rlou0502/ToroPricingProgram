@@ -606,7 +606,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SP Adjusted Extended DNet Tooltip</shortDescription>
-        <value>ADJ EXT DNET</value>
+        <value>Net impact on the DNet based on the use of SP+ on Configured product</value>
     </labels>
     <labels>
         <fullName>SP_Adjusted_Toro_Award</fullName>
@@ -622,7 +622,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SP Adjusted Toro Award Tooltip</shortDescription>
-        <value>Adj Toro Award</value>
+        <value>Net impact on the Award based on the use of SP+ on Configured product</value>
     </labels>
     <labels>
         <fullName>SP_Allowance</fullName>
@@ -654,7 +654,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SP Allowance Tooltip</shortDescription>
-        <value>Support Plus Allowance</value>
+        <value>Allowable Program Support Dollars Based on Program</value>
     </labels>
     <labels>
         <fullName>SP_Allowance_Used</fullName>
@@ -670,7 +670,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SP Allowance Used Tooltip</shortDescription>
-        <value>Support Plus Allowance Used</value>
+        <value>Total Amount of Support Dollars Used Based on Selections</value>
     </labels>
     <labels>
         <fullName>SP_Condition_1</fullName>
@@ -710,7 +710,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SP Distributor Responsibility Tooltip</shortDescription>
-        <value>Distributor Responsibility (%)</value>
+        <value>% of SP+ that distributor is responsible for covering</value>
     </labels>
     <labels>
         <fullName>SP_Extended_Total_DNET_Price</fullName>
@@ -806,6 +806,6 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SP Toro Contribution Tooltip</shortDescription>
-        <value>Toro Contribution</value>
+        <value>Amount of SP+ to be claimed from Toro</value>
     </labels>
 </CustomLabels>
