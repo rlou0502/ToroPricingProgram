@@ -131,6 +131,7 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__Price__c
 				, Award_Price__c
 				, Description__c
+				, Pricing_Program__c 
 				// , Distributor_Responsibility__c
 				// , REVVY__Product_Name_F__c // REVVY__Catalog_Node__r.Name
 				// , REVVY__Product_ID_F__c // REVVY__Catalog_Node__r.REVVY__Id__c
@@ -232,40 +233,41 @@ public with sharing class ToroSupportPlusHelper {
 	 * @return return_type
 	 */
 	public static List<REVVY__MnQuoteItemSubline__c> getSublines(Id quoteItemId) {
-		return [SELECT
-			Id
-			, REVVY__Id__c // why is this null for regular quote items?
-			, REVVY__Quantity__c
-			, REVVY__SuggestedPrice__c
-			, REVVY__Price__c
-			, Award_Price__c
-			, Description__c
-			// , Distributor_Responsibility__c
+		return [
+			SELECT
+				Id
+				, REVVY__Id__c // why is this null for regular quote items?
+				, REVVY__Quantity__c
+				, REVVY__SuggestedPrice__c
+				, REVVY__Price__c
+				, Award_Price__c
+				, Description__c
+				// , Distributor_Responsibility__c
 
-			, REVVY__QuoteItem__c
+				, REVVY__QuoteItem__c
 
-			// , Product_ID2__c // REVVY__Catalog_Node__r.REVVY__Id__c
-			, REVVY__Catalog_Node__c
-			, REVVY__Catalog_Node__r.Name
-			, REVVY__Catalog_Node__r.REVVY__Id__c
-			, REVVY__Catalog_Node__r.Non_Toro_Product__c
+				// , Product_ID2__c // REVVY__Catalog_Node__r.REVVY__Id__c
+				, REVVY__Catalog_Node__c
+				, REVVY__Catalog_Node__r.Name
+				, REVVY__Catalog_Node__r.REVVY__Id__c
+				, REVVY__Catalog_Node__r.Non_Toro_Product__c
 
-			, REVVY__PricelistLine__c
+				, REVVY__PricelistLine__c
 
-			, Support_Plus_Original_Price__c
-			, Support_Plus_Original_Item__c
-			, Support_Plus_Original_Item__r.Id
-			, Support_Plus_Original_Item__r.REVVY__Quantity__c
-			, Quote_Item_Subline_Extension__r.Id
-			, Quote_Item_Subline_Extension__r.External_Id__c
-			, Quote_Item_Subline_Extension__r.Adjusted_Quantity__c
-			, Quote_Item_Subline_Extension__r.Award_Price__c
-		FROM
-			REVVY__MnQuoteItemSubLine__c
-		WHERE
-			REVVY__QuoteItem__c = :quoteItemId
-		ORDER BY
-			REVVY__Catalog_Node__r.Name];
+				, Support_Plus_Original_Price__c
+				, Support_Plus_Original_Item__c
+				, Support_Plus_Original_Item__r.Id
+				, Support_Plus_Original_Item__r.REVVY__Quantity__c
+				, Quote_Item_Subline_Extension__r.Id
+				, Quote_Item_Subline_Extension__r.External_Id__c
+				, Quote_Item_Subline_Extension__r.Adjusted_Quantity__c
+				, Quote_Item_Subline_Extension__r.Award_Price__c
+			FROM
+				REVVY__MnQuoteItemSubLine__c
+			WHERE
+				REVVY__QuoteItem__c = :quoteItemId
+			ORDER BY
+				REVVY__Catalog_Node__r.Name];
 	}
 
 	/**

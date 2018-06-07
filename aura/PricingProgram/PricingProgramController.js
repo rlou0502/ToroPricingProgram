@@ -23,11 +23,10 @@
         }
     },
     manageProduct: function(component, event, helper) {
-        //var quoteId = component.get('v.quoteId');
-        component.set("v.forwardUrl", "/apex/REVVY__PMnUIShell#mnquote/detail/");
-        helper.openWindow(component, event, helper);
-
-        //document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
+        var quoteId = component.get('v.quoteId');
+        //component.set("v.forwardUrl", "/apex/REVVY__PMnUIShell#mnquote/detail/");
+        //helper.openWindow(component, event, helper);
+        document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
     },
     calculate : function(component, event, helper) {
         var quoteId = component.get('v.quoteId');
