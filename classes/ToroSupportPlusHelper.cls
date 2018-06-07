@@ -131,7 +131,6 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__Price__c
 				, Award_Price__c
 				, Description__c
-				, Pricing_Program__c 
 				// , Distributor_Responsibility__c
 				// , REVVY__Product_Name_F__c // REVVY__Catalog_Node__r.Name
 				// , REVVY__Product_ID_F__c // REVVY__Catalog_Node__r.REVVY__Id__c
@@ -152,6 +151,8 @@ public with sharing class ToroSupportPlusHelper {
 				, Quote_Item_Extension__r.External_Id__c
 				, Quote_Item_Extension__r.Adjusted_Quantity__c
 				, Quote_Item_Extension__r.Award_Price__c
+				, Quote_Item_Extension__r.Pricing_Program__c
+				, Quote_Item_Extension__r.Pricing_Program_Overridden__c
 				/*
 				, (SELECT
 						Id

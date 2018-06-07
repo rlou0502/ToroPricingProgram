@@ -122,7 +122,9 @@ public with sharing class ToroSupportPlusData {
 			// get the quote items and support plus items
 			// build a map of the main quote item to its support plus line item
 			// (note that support plus items added by "add new" are not handled here)
-			final List<REVVY__MnQuoteItem__c> allQuoteItems    = ToroSupportPlusHelper.getQuoteItems(quoteId);
+			final List<REVVY__MnQuoteItem__c> allQuoteItems = ToroSupportPlusHelper.getQuoteItems(quoteId);
+			System.debug('\n\n@@allQuoteItems: ' + allQuoteItems + '\n\n');
+
 			final List<REVVY__MnQuoteItem__c> addNewQuoteItems = new List<REVVY__MnQuoteItem__c>();
 
 			final Map<Id,REVVY__MnQuoteItem__c> qItemIdToSpItemObjMAP = new Map<Id,REVVY__MnQuoteItem__c>();
