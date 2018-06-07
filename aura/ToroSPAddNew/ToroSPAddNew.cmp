@@ -63,9 +63,14 @@
 								<aura:if isTrue="{!v.searchType == 'nontoro'}">
 									<lightning:select class="slds-text-title_caps" name="selectItem" label="Select Product..." value="{!v.newItemProductId}">
 										<!-- <aura:iteration var="searchResult" items="{!v.searchResults}" > -->
-											<option value="L00001">Allied Product</option>
+											<!--
+                                        	<option value="L00001">Allied Product</option>
 											<option value="L00002">Service Contract</option>
 											<option value="L00004">Trade-In</option>
+											-->
+                                        	<option value="L01_Allied">Allied Product</option>
+											<option value="L02_Service">Service Contract</option>
+											<option value="L03_Trade">Trade-In</option>
 										<!-- </aura:iteration> -->
 									</lightning:select>
 								</aura:if>
@@ -100,6 +105,11 @@
 									<div class="slds-form-element">
 										<div class="slds-form-element__control">
 											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="MSRP" value="{!v.newItemMSRPPrice}"/>
+										</div>
+									</div>
+									<div class="slds-form-element">
+										<div class="slds-form-element__control">
+											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="DNET" value="{!v.newItemDNetPrice}"/>
 										</div>
 									</div>
 									<div class="slds-form-element">

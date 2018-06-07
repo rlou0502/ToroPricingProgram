@@ -32,7 +32,7 @@ global class ToroNTController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static ToroQIBase addNonToroItem(Id quoteId, String productId, Decimal msrpPrice, Decimal awardPrice, Decimal quantity, String description) {
+	public static ToroQIBase addNonToroItem(Id quoteId, String productId, Decimal msrpPrice, Decimal dnetPrice, Decimal awardPrice, Decimal quantity, String description) {
 		List<REVVY__MnPriceListLine__c> pricelistLines = [
 			SELECT
 				Id
@@ -64,6 +64,7 @@ global class ToroNTController {
 			, quantity
 			, description
 		);
+        result.dnetPrice = dnetPrice;
 
 		System.debug('\n\n@@result: ' + result + '\n\n');
 		return result;

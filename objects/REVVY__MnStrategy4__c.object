@@ -1431,7 +1431,7 @@
     <fields>
         <fullName>Blended_GP__c</fullName>
         <externalId>false</externalId>
-        <label>Total GP %</label>
+        <label>GP %</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
@@ -1572,7 +1572,7 @@
         <fullName>Fee_Percentage__c</fullName>
         <description>Setup Fee Percentage for National Account</description>
         <externalId>false</externalId>
-        <label>Setup Fee Percentage</label>
+        <label>Setup Fee</label>
         <precision>5</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1941,7 +1941,7 @@
     <fields>
         <fullName>Toro_Blend_Of_DN__c</fullName>
         <externalId>false</externalId>
-        <label>% of DN</label>
+        <label>% of DNet</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
@@ -2001,7 +2001,7 @@
     <fields>
         <fullName>Toro_Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>Toro GP%</label>
+        <label>GP%</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
@@ -2031,7 +2031,7 @@
     <fields>
         <fullName>Toro_Rebate__c</fullName>
         <externalId>false</externalId>
-        <label>Toro Rebate</label>
+        <label>Rebate</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -2041,7 +2041,7 @@
     <fields>
         <fullName>Toro_Total_Rebate__c</fullName>
         <externalId>false</externalId>
-        <label>Total Rebate</label>
+        <label>Rebate</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -2082,7 +2082,7 @@
         <fullName>Total_Gross_Profit_Value__c</fullName>
         <description>This is a blended GP$</description>
         <externalId>false</externalId>
-        <label>Toro GP $</label>
+        <label>GP $</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

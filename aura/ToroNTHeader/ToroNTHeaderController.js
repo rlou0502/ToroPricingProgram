@@ -18,11 +18,11 @@
 			var productExtId  = quoteItems[i].productId;
 			var extTotalAward = quoteItems[i].quantity * quoteItems[i].awardPrice;
 
-			if (productExtId == 'L00001') {
+			if (productExtId == 'L01_Allied') {
 				totalAwardAllied += extTotalAward;
-			} else if (productExtId == 'L00002') {
+			} else if (productExtId == 'L02_Service') {
 				totalAwardServices += extTotalAward;
-			} else if (productExtId == 'L00004') {
+			} else if (productExtId == 'L03_Trade') {
 				totalAwardTradeIns += extTotalAward;
 			}
 		}

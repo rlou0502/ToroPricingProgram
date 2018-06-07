@@ -11,12 +11,14 @@
 		console.log('@ToroNTController:addNewItem');
 		var newItemProductId = event.getParam('newItemProductId');
 		var newItemMSRPPrice = event.getParam('newItemMSRPPrice');
+		var newItemDNetPrice = event.getParam('newItemDNetPrice');
 		var newItemAwardPrice = event.getParam('newItemAwardPrice');
 		var newItemQuantity = event.getParam('newItemSPQuantity');
 		var newItemDescription = event.getParam('newItemDescription');
 
 		console.log('newItemProductId: ' + newItemProductId);
 		console.log('newItemMSRPPrice: ' + newItemMSRPPrice);
+		console.log('newItemDNetPrice: ' + newItemDNetPrice);        
 		console.log('newItemAwardPrice: ' + newItemAwardPrice);
 		console.log('newItemQuantity: ' + newItemQuantity);
 		console.log('newItemDescription: ' + newItemDescription); 
@@ -39,7 +41,7 @@
 		}
 
         else {
-        	helper.addProduct(cmp, newItemProductId, newItemMSRPPrice, newItemAwardPrice, newItemQuantity, newItemDescription);
+        	helper.addProduct(cmp, newItemProductId, newItemMSRPPrice, newItemDNetPrice, newItemAwardPrice, newItemQuantity, newItemDescription);
         }
 	},
 	handleNTValueChange: function(cmp, event, helper) {

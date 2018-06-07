@@ -222,7 +222,7 @@ public with sharing class ToroSupportPlusHelper {
 				REVVY__MnQuoteItem__c
 			WHERE
 				REVVY__Quote__c = :quoteId
-				//AND REVVY__Catalog_Node__r.Non_Toro_Product__c = false
+				AND REVVY__Catalog_Node__r.Non_Toro_Product__c = true
 		];
 	}
 

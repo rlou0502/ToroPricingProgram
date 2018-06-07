@@ -21,13 +21,14 @@
 
 		$A.enqueueAction(action);
 	},
-	addProduct: function(cmp, productId, msrpPrice, awardPrice, quantity, description) {
+	addProduct: function(cmp, productId, msrpPrice, dnetPrice, awardPrice, quantity, description) {
 		console.log('ToroNTHelper:addProduct');
 		var action = cmp.get('c.addNonToroItem');
 		action.setParams({
 			  quoteId  : cmp.get('v.quoteId')
 			, productId: productId
 			, msrpPrice: msrpPrice
+            , dnetPrice: dnetPrice
 			, awardPrice: awardPrice
 			, quantity : quantity
 			, description: description
