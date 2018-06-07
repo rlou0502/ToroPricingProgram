@@ -929,11 +929,6 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Total_Gross_Profit_Value__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Toro_Gross_Profit_Percent__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -2011,7 +2006,7 @@
     <fields>
         <fullName>Toro_Gross_Profit_Value__c</fullName>
         <externalId>false</externalId>
-        <label>Gross Profit</label>
+        <label>GP $</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
