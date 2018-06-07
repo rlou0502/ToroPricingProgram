@@ -1,4 +1,12 @@
 ({
+    handleInfoBoxRefresh : function(component, obj, lineType) {
+    	var cmpEvent = component.getEvent("refreshInfoBoxEvent");
+        cmpEvent.setParams({
+            "infoBoxData" : obj,
+            "infoBoxType" : lineType
+        });
+        cmpEvent.fire();    
+    },
     handlePricingProgramSelectChange : function(component) {
         var quoteId = component.get('v.quoteId');
     	var pricingProgram = component.find("pricingProgram").get("v.value");

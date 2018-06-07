@@ -46,12 +46,25 @@ public with sharing class CMnQuoteUtil {
 		return result;
 	}
 
-
+	private String CombineSelectClauses(List<String> fieldListFromFS, String extraFields ) {
+		String extraFieldWOSpaces = extraFields.replaceAll( '\\s+', '').toLowerCase();
+		String[] extras = extraFieldWOSpaces.split(',');
+		Set<String> nameSet = new Set<String>(extras);
+		nameSet.addAll(fieldListFromFS);
+		return String.join(new List<String>(nameSet), ',');
+	}
+	
 	public static String getQuoteQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
 		List<Schema.FieldSetMember> fieldSetMemberList = SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
+		List<Schema.FieldSetMember> fieldSetMemberList2 = SObjectType.Revvy__MnQuote__c.FieldSets.Price_Program_Quote_Info.getFields();
 		for(Schema.FieldSetMember fs : fieldSetMemberList) {
 			fieldNames.add(fs.getFieldPath());
+		}
+		if(fieldSetMemberList2 != null) {
+			for(Schema.FieldSetMember fs : fieldSetMemberList2) {
+				fieldNames.add(fs.getFieldPath());
+			}
 		}
 		String extraFieldWOSpaces = extraFields.replaceAll( '\\s+', '').toLowerCase();
 		String[] extras = extraFieldWOSpaces.split(',');

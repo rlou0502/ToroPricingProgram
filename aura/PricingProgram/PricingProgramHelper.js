@@ -209,7 +209,7 @@
                             component.set('v.fields', retResponse.quoteItemMainFieldSet);
                             break;
                         default:
-    						component.set('v.fields', retResponse.quoteItemMainFieldSet);
+    						component.set('v.fields', retResponse.quoteFieldSet);
                             
                     }
                     component.set('v.sObject', infoBoxData || {});

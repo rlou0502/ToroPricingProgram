@@ -18,7 +18,7 @@
     <aura:registerEvent name="PMGPPercentChangeEvent" type="c:PricingMethodGPPercentChangeEvent"/>
     <aura:registerEvent name="setDirtyFlagEvent" type="c:ToroSetDirtyFlagEvent"/>
     <aura:registerEvent name="quoteHeaderLoaded" type="c:ToroQuoteHeaderLoaded"/>
-    
+    <aura:registerEvent name="refreshInfoBoxEvent" type="c:RefreshInfoBoxEvent"/>
 	<aura:handler name="init" value="{!this}" action="{!c.init}" />
     <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
 	<aura:handler name="change" value="{!v.selectedPricingProgram}" action="{!c.handlePricingProgramChange}"/>

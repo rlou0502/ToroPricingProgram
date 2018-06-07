@@ -42,6 +42,7 @@ public class ToroPricingProgramInfoBoxController {
     	rs.quoteItemTractionUnitFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Traction_Unit_Info.getFields());
     	rs.quoteItemMainFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Line_Info_Cols.getFields());
     	rs.quoteSublineFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy5__c.FieldSets.Price_Program_Subline_Info_Cols.getFields());
+    	rs.quoteFieldSet = convertFieldSet(SObjectType.Revvy__MnQuote__c.FieldSets.Price_Program_Quote_Info.getFields());
     	return rs;
     }
     @AuraEnabled
