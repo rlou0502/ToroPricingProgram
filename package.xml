@@ -482,22 +482,7 @@
     </types>
     <types>
         <members>REVVY__MnQuote__c.DNet_Field_Set</members>
-        <members>REVVY__MnQuote__c.FieldsDisplayedInQuoteLinesCopied</members>
-        <members>REVVY__MnQuote__c.GroupQuoteMembersFS</members>
-        <members>REVVY__MnQuote__c.Header_Fields</members>
-        <members>REVVY__MnQuote__c.Header_View_Fields</members>
-        <members>REVVY__MnQuote__c.QuoteEditableWhenLockedFieldsFS</members>
-        <members>REVVY__MnQuote__c.Quote_Header_Fields</members>
         <members>REVVY__MnQuote__c.Quote_Header_Updatable_Fields</members>
-        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_1</members>
-        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_2</members>
-        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_3</members>
-        <members>REVVY__MnQuote__c.Quote_LifeCycle_Summary_Column_4</members>
-        <members>REVVY__MnQuote__c.Quote_Readonly_OnUpdate_List</members>
-        <members>REVVY__MnQuote__c.Quote_Summary_Column_1</members>
-        <members>REVVY__MnQuote__c.Quote_Summary_Column_2</members>
-        <members>REVVY__MnQuote__c.Quote_list_FS</members>
-        <members>REVVY__MnQuote__c.ThirdPartyPaperFields</members>
         <members>Revvy__MnStrategy4__c.CMAS_Contracts_Quote_Line_Cols</members>
         <members>Revvy__MnStrategy4__c.CMAS_Contracts_Quote_Line_Summary_Cols</members>
         <members>Revvy__MnStrategy4__c.DNet_Field_Set</members>
