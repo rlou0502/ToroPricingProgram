@@ -101,6 +101,8 @@ public class ToroPricingProgramController {
 			//if there is only one pricing method + "Please select" item, auto apply it
 			pp.initialize(quoteId);
 			pp.quote.Pricing_Program_Name__c=pricingProgram;
+			pp.quote.Pricing_Program__c=pricingProgramData.Name;
+			
 			if(pricingProgramData != null) {
 				pp.quote.Contract_Number__c = pricingProgramData.Contract_Number__c;
 				pp.quote.Pricing_Program_Type__c = pricingProgramData.PricingProgramType__c;
