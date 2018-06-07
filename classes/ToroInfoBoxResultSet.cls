@@ -7,4 +7,7 @@ public with sharing class ToroInfoBoxResultSet {
     public List<FieldSetMember> quoteItemTractionUnitFieldSet { get;set; }  
     @AuraEnabled
     public List<FieldSetMember> quoteSublineFieldSet { get;set; }  
+    @AuraEnabled
+    public List<FieldSetMember> quoteFieldSet { get;set; }  
+    
 }
