@@ -142,7 +142,7 @@
     </fields>
     <fields>
         <fullName>Currency2__c</fullName>
-        <defaultValue>IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;USD_USD&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;CAD_USD&quot;,&quot;EUR_EUR&quot;))</defaultValue>
+        <defaultValue>IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;USD_USD&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;CAD_USD&quot;,&quot;EUR&quot;))</defaultValue>
         <description>Third Currency to break SFDC currency iso code and REVVY currency dependency
 
 CustomerCurrency_ISOCurrency</description>
@@ -173,7 +173,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Currency_Conversion_Rate__c</fullName>
-        <defaultValue>1.3</defaultValue>
+        <defaultValue>CURRENCYRATE( IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;USD&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;CAD&quot;,&quot;EUR&quot;)) )</defaultValue>
         <description>This the currency conversion rate that the distributor can use</description>
         <externalId>false</externalId>
         <label>Currency Conversion Rate</label>

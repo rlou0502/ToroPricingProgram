@@ -3,6 +3,7 @@
         var msg=evt.getParam("warningMessage");
         var quoteHeaderCmp = component.find("cmpQuoteHeader");
         quoteHeaderCmp.set("v.contractMessage", msg);
+        component.set("v.dirtyFlag", true);
     },
     handleQuoteHeaderLoaded : function(component, evt, helper) { 	
         var allowSupportPlus=evt.getParam("allowSupportPlus");
@@ -36,6 +37,7 @@
         component.set("v.allowSupportPlus", allowSupportPlus);
         quoteHeaderCmp.set("v.quote", quote);
         quoteHeaderCmp.set("v.contractMessage", null);
+        component.set("v.dirtyFlag", false);
     },
     saveAndClose: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");

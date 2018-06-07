@@ -5,6 +5,7 @@
     <aura:attribute name="fields" type="Object[]" />
     <aura:attribute name="sObject" type="SObject" />
     <aura:attribute name="allowSupportPlus" type="Boolean" />
+    <aura:attribute name="dirtyFlag" type="Boolean" default="false"/>
     <aura:handler name="pricingProgramEvent" event="c:PricingProgramChangeEvent" action="{!c.handlePricingProgramChange}"/>
     <aura:handler name="pricingMethodEvent" event="c:PricingMethodChangeEvent" action="{!c.handlePricingMethodChange}"/>
     <aura:handler name="pricingProgramSetEvent" event="c:PricingProgramSetFromDBEvent" action="{!c.handleSetPricingProgram}"/>
