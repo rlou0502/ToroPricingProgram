@@ -129,8 +129,14 @@ global class ToroNTController {
 				}
 			}
 
+            //if(quoteITemsToUpdate.size()>0) {
+            //    quoteItemsToInsert.addAll(quoteITemsToUpdate);
+            //}
+            
 			insert quoteItemsToInsert;
+            //upsert quoteItemsToInsert;
 			System.debug('\n\n@@quoteItemsToInsert: ' + quoteItemsToInsert + '\n\n');
+            
 
 			// ============================================================================
 			// fix Quote_Item_Extension__c for new Support Plus Quote Items
