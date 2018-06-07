@@ -13,8 +13,14 @@
         helper.retrieveObjectInfo(component, null, null);
     },
     returnToQuote : function(component, event, helper) {
-        component.set("v.forwardUrl", "/");
-        helper.openWindow(component, event, helper);
+        var dirtyFlag = component.get("v.dirtyFlag");
+        if(dirtyFlag) {
+            component.set("v.forwardUrl", "/");
+            helper.openWindow(component, event, helper);
+        } else {
+            var quoteId = component.get("v.quoteId");
+            document.location = "/"+quoteId;
+        }
     },
     manageProduct: function(component, event, helper) {
         //var quoteId = component.get('v.quoteId');
@@ -31,13 +37,19 @@
         helper.closeInfoBox(component);
     },
     handleCalculationComplete: function(component, event, helper) {
+        debugger;
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
-        var allowSupportPlus=event.getParam("allowSupportPlus");
+        var allowSupportPlus = event.getParam("allowSupportPlus");
+        var isSaveOperation = event.getParam("isSaveOperation");
         component.set("v.allowSupportPlus", allowSupportPlus);
         quoteHeaderCmp.set("v.quote", quote);
         quoteHeaderCmp.set("v.contractMessage", null);
-        component.set("v.dirtyFlag", false);
+        if(isSaveOperation) {
+        	component.set("v.dirtyFlag", false);
+        } else {
+            component.set("v.dirtyFlag", true);
+        }
     },
     saveAndClose: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");

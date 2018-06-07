@@ -1,4 +1,5 @@
 <aura:event type="COMPONENT" description="Event template" >
     <aura:attribute name="quote" type="SObject"/>
     <aura:attribute name="allowSupportPlus" type="boolean"/>
+    <aura:attribute name="isSaveOperation" type="boolean" default="false"/>
 </aura:event>

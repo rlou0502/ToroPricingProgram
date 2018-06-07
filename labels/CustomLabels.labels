@@ -495,7 +495,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Modal Title</shortDescription>
-        <value>Do you want to save?</value>
+        <value>Exit without saving?</value>
     </labels>
     <labels>
         <fullName>PP_NonToroProducts</fullName>
@@ -582,7 +582,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Validation Error Message</shortDescription>
-        <value>Please Fill Out Value.</value>
+        <value>Please enter a Value</value>
     </labels>
     <labels>
         <fullName>SP_Add_New</fullName>

@@ -19,7 +19,7 @@
 					var dnetPrice   = searchResults[x].REVVY__SuggestedPrice__c;
 					var msrpPrice   = searchResults[x].REVVY__SuggestedPrice__c;
 					var awardPrice  = searchResults[x].REVVY__SuggestedPrice__c;
-					var description = searchResults[x].REVVY__Product__r.REVVY__Description__c ? searchResults[x].REVVY__Product__r.REVVY__Description__c : productName;
+					var description = searchResults[x].REVVY__Product__r.Name; //searchResults[x].REVVY__Product__r.REVVY__Description__c ? searchResults[x].REVVY__Product__r.REVVY__Description__c : productName;
 
 					if (regEx.test(productId)) {
 						if (!showAutoComplete) {

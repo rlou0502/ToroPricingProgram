@@ -8,7 +8,8 @@
 
 		var quoteItems = cmp.get('v.quoteItems');
 
-		/*
+		/*L01_Allied / L02_Service / L03_Trade
+
 													<option value="L00001">Allied Product</option>
 											<option value="L00002">Service Contract</option>
 											<option value="L00004">Trade-In</option>

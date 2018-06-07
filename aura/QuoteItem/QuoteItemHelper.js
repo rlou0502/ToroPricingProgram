@@ -978,9 +978,8 @@
         getAction.setCallback(this, 
         	function(response) {
             	var state = response.getState();
-                if (component.isValid() && state === "SUCCESS") { 
-                    
-                    if(save && returnUrl) {
+                if (component.isValid() && state === "SUCCESS") {                    
+                    if(save && returnUrl && returnUrl != "/") {
                         document.location = returnUrl;
                     }
                     
@@ -997,12 +996,13 @@
                     component.set('v.secondaryPrograms', retResponse.secondaryPrograms);
                     component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
-                     var cmpEvent = component.getEvent("calculationCompleteEvent");
-                        cmpEvent.setParams({
-                            "quote" : retResponse.quote,
-                            "allowSupportPlus" : retResponse.allowSupportPlus
-                        });
-                        cmpEvent.fire();
+                    var cmpEvent = component.getEvent("calculationCompleteEvent");
+                    cmpEvent.setParams({
+                        "quote" : retResponse.quote,
+                        "allowSupportPlus" : retResponse.allowSupportPlus,
+                        "isSaveOperation" : save
+                    });
+                    cmpEvent.fire();
                     
                     var sublineMap = {};  
                     var quoteItemMap={};
