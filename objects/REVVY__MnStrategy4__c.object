@@ -1833,7 +1833,7 @@
         <fullName>Rebate_as_a_of_DN__c</fullName>
         <description>Store value retrieved from Pricing Program table based on a value of either &quot;% off MSRP&quot; or &quot;% of DNet&quot; entered by a user on &quot;Choose Pricing Program&quot; page.</description>
         <externalId>false</externalId>
-        <label>RBT%</label>
+        <label>RBT %</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
@@ -1996,7 +1996,7 @@
     <fields>
         <fullName>Toro_Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>GP%</label>
+        <label>GP %</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>

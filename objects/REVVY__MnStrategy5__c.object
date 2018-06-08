@@ -896,7 +896,7 @@
     <fields>
         <fullName>Gross_Profit_Percent__c</fullName>
         <externalId>false</externalId>
-        <label>GP%</label>
+        <label>GP %</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
@@ -906,7 +906,7 @@
     <fields>
         <fullName>Gross_Profit_Value__c</fullName>
         <externalId>false</externalId>
-        <label>GP$</label>
+        <label>GP $</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -1086,7 +1086,7 @@
         <fullName>Rebate_as_of_DNet__c</fullName>
         <description>Rebate as % of DNet</description>
         <externalId>false</externalId>
-        <label>RBT%</label>
+        <label>RBT %</label>
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
