@@ -695,7 +695,7 @@ public abstract class ToroPricingProgram {
 				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
 					REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
 					qi.MSRP_Price__c = ppl.REVVY__ListedPrice__c;
-					qi.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+					//qi.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
 					system.debug('ToroContractPriceListPPHelper--product Id='+qi.Product_Id__c + ' msrp = ' + qi.MSRP_Price__c + ' dnet =' + qi.DNet_Price__c);
 				} 
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -703,7 +703,7 @@ public abstract class ToroPricingProgram {
 						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
 							revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
 							qis.MSRP_Price__c = ppl.REVVY__ListedPrice__c;		
-							qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+							//qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
 							system.debug('QIS ToroContractPriceListPPHelper--product Id='+qis.Product_Id__c + ' msrp = ' + qis.MSRP_Price__c + ' dnet =' + qis.DNet_Price__c);				
 						} 
 					}

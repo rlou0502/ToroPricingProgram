@@ -50,6 +50,7 @@
         }
     },
     saveAndClose: function(component, event, helper) {
+        component.set("v.forwardUrl", "/");
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");
@@ -83,10 +84,15 @@
         helper.openSupportPlusDisclaimer(component, event, helper);
     },
     addNonToroProducts: function(component, event, helper) {
-        var quoteId = component.get('v.quoteId');
-        //document.location = '/apex/ToroNTLgtnOut?Id=' + quoteId;
-        component.set("v.forwardUrl", "/apex/ToroNTLgtnOut?Id=" + quoteId);
-        helper.openSaveBeforeProceedDlg(component, event, helper);
+        var dirtyFlag = component.get("v.dirtyFlag");
+        if(dirtyFlag) {
+            var quoteId = component.get("v.quoteId");
+            component.set("v.forwardUrl", "/apex/ToroNTLgtnOut?Id=" + quoteId);
+            helper.openSaveBeforeProceedDlg(component, event, helper);
+        } else {
+            var quoteId = component.get("v.quoteId");
+            document.location = '/apex/ToroNTLgtnOut?Id=' + quoteId;
+        }
     },
     init : function(component, event, helper) {
     	console.log('isLightning = ' + helper.isLightning());
