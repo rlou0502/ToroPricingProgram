@@ -36,7 +36,6 @@
         helper.closeInfoBox(component);
     },
     handleCalculationComplete: function(component, event, helper) {
-        debugger;
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
         var allowSupportPlus = event.getParam("allowSupportPlus");

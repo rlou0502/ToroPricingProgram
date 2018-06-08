@@ -123,7 +123,8 @@ global class ToroNTController {
                         											 , Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qiw.dnetPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity)
                         											 , Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qiw.awardPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity)
                                                                      , Total_Toro_Award__c = 0 
-                                                                     ));
+
+                                                                      ));
 				}
 
 				else {

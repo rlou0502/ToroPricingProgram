@@ -326,9 +326,11 @@ public abstract class ToroPricingProgram {
 				qiTPPAppliedMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
 				qiTPPAppliedAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
 				qi.Extended_Award_Price__c = qiTPPAppliedAward;
-				qi.Extended_DNet_Price__c = qiToroDNet;
-				qi.Extended_MSRP_Price__c = qiToroMSRP;
+				qi.Extended_DNet_Price__c = qiTPPAppliedDNet;
+				qi.Extended_MSRP_Price__c = qiTPPAppliedMSRP;
 			}
+			
+			
 			qiTotalDNet = qiToroDNet + qiTPPAppliedDNet;
 			qiTotalMSRP = qiToroMSRP + qiTPPAppliedMSRP;
 			qiTotalAward = qiToroAward + qiTPPAppliedAward;
