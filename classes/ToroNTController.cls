@@ -94,7 +94,12 @@ global class ToroNTController {
 			// figure out which are new and which ones need to be updated
 			final List<REVVY__MnQuoteItem__c> quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
 			final List<REVVY__MnQuoteItem__c> quoteITemsToUpdate = new List<REVVY__MnQuoteItem__c>();
-
+			final List<Revvy__MnStrategy4__c> quoteITemsS4ToUpdate = new List<Revvy__MnStrategy4__c>();
+			
+            Decimal totalAllied = 0;
+            Decimal totalService = 0;
+            Decimal totalTradeIn = 0;
+            
 			for (ToroQIBase qiw : qiws) {
 				if (qiw.sfid != null) {
 					// update it
@@ -109,6 +114,12 @@ global class ToroNTController {
 					);
 					System.debug('>>> NT qiToUpdate='+qiToUpdate);
 					quoteITemsToUpdate.add(qiToUpdate);
+                    quoteITemsS4ToUpdate.add(new Revvy__MnStrategy4__c(External_Id__c = qiw.sfid
+                                                                     , Award_Price__c = qiw.awardPrice
+                                                                     , Description__c = qiw.description
+                                                                     , Adjusted_Quantity__c = qiw.quantity
+                                                                     , DNet_Price__c  = qiw.dnetPrice  
+                                                                      ));
 				}
 
 				else {
@@ -127,6 +138,22 @@ global class ToroNTController {
 
 					quoteItemsToInsert.add(qiToInsert);
 				}
+                if('L01_Allied'.equalsIgnoreCase(qiw.productId)) {
+                    totalAllied += CMnQuoteUtil.defaultDecimal(qiw.awardPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity);
+                } else if('L02_Service'.equalsIgnoreCase(qiw.productId)) {
+                    totalService += CMnQuoteUtil.defaultDecimal(qiw.awardPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity);
+                } else if('L03_Trade'.equalsIgnoreCase(qiw.productId)) {
+                    totalTradeIn += CMnQuoteUtil.defaultDecimal(qiw.awardPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity);
+                }
+                /*
+                if (productExtId == 'L01_Allied') {
+                    totalAwardAllied += extTotalAward;
+                } else if (productExtId == 'L02_Service') {
+                    totalAwardServices += extTotalAward;
+                } else if (productExtId == 'L03_Trade') {
+                    totalAwardTradeIns += extTotalAward;
+                } 
+				*/
 			}
 
             //if(quoteITemsToUpdate.size()>0) {
@@ -180,6 +207,18 @@ global class ToroNTController {
 
 			update qiExtObjs;
 			
+            //Update strategy 4
+            if(quoteITemsS4ToUpdate.size() > 0) {
+                upsert quoteITemsS4ToUpdate External_Id__c;
+            }
+            
+            //Update Quote for total Allied, Service, and Trade in
+            quote.Trade_In_Total__c = totalTradeIn;
+            quote.Allied_Non_Toro_Total__c = totalAllied;
+            quote.Service_Contract_Total__c = totalService;
+            update quote;
+            
+            
 			ToroSupportPlusHelper.saveSequenceGen();
 		}
 
