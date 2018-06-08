@@ -36,18 +36,19 @@
         helper.closeInfoBox(component);
     },
     handleCalculationComplete: function(component, event, helper) {
+        debugger;
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
         var allowSupportPlus = event.getParam("allowSupportPlus");
         var isSaveOperation = event.getParam("isSaveOperation");
         component.set("v.allowSupportPlus", allowSupportPlus);
-        quoteHeaderCmp.set("v.quote", quote);
-        quoteHeaderCmp.set("v.contractMessage", null);
         if(isSaveOperation) {
         	component.set("v.dirtyFlag", false);
         } else {
             component.set("v.dirtyFlag", true);
         }
+        quoteHeaderCmp.set("v.quote", quote);
+        quoteHeaderCmp.set("v.contractMessage", null); 
     },
     saveAndClose: function(component, event, helper) {
         component.set("v.forwardUrl", "/");

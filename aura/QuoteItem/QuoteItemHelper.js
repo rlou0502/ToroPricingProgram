@@ -622,10 +622,13 @@
                     var items = document.getElementById("quoteItems");
                     self.cleanInnerNodes(items);
                     self.renderQuoteItems(component);
-                    if(retResponse.nextAction == "calculation") {
-                        var cmpEvent = component.getEvent("calculateEvent");   
-                        cmpEvent.fire();
-                    }
+                    var cmpEvent = component.getEvent("calculationCompleteEvent");
+                    cmpEvent.setParams({
+                        "quote" : retResponse.quote,
+                        "allowSupportPlus" : retResponse.allowSupportPlus,
+                        "isSaveOperation" : "true"
+                    });
+                    cmpEvent.fire();
                     //var qiId = component.get("v.selectedQuoteItem");
                     //if(qiId){
                     //	self.handleRowClick(component, qiId);

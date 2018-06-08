@@ -42,6 +42,7 @@ public class ToroPricingProgramController {
     	return rs;
     }
 
+	
     @AuraEnabled
     public static ToroSObjectResultSet svc_updateQuoteData2(Map<String, Object> values, String quoteItemsDataJSON, String qiSublinesDataJSON, boolean save) {
     	system.debug('***************** svc_updateQuoteData2' );
@@ -823,6 +824,7 @@ public class ToroPricingProgramController {
 		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
 		rs.pricingMethodOptions = options;
     	q = pp.quote;
+    	
     	//String pm = pricingMethod;
     	String pm = q.Price_Method__c;
     	rs = retrieveFieldSets(rs, pp, pm, pricingProgram);
@@ -842,11 +844,13 @@ public class ToroPricingProgramController {
 				}
 			}
 		}
+		
 		//if(String.IsNotBlank(pricingProgram) && String.IsNotBlank(pricingMethod)) {
 			//rs.nextAction = 'calculation';
 		//}
 		List<String> spKeys = new List<String>();
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+		pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 		if(String.isNotBlank(ppd.externalId)) {
 	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
 	    	for(String key : secondaryPrograms.keyset()) {
@@ -869,6 +873,44 @@ public class ToroPricingProgramController {
 				
 			}
     	}
+    	if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+    			qi.PricingMethodValue__c = String.valueOf(qi.Toro_Gross_Profit_Percent__c);	
+    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.PricingMethodValue__c = String.valueOf(qis.Gross_Profit_Percent__c);	
+					}
+    			}
+				
+			}
+    	}
+    	if ('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+    			qi.PricingMethodValue__c = String.valueOf(qi.Award_of_DN__c);	
+    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.PricingMethodValue__c = String.valueOf(qis.Percent_of_DNet__c);	
+					}
+    			}
+				
+			}
+    	}
+    	if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+    			qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);	
+    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);	
+					}
+    			}
+				
+			}
+    	}
+    	rs.quote = pp.quote;    	
+    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+		rs.displayPerformancePart = pp.displayPerformancePart();
+		rs.contractMessage = pp.displayContractMessage(pricingProgram);
+		
 	    rs.selectedPricingProgram = pricingProgram;
 		rs.selectedPricingMethod = pricingMethod;
     	rs.displaySetupFee=pp.displaySetupFee();
