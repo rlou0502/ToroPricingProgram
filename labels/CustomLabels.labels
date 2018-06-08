@@ -537,6 +537,13 @@
         <value>Save</value>
     </labels>
     <labels>
+        <fullName>PP_SaveBeforeNonToro</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Save Before Proceed to Non-Toro</shortDescription>
+        <value>Save before Proceed?</value>
+    </labels>
+    <labels>
         <fullName>PP_SelectPricingMethod</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

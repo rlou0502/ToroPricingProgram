@@ -68,6 +68,7 @@
 											<option value="L00002">Service Contract</option>
 											<option value="L00004">Trade-In</option>
 											-->
+                                        	<option value="">Please Select</option>
                                         	<option value="L01_Allied">Allied Product</option>
 											<option value="L02_Service">Service Contract</option>
 											<option value="L03_Trade">Trade-In</option>

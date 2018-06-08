@@ -68,6 +68,16 @@
                            result.SetupFeePercent, result.PerformancePart, returnUrl);
         quoteHeaderCmp.savePricingProgramMethod();
     },
+    handleProceedToNonToro: function(component, event, helper) {
+        var quoteHeaderCmp = component.find("cmpQuoteHeader");
+        var result = quoteHeaderCmp.getQuoteInfo();
+    	var childCmp = component.find("cmpQuoteItem");
+        var quoteId = event.getParam("quoteId");
+        var forwardUrl = event.getParam("forwardUrl");
+		childCmp.saveQuote(result.PricingProgram, result.PricingMethod,
+                           result.SetupFeePercent, result.PerformancePart, forwardUrl);
+        quoteHeaderCmp.savePricingProgramMethod();
+    },
     addSupportPlus: function(component, event, helper) {
         var quoteId =component.get("v.quoteId");
         component.set("v.forwardUrl", "/apex/ToroSupportPlusLgtnOut?Id="+quoteId);
@@ -75,7 +85,9 @@
     },
     addNonToroProducts: function(component, event, helper) {
         var quoteId = component.get('v.quoteId');
-        document.location = '/apex/ToroNTLgtnOut?Id=' + quoteId;
+        //document.location = '/apex/ToroNTLgtnOut?Id=' + quoteId;
+        component.set("v.forwardUrl", "/apex/ToroNTLgtnOut?Id=" + quoteId);
+        helper.openSaveBeforeProceedDlg(component, event, helper);
     },
     init : function(component, event, helper) {
     	console.log('isLightning = ' + helper.isLightning());

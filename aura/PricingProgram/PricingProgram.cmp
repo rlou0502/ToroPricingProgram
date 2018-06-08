@@ -17,6 +17,7 @@
     <aura:handler name="PMGPPercentChangeEvent" event="c:PricingMethodGPPercentChangeEvent" action="{!c.handleGPPercentChange}"/>
     <aura:handler name="calculateEvent" event="c:ToroCalculateEvent" action="{!c.calculate}"/>
     <aura:handler name="proceedToSupportPlusEvent" event="c:ToroProceedToSupportPlusEvent" action="{!c.handleProceedToSupportPlus}"/>
+    <aura:handler name="proceedToNonToroEvent" event="c:ToroProceedToNonToroEvent" action="{!c.handleProceedToNonToro}"/>
     <aura:handler name="setDirtyFlagEvent" event="c:ToroSetDirtyFlagEvent" action="{!c.handleSetDirtyFlag}"/>
     <aura:handler name="quoteHeaderLoaded" event="c:ToroQuoteHeaderLoaded" action="{!c.handleQuoteHeaderLoaded}"/>
     <input type="hidden" id="xOffset" />

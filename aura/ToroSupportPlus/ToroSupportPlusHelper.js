@@ -165,7 +165,7 @@
 		for (var i = 0; i < quoteItems.length; i++) {
 			var spQty     = quoteItems[i].spQuantity;
 			var dnetPrice = quoteItems[i].dnetPrice;
-			var awardPrice = quoteItems[i].awardPrice;
+			var awardPrice = quoteItems[i].awardPrice != null ? quoteItems[i].awardPrice : 0;
 
 			spDNetTotal += dnetPrice * spQty;
 			spAwardTotal += awardPrice * spQty;
@@ -174,7 +174,7 @@
 				for (var j = 0; j < quoteItems[i].sublines.length; j++) {
 					var sublineSpQty     = quoteItems[i].sublines[j].spQuantity;
 					var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
-					var sublineAwardPrice = quoteItems[i].sublines[j].awardPrice;
+					var sublineAwardPrice = quoteItems[i].sublines[j].awardPrice != null ? quoteItems[i].sublines[j].awardPrice : 0;
 
 					spDNetTotal += sublineDnetPrice * sublineSpQty;
 					spAwardTotal += sublineAwardPrice * sublineSpQty;
@@ -188,6 +188,9 @@
 			var dnetPrice = supportPlusItems[i].dnetPrice;
 			supportPlusDNetTotal += dnetPrice * spQuantity;
 		}
+
+		console.log('quote.Toro_Award__c: ' + quote.Toro_Award__c);
+		console.log('spAwardTotal: ' + spAwardTotal);
 
 		quote.Toro_Support_Plus_Allowance_Used__c = spDNetTotal + supportPlusDNetTotal;
 		quote.SP_Total_Extended_DNET__c           = quote.Toro_Total_DNet__c - spDNetTotal;

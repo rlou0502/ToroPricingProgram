@@ -310,7 +310,7 @@ public abstract class ToroPricingProgram {
 
 			//Non Toro Indra
             if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {  
-                qi.Award_Price__c = 0;
+                //qi.Award_Price__c = 0;
                 qi.Rebate_as_a_of_DN__c = 0;
             }
             
@@ -365,10 +365,12 @@ public abstract class ToroPricingProgram {
                 //qi.Total_Award__c = 0;
             	//qi.Total_Toro_Award__c=0;
             	qi.Off_MSRP__c = 0;
-                qi.Award_Price__c =0;
+                //qi.Award_Price__c =0;
                 qi.Toro_Gross_Profit_Percent__c =0;
                 qi.Award_of_DN__c = 0; 
                 qi.Rebate_as_a_of_DN__c = 0;
+                
+                qi.Total_Toro_Award__c=0; 
             }        
             
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {

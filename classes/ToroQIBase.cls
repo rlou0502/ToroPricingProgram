@@ -76,7 +76,7 @@ public virtual class ToroQIBase {
 		this.productId        = catalogNode.REVVY__Id__c;
 		this.msrpPrice        = msrpPrice;
 		this.awardPrice       = awardPrice;
-		this.description      = catalogNode.Name; //String.isBlank(description) ? catalogNode.Name : description;
+		this.description      = String.isBlank(description) ? catalogNode.Name : description;  //catalogNode.Name;
 		this.quantity         = quantity;
 		this.isNonToroProduct = catalogNode.Non_Toro_Product__c;
 	}
