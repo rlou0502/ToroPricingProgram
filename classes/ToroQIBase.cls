@@ -34,7 +34,7 @@ public virtual class ToroQIBase {
 		this.productId        = qi.REVVY__Catalog_Node__r.REVVY__Id__c;
 		this.dnetPrice        = qi.REVVY__SuggestedPrice__c;
 		this.msrpPrice        = qi.REVVY__Price__c;
-		this.awardPrice       = qi.Quote_Item_Extension__r.Award_Price__c;
+		this.awardPrice       = qi.Award_Price__c; //qi.Quote_Item_Extension__r.Award_Price__c;
 		this.description      = qi.REVVY__Catalog_Node__r.Name; //String.isBlank(qi.Description__c) ? qi.REVVY__Catalog_Node__r.Name : qi.Description__c;
 		this.quantity         = qi.REVVY__Quantity__c;
 		this.isNonToroProduct = qi.REVVY__Catalog_Node__r.Non_Toro_Product__c;

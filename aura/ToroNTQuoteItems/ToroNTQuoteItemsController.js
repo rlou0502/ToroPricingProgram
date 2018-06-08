@@ -36,7 +36,8 @@
 		console.log('@ToroNTQuoteItemsController:handleAwardPriceChange');
 
 		var award = event.getSource().get('v.value');
-
+		console.log('@ToroNTQuoteItemsController:handleAwardPriceChange award='+award);
+		
 		if (award < 0) {
 			event.getSource().set('v.value', 0);
 		}

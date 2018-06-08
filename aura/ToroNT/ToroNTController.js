@@ -1,5 +1,6 @@
 ({
 	initialize : function(cmp, event, helper) {
+		cmp.find('cmpNTHeader').updateTotals();
 		helper.initialize(cmp);
 	},
     returnToPricing: function (cmp, event, helper) {
@@ -53,6 +54,7 @@
 	},
 	handleSave: function(cmp, event, helper) {
 		console.log('@ToroNTController:handleSave');
+		cmp.find('cmpNTHeader').updateTotals();
 		var quote = cmp.get('v.quote');
 		var quoteItems = cmp.get('v.quoteItems');
 		console.log('quoteItems:');

@@ -107,7 +107,7 @@ global class ToroNTController {
 						, Description__c = qiw.description
 						, REVVY__SuggestedPrice__c  = qiw.dnetPrice
 					);
-
+					System.debug('>>> NT qiToUpdate='+qiToUpdate);
 					quoteITemsToUpdate.add(qiToUpdate);
 				}
 
@@ -137,7 +137,7 @@ global class ToroNTController {
             //upsert quoteItemsToInsert;
 			System.debug('\n\n@@quoteItemsToInsert: ' + quoteItemsToInsert + '\n\n');
             
-
+			System.debug('\n\n@@quoteITemsToUpdate: ' + quoteITemsToUpdate + '\n\n');
 			// ============================================================================
 			// fix Quote_Item_Extension__c for new Support Plus Quote Items
 			// ============================================================================
@@ -171,6 +171,7 @@ global class ToroNTController {
 			}
 
 			quoteItemsToUpdate.addAll(insertedQuoteItems);
+			System.debug('\n\n@@quoteITemsToUpdate: 222' + quoteITemsToUpdate + '\n\n');
 			update quoteItemsToUpdate;
 
 			for (REVVY__MnStrategy4__c qiExtObj : qiExtObjs) {
