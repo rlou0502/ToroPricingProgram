@@ -518,7 +518,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Only Exist In CPL</shortDescription>
-        <value>Only Exist In CPL</value>
+        <value>CPL only</value>
     </labels>
     <labels>
         <fullName>PP_QuoteHeaderLabel</fullName>

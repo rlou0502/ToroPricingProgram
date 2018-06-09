@@ -204,6 +204,11 @@
                 if(pricingMethod == "Total Award $") {
                 	decimalPoint=2;    
                 }
+                //
+                if(onlyInCPL && field.fieldPath=="Award_Price__c") {
+                    var msg = $A.get("$Label.c.PP_OnlyExistInCPL"); 
+                	tableDataNode.placeholder = msg; 
+            	}
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], decimalPoint) : '';
                 tableDataNode.type='text';
                 tableDataNode.dataset.overridden=sObj['Unit_Award_Overridden__c'];
