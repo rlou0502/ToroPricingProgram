@@ -345,6 +345,10 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                     <fullName>Performance_Part</fullName>
                     <default>false</default>
                 </value>
+                <value>
+                    <fullName>Base_w_Award_Accessories</fullName>
+                    <default>false</default>
+                </value>
             </valueSetDefinition>
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
@@ -444,6 +448,10 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             <valueSettings>
                 <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>Base_w_Qty_Model_Pricing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base_w_Award_Accessories</valueName>
             </valueSettings>
         </valueSet>
     </fields>

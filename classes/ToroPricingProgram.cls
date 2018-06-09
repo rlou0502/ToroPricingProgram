@@ -686,8 +686,11 @@ public abstract class ToroPricingProgram {
 						copyFromDNET=true;	
 					}	
 				}
+				system.debug('state of FL pp.Copy_From_Price_Field__c=' + pp.Copy_From_Price_Field__c);
 			}	
 		}
+		system.debug('state of FL copyFromMSRP=' + copyFromMSRP);
+		system.debug('state of FL copyFromDNET=' + copyFromDNET);
 		if(targetDate != null) {
 			Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
 			List<REVVY__MnPriceListLine__c> plis = [SELECT Id, REVVY__ListedPrice__c,REVVY__SuggestedPrice__c,
@@ -706,9 +709,11 @@ public abstract class ToroPricingProgram {
 				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
 					REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
 					if(copyFromMSRP) {
+						system.debug('state of FL copyFromMSRP=' + copyFromMSRP);
 						qi.MSRP_Price__c = ppl.REVVY__ListedPrice__c;
 					}
 					if(copyFromDNET) {
+						system.debug('state of FL copyFromDNET=' + copyFromDNET);
 						qi.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
 					}
 					system.debug('ToroContractPriceListPPHelper--product Id='+qi.Product_Id__c + ' msrp = ' + qi.MSRP_Price__c + ' dnet =' + qi.DNet_Price__c);
@@ -718,9 +723,11 @@ public abstract class ToroPricingProgram {
 						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
 							revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
 							if(copyFromMSRP) {
+								system.debug('state of FL copyFromMSRP=' + copyFromMSRP);
 								qis.MSRP_Price__c = ppl.REVVY__ListedPrice__c;		
 							}
 							if(copyFromDNET) {
+								system.debug('state of FL copyFromDNET=' + copyFromDNET);
 								qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
 							}
 							system.debug('QIS ToroContractPriceListPPHelper--product Id='+qis.Product_Id__c + ' msrp = ' + qis.MSRP_Price__c + ' dnet =' + qis.DNet_Price__c);				
