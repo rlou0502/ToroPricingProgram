@@ -464,7 +464,12 @@ public abstract class ToroPricingProgram {
 			quote.TPP_Total__c += qi.TPP_Quoteitem_Total__c;
 			//system.debug('checking MSRP ext qi.Toro_Total_Extended_MSRP_Price__c=' + qi.Toro_Total_Extended_MSRP_Price__c);
 			system.debug('check total award for each qi -- 1 quoteTotalAward= ' + quoteTotalAward + ' quoteTotalToroAward='+quoteTotalToroAward);
-			quoteTotalAward       		+= qi.Total_Award__c;
+            System.debug('>>> L03_Trade qi.Product_Id__c='+ qi.Product_Id__c);
+            if('L03_Trade'.equalsIgnoreCase(qi.Product_Id__c)) {
+	            quoteTotalAward       		-= qi.Total_Award__c;                
+            } else {
+	            quoteTotalAward       		+= qi.Total_Award__c;                
+            }
 			quoteTotalToroAward       	+= qi.Total_Toro_Award__c;
 			quoteTotalDNet              += qi.Total_DNET__c;
 			quoteToroTotalDNet          += qi.Total_Toro_DNET__c;

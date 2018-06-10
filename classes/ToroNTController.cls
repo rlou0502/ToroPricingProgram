@@ -92,9 +92,10 @@ global class ToroNTController {
 			System.debug('\n\n@@qiWrappers: ' + qiws + '\n\n');
 
 			// figure out which are new and which ones need to be updated
+			final List<REVVY__MnQuoteItem__c> quoteItemsAll = new List<REVVY__MnQuoteItem__c>();
 			final List<REVVY__MnQuoteItem__c> quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
-			final List<REVVY__MnQuoteItem__c> quoteITemsToUpdate = new List<REVVY__MnQuoteItem__c>();
-			final List<Revvy__MnStrategy4__c> quoteITemsS4ToUpdate = new List<Revvy__MnStrategy4__c>();
+			final List<REVVY__MnQuoteItem__c> quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
+			final List<Revvy__MnStrategy4__c> quoteItemsS4ToUpdate = new List<Revvy__MnStrategy4__c>();
 			
             Decimal totalAllied = 0;
             Decimal totalService = 0;
@@ -114,17 +115,6 @@ global class ToroNTController {
 					);
 					System.debug('>>> NT qiToUpdate='+qiToUpdate);
 					quoteITemsToUpdate.add(qiToUpdate);
-                    quoteITemsS4ToUpdate.add(new Revvy__MnStrategy4__c(External_Id__c = qiw.sfid
-                                                                     , Award_Price__c = qiw.awardPrice
-                                                                     , Description__c = qiw.description
-                                                                     , Adjusted_Quantity__c = qiw.quantity
-                                                                     , DNet_Price__c  = qiw.dnetPrice  
-                        											 , Extended_MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qiw.msrpPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity)
-                        											 , Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(qiw.dnetPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity)
-                        											 , Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qiw.awardPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity)
-                                                                     , Total_Toro_Award__c = 0 
-
-                                                                      ));
 				}
 
 				else {
@@ -150,26 +140,28 @@ global class ToroNTController {
                 } else if('L03_Trade'.equalsIgnoreCase(qiw.productId)) {
                     totalTradeIn += CMnQuoteUtil.defaultDecimal(qiw.awardPrice) * CMnQuoteUtil.defaultDecimal(qiw.quantity);
                 }
-                /*
-                if (productExtId == 'L01_Allied') {
-                    totalAwardAllied += extTotalAward;
-                } else if (productExtId == 'L02_Service') {
-                    totalAwardServices += extTotalAward;
-                } else if (productExtId == 'L03_Trade') {
-                    totalAwardTradeIns += extTotalAward;
-                } 
-				*/
 			}
 
-            //if(quoteITemsToUpdate.size()>0) {
-            //    quoteItemsToInsert.addAll(quoteITemsToUpdate);
-            //}
-            
 			insert quoteItemsToInsert;
-            //upsert quoteItemsToInsert;
 			System.debug('\n\n@@quoteItemsToInsert: ' + quoteItemsToInsert + '\n\n');
+
+            quoteItemsAll.addAll(quoteItemsToInsert); //quoteItemsToInsert
+            quoteItemsAll.addAll(quoteITemsToUpdate); //quoteITemsToUpdate
+            for(REVVY__MnQuoteItem__c mnqi:quoteItemsAll) {
+				System.debug('>>> REVVY__MnQuoteItem__c Adjusted_Quantity__c ='+mnqi.REVVY__Quantity__c);
+                quoteItemsS4ToUpdate.add(new Revvy__MnStrategy4__c(External_Id__c = mnqi.Id
+                                                                   , Award_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.Award_Price__c)
+                                                                   , Description__c = mnqi.Description__c
+                                                                   , Adjusted_Quantity__c = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
+                                                                   , DNet_Price__c  = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__SuggestedPrice__c)  
+                                                                   , Extended_MSRP_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Price__c) * CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
+                                                                   , Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__SuggestedPrice__c) * CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
+                                                                   , Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
+                                                                   , Total_Toro_Award__c = 0 
+                                                                  ));
+            }            
+			System.debug('\n\n@@quoteItemsAll: ' + quoteItemsAll + '\n\n');
             
-			System.debug('\n\n@@quoteITemsToUpdate: ' + quoteITemsToUpdate + '\n\n');
 			// ============================================================================
 			// fix Quote_Item_Extension__c for new Support Plus Quote Items
 			// ============================================================================
@@ -205,7 +197,7 @@ global class ToroNTController {
 			quoteItemsToUpdate.addAll(insertedQuoteItems);
 			System.debug('\n\n@@quoteITemsToUpdate: 222' + quoteITemsToUpdate + '\n\n');
 			update quoteItemsToUpdate;
-
+            
 			for (REVVY__MnStrategy4__c qiExtObj : qiExtObjs) {
 				qiExtObj.Exc_Rbt__c = true;
 			}
@@ -213,8 +205,8 @@ global class ToroNTController {
 			update qiExtObjs;
 			
             //Update strategy 4
-            if(quoteITemsS4ToUpdate.size() > 0) {
-                upsert quoteITemsS4ToUpdate External_Id__c;
+            if(quoteItemsS4ToUpdate.size() > 0) {
+                upsert quoteItemsS4ToUpdate External_Id__c;
             }
             
             //Update Quote for total Allied, Service, and Trade in
@@ -257,6 +249,11 @@ global class ToroNTController {
 				LIMIT 1
 			];
 
+			List<Revvy__MnStrategy4__c> delStrategyList = [Select Id From Revvy__MnStrategy4__c where External_Id__c = :quoteItemId];
+            
+			if (delStrategyList != null) {
+				delete delStrategyList;
+			}
 			if (quoteItemToDelete != null) {
 				delete quoteItemToDelete;
 			}
