@@ -469,10 +469,10 @@ public abstract class ToroPricingProgram {
 	            quoteTotalAward       		-= qi.Total_Award__c;                
             } else {
 	            quoteTotalAward       		+= qi.Total_Award__c;                
+				quoteToroTotalDNet          += qi.Total_Toro_DNET__c;
             }
 			quoteTotalToroAward       	+= qi.Total_Toro_Award__c;
 			quoteTotalDNet              += qi.Total_DNET__c;
-			quoteToroTotalDNet          += qi.Total_Toro_DNET__c;
 			quoteTotalGP 				+= qi.Total_Gross_Profit_Value__c;
 			quoteTotalRebate       		+= qi.Toro_Total_Rebate__c;
 			quoteTotalDnetWOTppAllied   += qi.Total_Toro_Award__c;

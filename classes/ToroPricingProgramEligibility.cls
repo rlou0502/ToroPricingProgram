@@ -97,6 +97,31 @@ public with sharing class ToroPricingProgramEligibility {
 		Revvy__MnQuote__c quote = [select id, REVVY__Account__r.Id, REVVY__Account__r.Commercial_Distributor__c, REVVY__Account__r.First_Tee__c, REVVY__Account__r.Tax_Supported__c from revvy__MnQuote__c where id = :quoteId];
 		system.debug(logginglevel.info, 'retrievePricingProgramsForQuote quote account = ' + quote);
 		return retrievePricingProgramsForCustomerAccount(quote.REVVY__Account__r);
+	} 
+	public static Set<String> retrieveNonEligiblePricingProgramsForQuote(Id quoteId) {
+		Set<String> nonEligiblePricingProgram = new Set<String>();
+		List<Revvy__MnStrategy4__c> quoteItems = [Select Product_Id__c from Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId];
+		List<String> productIds = new List<String>();
+		for (Revvy__MnStrategy4__c quoteItem : quoteItems) {
+			productIds.add(quoteItem.Product_Id__c);
+		}
+		Map<String, Set<String>> ppEligibleProduct = new Map<String, Set<String>>();
+		List<REVVY__MnStrategy1__c> pricingPrograms = [SELECT Id, ApplicableProductsLong__c, ExternalId__c FROM REVVY__MnStrategy1__c where Product_Eligibility_Checking__c = true];
+		boolean found = true;
+		for(REVVY__MnStrategy1__c pp : pricingPrograms) {
+			Set<String> eligibleProducts = new Set<String>();
+			if(String.isNotBlank(pp.ApplicableProductsLong__c) &&  pp.ApplicableProductsLong__c != 'All') {
+				eligibleProducts.addAll(pp.ApplicableProductsLong__c.split(','));
+			}
+			for(String p : productIds) {
+				if(!eligibleProducts.contains(p)) {
+					found = false;	
+					nonEligiblePricingProgram.add(pp.ExternalId__c);	
+					break;
+				}	
+			}
+		}
+		return nonEligiblePricingProgram;
 	}  
 	public static List<ToroSelectOption> retrievePricingProgramOptions(Id quoteId) {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
