@@ -56,7 +56,7 @@ global class ToroSupportPlusController {
 					AND REVVY__PriceList__r.Name = 'Commercial'
 					AND REVVY__Product__r.REVVY__Id__c LIKE :term
 					AND REVVY__Product__r.Non_Toro_Product__c = false // exclude Trade-In, Allied Product, Service Contract
-					
+
 				ORDER BY
 					REVVY__Product__r.Name asc
 			];
@@ -252,16 +252,17 @@ global class ToroSupportPlusController {
 				// update extension object
 				if (wrapper.qiSpObj == null) {
 					REVVY__MnQuoteItem__c spItemToInsert = new REVVY__MnQuoteItem__c(
-						  REVVY__Quantity__c            = updatedSpQuantity
-						, REVVY__Id__c                  = ToroSupportPlusHelper.generateQiExtId()
-						, Support_Plus_From_Add_New__c  = false
-						, REVVY__Quote__c               = quote.Id
-						, REVVY__PricelistLine__c       = wrapper.qiObj.REVVY__PricelistLine__c
-						, REVVY__Catalog_Node__c        = wrapper.qiObj.REVVY__Catalog_Node__c
-						, REVVY__Price__c               = 0
-						, REVVY__SuggestedPrice__c      = 0
-						, Description__c                = wrapper.description
-						, Support_Plus_Original_Item__c = wrapper.sfid
+						    REVVY__Quantity__c             = updatedSpQuantity
+						  , REVVY__Id__c                   = ToroSupportPlusHelper.generateQiExtId()
+						  , Support_Plus_From_Add_New__c   = false
+						  , REVVY__Quote__c                = quote.Id
+						  , REVVY__PricelistLine__c        = wrapper.qiObj.REVVY__PricelistLine__c
+						  , REVVY__Catalog_Node__c         = wrapper.qiObj.REVVY__Catalog_Node__c
+						  , REVVY__Price__c                = 0
+						  , REVVY__SuggestedPrice__c       = 0
+						  , Description__c                 = wrapper.description
+						  , Support_Plus_Original_Item__c  = wrapper.sfid
+						  , Support_Plus_Original_Price__c = wrapper.dnetPrice
 					);
 					quoteItemsToInsert.add(spItemToInsert);
 					System.debug('\n\n@@spItemToInsert: ' + spItemToInsert + '\n\n');
@@ -328,6 +329,7 @@ global class ToroSupportPlusController {
 							, REVVY__SuggestedPrice__c      = 0
 							, Description__c                = wrapper.description
 							, Support_Plus_Original_Item__c = wrapper.sublineObj.Id
+							, Support_Plus_Original_Price__c = wrapper.dnetPrice
 						);
 
 						sublinesToInsert.add(spSublineToInsert);
@@ -479,8 +481,7 @@ global class ToroSupportPlusController {
 			Map<Id,REVVY__MnQuoteItemSubLine__c> insertedSublineMap = new Map<Id,REVVY__MnQuoteItemSubLine__c>(sublinesToInsert);
 			List<REVVY__MnStrategy5__c> sublineExtObjs = [
 				SELECT
-					Id,
-					External_Id__c
+					Id, External_Id__c
 				FROM
 					REVVY__MnStrategy5__c
 				WHERE
