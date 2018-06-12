@@ -469,7 +469,14 @@ public abstract class ToroPricingProgram {
 	            quoteTotalAward       		-= qi.Total_Award__c;                
             } else {
 	            quoteTotalAward       		+= qi.Total_Award__c;                
+            }
+            
+            if(qi.Product_Id__c != null 
+            && !qi.Product_Id__c.contains('_Allied') 
+            && !qi.Product_Id__c.contains('_Service') 
+            && !qi.Product_Id__c.contains('_Trade')) {
 				quoteToroTotalDNet          += qi.Total_Toro_DNET__c;
+				quoteMSRP					+= qi.Total_Toro_MSRP__c;
             }
 			quoteTotalToroAward       	+= qi.Total_Toro_Award__c;
 			quoteTotalDNet              += qi.Total_DNET__c;
@@ -477,7 +484,6 @@ public abstract class ToroPricingProgram {
 			quoteTotalRebate       		+= qi.Toro_Total_Rebate__c;
 			quoteTotalDnetWOTppAllied   += qi.Total_Toro_Award__c;
 			quoteTotalSetupFee          += qi.Toro_Total_Setup_Fees__c;
-			quoteMSRP					+= qi.Total_Toro_MSRP__c;
 			system.debug('check total award for each qi --qi.Total_Award__c= ' + qi.Total_Award__c + ' qi.Total_Toro_Award__c='+qi.Total_Toro_Award__c);
 			system.debug('check total award for each qi --quoteTotalAward= ' + quoteTotalAward + ' quoteTotalToroAward='+quoteTotalToroAward);
 		}
