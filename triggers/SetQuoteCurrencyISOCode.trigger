@@ -1,5 +1,5 @@
 trigger SetQuoteCurrencyISOCode on REVVY__MnQuote__c (before insert, before update) {
-	/*
+	
 	if(SetQuoteCurrencyISOCodeRunOnce.runSetQuoteCurrencyOnce()) {
 	    List<REVVY__MnQuote__c> quotes = (List<REVVY__MnQuote__c>) trigger.new;
 	    for(REVVY__MnQuote__c q : quotes) {
@@ -14,5 +14,5 @@ trigger SetQuoteCurrencyISOCode on REVVY__MnQuote__c (before insert, before upda
 	        }
 	    }
 	} 
-	*/
+	
 }
