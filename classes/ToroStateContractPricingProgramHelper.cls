@@ -87,7 +87,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 					}
 					qi.Original_off_MSRP__c = qi.Off_MSRP__c;
-					qi.Award_of_DN__c = line.Award_Price_as_a_Percent_of_DN__c;
+					//qi.Award_of_DN__c = line.Award_Price_as_a_Percent_of_DN__c;
 					qi.Selected_Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 					system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 					if(!qi.Unit_Award_Overridden__c) {
@@ -98,6 +98,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 							//qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
 						}
 					}
+					qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c*100;
 					qi.Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 					qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c.setScale(4));
 					//qi.Original_Award_Price__c = qi.Award_Price__c ;
@@ -139,6 +140,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						if(!qis.Unit_Award_Overridden__c) {			
 							qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
 						}
+						qis.Percent_of_DNet__c = qis.Award_Price__c/qis.DNet_Price__c*100;
 						if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
 							if(qi.DrivenByGP__c) {
 								qis.Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Percent__c;

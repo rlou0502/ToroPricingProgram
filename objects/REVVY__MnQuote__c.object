@@ -174,9 +174,9 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Currency_Conversion_Rate__c</fullName>
         <defaultValue>CURRENCYRATE( IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;USD&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;CAD&quot;,&quot;EUR&quot;)) )</defaultValue>
-        <description>This the currency conversion rate that the distributor can use</description>
+        <description>This is the adjusted exchange rate that the user can enter</description>
         <externalId>false</externalId>
-        <label>Currency Conversion Rate</label>
+        <label>Adjusted Exchange Rate</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
