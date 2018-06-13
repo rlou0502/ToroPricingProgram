@@ -106,6 +106,8 @@ global class ToroNTController {
 					// update it
 					ToroQIBase existingQIW = eqiwMap.get(qiw.sfid);
 					// TODO: update quantity and add to quoteItemsToInsert
+					System.debug('>>> NT qiToUpdate existingQIW.description ='+existingQIW.description);
+					System.debug('>>> NT qiToUpdate qiw.description='+qiw.description);
 					REVVY__MnQuoteItem__c qiToUpdate = new REVVY__MnQuoteItem__c(
 						Id = qiw.sfid
 						, REVVY__Quantity__c = qiw.quantity

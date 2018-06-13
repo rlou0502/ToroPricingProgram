@@ -15,7 +15,6 @@
 
 	<aura:attribute name="searchType" type="String" default="supportplus" />
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
-	<aura:attribute name="previousSearchTypeValue" type="String"/>
 	<aura:attribute name="currentSearchTypeValue" type="String" default="model" />
 	<aura:attribute name="previousSearchTerm" type="String" />
 	<aura:attribute name="currentSearchTerm" type="String" />
