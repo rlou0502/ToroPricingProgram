@@ -14,8 +14,8 @@
 
 
 	<aura:attribute name="searchType" type="String" default="supportplus" />
+	<aura:attribute name="spSearchTypeValue" type="String" default="model" />
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
-	<aura:attribute name="currentSearchTypeValue" type="String" default="model" />
 	<aura:attribute name="previousSearchTerm" type="String" />
 	<aura:attribute name="currentSearchTerm" type="String" />
 	<aura:attribute name="wasAutoCompleted" type="Boolean" />
@@ -57,14 +57,14 @@
 										aura:id="spSearchTypeRadioGrp"
 										name="spSearchTypeRadioButtonGroup"
 										options="{!v.spSearchTypeOptions}"
-										value="{!v.currentSearchTypeValue}"
+										value="{!v.spSearchTypeValue}"
 										onchange="{!c.handleSpSearchTypeChange}" />
 								</div>
 							</div>
 							<div class="slds-form-element">
 								<div class="slds-form-element__control">
 									<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" value="{!v.newItemProductId}"
-									placeholder="{!'Search product ' + v.currentSearchTypeValue + '...'}" updateOn="keyup" />
+									placeholder="{!'Search product ' + v.spSearchTypeValue + '...'}" updateOn="keyup" />
 									<section aura:id="autocomplete_section" id="autocomplete_section" class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
 									role="dialog" aria-label="Autocomplete Results" aria-describedby="dialog-body-id-4" style="position: absolute; left: 0px; top: 40px;">
 										<div class="slds-popover__body slds-p-horizontal_none" id="dialog-body-id-4">

@@ -15,7 +15,7 @@
     height: 24px;
     width: 100%;
     z-index: 1;
-    background-color: rgba(200,200,200);
+    background-color: #16325c;
     color: #fff;
     
 }
@@ -23,7 +23,7 @@
 .THIS #close-info-box {
     float: right;
     height: 24px;
-    color: black;
+    color: white;
     vertical-align: middle;
     margin-right: 5px;
     padding-bottom : 5px
@@ -45,14 +45,14 @@
     padding: 1px;
     padding-top:1px;
     width: 15%; /* Full width */
-    height: 50%; /* Full height */
+    height: 35%; 
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(255,255,255); 
+    background-color: rgb(176,196,223); 
     border-style: solid;
     border-color: black;
 }
 .THIS #popover-body {
-    background-color: rgb(255,255,255); 
+    background-color: rgb(176,196,223); 
     height: 100%;
     margin-left: 5px;
     margin-right: 5px;

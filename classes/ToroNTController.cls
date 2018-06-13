@@ -106,8 +106,6 @@ global class ToroNTController {
 					// update it
 					ToroQIBase existingQIW = eqiwMap.get(qiw.sfid);
 					// TODO: update quantity and add to quoteItemsToInsert
-					System.debug('>>> NT qiToUpdate existingQIW.description ='+existingQIW.description);
-					System.debug('>>> NT qiToUpdate qiw.description='+qiw.description);
 					REVVY__MnQuoteItem__c qiToUpdate = new REVVY__MnQuoteItem__c(
 						Id = qiw.sfid
 						, REVVY__Quantity__c = qiw.quantity
@@ -153,6 +151,7 @@ global class ToroNTController {
 				System.debug('>>> REVVY__MnQuoteItem__c Adjusted_Quantity__c ='+mnqi.REVVY__Quantity__c);
                 quoteItemsS4ToUpdate.add(new Revvy__MnStrategy4__c(External_Id__c = mnqi.Id
                                                                    , Award_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.Award_Price__c)
+                                                                   , Unit_Award_Overridden__c = true
                                                                    , Description__c = mnqi.Description__c
                                                                    , Adjusted_Quantity__c = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
                                                                    , DNet_Price__c  = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__SuggestedPrice__c)  

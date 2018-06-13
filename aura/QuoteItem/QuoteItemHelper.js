@@ -204,11 +204,6 @@
                 if(pricingMethod == "Total Award $") {
                 	decimalPoint=2;    
                 }
-                //
-                if(onlyInCPL && field.fieldPath=="Award_Price__c") {
-                    var msg = $A.get("$Label.c.PP_OnlyExistInCPL"); 
-                	tableDataNode.placeholder = msg; 
-            	}
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], decimalPoint) : '';
                 tableDataNode.type='text';
                 tableDataNode.dataset.overridden=sObj['Unit_Award_Overridden__c'];
@@ -1005,8 +1000,6 @@
                     component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                     var cmpEvent = component.getEvent("calculationCompleteEvent");
-                    console.log("------REVVY__NeedsApproval__c =" + retResponse.quote.REVVY__NeedsApproval__c);
-                    console.log("------Toro_ApprovalReason__c =" + retResponse.quote.Toro_ApprovalReason__c);
                     cmpEvent.setParams({
                         "quote" : retResponse.quote,
                         "allowSupportPlus" : retResponse.allowSupportPlus,
