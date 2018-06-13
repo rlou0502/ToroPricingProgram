@@ -59,11 +59,11 @@ public with sharing class CMnQuoteUtil {
 		List<Schema.FieldSetMember> fieldSetMemberList = SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
 		List<Schema.FieldSetMember> fieldSetMemberList2 = SObjectType.Revvy__MnQuote__c.FieldSets.Price_Program_Quote_Info.getFields();
 		for(Schema.FieldSetMember fs : fieldSetMemberList) {
-			fieldNames.add(fs.getFieldPath());
+			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
 		if(fieldSetMemberList2 != null) {
 			for(Schema.FieldSetMember fs : fieldSetMemberList2) {
-				fieldNames.add(fs.getFieldPath());
+				fieldNames.add(fs.getFieldPath().toLowerCase());
 			}
 		}
 		String extraFieldWOSpaces = extraFields.replaceAll( '\\s+', '').toLowerCase();

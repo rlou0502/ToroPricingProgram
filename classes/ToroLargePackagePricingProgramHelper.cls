@@ -117,10 +117,51 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		}
 		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;
+		quoteItemList = checkIfApprovalNeeded(quoteId, priceProgram, priceMethod, quoteItemList );
 		return quoteItemList;
 	}
 
+	public List<Revvy__MnStrategy4__c> checkIfApprovalNeeded(Id quoteId, String priceProgram, 
+						String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList) {
+		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
+		System.debug('\n\n@@approval flag - quote: ' + this.quote + '\n\n');
+		Boolean containsOutCross = checkForOutCrossProducts(quoteItemList);
+		Integer numberOfTractionUnits = getNumberOfTractionUnits(quoteItemList);	
+		Boolean needsApproval = false;
+		String approvalMessage = '';
 
+		if (containsOutCross && this.quote.Toro_Total_DNet__c < pricingProgram.OutCrossThreshold__c) {
+			needsApproval = true;
+			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '.' + ' (It is ' + this.quote.Toro_Total_DNet__c + ').';
+		}	
+		else if (!containsOutcross && this.quote.Toro_Total_DNet__c < pricingProgram.MinimumThreshold__c) {
+			needsApproval = true;
+			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '.' + ' (It is ' + this.quote.Toro_Total_DNet__c + ').';
+		}
+
+		if (this.quote.Toro_Blended_Percent_of_DN__c < pricingProgram.Blended_DNet_Threshold__c) {
+			needsApproval = true;
+			approvalMessage = ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
+		}
+
+		if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
+			needsApproval = true;
+			approvalMessage += ' Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s).';
+		}
+
+		if (needsApproval) {
+			this.quote.REVVY__NeedsApproval__c = true;
+			this.quote.Toro_ApprovalReason__c = approvalMessage;
+		}
+
+		else {
+			this.quote.REVVY__NeedsApproval__c = false;
+			this.quote.Toro_ApprovalReason__c = '';
+		}
+
+
+		return	quoteItemList;
+	}
 
 	/**
 	 *

@@ -140,6 +140,7 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__Catalog_Node__r.Non_Toro_Product__c
 
 				, REVVY__PricelistLine__c
+				, REVVY__Quote__r.Pricing_Program_Name__c
 
 				, Support_Plus_From_Add_New__c
 				, Support_Plus_Original_Price__c
@@ -152,7 +153,7 @@ public with sharing class ToroSupportPlusHelper {
 				, Quote_Item_Extension__r.Adjusted_Quantity__c
 				, Quote_Item_Extension__r.Award_Price__c
 				, Quote_Item_Extension__r.Pricing_Program__c
-				, Quote_Item_Extension__r.Pricing_Program_Overridden__c
+				, Quote_Item_Extension__r.Pricing_Program_Overridden__c // indicates if the pricing program is overridden (DOES NOT RESET ONCE IT IS OVERRIDDEN THE FIRST TIME)
 				/*
 				, (SELECT
 						Id

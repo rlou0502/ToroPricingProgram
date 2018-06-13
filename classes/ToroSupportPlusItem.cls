@@ -25,6 +25,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	@AuraEnabled public String chevronStyle  { get; private set; }
 	@AuraEnabled public String displayStyle  { get; private set; }
 	@AuraEnabled public Boolean isNonToroProduct { get; private set; }
+	@AuraEnabled public Boolean eligibleForSupportPlus { get; private set; }
 
 	// this value is not set here. it is a placeholder for displaying the responsibility
 	// based of the quote header
@@ -33,10 +34,9 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 
 	/**
 	 *
-	 * description
+	 * wrap a quote item that doesn't have any quantity allocated to support plus
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  qi    the OOTB quote item
 	 */
 	public ToroSupportPlusItem(REVVY__MnQuoteItem__c qi) {
 		super(qi);
@@ -74,16 +74,25 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 			this.spQuantity   = 0;
 		}
 
+		this.eligibleForSupportPlus = true;
+		if (qi.Quote_Item_Extension__r.Pricing_Program_Overridden__c) {
+			final String qiPricingProgramExtId = qi.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+			final String quotePricingProgramExtId = qi.REVVY__Quote__r.Pricing_Program_Name__c.split(';')[0];
+			if (qiPricingProgramExtId != quotePricingProgramExtId) {
+				this.eligibleForSupportPlus = false;
+			}
+		}
+
 		this.chevronStyle = 'right';
 		this.displayStyle = 'display:none;';
 	}
 
 	/**
 	 *
-	 * description
+	 * wrap a quote item that has quantity allocated to support plus
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  qi     the parent OOTB quote item
+	 * @param  spi    the separate support plus quote item
 	 */
 	public ToroSupportPlusItem(REVVY__MnQuoteItem__c qi, REVVY__MnQuoteItem__c spi) {
 		super(qi);
@@ -117,7 +126,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 
 	/**
 	 *
-	 * description
+	 * wrap a subline without support plus
 	 *
 	 * @param  name    description
 	 * @return return_type
@@ -150,6 +159,14 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		this.displayStyle = 'display:none';
 	}
 
+	/**
+	 *
+	 * wrap a subline that has support plus
+	 *
+	 * @param  qi           the OOTB quote item
+	 * @param  subline      the OOTB subline item
+	 * @param  sublineSp    the separate OOTB support plus item
+	 */
 	public ToroSupportPlusItem(REVVY__MnQuoteItem__c qi, REVVY__MnQuoteItemSubLine__c subline, REVVY__MnQuoteItemSubLine__c sublineSp) {
 		super(qi, subline);
 
