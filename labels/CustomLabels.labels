@@ -450,6 +450,14 @@
         <value>Return to Pricing</value>
     </labels>
     <labels>
+        <fullName>PP_Close</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
         <fullName>PP_CollapseAll</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

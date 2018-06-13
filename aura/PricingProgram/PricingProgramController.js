@@ -49,6 +49,22 @@
         }
         quoteHeaderCmp.set("v.quote", quote);
         quoteHeaderCmp.set("v.contractMessage", null); 
+        if(quote.REVVY__NeedsApproval__c) {
+        	$A.createComponent(
+                "c:ToroAlertBox",
+                {
+                    "warningMsg": quote.Toro_ApprovalReason__c
+                },
+                function(msgBox, status, errorMessage){
+                    if (component.isValid()) {
+                        var targetCmp = component.find('ModalDialogPlaceholder');
+                        var body = targetCmp.get("v.body");
+                        body.push(msgBox);
+                        targetCmp.set("v.body", body);
+                    }
+                }
+            );    
+        }
     },
     saveAndClose: function(component, event, helper) {
         component.set("v.forwardUrl", "/");

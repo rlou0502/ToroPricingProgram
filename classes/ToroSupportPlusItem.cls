@@ -75,9 +75,13 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		}
 
 		this.eligibleForSupportPlus = true;
-		if (qi.Quote_Item_Extension__r.Pricing_Program_Overridden__c) {
-			final String qiPricingProgramExtId = qi.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
-			final String quotePricingProgramExtId = qi.REVVY__Quote__r.Pricing_Program_Name__c.split(';')[0];
+		if (this.isNonToroProduct) {
+			this.eligibleForSupportPlus = false;
+		}
+
+		else if (qiObj.Quote_Item_Extension__r.Pricing_Program_Overridden__c) {
+			final String qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+			final String quotePricingProgramExtId = qiObj.REVVY__Quote__r.Pricing_Program_Name__c.split(';')[0];
 			if (qiPricingProgramExtId != quotePricingProgramExtId) {
 				this.eligibleForSupportPlus = false;
 			}

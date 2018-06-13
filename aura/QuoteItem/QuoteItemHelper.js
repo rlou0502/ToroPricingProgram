@@ -1005,6 +1005,8 @@
                     component.set('v.secondaryProgramKeys', retResponse.secondaryProgramKeys);
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                     var cmpEvent = component.getEvent("calculationCompleteEvent");
+                    console.log("------REVVY__NeedsApproval__c =" + retResponse.quote.REVVY__NeedsApproval__c);
+                    console.log("------Toro_ApprovalReason__c =" + retResponse.quote.Toro_ApprovalReason__c);
                     cmpEvent.setParams({
                         "quote" : retResponse.quote,
                         "allowSupportPlus" : retResponse.allowSupportPlus,
