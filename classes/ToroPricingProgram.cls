@@ -688,7 +688,7 @@ public abstract class ToroPricingProgram {
 		boolean copyFromMSRP=false;
 		boolean copyFromDNET=false;
 		for(Revvy__MnStrategy1__c pp : rebates) {
-			if(pp.UseDesignatedPriceList__c && pp.Previous_Price_List__c != null && string.isNotBlank(pp.Copy_From_Price_Field__c)) {
+			if(pp.UseDesignatedPriceList__c && pp.Previous_Price_Date__c != null && string.isNotBlank(pp.Copy_From_Price_Field__c)) {
 				priceListIds.add(pp.OverriddenPriceList__c);	
 				targetDate = pp.Previous_Price_Date__c;
 				copyFromFields = pp.Copy_From_Price_Field__c.split(';');
