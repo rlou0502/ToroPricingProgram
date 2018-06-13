@@ -33,33 +33,65 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
     @AuraEnabled
-    public static List<REVVY__MnPriceListLine__c> fetchSearchResults(String searchTerm, String searchType) {
+    public static List<REVVY__MnPriceListLine__c> fetchSearchResults(String searchTerm, String searchType, String spSearchType) {
+		System.debug('\n\n@@searchTerm: ' + searchTerm + '\n\n');
+		System.debug('\n\n@@searchType: ' + searchType + '\n\n');
+		System.debug('\n\n@@spSearchType: ' + spSearchType + '\n\n');
+
         final String term = '%' + searchTerm + '%';
 
 		List<REVVY__MnPriceListLine__c> pricelistLines;
 		if (searchType == 'supportplus') {
-			pricelistLines = [
-				SELECT
-					REVVY__Product__c
-					, REVVY__Product__r.REVVY__Id__c
-					, REVVY__Product__r.Name
-					, REVVY__Product__r.REVVY__Description__c
-					, REVVY__Product__r.Non_Toro_Product__c
-					, REVVY__SuggestedPrice__c
-				FROM
-					REVVY__MnPriceListLine__c
-				WHERE
-					REVVY__Product__r.REVVY__Type__c IN ('Product', 'Bundle')
-					AND REVVY__Product__r.REVVY__Effective_Start_Date__c <= TODAY
-					AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
-					AND REVVY__Product__r.REVVY__Status__c = 'Active'
-					AND REVVY__PriceList__r.Name = 'Commercial'
-					AND REVVY__Product__r.REVVY__Id__c LIKE :term
-					AND REVVY__Product__r.Non_Toro_Product__c = false // exclude Trade-In, Allied Product, Service Contract
+			if (spSearchType == 'model') {
+				pricelistLines = [
+					SELECT
+						REVVY__Product__c
+						, REVVY__Product__r.REVVY__Id__c
+						, REVVY__Product__r.Name
+						, REVVY__Product__r.REVVY__Description__c
+						, REVVY__Product__r.Non_Toro_Product__c
+						, REVVY__SuggestedPrice__c
+					FROM
+						REVVY__MnPriceListLine__c
+					WHERE
+						REVVY__Product__r.REVVY__Type__c IN ('Product', 'Bundle')
+						AND REVVY__Product__r.REVVY__Effective_Start_Date__c <= TODAY
+						AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
+						AND REVVY__Product__r.REVVY__Status__c = 'Active'
+						AND REVVY__PriceList__r.Name = 'Commercial'
+						AND REVVY__Product__r.REVVY__Id__c LIKE :term
+						AND REVVY__Product__r.Non_Toro_Product__c = false // exclude Trade-In, Allied Product, Service Contract
 
-				ORDER BY
-					REVVY__Product__r.Name asc
-			];
+					ORDER BY
+						REVVY__Product__r.Name asc
+				];
+			}
+
+			else if (spSearchType == 'description') {
+				final String termRegEx = '%' + term + '%';
+				pricelistLines = [
+					SELECT
+						REVVY__Product__c
+						, REVVY__Product__r.REVVY__Id__c
+						, REVVY__Product__r.Name
+						, REVVY__Product__r.REVVY__Description__c
+						, REVVY__Product__r.Non_Toro_Product__c
+						, REVVY__SuggestedPrice__c
+					FROM
+						REVVY__MnPriceListLine__c
+					WHERE
+						REVVY__Product__r.REVVY__Type__c IN ('Product', 'Bundle')
+						AND REVVY__Product__r.REVVY__Effective_Start_Date__c <= TODAY
+						AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
+						AND REVVY__Product__r.REVVY__Status__c = 'Active'
+						AND REVVY__PriceList__r.Name = 'Commercial'
+						AND REVVY__Product__r.Name LIKE :termRegEx
+						AND REVVY__Product__r.Non_Toro_Product__c = false // exclude Trade-In, Allied Product, Service Contract
+
+					ORDER BY
+						REVVY__Product__r.Name asc
+				];
+			}
 		}
 
 		else if (searchType == 'nontoro') {
@@ -85,6 +117,7 @@ global class ToroSupportPlusController {
 			];
 		}
 
+		System.debug('\n\n@@pricelistLines: ' + pricelistLines + '\n\n');
         return pricelistLines;
     }
 

@@ -17,7 +17,7 @@
     z-index: 1;
     background-color: #16325c;
     color: #fff;
-    
+    background: repeating-linear-gradient(45deg, rgb(84,105,141), rgb(84,105,141) 20px, rgba(84,105,141,.97) 20px, rgba(84,105,141,.97) 40px);
 }
 
 .THIS #close-info-box {
@@ -47,12 +47,12 @@
     width: 15%; /* Full width */
     height: 35%; 
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(176,196,223); 
+    background-color: #ddd; 
     border-style: solid;
     border-color: black;
 }
 .THIS #popover-body {
-    background-color: rgb(176,196,223); 
+    background-color: #ddd; 
     height: 100%;
     margin-left: 5px;
     margin-right: 5px;

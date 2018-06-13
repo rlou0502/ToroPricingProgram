@@ -1,10 +1,11 @@
 ({
-	refreshSearchResults: function (cmp, previousSearchTerm, currentSearchTerm, searchType) {
+	refreshSearchResults: function (cmp, previousSearchTerm, currentSearchTerm, searchType, spSearchType) {
 		var action = cmp.get('c.fetchSearchResults');
 		action.setStorable();
 		action.setParams({
 			searchTerm: currentSearchTerm
 			, searchType: searchType
+			, spSearchType: spSearchType
 		});
 		action.setCallback(this
 			, function (response) {

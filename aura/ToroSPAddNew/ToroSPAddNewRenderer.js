@@ -12,6 +12,8 @@
 			if (previousSearchTerm != currentSearchTerm && searchResults && currentSearchTerm.length >= 3 && !wasAutoCompleted) {
 				// create new results
 				var regEx = new RegExp(currentSearchTerm, "i");
+				console.log('searchResults:');
+				console.log(searchResults);
 				for (var x = 0; x < searchResults.length; x++) {
 
 					var productName = searchResults[x].REVVY__Product__r.Name;

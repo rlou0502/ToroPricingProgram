@@ -7,6 +7,8 @@
         console.log('@ToroSPAddNewController:showModal');
         var modal = cmp.find("addModal");
         $A.util.removeClass(modal, 'hideDiv');
+
+        cmp.set('v.spSearchType', 'model');
     },
     hideModal: function (cmp, event, helper) {
         var modal = cmp.find("addModal");
@@ -23,7 +25,7 @@
         cmp.set('v.newItemAwardPrice', '');
         cmp.set('v.newItemDescription', '');
 
-        cmp.set('v.spSearchTypeValue', '');
+        cmp.set('v.spSearchType', '');
         cmp.set('v.previousSearchTerm', '');
         cmp.set('v.currentSearchTerm', '');
         cmp.set('v.wasAutoCompleted', false);
@@ -58,9 +60,10 @@
             var previousValue = event.getParam('oldValue');
             var currentValue = event.getParam('value');
             var searchType = cmp.get('v.searchType');
+            var spSearchType = cmp.get('v.spSearchType');
 
             if (currentValue.length == 3) {
-                helper.refreshSearchResults(cmp, previousValue, currentValue, searchType);
+                helper.refreshSearchResults(cmp, previousValue, currentValue, searchType, spSearchType);
             }
 
             else {
