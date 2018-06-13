@@ -155,6 +155,7 @@
 				}
 			}
 
+			console.log('showAutoComplete: ' + showAutoComplete);
 			if (showAutoComplete) {
 				var autocompleteSectionCmp = cmp.find('autocomplete_section');
 				$A.util.removeClass(autocompleteSectionCmp, 'slds-hide');

@@ -690,7 +690,7 @@ public abstract class ToroPricingProgram {
 		for(Revvy__MnStrategy1__c pp : rebates) {
 			if(pp.UseDesignatedPriceList__c && pp.Previous_Price_List__c != null && string.isNotBlank(pp.Copy_From_Price_Field__c)) {
 				priceListIds.add(pp.OverriddenPriceList__c);	
-				targetDate = Date.newInstance(Integer.valueOf(pp.Previous_Price_List__c), 1,1);
+				targetDate = pp.Previous_Price_Date__c;
 				copyFromFields = pp.Copy_From_Price_Field__c.split(';');
 				for(String s : copyFromFields) {
 					if(s == 'MSRP') {
