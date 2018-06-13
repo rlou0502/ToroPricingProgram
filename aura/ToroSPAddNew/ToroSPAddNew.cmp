@@ -7,8 +7,16 @@
 	<aura:registerEvent name="addNew" type="c:ToroSPAddNewEvent" />
 
 	<!-- search -->
+	<aura:attribute name="spSearchTypeOptions" type="List" default="[
+																	{'label': 'Model', 'value': 'model'},
+																	{'label': 'Description', 'value': 'description'}
+																	]" />
+
+
 	<aura:attribute name="searchType" type="String" default="supportplus" />
 	<aura:attribute name="searchResults" type="REVVY__MnPriceListLine__c[]" />
+	<aura:attribute name="previousSearchTypeValue" type="String"/>
+	<aura:attribute name="currentSearchTypeValue" type="String" default="model" />
 	<aura:attribute name="previousSearchTerm" type="String" />
 	<aura:attribute name="currentSearchTerm" type="String" />
 	<aura:attribute name="wasAutoCompleted" type="Boolean" />
@@ -43,12 +51,23 @@
 				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="min-height:500px;">
 					<div class="slds-form slds-form_stacked">
 						<aura:if isTrue="{!v.searchType == 'supportplus'}">
+
 							<div class="slds-form-element">
 								<div class="slds-form-element__control">
-									<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" label="MODEL" value="{!v.newItemProductId}"
-									placeholder="Select a product..." updateOn="keyup" />
+									<lightning:radioGroup
+										aura:id="spSearchTypeRadioGrp"
+										name="spSearchTypeRadioButtonGroup"
+										options="{!v.spSearchTypeOptions}"
+										value="{!v.currentSearchTypeValue}"
+										onchange="{!c.handleSpSearchTypeChange}" />
+								</div>
+							</div>
+							<div class="slds-form-element">
+								<div class="slds-form-element__control">
+									<ui:inputText aura:id="add_product_input" class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" value="{!v.newItemProductId}"
+									placeholder="{!'Search product ' + v.currentSearchTypeValue + '...'}" updateOn="keyup" />
 									<section aura:id="autocomplete_section" id="autocomplete_section" class="slds-popover slds-nubbin_top-left slds-dynamic-menu slds-hide"
-									role="dialog" aria-label="Autocomplete Results" aria-describedby="dialog-body-id-4" style="position: absolute; left: 0px;">
+									role="dialog" aria-label="Autocomplete Results" aria-describedby="dialog-body-id-4" style="position: absolute; left: 0px; top: 40px;">
 										<div class="slds-popover__body slds-p-horizontal_none" id="dialog-body-id-4">
 											<div id="listbox-unique-id" role="listbox">
 												<ul class="slds-listbox slds-listbox_vertical slds-dropdown_length-10" role="group" aria-label="" aura:id="autocomplete_results">

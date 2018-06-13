@@ -23,10 +23,15 @@
         cmp.set('v.newItemAwardPrice', '');
         cmp.set('v.newItemDescription', '');
 
+        cmp.set('v.previousSearchTypeValue', '');
+        cmp.set('v.currentSearchTypeValue', '');
         cmp.set('v.previousSearchTerm', '');
         cmp.set('v.currentSearchTerm', '');
         cmp.set('v.wasAutoCompleted', false);
         cmp.set('v.searchResults', null);
+    },
+    handleSpSearchTypeChange: function(cmp, event, helper) {
+        var value = cmp.get('v.spSearchTypeValue');
     },
     handleAddNewProductIdChange: function (cmp, event, helper) {
         if (cmp.get('v.searchType') == 'supportplus') {
