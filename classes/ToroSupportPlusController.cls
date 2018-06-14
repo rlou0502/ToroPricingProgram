@@ -307,6 +307,7 @@ global class ToroSupportPlusController {
 					if (wrapper.spQuantity == 0) {
 						quoteItemsToDelete.add(wrapper.qiSpObj);
 						wrapper.qiExtObj.Adjusted_Quantity__c = wrapper.qiExtObj.Adjusted_Quantity__c + wrapper.qiSpExtObj.Adjusted_Quantity__c;
+						wrapper.qiExtObj.Has_Support_Plus__c = false;
 						quoteItemExtensionsToUpdate.add(wrapper.qiExtObj);
 					}
 
@@ -496,6 +497,7 @@ global class ToroSupportPlusController {
 
 			for (REVVY__MnStrategy4__c quoteItemExtObj : quoteItemExtObjsToUpdate) {
 				quoteItemExtObj.Adjusted_Quantity__c = qiExtObjToAdjustedQuantityMap.get(quoteItemExtObj.External_Id__c);
+				quoteItemExtObj.Has_Support_Plus__c = true;
 				quoteItemExtensionsToUpdate.add(quoteItemExtObj);
 			}
 
