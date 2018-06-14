@@ -466,6 +466,14 @@
         <value>Collapse All</value>
     </labels>
     <labels>
+        <fullName>PP_Configuration_Line</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Configuration Line</shortDescription>
+        <value>Configuration Line</value>
+    </labels>
+    <labels>
         <fullName>PP_Dirty_Warning_Message</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>
@@ -537,6 +545,14 @@
         <value>Toro Quotes</value>
     </labels>
     <labels>
+        <fullName>PP_Quote_Header</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Quote Header</shortDescription>
+        <value>Quote Header</value>
+    </labels>
+    <labels>
         <fullName>PP_ReturnToQuote</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>
@@ -584,12 +600,28 @@
         <value>Show Details</value>
     </labels>
     <labels>
+        <fullName>PP_Subline</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Subline</shortDescription>
+        <value>Subline</value>
+    </labels>
+    <labels>
         <fullName>PP_SupportPlus</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Support Plus</shortDescription>
         <value>Add Support Plus</value>
+    </labels>
+    <labels>
+        <fullName>PP_Traction_Unit</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Traction Unit</shortDescription>
+        <value>Traction Unit</value>
     </labels>
     <labels>
         <fullName>PP_UpdateQuote</fullName>
