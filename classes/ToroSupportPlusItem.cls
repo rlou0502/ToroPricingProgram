@@ -79,6 +79,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 			this.eligibleForSupportPlus = false;
 		}
 
+
 		else if (qiObj.Quote_Item_Extension__r.Pricing_Program_Overridden__c) {
 			final String qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
 			final String quotePricingProgramExtId = qiObj.REVVY__Quote__r.Pricing_Program_Name__c.split(';')[0];
@@ -122,6 +123,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		// this.description = String.isBlank(qi.Description__c) ? qi.REVVY__Catalog_Node__r.Name : qi.Description__c;
 		// this.quantity    = qi.REVVY__Quantity__c;
 		this.spQuantity  = spi.Quote_Item_Extension__r.Adjusted_Quantity__c;
+		this.eligibleForSupportPlus = true;
 
 		this.isFromAddNew = false;
 		this.chevronStyle = 'right';

@@ -154,6 +154,7 @@ public with sharing class ToroSupportPlusHelper {
 				, Quote_Item_Extension__r.Award_Price__c
 				, Quote_Item_Extension__r.Pricing_Program__c
 				, Quote_Item_Extension__r.Pricing_Program_Overridden__c // indicates if the pricing program is overridden (DOES NOT RESET ONCE IT IS OVERRIDDEN THE FIRST TIME)
+				, Quote_Item_Extension__r.Has_Support_Plus__c
 				/*
 				, (SELECT
 						Id
@@ -189,6 +190,8 @@ public with sharing class ToroSupportPlusHelper {
 			WHERE
 				REVVY__Quote__c = :quoteId
 		      //And REVVY__Catalog_Node__r.Non_Toro_Product__c = false
+			ORDER BY
+				Description__c asc
 		];
 	}
 
@@ -219,6 +222,7 @@ public with sharing class ToroSupportPlusHelper {
 				, Quote_Item_Extension__r.External_Id__c
 				, Quote_Item_Extension__r.Adjusted_Quantity__c
                 , Quote_Item_Extension__r.Award_Price__c
+				, Quote_Item_Extension__r.Has_Support_Plus__c
 			FROM
 				REVVY__MnQuoteItem__c
 			WHERE
