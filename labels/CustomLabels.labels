@@ -832,6 +832,14 @@
         <value>Save and Close</value>
     </labels>
     <labels>
+        <fullName>SP_Secondary_Pricing_Program</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Secondary Pricing Program</shortDescription>
+        <value>Support Plus items must be removed from this quote item and its sublines before changing the secondary pricing program.</value>
+    </labels>
+    <labels>
         <fullName>SP_Select_Support_Plus</fullName>
         <categories>Support_Plus</categories>
         <language>en_US</language>

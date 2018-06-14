@@ -96,4 +96,9 @@
 }
 .THIS .secondary-pricing-program {
     margin-left: 10px;
+} 
+.THIS .secondary-pricing-program-help-text {
+ 	margin-left: 5px;   
+    color: red;
+    font-style: italic;
 }

@@ -379,6 +379,11 @@
         var pricingProgramSelectDiv = document.createElement('span');
         pricingProgramSelectDiv.className += ' secondary-pricing-program';
         dataRowCellPricingProgram.appendChild(pricingProgramSelectDiv);
+
+        
+
+
+        
         var pricingProgramSelect = document.createElement('select');
         pricingProgramSelect.dataset.quoteitemid=selectedQuoteItem;
         pricingProgramSelect.addEventListener('change', 
@@ -390,6 +395,21 @@
                     qi.dataset.pricingprogram_overridden = true;
                 }
             }, false);    
+        
+
+        // document.getElementById("mySelect").disabled=true;
+        if (quoteItem.Has_Support_Plus__c) {
+            pricingProgramSelect.disabled=true;
+            var secondaryProgramHelpText = document.createElement('span');
+            secondaryProgramHelpText.innerHTML = $A.get("$Label.c.SP_Secondary_Pricing_Program");
+            secondaryProgramHelpText.className += 'secondary-pricing-program-help-text';
+            dataRowCellPricingProgram.appendChild(secondaryProgramHelpText);
+        }
+        
+        else {
+            pricingProgramSelect.disabled=false;
+        }
+        
         var secondaryPrograms = component.get('v.secondaryPrograms');
         var selectedPricingProgram = quoteItem['Pricing_Program__c'];
         for(var k=0; k <secondaryProgramKeys.length; k++ ) {
