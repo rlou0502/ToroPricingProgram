@@ -220,7 +220,14 @@
                                     elms[i].dataset.overridden = false;    
                                 }    
                             }
-                        }, false);    
+                            var cmpEvent2 = component.getEvent("setDirtyFlagEvent");
+                            var msg = $A.get("$Label.c.PP_Dirty_Warning_Message");
+                            cmpEvent2.setParams({
+                                    warningMessage : msg
+                            });
+                            cmpEvent2.fire();
+                        }, false);  
+                        
                     }
                 } else {
                     //this is a quote line                   

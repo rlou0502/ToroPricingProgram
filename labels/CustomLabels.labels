@@ -503,7 +503,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message</shortDescription>
-        <value>Please save your work before exiting Pricing Program.</value>
+        <value>You are about to Exit without Saving.  Click OK to exit without saving. Click RETURN TO PRICING to save your pricing.</value>
     </labels>
     <labels>
         <fullName>PP_ModalTitle</fullName>

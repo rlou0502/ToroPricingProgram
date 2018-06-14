@@ -15,6 +15,7 @@
 	<aura:attribute name="distRespIsEditable" type="Boolean" />
 	<aura:attribute name="showDNet" type="Boolean" />
 	<aura:attribute name="showToroAward" type="Boolean" />
+	<aura:attribute name="pricingProgram" type="SObject" />
 
 
 	<div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
@@ -92,6 +93,6 @@
 
 	<c:ToroSPAddNew aura:id="cmpAddNew"
 					newItemDistributorResponsibility="{!v.quote.Distributor_Responsibility__c}"
-					showDNet="{!v.showDNet}" 
+					showDNet="{!v.showDNet}"
 					showToroAward="{!v.showToroAward}" />
 </aura:component>

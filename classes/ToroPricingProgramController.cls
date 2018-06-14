@@ -485,7 +485,9 @@ public class ToroPricingProgramController {
     				qi.Off_MSRP__c=0;
     				qi.Award_of_DN__c=0;
     				qi.Rebate_as_a_of_DN__c=0;
-    				qi.Award_Price__c=0;
+    				if(!qi.Unit_Award_Overridden__c) {
+    					qi.Award_Price__c=0;
+    				}
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
     				qi.pricing_program__c = pricingProgram;
@@ -494,9 +496,11 @@ public class ToroPricingProgramController {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
-	    					qis.Award_Price__c=0;
+	    					if(!qis.Unit_Award_Overridden__c) {
+	    						qis.Award_Price__c=0;
+	    					}
 	    					qis.PricingMethodValue__c=null;
-	    					qis.Unit_Award_Overridden__c=false;
+	    					//qis.Unit_Award_Overridden__c=false;
 	    					qis.Performance_Part__c = false;
 	    				}
     				}
@@ -517,7 +521,9 @@ public class ToroPricingProgramController {
     				qi.Off_MSRP__c=0;
     				qi.Award_of_DN__c=0;
     				qi.Rebate_as_a_of_DN__c=0;
-    				qi.Award_Price__c=0;
+    				if(!qi.Unit_Award_Overridden__c) {
+    					qi.Award_Price__c=0;
+    				}
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
     				qi.pricing_program__c = pricingProgram;
@@ -526,9 +532,11 @@ public class ToroPricingProgramController {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
-	    					qis.Award_Price__c=0;
+	    					if(!qis.Unit_Award_Overridden__c) {
+	    						qis.Award_Price__c=0;
+	    					}
 	    					qis.PricingMethodValue__c=null;
-	    					qis.Unit_Award_Overridden__c=false;
+	    					//qis.Unit_Award_Overridden__c=false;
 	    					qis.Performance_Part__c = false;
 	    				}
     				}
