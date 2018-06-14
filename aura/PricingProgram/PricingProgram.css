@@ -22,11 +22,11 @@
 
 .THIS #close-info-box {
     float: right;
-    height: 24px;
+    height: 16px;
     color: white;
     vertical-align: middle;
     margin-right: 5px;
-    padding-bottom : 5px
+    cursor:pointer;
 }
 
 .THIS .icon_container {

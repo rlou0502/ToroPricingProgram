@@ -6,6 +6,7 @@
     <aura:attribute name="sObject" type="SObject" />
     <aura:attribute name="allowSupportPlus" type="Boolean" />
     <aura:attribute name="dirtyFlag" type="Boolean" default="false"/>
+    <aura:attribute name="infoBoxType" type="String" />
     <aura:handler name="pricingProgramEvent" event="c:PricingProgramChangeEvent" action="{!c.handlePricingProgramChange}"/>
     <aura:handler name="pricingMethodEvent" event="c:PricingMethodChangeEvent" action="{!c.handlePricingMethodChange}"/>
     <aura:handler name="pricingProgramSetEvent" event="c:PricingProgramSetFromDBEvent" action="{!c.handleSetPricingProgram}"/>
@@ -29,10 +30,8 @@
 
     <div  id="popover-root" draggable="true" class="slds-float_right slds-box" style="display:none">
         <div id="popover-header">
-            <button id="close-info-box" class="slds-button " title="Close" onclick="{!c.closeInfoBox}">
-            X
-            <span class="slds-assistive-text">Close</span>
-            </button>
+            <span >{!v.infoBoxType}</span>           
+            <span id="close-info-box" onclick="{!c.closeInfoBox}">X</span>          
         </div>
         <div id="popover-body"></div>
     </div>

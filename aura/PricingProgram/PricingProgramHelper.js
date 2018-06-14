@@ -218,15 +218,19 @@
                     switch(infoBoxType) {
                         case "TractionUnit":
                             component.set('v.fields', retResponse.quoteItemTractionUnitFieldSet);
+                            component.set('v.infoBoxType', "Traction Unit");                          
                             break;
                         case "Subline":
                             component.set('v.fields', retResponse.quoteSublineFieldSet);
+                            component.set('v.infoBoxType', "Subline"); 
                             break;
                         case "MainLine":
                             component.set('v.fields', retResponse.quoteItemMainFieldSet);
+                            component.set('v.infoBoxType', "Configuration Line"); 
                             break;
                         default:
     						component.set('v.fields', retResponse.quoteFieldSet);
+                            component.set('v.infoBoxType', "Quote Header"); 
                             
                     }
                     component.set('v.sObject', infoBoxData || {});
