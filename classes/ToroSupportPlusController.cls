@@ -402,6 +402,18 @@ global class ToroSupportPlusController {
 				}
 			}
 
+			// even if the quote item is unchanged, we need to check if its sublines have changed
+			for (ToroSupportPlusItem wrapper : unchangedQiWrappers) {
+				if (wrapper.qiExtObj.Has_Support_Plus__c == true && !quoteItemIdsWithSPSublines.contains(wrapper.sfid)) {
+					wrapper.qiExtObj.Has_Support_Plus__c = false;
+					quoteItemExtensionsToUpdate.add(wrapper.qiExtObj);
+				}
+
+				else if (wrapper.qiExtObj.Has_Support_Plus__c == false && quoteItemIdsWithSPSublines.contains(wrapper.sfid)) {
+					wrapper.qiExtObj.Has_Support_Plus__c = true;
+					quoteItemExtensionsToUpdate.add(wrapper.qiExtObj);
+				}
+			}
 
 			// ============================================================================
 			// HANDLE SUPPORT PLUS ONLY ITEMS
