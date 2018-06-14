@@ -442,7 +442,11 @@
         
         dataRow.appendChild(dataRowCellPricingProgram);
         pricingProgramSelectDiv.appendChild(pricingProgramSelect);
-        childTable.appendChild(dataRow);
+        
+        if (!quoteItem.Support_Plus_Item__c) {
+	        childTable.appendChild(dataRow);
+        }
+        
         tableCol.appendChild(childTable);
         var target = document.getElementById(selectedQuoteItem);
     	target.parentNode.insertBefore(tableRow, target.nextSibling );

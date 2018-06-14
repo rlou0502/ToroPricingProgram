@@ -13,7 +13,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Boolean distRespIsEditable            			 { get; set; }
 	@AuraEnabled public Boolean showDNet 								 { get; private set; }
 	@AuraEnabled public Boolean showToroAward 							 { get; private set; }
-
+	@AuraEnabled public REVVY__MnStrategy1__c pricingProgram             { get; private set; }
 	/**
 	 *
 	 * description
@@ -60,9 +60,9 @@ public with sharing class ToroSupportPlusData {
 
 			// get support plus plans
 			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
-			REVVY__MnStrategy1__c pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
+			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
 			Decimal totalValue;
-			if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Toro_Award__c') {
+			if (this.pricingProgram.Determines_Support_Plus_Allowance__c == 'Toro_Award__c') {
 				totalValue         = quote.Toro_Award__c;
 				this.showDNet      = false;
 				this.showToroAward = true;
