@@ -99,12 +99,15 @@ public with sharing class ToroSupportPlusData {
 					defaultDistRespValue = contrib.Distributor_Contribution__c;
 				}
 			}
+			System.debug('\n\n@@quote.Toro_Blended_Percent_of_DN__c: ' + quote.Toro_Blended_Percent_of_DN__c + '\n\n');
 			System.debug('\n\n@@contribs: ' + contribs + '\n\n');
+			System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
+			System.debug('\n\n@@defaultDistRespValue: ' + defaultDistRespValue + '\n\n');
 
 			if (quote.Distributor_Responsibility__c == null) {
 				quote.Distributor_Responsibility__c = defaultDistRespValue;
 			}
-			update quote;
+			// update quote;
 			System.debug('\n\n@@quote: ' + quote + '\n\n');
 
 			// build the responsibility wrappers

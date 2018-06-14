@@ -168,6 +168,11 @@
             if(prodId != "" && prodId.startsWith("L00")) {
                 vToroProd = false;
             }
+            var nonToroPricingMethodValue = false;
+            if(prodId.startsWith("L") && field.fieldPath=="PricingMethodValue__c"){
+                nonToroPricingMethodValue = true;
+                sObj["PricingMethodValue__c"]="0";
+            }
 			console.log("--- renderTable +" + prodId + " - " + vToroProd);            
             //check quote item
             var performancePart = sObj["Performance_Parts_Product__c"];
@@ -190,7 +195,7 @@
                 	sObj["PricingMethodValue__c"]="";
                 }
             }        
-            if((totalAwardUpdatable && vToroProd && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
+            if((totalAwardUpdatable && vToroProd && !nonToroPricingMethodValue && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
             || (onlyInCPL && field.fieldPath=="Award_Price__c")
             ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);

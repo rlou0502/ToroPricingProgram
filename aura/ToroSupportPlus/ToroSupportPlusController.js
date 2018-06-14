@@ -60,11 +60,12 @@
         var quote            = cmp.get('v.quote');
         var quoteItems       = cmp.get('v.quoteItems');
         var supportPlusItems = cmp.get('v.supportPlusItems');
+        var pricingProgram   = cmp.get('v.pricingProgram');
         var allowance        = quote.Toro_Support_Plus_Allowance__c;
 
         cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
         cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
-        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems));
+        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram));
     },
     handleSPDelete: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:handleSPDelete');
@@ -78,7 +79,8 @@
                     cmp.set('v.supportPlusItems', supportPlusItems);
                     var quote = cmp.get('v.quote');
                     var quoteItems = cmp.get('v.quoteItems');
-                    quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems);
+                    var pricingProgram = cmp.get('v.pricingProgram');
+                    quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram);
                     cmp.set('v.quote', quote);
                 }
 
@@ -96,7 +98,8 @@
                                 cmp.set('v.supportPlusItems', supportPlusItems);
                                 var quote = cmp.get('v.quote');
                                 var quoteItems = cmp.get('v.quoteItems');
-                                quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems);
+                                var pricingProgram = cmp.get('v.pricingProgram');
+                                quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram);
                                 cmp.set('v.quote', quote);
                             }
                         }
@@ -139,13 +142,15 @@
         var quote = cmp.get('v.quote');
         var quoteItems = cmp.get('v.quoteItems');
         var supportPlusItems = cmp.get('v.supportPlusItems');
+        var pricingProgram = cmp.get('v.pricingProgram');
         quote.Distributor_Responsibility__c = event.getParam('distributorResponsibility');
         console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
         quoteItems = helper.updateDistributorResponsibility(quote, quoteItems);
         supportPlusItems = helper.updateDistributorResponsibility(quote, supportPlusItems);
         cmp.set('v.quoteItems', quoteItems);
         cmp.set('v.supportPlusItems', supportPlusItems);
-        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems));
+
+        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram));
 
     },
     handleShowAddNewModal: function (cmp, event, helper) {
