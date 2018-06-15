@@ -368,10 +368,22 @@ public with sharing class ToroPricingMethodHelper {
 		return this;	
 	} 
 	
+	public boolean isNonToroProduct(Revvy__MnStrategy4__c qi) {
+		boolean ret = false;
+		String productId = qi.Product_Id__c;
+		if(productId.startsWith('L')) {
+			ret = true;
+		}
+		return ret;
+	}
+	
 	public ToroPricingMethodHelper distributeQuoteItemTotalAwardDollors() {
 		system.debug('distributeQuoteItemTotalAwardDollors -----');
 		
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			if(isNonToroProduct(qi)) {
+				continue;
+			}
 			system.debug('distributeQuoteItemTotalAwardDollors -----product=' + qi.Product_Id__c);
 			system.debug('distributeQuoteItemTotalAwardDollors -----qi.Off_MSRP_Overridden__c=' + qi.Off_MSRP_Overridden__c);
 			if(String.isBlank(qi.PricingMethodValue__c) || decimal.valueOf(qi.PricingMethodValue__c) == 0) {
