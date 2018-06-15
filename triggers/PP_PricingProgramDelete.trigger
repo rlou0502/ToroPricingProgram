@@ -6,6 +6,7 @@ trigger PP_PricingProgramDelete on REVVY__MnStrategy1__c (after delete) {
 		parentIds.add(qi.Id);		
 	}
 	System.debug(' cascading delete ---' + parentIds.size());
+	System.debug(' cascading delete ---' + [Select Id From REVVY__MnStrategy3__c].size());
 	List<REVVY__MnStrategy2__c> extensions = [select Id from REVVY__MnStrategy2__c where PricingProgram__c in :parentIds];
 	delete extensions; 
 	

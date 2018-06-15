@@ -140,7 +140,9 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						if(!qis.Unit_Award_Overridden__c) {			
 							qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
 						}
-						qis.Percent_of_DNet__c = qis.Award_Price__c/qis.DNet_Price__c*100;
+						if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0){
+							qis.Percent_of_DNet__c = qis.Award_Price__c/qis.DNet_Price__c*100;
+						}
 						if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
 							if(qi.DrivenByGP__c) {
 								qis.Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Percent__c;
