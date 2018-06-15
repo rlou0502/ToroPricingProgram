@@ -131,6 +131,7 @@
     <fields>
         <fullName>ExternalId__c</fullName>
         <externalId>true</externalId>
+        <inlineHelpText>Please enter the unique External ID. Only Alpha-numberical characters are allowed. Ex. You can copy the name of the pricing program and remove all spaces and special characters.</inlineHelpText>
         <label>External Id</label>
         <length>255</length>
         <required>false</required>

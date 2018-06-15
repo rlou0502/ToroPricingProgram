@@ -10,6 +10,7 @@ public with sharing class ToroPricingProgramEligibility {
 													From Revvy__MnStrategy3__c where Distributor__c = :distributor and PricingProgram__r.IsFirstTee__c = FALSE and PricingProgram__r.CORPORATE_ACCOUNT__C=null];
 		system.debug(logginglevel.info, ' programs size= ' + programs.size());
 		for(Revvy__MnStrategy3__c e : programs) {
+			system.debug(logginglevel.info, ' programs name= ' + e.PricingProgram__r.Name + ' = ' + e.PricingProgram__c );
 			result.add(new Revvy__MnStrategy1__c(Id=e.PricingProgram__c, Name=e.PricingProgram__r.Name,IsTaxSupported__c = e.PricingProgram__r.IsTaxSupported__c,
 													IsFirstTee__c = e.PricingProgram__r.IsFirstTee__c,MinimumTractionUnits__c = e.PricingProgram__r.MinimumTractionUnits__c,
 													OverriddenPriceList__c = e.PricingProgram__r.OverriddenPriceList__c,AllowSupportPlus__c = e.PricingProgram__r.AllowSupportPlus__c,
@@ -78,7 +79,7 @@ public with sharing class ToroPricingProgramEligibility {
 		if(customer.Commercial_Distributor__c != null) {
 			system.debug(logginglevel.info, 'distributor =' + customer.Commercial_Distributor__c);
 			Id disti = customer.Commercial_Distributor__c;
-			result = retrieveChartStatePricingProgramsForDistributor(disti);
+			result = retrieveChartStatePricingProgramsForDistributor(disti);			
 		} else {
 			Id userId = UserInfo.getUserId();
 			system.debug(logginglevel.info, ' user id=' + userId);
@@ -90,6 +91,7 @@ public with sharing class ToroPricingProgramEligibility {
 			}
 		}
 		result = retrieveOtherProgramsForCustomerAccount(customer, result);
+		
 		return result;
 														
 	}
@@ -139,8 +141,12 @@ public with sharing class ToroPricingProgramEligibility {
 		Set<Revvy__MnStrategy1__c> uniquePP = new Set<Revvy__MnStrategy1__c>(ppList);
 		for(Revvy__MnStrategy1__c pp : uniquePP) {
 	        //ret.add(new ToroSelectOption(pp.name, pp.name));
-	        system.debug(logginglevel.info, 'retrievePricingProgramOptions ' + pp.ExternalId__c + ' ' + pp.PricingProgramStyle__c + ' ' + pp.name);
-	        ret.add(new ToroSelectOption(pp.ExternalId__c+ ';' + pp.PricingProgramStyle__c, pp.name));
+	        if(String.isNotBlank(pp.name)) {
+	        	system.debug(logginglevel.info, 'retrievePricingProgramOptions ' + pp.ExternalId__c + ' ' + pp.PricingProgramStyle__c + ' ' + pp.name);
+	        	ret.add(new ToroSelectOption(pp.ExternalId__c+ ';' + pp.PricingProgramStyle__c, pp.name));
+	        }else {
+	        	system.debug(logginglevel.info, 'retrievePricingProgramOptions  null------' + pp);	
+	        }
         }
         ret.sort();
 		return ret;
