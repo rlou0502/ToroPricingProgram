@@ -19,8 +19,8 @@
 					var productName = searchResults[x].REVVY__Product__r.Name;
 					var productId   = searchResults[x].REVVY__Product__r.REVVY__Id__c;
 					var dnetPrice   = searchResults[x].REVVY__SuggestedPrice__c;
-					var msrpPrice   = searchResults[x].REVVY__SuggestedPrice__c;
-					var awardPrice  = searchResults[x].REVVY__SuggestedPrice__c;
+					var msrpPrice   = searchResults[x].REVVY__ListedPrice__c;
+					var awardPrice  = searchResults[x].REVVY__ListedPrice__c;
 					var description = searchResults[x].REVVY__Product__r.Name;
 
 					if (regEx.test(productId) || regEx.test(description)) {

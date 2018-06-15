@@ -10,12 +10,13 @@ public with sharing class ToroPricingProgramEligibility {
 													From Revvy__MnStrategy3__c where Distributor__c = :distributor and PricingProgram__r.IsFirstTee__c = FALSE and PricingProgram__r.CORPORATE_ACCOUNT__C=null];
 		system.debug(logginglevel.info, ' programs size= ' + programs.size());
 		for(Revvy__MnStrategy3__c e : programs) {
-			system.debug(logginglevel.info, ' programs name= ' + e.PricingProgram__r.Name + ' = ' + e.PricingProgram__c );
-			result.add(new Revvy__MnStrategy1__c(Id=e.PricingProgram__c, Name=e.PricingProgram__r.Name,IsTaxSupported__c = e.PricingProgram__r.IsTaxSupported__c,
+			if(String.isNotBlank(e.PricingProgram__c)) {				
+				result.add(new Revvy__MnStrategy1__c(Id=e.PricingProgram__c, Name=e.PricingProgram__r.Name,IsTaxSupported__c = e.PricingProgram__r.IsTaxSupported__c,
 													IsFirstTee__c = e.PricingProgram__r.IsFirstTee__c,MinimumTractionUnits__c = e.PricingProgram__r.MinimumTractionUnits__c,
 													OverriddenPriceList__c = e.PricingProgram__r.OverriddenPriceList__c,AllowSupportPlus__c = e.PricingProgram__r.AllowSupportPlus__c,
 													PricingProgramStyle__c = e.PricingProgram__r.PricingProgramStyle__c,ExternalId__c = e.PricingProgram__r.ExternalId__c,
-													Exclude__c = e.PricingProgram__r.Exclude__c));		
+													Exclude__c = e.PricingProgram__r.Exclude__c));	
+			}	
 		}
 		system.debug(logginglevel.info, ' result size= ' + result.size());
 		return result;
