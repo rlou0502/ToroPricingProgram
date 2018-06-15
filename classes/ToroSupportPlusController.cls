@@ -58,10 +58,12 @@ global class ToroSupportPlusController {
 						AND REVVY__Product__r.REVVY__Effective_Start_Date__c <= TODAY
 						AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
 						AND REVVY__Product__r.REVVY__Status__c = 'Active'
-						AND REVVY__PriceList__r.Name = 'Commercial'
 						AND REVVY__Product__r.REVVY__Id__c LIKE :term
 						AND REVVY__Product__r.Non_Toro_Product__c = false // exclude Trade-In, Allied Product, Service Contract
-
+						AND (NOT REVVY__Product__r.REVVY__Id__c LIKE 'L1%')
+						AND REVVY__PriceList__r.Name = 'Commercial'
+						AND REVVY__Start_Date__c <= TODAY
+						AND REVVY__End_Date__c >= TODAY
 					ORDER BY
 						REVVY__Product__r.Name asc
 				];
@@ -84,10 +86,12 @@ global class ToroSupportPlusController {
 						AND REVVY__Product__r.REVVY__Effective_Start_Date__c <= TODAY
 						AND REVVY__Product__r.REVVY__Effective_End_Date__c >= TODAY
 						AND REVVY__Product__r.REVVY__Status__c = 'Active'
-						AND REVVY__PriceList__r.Name = 'Commercial'
 						AND REVVY__Product__r.Name LIKE :termRegEx
 						AND REVVY__Product__r.Non_Toro_Product__c = false // exclude Trade-In, Allied Product, Service Contract
-
+						AND (NOT REVVY__Product__r.REVVY__Id__c LIKE 'L1%')
+						AND REVVY__PriceList__r.Name = 'Commercial'
+						AND REVVY__Start_Date__c <= TODAY
+						AND REVVY__End_Date__c >= TODAY
 					ORDER BY
 						REVVY__Product__r.Name asc
 				];
