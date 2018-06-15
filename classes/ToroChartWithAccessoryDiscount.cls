@@ -37,7 +37,9 @@ public override List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quote
 						qi.Off_MSRP__c = (1-(qi.Award_Price__c/qi.MSRP_Price__c))*100;	
 						//qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
 					}
-					qi.Award_of_DN__c = qi.Award_Price__c/ qi.DNet_Price__c * 100;
+					if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
+						qi.Award_of_DN__c = qi.Award_Price__c/ qi.DNet_Price__c * 100;
+					}
 					qi.Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 					qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c.setScale(4));
 					//qi.Original_Award_Price__c = qi.Award_Price__c ;
@@ -55,7 +57,8 @@ public override List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quote
 							//decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
 							decimal rebate = qi.DNET_Price__c - qi.award_price__c + qi.Toro_Gross_Profit_Value__c;
 							system.debug('qi.award price =' + qi.award_price__c + ' msrp =' + qi.msrp_price__c + ' qi.Toro_Gross_Profit_Value__c =' + qi.Toro_Gross_Profit_Value__c + ' rebate='+ rebate );
-							qi.Rebate_as_a_of_DN__c = rebate / qi.DNET_Price__c * 100;
+							if(qi.DNET_Price__c != null && qi.DNET_Price__c != 0)
+								qi.Rebate_as_a_of_DN__c = rebate / qi.DNET_Price__c * 100;
 							qi.Toro_Gross_Profit_Value__c *= qi.adjusted_quantity__c;
 							system.debug('qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
 						}
@@ -74,11 +77,13 @@ public override List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quote
 						qis.Percent_Off_MSRP__c = 10;	
 						qis.award_price__c = qis.MSRP_Price__c * (1-qis.Percent_Off_MSRP__c/100);
 						qis.Extended_Award_Price__c = qis.award_price__c * qis.adjusted_quantity__c;
-						qis.Percent_of_DNet__c = qis.award_price__c/qis.DNet_Price__c*100;
+						if(qis.DNet_Price__c != null && qis.DNet_Price__c !=0)
+							qis.Percent_of_DNet__c = qis.award_price__c/qis.DNet_Price__c*100;
 						qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);
 						qis.Rebate_as_of_DNet__c = 0;
 						qis.Gross_Profit_Value__c = (qis.award_price__c - qis.DNet_Price__c)*qis.adjusted_quantity__c;
-						qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;							
+						if(qis.Extended_Award_Price__c != null && qis.Extended_Award_Price__c != 0)
+							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;							
 					}
 				}	
 			}
