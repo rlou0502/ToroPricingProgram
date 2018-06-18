@@ -63,6 +63,7 @@ public with sharing class ToroSupportPlusHelper {
 			REVVY__MnStrategy1__c pricingProgram = [
 				SELECT
 					Determines_Support_Plus_Allowance__c
+					, Maximum_Support_Value_To_Use__c
 				FROM
 					REVVY__MnStrategy1__c
 				WHERE
@@ -311,7 +312,10 @@ public with sharing class ToroSupportPlusHelper {
 			SELECT
 				Total_DNet_Low__c
 				, Total_DNet_High__c
+				, Award_Price_as_Percent_of_DN_Low__c
+				, Award_Price_as_Percent_of_DN_High__c
 				, Maximum_Support__c
+				, Maximum_Support_Percent__c
 			FROM
 				Support_Plus_Plan__c
 			WHERE

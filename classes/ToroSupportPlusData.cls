@@ -5,6 +5,10 @@
  *
  */
 public with sharing class ToroSupportPlusData {
+	public static final String DETERMINES_SP_ALLOWANCE_DNET = 'Total DNet Only';
+	public static final String DETERMINES_SP_ALLOWANCE_AWARD = 'Award Only';
+	public static final String DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD = 'Total DNet and Award';
+
 	@AuraEnabled public Boolean success                             	 { get; private set; }
 	@AuraEnabled public REVVY__MnQuote__c quote 						 { get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> qiWrappers 			 { get; set; }
@@ -61,29 +65,38 @@ public with sharing class ToroSupportPlusData {
 			// get support plus plans
 			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			Decimal totalValue;
-			if (this.pricingProgram.Determines_Support_Plus_Allowance__c == 'Toro_Award__c') {
-				totalValue         = quote.Toro_Award__c;
+			List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);
+
+			if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
 				this.showDNet      = false;
 				this.showToroAward = true;
-			}
-
-			else {
-				totalValue         = quote.Toro_Total_DNet__c;
-				this.showDNet      = true;
-				this.showToroAward = true;
-			}
-
-			List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);
-			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (totalValue >= plan.Total_DNet_Low__c
-					&& totalValue < plan.Total_DNet_High__c
-				) {
-					quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
-					break;
+				for (Support_Plus_Plan__c plan : supportPlusPlans) {
+					if (quote.Toro_Award__c >= plan.Total_DNet_Low__c
+						&& quote.Toro_Award__c < plan.Total_DNet_High__c
+					) {
+						quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+						break;
+					}
 				}
 			}
-			System.debug('\n\n@@totalValue: ' + totalValue + '\n\n');
+
+			else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET) {
+				this.showDNet      = true;
+				this.showToroAward = true;
+				for (Support_Plus_Plan__c plan : supportPlusPlans) {
+					if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
+						&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
+					) {
+						quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+						break;
+					}
+				}
+			}
+
+			else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
+
+			}
+
 			System.debug('\n\n@@supportPlusPlans: ' + supportPlusPlans + '\n\n');
 
 			// get support plus contributions

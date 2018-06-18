@@ -198,7 +198,7 @@
 		console.log('quote.Toro_Award__c: ' + quote.Toro_Award__c);
 		console.log('spSplitAwardTotal: ' + spSplitAwardTotal);
 
-		if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Toro_Award__c') {
+		if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Award Only') {
 			quote.Toro_Support_Plus_Allowance_Used__c = spSplitAwardTotal + addNewAwardTotal;
 		}
 

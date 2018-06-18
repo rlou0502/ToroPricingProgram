@@ -99,11 +99,15 @@
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
-                    <fullName>Toro_Total_DNet__c</fullName>
+                    <fullName>Total DNet Only</fullName>
                     <default>true</default>
                 </value>
                 <value>
-                    <fullName>Toro_Award__c</fullName>
+                    <fullName>Award Only</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Total DNet and Award</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
