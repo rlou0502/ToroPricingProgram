@@ -94,7 +94,16 @@ public with sharing class ToroSupportPlusData {
 			}
 
 			else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
-
+				for (Support_Plus_Plan__c plan : supportPlusPlans) {
+					if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
+						&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
+						&& quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
+						&& quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
+					) {
+						quote.Toro_Support_Plus_Allowance__c = quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c;
+						break;
+					}
+				}
 			}
 
 			System.debug('\n\n@@supportPlusPlans: ' + supportPlusPlans + '\n\n');
