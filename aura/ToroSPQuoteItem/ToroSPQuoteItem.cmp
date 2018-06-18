@@ -53,22 +53,24 @@
 						</aura:renderIf>
 					</tr>
 					<aura:iteration items="{!quoteItem.sublines}" var="subline">
-						<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}" style="{!subline.displayStyle}">
-							<td>&nbsp;</td>
-							<td>{!subline.quantity}</td>
-							<td>
-								<lightning:input name="{!subline.sfid}" type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}"/>
-							</td>
-							<td>{!subline.productId}</td>
-							<td>{!subline.description}</td>
-							<td><ui:outputText value="{!subline.distributorResponsibility}" /></td>
-							<aura:renderIf isTrue="{!v.showDNet}">
-								<td><lightning:formattedNumber value="{!subline.dnetPrice}" style="currency" /></td>
-							</aura:renderIf>
-							<aura:renderIf isTrue="{!v.showToroAward}">
-								<td><lightning:formattedNumber value="{!subline.awardPrice}" style="currency" /></td>
-							</aura:renderIf>
-						</tr>
+						<aura:if isTrue="{!subline.eligibleForSupportPlus == true}">
+							<tr class="quote_subline" data-quoteItem="{!quoteItem.sfid}" style="{!subline.displayStyle}">
+								<td>&nbsp;</td>
+								<td>{!subline.quantity}</td>
+								<td>
+									<lightning:input name="{!subline.sfid}" type="number" value="{!subline.spQuantity}" onchange="{!c.handleSPQuantityChange}"/>
+								</td>
+								<td>{!subline.productId}</td>
+								<td>{!subline.description}</td>
+								<td><ui:outputText value="{!subline.distributorResponsibility}" /></td>
+								<aura:renderIf isTrue="{!v.showDNet}">
+									<td><lightning:formattedNumber value="{!subline.dnetPrice}" style="currency" /></td>
+								</aura:renderIf>
+								<aura:renderIf isTrue="{!v.showToroAward}">
+									<td><lightning:formattedNumber value="{!subline.awardPrice}" style="currency" /></td>
+								</aura:renderIf>
+							</tr>
+						</aura:if>
 					</aura:iteration>
 					<tr>
 						<td colspan="7" style="display:none;">&nbsp;</td>

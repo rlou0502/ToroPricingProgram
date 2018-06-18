@@ -479,15 +479,20 @@ public abstract class ToroPricingProgram {
 				quoteMSRP					+= qi.Total_Toro_MSRP__c;
             }
 */
-            if(!isNonToroProduct(qi)) {
+            if(!isNonToroProduct(qi) && !isNewSPLine(qi)) {
 				quoteToroTotalDNet          += qi.Total_Toro_DNET__c;
 				quoteMSRP					+= qi.Total_Toro_MSRP__c;
+				quoteTotalToroAward       	+= qi.Total_Toro_Award__c;
+				quoteTotalDNet              += qi.Total_DNET__c;
+				quoteTotalGP 				+= qi.Total_Gross_Profit_Value__c;
 			}
+			/*
 			if(!isNonToroProduct(qi)) {
 				quoteTotalToroAward       	+= qi.Total_Toro_Award__c;
 				quoteTotalDNet              += qi.Total_DNET__c;
 				quoteTotalGP 				+= qi.Total_Gross_Profit_Value__c;
 			}
+			*/
 			
 			quoteTotalRebate       		+= qi.Toro_Total_Rebate__c;
 			quoteTotalDnetWOTppAllied   += qi.Total_Toro_Award__c;
@@ -577,7 +582,7 @@ public abstract class ToroPricingProgram {
 		initializeQuoteHeader(quoteId);
 
 		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Has_Support_Plus__c,PricingMethodValue__c,Pricing_Program_Overridden__c, DrivenByGP__c,Adjusted_Quantity__c, OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
+		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Support_Plus_From_Add_New_F__c,Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId Order by createdDate asc';
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);
@@ -600,6 +605,10 @@ public abstract class ToroPricingProgram {
 			ret = true;
 		}
 		return ret;
+	}
+    public virtual boolean isNewSPLine(Revvy__MnStrategy4__c qi) {
+		boolean ret = false;
+		return qi.Support_Plus_From_Add_New_F__c;
 	}
 	public virtual boolean isNonToroProduct(Revvy__MnStrategy5__c qis) {
 		boolean ret = false;

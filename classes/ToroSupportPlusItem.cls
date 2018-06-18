@@ -160,6 +160,12 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		// this.quantity      = subline.REVVY__Quantity__c * qi.REVVY__Quantity__c;
 		this.spQuantity    = 0;
 
+		this.eligibleForSupportPlus = true;
+		if (this.productId.startsWith('L1')) {
+			this.eligibleForSupportPlus = false;
+		}
+
+
 		this.isFromAddNew = false;
 		this.chevronStyle = '';
 		this.displayStyle = 'display:none';
@@ -196,6 +202,8 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		// this.description   = String.isBlank(subline.Description__c) ? subline.REVVY__Catalog_Node__r.Name : subline.Description__c;
 		// this.quantity      = subline.REVVY__Quantity__c * qi.REVVY__Quantity__c;
 		this.spQuantity    = sublineSp.Quote_Item_Subline_Extension__r.Adjusted_Quantity__c;
+
+		this.eligibleForSupportPlus = true;
 
 		this.isFromAddNew = false;
 		this.chevronStyle = '';
