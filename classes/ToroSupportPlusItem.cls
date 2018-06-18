@@ -75,7 +75,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		}
 
 		this.eligibleForSupportPlus = true;
-		if (this.isNonToroProduct) {
+		if (this.isNonToroProduct || this.productId.startsWith('L1')) {
 			this.eligibleForSupportPlus = false;
 		}
 
