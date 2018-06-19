@@ -170,6 +170,10 @@ public abstract class ToroPricingProgram {
 	public virtual List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug('ToroPricingProgram preCalculateRebateMargin');
+		
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+				qi.DrivenByGP__c=false;
+			}
 		return 	quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
@@ -306,7 +310,7 @@ public abstract class ToroPricingProgram {
 			qi.Total_Toro_DNET__c=CMnQuoteUtil.defaultDecimal(qi.Total_Toro_DNET__c);
 			qi.Total_DNET__c=CMnQuoteUtil.defaultDecimal(qi.Total_DNET__c);
 			qi.TPP_Quoteitem_Total__c = 0;
-			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c );
+			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c + ' driven by gp=' + qi.DrivenByGP__c);
 
 			//Non Toro Indra
             if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {
@@ -360,6 +364,8 @@ public abstract class ToroPricingProgram {
 				if(qi.Extended_Award_Price__c != null && qi.Extended_Award_Price__c != 0) {
 					qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/qi.Extended_Award_Price__c*100;
 				}
+			} else {
+				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Percent__c)/100;
 			}
 
 			//Non Toro Indra

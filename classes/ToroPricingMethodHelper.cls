@@ -317,6 +317,7 @@ public with sharing class ToroPricingMethodHelper {
 				if(String.isBlank(qi.Pricing_Program__c)) {
 					qi.Pricing_Program__c=pricingProgramExternalId;
 				}
+                qi.DrivenByGP__c = true;
 				qi.Award_of_DN__c = lookupDNetPercentFromGPPercent(qi.Pricing_Program__c, qi.Toro_Gross_Profit_Percent__c);
 				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi Award_of_DN__c=' + qi.Award_of_DN__c);
 				if(!qi.Unit_Award_Overridden__c) {
