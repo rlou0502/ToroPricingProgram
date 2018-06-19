@@ -249,11 +249,13 @@ public with sharing class ToroPricingMethodHelper {
 				ToroPricingMethodData lowerBound = gp2Map.values()[gp2Map.values().size()-1];
 				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---upperBound=' + upperBound);
 				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---lowerBound=' + lowerBound);
-				if(gpPercent > upperBound.grossProfitPercent) {					
-					dnetPercent = upperBound.percentOfDNet;
+				if(gpPercent > upperBound.grossProfitPercent) {		
+					dnetPercent = ((100 - upperBound.rebatePercent) / (100-upperBound.grossProfitPercent))*100;			
+					
 					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found upper bound=' + dnetPercent);
 				} else if(gpPercent < lowerBound.grossProfitPercent) {
-					dnetPercent = lowerBound.percentOfDNet;	
+					dnetPercent = ((100 - lowerBound.rebatePercent) / (100-lowerBound.grossProfitPercent))*100;
+					//dnetPercent = lowerBound.percentOfDNet;	
 					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found lower bound=' + dnetPercent);
 				} else {
 					for(integer i=0; i < gp2Map.values().size()-1; i++) {
