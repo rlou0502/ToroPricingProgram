@@ -829,7 +829,7 @@
     <fields>
         <fullName>Exclude_from_Rebate__c</fullName>
         <defaultValue>false</defaultValue>
-        <description>Exlcude Sublines from Rebate calculations</description>
+        <description>Exclude Sublines from Rebate calculations</description>
         <externalId>false</externalId>
         <label>EXC RBT</label>
         <trackTrending>false</trackTrending>
