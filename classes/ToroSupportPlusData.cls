@@ -102,7 +102,7 @@ public with sharing class ToroSupportPlusData {
 						&& quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
 						&& quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
 					) {
-						quote.Toro_Support_Plus_Allowance__c = quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c;
+						quote.Toro_Support_Plus_Allowance__c = (quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
 						break;
 					}
 				}
