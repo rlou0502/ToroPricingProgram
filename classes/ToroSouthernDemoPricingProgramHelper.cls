@@ -134,7 +134,7 @@ public with sharing class ToroSouthernDemoPricingProgramHelper  extends ToroPric
 		}
 		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;
-		
+		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
 		return quoteItemList;
 	}
 	
@@ -144,7 +144,15 @@ public with sharing class ToroSouthernDemoPricingProgramHelper  extends ToroPric
 																		, List<Revvy__MnStrategy4__c> quoteItemList
 	) {
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
+		
+		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
+		System.debug('\n\n@@scottcheck\n\n');
+		System.debug('\n\n@@pricingProgram: ' + pricingProgram + '\n\n');
+		System.debug('\n\n@@quote: ' + quote + '\n\n');
+		update quote;
 
+		return	quoteItemList;
+		/*
 		Revvy__MnQuote__c quote = [SELECT
 										Toro_ApprovalReason__c
 										, REVVY__NeedsApproval__c
@@ -197,44 +205,6 @@ public with sharing class ToroSouthernDemoPricingProgramHelper  extends ToroPric
 		update quote;
 
 		return	quoteItemList;
+		*/
 	}
-
-	/**
-	 *
-	 * returns the number of Traction Units in a quote
-	 *
-	 * @param  quoteItemList    the list of Toro Quote Items
-	 * @return count of traction units
-	 */
-	public Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList) {
-		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
-		Integer count = 0;
-		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
-		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
-			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
-				count++;
-			}
-		}
-		System.debug('\n\n@@count: ' + count + '\n\n');
-		return count;
-	}
-
-	/**
-	 *
-	 * check if the quote items contain an Out-Cross unit
-	 *
-	 * @param  quoteItemList    the list of Toro Quote Items
-	 * @return true/false
-	 */
-	public Boolean checkForOutCrossProducts(List<Revvy__MnStrategy4__c> quoteItemList) {
-		System.debug('\n\n@@checkForOutCrossProducts quoteItemList: ' + quoteItemList + '\n\n');
-		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
-			if (quoteItem.Product_Name__c.startsWithIgnorecase('OUTCROSS')) {
-				System.debug('\n\n@@contains outcross\n\n');
-				return true;
-			}
-		}
-
-		return false;
-	}    
 }

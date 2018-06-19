@@ -118,7 +118,7 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 		}
 		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;
-		
+		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
 		return quoteItemList;
 	} 
 	 
@@ -128,7 +128,15 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 																		, List<Revvy__MnStrategy4__c> quoteItemList
 	) {
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
+		
+		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
+		System.debug('\n\n@@scottcheck\n\n');
+		System.debug('\n\n@@pricingProgram: ' + pricingProgram + '\n\n');
+		System.debug('\n\n@@quote: ' + quote + '\n\n');
+		update quote;
 
+		return	quoteItemList;
+		/*
 		Revvy__MnQuote__c quote = [SELECT
 										Toro_ApprovalReason__c
 										, REVVY__NeedsApproval__c
@@ -181,6 +189,7 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 		update quote;
 
 		return	quoteItemList;
+		*/
 	}
 
 	/**

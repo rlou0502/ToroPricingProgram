@@ -274,7 +274,7 @@ CustomerCurrency_ISOCurrency</description>
         <fullName>Grand_Total__c</fullName>
         <description>Total_Award__c + TPP_Total__c - Trade_In_Total__c + Set_Up_Total__c + Freight_Delivery__c + Allied_Non_Toro_Total__c + State_Sales_Tax__c</description>
         <externalId>false</externalId>
-        <formula>Total_Award__c + TPP_Total__c  + Set_Up_Total__c + Freight_Delivery__c + Allied_Non_Toro_Total__c + State_Sales_Tax__c +  Misc__c</formula>
+        <formula>Total_Award__c  + Set_Up_Total__c + Freight_Delivery__c + State_Sales_Tax__c +  Misc__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Grand Total</label>
         <precision>18</precision>

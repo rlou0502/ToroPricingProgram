@@ -117,51 +117,10 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		}
 		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;
-		quoteItemList = checkIfApprovalNeeded(quoteId, priceProgram, priceMethod, quoteItemList );
+		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
 		return quoteItemList;
 	}
 
-	public List<Revvy__MnStrategy4__c> checkIfApprovalNeeded(Id quoteId, String priceProgram, 
-						String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList) {
-		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
-		System.debug('\n\n@@approval flag - quote: ' + this.quote + '\n\n');
-		Boolean containsOutCross = checkForOutCrossProducts(quoteItemList);
-		Integer numberOfTractionUnits = getNumberOfTractionUnits(quoteItemList);	
-		Boolean needsApproval = false;
-		String approvalMessage = '';
-
-		if (containsOutCross && this.quote.Toro_Total_DNet__c < pricingProgram.OutCrossThreshold__c) {
-			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '.' + ' (It is ' + this.quote.Toro_Total_DNet__c + ').';
-		}	
-		else if (!containsOutcross && this.quote.Toro_Total_DNet__c < pricingProgram.MinimumThreshold__c) {
-			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '.' + ' (It is ' + this.quote.Toro_Total_DNet__c + ').';
-		}
-
-		if (this.quote.Toro_Blended_Percent_of_DN__c < pricingProgram.Blended_DNet_Threshold__c) {
-			needsApproval = true;
-			approvalMessage = ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
-		}
-
-		if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
-			needsApproval = true;
-			approvalMessage += ' Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s).';
-		}
-
-		if (needsApproval) {
-			this.quote.REVVY__NeedsApproval__c = true;
-			this.quote.Toro_ApprovalReason__c = approvalMessage;
-		}
-
-		else {
-			this.quote.REVVY__NeedsApproval__c = false;
-			this.quote.Toro_ApprovalReason__c = '';
-		}
-
-
-		return	quoteItemList;
-	}
 
 	/**
 	 *
@@ -178,55 +137,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		System.debug('\n\n@@postSaveQuoteItemList called\n\n');
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
 
-		Revvy__MnQuote__c quote = [SELECT
-										Toro_ApprovalReason__c
-										, REVVY__NeedsApproval__c
-										, Toro_Total_DNet__c
-										, Toro_Blended_Percent_of_DN__c
-									FROM
-										Revvy__MnQuote__c
-									WHERE
-										Id = :quoteId LIMIT 1];
-
-		System.debug('\n\n@@approval flag - quote: ' + quote + '\n\n');
-		Boolean containsOutCross = checkForOutCrossProducts(quoteItemList);
-		Integer numberOfTractionUnits = getNumberOfTractionUnits(quoteItemList);
-
-		// quotes that contain outcross items have a separate threshold
-
-		Boolean needsApproval = false;
-		String approvalMessage = '';
-
-		if (containsOutCross && quote.Toro_Total_DNet__c < pricingProgram.OutCrossThreshold__c) {
-			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
-		}
-
-		else if (!containsOutcross && quote.Toro_Total_DNet__c < pricingProgram.MinimumThreshold__c) {
-			needsApproval = true;
-			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
-		}
-
-		if (quote.Toro_Blended_Percent_of_DN__c < pricingProgram.Blended_DNet_Threshold__c) {
-			needsApproval = true;
-			approvalMessage = ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
-		}
-
-		if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
-			needsApproval = true;
-			approvalMessage += ' Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s).';
-		}
-
-		if (needsApproval) {
-			quote.REVVY__NeedsApproval__c = true;
-			quote.Toro_ApprovalReason__c = approvalMessage;
-		}
-
-		else {
-			quote.REVVY__NeedsApproval__c = false;
-			quote.Toro_ApprovalReason__c = '';
-		}
-
+		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
 		System.debug('\n\n@@scottcheck\n\n');
 		System.debug('\n\n@@pricingProgram: ' + pricingProgram + '\n\n');
 		System.debug('\n\n@@quote: ' + quote + '\n\n');

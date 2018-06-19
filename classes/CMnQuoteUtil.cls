@@ -73,13 +73,56 @@ public with sharing class CMnQuoteUtil {
 		return String.join(new List<String>(nameSet), ',');
 	}
 
+	public static List<Revvy__MnStrategy4__c> checkIfApprovalNeeded(REVVY__MnQuote__c quote, String priceProgram, 
+						String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList) {
+		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgram);
+		System.debug('\n\n@@approval flag - quote: ' + quote + '\n\n');
+		Boolean containsOutCross = CMnQuoteUtil.checkForOutCrossProducts(quoteItemList);
+		Integer numberOfTractionUnits = CMnQuoteUtil.getNumberOfTractionUnits(quoteItemList);	
+		Boolean needsApproval = false;
+		String approvalMessage = '';
+
+		if (containsOutCross && quote.Toro_Total_DNet__c < pricingProgram.OutCrossThreshold__c) {
+			needsApproval = true;
+			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.OutCrossThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
+		}	
+		else if (!containsOutcross && quote.Toro_Total_DNet__c < pricingProgram.MinimumThreshold__c) {
+			needsApproval = true;
+			approvalMessage = 'Total Extended DNet must exceed ' + pricingProgram.MinimumThreshold__c + '.' + ' (It is ' + quote.Toro_Total_DNet__c + ').';
+		}
+
+		if (quote.Toro_Blended_Percent_of_DN__c < pricingProgram.Blended_DNet_Threshold__c) {
+			needsApproval = true;
+			approvalMessage += ' Blended Percent of DNet must exceed ' + pricingProgram.Blended_DNet_Threshold__c + '%.';
+		}
+
+		if (numberOfTractionUnits < pricingProgram.MinimumTractionUnits__c) {
+			needsApproval = true;
+			approvalMessage += ' Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s).';
+		}
+
+		if (needsApproval) {
+			quote.REVVY__NeedsApproval__c = true;
+			quote.Toro_ApprovalReason__c = approvalMessage;
+		}
+
+		else {
+			quote.REVVY__NeedsApproval__c = false;
+			quote.Toro_ApprovalReason__c = '';
+		}
+
+
+		return	quoteItemList;
+	}
+	
+	
 	public static Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
 		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
 		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
 			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
-				count += (Integer) quoteItem.Quantity__c;
+				count += (Integer) quoteItem.Adjusted_Quantity__c;
 			}
 		}
 		System.debug('\n\n@@count: ' + count + '\n\n');
@@ -104,4 +147,6 @@ public with sharing class CMnQuoteUtil {
 
 		return false;
 	}
+
+	
 }
