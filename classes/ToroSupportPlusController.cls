@@ -248,6 +248,7 @@ global class ToroSupportPlusController {
 			quoteObjToUpdate.SP_Ext_Dist_Responsibility__c  = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
 			quoteObjToUpdate.SP_Total_Extended_DNET__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
 			update quoteObjToUpdate;
+			ToroCacheManager.refreshQuote(quote.Id);
 			System.debug('\n\n@@quoteObjToUpdate: ' + quoteObjToUpdate + '\n\n');
 
 			// EXISTING QUOTE ITEM DATA
