@@ -38,13 +38,35 @@ public class ToroPricingProgramInfoBoxController {
     public static ToroInfoBoxResultSet getInfoBoxFieldSets() {
     	ToroInfoBoxResultSet rs = new ToroInfoBoxResultSet();
     	system.debug('refreshInfoBox');
-    	rs.result=true;
-    	rs.quoteItemTractionUnitFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Traction_Unit_Info.getFields());
-    	rs.quoteItemMainFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Line_Info_Cols.getFields());
-    	rs.quoteSublineFieldSet = convertFieldSet(SObjectType.Revvy__MnStrategy5__c.FieldSets.Price_Program_Subline_Info_Cols.getFields());
-    	rs.quoteFieldSet = convertFieldSet(SObjectType.Revvy__MnQuote__c.FieldSets.Price_Program_Quote_Info.getFields());
+    	rs.result=true; 
+    	rs.quoteItemTractionUnitFieldSet = convertFieldSet(removeDNetFieldsFromSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Traction_Unit_Info.getFields(),
+    					SObjectType.Revvy__MnStrategy4__c.FieldSets.DNet_Field_Set.getFields()));
+    	rs.quoteItemMainFieldSet = convertFieldSet(removeDNetFieldsFromSet(SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Line_Info_Cols.getFields(),
+    												SObjectType.Revvy__MnStrategy4__c.FieldSets.DNet_Field_Set.getFields()));
+    	rs.quoteSublineFieldSet = convertFieldSet(removeDNetFieldsFromSet(SObjectType.Revvy__MnStrategy5__c.FieldSets.Price_Program_Subline_Info_Cols.getFields(),
+    												SObjectType.Revvy__MnStrategy5__c.FieldSets.DNet_Field_Set.getFields()));
+    	rs.quoteFieldSet = convertFieldSet(removeDNetFieldsFromSet(SObjectType.Revvy__MnQuote__c.FieldSets.Price_Program_Quote_Info.getFields(),
+    												SObjectType.Revvy__MnQuote__c.FieldSets.DNet_Field_Set.getFields()));
     	return rs;
     }
+    public static List<Schema.FieldSetMember> removeDNetFieldsFromSet(List<Schema.FieldSetMember> sourceFS, List<Schema.FieldSetMember> removeFS)  {
+		Set<String> dnetMap = new Set<String>();
+		for(Schema.FieldSetMember fs : removeFS) {
+			dnetMap.add(fs.fieldPath);
+		}
+		system.debug('removeDNetFieldsFromSet--' + dnetMap);
+		for(integer i = sourceFS.size()-1; i >= 0; i--) {
+			Schema.FieldSetMember fs2 = sourceFS[i];
+
+			if(dnetMap.contains(fs2.fieldPath)) {
+				system.debug('removeDNetFieldsFromSet--fs2=' + fs2);
+				Schema.FieldSetMember fs = sourceFS.remove(i);
+				system.debug('removeDNetFieldsFromSet--removed =' + fs);
+			}
+		}
+		return sourceFS;
+	}
+	
     @AuraEnabled
     public static Revvy__MnQuote__c loadQuoteHeader(Id quoteId) {
     	return ToroCacheManager.getQuote(quoteId);
