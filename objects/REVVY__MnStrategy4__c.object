@@ -714,6 +714,16 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Toro_Fee_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Setup_Fees__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Toro_Product_Tier__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
