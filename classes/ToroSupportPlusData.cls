@@ -95,7 +95,7 @@ public with sharing class ToroSupportPlusData {
 
 			else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
 				this.showDNet      = true;
-				this.showToroAward = false;
+				this.showToroAward = true;
 				for (Support_Plus_Plan__c plan : supportPlusPlans) {
 					if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
 						&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c

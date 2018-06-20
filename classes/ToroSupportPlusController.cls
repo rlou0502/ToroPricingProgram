@@ -468,7 +468,7 @@ global class ToroSupportPlusController {
 						, REVVY__Catalog_Node__c         = addNewWrapper.catalogNodeId
 						, REVVY__Price__c                = 0
 						, REVVY__SuggestedPrice__c       = 0
-						, Award_Price__c                 = addNewWrapper.awardPrice
+						, Award_Price__c                 = 0 //addNewWrapper.awardPrice
 						, Support_Plus_Original_Price__c = addNewWrapper.dnetPrice
 						, Description__c                 = addNewWrapper.description
 						, Support_Plus_Original_Item__c  = null
