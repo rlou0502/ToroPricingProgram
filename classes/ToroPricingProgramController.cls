@@ -473,18 +473,23 @@ public class ToroPricingProgramController {
     		//if there is only one pricing method + "Please select" item, auto apply it
     		pp.initialize(objId);
     		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
-
+			
     		if(options.size() ==1) {
     			//pp.calculateRebateMargin();
     			ToroSelectOption so = options[0];
     			system.debug('setPricingProgramToDB calling calculateRebateMargin');
-    			update new Revvy__MnQuote__c(Id = objId, Pricing_Program_Name__c=pricingProgram, Pricing_Program_Type__c=pricingProgram, Price_Method__c=so.value);
+    			//update new Revvy__MnQuote__c(Id = objId, Pricing_Program_Name__c=pricingProgram, Pricing_Program_Type__c=pricingProgram, Price_Method__c=so.value);
+    			pp.quote.Pricing_Program_Name__c=pricingProgram;
+	    		pp.quote.Pricing_Program_Type__c=pricingProgram;
+	    		pp.quote.Price_Method__c=so.value;
+	    		ToroCacheManager.putQuote(pp.quote);
     			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     				qi.Pricing_Program__c = pricingProgram;
     				qi.Select_a_Price_Method__c = rs.selectedPricingMethod;
     				qi.Off_MSRP__c=0;
     				qi.Award_of_DN__c=0;
     				qi.Rebate_as_a_of_DN__c=0;
+    				qi.Unit_Award_Overridden__c = false;
     				if(!qi.Unit_Award_Overridden__c) {
     					qi.Award_Price__c=0;
     				}
@@ -496,6 +501,7 @@ public class ToroPricingProgramController {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
+	    					qis.Unit_Award_Overridden__c=false;
 	    					if(!qis.Unit_Award_Overridden__c) {
 	    						qis.Award_Price__c=0;
 	    					}
@@ -510,6 +516,10 @@ public class ToroPricingProgramController {
     			rs.selectedPricingMethod = so.value;
     			rs.nextAction = 'calculation';
     		} else {
+    			pp.quote.Pricing_Program_Name__c=pricingProgram;
+	    		pp.quote.Pricing_Program_Type__c=pricingProgram;
+	    		
+	    		ToroCacheManager.putQuote(pp.quote);
     			//update new Revvy__MnQuote__c(Id = objId, Pricing_Program_Name__c=pricingProgram, Pricing_Program_Type__c=pricingProgram,Price_Method__c=options[0].value);
     			system.debug('pricingMethod = ' + pricingMethod);
     			rs.selectedPricingMethod = string.isNotBlank(pricingMethod) ? pricingMethod : defaultPricingMethod;
@@ -521,6 +531,7 @@ public class ToroPricingProgramController {
     				qi.Off_MSRP__c=0;
     				qi.Award_of_DN__c=0;
     				qi.Rebate_as_a_of_DN__c=0;
+    				qi.Unit_Award_Overridden__c = false;
     				if(!qi.Unit_Award_Overridden__c) {
     					qi.Award_Price__c=0;
     				}
@@ -532,6 +543,7 @@ public class ToroPricingProgramController {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
+	    					qis.Unit_Award_Overridden__c=false;
 	    					if(!qis.Unit_Award_Overridden__c) {
 	    						qis.Award_Price__c=0;
 	    					}
@@ -601,7 +613,7 @@ public class ToroPricingProgramController {
 			}
     	//}
 
-
+		rs.quote = pp.quote;
     	return rs;
     }
     

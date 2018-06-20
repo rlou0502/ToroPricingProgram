@@ -250,11 +250,11 @@ public with sharing class ToroPricingMethodHelper {
 				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---upperBound=' + upperBound);
 				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---lowerBound=' + lowerBound);
 				if(gpPercent > upperBound.grossProfitPercent) {		
-					dnetPercent = ((100 - upperBound.rebatePercent) / (100-upperBound.grossProfitPercent))*100;			
+					dnetPercent = ((100 - upperBound.rebatePercent) / (100-gpPercent))*100;			
 					
 					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found upper bound=' + dnetPercent);
 				} else if(gpPercent < lowerBound.grossProfitPercent) {
-					dnetPercent = ((100 - lowerBound.rebatePercent) / (100-lowerBound.grossProfitPercent))*100;
+					dnetPercent = ((100 - lowerBound.rebatePercent) / (100-gpPercent))*100;
 					//dnetPercent = lowerBound.percentOfDNet;	
 					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found lower bound=' + dnetPercent);
 				} else {
@@ -321,9 +321,10 @@ public with sharing class ToroPricingMethodHelper {
 				}
                 qi.DrivenByGP__c = true;
 				qi.Award_of_DN__c = lookupDNetPercentFromGPPercent(qi.Pricing_Program__c, qi.Toro_Gross_Profit_Percent__c);
-				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi Award_of_DN__c=' + qi.Award_of_DN__c);
+				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi Award_of_DN__c=' + qi.Award_of_DN__c + ' Unit_Award_Overridden__c= ' + qi.Unit_Award_Overridden__c);
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;
+					system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi qi.Award_Price__c=' + qi.Award_Price__c + ' Unit_Award_Overridden__c= ' + qi.Unit_Award_Overridden__c);
 				}
 				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
 					qi.Off_MSRP__c = (1-qi.Award_Price__c/qi.MSRP_Price__c)*100 ;
