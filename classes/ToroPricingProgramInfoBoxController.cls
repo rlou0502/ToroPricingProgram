@@ -50,20 +50,24 @@ public class ToroPricingProgramInfoBoxController {
     	return rs;
     }
     public static List<Schema.FieldSetMember> removeDNetFieldsFromSet(List<Schema.FieldSetMember> sourceFS, List<Schema.FieldSetMember> removeFS)  {
-		Set<String> dnetMap = new Set<String>();
-		for(Schema.FieldSetMember fs : removeFS) {
-			dnetMap.add(fs.fieldPath);
-		}
-		system.debug('removeDNetFieldsFromSet--' + dnetMap);
-		for(integer i = sourceFS.size()-1; i >= 0; i--) {
-			Schema.FieldSetMember fs2 = sourceFS[i];
-
-			if(dnetMap.contains(fs2.fieldPath)) {
-				system.debug('removeDNetFieldsFromSet--fs2=' + fs2);
-				Schema.FieldSetMember fs = sourceFS.remove(i);
-				system.debug('removeDNetFieldsFromSet--removed =' + fs);
+		
+		if(!Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
+			Set<String> dnetMap = new Set<String>();
+			for(Schema.FieldSetMember fs : removeFS) {
+				dnetMap.add(fs.fieldPath);
+			}
+			system.debug('removeDNetFieldsFromSet--' + dnetMap);
+			for(integer i = sourceFS.size()-1; i >= 0; i--) {
+				Schema.FieldSetMember fs2 = sourceFS[i];
+	
+				if(dnetMap.contains(fs2.fieldPath)) {
+					system.debug('removeDNetFieldsFromSet--fs2=' + fs2);
+					Schema.FieldSetMember fs = sourceFS.remove(i);
+					system.debug('removeDNetFieldsFromSet--removed =' + fs);
+				}
 			}
 		}
+		
 		return sourceFS;
 	}
 	
