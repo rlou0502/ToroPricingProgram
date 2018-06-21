@@ -75,7 +75,9 @@
             	if(fieldName == "PricingMethodValue__c" && pm !="Total Award $") {
 	                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
 	                for (var i=0; i<sublines.length; i++) {
-	                    sublines[i].value=newVal;
+                        if(sublines[i].value == undefined || sublines[i].value == "") {
+	                    	sublines[i].value=newVal;
+                        }
 	                }
             	}
             	
