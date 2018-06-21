@@ -1,7 +1,8 @@
 ({
 	initialize : function(cmp) {
         var action = cmp.get('c.retrieveSupportPlusData');
-        var qId = cmp.get('v.quoteId');
+		var qId = cmp.get('v.quoteId');
+		console.log('quoteId: ' + qId);
 		action.setParams({ quoteId : qId });
 		action.setCallback(this
 			, function(response) {
@@ -10,6 +11,8 @@
 
 					console.log('supportPlusData:');
 					console.log(supportPlusData);
+					console.log('supportPlusData.quote.Toro_Total_DNet__c: ' + supportPlusData.quote.Toro_Total_DNet__c);
+					console.log('supportPlusData.quote.SP_Adjusted_Toro_Award__c: ' + supportPlusData.quote.SP_Adjusted_Toro_Award__c);
 
 					var quoteItems                  = this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.qiWrappers);
 					quoteItems = this.restoreUiState(cmp.get('v.quoteItems'), quoteItems);
@@ -21,6 +24,7 @@
 					cmp.set('v.supportPlusItems', supportPlusItems);
 					cmp.set('v.distributorResponsibilities', distributorResponsibilities);
 					cmp.set('v.quote', recalcQuote);
+					// cmp.set('v.quote', supportPlusData.quote);
 					cmp.set('v.distRespIsEditable', supportPlusData.distRespIsEditable);
 					cmp.set('v.showDNet', supportPlusData.showDNet);
 					cmp.set('v.showToroAward', supportPlusData.showToroAward);
@@ -157,7 +161,7 @@
 		$A.enqueueAction(action);
 	},
 	recalculateQuoteSupportPlusTotals: function(quote, quoteItems, supportPlusItems, pricingProgram) {
-		console.log('-recalculateQuoteSupportPlusTotals');
+		console.log('@recalculateQuoteSupportPlusTotals');
 		console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
 		console.log(pricingProgram);
 		var distRespPct = quote.Distributor_Responsibility__c * 0.01;
@@ -184,6 +188,8 @@
 				}
 			}
 		}
+		console.log('spSplitDNetTotal: ' + spSplitDNetTotal);
+		console.log('spSplitAwardTotal: ' + spSplitAwardTotal);
 
 		var addNewDNetTotal = 0; // amount paid by toro
 		var addNewAwardTotal = 0;
@@ -195,7 +201,7 @@
 			addNewAwardTotal += awardPrice * spQuantity;
 		}
 
-		console.log('quote.Toro_Award__c: ' + quote.Toro_Award__c);
+		console.log('spSplitDNetTotal: ' + spSplitDNetTotal);
 		console.log('spSplitAwardTotal: ' + spSplitAwardTotal);
 
 		if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Award Only') {
@@ -211,6 +217,10 @@
 		quote.SP_Adjusted_Ext_Award__c            = spSplitAwardTotal;
 		quote.SP_Toro_Responsibility__c           = toroResp * (spSplitDNetTotal + addNewDNetTotal);
 		quote.SP_Ext_Dist_Responsibility__c       = (quote.Toro_Total_DNet__c - spSplitDNetTotal) / quote.Toro_Total_DNet__c;
+
+		console.log('quote.SP_Total_Extended_DNET__c: ' + quote.SP_Total_Extended_DNET__c);
+		console.log('quote.SP_Adjusted_Toro_Award__c: ' + quote.SP_Adjusted_Toro_Award__c);
+
 		return quote;
 	},
 	updateDistributorResponsibility: function(quote, items) {
