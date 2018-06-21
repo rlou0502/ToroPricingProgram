@@ -249,11 +249,11 @@ public with sharing class ToroPricingMethodHelper {
 				ToroPricingMethodData lowerBound = gp2Map.values()[gp2Map.values().size()-1];
 				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---upperBound=' + upperBound);
 				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---lowerBound=' + lowerBound);
-				if(gpPercent > upperBound.grossProfitPercent) {		
+				if(gpPercent > upperBound.grossProfitPercent && (100-gpPercent) != 0) {		
 					dnetPercent = ((100 - upperBound.rebatePercent) / (100-gpPercent))*100;			
 					
 					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found upper bound=' + dnetPercent);
-				} else if(gpPercent < lowerBound.grossProfitPercent) {
+				} else if(gpPercent < lowerBound.grossProfitPercent && (100-gpPercent) != 0) {
 					dnetPercent = ((100 - lowerBound.rebatePercent) / (100-gpPercent))*100;
 					//dnetPercent = lowerBound.percentOfDNet;	
 					system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---found lower bound=' + dnetPercent);
@@ -296,6 +296,7 @@ public with sharing class ToroPricingMethodHelper {
 				List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
 			    Map<decimal, ToroPricingMethodData> gpp2PM = new Map<decimal, ToroPricingMethodData>();
 			    for(Revvy__MnStrategy2__c  ppl : pplList) {
+			    	system.debug('convertGPPercentToDNetPercent ppl=' + ppl);
 			    	ToroPricingMethodData pmd = new ToroPricingMethodData();		    	
 			    	gpp2PM.put((ppl.Distributor_Margin__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
 										ppl.Rebate_as_a_Percent_of_DN__c, ppl.Distributor_Margin__c, null));	
