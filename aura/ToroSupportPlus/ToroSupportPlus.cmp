@@ -9,6 +9,10 @@
 	<aura:attribute name="quoteId" type="String" />
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
+
+	<aura:attribute name="dnetTotal" type="Decimal" />
+	<aura:attribute name="awardTotal" type="Decimal" />
+
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="quoteItemMap" type="Map" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
