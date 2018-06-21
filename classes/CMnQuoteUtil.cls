@@ -1,4 +1,12 @@
 public with sharing class CMnQuoteUtil {
+	private static Id defaultPriceList = null;
+	public static final String defaultPriceListName = 'Commercial';
+	public static Id getDefaultPriceList() {
+		if(defaultPriceList == null) {
+			defaultPriceList = [select id from REVVY__MnPriceList__c where name = :defaultPriceListName limit 1].Id;		
+		}
+		return defaultPriceList;
+	}
 	private static String kHexChars = '0123456789abcdef';
 	 public static String getNewGuid() {
 

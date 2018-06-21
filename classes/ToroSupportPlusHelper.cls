@@ -139,6 +139,7 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__Catalog_Node__r.Name
 				, REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__Catalog_Node__r.Non_Toro_Product__c
+				, REVVY__Catalog_Node__r.Pricing_Program_Product_Type__c
 
 				, REVVY__PricelistLine__c
 				, REVVY__Quote__r.Pricing_Program_Name__c
@@ -258,6 +259,7 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__Catalog_Node__r.Name
 				, REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__Catalog_Node__r.Non_Toro_Product__c
+				, REVVY__Catalog_Node__r.Pricing_Program_Product_Type__c
 
 				, REVVY__PricelistLine__c
 

@@ -1,4 +1,9 @@
 public with sharing class ToroSupportPlusItem extends ToroQIBase {
+	public static final String PP_PRODUCT_TYPE_APPROVED_ALLIED  = 'Approved Allied';
+	public static final String PP_PRODUCT_TYPE_NON_TORO_ALLIED  = 'Non-Toro Allied';
+	public static final String PP_PRODUCT_TYPE_TRADE_IN         = 'Trade Ins';
+	public static final String PP_PRODUCT_TYPE_SERVICE_CONTRACT = 'Service Contracts';
+
 	@AuraEnabled public List<ToroSupportPlusItem> sublines 			{ get; private set; }
 	// @AuraEnabled public REVVY__MnQuoteItem__c qiObj  				{ get; private set; }
 	// @AuraEnabled public REVVY__MnStrategy4__c qiExtObj 				{ get; private set; }
@@ -161,7 +166,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		this.spQuantity    = 0;
 
 		this.eligibleForSupportPlus = true;
-		if (this.productId.startsWith('L1')) {
+		if (this.isNonToroProduct || this.productId.startsWith('L1')) {
 			this.eligibleForSupportPlus = false;
 		}
 

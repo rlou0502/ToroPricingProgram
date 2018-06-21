@@ -792,4 +792,95 @@ public abstract class ToroPricingProgram {
 		}
 		return 	quoteItemList;
 	}
+	public virtual List<Revvy__MnStrategy4__c> loadPricesFromPricelist(String priceProgram, List<Revvy__MnStrategy4__c> quoteItemList ){
+		Id defaultPriceList = CMnQuoteUtil.getDefaultPriceList();
+		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
+		system.debug('ToroContractPriceListPPHelper--' +  rebates);
+		List<Id> priceListIds = new List<Id>();
+		Date targetDate = null;
+		String[] copyFromFields = null;
+		boolean copyFromMSRP=false;
+		boolean copyFromDNET=false;
+		boolean copyFromDisti=false;
+		boolean usePriceList = false;
+		for(Revvy__MnStrategy1__c pp : rebates) {
+			if(pp.UseDesignatedPriceList__c && (pp.Previous_Price_Date__c != null || pp.OverriddenPriceList__c != null) && string.isNotBlank(pp.Copy_From_Price_Field__c)) {
+				usePriceList = true;
+				if(pp.OverriddenPriceList__c != null) {
+					priceListIds.add(pp.OverriddenPriceList__c);
+				}
+				if(pp.Previous_Price_Date__c != null) {
+					targetDate = pp.Previous_Price_Date__c;
+				}
+				copyFromFields = pp.Copy_From_Price_Field__c.split(';');
+				for(String s : copyFromFields) {
+					if(s == 'MSRP') {
+						copyFromMSRP=true;
+					} else if(s == 'DNET') {
+						copyFromDNET=true;
+					} else if( s == 'Disti Award') {
+						copyFromDisti=true;
+					}
+				}
+				system.debug('state of FL pp.Copy_From_Price_Field__c=' + pp.Copy_From_Price_Field__c);
+			}
+		}
+		if(usePriceList) {
+			if(priceListIds.size() == 0) {
+				priceListIds.add(defaultPriceList);	
+			}
+			if(targetDate == null) {
+				targetDate = Date.Today();	
+			}
+		}
+		system.debug('state of FL copyFromMSRP=' + copyFromMSRP);
+		system.debug('state of FL copyFromDNET=' + copyFromDNET);
+		if(targetDate != null) {
+			Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
+			List<REVVY__MnPriceListLine__c> plis = [SELECT Id, REVVY__ListedPrice__c,REVVY__SuggestedPrice__c,
+					REVVY__product__c,REVVY__Product_Id__c,REVVY__Start_Date__c,REVVY__End_Date__c,
+					REVVY__Product__r.REVVY__Id__c, REVVY__PriceField1__c, REVVY__PriceField2__c, REVVY__PriceField3__c
+					FROM REVVY__MnPriceListLine__c  WHERE REVVY__Price_List_ID__c = 'Commercial'  and (REVVY__Start_Date__c <= :targetDate AND REVVY__End_Date__c > :targetDate)];
+
+			for(REVVY__MnPriceListLine__c ppl : plis) {
+				system.debug('ToroContractPriceListPPHelper--product Id='+ppl.REVVY__Product_Id__c + ' start date=' + ppl.REVVY__Start_Date__c + ' end date = ' + ppl.REVVY__End_Date__c + ' msrp=' + ppl.REVVY__ListedPrice__c + ' dnet=' + ppl.REVVY__SuggestedPrice__c);
+				prodPriceListLineMap.put(ppl.REVVY__product__r.REVVY__Id__c, ppl);
+			}
+
+
+			for(REVVY__MnStrategy4__c qi : quoteItemList) {
+
+				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
+					REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
+					if(copyFromMSRP) {
+						system.debug('state of FL copyFromMSRP=' + copyFromMSRP);
+						qi.MSRP_Price__c = ppl.REVVY__ListedPrice__c;
+					}
+					if(copyFromDNET) {
+						system.debug('state of FL copyFromDNET=' + copyFromDNET);
+						qi.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+					}
+					system.debug('ToroContractPriceListPPHelper--product Id='+qi.Product_Id__c + ' msrp = ' + qi.MSRP_Price__c + ' dnet =' + qi.DNet_Price__c);
+				}
+				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
+							revvy__MnPriceListLine__c ppl = prodPriceListLineMap.get(qis.Product_Id__c);
+							if(copyFromMSRP) {
+								system.debug('state of FL copyFromMSRP=' + copyFromMSRP);
+								qis.MSRP_Price__c = ppl.REVVY__ListedPrice__c;
+							}
+							if(copyFromDNET) {
+								system.debug('state of FL copyFromDNET=' + copyFromDNET);
+								qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+							}
+							system.debug('QIS ToroContractPriceListPPHelper--product Id='+qis.Product_Id__c + ' msrp = ' + qis.MSRP_Price__c + ' dnet =' + qis.DNet_Price__c);
+						}
+					}
+				}
+
+			}
+		}
+		return 	quoteItemList;
+	}
 }
