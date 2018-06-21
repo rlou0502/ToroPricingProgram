@@ -18,7 +18,34 @@
 					quoteItems = this.restoreUiState(cmp.get('v.quoteItems'), quoteItems);
 					var supportPlusItems            = this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.addNewWrappers);
 					var distributorResponsibilities = supportPlusData.distributorResponsibilities;
-					var recalcQuote = this.recalculateQuoteSupportPlusTotals(supportPlusData.quote, supportPlusData.qiWrappers, supportPlusData.addNewWrappers, supportPlusData.pricingProgram);
+
+					// calculate total DNet and total Award WITHOUT SP items
+					var dnetTotal = supportPlusData.quote.Toro_Total_DNet__c;
+					var awardTotal = supportPlusData.quote.Toro_Award__c;
+					for (var i = 0; i < quoteItems.length; i++) {
+						var spQty = quoteItems[i].spQuantity;
+						var dnetPrice = quoteItems[i].dnetPrice;
+						var awardPrice = quoteItems[i].awardPrice != null ? quoteItems[i].awardPrice : 0;
+
+						dnetTotal += dnetPrice * spQty;
+						awardTotal += awardPrice * spQty;
+						if (quoteItems[i].sublines != null) {
+							for (var j = 0; j < quoteItems[i].sublines.length; j++) {
+								var sublineSpQty = quoteItems[i].sublines[j].spQuantity;
+								var sublineDnetPrice = quoteItems[i].sublines[j].dnetPrice;
+								var sublineAwardPrice = quoteItems[i].sublines[j].awardPrice != null ? quoteItems[i].sublines[j].awardPrice : 0;
+
+								dnetTotal += sublineDnetPrice * sublineSpQty;
+								awardTotal += sublineAwardPrice * sublineSpQty;
+							}
+						}
+					}
+					console.log('dnetTotal: ' + dnetTotal);
+					console.log('awardTotal: ' + awardTotal);
+					cmp.set('v.dnetTotal', dnetTotal);
+					cmp.set('v.awardTotal', awardTotal);
+
+					var recalcQuote = this.recalculateQuoteSupportPlusTotals(cmp, supportPlusData.quote, supportPlusData.qiWrappers, supportPlusData.addNewWrappers, supportPlusData.pricingProgram);
 
 					cmp.set('v.quoteItems', quoteItems);
 					cmp.set('v.supportPlusItems', supportPlusItems);
@@ -105,7 +132,7 @@
 						var pricingProgram = cmp.get('v.pricingProgram');
 						retVal.distributorResponsibility = quote.Distributor_Responsibility__c;
 						supportPlusItems.push(retVal);
-						quote = this.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram);
+						quote = this.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram);
 						cmp.set('v.quote', quote);
 						cmp.set('v.supportPlusItems', supportPlusItems);
 						cmp.find('cmpAddNew').hideModal();
@@ -160,7 +187,7 @@
 		);
 		$A.enqueueAction(action);
 	},
-	recalculateQuoteSupportPlusTotals: function(quote, quoteItems, supportPlusItems, pricingProgram) {
+	recalculateQuoteSupportPlusTotals: function(cmp, quote, quoteItems, supportPlusItems, pricingProgram) {
 		console.log('@recalculateQuoteSupportPlusTotals');
 		console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
 		console.log(pricingProgram);
@@ -213,11 +240,21 @@
 			quote.Toro_Support_Plus_Allowance_Used__c = spSplitDNetTotal + sppAddNewDNetTotal;
 		}
 
-		quote.SP_Total_Extended_DNET__c           = quote.Toro_Total_DNet__c - spSplitDNetTotal;
-		quote.SP_Adjusted_Toro_Award__c           = quote.Toro_Award__c - spSplitAwardTotal;
+		var dnetTotal = cmp.get('v.dnetTotal'); // total DNet WITHOUT SP
+		var awardTotal = cmp.get('v.awardTotal'); // total Award WITHOUT SP
+
+		// quote.SP_Total_Extended_DNET__c           = quote.Toro_Total_DNet__c - spSplitDNetTotal;
+		quote.SP_Total_Extended_DNET__c = dnetTotal - spSplitDNetTotal;
+
+		// quote.SP_Adjusted_Toro_Award__c           = quote.Toro_Award__c - spSplitAwardTotal;
+		quote.SP_Adjusted_Toro_Award__c = awardTotal - spSplitAwardTotal;
+
 		quote.SP_Adjusted_Ext_Award__c            = spSplitAwardTotal;
 		quote.SP_Toro_Responsibility__c           = toroResp * (spSplitDNetTotal + sppAddNewDNetTotal);
-		quote.SP_Ext_Dist_Responsibility__c       = (quote.Toro_Total_DNet__c - spSplitDNetTotal) / quote.Toro_Total_DNet__c;
+
+		// quote.SP_Ext_Dist_Responsibility__c       = (quote.Toro_Total_DNet__c - spSplitDNetTotal) / quote.Toro_Total_DNet__c;
+		quote.SP_Ext_Dist_Responsibility__c = (dnetTotal - spSplitDNetTotal) / dnetTotal;
+
 
 		console.log('quote.SP_Total_Extended_DNET__c: ' + quote.SP_Total_Extended_DNET__c);
 		console.log('quote.SP_Adjusted_Toro_Award__c: ' + quote.SP_Adjusted_Toro_Award__c);

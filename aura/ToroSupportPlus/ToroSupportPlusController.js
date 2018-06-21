@@ -65,7 +65,7 @@
 
         cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
         cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
-        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram));
+        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram));
     },
     handleSPDelete: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:handleSPDelete');
@@ -80,7 +80,7 @@
                     var quote = cmp.get('v.quote');
                     var quoteItems = cmp.get('v.quoteItems');
                     var pricingProgram = cmp.get('v.pricingProgram');
-                    quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram);
+                    quote = helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram);
                     cmp.set('v.quote', quote);
                 }
 
@@ -99,7 +99,7 @@
                                 var quote = cmp.get('v.quote');
                                 var quoteItems = cmp.get('v.quoteItems');
                                 var pricingProgram = cmp.get('v.pricingProgram');
-                                quote = helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram);
+                                quote = helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram);
                                 cmp.set('v.quote', quote);
                             }
                         }
@@ -150,7 +150,7 @@
         cmp.set('v.quoteItems', quoteItems);
         cmp.set('v.supportPlusItems', supportPlusItems);
 
-        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(quote, quoteItems, supportPlusItems, pricingProgram));
+        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram));
 
     },
     handleShowAddNewModal: function (cmp, event, helper) {
