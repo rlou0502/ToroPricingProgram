@@ -27,7 +27,9 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
 		List<ToroContractQuantityPPHelper.InnerClass> qtyTiers = new List<ToroContractQuantityPPHelper.InnerClass>();
+		boolean drivenByGP = false; 
 		for(Revvy__MnStrategy1__c rh : rebates) {
+			drivenByGP = rh.DrivenByGP__c;
 			if(rh.PricingProgramLines__r != null) {
 				for(Revvy__MnStrategy2__c l : rh.PricingProgramLines__r) {
 					qtyTiers.add(new ToroContractQuantityPPHelper.InnerClass(l.min_qty__c, l.max_qty__c, l));		
@@ -72,7 +74,27 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 				}
 				if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0)
 					qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c*100;
-				qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;	
+				qi.DrivenByGP__c = drivenByGP;
+				if(drivenByGP) {
+					if(line.Distributor_Margin__c != null && qi.DNET_Price__c != null && qi.DNET_Price__c != 0) {
+						qi.Toro_Gross_Profit_Percent__c = line.Distributor_Margin__c;
+						qi.Toro_Gross_Profit_Value__c = qi.award_price__c * qi.Toro_Gross_Profit_Percent__c/100;
+						system.debug('qi.Toro_Gross_Profit_Percent__c =' + qi.Toro_Gross_Profit_Percent__c);
+						
+						
+						//decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
+						decimal rebate = qi.DNET_Price__c - qi.award_price__c + qi.Toro_Gross_Profit_Value__c;
+						system.debug('qi.award price =' + qi.award_price__c + ' msrp =' + qi.msrp_price__c + ' qi.Toro_Gross_Profit_Value__c =' + qi.Toro_Gross_Profit_Value__c + ' rebate='+ rebate );
+						if(qi.DNET_Price__c != null && qi.DNET_Price__c != 0) {
+							qi.Rebate_as_a_of_DN__c = rebate / qi.DNET_Price__c * 100;
+						}
+						qi.Toro_Gross_Profit_Value__c *= qi.adjusted_quantity__c;
+						system.debug('qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
+						
+					}
+				} else {
+					qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;
+				}		
 			}
 			if(excludedFromMSRP(qi)) {
 				qi.Off_MSRP__c = 0;	
@@ -88,7 +110,18 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 					if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0)
 						qis.Percent_of_DNet__c = qis.Award_Price__c/qis.DNet_Price__c*100;
 					if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
-						qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;
+						if(qi.DrivenByGP__c) {
+								qis.Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Percent__c;
+								qis.Gross_Profit_Value__c = qis.award_price__c * qis.Gross_Profit_Percent__c/100;
+								
+								//decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
+								decimal rebate = qis.DNET_Price__c - qis.award_price__c + qis.Gross_Profit_Value__c;						
+								if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0)
+									qis.Rebate_as_of_DNet__c = rebate / qis.DNET_Price__c * 100;
+								qis.Gross_Profit_Value__c *= qi.adjusted_quantity__c;	
+							} else {
+								qis.Rebate_as_of_DNet__c = qi.Rebate_as_a_of_DN__c;
+							}
 					}
 					if(excludedFromMSRP(qis)) {
 						qis.Percent_Off_MSRP__c = 0;	

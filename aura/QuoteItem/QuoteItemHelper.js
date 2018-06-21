@@ -208,7 +208,7 @@
                 }
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 var decimalPoint = 4;
-                if(pricingMethod == "Total Award $") {
+                if(pricingMethod == "Total Award $" || field.type.toLowerCase() === 'currency') {
                 	decimalPoint=2;    
                 }
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], decimalPoint) : '';
