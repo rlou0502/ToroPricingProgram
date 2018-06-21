@@ -189,7 +189,7 @@
             }
                     
             var totalAwardUpdatable = true;
-            if(!isMainLine && (pricingMethod == "Total Award $" || pricingMethod == "Gross Profit %")  && field.fieldPath=="PricingMethodValue__c") {
+            if(!isMainLine && (pricingMethod == "Total Award $")  && field.fieldPath=="PricingMethodValue__c") {
             	totalAwardUpdatable = false;
                 if(pricingMethod == "Total Award $") {
                 	sObj["PricingMethodValue__c"]="";
