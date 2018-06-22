@@ -51,20 +51,20 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 			//Performance Part
 
-			for(Revvy__MnStrategy4__c qi : quoteItemList) {
-				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper pricing program ='+qi.pricing_program__c  );
-				system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Revvy__MnStrategy4__c 222 performancePartFlag='+performancePartFlag  );
-				ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap, priceMethod);
-					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-						for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							//Performance Part
-							system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
-							system.debug('-------------++++++++qis' + qis);
-							ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap, priceMethod);
-						}
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper pricing program ='+qi.pricing_program__c  );
+			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Revvy__MnStrategy4__c 222 performancePartFlag='+performancePartFlag  );
+			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap, priceMethod);
+				if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
+					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						//Performance Part
+						system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part QuoteItemSubLine 333');
+						system.debug('-------------++++++++qis' + qis);
+						ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap, priceMethod);
 					}
-			}
-
+				}
+		}
+		quoteItemList = loadPricesFromPricelist(priceProgram, quoteItemList);
 		return 	quoteItemList;
 	}
 
