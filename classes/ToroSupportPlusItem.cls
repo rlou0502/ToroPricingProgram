@@ -106,7 +106,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	 */
 	public ToroSupportPlusItem(REVVY__MnQuoteItem__c qi, REVVY__MnQuoteItem__c spi) {
 		super(qi);
-
+		system.debug('this.isNonToroProduct=' + this.isNonToroProduct);
 		this.sublines = buildSPSublineWrappers(qi);
 
 		// this.qiObj           = qi;
@@ -144,6 +144,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	 */
 	public ToroSupportPlusItem(REVVY__MnQuoteItem__c qi, REVVY__MnQuoteItemSubLine__c subline) {
 		super(qi, subline);
+		system.debug('this.isNonToroProduct=' + this.isNonToroProduct);
 		this.sublines        = null;
 		// this.qiObj           = qi;
 		// this.qiExtObj        = qi.Quote_Item_Extension__r;
@@ -166,10 +167,11 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		this.spQuantity    = 0;
 
 		this.eligibleForSupportPlus = true;
-		if (this.isNonToroProduct || this.productId.startsWith('L1')) {
-			this.eligibleForSupportPlus = false;
+		if(this.isNonToroProduct != null) {
+			if (this.isNonToroProduct || this.productId.startsWith('L1')) {
+				this.eligibleForSupportPlus = false;
+			}
 		}
-
 
 		this.isFromAddNew = false;
 		this.chevronStyle = '';
