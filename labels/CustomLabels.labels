@@ -442,6 +442,14 @@
         <value>please visit</value>
     </labels>
     <labels>
+        <fullName>PP_ApprovalRequiredWarning</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Approval Required</shortDescription>
+        <value>If you proceed an approval will be necessary.</value>
+    </labels>
+    <labels>
         <fullName>PP_Cancel</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

@@ -112,6 +112,7 @@ public with sharing class CMnQuoteUtil {
 		if (needsApproval) {
 			quote.REVVY__NeedsApproval__c = true;
 			quote.Toro_ApprovalReason__c = approvalMessage;
+			quote.Toro_ApprovalReason__c +='  '+  Label.PP_ApprovalRequiredWarning;
 		}
 
 		else {
