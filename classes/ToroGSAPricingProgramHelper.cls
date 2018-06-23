@@ -3,8 +3,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
 	} 
 	  
-	
-	
+		
 	public override boolean displaySetupFee() {
 		return false;
 	}      
@@ -15,7 +14,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 	public virtual decimal retrieveAwardPrice(REVVY__MnPriceListLine__c ppl) {
 		return null;	
 	} 
-	public virtual List<Revvy__MnStrategy4__c> loadPricesFromPricelist(String priceProgram, List<Revvy__MnStrategy4__c> quoteItemList ){
+	public override List<Revvy__MnStrategy4__c> loadPricesFromPricelist(String priceProgram, List<Revvy__MnStrategy4__c> quoteItemList ){
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
 		for(Revvy__MnStrategy1__c pp : rebates) {
