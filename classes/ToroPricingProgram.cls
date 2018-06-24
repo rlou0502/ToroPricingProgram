@@ -355,6 +355,8 @@ public abstract class ToroPricingProgram {
 			qi.Total_Toro_Award__c = qi.Total_Award__c;
 
 			qi.Toro_Fee_Amount__c = CMnQuoteUtil.defaultDecimal(qi.Extended_Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Fee_Percentage__c)/100;
+			//todo: uncomment following line
+			//qi.Extended_Award_Price__c += qi.Toro_Fee_Amount__c;
 			decimal extFeeAmount = qi.Toro_Fee_Amount__c;
 			qi.Toro_Rebate__c = qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 
@@ -427,6 +429,8 @@ public abstract class ToroPricingProgram {
 						extRebate += qis.Toro_Subline_Rebate__c;
 						//qis.Toro_Extended_Award_Price__c = subExtAward;
 						qis.Toro_Fee_Amount__c = qis.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
+						//uncomment following line
+						//qis.Extended_Award_Price__c += qis.Toro_Fee_Amount__c;
 						extFeeAmount += qis.Toro_Fee_Amount__c;
 						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
