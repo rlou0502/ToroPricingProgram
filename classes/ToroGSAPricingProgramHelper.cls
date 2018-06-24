@@ -24,7 +24,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 			Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
 			List<revvy__MnPriceListLine__c> plis = [SELECT Id, revvy__ListedPrice__c,revvy__SuggestedPrice__c,revvy__product__c,
 				revvy__product__r.revvy__Id__c, revvy__PriceField1__c, revvy__PriceField2__c, revvy__PriceField3__c
-				FROM revvy__MnPriceListLine__c  WHERE revvy__PriceList__c = :priceListId];
+				FROM revvy__MnPriceListLine__c  WHERE revvy__PriceList__c = :priceListId AND (REVVY__Start_Date__c <= TODAY AND REVVY__End_Date__c > TODAY)];
 			system.debug('ToroContractPriceListPPHelper--plis='+plis);
 			for(revvy__MnPriceListLine__c ppl : plis) {
 				prodPriceListLineMap.put(ppl.revvy__product__r.revvy__Id__c, ppl);		
