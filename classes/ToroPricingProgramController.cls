@@ -630,6 +630,7 @@ public class ToroPricingProgramController {
     	//if(Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)) {
     	//	quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);
     	//}
+    	system.debug('quote q=' + q);
     	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
     	if(String.isBlank(pricingProgram)) {
 
@@ -640,6 +641,7 @@ public class ToroPricingProgramController {
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 
     	system.debug(logginglevel.info,'pricingProgram=' + pricingProgram);
+    	system.debug(logginglevel.info,'pricingProgram ppd=' + ppd);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
     	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
@@ -681,7 +683,7 @@ public class ToroPricingProgramController {
 			ToroQISLExtensionCreatedBatch b = new ToroQISLExtensionCreatedBatch(sublineIds);
 			Database.executeBatch(b);
 		}
-
+		pp.quote = q;
     	rs.values =  new List<SObject> {pp.quote};
     	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
     	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();

@@ -273,6 +273,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
+        <displayedFields>
+            <field>Exclude_from_Rebate_F__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Large Package Price Program Quote SubLine Cols</label>
     </fieldSets>
     <fieldSets>

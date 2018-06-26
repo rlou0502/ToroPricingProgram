@@ -74,7 +74,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -154,7 +154,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -299,7 +299,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -379,7 +379,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -469,7 +469,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -549,7 +549,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -649,7 +649,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -804,7 +804,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -899,7 +899,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1199,7 +1199,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exc_Rbt__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1525,7 +1525,7 @@
         <fullName>Exc_Rbt__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
-        <label>Exc Rbt</label>
+        <label>Exc Rbt OLD</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
