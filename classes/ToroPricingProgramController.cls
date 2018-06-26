@@ -687,6 +687,8 @@ public class ToroPricingProgramController {
     	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
     	rs.displayPerformancePart = pp.displayPerformancePart();
     	rs.displaySetupFee=pp.displaySetupFee();
+    	system.debug(logginglevel.info,'pricingProgram setup fee pp=' + pp);
+    	system.debug(logginglevel.info,'pricingProgram setup fee pp=' + pp.displaySetupFee()); 
     	return rs;
     }
 
