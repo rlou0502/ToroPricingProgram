@@ -74,7 +74,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -189,7 +189,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -265,11 +265,6 @@
         </displayedFields>
         <displayedFields>
             <field>Performance_Part__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -369,7 +364,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -449,7 +444,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -569,7 +564,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -749,7 +744,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Exclude_from_Rebate__c</field>
+            <field>Exclude_from_Rebate_F__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -841,7 +836,7 @@
         <defaultValue>false</defaultValue>
         <description>Exclude Sublines from Rebate calculations</description>
         <externalId>false</externalId>
-        <label>EXC RBT</label>
+        <label>Exc Rbt OLD</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
