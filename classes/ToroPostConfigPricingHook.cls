@@ -10,7 +10,13 @@ global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConf
 		String qtCurrency = pricingParams.qtCurrency;
 		String qtSegment = pricingParams.qtSegment;
 		//
-		if(qtCurrency == 'CAD' && qtSegment == 'Commercial') {
+		//Read Toro Disti Price Segment
+		Set<String> distSegmentSet = new Set<String>();
+		for(ToroDistributorPriceSegment__mdt dsp:[Select DeveloperName,MasterLabel From ToroDistributorPriceSegment__mdt]) {
+			distSegmentSet.add(dsp.DeveloperName.toLowerCase());
+			distSegmentSet.add(dsp.MasterLabel.toLowerCase());							
+		}		
+		if(distSegmentSet.contains(qtSegment.toLowerCase())) {
 			 if ( qiList != null && qiList.size() != 0){
 	            for(REVVY__MnQuoteItem__c mnQuoteItem: qiList){
 	            	//mnQuoteItem.REVVY__PriceListLine__r.REVVY__FloorPrice__c
