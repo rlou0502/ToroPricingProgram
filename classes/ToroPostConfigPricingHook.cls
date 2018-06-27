@@ -13,11 +13,12 @@ global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConf
 		if(qtCurrency == 'CAD' && qtSegment == 'Commercial') {
 			 if ( qiList != null && qiList.size() != 0){
 	            for(REVVY__MnQuoteItem__c mnQuoteItem: qiList){
+	            	//mnQuoteItem.REVVY__PriceListLine__r.REVVY__FloorPrice__c
 	            }
 	        }
 	        if ( qislList != null && qislList.size() != 0){
 	            for(REVVY__MnQuoteItemSubLine__c mnQuoteItemSubLine:qislList){
-	               
+	            	//mnQuoteItem.REVVY__PriceListLine__r.REVVY__FloorPrice__c  
 	            }
 	        }		
 		}
