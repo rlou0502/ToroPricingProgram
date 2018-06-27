@@ -482,6 +482,15 @@ public class ToroPricingProgramController {
     			pp.quote.Pricing_Program_Name__c=pricingProgram;
 	    		pp.quote.Pricing_Program_Type__c=pricingProgram;
 	    		pp.quote.Price_Method__c=so.value;
+	    		if(pp.displaySetupFee()) {
+	    			system.debug('displaySetupFee -- ' + pp.quote.Setup_Fee__c);
+	    			if(pp.quote.Setup_Fee__c == null) {
+	    				Revvy__MnStrategy1__c program = ToroCacheManager.getPricingProgram(ppd.externalId);	
+	    				pp.quote.Setup_Fee__c = program.Setup_Fee__c;
+	    				system.debug('displaySetupFee --program.Setup_Fee__c ' + program.Setup_Fee__c);
+	    				system.debug('displaySetupFee --quote= ' + pp.quote.Setup_Fee__c);
+	    			}
+	    		}
 	    		ToroCacheManager.putQuote(pp.quote);
     			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     				qi.Pricing_Program__c = pricingProgram;
@@ -612,8 +621,9 @@ public class ToroPricingProgramController {
 		    	}
 			}
     	//}
-
+	
 		rs.quote = pp.quote;
+		system.debug('displaySetupFee --rs.quote= ' + rs.quote);
     	return rs;
     }
     
