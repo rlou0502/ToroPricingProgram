@@ -41,14 +41,17 @@
         var quote=event.getParam("quote");
         var allowSupportPlus = event.getParam("allowSupportPlus");
         var isSaveOperation = event.getParam("isSaveOperation");
+        var displaySetupFee = event.getParam("displaySetupFee");
         component.set("v.allowSupportPlus", allowSupportPlus);
         if(isSaveOperation) {
         	component.set("v.dirtyFlag", false);
         } else {
             component.set("v.dirtyFlag", true);
         }
+        var setupFee = quote.Setup_Fee__c;
         quoteHeaderCmp.set("v.quote", quote);
         quoteHeaderCmp.set("v.contractMessage", null); 
+        quoteHeaderCmp.set("v.displaySetupFee", displaySetupFee);
         if(quote.REVVY__NeedsApproval__c) {
         	$A.createComponent(
                 "c:ToroAlertBox",

@@ -1041,6 +1041,7 @@
                     cmpEvent.setParams({
                         "quote" : retResponse.quote,
                         "allowSupportPlus" : retResponse.allowSupportPlus,
+                        "displaySetupFee" : retResponse.displaySetupFee,
                         "isSaveOperation" : save
                     });
                     cmpEvent.fire();
