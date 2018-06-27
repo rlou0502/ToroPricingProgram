@@ -223,20 +223,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	}
 	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
-
+/*
 			Decimal dtoroTotalSetupFees = 0;
-			/*
-			for(Revvy__MnStrategy4__c qi : quoteItemList) {
-				Decimal dsetupFeesQIS = 0;
-				if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-						dsetupFeesQIS += CMnQuoteUtil.defaultDecimal(qis.Toro_Fee_Amount__c);
-					}
-				}
-				System.debug('>>> +++++++++++++++++ NAT 201 =  Toro_Fee_Amount__c='+qi.Toro_Fee_Amount__c);
-				dtoroTotalSetupFees += CMnQuoteUtil.defaultDecimal(qi.Toro_Fee_Amount__c);
-			}
-			*/
 			REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
 			//if(dtoroTotalSetupFees > 0) {
 				//Create Setup Fee Line Item
@@ -289,11 +277,13 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 				System.debug('>>> +++++++++++++++++ SETUP FEE 333 found qi=' + qi);
 			}
 		}
+*/
 		return 	quoteItemList;
 	}
 
 	//@future
     public static void addSetupFeeFuture(String quoteId, String productId, decimal price, decimal unitPrice, decimal qty) {
+/*
     	System.debug('>>> +++++++++++++++++ Setup FEE unitPrice='+ unitPrice + ' - Price='+ price);
     	List<Revvy__MnQuoteItem__c> setupFees = [select Id from Revvy__MnQuoteItem__c where Revvy__Product_Id_F__c = 'S00001' and revvy__Quote__c = :quoteId];
     	system.debug('----size =' + setupFees.size());
@@ -335,6 +325,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 
     	}
     	system.debug('exiting addSetupFeeFuture');
+*/
     }
 
 	public static Map<String,Revvy__MnStrategy2__c> retrieveNationalAccount(String pricingProgramExternalId) {
