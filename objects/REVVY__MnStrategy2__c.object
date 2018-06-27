@@ -163,22 +163,27 @@
                 <value>
                     <fullName>Tier 1</fullName>
                     <default>false</default>
+                    <label>Tier 1</label>
                 </value>
                 <value>
                     <fullName>Tier 2</fullName>
                     <default>false</default>
+                    <label>Tier 2</label>
                 </value>
                 <value>
                     <fullName>Tier 3</fullName>
                     <default>false</default>
+                    <label>Tier 3</label>
                 </value>
                 <value>
                     <fullName>Parts</fullName>
                     <default>false</default>
+                    <label>Parts</label>
                 </value>
                 <value>
                     <fullName>Exception</fullName>
                     <default>false</default>
+                    <label>Exception</label>
                 </value>
             </valueSetDefinition>
         </valueSet>

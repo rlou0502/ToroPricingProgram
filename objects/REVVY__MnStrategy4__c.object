@@ -1863,18 +1863,22 @@
                 <value>
                     <fullName>% of DNET</fullName>
                     <default>true</default>
+                    <label>% of DNET</label>
                 </value>
                 <value>
                     <fullName>% off MSRP</fullName>
                     <default>false</default>
+                    <label>% off MSRP</label>
                 </value>
                 <value>
                     <fullName>Gross Profit %</fullName>
                     <default>false</default>
+                    <label>Gross Profit %</label>
                 </value>
                 <value>
                     <fullName>Total Award $</fullName>
                     <default>false</default>
+                    <label>Total Award $</label>
                 </value>
             </valueSetDefinition>
         </valueSet>

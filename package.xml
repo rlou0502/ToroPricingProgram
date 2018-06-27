@@ -2,13 +2,21 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>CMnQuoteUtil</members>
+        <members>CMnQuoteUtilTest</members>
+        <members>CMnWAPluginFormatNumberQuote</members>
+        <members>CMnWAPluginFormatNumberQuoteItem</members>
+        <members>CMnWAPluginFormatNumberStrategy4</members>
+        <members>CMnWAPluginFormatNumberStrategy5</members>
         <members>FieldSetMember</members>
+        <members>FieldSetMemberTest</members>
         <members>KMnQuoteLifeCycleAbandoned</members>
         <members>KMnQuoteLifeCycleClosedLost</members>
         <members>KMnQuoteLifeCycleSelectPriceProgram</members>
         <members>PP_UpdateExtensionTest</members>
         <members>QuoteItem</members>
         <members>QuoteItemTest</members>
+        <members>RoyTest</members>
+        <members>ToroBaseAwardAccessoryHelper</members>
         <members>ToroBaseWithValueDollarHelper</members>
         <members>ToroBaseWithValueDollarHelperTest</members>
         <members>ToroCacheManager</members>
@@ -17,6 +25,7 @@
         <members>ToroChartABPricingProgramHelper</members>
         <members>ToroChartABPricingProgramHelperTest</members>
         <members>ToroChartWithAccessoryDiscount</members>
+        <members>ToroChartWithAccessoryDiscountTest</members>
         <members>ToroContractChartPPHelper</members>
         <members>ToroContractChartPPHelperTest</members>
         <members>ToroContractPriceListPPHelper</members>
@@ -26,6 +35,7 @@
         <members>ToroCustomExceptionData</members>
         <members>ToroDefaultPricingProgramHelper</members>
         <members>ToroExportToExcelMultipleSheets</members>
+        <members>ToroFirstTeePricingProgramHelper</members>
         <members>ToroGSAPricingProgramHelper</members>
         <members>ToroGenModelBOM</members>
         <members>ToroGenModelBOMTest</members>
@@ -35,8 +45,6 @@
         <members>ToroKemperSportsPricingProgramHelperTest</members>
         <members>ToroLargePackagePricingProgramHelper</members>
         <members>ToroLargePackagePricingProgramHelperTest</members>
-        <members>ToroLargePackageSTIHelper</members>
-        <members>ToroLargePackageSTIHelperTest</members>
         <members>ToroNTController</members>
         <members>ToroNTControllerTest</members>
         <members>ToroNTData</members>
@@ -52,6 +60,7 @@
         <members>ToroPerformancePartCache</members>
         <members>ToroPerformancePartPricingProgramHTest</members>
         <members>ToroPerformancePartPricingProgramHelper</members>
+        <members>ToroPostConfigPricingHook</members>
         <members>ToroPriceProgramFactory</members>
         <members>ToroPriceProgramFactoryTest</members>
         <members>ToroPricingMethodData</members>
@@ -72,10 +81,8 @@
         <members>ToroPricingProgramInfoBoxControllerTest</members>
         <members>ToroPricingProgramLineProdSel</members>
         <members>ToroPricingProgramLineProdSelTest</members>
-        <members>ToroPricingProgramLineProductSelector</members>
         <members>ToroPricingProgramProdSel</members>
         <members>ToroPricingProgramProdSelTest</members>
-        <members>ToroPricingProgramProductSelector</members>
         <members>ToroPricingProgramTest</members>
         <members>ToroPricingProgramUtil</members>
         <members>ToroPricingProgramUtilTest</members>
@@ -86,6 +93,8 @@
         <members>ToroQIExtensionCreatedBatch</members>
         <members>ToroQISLExtensionCreatedBatch</members>
         <members>ToroQuoteCache</members>
+        <members>ToroQuoteItemEmailController</members>
+        <members>ToroQuoteItemExtensionHandler</members>
         <members>ToroSObjectResultSet</members>
         <members>ToroSecondaryPricingProgram</members>
         <members>ToroSelectOption</members>
@@ -96,6 +105,7 @@
         <members>ToroStateContractPricingProgramHTest</members>
         <members>ToroStateContractPricingProgramHelper</members>
         <members>ToroStateContractQtyModelHelper</members>
+        <members>ToroStateContractQtyModelHelperTest</members>
         <members>ToroSupportPlusController</members>
         <members>ToroSupportPlusControllerTest</members>
         <members>ToroSupportPlusData</members>
@@ -105,6 +115,7 @@
         <members>ToroSupportPlusItem</members>
         <members>ToroSupportPlusItemTest</members>
         <members>ToroTestData</members>
+        <members>ToroTriggerRunOnce</members>
         <members>Toro_UpdateData</members>
         <name>ApexClass</name>
     </types>
@@ -118,20 +129,74 @@
         <name>ApexPage</name>
     </types>
     <types>
+        <members>*</members>
+        <name>ApexTestSuite</name>
+    </types>
+    <types>
+        <members>PP_CanadianCurrencyChange</members>
         <members>PP_CreateQIExtension</members>
         <members>PP_CreateQISLExtension</members>
         <members>PP_PricingProgramDelete</members>
+        <members>PP_QIExtensionCreated</members>
+        <members>PP_QISLExtensionCreated</members>
+        <members>PP_QuoteCloningDone</members>
         <members>PP_QuoteItemDelete</members>
         <members>PP_QuoteItemSublineDelete</members>
+        <members>PP_Stratgy4Update</members>
+        <members>PP_Stratgy5Update</members>
         <members>PP_UpdateQIExtension</members>
         <members>PP_UpdateQISLExtension</members>
+        <members>PP_UpdateStrategy1</members>
         <members>Populate_DNet_Price</members>
         <members>Populate_QI_DNet_Price</members>
         <members>SetQuoteCurrencyISOCode</members>
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>*</members>
+        <members>ConfirmationDialog</members>
+        <members>PricingMethodAwardPriceChangeEvent</members>
+        <members>PricingMethodChangeEvent</members>
+        <members>PricingMethodGPPercentChangeEvent</members>
+        <members>PricingMethodSetFromDBEvent</members>
+        <members>PricingProgram</members>
+        <members>PricingProgramApp</members>
+        <members>PricingProgramChangeEvent</members>
+        <members>PricingProgramInfoBox</members>
+        <members>PricingProgramSetFromDBEvent</members>
+        <members>PricingProgramVFApp</members>
+        <members>QuoteHeader</members>
+        <members>QuoteHeaderLoadedEvent</members>
+        <members>QuoteItem</members>
+        <members>QuoteItem2</members>
+        <members>QuoteItemPricingProgram</members>
+        <members>QuoteItemSection</members>
+        <members>RefreshInfoBoxEvent</members>
+        <members>ToroAlertBox</members>
+        <members>ToroCalculateEvent</members>
+        <members>ToroCalculationCompleteEvent</members>
+        <members>ToroNT</members>
+        <members>ToroNTApp</members>
+        <members>ToroNTHeader</members>
+        <members>ToroNTQuoteItems</members>
+        <members>ToroNTVFApp</members>
+        <members>ToroPricingProgramStyleToken</members>
+        <members>ToroProceedToNonToroEvent</members>
+        <members>ToroProceedToSupportPlusEvent</members>
+        <members>ToroPromptSaveBeforeNonToroDlg</members>
+        <members>ToroQuoteHeaderLoaded</members>
+        <members>ToroSPAddNew</members>
+        <members>ToroSPAddNewEvent</members>
+        <members>ToroSPDeleteEvent</members>
+        <members>ToroSPDisclaimerDlg</members>
+        <members>ToroSPDistRespChangeEvent</members>
+        <members>ToroSPQtyChangeEvent</members>
+        <members>ToroSPQuoteItem</members>
+        <members>ToroSPRollingTotal</members>
+        <members>ToroSPToggleSublines</members>
+        <members>ToroSetDirtyFlagEvent</members>
+        <members>ToroSupportPlus</members>
+        <members>ToroSupportPlusApp</members>
+        <members>ToroSupportPlusVFApp</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
@@ -455,6 +520,10 @@
         <name>CustomLabels</name>
     </types>
     <types>
+        <members>CustomLabels</members>
+        <name>CustomLabels</name>
+    </types>
+    <types>
         <members>Toro_SecondaryPricingProgramFactory.SouthernDemo</members>
         <members>Toro_Traction_Unit_Tier.All_other_Commercial_Wholegoods</members>
         <members>Toro_Traction_Unit_Tier.GreensPro_Rollers</members>
@@ -540,5 +609,5 @@
         <members>QuoteLineItem</members>
         <name>Workflow</name>
     </types>
-    <version>38.0</version>
+    <version>41.0</version>
 </Package>

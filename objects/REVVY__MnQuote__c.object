@@ -159,14 +159,17 @@ CustomerCurrency_ISOCurrency</description>
                 <value>
                     <fullName>USD_USD</fullName>
                     <default>false</default>
+                    <label>USD</label>
                 </value>
                 <value>
                     <fullName>EUR_EUR</fullName>
                     <default>false</default>
+                    <label>EUR</label>
                 </value>
                 <value>
                     <fullName>CAD_CAD</fullName>
                     <default>false</default>
+                    <label>CAD</label>
                 </value>
             </valueSetDefinition>
         </valueSet>
@@ -313,38 +316,47 @@ CustomerCurrency_ISOCurrency</description>
                 <value>
                     <fullName>Club Car</fullName>
                     <default>false</default>
+                    <label>Club Car</label>
                 </value>
                 <value>
                     <fullName>Cushman</fullName>
                     <default>false</default>
+                    <label>Cushman</label>
                 </value>
                 <value>
                     <fullName>Deere</fullName>
                     <default>false</default>
+                    <label>Deere</label>
                 </value>
                 <value>
                     <fullName>EZ-Go</fullName>
                     <default>false</default>
+                    <label>EZ-Go</label>
                 </value>
                 <value>
                     <fullName>Jake</fullName>
                     <default>false</default>
+                    <label>Jake</label>
                 </value>
                 <value>
                     <fullName>Other</fullName>
                     <default>false</default>
+                    <label>Other</label>
                 </value>
                 <value>
                     <fullName>Rainbow</fullName>
                     <default>false</default>
+                    <label>Rainbow</label>
                 </value>
                 <value>
                     <fullName>Toro</fullName>
                     <default>false</default>
+                    <label>Toro</label>
                 </value>
                 <value>
                     <fullName>Yamaha</fullName>
                     <default>false</default>
+                    <label>Yamaha</label>
                 </value>
             </valueSetDefinition>
         </valueSet>
@@ -626,10 +638,12 @@ CustomerCurrency_ISOCurrency</description>
                 <value>
                     <fullName>North_America</fullName>
                     <default>false</default>
+                    <label>North America</label>
                 </value>
                 <value>
                     <fullName>International</fullName>
                     <default>false</default>
+                    <label>International</label>
                 </value>
             </valueSetDefinition>
         </valueSet>
@@ -707,10 +721,12 @@ CustomerCurrency_ISOCurrency</description>
                 <value>
                     <fullName>Cash</fullName>
                     <default>true</default>
+                    <label>Cash</label>
                 </value>
                 <value>
                     <fullName>Financing</fullName>
                     <default>false</default>
+                    <label>Financing</label>
                 </value>
             </valueSetDefinition>
         </valueSet>

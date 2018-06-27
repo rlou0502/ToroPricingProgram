@@ -189,12 +189,15 @@ public with sharing class RoyTest {
 			 'REVVY__MnQiSubLineAttribute__c', 'REVVY__MnQuoteItemAttribute__c', 'Revvy__MnQuoteSolution__c', 'Revvy__MnQuoteSolutionAttribute__c'};
 		*/
 		//List<String> sobjNames = new List<String> {'REVVY__MnQuote__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c','Toro_PricingProgram__c','Toro_PricingProgramLine__c','Toro_PricingProgramEligibility__c'};
-		
+		/*
 		List<String> sobjNames = new List<String> { 'REVVY__MnQuote__c', 'REVVY__MnCatalogNode__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c',
 			 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'REVVY__MnConfigEngineOption__c', 'REVVY__MnConfigEngineOptionGroup__c',
 			 'Toro_PricingProgramEligibility__c', 'Toro_PricingProgramLine__c', 'Toro_PricingProgram__c', 'Toro_QuoteItem_SubLine__c', 'Toro_QuoteItem__c',
 			 'REVVY__MnQiSubLineAttribute__c', 'REVVY__MnQuoteItemAttribute__c', 'Revvy__MnQuoteSolution__c', 'Revvy__MnQuoteSolutionAttribute__c'};
-			 
+		*/	 
+		//List<String> sobjNames = new List<String> { 'Toro_PricingProgram__c','Toro_PricingProgramLine__c','Toro_PricingProgramEligibility__c','Toro_QuoteItem_SubLine__c', 'Toro_QuoteItem__c'};
+		List<String> sobjNames = new List<String> {'REVVY__MnQuote__c', 'REVVY__MnCatalogNode__c', 'REVVY__MnQuoteItem__c', 'REVVY__MnQuoteItemSubLine__c',
+			 'REVVY__MnPriceList__c', 'REVVY__MnPriceListLine__c', 'Revvy__MnStrategy1__c', 'Revvy__MnStrategy2__c', 'Revvy__MnStrategy3__c', 'Revvy__MnStrategy4__c', 'Revvy__MnStrategy5__c'};	 
 		system.debug('<types>');
 		for(String sobjName : sobjNames) {
 			Schema.Describesobjectresult dr = Schema.getGlobalDescribe().get(sobjName.toLowerCase()).getDescribe();
@@ -218,7 +221,7 @@ public with sharing class RoyTest {
 			Map<String, Schema.FieldSet> fss = dr.FieldSets.getMap();
 			if(fss.size() > 0){
 				for(String k : fss.keyset()) {
-					system.debug('<members>'+sobjName + '.' +  k + '</members>' );
+					system.debug('<members>'+sobjName + '.' +  fss.get(k).getName() + '</members>' );
 				}
 				
 			}
@@ -274,6 +277,31 @@ public with sharing class RoyTest {
 		
 	}
 	
-	
+	public static void genFieldset() {
+		String s1 ='pricingmethodvalue__c,pricing_program_overridden__c,drivenbygp__c,adjusted_quantity__c,onlyexistedincpl__c,original_award_price__c,off_msrp_overridden__c,product__r.toro_product_type__c,traction_unit__c,off_msrp__c,award_price__c,rebate_as_a_of_dn__c,fee_percentage__c,part_percentage__c,toro_product_tier__c,msrp_price__c,original_off_msrp__c,oroginal_of_dnet__c,unit_award_overridden__c,quoteitem__r.revvy__catalog_node__r.revvy__id__c,quoteitem__r.revvy__catalog_node__r.name,product__r.hierarchy_code__c,quoteitem__r.revvy__suggestedprice__c,misc_style__c,dnet_price__c,quoteitem__r.revvy__price__c,selected_off_msrp__c,pricing_program__c,select_a_price_method__c,award_of_dn__c,standard_price__c,product_id__c,product_name__c,placeholder1__c,total_toro_msrp__c,placeholder2__c,total_toro_dnet__c,placeholder3__c,total_toro_award__c,support_plus_item__c,performance_parts_product__c,total_award__c,toro_gross_profit_percent__c,blended_msrp__c,toro_blend_of_dn__c,toro_total_rebate__c,total_gross_profit_value__c,extended_msrp_price__c,extended_dnet_price__c,extended_award_price__c,exc_rbt__c,toro_rebate__c,toro_gross_profit_value__c';
+		String[] ss1 = s1.split(',');
+		
+		for(String s : ss1) {
+			system.debug('<displayedFields>');
+			system.debug('    <field>'+s+'</field>');
+			system.debug('    <isFieldManaged>false</isFieldManaged>');
+			system.debug('    <isRequired>false</isRequired>');
+			system.debug('</displayedFields>');
+		}
+		
+		
+		system.debug('--------------');
+		String s2 ='adjusted_quantity__c,original_off_msrp__c,onlyexistedincpl__c,pricingmethodvalue__c,award_price__c,rebate_as_of_dnet__c,fee_percentage__c,part_percentage__c,toro_product_tier__c,exclude_from_rebate__c,unit_award_overridden__c,quote_item_sub_line__r.revvy__catalog_node__r.revvy__id__c,dnet_price_2__c,misc_style__c,dnet_price__c,quote_item_sub_line__r.revvy__catalog_node__r.name,standard_price__c,quote_item_sub_line__r.revvy__price__c,quote_item_sub_line__r.revvy__suggestedprice__c,toro_quote_item__r.select_a_price_method__c,percent_off_msrp__c,percent_of_dnet__c,quantity__c,product_id__c,product_name__c,msrp_price__c,extended_msrp_price__c,extended_dnet_price__c,extended_award_price__c,apply_support_plus__c,performance_part__c,gross_profit_percent__c,toro_subline_rebate__c,gross_profit_value__c';
+		String[] ss2 = s2.split(',');
+		
+		for(String s : ss2) {
+			system.debug('<displayedFields>');
+			system.debug('    <field>'+s+'</field>');
+			system.debug('    <isFieldManaged>false</isFieldManaged>');
+			system.debug('    <isRequired>false</isRequired>');
+			system.debug('</displayedFields>');
+		}
+			
+	}
 
 }

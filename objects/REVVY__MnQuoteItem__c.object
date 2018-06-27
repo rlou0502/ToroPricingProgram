@@ -348,78 +348,97 @@
                 <value>
                     <fullName>GreensPro Rollers</fullName>
                     <default>false</default>
+                    <label>GreensPro Rollers</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 1337 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 1337 Series</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 300/3280 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 300/3280 Series</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 3500/4300 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 3500/4300 Series</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 360 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 360 Series</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 4000/4100 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 4000/4100 Series</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 4500/4700 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 4500/4700 Series</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 5900/5910 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 5900/5910 Series</label>
                 </value>
                 <value>
                     <fullName>Groundsmaster 7200/7210 Series</fullName>
                     <default>false</default>
+                    <label>Groundsmaster 7200/7210 Series</label>
                 </value>
                 <value>
                     <fullName>HoverPro 400/450/550</fullName>
                     <default>false</default>
+                    <label>HoverPro 400/450/550</label>
                 </value>
                 <value>
                     <fullName>MH-400</fullName>
                     <default>false</default>
+                    <label>MH-400</label>
                 </value>
                 <value>
                     <fullName>Outcross 9060</fullName>
                     <default>false</default>
+                    <label>Outcross 9060</label>
                 </value>
                 <value>
                     <fullName>Pro Force</fullName>
                     <default>false</default>
+                    <label>Pro Force</label>
                 </value>
                 <value>
                     <fullName>ProCore Aerators &amp; Processor</fullName>
                     <default>false</default>
+                    <label>ProCore Aerators &amp; Processor</label>
                 </value>
                 <value>
                     <fullName>ProPass 200</fullName>
                     <default>false</default>
+                    <label>ProPass 200</label>
                 </value>
                 <value>
                     <fullName>ProSweep</fullName>
                     <default>false</default>
+                    <label>ProSweep</label>
                 </value>
                 <value>
                     <fullName>Workman Vehicles</fullName>
                     <default>false</default>
+                    <label>Workman Vehicles</label>
                 </value>
                 <value>
                     <fullName>All other Commercial Wholegoods</fullName>
                     <default>false</default>
+                    <label>All other Commercial Wholegoods</label>
                 </value>
                 <value>
                     <fullName>Please Select:</fullName>
                     <default>true</default>
+                    <label>Please Select:</label>
                 </value>
             </valueSetDefinition>
         </valueSet>

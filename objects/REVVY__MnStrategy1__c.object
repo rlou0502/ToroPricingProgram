@@ -101,14 +101,17 @@
                 <value>
                     <fullName>Total DNet Only</fullName>
                     <default>true</default>
+                    <label>Total DNet Only</label>
                 </value>
                 <value>
                     <fullName>Award Only</fullName>
                     <default>false</default>
+                    <label>Award Only</label>
                 </value>
                 <value>
                     <fullName>Total DNet and Award</fullName>
                     <default>false</default>
+                    <label>Percent DNet and Award</label>
                 </value>
             </valueSetDefinition>
         </valueSet>
@@ -245,114 +248,142 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                 <value>
                     <fullName>Base</fullName>
                     <default>false</default>
+                    <label>Base</label>
                 </value>
                 <value>
                     <fullName>Base_w_no_Price_Increase</fullName>
                     <default>false</default>
+                    <label>Base_w_no_Price_Increase</label>
                 </value>
                 <value>
                     <fullName>Base_w_Qty_Pricing</fullName>
                     <default>false</default>
+                    <label>Base_w_Qty_Pricing</label>
                 </value>
                 <value>
                     <fullName>Base_w_Support_Plus</fullName>
                     <default>false</default>
+                    <label>Base_w_Support_Plus</label>
                 </value>
                 <value>
                     <fullName>Chart</fullName>
                     <default>false</default>
+                    <label>Chart</label>
                 </value>
                 <value>
                     <fullName>Price_List</fullName>
                     <default>false</default>
+                    <label>Price_List</label>
                 </value>
                 <value>
                     <fullName>Base_w_Model_Pricing</fullName>
                     <default>false</default>
+                    <label>Base_w_Model_Pricing</label>
                 </value>
                 <value>
                     <fullName>Standard</fullName>
                     <default>false</default>
+                    <label>Standard</label>
                 </value>
                 <value>
                     <fullName>Standrad_w_Exception</fullName>
                     <default>false</default>
+                    <label>Standrad_w_Exception</label>
                 </value>
                 <value>
                     <fullName>Standard_w_TPP</fullName>
                     <default>false</default>
+                    <label>Standard_w_TPP</label>
                 </value>
                 <value>
                     <fullName>GSA</fullName>
                     <default>false</default>
+                    <label>GSA</label>
                 </value>
                 <value>
                     <fullName>Army</fullName>
                     <default>false</default>
+                    <label>Army</label>
                 </value>
                 <value>
                     <fullName>NAF</fullName>
                     <default>false</default>
+                    <label>NAF</label>
                 </value>
                 <value>
                     <fullName>Large_Package</fullName>
                     <default>false</default>
+                    <label>Large_Package</label>
                 </value>
                 <value>
                     <fullName>New_Construction_Renovation_LP</fullName>
                     <default>false</default>
+                    <label>New_Construction_Renovation_LP</label>
                 </value>
                 <value>
                     <fullName>Market_Chart</fullName>
                     <default>false</default>
+                    <label>Market_Chart</label>
                 </value>
                 <value>
                     <fullName>Small_Package</fullName>
                     <default>false</default>
+                    <label>Small_Package</label>
                 </value>
                 <value>
                     <fullName>Demo</fullName>
                     <default>false</default>
+                    <label>Demo</label>
                 </value>
                 <value>
                     <fullName>Southern_Demo</fullName>
                     <default>false</default>
+                    <label>Southern_Demo</label>
                 </value>
                 <value>
                     <fullName>First_Tee</fullName>
                     <default>false</default>
+                    <label>First_Tee</label>
                 </value>
                 <value>
                     <fullName>Equipment_Partnership_0-6_Months</fullName>
                     <default>false</default>
+                    <label>Equipment_Partnership_0-6_Months</label>
                 </value>
                 <value>
                     <fullName>Equipment_Partnership_7-9_Months</fullName>
                     <default>false</default>
+                    <label>Equipment_Partnership_7-9_Months</label>
                 </value>
                 <value>
                     <fullName>Equipment_Partnership_10-18_Months</fullName>
                     <default>false</default>
+                    <label>Equipment_Partnership_10-18_Months</label>
                 </value>
                 <value>
                     <fullName>Stock_Order_Demo_Program</fullName>
                     <default>false</default>
+                    <label>Stock_Order_Demo_Program</label>
                 </value>
                 <value>
                     <fullName>Equipment_Partnership</fullName>
                     <default>false</default>
+                    <label>Equipment_Partnership</label>
                 </value>
                 <value>
                     <fullName>Base_w_Qty_Model_Pricing</fullName>
                     <default>false</default>
+                    <label>Base_w_Qty_Model_Pricing</label>
                 </value>
                 <value>
                     <fullName>Performance_Part</fullName>
                     <default>false</default>
+                    <label>Performance Part</label>
                 </value>
                 <value>
                     <fullName>Base_w_Award_Accessories</fullName>
                     <default>false</default>
+                    <label>Base_w_Award_Accessories</label>
                 </value>
             </valueSetDefinition>
             <valueSettings>
@@ -473,18 +504,22 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                 <value>
                     <fullName>Support Chart</fullName>
                     <default>false</default>
+                    <label>Support Chart</label>
                 </value>
                 <value>
                     <fullName>Corporate Account</fullName>
                     <default>false</default>
+                    <label>Corporate Account</label>
                 </value>
                 <value>
                     <fullName>Performance Part</fullName>
                     <default>false</default>
+                    <label>Performance Part</label>
                 </value>
                 <value>
                     <fullName>State Contract</fullName>
                     <default>false</default>
+                    <label>State Contract</label>
                 </value>
             </valueSetDefinition>
         </valueSet>
@@ -504,18 +539,22 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                 <value>
                     <fullName>Demo</fullName>
                     <default>false</default>
+                    <label>Demo</label>
                 </value>
                 <value>
                     <fullName>EquipmentPartnership</fullName>
                     <default>false</default>
+                    <label>EquipmentPartnership</label>
                 </value>
                 <value>
                     <fullName>SouthernDemo</fullName>
                     <default>false</default>
+                    <label>SouthernDemo</label>
                 </value>
                 <value>
                     <fullName>StockOrderDemoProgram</fullName>
                     <default>false</default>
+                    <label>StockOrderDemoProgram</label>
                 </value>
             </valueSetDefinition>
         </valueSet>

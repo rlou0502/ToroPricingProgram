@@ -182,14 +182,17 @@ Semi-Finished Good: Part</description>
                 <value>
                     <fullName>Finished Good</fullName>
                     <default>false</default>
+                    <label>Finished Good</label>
                 </value>
                 <value>
                     <fullName>Non-Stock Material</fullName>
                     <default>false</default>
+                    <label>Non-Stock Material</label>
                 </value>
                 <value>
                     <fullName>Semi-Finished Good</fullName>
                     <default>false</default>
+                    <label>Semi-Finished Good</label>
                 </value>
             </valueSetDefinition>
         </valueSet>
