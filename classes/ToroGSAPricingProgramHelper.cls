@@ -1,9 +1,4 @@
 public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
-	public override List<Schema.FieldSetMember> getQuoteFields() {
-		return SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
-	} 
-	  
-		
 	public override boolean displaySetupFee() {
 		return false;
 	}      

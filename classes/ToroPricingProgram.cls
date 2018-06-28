@@ -25,7 +25,9 @@ public abstract class ToroPricingProgram {
 	public Map<String,Decimal> performancePartMap {get;set;}
 	//public abstract List<Schema.FieldSetMember> getQuoteItemSublineFields();
 	//public abstract List<Schema.FieldSetMember> getQuoteItemFields();
-	public abstract List<Schema.FieldSetMember> getQuoteFields() ;
+	public virtual List<Schema.FieldSetMember> getQuoteFields() {
+		return SObjectType.Revvy__MnQuote__c.FieldSets.Pricing_Program_Quote_Header_Fields.getFields();
+	}
 	public virtual List<Schema.FieldSetMember> getQuoteUpdatableFields() {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.Quote_Header_Updatable_Fields.getFields();
 	}

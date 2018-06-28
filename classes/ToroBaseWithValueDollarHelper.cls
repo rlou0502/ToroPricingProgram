@@ -1,8 +1,4 @@
-public virtual class ToroBaseWithValueDollarHelper extends ToroPricingProgram  {
-	public override List<Schema.FieldSetMember> getQuoteFields() {
-		return SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
-	}
-	   
+public virtual class ToroBaseWithValueDollarHelper extends ToroPricingProgram  { 
 	public override boolean getQuoteLevelMSQPDNetEditable() { 
 		return false;
 	}

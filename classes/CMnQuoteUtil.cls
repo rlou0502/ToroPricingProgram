@@ -64,7 +64,7 @@ public with sharing class CMnQuoteUtil {
 	
 	public static String getQuoteQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
-		List<Schema.FieldSetMember> fieldSetMemberList = SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
+		List<Schema.FieldSetMember> fieldSetMemberList = SObjectType.Revvy__MnQuote__c.FieldSets.Pricing_Program_Quote_Header_Fields.getFields();
 		List<Schema.FieldSetMember> fieldSetMemberList2 = SObjectType.Revvy__MnQuote__c.FieldSets.Price_Program_Quote_Info.getFields();
 		for(Schema.FieldSetMember fs : fieldSetMemberList) {
 			fieldNames.add(fs.getFieldPath().toLowerCase());

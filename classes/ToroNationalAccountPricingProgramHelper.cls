@@ -223,6 +223,24 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	}
 	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+																
+		Decimal dsetupThreshold = null;
+		for(REVVY__MnStrategy1__c mns: [Select Id, Setup_Threshold__c,ExternalId__c 
+		                                 From REVVY__MnStrategy1__c where ExternalId__c = :priceProgram]) {
+			dsetupThreshold = mns.Setup_Threshold__c;                                 	
+		} 											
+		if(CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) > 0 && CMnQuoteUtil.defaultDecimal(dsetupThreshold) > 0 
+		&& CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) > CMnQuoteUtil.defaultDecimal(dsetupThreshold)) {
+			for(Revvy__MnStrategy4__c qi : quoteItemList) {
+				if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
+					resetQIPercentage(qi);
+					qi.MSRP_Price__c = 0;
+				}
+			}			
+		}			
+		
+				
+																
 /*
 			Decimal dtoroTotalSetupFees = 0;
 			REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];

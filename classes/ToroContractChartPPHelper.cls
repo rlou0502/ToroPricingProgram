@@ -1,9 +1,4 @@
 public with sharing class ToroContractChartPPHelper extends ToroPricingProgram  {
-	public override List<Schema.FieldSetMember> getQuoteFields() {
-		system.debug('ToroLargePackagePricingProgramHelper --- getQuoteFields');
-		return SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
-	}
-
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
 		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
 	}
