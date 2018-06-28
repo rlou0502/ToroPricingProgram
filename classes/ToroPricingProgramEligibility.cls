@@ -7,7 +7,7 @@ public with sharing class ToroPricingProgramEligibility {
 													PricingProgram__r.AllowSupportPlus__c, PricingProgram__r.PricingProgramStyle__c, 
 													PricingProgram__r.PricingProgramType__c, PricingProgram__r.ExternalId__c, PricingProgram__r.Name,
 													PricingProgram__r.Exclude__c, PricingProgram__r.ApplicableProductsLong__c, PricingProgram__c
-													From Revvy__MnStrategy3__c where Distributor__c = :distributor and PricingProgram__r.IsFirstTee__c = FALSE and PricingProgram__r.CORPORATE_ACCOUNT__C=null];
+													From Revvy__MnStrategy3__c where Distributor__c = :distributor and PricingProgram__r.IsFirstTee__c = FALSE and PricingProgram__r.CORPORATE_ACCOUNT__C=null and PricingProgram__r.Status__c = 'Active'];
 		system.debug(logginglevel.info, ' programs size= ' + programs.size());
 		for(Revvy__MnStrategy3__c e : programs) {
 			if(String.isNotBlank(e.PricingProgram__c)) {				
@@ -37,7 +37,7 @@ public with sharing class ToroPricingProgramEligibility {
 													PricingProgram__r.AllowSupportPlus__c, PricingProgram__r.PricingProgramStyle__c, 
 													PricingProgram__r.PricingProgramType__c, PricingProgram__r.ExternalId__c, PricingProgram__r.Name,
 													PricingProgram__r.Exclude__c, PricingProgram__r.ApplicableProductsLong__c, PricingProgram__c
-													From Revvy__MnStrategy3__c where Distributor__c = :customer.Id and PricingProgram__r.IsFirstTee__c = FALSE];
+													From Revvy__MnStrategy3__c where Distributor__c = :customer.Id and PricingProgram__r.IsFirstTee__c = FALSE and PricingProgram__r.Status__c = 'Active'];
 		system.debug(logginglevel.info, ' programs size= ' + programs.size());
 		for(Revvy__MnStrategy3__c e : programs) {
 			result.add(new Revvy__MnStrategy1__c(Id=e.PricingProgram__c, Name=e.PricingProgram__r.Name,IsTaxSupported__c = e.PricingProgram__r.IsTaxSupported__c,
