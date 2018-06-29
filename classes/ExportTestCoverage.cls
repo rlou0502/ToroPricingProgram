@@ -1,7 +1,13 @@
 public class ExportTestCoverage{
     private Set<String> cpqClasses = new Set<String> {
 		'CMnQuoteUtil',
+		'CMnWAPluginFormatNumberQuoteItem',
+		'CMnWAPluginFormatNumberStrategy4',
+		'CMnWAPluginFormatNumberStrategy5',
 		'FieldSetMember',
+		'KMnQuoteLifeCycleAbandoned',
+		'KMnQuoteLifeCycleClosedLost',
+		'KMnQuoteLifeCycleSelectPriceProgram',
 		'PP_CreateQIExtension',
 		'PP_CreateQISLExtension',
 		'PP_PricingProgramDelete',
@@ -34,7 +40,9 @@ public class ExportTestCoverage{
 		'ToroNTData',
 		'ToroPerformancePartCache',
 		'ToroPerformancePartPricingProgramHelper',
+		'ToroPostConfigPricingHook',
 		'ToroPriceProgramFactory',
+		'ToroPricingHook',
 		'ToroPricingMethodData',
 		'ToroPricingMethodHelper',
 		'ToroPricingProgram',
