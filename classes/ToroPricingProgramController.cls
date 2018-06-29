@@ -870,7 +870,8 @@ public class ToroPricingProgramController {
 		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
 		rs.pricingMethodOptions = options;
     	q = pp.quote;
-    	
+    	//Performance_Part__c
+    	pp.performancePartFlag = pp.quote.Performance_Part__c;
     	//String pm = pricingMethod;
     	String pm = q.Price_Method__c;
     	rs = retrieveFieldSets(rs, pp, pm, pricingProgram);
