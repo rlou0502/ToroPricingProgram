@@ -177,7 +177,7 @@
         <fullName>MinimumThreshold__c</fullName>
         <description>Minimum threshold for a pricing program to be seen in pricing program pick list.</description>
         <externalId>false</externalId>
-        <label>Large Package Minimum Threshold</label>
+        <label>Minimum Package Threshold</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
