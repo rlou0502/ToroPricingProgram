@@ -10,6 +10,28 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
+	public static void updateAllowanceAndDistResp(REVVY__MnQuote__c quote) {
+
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public static Boolean resetSupportPlusItems(List<REVVY__MnQuoteItem__c> quoteItems) {
+
+		return true;
+	}
+
+	/**
+	 *
+	 * generates a new sequence number for Quote Items
+	 *
+	 * @return new sequence number
+	 */
 	public static Decimal generateQiExtId() {
 		if (qiSequenceGen == null) {
 			qiSequenceGen = [SELECT
@@ -26,10 +48,9 @@ public with sharing class ToroSupportPlusHelper {
 
 	/**
 	 *
-	 * description
+	 * saves the latest sequence number for the Quote Item (THIS MUST BE CALLED WHENEVER NEW QUOTE ITEMS ARE CREATED
+	 * USING THIS NUMBER)
 	 *
-	 * @param  name    description
-	 * @return return_type
 	 */
 	public static void saveSequenceGen() {
 		if (qiSequenceGen != null) update qiSequenceGen;

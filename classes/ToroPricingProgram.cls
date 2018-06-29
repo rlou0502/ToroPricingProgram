@@ -425,7 +425,9 @@ public abstract class ToroPricingProgram {
 								qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;
 							}
 						} else {
-							qis.Gross_Profit_Value__c = CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100*CMnQuoteUtil.defaultDecimal(qis.Extended_Award_Price__c);
+							if(qis.Extended_Award_Price__c != null && qis.Extended_Award_Price__c != 0) {
+								qis.Gross_Profit_Value__c = CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100*CMnQuoteUtil.defaultDecimal(qis.Extended_Award_Price__c);
+							}
 						}
 						qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 						extRebate += qis.Toro_Subline_Rebate__c;
