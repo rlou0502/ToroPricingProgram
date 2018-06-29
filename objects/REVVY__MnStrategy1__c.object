@@ -199,9 +199,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     </fields>
     <fields>
         <fullName>OutCrossThreshold__c</fullName>
-        <description>Minimum dollar amount threshold for Large Package that has Out Cross.</description>
+        <description>Minimum dollar amount threshold for Large Package that has OutCross.</description>
         <externalId>false</externalId>
-        <label>Out Cross Threshold</label>
+        <label>OutCross Threshold</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
