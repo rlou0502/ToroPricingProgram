@@ -36,7 +36,6 @@
         helper.closeInfoBox(component);
     },
     handleCalculationComplete: function(component, event, helper) {
-        debugger;
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
         var allowSupportPlus = event.getParam("allowSupportPlus");
@@ -169,7 +168,6 @@
     },
     handleRefeshInfoBox : function(component, event, helper) {
         var dm = document.getElementById("popover-root");
-        debugger;
         if(dm.style.display != "none") {
         	var infoBoxData =event.getParam("infoBoxData");
         	var infoBoxType =event.getParam("infoBoxType");
@@ -204,7 +202,6 @@
         var childCmp = component.find("cmpQuoteItem");
 		childCmp.setPricingProgramSvc(selectedPricingProgram, function(result) {
             //console.log("callback for aura:method was executed");
-            debugger;
             console.log("result: " + result);
         });
     },

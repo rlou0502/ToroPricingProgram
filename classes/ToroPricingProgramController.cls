@@ -886,6 +886,7 @@ public class ToroPricingProgramController {
 					if(String.isNotBlank(qis.PricingMethodValue__c)){
 		    			decimal d = decimal.valueOf(qis.PricingMethodValue__c).setScale(2, roundingMode.HALF_UP);
 		    			qis.PricingMethodValue__c = String.valueOf(d);
+		    			//system.debug('performance part product id=' + qis.product_Id__c + ' performance part =' + qis.performance_part__c);
 		    		}
 				}
 			}
@@ -897,6 +898,7 @@ public class ToroPricingProgramController {
 		List<String> spKeys = new List<String>();
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
+		
 		if(String.isNotBlank(ppd.externalId)) {
 	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
 	    	for(String key : secondaryPrograms.keyset()) {
