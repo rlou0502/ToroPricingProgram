@@ -7,6 +7,7 @@
         <members>CMnWAPluginFormatNumberQuoteItem</members>
         <members>CMnWAPluginFormatNumberStrategy4</members>
         <members>CMnWAPluginFormatNumberStrategy5</members>
+        <members>ExportTestCoverage</members>
         <members>FieldSetMember</members>
         <members>FieldSetMemberTest</members>
         <members>KMnQuoteLifeCycleAbandoned</members>
@@ -63,6 +64,7 @@
         <members>ToroPostConfigPricingHook</members>
         <members>ToroPriceProgramFactory</members>
         <members>ToroPriceProgramFactoryTest</members>
+        <members>ToroPricingHook</members>
         <members>ToroPricingMethodData</members>
         <members>ToroPricingMethodDataTest</members>
         <members>ToroPricingMethodHelper</members>
@@ -120,7 +122,7 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>PricingProgramLgtnOut</members>
+        <members>ExportTestCoverage</members>
         <members>ToroExportToExcelMultipleSheets</members>
         <members>ToroNTLgtnOut</members>
         <members>ToroPricingProgramProductSelector</members>
