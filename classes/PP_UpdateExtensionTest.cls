@@ -27,6 +27,7 @@ private class PP_UpdateExtensionTest {
 		ToroTestData.loadQuoteTestData();
 	}
     static testMethod void myUnitTest() {
+    	Test.StartTest();
         Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
         List<REVVY__MnQuoteItemSubLine__c> qisUpdate = new List<REVVY__MnQuoteItemSubLine__c> ();
         List<REVVY__MnQuoteItem__c> quoteItems = [Select r.Id, (Select Id, Name From REVVY__QuoteItemSubLine__r) From REVVY__MnQuoteItem__c r where REVVY__Quote__c = :quote.Id];
@@ -39,5 +40,6 @@ private class PP_UpdateExtensionTest {
     	}
     	update quoteItems;
     	update qisUpdate;
+    	Test.StopTest();
     }
 }
