@@ -1,4 +1,5 @@
 trigger Populate_QI_DNet_Price on REVVY__MnQuoteItem__c (before insert, before update) {
+	/*
     List<REVVY__MnQuoteItem__c> sublines = (List<REVVY__MnQuoteItem__c>) trigger.new; 
     List<Id> productIds = new List<Id>();
     List<Id> qiSublineIds = new List<Id>();
@@ -59,5 +60,5 @@ trigger Populate_QI_DNet_Price on REVVY__MnQuoteItem__c (before insert, before u
             sl.DNet_Price_2__c = product2SuggestedPrice.get(sl.revvy__catalog_Node__c);
         }
     }
-        
+   */     
 }
