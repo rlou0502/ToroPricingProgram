@@ -23,7 +23,7 @@ private class CMnQuoteUtilTest {
 		System.assert(CMnQuoteUtil.getNewGuid() != null);
 		List<Revvy__MnStrategy4__c> toroQuoteItems = [
 			SELECT
-				Product__r.Toro_Product_Type__c,Product_Name__c, Product__r.Name, Product__r.Id, Quantity__c
+				Product__r.Toro_Product_Type__c,Adjusted_Quantity__c,Product_Name__c, Product__r.Name, Product__r.Id, Quantity__c
 			FROM
 				Revvy__MnStrategy4__c
 		];

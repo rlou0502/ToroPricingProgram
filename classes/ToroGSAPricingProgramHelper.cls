@@ -152,8 +152,10 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 						qis.Commission_Dollar__c = qis.Gross_Profit_Value__c;
 					} else {
 						qis.Gross_Profit_Value__c = (qis.Award_Price__c - qis.DNet_Price__c)*extQty;
-						if(qis.Award_Price__c != null && qis.Award_Price__c != 0 && qis.Award_Price__c*extQty != 0) {
+						try {
 							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c / (qis.Award_Price__c*extQty) * 100 ;
+						}catch (Exception e) {
+							system.debug(logginglevel.warn, e.getMessage() + e.getStackTraceString());
 						}
 						qis.Commission__c = 0;
 						qis.Commission_Dollar__c = 0;					
@@ -165,9 +167,10 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 					if(!qis.OnlyExistedInCPL__c) {
 						decimal qisRebate = qis.DNet_Price__c * extQty - qis.award_price__c *extQty  + qis.Gross_Profit_Value__c;	
 						qis.Toro_Subline_Rebate__c = qisRebate;	
-						if(qis.award_price__c != 0 && qis.dnet_price__c != null && qis.dnet_price__c != 0 && qis.dnet_price__c*extQty != 0) {
-							qis.Rebate_as_of_DNet__c = qisRebate/(qis.dnet_price__c*extQty) *100;
-						} else {
+						try{
+							qis.Rebate_as_of_DNet__c = qisRebate/(qis.dnet_price__c*extQty) *100;	
+						} catch (Exception e) {
+							system.debug(logginglevel.warn, e.getMessage() + e.getStackTraceString());
 							system.debug('ToroContractPriceListPPHelper---------qis.product_name__c=' + qis.product_name__c + ' product id=' + qis.product_Id__c);
 						}
 					} else {

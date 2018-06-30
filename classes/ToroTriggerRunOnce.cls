@@ -17,6 +17,26 @@ public with sharing class ToroTriggerRunOnce {
             return qisExtension;
         }
     } 
+    
+    private static boolean quoteItemRunOnce = true;
+    public static boolean runQuoteItemRunOnce(){
+        if(quoteItemRunOnce){
+            quoteItemRunOnce=false;
+            return true;
+        } else {
+            return quoteItemRunOnce;
+        }
+    } 
+    private static boolean quoteItemSublineRunOnce = true;
+    public static boolean runQuoteItemSublineRunOnce(){
+        if(quoteItemSublineRunOnce){
+            quoteItemSublineRunOnce=false;
+            return true;
+        } else {
+            return quoteItemSublineRunOnce;
+        }
+    } 
+    
     private static boolean inCloing = false;
     public static void setInCloning(boolean flag){
     	inCloing = flag;	    

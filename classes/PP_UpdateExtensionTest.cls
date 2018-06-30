@@ -33,7 +33,7 @@ private class PP_UpdateExtensionTest {
     	for(REVVY__MnQuoteItem__c qi : quoteItems ) {
     		qi.REVVY__Quantity__c = 6;
     		for(REVVY__MnQuoteItemSubLine__c qis : qi.REVVY__QuoteItemSubLine__r) {
-    			qis.REVVY__QUantity__c = 6;
+    			qis.REVVY__Quantity__c = 6;
     			qisUpdate.add(qis);
     		}
     	}
