@@ -22,6 +22,12 @@ private class ToroCacheManagerTest {
         
     } 
     static testMethod void testQuoteCache() {
+    	List<REVVY__MnPriceListLine__c> plls = [select id, REVVY__ListedPrice__c from REVVY__MnPriceListLine__c];
+    	for(REVVY__MnPriceListLine__c pll : plls) {
+    		pll.REVVY__PriceField4__c = pll.REVVY__ListedPrice__c;	
+    	}
+    	update plls;
+    	Test.startTest();
     	REVVY__MnQuote__c q = [select id from  REVVY__MnQuote__c limit 1];
     	q = ToroCacheManager.getQuote(q.Id);
     	system.debug('-------q.Setup_Fee__c=' + q.Setup_Fee__c);
@@ -42,6 +48,7 @@ private class ToroCacheManagerTest {
     	ToroCacheManager.getPerformancePartMap();
     	system.assert(ToroCacheManager.getPricingProgram(null) == null);
     	ToroCacheManager.setPercentOffMSRP(new Map<Id, decimal>());
+    	Test.stopTest();
     	//system.assertEquals('Commercial', q.REVVY__Segment__c);
     }   
 }

@@ -1,31 +1,4 @@
 public class ToroPricingProgramInfoBoxController {
-	@AuraEnabled
-    public static ToroSObjectResultSet refreshInfoBoxSvc( ID objId) {
-    	system.debug('refreshInfoBox');
-    	ToroSObjectResultSet rs = new ToroSObjectResultSet();
-    	system.debug('refreshInfoBox');
-    	rs.result=true;
-    	system.debug('ToroPricingProgramInfoBoxController obj type = ' + objId.getSObjectType());
-    	List<Schema.FieldSetMember> fs= objId.getSObjectType().getDescribe().FieldSets.getMap().get('Price_Program_Traction_Unit_Info').getFields();
-    	String objName = objId.getSObjectType().getDescribe().getName();
-    	List<String> fieldNames = new List<String>();
-    	List<FieldSetMember> fset = new List<FieldSetMember>();
-		system.debug('refreshInfoBox');
-        for (Schema.FieldSetMember f: fs) {
-        	fieldNames.add(f.getFieldPath());
-        	FieldSetMember nfsm = new FieldSetMember(f);
-            fset.add(nfsm);
-        }
-        system.debug('refreshInfoBox');
-        String query = 'Select ' + String.join(fieldNames, ',') + ' from ' + objName + ' where id=\'' + objId + '\'';
-        system.debug('refreshInfoBox=' + query);
-		sObject[] dataObjs = database.query(query);
-		system.debug('refreshInfoBox=' + dataObjs);
-		rs.fieldSetMembers = fset;
-		rs.values = dataObjs;
-    	return rs;
-    }
-    
     public static List<FieldSetMember> convertFieldSet(List<Schema.FieldSetMember> fs) {
     	List<FieldSetMember> fset = new List<FieldSetMember>();
     	for (Schema.FieldSetMember f: fs) {

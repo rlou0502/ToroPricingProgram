@@ -42,4 +42,24 @@ private class PP_UpdateExtensionTest {
     	update qisUpdate;
     	Test.StopTest();
     }
+    static testMethod void myUnitTest2() {
+    	Test.StartTest();
+        Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+        List<REVVY__MnQuoteItemSubLine__c> qisUpdate = new List<REVVY__MnQuoteItemSubLine__c> ();
+        List<REVVY__MnQuoteItem__c> quoteItems = [Select r.Id, (Select Id, Name From REVVY__QuoteItemSubLine__r) From REVVY__MnQuoteItem__c r where REVVY__Quote__c = :quote.Id];
+    	for(REVVY__MnQuoteItem__c qi : quoteItems ) {
+    		for(REVVY__MnQuoteItemSubLine__c qis : qi.REVVY__QuoteItemSubLine__r) {
+    			qis.REVVY__Quantity__c = 6;
+    			qisUpdate.add(qis);
+    		}
+    	}
+    	update qisUpdate;
+    	
+		for(REVVY__MnQuoteItemSubLine__c qis : qisUpdate) {
+			qis.REVVY__Quantity__c = 2;
+		}
+    	
+    	update qisUpdate;
+    	Test.StopTest();
+    }
 }

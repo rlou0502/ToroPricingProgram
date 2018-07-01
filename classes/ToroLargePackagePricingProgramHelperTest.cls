@@ -5,12 +5,37 @@ private class ToroLargePackagePricingProgramHelperTest {
 		ToroTestData.loadTestData();
 		ToroTestData.loadQuoteTestData();
 	}
-
+	
+	
+	@isTest static void test_Info_Popup() {
+		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+		List<Revvy__MnStrategy4__c> qiExtensions = [select id from Revvy__MnStrategy4__c where mn_quote__c = :quote.Id];
+		ToroPricingProgramInfoBoxController.getInfoBoxFieldSets();
+		ToroPricingProgramInfoBoxController.loadQuoteHeader(quote.Id);
+		ToroPricingProgramInfoBoxController.resetQuoteApproval(quote.Id);
+	}
+	
+	@isTest static void test_Info_Popup_std_user() {
+		
+		Profile p = [SELECT Id FROM Profile WHERE Name='Standard User']; 
+	    User u = new User(Alias = 'standt', Email='standarduser@test-toro.com', 
+	    			EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
+	      			LocaleSidKey='en_US', ProfileId = p.Id, 
+	      			TimeZoneSidKey='America/Los_Angeles', UserName='standarduser@test-toro.com');
+	
+	    System.runAs(u) {       	
+			ToroPricingProgramInfoBoxController.getInfoBoxFieldSets();
+	    }
+      
+	}
+	
+      
 	@isTest static void test_get_field_methods() {
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroLargePackagePricingProgramHelper tlpp = new ToroLargePackagePricingProgramHelper();
 		tlpp.performancePartFlag=true;
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
+		options.sort();
 		ToroPricingProgramData ppd = new ToroPricingProgramData('MarketSupportChartLargePackage;Large_Package');
 		tlpp.initialize(quote.Id);
 		
@@ -29,7 +54,7 @@ private class ToroLargePackagePricingProgramHelperTest {
 		defaultHelper.getToroQuoteItemSublineFields();
 		defaultHelper.getToroQuoteItemSublineUpdatableFields();
 		defaultHelper.getToroQuoteItemSummaryFields();
-		
+		defaultHelper.getToroQuoteItemSummaryUpdatableFields();
 		List<Schema.FieldSetMember> fieldSet = defaultHelper.getQuoteFields();   	
     	List<Schema.FieldSetMember> dNetfieldSet = defaultHelper.getToroQuoteDNetFields();
     	fieldSet = defaultHelper.removeDNetFieldsFromSet(fieldSet, dNetfieldSet);
@@ -46,5 +71,6 @@ private class ToroLargePackagePricingProgramHelperTest {
 		System.assert(tlpp.getToroQuoteItemSublineUpdatableFields() != null);
 		System.assert(tlpp.getToroQuoteItemSummaryFields() != null);
 		tlpp.retrieveDemoPricingProgramOptions();
+		tlpp.getToroQuoteItemSummaryUpdatableFields();
 	}
 }
