@@ -129,7 +129,7 @@ public with sharing class ToroGenModelBOM {
 		public double sequence {get; set;}
 		public double sectionNumber { get; set;}
 		public Set<String> tractionUnits { get;set; }
-		OptionGroup(string ogName, double sectionNumber, double sequence, List<DNetMSRGPair> options, Set<String> tractionUnits) {
+		@TestVisible OptionGroup(string ogName, double sectionNumber, double sequence, List<DNetMSRGPair> options, Set<String> tractionUnits) {
 			this.optionGroupName = ogName;
 			this.options = options;
 			this.sequence = sequence;
@@ -146,6 +146,8 @@ public with sharing class ToroGenModelBOM {
 			}
 		}
 		@TestVisible OptionGroup(string ogName, List<DNetMSRGPair> options, Set<String> tractionUnits) {
+			this.sectionNumber = 0;
+			this.sequence=0;
 			this.optionGroupName = ogName;
 			this.options = options;
 			hasTractionUnit=false;

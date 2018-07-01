@@ -12,6 +12,7 @@
     <testClassName>ToroContractChartPPHelperTest</testClassName>
     <testClassName>ToroContractPriceListPPHelperTest</testClassName>
     <testClassName>ToroContractQuantityPPHelperTest</testClassName>
+    <testClassName>ToroExportToExcelMultipleSheetsTest</testClassName>
     <testClassName>ToroGenModelBOMTest</testClassName>
     <testClassName>ToroGenModelIBOMTest</testClassName>
     <testClassName>ToroKemperSportsPricingProgramHelperTest</testClassName>
