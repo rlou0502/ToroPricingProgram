@@ -8,15 +8,17 @@ private class ToroLargePackagePricingProgramHelperTest {
 	
 	
 	@isTest static void test_Info_Popup() {
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		List<Revvy__MnStrategy4__c> qiExtensions = [select id from Revvy__MnStrategy4__c where mn_quote__c = :quote.Id];
 		ToroPricingProgramInfoBoxController.getInfoBoxFieldSets();
 		ToroPricingProgramInfoBoxController.loadQuoteHeader(quote.Id);
 		ToroPricingProgramInfoBoxController.resetQuoteApproval(quote.Id);
+		Test.stopTest();
 	}
 	
 	@isTest static void test_Info_Popup_std_user() {
-		
+		Test.startTest();
 		Profile p = [SELECT Id FROM Profile WHERE Name='Standard User']; 
 	    User u = new User(Alias = 'standt', Email='standarduser@test-toro.com', 
 	    			EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
@@ -26,11 +28,12 @@ private class ToroLargePackagePricingProgramHelperTest {
 	    System.runAs(u) {       	
 			ToroPricingProgramInfoBoxController.getInfoBoxFieldSets();
 	    }
-      
+      	Test.stopTest();
 	}
 	
       
 	@isTest static void test_get_field_methods() {
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroLargePackagePricingProgramHelper tlpp = new ToroLargePackagePricingProgramHelper();
 		tlpp.performancePartFlag=true;
@@ -58,10 +61,11 @@ private class ToroLargePackagePricingProgramHelperTest {
 		List<Schema.FieldSetMember> fieldSet = defaultHelper.getQuoteFields();   	
     	List<Schema.FieldSetMember> dNetfieldSet = defaultHelper.getToroQuoteDNetFields();
     	fieldSet = defaultHelper.removeDNetFieldsFromSet(fieldSet, dNetfieldSet);
-		
+		Test.stopTest();
 	}
 
 	@isTest static void test_method_two() {
+		Test.startTest();
 		ToroLargePackagePricingProgramHelper tlpp = new ToroLargePackagePricingProgramHelper();
 		tlpp.displayPerformancePart();
 		System.assert(tlpp.getQuoteFields() != null);
@@ -72,5 +76,6 @@ private class ToroLargePackagePricingProgramHelperTest {
 		System.assert(tlpp.getToroQuoteItemSummaryFields() != null);
 		tlpp.retrieveDemoPricingProgramOptions();
 		tlpp.getToroQuoteItemSummaryUpdatableFields();
+		Test.stopTest();
 	}
 }

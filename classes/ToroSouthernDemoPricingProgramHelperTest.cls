@@ -28,6 +28,7 @@ private class ToroSouthernDemoPricingProgramHelperTest {
 	}
 
 	@isTest static void test_get_field_methods() {
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroSouthernDemoPricingProgramHelper tlpp = new ToroSouthernDemoPricingProgramHelper();
 		tlpp.performancePartFlag=true;
@@ -40,9 +41,10 @@ private class ToroSouthernDemoPricingProgramHelperTest {
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, 'Total Award $', tlpp.quoteItems, false);
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, 'Gross Profit %', tlpp.quoteItems, false);
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% of DNET', tlpp.quoteItems, true);
-		
+		Test.stopTest();
 	}
 	@isTest static void test_method_two() {
+		Test.startTest();
 		ToroSouthernDemoPricingProgramHelper tlpp = new ToroSouthernDemoPricingProgramHelper();
 		tlpp.displayPerformancePart();
 		System.assert(tlpp.getQuoteFields() != null);
@@ -54,5 +56,6 @@ private class ToroSouthernDemoPricingProgramHelperTest {
 		System.assert(tlpp.getToroQuoteItemSummaryUpdatableFields() != null);
 		
 		tlpp.retrieveDemoPricingProgramOptions();
+		Test.stopTest();
 	}
 }

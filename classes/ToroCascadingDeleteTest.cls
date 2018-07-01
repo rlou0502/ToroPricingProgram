@@ -42,7 +42,7 @@ private class ToroCascadingDeleteTest {
         System.assert(items.size() == 0);
     } 
     static testMethod void quoteItemCascadingDeleteTest() {
-    	
+    	Test.startTest();
     	REVVY__MnQuote__c quote = [select Id from REVVY__MnQuote__c limit 1];
     	
     	List<REVVY__MnStrategy4__c> qiExts = [select id from REVVY__MnStrategy4__c];
@@ -59,6 +59,7 @@ private class ToroCascadingDeleteTest {
     	system.debug(qisExts.size());
     	system.assert(qiExts.size() ==0);
     	system.assert(qisExts.size() ==0);
+    	Test.stopTest();
     	
     }
 }

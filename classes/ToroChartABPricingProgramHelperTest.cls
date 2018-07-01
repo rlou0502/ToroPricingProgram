@@ -26,6 +26,7 @@ private class ToroChartABPricingProgramHelperTest {
 		ToroTestData.loadQuoteTestData();
 	}
     static testMethod void unitTestMSRP() {
+    	Test.startTest();
         String pricingProgram = 'ChartAB;Market_Chart';
         ToroPriceProgramFactory.refreshAllPricingProgramHelpers();
         ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
@@ -57,8 +58,10 @@ private class ToroChartABPricingProgramHelperTest {
     	System.debug('rebate = ' + quoteitems);
     	quoteitems = [select id from REVVY__MnStrategy4__c where Product_Id__c='04238' and Pricing_Program__c='ChartB'];
     	System.assert(quoteitems.size() != 0);
+    	Test.stopTest();
     }
     static testMethod void unitTestDNET() {
+    	Test.startTest();
         String pricingProgram = 'ChartAB;Market_Chart';
         ToroPriceProgramFactory.refreshAllPricingProgramHelpers();
         ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
@@ -81,8 +84,10 @@ private class ToroChartABPricingProgramHelperTest {
     	System.debug('rebate = ' + quoteitems);
     	quoteitems = [select id from REVVY__MnStrategy4__c where Product_Id__c='04238' and Pricing_Program__c='ChartB'];
     	System.assert(quoteitems.size() != 0);
+    	Test.stopTest();
     }
     static testMethod void unitTestGPPercent() {
+    	Test.startTest();
         String pricingProgram = 'ChartAB;Market_Chart';
         ToroPriceProgramFactory.refreshAllPricingProgramHelpers();
         ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
@@ -105,8 +110,10 @@ private class ToroChartABPricingProgramHelperTest {
     	System.debug('rebate = ' + quoteitems);
     	quoteitems = [select id from REVVY__MnStrategy4__c where Product_Id__c='04238' and Pricing_Program__c='ChartB'];
     	System.assert(quoteitems.size() != 0);
+    	Test.stopTest();
     }
     static testMethod void unitTestTotalAwardPrice() {
+    	Test.startTest();
         String pricingProgram = 'ChartAB;Market_Chart';
         ToroPriceProgramFactory.refreshAllPricingProgramHelpers();
         ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
@@ -129,6 +136,7 @@ private class ToroChartABPricingProgramHelperTest {
     	System.debug('rebate = ' + quoteitems);
     	quoteitems = [select id from REVVY__MnStrategy4__c where Product_Id__c='04238' and Pricing_Program__c='ChartB'];
     	System.assert(quoteitems.size() != 0);
+    	Test.stopTest();
     }
     
 }

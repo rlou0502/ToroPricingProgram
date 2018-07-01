@@ -53,14 +53,6 @@ public with sharing class CMnQuoteUtil {
 		}
 		return result;
 	}
-
-	private String CombineSelectClauses(List<String> fieldListFromFS, String extraFields ) {
-		String extraFieldWOSpaces = extraFields.replaceAll( '\\s+', '').toLowerCase();
-		String[] extras = extraFieldWOSpaces.split(',');
-		Set<String> nameSet = new Set<String>(extras);
-		nameSet.addAll(fieldListFromFS);
-		return String.join(new List<String>(nameSet), ',');
-	}
 	
 	public static String getQuoteQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
