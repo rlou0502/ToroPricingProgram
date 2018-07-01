@@ -54,7 +54,11 @@ public with sharing class ToroTestData {
 		List<sObject> pricingProgramLine = Test.loadData(Revvy__MnStrategy2__c.sObjectType, 'TestData_PP_PricingProgramLine');
 		
 		Test.loadData(Revvy__MnConfigEngineModel__c.sObjectType, 'TestData_PP_Model');
+		Test.loadData(REVVY__MnConfigEngineOptionGroup__c.sObjectType, 'Test_PP_OptionGroup');
+		Test.loadData(REVVY__MnConfigEngineModelOptionGroupJunction__c.sObjectType, 'TestData_PP_ModelOptionGroupJunction');
+		
 		List<sObject> products           = Test.loadData(Revvy__MnCatalogNode__c.sObjectType, 'TestData_PP_CatalogNode');
+		Test.loadData(REVVY__MnConfigEngineOption__c.sObjectType, 'TestData_PP_ModelOption');
 		Test.loadData(Revvy__MnPriceListLine__c.sObjectType, 'TestData_PP_PriceListLine');
     }
 

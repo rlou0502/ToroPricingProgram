@@ -145,7 +145,7 @@ public with sharing class ToroGenModelBOM {
 				}
 			}
 		}
-		OptionGroup(string ogName, List<DNetMSRGPair> options, Set<String> tractionUnits) {
+		@TestVisible OptionGroup(string ogName, List<DNetMSRGPair> options, Set<String> tractionUnits) {
 			this.optionGroupName = ogName;
 			this.options = options;
 			hasTractionUnit=false;
@@ -221,6 +221,7 @@ public with sharing class ToroGenModelBOM {
     		totalValue=0.0;	
     	}
     	public ProductModelView(String modelName, String productTab, String description, decimal msrp, decimal dnet, integer stockOrder, decimal totalValue) {
+    		this();
     		this.modelName=modelName;
     		this.productTab=productTab;
     		this.description=description;
@@ -402,7 +403,7 @@ public with sharing class ToroGenModelBOM {
    
 	 
 	public class DNetMSRGPair {
-		DNetMSRGPair(String n, String sku, String productType, String hierarchyCode, decimal msrp, decimal dNet)	{
+		@TestVisible DNetMSRGPair(String n, String sku, String productType, String hierarchyCode, decimal msrp, decimal dNet)	{
 			this.dNet = dNet;
 			this.msrp = msrp;
 			this.optionName = n;
