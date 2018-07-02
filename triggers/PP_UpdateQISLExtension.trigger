@@ -23,15 +23,17 @@ trigger PP_UpdateQISLExtension on REVVY__MnQuoteItemSubLine__c (after update) {
 	
 			for (REVVY__MnQuoteItemSubLine__c qi : qis) {
 				REVVY__MnQuoteItemSubLine__c qisExt = QisMap.get(qi.Id);
-	    		Decimal extQty = qisExt.REVVY__Quantity__c * qisExt.REVVY__QuoteItem__r.REVVY__Quantity__c;
-	
-				tQIs.add(
-					new Revvy__MnStrategy5__c(
-						  External_Id__c       = qi.Id
-						, Toro_Quantity__c     = qi.REVVY__Quantity__c
-						, Adjusted_Quantity__c = extQty
-					)
-				);
+				if(qisExt.REVVY__QuoteItem__r != null) {
+		    		Decimal extQty = CMnQuoteUtil.defaultDecimal(qisExt.REVVY__Quantity__c) * CMnQuoteUtil.defaultDecimal(qisExt.REVVY__QuoteItem__r.REVVY__Quantity__c);
+		
+					tQIs.add(
+						new Revvy__MnStrategy5__c(
+							  External_Id__c       = qi.Id
+							, Toro_Quantity__c     = qi.REVVY__Quantity__c
+							, Adjusted_Quantity__c = extQty
+						)
+					);
+				}
 			}
 	
 			upsert tQIs External_Id__c;
