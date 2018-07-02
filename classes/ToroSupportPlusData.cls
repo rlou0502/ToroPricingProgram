@@ -43,7 +43,29 @@ public with sharing class ToroSupportPlusData {
 			this.distRespIsEditable = true;
 		}*/
 
-		this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
+		// this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
+		this.distRespIsEditable = Schema.SObjectType.Support_Plus_Contribution__c.fields.Split_Access__c.isAccessible();
+
+		final List<PermissionSetAssignment> permissionSets = [
+			SELECT
+				PermissionSet.Name
+			FROM
+				PermissionSetAssignment
+			WHERE
+				Assignee.Id = :UserInfo.getUserId()
+				AND (PermissionSet.Name = 'Toro CPQ Sales Representatives - No DNet'
+					OR PermissionSet.Name = 'Toro CPQ Sales Representatives')
+			ORDER BY
+				PermissionSet.Name
+		];
+
+		if (permissionSets.isEmpty()) {
+			this.distRespIsEditable = true;
+		}
+
+		else {
+			this.distRespIsEditable = false;
+		}
 	}
 
 	/**

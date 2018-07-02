@@ -26,7 +26,7 @@ public with sharing class ToroPricingProgramEligibility {
 		system.debug(logginglevel.info, 'retrieveOtherProgramsForCustomerAccount ');
 		List<Revvy__MnStrategy1__c> result = pricingPrograms;
 		Id customerId = customer.Id;
-		List<Revvy__MnStrategy1__c> corporateAccountPP = [select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, ExternalId__c, Exclude__c from Revvy__MnStrategy1__c where Corporate_Account__c in (select CPS_Parent_Account__c from account where id =  :customerId)];
+		List<Revvy__MnStrategy1__c> corporateAccountPP = [select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, ExternalId__c, Exclude__c from Revvy__MnStrategy1__c where Status__c = 'Active' and Corporate_Account__c in (select CPS_Parent_Account__c from account where id =  :customerId)];
 		system.debug(logginglevel.info, 'corporateAccountPP = ' + corporateAccountPP);
 		result.addAll(corporateAccountPP);
 		
