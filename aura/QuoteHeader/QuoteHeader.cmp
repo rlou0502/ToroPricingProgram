@@ -88,7 +88,7 @@
             </aura:if>
             <aura:if isTrue="{!v.displayPerformancePart}">
             	<td scope="col" class="performance-part">
-                    <div class="slds-truncate slds-p-bottom_x-small" title="Performance Parts">Performance Part</div>
+                    <div class="slds-truncate slds-p-bottom_x-small" title="Performance Parts">Performance Parts</div>
                     <div>
                         <ui:inputCheckbox value="{!v.quote.Performance_Part__c}" aura:id="performancePart"/>
                     </div>
