@@ -10,8 +10,12 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static void updateAllowanceAndDistResp(REVVY__MnQuote__c quote) {
+	public static Map<String,Decimal> getSupportPlusValues(Id quoteId) {
+		Map<String,Decimal> result = new Map<String,Decimal>();
 
+		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
+
+		return result;
 	}
 
 	/**
