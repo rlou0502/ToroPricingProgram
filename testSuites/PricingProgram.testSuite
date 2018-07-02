@@ -5,7 +5,6 @@
     <testClassName>PP_UpdateExtensionTest</testClassName>
     <testClassName>QuoteItemTest</testClassName>
     <testClassName>ToroBaseWithValueDollarHelperTest</testClassName>
-    <testClassName>ToroCacheManagerTest</testClassName>
     <testClassName>ToroCascadingDeleteTest</testClassName>
     <testClassName>ToroChartABPricingProgramHelperTest</testClassName>
     <testClassName>ToroChartWithAccessoryDiscountTest</testClassName>

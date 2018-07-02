@@ -57,6 +57,12 @@ private class ToroStateContractPricingProgramHTest {
 	}
 	@isTest static void test_calculate_rebate_margin_impl_2() {
 		ToroCacheManager.refreshAllPricingPrograms();
+		
+		List<REVVY__MnStrategy1__c> pricngPrograms = [select id from REVVY__MnStrategy1__c ];
+		for(REVVY__MnStrategy1__c l : pricngPrograms) {
+			l.DrivenByGP__c = true;	
+		}
+		update pricngPrograms;
 		List<REVVY__MnStrategy2__c> pricngProgramLines = [select id from REVVY__MnStrategy2__c ];
 		for(REVVY__MnStrategy2__c l : pricngProgramLines) {
 			l.Rebate_as_a_Percent_of_DN__c = null;

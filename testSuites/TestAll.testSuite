@@ -61,7 +61,6 @@
     <testClassName>TestMethodCls3</testClassName>
     <testClassName>TestUtility</testClassName>
     <testClassName>Test_VFFileUpload1</testClassName>
-    <testClassName>ToroCacheManagerTest</testClassName>
     <testClassName>ToroCascadingDeleteTest</testClassName>
     <testClassName>ToroContractChartPPHelperTest</testClassName>
     <testClassName>ToroContractPriceListPPHelperTest</testClassName>
