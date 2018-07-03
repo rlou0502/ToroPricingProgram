@@ -19,7 +19,14 @@ public with sharing class ToroStateContractQtyModelHelper extends ToroStateContr
 	        }    
 	    }
 	}
-	
+	public class PricingProgramLineGroup {
+		public boolean qtyBased { get; set;}
+		public List<Revvy__MnStrategy2__c> pricingProgramLines { get; set;}
+		public PricingProgramLineGroup(List<Revvy__MnStrategy2__c> lines, boolean qtyBased) {
+			this.pricingProgramLines = lines;
+			this.qtyBased = qtyBased;		
+		}
+	}
 	public Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList, Set<String> exclusiveModels) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;

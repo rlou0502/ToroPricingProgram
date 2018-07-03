@@ -273,7 +273,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					qis.TPP_DNet__c = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
 					qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c);
-					if(!qis.Exclude_from_Rebate__c) {
+					if(!qis.Exclude_from_Rebate_F__c) {
 						qisRollupToroDNet += qis.DNet_Price__c * extQty;	
 						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
 						qisRollupToroAward += qis.Award_Price__c * extQty;
@@ -289,10 +289,10 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;
 						qis.Extended_DNet_Price__c = qis.TPP_DNet__c * extQty;
 					}
-					if(!qis.Exclude_from_Rebate__c) {
+					if(!qis.Exclude_from_Rebate_F__c) {
 						extRebate = extRebate + CMnQuoteUtil.defaultDecimal(qis.Toro_Subline_Rebate__c);
 					} 
-					System.debug('Product =' + qis.product_Name__c + ' rebate = ' + qis.Toro_Subline_Rebate__c + ' exc=' + qis.Exclude_from_Rebate__c + ' rebate total =' + extRebate);
+					System.debug('Product =' + qis.product_Name__c + ' rebate = ' + qis.Toro_Subline_Rebate__c + ' exc=' + qis.Exclude_from_Rebate_F__c + ' rebate total =' + extRebate);
 					qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward;
 					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward; 

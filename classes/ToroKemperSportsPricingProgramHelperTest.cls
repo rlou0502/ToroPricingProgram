@@ -39,9 +39,7 @@ private class ToroKemperSportsPricingProgramHelperTest {
 		ToroKemperSportsPricingProgramHelper.addSetupFeeFuture(quote.Id, setupFeeCN.Id, 100, 100,1);
 		
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
-		tlpp.retrieveSetupFeeQuoteItem(quote.Id);
-		tlpp.getPriceMethodOptions();
-		
+		tlpp.retrieveSetupFeeQuoteItem(quote.Id);	
 	}
 	@isTest static void test_method_two() {
 		ToroKemperSportsPricingProgramHelper tlpp = new ToroKemperSportsPricingProgramHelper();

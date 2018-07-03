@@ -401,7 +401,7 @@ public virtual class ToroPricingProgram {
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					qis.TPP_DNet__c = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
 					qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c);
-					if(!qis.Exclude_from_Rebate__c) {						
+					if(!qis.Exclude_from_Rebate_F__c) {						
 						qisRollupToroDNet += qis.DNet_Price__c * extQty;
 						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
 						qisRollupToroAward += qis.Award_Price__c * extQty;													
@@ -418,7 +418,7 @@ public virtual class ToroPricingProgram {
 						qis.Extended_DNet_Price__c = qis.TPP_DNet__c * extQty;
 					}
 
-					if(!qis.Exclude_from_Rebate__c) {
+					if(!qis.Exclude_from_Rebate_F__c) {
 						if(!qi.DrivenByGP__c) {
 							qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
 							if(qis.Extended_Award_Price__c != 0) {
@@ -596,17 +596,11 @@ public virtual class ToroPricingProgram {
 		initializeQuoteHeader(quoteId);
 
 		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Support_Plus_From_Add_New_F__c,Has_Support_Plus__c,PricingMethodValue__c,Pricing_Program_Overridden__c, DrivenByGP__c,Adjusted_Quantity__c, OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
+		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate_F__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c ,Misc_Style__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c, Toro_Quote_Item__r.Select_a_Price_Method__c, Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId Order by createdDate asc';
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);
 		system.debug('quote items =' + quoteItems);
-	}
-	public virtual Revvy__MnQuoteItem__c calculateRebateAndMarginForQuoteItem(String pricingProgram, String priceMethod, Revvy__MnQuoteItem__c quoteItem ) {
-		return null;
-	}
-	public virtual List<SelectOption> getPriceMethodOptions() {
-		return new List<SelectOption> {new SelectOption('% off MSRP','% off MSRP'),  new SelectOption('% of DNET','% of DNET') };
 	}
 	public virtual boolean getQuoteLevelMSQPDNetEditable() {
 		return true;
@@ -676,7 +670,7 @@ public virtual class ToroPricingProgram {
 		return String.join(new List<String>(nameSet), ',');
 	}
 
-	protected virtual List<String> getQuoteFieldAPINames() {
+	@TestVisible protected virtual List<String> getQuoteFieldAPINames() {
 		List<String> fieldNames = new List<String>();
 		for(Schema.FieldSetMember fs : getQuoteFields()) {
 			fieldNames.add(fs.getFieldPath());
@@ -684,11 +678,11 @@ public virtual class ToroPricingProgram {
 		return fieldNames;
 	}
 
-	protected virtual String getQuoteFieldAPINameQuery(String extraFields) {
+	@TestVisible protected virtual String getQuoteFieldAPINameQuery(String extraFields) {
 		return CombineSelectClauses(getQuoteFieldAPINames(), extraFields);
 	}
 
-	protected virtual String getToroQuoteFieldAPINameQuery(String extraFields) {
+	@TestVisible protected virtual String getToroQuoteFieldAPINameQuery(String extraFields) {
 		List<String> fieldNames = new List<String>();
 		for(Schema.FieldSetMember fs : getToroQuoteItemFields()) {
 			fieldNames.add(fs.getFieldPath().toLowerCase());
@@ -718,7 +712,7 @@ public virtual class ToroPricingProgram {
 		return CombineSelectClauses(fieldNames, extraFields);
 	}
 
-	protected virtual void loadDesignatedPriceList(String pricingProgramExtId) {
+	@TestVisible protected virtual void loadDesignatedPriceList(String pricingProgramExtId) {
 		Revvy__MnStrategy1__c pp =  ToroCacheManager.getPricingProgram(pricingProgramExtId);
 
 	}

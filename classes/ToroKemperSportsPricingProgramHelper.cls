@@ -1,7 +1,4 @@
 public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPricingProgram {
-	public override List<SelectOption> getPriceMethodOptions() {
-		return new List<SelectOption> {  new SelectOption('% off MSRP','% off MSRP')};
-	}
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));

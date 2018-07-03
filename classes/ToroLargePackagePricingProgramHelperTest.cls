@@ -50,7 +50,6 @@ private class ToroLargePackagePricingProgramHelperTest {
 		
 		ToroDefaultPricingProgramHelper defaultHelper = new ToroDefaultPricingProgramHelper();
 		defaultHelper.getQuoteFields();
-		defaultHelper.getPriceMethodOptions();
 		defaultHelper.getQuoteFields();
 		defaultHelper.getToroQuoteItemFields();
 		defaultHelper.getToroQuoteItemUpdatableFields();
