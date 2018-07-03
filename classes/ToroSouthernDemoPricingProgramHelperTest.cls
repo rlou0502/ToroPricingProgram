@@ -56,9 +56,16 @@ private class ToroSouthernDemoPricingProgramHelperTest {
 		System.assert(tlpp.getToroQuoteItemSummaryUpdatableFields() != null);
 		
 		tlpp.retrieveDemoPricingProgramOptions();
+		String pricingProgram = 'SouthernDemo;Southern_Demo';
+		tlpp.retrieveSecondaryPrograms(pricingProgram);
+        tlpp.displayContractMessage(pricingProgram);
 		Test.stopTest();
 	}
 	@isTest static void test_secondary_program() {
+		List<Revvy__MnStrategy1__c> childrenPricingProgram = [Select Id, ExternalID__c, Parent_program__r.externalID__c, ApplicableProductsLong__c from Revvy__MnStrategy1__c where Parent_program__c != null];
+		for(Revvy__MnStrategy1__c pp : childrenPricingProgram) {
+			System.debug(logginglevel.info, 'test_secondary_program name =' + pp.ExternalID__c + ' --- ' + pp.Parent_program__r.externalID__c);
+		}
 		Test.startTest();
         String pricingProgram = 'SouthernDemo;Southern_Demo';
         ToroSouthernDemoSecondaryPricingProgram tlpp = new ToroSouthernDemoSecondaryPricingProgram();
@@ -68,6 +75,7 @@ private class ToroSouthernDemoPricingProgramHelperTest {
         Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
         pp.initialize(quote.Id);
         tlpp.retrieveRebatePercentBasedOnBlendedDNet(pp.quoteItems[0],110,'SouthernDemo','SouthernDemoChartA');
+        
     	Test.stopTest();
     	
 	}

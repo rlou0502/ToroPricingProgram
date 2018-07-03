@@ -1,4 +1,4 @@
-public abstract class ToroPricingProgram {
+public virtual class ToroPricingProgram {
 	public Revvy__MnQuote__c quote { get; set; }
 	public List<Revvy__MnStrategy4__c> quoteItems { get; set; }
 	public boolean performancePartFlag { get; set { performancePartFlag = value; if(quote != null) {quote.Performance_Part__c=value;}}}
