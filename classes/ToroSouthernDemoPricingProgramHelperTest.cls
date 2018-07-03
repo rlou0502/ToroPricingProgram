@@ -58,4 +58,17 @@ private class ToroSouthernDemoPricingProgramHelperTest {
 		tlpp.retrieveDemoPricingProgramOptions();
 		Test.stopTest();
 	}
+	@isTest static void test_secondary_program() {
+		Test.startTest();
+        String pricingProgram = 'SouthernDemo;Southern_Demo';
+        ToroSouthernDemoSecondaryPricingProgram tlpp = new ToroSouthernDemoSecondaryPricingProgram();
+		tlpp.loadModelIdChartABPricingProgramMap('SouthernDemo;Southern_Demo');
+        ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+        ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+        Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+        pp.initialize(quote.Id);
+        tlpp.retrieveRebatePercentBasedOnBlendedDNet(pp.quoteItems[0],110,'SouthernDemo','SouthernDemoChartA');
+    	Test.stopTest();
+    	
+	}
 }
