@@ -1,22 +1,9 @@
 public with sharing class ToroSupportPlusHelper {
 	private static REVVY__MnSequenceGen__c qiSequenceGen;
 
+	//  ExternalId__c => Pricing Program
 	private static Map<String,REVVY__MnStrategy1__c> pricingProgramMap = new Map<String,REVVY__MnStrategy1__c>();
 
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public static Map<String,Decimal> getSupportPlusValues(Id quoteId) {
-		Map<String,Decimal> result = new Map<String,Decimal>();
-
-		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
-
-		return result;
-	}
 
 	/**
 	 *
