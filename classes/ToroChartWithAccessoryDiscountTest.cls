@@ -74,14 +74,15 @@ private class ToroChartWithAccessoryDiscountTest {
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
 	}
 	@isTest static void test_calculate_rebate_margin_impl_2() {
-		ToroCacheManager.refreshAllPricingPrograms();
+		
 		List<REVVY__MnStrategy2__c> pricngProgramLines = [select id from REVVY__MnStrategy2__c ];
 		for(REVVY__MnStrategy2__c l : pricngProgramLines) {
 			l.Rebate_as_a_Percent_of_DN__c = null;
 			l.Distributor_Margin__c = 10;	
 		}
 		update pricngProgramLines;
-		
+		ToroCacheManager.refreshAllPricingPrograms();
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroChartWithAccessoryDiscount tlpp = new ToroChartWithAccessoryDiscount();
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
@@ -94,6 +95,7 @@ private class ToroChartWithAccessoryDiscountTest {
 		}
 		update quoteItems;
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
+		test.stopTest();
 	}
 	
 }

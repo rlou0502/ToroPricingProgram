@@ -118,6 +118,7 @@ private class ToroChartABPricingProgramHelperTest {
         ToroPriceProgramFactory.refreshAllPricingProgramHelpers();
         ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
         ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+        ToroChartABPricingProgramHelper chartABPP = (ToroChartABPricingProgramHelper) pp;
         //ToroChartABPricingProgramHelper chartABHelper = (ToroChartABPricingProgramHelper) pp;
         //system.assert(chartABHelper != null);
         //Map<String, Set<String>> m = chartABHelper.loadModelIdChartABPricingProgramMap(pricingProgram);
@@ -130,6 +131,8 @@ private class ToroChartABPricingProgramHelperTest {
         		qis.Award_Price__c = 100;	
         	}
         }
+        chartABPP.getNumberOfTractionUnits(pp.quoteItems);
+		chartABPP.checkForOutCrossProducts(pp.quoteItems);
 		pp.quoteItems = pp.calculateRebateMargin(quote.Id, ppd.externalId, 'Total Award $', pp.quoteItems, true);
 		List<REVVY__MnStrategy4__c> quoteitems = [select id,Product_Id__c, Pricing_Program__c, Rebate_as_a_of_DN__c, Award_of_DN__c, Toro_Gross_Profit_Percent__c, Off_MSRP__c, Toro_Blend_Of_DN__c  from REVVY__MnStrategy4__c where Product_Id__c='04055' and Pricing_program__c='ChartA'];
     	System.assert(quoteitems.size() != 0);

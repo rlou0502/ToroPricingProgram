@@ -1,32 +1,6 @@
 public with sharing class ToroStateContractQtyModelHelper extends ToroStateContractPricingProgramHelper  {
-	public class InnerClass implements Comparable {
-		public InnerClass(decimal min, decimal max, Revvy__MnStrategy2__c ppl) {
-			this.maxQty = max;
-			this.minQty = min;
-			this.ppl = ppl;	
-		}
-		public decimal maxQty { get; set;}
-		public decimal minQty { get; set; }
-		public Revvy__MnStrategy2__c ppl { get; set;}
-		public Integer compareTo(Object compareTo) {
-	        InnerClass compareToEmp = (InnerClass)compareTo;
-	        if (compareToEmp.minQty < this.minQty) {
-	        	 return 1; 
-	        } else if(compareToEmp.minQty > this.minQty ){
-	        	return -1;
-	        } else {
-	        	return 0;
-	        }    
-	    }
-	}
-	public class PricingProgramLineGroup {
-		public boolean qtyBased { get; set;}
-		public List<Revvy__MnStrategy2__c> pricingProgramLines { get; set;}
-		public PricingProgramLineGroup(List<Revvy__MnStrategy2__c> lines, boolean qtyBased) {
-			this.pricingProgramLines = lines;
-			this.qtyBased = qtyBased;		
-		}
-	}
+	
+	
 	public Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList, Set<String> exclusiveModels) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
@@ -60,7 +34,9 @@ public with sharing class ToroStateContractQtyModelHelper extends ToroStateContr
 					} else {
 						productPricingProgramLineMap.put('All', l);
 					}
-					qtyTiers.add(new ToroContractQuantityPPHelper.InnerClass(l.min_qty__c, l.max_qty__c, l));		
+					//if(l.min_qty__c != null){
+						qtyTiers.add(new ToroContractQuantityPPHelper.InnerClass(l.min_qty__c, l.max_qty__c, l));	
+					//}	
 				}			
 			}
 		}

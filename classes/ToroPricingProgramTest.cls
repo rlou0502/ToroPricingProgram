@@ -26,10 +26,31 @@ private class ToroPricingProgramTest {
 	 	pricingProgram.Previous_Price_Date__c = Date.today();
 	 	pricingProgram.Copy_From_Price_Field__c = 'MSRP';
 	 	update pricingProgram;
+	 	ToroCacheManager.refreshAllPricingPrograms();
 	 	helper.loadMSRPPriceFromPricelist('MarketSupportChartLargePackage;Large_Package',helper.quoteItems);
+	 	helper.loadPricesFromPricelist('MarketSupportChartLargePackage;Large_Package',helper.quoteItems);
 	 	pricingProgram.Copy_From_Price_Field__c = 'DNET';
 	 	update pricingProgram;
+	 	ToroCacheManager.refreshAllPricingPrograms();
 	 	helper.loadMSRPPriceFromPricelist('MarketSupportChartLargePackage;Large_Package',helper.quoteItems);
+	 	helper.loadPricesFromPricelist('MarketSupportChartLargePackage;Large_Package',helper.quoteItems);
+	 	helper.calculateRebateMarginImpl(quote.Id, 'MarketSupportChartLargePackage;Large_Package','% off MSRP',helper.quoteItems);
+	 	
+	 	pricingProgram.Copy_From_Price_Field__c = 'Disti Award';
+	 	update pricingProgram;
+	 	ToroCacheManager.refreshAllPricingPrograms();
+	 	helper.loadMSRPPriceFromPricelist('MarketSupportChartLargePackage;Large_Package',helper.quoteItems);
+	 	helper.loadPricesFromPricelist('MarketSupportChartLargePackage;Large_Package',helper.quoteItems);
+	 	helper.calculateRebateMarginImpl(quote.Id, 'MarketSupportChartLargePackage;Large_Package','% off MSRP',helper.quoteItems);
+	 	
+	 	for(Revvy__MnStrategy4__c qi : helper.quoteItems) {
+	 		if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					helper.isNonToroProduct(qis);
+					helper.excludeTPPAllied(qis);
+				}
+	 		}
+		}
 	 }
 	
 }
