@@ -718,7 +718,7 @@ public class ToroPricingProgramController {
     	if(String.isBlank(rs.selectedPricingProgram)) {
     		for(ToroSelectOption opt : rs.pricingProgramOptions) {
     			if(opt.defaultSelected) {
-    				rs.selectedPricingProgram = opt.value;
+    				//rs.selectedPricingProgram = opt.value;
     				break;		
     			}	
     		}	

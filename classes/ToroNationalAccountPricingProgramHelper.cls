@@ -43,12 +43,15 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		Map<String,String> tractionUnitMap = retrieveTractionUnit();
 		system.debug(logginglevel.info, 'tierMap=' + tierMap);
 
+		//get Pricing Program Header
+		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgramExternalId);	
+
 		//decimal dSetupFeeHeader = ToroCacheManager.getSetupFee();
 		decimal dSetupFeeHeader = setupFeePercentage;
 		System.debug(logginglevel.info, '>>> Setup fee from cache=' + dSetupFeeHeader);
 
 		//Exception
-
+		
 		Map<String,Revvy__MnStrategy2__c> ppMapExceptionMap = retrieveNationalAccountException(priceProgramExternalId);
 		System.debug('\n\n@@ppMapExceptionMap: ' + ppMapExceptionMap + '\n\n');
 		/*
@@ -221,21 +224,6 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 																
-		Decimal dsetupThreshold = null;
-		for(REVVY__MnStrategy1__c mns: [Select Id, Setup_Threshold__c,ExternalId__c 
-		                                 From REVVY__MnStrategy1__c where ExternalId__c = :priceProgram]) {
-			dsetupThreshold = mns.Setup_Threshold__c;                                 	
-		} 											
-		if(CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) > 0 && CMnQuoteUtil.defaultDecimal(dsetupThreshold) > 0 
-		&& CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) > CMnQuoteUtil.defaultDecimal(dsetupThreshold)) {
-			for(Revvy__MnStrategy4__c qi : quoteItemList) {
-				if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-					resetQIPercentage(qi);
-					qi.MSRP_Price__c = 0;
-				}
-			}			
-		}			
-		
 				
 																
 /*
