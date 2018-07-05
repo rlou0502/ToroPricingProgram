@@ -69,7 +69,7 @@
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
                     component.set('v.displayPerformancePart', retResponse.displayPerformancePart);
                     component.set('v.selectedPricingProgram', retResponse.selectedPricingProgram);
-                    component.set('v.selectedPricingMethod', retRecords[0]["Price_Method__c"]);
+                    component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
                     component.set('v.quote', retRecords[0]);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
@@ -84,6 +84,15 @@
                         "allowSupportPlus" : allowSupportPlus 
                     });
                     cmpEvent.fire();
+                    if(retResponse.nextAction == 'changeProgramProgram') {
+                        var cmpEvent = component.getEvent("pricingProgramEvent");
+                        cmpEvent.setParams({
+                            "selectedPricingProgram" : selectedProgram,
+                            "selectedPricingMethod" : selectedMethod,
+                            "allowSupportPlus" : allowSupportPlus
+                        });
+                        cmpEvent.fire();    
+                    }
                     
                     /*
                     var cmpEvent = component.getEvent("pricingProgramEvent");

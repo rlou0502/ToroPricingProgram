@@ -714,20 +714,26 @@ public class ToroPricingProgramController {
 		}
 		pp.quote = q;
     	rs.values =  new List<SObject> {pp.quote};
+    	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
+    	rs.displayPerformancePart = pp.displayPerformancePart();
+    	rs.displaySetupFee=pp.displaySetupFee();
+    	
     	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
     	if(String.isBlank(rs.selectedPricingProgram)) {
     		for(ToroSelectOption opt : rs.pricingProgramOptions) {
     			if(opt.defaultSelected) {
     				rs.selectedPricingProgram = opt.value;
-    				rs.nextAction = 'pricingProgramChanged';
+    				ToroPricingProgramData ppd2 = new ToroPricingProgramData(rs.selectedPricingProgram);
+			    	ToroPricingProgram pp2 = ToroPriceProgramFactory.getPricingProgramHelper(ppd2.subType);
+    				List<ToroSelectOption> options2 = pp2.retrievePricingMethodOptions();
+    				rs.selectedPricingMethod = options2[0].value;
+    				rs.nextAction = 'changeProgramProgram';
     				break;	
     			}	
     		}	
     	}
     	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
-    	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
-    	rs.displayPerformancePart = pp.displayPerformancePart();
-    	rs.displaySetupFee=pp.displaySetupFee();
+    	
     	system.debug(logginglevel.info,'pricingProgram setup fee pp=' + pp);
     	system.debug(logginglevel.info,'pricingProgram setup fee pp=' + pp.displaySetupFee()); 
     	return rs;
