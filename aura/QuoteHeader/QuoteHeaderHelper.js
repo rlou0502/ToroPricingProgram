@@ -68,7 +68,7 @@
                     component.set('v.pricingProgramOptions', retResponse.pricingProgramOptions);
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
                     component.set('v.displayPerformancePart', retResponse.displayPerformancePart);
-                    component.set('v.selectedPricingProgram', retRecords[0]["Pricing_Program_Name__c"]);
+                    component.set('v.selectedPricingProgram', retResponse.selectedPricingProgram);
                     component.set('v.selectedPricingMethod', retRecords[0]["Price_Method__c"]);
                     component.set('v.quote', retRecords[0]);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
