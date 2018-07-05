@@ -1,4 +1,5 @@
 public with sharing class ToroPricingProgramEligibility {
+	public static final String PricingProgramType_CorporateAccount = 'Corporate Account';
 	private static List<Revvy__MnStrategy1__c> retrieveChartStatePricingProgramsForDistributor(Id distributor) {
 		system.debug(logginglevel.info, ' retrieveChartStatePricingProgramsForDistributor= ' + distributor);
 		List<Revvy__MnStrategy1__c> result = new List<Revvy__MnStrategy1__c>();
@@ -26,7 +27,7 @@ public with sharing class ToroPricingProgramEligibility {
 		system.debug(logginglevel.info, 'retrieveOtherProgramsForCustomerAccount ');
 		List<Revvy__MnStrategy1__c> result = pricingPrograms;
 		Id customerId = customer.Id;
-		List<Revvy__MnStrategy1__c> corporateAccountPP = [select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, ExternalId__c, Exclude__c from Revvy__MnStrategy1__c where Status__c = 'Active' and Corporate_Account__c in (select CPS_Parent_Account__c from account where id =  :customerId)];
+		List<Revvy__MnStrategy1__c> corporateAccountPP = [select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, PricingProgramType__c, ExternalId__c, Exclude__c from Revvy__MnStrategy1__c where Status__c = 'Active' and Corporate_Account__c in (select CPS_Parent_Account__c from account where id =  :customerId)];
 		system.debug(logginglevel.info, 'corporateAccountPP = ' + corporateAccountPP);
 		result.addAll(corporateAccountPP);
 		
@@ -143,8 +144,8 @@ public with sharing class ToroPricingProgramEligibility {
 		for(Revvy__MnStrategy1__c pp : uniquePP) {
 	        //ret.add(new ToroSelectOption(pp.name, pp.name));
 	        if(String.isNotBlank(pp.name)) {
-	        	system.debug(logginglevel.info, 'retrievePricingProgramOptions ' + pp.ExternalId__c + ' ' + pp.PricingProgramStyle__c + ' ' + pp.name);
-	        	ret.add(new ToroSelectOption(pp.ExternalId__c+ ';' + pp.PricingProgramStyle__c, pp.name));
+	        	system.debug(logginglevel.info, 'retrievePricingProgramOptions ' + pp.ExternalId__c + ' ' + pp.PricingProgramStyle__c + ' ' + pp.name + ' pp.PricingProgramType__c=' + pp.PricingProgramType__c);
+	        	ret.add(new ToroSelectOption(pp.ExternalId__c+ ';' + pp.PricingProgramStyle__c, pp.name , pp.PricingProgramType__c == PricingProgramType_CorporateAccount));
 	        }else {
 	        	system.debug(logginglevel.info, 'retrievePricingProgramOptions  null------' + pp);	
 	        }

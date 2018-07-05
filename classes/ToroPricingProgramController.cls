@@ -23,6 +23,7 @@ public class ToroPricingProgramController {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
     	rs.result=true;
     	rs.selectedPricingProgram = pricingProgram;
+    	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
     	List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
@@ -59,6 +60,7 @@ public class ToroPricingProgramController {
 	    	String pricingProgram = (String) values.get('pricingProgram');
 	    	rs.selectedPricingMethod = pricingMethod;
 	    	rs.selectedPricingProgram = pricingProgram;
+	    	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
 	    	Id quoteId = (Id) values.get('quoteId');
 	    	Id qiId = (Id) values.get('qiId');
 	    	decimal setupFeePercent = null;
@@ -326,6 +328,7 @@ public class ToroPricingProgramController {
     	rs.result=true;
     	rs.selectedPricingMethod = pricingMethod;
     	rs.selectedPricingProgram = pricingProgram;
+    	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
     	rs.currentQuoteItem = qiId;
 		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
@@ -362,6 +365,7 @@ public class ToroPricingProgramController {
 	    	rs.result=false;
 	    	rs.selectedPricingMethod = pricingMethod;
 	    	rs.selectedPricingProgram = pricingProgram;
+	    	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
 	    	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 	    	if(string.isNotBlank(pricingProgram)) {
 	    		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
@@ -408,6 +412,7 @@ public class ToroPricingProgramController {
 	    	rs.result=false;
 	    	rs.selectedPricingMethod = pricingMethod;
 	    	rs.selectedPricingProgram = pricingProgram;
+	    	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
 	    	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 	    	if(string.isNotBlank(pricingProgram)) {
 	    		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
@@ -473,6 +478,7 @@ public class ToroPricingProgramController {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
     	rs.result=true;
     	rs.selectedPricingProgram = pricingProgram;
+    	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
     	rs.selectedPricingMethod = pricingMethod;
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 
@@ -660,6 +666,7 @@ public class ToroPricingProgramController {
     	}
     	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
     	rs.selectedPricingProgram = pricingProgram;
+    	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 
     	system.debug(logginglevel.info,'pricingProgram=' + pricingProgram);
@@ -708,6 +715,17 @@ public class ToroPricingProgramController {
 		pp.quote = q;
     	rs.values =  new List<SObject> {pp.quote};
     	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
+    	system.debug(logginglevel.info, 'rs.selectedPricingProgram=' + rs.selectedPricingProgram);
+    	if(String.isBlank(rs.selectedPricingProgram)) {
+    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
+    			system.debug(logginglevel.info, 'rs.selectedPricingProgram opt=' + opt);
+    			if(opt.defaultSelected) {
+    				rs.selectedPricingProgram = opt.value;
+    				break;		
+    			}	
+    		}	
+    	}
+    	system.debug(logginglevel.info, 'rs.selectedPricingProgram=' + rs.selectedPricingProgram);
     	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
     	rs.displayPerformancePart = pp.displayPerformancePart();
     	rs.displaySetupFee=pp.displaySetupFee();
@@ -961,6 +979,7 @@ public class ToroPricingProgramController {
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
 		
 	    rs.selectedPricingProgram = pricingProgram;
+	    system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
 		rs.selectedPricingMethod = pricingMethod;
     	rs.displaySetupFee=pp.displaySetupFee();
     	rs.values =  pp.quoteItems;
