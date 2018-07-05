@@ -86,9 +86,9 @@ public class ExportTestCoverage{
             system.debug('cw  '+cw  );
             List<Records> rs = new List<Records>();
             for(Records r : cw.records) {
-                if(cpqClasses.contains(r.ApexClassOrTrigger.Name)) {
+                //if(cpqClasses.contains(r.ApexClassOrTrigger.Name)) {
                 	rs.add(r);    
-                }    
+                //}    
             }
             cw.records = rs;
             cw.records.sort();

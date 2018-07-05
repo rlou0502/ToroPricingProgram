@@ -64,14 +64,15 @@ private class ToroStateContractQtyModelHelperTest {
 	 * @result the key result
 	 */
 	@isTest static void test_calculate_rebate_margin_impl() {
-
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroStateContractQtyModelHelper tlpp = new ToroStateContractQtyModelHelper();
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
-		ToroPricingProgramData ppd = new ToroPricingProgramData('Buyboard;Base');
+		ToroPricingProgramData ppd = new ToroPricingProgramData('StateofOR;Base_w_Qty_Model_Pricing');
 		tlpp.initialize(quote.Id);
 		
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
+		Test.stopTest();
 	}
 	@isTest static void test_calculate_rebate_margin_impl_2() {
 		ToroCacheManager.refreshAllPricingPrograms();
@@ -81,11 +82,11 @@ private class ToroStateContractQtyModelHelperTest {
 			l.Distributor_Margin__c = 10;	
 		}
 		update pricngProgramLines;
-		
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroStateContractQtyModelHelper tlpp = new ToroStateContractQtyModelHelper();
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
-		ToroPricingProgramData ppd = new ToroPricingProgramData('Buyboard;Base');
+		ToroPricingProgramData ppd = new ToroPricingProgramData('StateofOR;Base_w_Qty_Model_Pricing');
 		tlpp.initialize(quote.Id);
 		
 		List<REVVY__MnStrategy4__c> quoteItems = [select id from REVVY__MnStrategy4__c ];
@@ -94,5 +95,6 @@ private class ToroStateContractQtyModelHelperTest {
 		}
 		update quoteItems;
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
+		Test.stopTest();
 	}
 }

@@ -1,17 +1,24 @@
 public with sharing class ToroStateContractQtyModelHelper extends ToroStateContractPricingProgramHelper  {
-	
-	
-	public Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList, Set<String> exclusiveModels) {
+	Map<String, Revvy__MnStrategy2__c> productPricingProgramLineMap = new Map<String, Revvy__MnStrategy2__c>();
+	Revvy__MnStrategy2__c qtyTierLine = null;
+	public virtual Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList, Set<String> inclusiveExclusiveModels) {
 		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
 		Integer count = 0;
 		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
 		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
-			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good' && !exclusiveModels.contains(quoteItem.Product_Id__c)) {
+			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good' && !inclusiveExclusiveModels.contains(quoteItem.Product_Id__c)) {
 				count += (Integer) quoteItem.Quantity__c;
 			}
 		}
 		System.debug('\n\n@@count: ' + count + '\n\n');
 		return count;
+	}
+	public virtual REVVY__MnStrategy2__c getPricingProgramLine( REVVY__MnStrategy4__c qi) {
+		Revvy__MnStrategy2__c line = productPricingProgramLineMap.get(qi.Product_Id__c);
+		if(line == null) {
+			line = qtyTierLine;	
+		}
+		return line;
 	}
 	
 	public override List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quoteId, String priceProgram,
@@ -19,7 +26,7 @@ public with sharing class ToroStateContractQtyModelHelper extends ToroStateContr
 		boolean drivenByGP = false;
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
-		Map<String, Revvy__MnStrategy2__c> productPricingProgramLineMap = new Map<String, Revvy__MnStrategy2__c>();
+		
 		List<ToroContractQuantityPPHelper.InnerClass> qtyTiers = new List<ToroContractQuantityPPHelper.InnerClass>();
 		for(Revvy__MnStrategy1__c rh : rebates) {
 			drivenByGP = rh.DrivenByGP__c;
@@ -34,9 +41,9 @@ public with sharing class ToroStateContractQtyModelHelper extends ToroStateContr
 					} else {
 						productPricingProgramLineMap.put('All', l);
 					}
-					//if(l.min_qty__c != null){
+					if(l.min_qty__c != null){
 						qtyTiers.add(new ToroContractQuantityPPHelper.InnerClass(l.min_qty__c, l.max_qty__c, l));	
-					//}	
+					}	
 				}			
 			}
 		}
@@ -47,7 +54,7 @@ public with sharing class ToroStateContractQtyModelHelper extends ToroStateContr
 		
 		Integer numOfTractionUnits = getNumberOfTractionUnits(quoteItemList, productPricingProgramLineMap.keyset());
 		system.debug('numOfTractionUnits : ' + numOfTractionUnits );
-		Revvy__MnStrategy2__c qtyTierLine = null;
+		
 		if(numOfTractionUnits <= minQty)  {
 			qtyTierLine = qtyTiers[0].ppl;	
 		} else if(numOfTractionUnits >= maxQty) {
@@ -62,10 +69,8 @@ public with sharing class ToroStateContractQtyModelHelper extends ToroStateContr
 		
 		if(quoteItemList != null && quoteItemList.size() != 0) {
 			for(Revvy__MnStrategy4__c qi : quoteItemList) {
-				Revvy__MnStrategy2__c line = productPricingProgramLineMap.get(qi.Product_Id__c);
-				if(line == null) {
-					line = qtyTierLine;	
-				}
+				Revvy__MnStrategy2__c line = getPricingProgramLine(qi);
+				
 				system.debug('-----------line=' + line);
 				if(line != null) {
 					if(!qi.Off_MSRP_Overridden__c) {
