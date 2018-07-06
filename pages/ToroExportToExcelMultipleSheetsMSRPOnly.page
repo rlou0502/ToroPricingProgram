@@ -1,0 +1,3 @@
+<apex:page contentType="txt/xml#CommercialPriceList.xls" cache="true">
+	<c:ToroExportToExcelMultipleSheets MSRPOnly="true" />
+</apex:page>

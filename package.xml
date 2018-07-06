@@ -122,8 +122,13 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>ToroExportToExcelMultipleSheets</members>
+        <name>ApexComponent</name>
+    </types>
+    <types>
         <members>ExportTestCoverage</members>
         <members>ToroExportToExcelMultipleSheets</members>
+        <members>ToroExportToExcelMultipleSheetsMSRPOnly</members>
         <members>ToroNTLgtnOut</members>
         <members>ToroPricingProgramProductSelector</members>
         <members>ToroPricingProgramProductSelectorLine</members>

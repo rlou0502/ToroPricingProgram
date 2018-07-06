@@ -1,0 +1,165 @@
+<apex:component controller="ToroExportToExcelMultipleSheets">
+	 <apex:attribute name="MSRPOnly" assignTo="{!displayMSRPOnly}" type="Boolean" description="Display MSRP price only" default="false"/>
+
+
+	<apex:outputText value="{!xlsHeader}"/>
+	<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+	 xmlns:o="urn:schemas-microsoft-com:office:office"
+	 xmlns:x="urn:schemas-microsoft-com:office:excel"
+	 xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+	 xmlns:html="http://www.w3.org/TR/REC-html40">
+		 <Styles>
+			 <Style ss:ID="s1">
+				 <Alignment/>
+				 <Borders/> 
+				 <Font ss:Bold="1"/>
+				 <Interior/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style>
+			 <Style ss:ID="s2">
+				 <Alignment/>
+				 <Borders/>
+				 <Font ss:Bold="1"/>
+				 <Interior ss:Color="#ddd9d9" ss:Pattern="Solid"/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style>
+			 <Style ss:ID="s3">
+				 <Alignment ss:Horizontal="Right"/>
+				 <Borders/>
+				 <Font ss:Bold="1"/>
+				 <Interior/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style>
+			 <Style ss:ID="s4">
+				 <Alignment ss:Vertical="Bottom"/>
+				 <Borders/>
+				 <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="12" ss:Color="#000000"/>
+				 <Interior/>
+				 <NumberFormat ss:Format="$#,##0.00"/>
+				 <Protection/>
+			 </Style> 
+			 <Style ss:ID="s5">
+				 <Alignment ss:Horizontal="Right"/>
+				 <Borders/> 
+				 <Font ss:Bold="1"/>
+				 <Interior/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style>   
+		 </Styles>	 
+		 <Worksheet ss:Name="SOC">
+			 <Table x:FullColumns="1" x:FullRows="1">
+			 	<Column ss:Width="300"/>
+			 	<Column ss:Width="100"/>
+			 	<Column ss:Width="500"/>
+			 	<apex:outputText rendered="{!If(AND(CanAccessDNet,Not(displayMSRPOnly)), TRUE, FALSE)}" >
+			  		<Column  ss:Width="75"/>
+			 	</apex:outputText>
+				<apex:outputText rendered="{!If(AND(CanAccessDNet,Not(displayMSRPOnly)), FALSE,  TRUE)}" >
+			  		<Column  ss:Hidden="1"  ss:Width="75"/>
+			 	</apex:outputText>
+			 	<Column ss:Width="75"/>
+			 	<Column ss:Width="75"/>
+			 	<Column ss:Width="75"/>
+				 <Row>
+				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">Commercial Products Stock Order Check List</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">Effective Date:{!effectiveStartDate}</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">Generated Date:{!generatedDate}</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="6" ><Data ss:Type="String"></Data></Cell> 
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="6" ><Data ss:Type="String"></Data></Cell> 
+				 </Row> 
+				 <Row>
+					 <Cell ss:StyleID="s1"><Data ss:Type="String" >Product Tab</Data></Cell>
+					 <Cell ss:StyleID="s1"><Data ss:Type="String" >Model Number</Data></Cell>
+					 <Cell ss:StyleID="s1"><Data ss:Type="String" >Description</Data></Cell>
+					 <Cell ss:StyleID="s5"><Data ss:Type="String" >DNET</Data></Cell>
+					 <Cell ss:StyleID="s5"><Data ss:Type="String" >MSRP</Data></Cell>
+					 <Cell ss:StyleID="s5"><Data ss:Type="String" >Stock Order</Data></Cell>
+					 <Cell ss:StyleID="s5"><Data ss:Type="String" >Total Dollars</Data></Cell> 
+				 </Row>
+			 <apex:repeat value="{!stockOrderLists}" var="sol">
+				 <apex:repeat value="{!sol}" var="so">
+				 <Row>
+					 <Cell><Data ss:Type="String">{!so.productTab}</Data></Cell>
+					 <Cell><Data ss:Type="String">{!so.modelNumber}</Data></Cell>
+					 <Cell><Data ss:Type="String">{!so.description}</Data></Cell>
+					 <Cell ss:StyleID="s4"><Data ss:Type="Number">{!so.distributorNet}</Data></Cell>
+					 <Cell ss:StyleID="s4"><Data ss:Type="Number">{!so.suggestedRetail}</Data></Cell>
+					 <Cell ><Data ss:Type="Number">{!so.stockOrder}</Data></Cell>
+					 <Cell ss:Formula="=RC[-2]*RC[-1]" ss:StyleID="s4"><Data ss:Type="Number"></Data></Cell>
+				 </Row>
+				 </apex:repeat>
+			 </apex:repeat>
+			 </Table>
+		 </Worksheet>
+	 <apex:repeat value="{!models}" var="model">
+		<Worksheet ss:Name="{!LEFT(SUBSTITUTE(model.modelName, '/', '_'),30)}">		
+		<Table x:FullColumns="1" x:FullRows="1">
+		 <Column ss:Width="180"/>
+		 <Column ss:Width="500"/>
+		 <Column ss:StyleID="s4" ss:Width="75"/>
+		 <apex:outputText rendered="{!If(AND(CanAccessDNet,Not(displayMSRPOnly)), TRUE, FALSE)}" >
+		  <Column ss:StyleID="s4" ss:Width="75"/>
+		 </apex:outputText>
+		<apex:outputText rendered="{!If(AND(CanAccessDNet, Not(displayMSRPOnly)), FALSE,  TRUE)}" >
+		  <Column ss:StyleID="s4" ss:Hidden="1"  ss:Width="75"/>
+		 </apex:outputText>
+		 <Row>
+		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
+		 </Row>
+		 <Row>
+		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">Commercial Price List</Data></Cell>
+		 </Row>
+		 <Row>
+		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">Effective Date:{!effectiveStartDate}</Data></Cell>
+		 </Row>
+		 <Row>
+		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">Generated Date:{!generatedDate}</Data></Cell>
+		 </Row>
+		 <Row>
+		 <Cell ss:MergeAcross="3" ><Data ss:Type="String"></Data></Cell> 
+		 </Row>
+		 <Row>
+		 <Cell ss:MergeAcross="3" ><Data ss:Type="String"></Data></Cell> 
+		 </Row>
+		     
+		 <Row>
+		 <Cell ss:StyleID="s1"><Data ss:Type="String" >SKU</Data></Cell>
+		 <Cell ss:StyleID="s1"><Data ss:Type="String" >DESCRIPTION</Data></Cell>
+		 <Cell ss:StyleID="s5"><Data ss:Type="String" >MSRP</Data></Cell>
+		 <Cell ss:StyleID="s5"><Data ss:Type="String" >DNET</Data></Cell>
+		 </Row>
+		 <apex:repeat value="{!model.optionGroups}" var="og">
+		 <Row>
+		 <Cell ss:MergeAcross="3" ss:StyleID="s2"><Data ss:Type="String">{!og.optionGroupName}</Data></Cell>		 
+		 </Row>		 
+		 <apex:repeat value="{!og.options}" var="op">
+		 <Row>
+		 <Cell><Data ss:Type="String">{!op.sku}</Data></Cell>
+		 <Cell><Data ss:Type="String">{!op.optionName}</Data></Cell>
+		 <Cell><Data ss:Type="Number">{!op.msrp}</Data></Cell>
+		 <Cell><Data ss:Type="Number">{!op.dNet}</Data></Cell>
+		 </Row>
+		</apex:repeat>
+		
+		 </apex:repeat>
+		 </Table>
+		 </Worksheet>
+	</apex:repeat> 
+	</Workbook>
+
+</apex:component>
