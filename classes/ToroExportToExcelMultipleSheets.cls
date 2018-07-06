@@ -1,5 +1,5 @@
 public class ToroExportToExcelMultipleSheets {
-
+	public boolean displayMSRPOnly {get; set;}
 	public List<ToroGenModelBOM.Model> models { get; set;}
     public String generatedDate {get;set;}
     public String effectiveStartDate { get; set; }
@@ -18,6 +18,7 @@ public class ToroExportToExcelMultipleSheets {
         }
     
     public ToroExportToExcelMultipleSheets(){
+    	displayMSRPOnly = false;
         generatedDate = System.now().format('MM/dd/yyyy HH:mm');
         models = ToroGenModelBOM.genBOM().BOMs;
         Integer j = 0;

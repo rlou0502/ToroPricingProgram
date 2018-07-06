@@ -53,10 +53,10 @@
  	<Column ss:Width="300"/>
  	<Column ss:Width="100"/>
  	<Column ss:Width="500"/>
- 	<apex:outputText rendered="{!If(CanAccessDNet, TRUE, FALSE)}" >
+ 	<apex:outputText rendered="{!If(AND(CanAccessDNet,Not(displayMSRPOnly)), TRUE, FALSE)}" >
   		<Column  ss:Width="75"/>
  	</apex:outputText>
-	<apex:outputText rendered="{!If(CanAccessDNet, FALSE,  TRUE)}" >
+	<apex:outputText rendered="{!If(AND(CanAccessDNet,Not(displayMSRPOnly)), FALSE,  TRUE)}" >
   		<Column  ss:Hidden="1"  ss:Width="75"/>
  	</apex:outputText>
  	<Column ss:Width="75"/>
@@ -111,10 +111,10 @@
  <Column ss:Width="180"/>
  <Column ss:Width="500"/>
  <Column ss:StyleID="s4" ss:Width="75"/>
- <apex:outputText rendered="{!If(CanAccessDNet, TRUE, FALSE)}" >
+ <apex:outputText rendered="{!If(AND(CanAccessDNet,Not(displayMSRPOnly)), TRUE, FALSE)}" >
   <Column ss:StyleID="s4" ss:Width="75"/>
  </apex:outputText>
-<apex:outputText rendered="{!If(CanAccessDNet, FALSE,  TRUE)}" >
+<apex:outputText rendered="{!If(AND(CanAccessDNet, Not(displayMSRPOnly)), FALSE,  TRUE)}" >
   <Column ss:StyleID="s4" ss:Hidden="1"  ss:Width="75"/>
  </apex:outputText>
  <Row>
