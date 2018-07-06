@@ -371,9 +371,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                     <label>Equipment_Partnership</label>
                 </value>
                 <value>
-                    <fullName>Base_w_Qty_Model_Pricing</fullName>
+                    <fullName>Base_w_Quantity_Mdl_Pricing</fullName>
                     <default>false</default>
-                    <label>Base_w_Qty_Model_Pricing</label>
+                    <label>Base_w_Quantity_Mdl_Pricing</label>
                 </value>
                 <value>
                     <fullName>Performance_Part</fullName>
@@ -384,6 +384,11 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                     <fullName>Base_w_Award_Accessories</fullName>
                     <default>false</default>
                     <label>Base_w_Award_Accessories</label>
+                </value>
+                <value>
+                    <fullName>Base_w_Model_Qty_Pricing</fullName>
+                    <default>false</default>
+                    <label>Base_w_Model_Qty_Pricing</label>
                 </value>
             </valueSetDefinition>
             <valueSettings>
@@ -483,11 +488,15 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>State Contract</controllingFieldValue>
-                <valueName>Base_w_Qty_Model_Pricing</valueName>
+                <valueName>Base_w_Quantity_Mdl_Pricing</valueName>
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>Base_w_Award_Accessories</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>Base_w_Model_Qty_Pricing</valueName>
             </valueSettings>
         </valueSet>
     </fields>
