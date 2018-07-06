@@ -236,7 +236,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 				
 			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c );
 			
-			if(!excludeTPPAllied(qi)) {
+			if(!qi.Exclude_from_Rebate_F__c) {
 				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;	
 				qiToroMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
 				qiToroAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;

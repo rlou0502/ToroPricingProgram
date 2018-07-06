@@ -65,8 +65,6 @@
     <testClassName>ToroContractChartPPHelperTest</testClassName>
     <testClassName>ToroContractPriceListPPHelperTest</testClassName>
     <testClassName>ToroContractQuantityPPHelperTest</testClassName>
-    <testClassName>ToroGenModelBOMTest</testClassName>
-    <testClassName>ToroGenModelIBOMTest</testClassName>
     <testClassName>ToroLargePackagePricingProgramHelperTest</testClassName>
     <testClassName>ToroNationalAccountPricingProgramHTest</testClassName>
     <testClassName>ToroPerformancePartPricingProgramHTest</testClassName>

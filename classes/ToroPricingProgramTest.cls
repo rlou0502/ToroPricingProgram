@@ -47,7 +47,6 @@ private class ToroPricingProgramTest {
 	 		if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					helper.isNonToroProduct(qis);
-					helper.excludeTPPAllied(qis);
 				}
 	 		}
 		}

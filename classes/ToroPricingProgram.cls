@@ -320,7 +320,7 @@ public virtual class ToroPricingProgram {
                 qi.Rebate_as_a_of_DN__c = 0;
             }
 
-			if(!excludeTPPAllied(qi)) {
+			if(!qi.Exclude_from_Rebate_F__c) {
 				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 				qiToroMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
 				qiToroAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
@@ -628,24 +628,6 @@ public virtual class ToroPricingProgram {
 		return ret;
 	}
 	
-	public virtual boolean excludeTPPAllied(Revvy__MnStrategy4__c qi) {
-		boolean ret = false;
-		String productId = qi.Product_Id__c;
-		//if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
-		if(qi.Exclude_from_Rebate_F__c) {
-			ret = true;
-		}
-		return ret;
-	}
-	public virtual boolean excludeTPPAllied(Revvy__MnStrategy5__c qis) {
-		boolean ret = false;
-		String productId = qis.Product_Id__c;
-		//if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
-		if(qis.Exclude_from_Rebate_F__c) {
-			ret = true;
-		}
-		return ret;
-	}
 	public virtual boolean excludedFromMSRP(Revvy__MnStrategy4__c qi) {
 		boolean ret = false;
 
