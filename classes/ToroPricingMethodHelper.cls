@@ -16,7 +16,8 @@ public with sharing class ToroPricingMethodHelper {
 	public Revvy__MnStrategy5__c setMSRPAwardPrice(Revvy__MnStrategy5__c qis) {
 		if(!qis.Unit_Award_Overridden__c) {
 			system.debug('check point 1');
-			if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
+			//if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
+			if(qis.Exclude_from_Rebate_F__c) {
 				system.debug('check point 2');
 				qis.Award_Price__c = qis.MSRP_Price__c;
 			} else {
@@ -37,7 +38,8 @@ public with sharing class ToroPricingMethodHelper {
 	public Revvy__MnStrategy5__c setDNetAwardPrice(Revvy__MnStrategy5__c qis) {
 		if(!qis.Unit_Award_Overridden__c) {
 			system.debug('check point 1');
-			if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
+			//if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
+			if(qis.Exclude_from_Rebate_F__c) {
 				system.debug('check point 2');
 				qis.Award_Price__c = qis.MSRP_Price__c;
 			} else {

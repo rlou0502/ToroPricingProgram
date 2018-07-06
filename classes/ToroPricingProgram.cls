@@ -630,7 +630,8 @@ public virtual class ToroPricingProgram {
 	public virtual boolean excludeTPPAllied(Revvy__MnStrategy4__c qi) {
 		boolean ret = false;
 		String productId = qi.Product_Id__c;
-		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
+		//if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
+		if(qi.Exclude_from_Rebate_F__c) {
 			ret = true;
 		}
 		return ret;
@@ -638,7 +639,8 @@ public virtual class ToroPricingProgram {
 	public virtual boolean excludeTPPAllied(Revvy__MnStrategy5__c qis) {
 		boolean ret = false;
 		String productId = qis.Product_Id__c;
-		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
+		//if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') ) {
+		if(qis.Exclude_from_Rebate_F__c) {
 			ret = true;
 		}
 		return ret;
@@ -656,7 +658,8 @@ public virtual class ToroPricingProgram {
 	public virtual boolean excludedFromMSRP(Revvy__MnStrategy5__c qi) {
 		boolean ret = false;
 		String productId = string.isNotBlank(qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c) ? qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c : qi.Quote_Item_Sub_Line__r.Product_ID_F__c;
-		if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') || qi.Performance_Part__c) {
+		//if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') || qi.Performance_Part__c) {
+		if(qi.Exclude_from_Rebate_F__c || qi.Performance_Part__c) {
 			ret = true;
 		}
 		return ret;
