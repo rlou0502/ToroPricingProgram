@@ -418,6 +418,7 @@ public virtual class ToroPricingProgram {
 						qis.Extended_DNet_Price__c = qis.TPP_DNet__c * extQty;
 					}
 
+
 					if(!qis.Exclude_from_Rebate_F__c) {
 						if(!qi.DrivenByGP__c) {
 							qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);

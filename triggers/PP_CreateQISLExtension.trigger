@@ -17,7 +17,7 @@ trigger PP_CreateQISLExtension on REVVY__MnQuoteItemSubLine__c (after insert) {
             Product__c             = qi.REVVY__Catalog_Node__c,
             TPP_DNET__c            = qi.TPP_DNET__c,
             TPP_Line_Item__c       = qi.TPP_Line_Item__c,
-            Exclude_from_Rebate__c = qi.Exclude_from_Rebate__c,
+            //Exclude_from_Rebate__c = qi.Exclude_from_Rebate__c,
             Product_ID2__c         = qi.Product_ID2__c,
             Toro_Extended_Qty__c   = extQty,
             Adjusted_Quantity__c   = isSupportPlus ? qisExt.REVVY__Quantity__c : extQty,
