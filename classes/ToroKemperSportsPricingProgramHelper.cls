@@ -162,6 +162,24 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 
 	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+																
+			List<Revvy__MnStrategy4__c> result = quoteItemList;													
+			Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(priceProgram);
+			if(CMnQuoteUtil.defaultDecimal(quote.Total_Award__c) > CMnQuoteUtil.defaultDecimal(pp_header.Setup_Threshold__c)) {
+
+				for(Revvy__MnStrategy4__c qi : quoteItemList) {
+					qi.Fee_Percentage__c = 0;
+
+					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
+						for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							qis.Fee_Percentage__c = 0;
+						}
+					}
+				}
+				result = calculateExtendedFields(quoteItemList);
+			}	
+																
+																
 /*
 			Decimal dtoroTotalSetupFees = 0;
 			REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
@@ -217,7 +235,7 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 			}
 		}
 */
-		return quoteItemList;
+		return result;
 	}
 
 	//@future
