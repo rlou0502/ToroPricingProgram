@@ -181,10 +181,12 @@ public virtual class ToroPricingProgram {
 	public virtual List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 
+		System.debug('\n\n@@ToroPricingProgram preSaveCalculateRebateMargin\n\n'); 
+		
 		ToroPricingProgramData ppd = new ToroPricingProgramData(priceProgram);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
-
-		if (pp_header.AllowSupportPlus__c) {
+		System.debug('\n\n@@pp_header:' + pp_header + '\n\n'); 
+		if (pp_header.AllowSupportPlus__c) { 
 
 		}
 		
