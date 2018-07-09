@@ -296,16 +296,17 @@ global class ToroSupportPlusController {
 					final Decimal updatedSpQuantity = wrapper.spQuantity;
 					if (wrapper.sublineSpObj == null) {
 						REVVY__MnQuoteItemSubline__c spSublineToInsert = new REVVY__MnQuoteItemSubline__c(
-							  REVVY__Quantity__c            = updatedSpQuantity
-							, REVVY__Id__c                  = null // this is deprecated for sublines (causes issues when it is set)
-							, REVVY__QuoteItem__c           = wrapper.qiObj.Id
-							, REVVY__PricelistLine__c       = wrapper.sublineObj.REVVY__PricelistLine__c
-							, REVVY__Catalog_Node__c        = wrapper.sublineObj.REVVY__Catalog_Node__c
-							, REVVY__Price__c               = 0
-							, REVVY__SuggestedPrice__c      = 0
-							, Description__c                = wrapper.description
-							, Support_Plus_Original_Item__c = wrapper.sublineObj.Id
-							, Support_Plus_Original_Price__c = wrapper.dnetPrice
+							  REVVY__Quantity__c                   = updatedSpQuantity
+							, REVVY__Id__c                         = null                                        // this is deprecated for sublines (causes issues when it is set)
+							, REVVY__QuoteItem__c                  = wrapper.qiObj.Id
+							, REVVY__PricelistLine__c              = wrapper.sublineObj.REVVY__PricelistLine__c
+							, REVVY__Catalog_Node__c               = wrapper.sublineObj.REVVY__Catalog_Node__c
+							, REVVY__Price__c                      = 0
+							, REVVY__SuggestedPrice__c             = 0
+							, Description__c                       = wrapper.description
+							, Support_Plus_Original_Item__c        = wrapper.sublineObj.Id
+							, Support_Plus_Original_Price__c       = wrapper.dnetPrice
+							, Support_Plus_Original_Award_Price__c = wrapper.awardPrice
 						);
 
 						sublinesToInsert.add(spSublineToInsert);
@@ -368,17 +369,18 @@ global class ToroSupportPlusController {
 				// update extension object
 				if (wrapper.qiSpObj == null) {
 					REVVY__MnQuoteItem__c spItemToInsert = new REVVY__MnQuoteItem__c(
-						    REVVY__Quantity__c             = updatedSpQuantity
-						  , REVVY__Id__c                   = ToroSupportPlusHelper.generateQiExtId()
-						  , Support_Plus_From_Add_New__c   = false
-						  , REVVY__Quote__c                = quote.Id
-						  , REVVY__PricelistLine__c        = wrapper.qiObj.REVVY__PricelistLine__c
-						  , REVVY__Catalog_Node__c         = wrapper.qiObj.REVVY__Catalog_Node__c
-						  , REVVY__Price__c                = 0
-						  , REVVY__SuggestedPrice__c       = 0
-						  , Description__c                 = wrapper.description
-						  , Support_Plus_Original_Item__c  = wrapper.sfid
-						  , Support_Plus_Original_Price__c = wrapper.dnetPrice
+						  REVVY__Quantity__c                   = updatedSpQuantity
+						, REVVY__Id__c                         = ToroSupportPlusHelper.generateQiExtId()
+						, Support_Plus_From_Add_New__c         = false
+						, REVVY__Quote__c                      = quote.Id
+						, REVVY__PricelistLine__c              = wrapper.qiObj.REVVY__PricelistLine__c
+						, REVVY__Catalog_Node__c               = wrapper.qiObj.REVVY__Catalog_Node__c
+						, REVVY__Price__c                      = 0
+						, REVVY__SuggestedPrice__c             = 0
+						, Description__c                       = wrapper.description
+						, Support_Plus_Original_Item__c        = wrapper.sfid
+						, Support_Plus_Original_Price__c       = wrapper.dnetPrice
+						, Support_Plus_Original_Award_Price__c = wrapper.awardPrice
 					);
 					quoteItemsToInsert.add(spItemToInsert);
 					System.debug('\n\n@@spItemToInsert: ' + spItemToInsert + '\n\n');
@@ -461,18 +463,19 @@ global class ToroSupportPlusController {
 				else {
 					// create it
 					REVVY__MnQuoteItem__c spItemToInsert = new REVVY__MnQuoteItem__c(
-						  REVVY__Quantity__c             = addNewWrapper.spQuantity
-						, REVVY__Id__c                   = ToroSupportPlusHelper.generateQiExtId()
-						, Support_Plus_From_Add_New__c   = true
-						, REVVY__Quote__c                = quote.Id
-						, REVVY__PricelistLine__c        = addNewWrapper.pricelistLineId
-						, REVVY__Catalog_Node__c         = addNewWrapper.catalogNodeId
-						, REVVY__Price__c                = 0
-						, REVVY__SuggestedPrice__c       = 0
-						, Award_Price__c                 = 0 //addNewWrapper.awardPrice
-						, Support_Plus_Original_Price__c = addNewWrapper.dnetPrice
-						, Description__c                 = addNewWrapper.description
-						, Support_Plus_Original_Item__c  = null
+						  REVVY__Quantity__c                   = addNewWrapper.spQuantity
+						, REVVY__Id__c                         = ToroSupportPlusHelper.generateQiExtId()
+						, Support_Plus_From_Add_New__c         = true
+						, REVVY__Quote__c                      = quote.Id
+						, REVVY__PricelistLine__c              = addNewWrapper.pricelistLineId
+						, REVVY__Catalog_Node__c               = addNewWrapper.catalogNodeId
+						, REVVY__Price__c                      = 0
+						, REVVY__SuggestedPrice__c             = 0
+						, Award_Price__c                       = 0                                        //addNewWrapper.awardPrice
+						, Support_Plus_Original_Price__c       = addNewWrapper.dnetPrice
+						, Support_Plus_Original_Award_Price__c = addNewWrapper.awardPrice
+						, Description__c                       = addNewWrapper.description
+						, Support_Plus_Original_Item__c        = null
 					);
 
 					quoteItemsToInsert.add(spItemToInsert);

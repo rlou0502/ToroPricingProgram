@@ -26,6 +26,7 @@ trigger PP_CreateQISLExtension on REVVY__MnQuoteItemSubLine__c (after insert) {
             DNet_Price__c          = qi.REVVY__SuggestedPrice__c,
             Apply_Support_Plus__c  = isSupportPlus,
             Support_Plus_Original_Price__c = qi.Support_Plus_Original_Price__c,
+            Support_Plus_Original_Award_Price__c = qi.Support_Plus_Original_Award_Price__c,
 
             Toro_Quote_Item_2__r = new Revvy__MnStrategy4__c(
                 External_Id__c = qi.Revvy__QuoteItem__c)

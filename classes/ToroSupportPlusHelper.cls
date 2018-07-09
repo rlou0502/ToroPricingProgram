@@ -278,6 +278,7 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__PricelistLine__c
 
 				, Support_Plus_Original_Price__c
+				, Support_Plus_Original_Award_Price__c
 				, Support_Plus_Original_Item__c
 				, Support_Plus_Original_Item__r.Id
 				, Support_Plus_Original_Item__r.REVVY__Quantity__c

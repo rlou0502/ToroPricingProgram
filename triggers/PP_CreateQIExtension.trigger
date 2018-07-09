@@ -20,6 +20,7 @@ trigger PP_CreateQIExtension on REVVY__MnQuoteItem__c (after insert) {
             Award_Price__c       = dawardPrice,
             Support_Plus_Item__c = (qi.Support_Plus_Original_Item__c != null || qi.Support_Plus_From_Add_New__c),
             Support_Plus_Original_Price__c = qi.Support_Plus_Original_Price__c,
+            Support_Plus_Original_Award_Price__c = qi.Support_Plus_Original_Award_Price__c,
             Description__c = qi.Description__c,
             Exc_Rbt__c = qi.Support_Plus_From_Add_New__c
         ));
