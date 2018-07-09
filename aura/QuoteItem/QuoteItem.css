@@ -105,6 +105,9 @@
 .THIS td.align-right {
     text-align: right;
 }
+.THIS th.align-right {
+    text-align: right;
+}
 .THIS th.type-DOUBLE {
     text-align: right;
 }
@@ -112,5 +115,11 @@
     text-align: right;
 }
 .THIS th.type-PERCENT {
+    text-align: right;
+}
+.THIS input.align-right {
+    text-align: right;
+}
+.THIS th.PricingMethodValue__c {
     text-align: right;
 }

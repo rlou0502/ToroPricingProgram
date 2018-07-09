@@ -70,6 +70,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		if (qi.Support_Plus_From_Add_New__c) {
 			this.isFromAddNew = true;
 			this.dnetPrice    = qi.Support_Plus_Original_Price__c;
+			this.awardPrice   = qi.Support_Plus_Original_Award_Price__c;
 			this.spQuantity   = qi.Quote_Item_Extension__r.Adjusted_Quantity__c;
 		}
 

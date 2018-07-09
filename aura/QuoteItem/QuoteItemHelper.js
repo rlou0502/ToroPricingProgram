@@ -206,6 +206,7 @@
                 	tableDataNode.required=true;  
                     cellText.className += " has-required-field ";
                 }
+                tableDataNode.className += " align-right ";
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 var decimalPoint = 4;
                 if(pricingMethod == "Total Award $" || field.type.toLowerCase() === 'currency') {
@@ -294,7 +295,7 @@
                     var dispVal = sObj[field.fieldPath];
                     if(field.fieldPath=="PricingMethodValue__c") {                       
                     	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
-
+						tableData.className += " align-right ";
                     } 
                     if(dispVal != "NaN") {
                         cellText.innerHTML = dispVal;
