@@ -105,3 +105,12 @@
 .THIS td.align-right {
     text-align: right;
 }
+.THIS th.type-DOUBLE {
+    text-align: right;
+}
+.THIS th.type-CURRENCY {
+    text-align: right;
+}
+.THIS th.type-PERCENT {
+    text-align: right;
+}

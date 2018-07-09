@@ -38,7 +38,7 @@
 		<tr class="slds-text-heading--label">
             <th>Quote Total:</th>
 			<aura:iteration items="{!v.fields}" var="fld">
-				<th scope="col"><div class="slds-truncate" title="{!fld.label}">{!fld.label}</div></th>
+				<th scope="col" class="{!'type-'+fld.type}"><div class="slds-truncate" title="{!fld.label}">{!fld.label}</div></th>
 			</aura:iteration>
 		</tr>
 	</thead>

@@ -346,7 +346,7 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static void updateSupportPlusValuesOnQuote(REVVY__MnQuote__c quote, REVVY__MnStrategy1__c pricingProgram) {
+	public static void updateAllowanceAndDistResp(REVVY__MnQuote__c quote, REVVY__MnStrategy1__c pricingProgram) {
 		// update support plus allowance
 		List<Support_Plus_Plan__c> supportPlusPlans = getSupportPlusPlans(pricingProgram.ExternalId__c);
 		// if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_AWARD) {
@@ -393,6 +393,8 @@ public with sharing class ToroSupportPlusHelper {
 			}
 		}
 
+		System.debug('\n\n@@quote.Toro_Support_Plus_Allowance__c : ' + quote.Toro_Support_Plus_Allowance__c  + '\n\n');
+
 		// get support plus contributions
 		Decimal defaultDistRespValue = 50.0;
 		Set<Decimal> distRespValueSet = new Set<Decimal>();
@@ -406,15 +408,46 @@ public with sharing class ToroSupportPlusHelper {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
 			}
 		}
-		System.debug('\n\n@@quote.Toro_Blended_Percent_of_DN__c: ' + quote.Toro_Blended_Percent_of_DN__c + '\n\n');
-		System.debug('\n\n@@contribs: ' + contribs + '\n\n');
-		System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
-		System.debug('\n\n@@defaultDistRespValue: ' + defaultDistRespValue + '\n\n');
+		// System.debug('\n\n@@quote.Toro_Blended_Percent_of_DN__c: ' + quote.Toro_Blended_Percent_of_DN__c + '\n\n');
+		// System.debug('\n\n@@contribs: ' + contribs + '\n\n');
+		// System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
+		// System.debug('\n\n@@defaultDistRespValue: ' + defaultDistRespValue + '\n\n');
 
 		if (quote.Distributor_Responsibility__c == null) {
 			quote.Distributor_Responsibility__c = defaultDistRespValue;
 		}
+
+		System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
 		// update quote;
-		System.debug('\n\n@@quote: ' + quote + '\n\n');
+		// System.debug('\n\n@@quote: ' + quote + '\n\n');
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public static void calculateSupportPlusTotals() {
+		
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public static void clearSupportPlusValuesOnQuote(REVVY__MnQuote__c quote) {
+		quote.Toro_Support_Plus_Allowance__c      = null;
+		quote.Distributor_Responsibility__c       = null;
+		quote.Toro_Support_Plus_Allowance_Used__c = null;
+		quote.SP_Total_Extended_DNET__c           = null;
+		quote.SP_Adjusted_Toro_Award__c           = null;
+		quote.SP_Adjusted_Ext_Award__c            = null;
+		quote.SP_Toro_Responsibility__c           = null;
+		quote.SP_Ext_Dist_Responsibility__c       = null;
 	}
 }

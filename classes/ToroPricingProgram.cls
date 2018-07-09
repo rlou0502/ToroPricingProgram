@@ -16,7 +16,7 @@ public virtual class ToroPricingProgram {
 		system.debug('getAllowSupportPlus ppd.externalId=' + ppd.externalId);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		system.debug('getAllowSupportPlus header=' + pp_header);
-		boolean ret = pp_header.AllowSupportPlus__c;
+		boolean ret = pp_header.AllowSupportPlus__c && Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 		system.debug('getAllowSupportPlus AllowSupportPlus__c=' + ret);
 		return ret == null ? false : ret;
 	}
@@ -120,7 +120,7 @@ public virtual class ToroPricingProgram {
 			String[] pps = pricingProgram.SecondaryProgram__c.split(';');
 			Set<String> senondaryPricingProgramSet = new Set<String>();
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
-					From Revvy__MnStrategy1__c where Parent_Program__r.ExternalId__c  in :pps and Parent_Program__r.Hide_Children__c = FALSE  order by Sequence__c ];
+					From Revvy__MnStrategy1__c where Status__c = 'Active' AND Parent_Program__r.ExternalId__c  in :pps and Parent_Program__r.Hide_Children__c = FALSE  order by Sequence__c ];
 			for(Revvy__MnStrategy1__c pp : rebates) {
 				if(!result.containsKey(pp.Parent_Program__r.ExternalId__c)) {
 					result.put(pp.Parent_Program__r.ExternalId__c, new Map<String, String>());
@@ -182,14 +182,20 @@ public virtual class ToroPricingProgram {
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 
 		System.debug('\n\n@@ToroPricingProgram preSaveCalculateRebateMargin\n\n'); 
-		
+		System.debug('\n\n@@quote: ' + quote + '\n\n');
 		ToroPricingProgramData ppd = new ToroPricingProgramData(priceProgram);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		System.debug('\n\n@@pp_header:' + pp_header + '\n\n'); 
 		if (pp_header.AllowSupportPlus__c) { 
+			ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header);
+		}
 
+		else {
+			ToroSupportPlusHelper.clearSupportPlusValuesOnQuote(quote);
 		}
 		
+		quote.Is_Dirty__c = false;
+
 		return 	quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> postCalculateRebateMarginImpl(Id quoteId, String priceProgram,

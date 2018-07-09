@@ -333,6 +333,8 @@
             hearderRowCell.className += f.fieldPath;
             if(f.type.toLowerCase() === 'boolean') {
             	hearderRowCell.className += ' type-'+f.type;	    
+            } else if(f.type.toLowerCase() === 'double' || f.type.toLowerCase() === 'currency' || f.type.toLowerCase() === 'percent' ) {
+            	hearderRowCell.className += ' align-right';    
             }  
             hearderRowCell.scope="col";
             var cellText = document.createElement('div');
@@ -494,7 +496,9 @@
             if(f.type.toLowerCase() === 'string') {
             	cellText.className += " " + f.fieldPath; 
                 
-            }
+            } else if(f.type.toLowerCase() === 'double' || f.type.toLowerCase() === 'currency' || f.type.toLowerCase() === 'percent' ) {
+            	hearderRowCell.className += ' align-right';    
+            }  
             
             //cellText.className += " slds-truncate";
             cellText.innerHTML = f.label;
