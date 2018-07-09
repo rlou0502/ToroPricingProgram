@@ -102,3 +102,6 @@
     color: red;
     font-style: italic;
 }
+.THIS td.align-right {
+    text-align: right;
+}

@@ -272,10 +272,12 @@
                 if(field.type.toLowerCase() === 'double') {
                     if(sObj[field.fieldPath]!= undefined) {
                         cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}); 
+                    	tableData.className += " align-right ";
                     }  
                 } else if(field.type.toLowerCase() === 'currency') {
                     if(sObj[field.fieldPath]!= undefined) {
                         cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                    	tableData.className += " align-right ";
                     }
                 } else if(field.type.toLowerCase() === 'boolean') {
                     var tableDataNode = document.createElement('input');
@@ -285,8 +287,9 @@
                     cellText.appendChild(tableDataNode);
                 } else if(field.type.toLowerCase() === 'percent') {
                    if(sObj[field.fieldPath] != undefined) {
-                       cellText.innerHTML=parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
-                    } 
+                       	cellText.innerHTML=parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
+                   		tableData.className += " align-right ";
+                   } 
                 } else if(field.type.toLowerCase() === 'string') {
                     var dispVal = sObj[field.fieldPath];
                     if(field.fieldPath=="PricingMethodValue__c") {                       
