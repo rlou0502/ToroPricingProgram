@@ -180,6 +180,14 @@ public virtual class ToroPricingProgram {
 	}
 	public virtual List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+
+		ToroPricingProgramData ppd = new ToroPricingProgramData(priceProgram);
+		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
+
+		if (pp_header.AllowSupportPlus__c) {
+
+		}
+		
 		return 	quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> postCalculateRebateMarginImpl(Id quoteId, String priceProgram,

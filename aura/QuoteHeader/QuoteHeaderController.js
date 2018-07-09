@@ -80,14 +80,17 @@
             if(field.type.toLowerCase() === 'double') {
                 if(data != undefined) {
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+                    tableData.className += " align-right ";
                 }  
             } else if(field.type.toLowerCase() === 'currency') {
                 if(data != undefined) {
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+                    tableData.className += " align-right ";
                 }
             } else if(field.type.toLowerCase() === 'percent') {
                 if(data != undefined) {
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4}); 
+                    tableData.className += " align-right ";
                 }
             } else {
                 cellText.innerHTML=data;

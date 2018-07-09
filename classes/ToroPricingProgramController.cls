@@ -717,6 +717,8 @@ public class ToroPricingProgramController {
     	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
     	if(rs.pricingMethodOptions.size() == 1) {
     		rs.selectedPricingMethod = rs.pricingMethodOptions[0].value;
+    	} else {
+    		rs.selectedPricingMethod = q.Price_Method__c;
     	}			
     	rs.displayPerformancePart = pp.displayPerformancePart();
     	rs.displaySetupFee=pp.displaySetupFee();

@@ -34,3 +34,6 @@
 .THIS#pricing_program_selector {
     margin-top: 60px;
 }
+.THIS td.align-right {
+    text-align: right;
+}

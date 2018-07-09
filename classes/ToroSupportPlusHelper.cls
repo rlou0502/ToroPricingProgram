@@ -338,4 +338,83 @@ public with sharing class ToroSupportPlusHelper {
 				Total_DNet_Low__c
 		];
 	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public static void updateSupportPlusValuesOnQuote(REVVY__MnQuote__c quote, REVVY__MnStrategy1__c pricingProgram) {
+		// update support plus allowance
+		List<Support_Plus_Plan__c> supportPlusPlans = getSupportPlusPlans(pricingProgram.ExternalId__c);
+		// if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_AWARD) {
+		if (pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_AWARD) {
+			// this.showDNet      = true;
+			// this.showToroAward = true;
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if (quote.Toro_Award__c >= plan.Total_DNet_Low__c
+					&& quote.Toro_Award__c < plan.Total_DNet_High__c
+				) {
+					quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					break;
+				}
+			}
+		}
+
+		// else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET) {
+		else if (pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET) {
+			// this.showDNet      = true;
+			// this.showToroAward = true;
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
+					&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
+				) {
+					quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					break;
+				}
+			}
+		}
+
+		// else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
+		else if (pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
+			// this.showDNet      = true;
+			// this.showToroAward = true;
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
+					&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
+					&& quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
+					&& quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
+				) {
+					quote.Toro_Support_Plus_Allowance__c = (quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
+					break;
+				}
+			}
+		}
+
+		// get support plus contributions
+		Decimal defaultDistRespValue = 50.0;
+		Set<Decimal> distRespValueSet = new Set<Decimal>();
+		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(pricingProgram.ExternalId__c);
+		for (Support_Plus_Contribution__c contrib : contribs) {
+			distRespValueSet.add(contrib.Distributor_Contribution__c);
+			if (
+				quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
+				&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
+			) {
+				defaultDistRespValue = contrib.Distributor_Contribution__c;
+			}
+		}
+		System.debug('\n\n@@quote.Toro_Blended_Percent_of_DN__c: ' + quote.Toro_Blended_Percent_of_DN__c + '\n\n');
+		System.debug('\n\n@@contribs: ' + contribs + '\n\n');
+		System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
+		System.debug('\n\n@@defaultDistRespValue: ' + defaultDistRespValue + '\n\n');
+
+		if (quote.Distributor_Responsibility__c == null) {
+			quote.Distributor_Responsibility__c = defaultDistRespValue;
+		}
+		// update quote;
+		System.debug('\n\n@@quote: ' + quote + '\n\n');
+	}
 }
