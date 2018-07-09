@@ -715,10 +715,15 @@ public class ToroPricingProgramController {
 		pp.quote = q;
     	rs.values =  new List<SObject> {pp.quote};
     	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
+    	if(rs.pricingMethodOptions.size() == 1) {
+    		rs.selectedPricingMethod = rs.pricingMethodOptions[0].value;
+    	}			
     	rs.displayPerformancePart = pp.displayPerformancePart();
     	rs.displaySetupFee=pp.displaySetupFee();
     	
     	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
+    	
+    	
     	if(String.isBlank(rs.selectedPricingProgram)) {
     		for(ToroSelectOption opt : rs.pricingProgramOptions) {
     			if(opt.defaultSelected) {
