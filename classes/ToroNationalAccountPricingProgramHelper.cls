@@ -1,8 +1,4 @@
 public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram {
-
-	public override List<Schema.FieldSetMember> getQuoteFields() {
-		return SObjectType.Revvy__MnQuote__c.FieldSets.REVVY__Quote_Header_Fields.getFields();
-	}
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		ret.add(new ToroSelectOption('% off MSRP','% off MSRP'));
@@ -44,7 +40,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		system.debug(logginglevel.info, 'tierMap=' + tierMap);
 
 		//get Pricing Program Header
-		//Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgramExternalId);	
+		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(priceProgramExternalId);	
 
 		//decimal dSetupFeeHeader = ToroCacheManager.getSetupFee();
 		decimal dSetupFeeHeader = setupFeePercentage;
@@ -223,27 +219,8 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 	}
 	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
-			
-			List<Revvy__MnStrategy4__c> result = quoteItemList;													
-			Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(priceProgram);
-			System.debug('--- NationalAccount preSaveCalculateRebateMargin setupFeePercentage='+ setupFeePercentage);
-			System.debug('--- NationalAccount preSaveCalculateRebateMargin quote.Total_Award__c='+ quote.Total_Award__c);
-			System.debug('--- NationalAccount preSaveCalculateRebateMargin quote.Toro_Award__c='+ quote.Toro_Award__c);
-			System.debug('--- NationalAccount preSaveCalculateRebateMargin pp_header.Setup_Threshold__c='+ pp_header.Setup_Threshold__c);
-			if(CMnQuoteUtil.defaultDecimal(quote.Toro_Award__c) > CMnQuoteUtil.defaultDecimal(pp_header.Setup_Threshold__c)) {
-
-				for(Revvy__MnStrategy4__c qi : quoteItemList) {
-					qi.Fee_Percentage__c = 0;
-
-					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-						for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							qis.Fee_Percentage__c = 0;
-						}
-					}
-				}
-				result = calculateExtendedFields(quoteItemList);
-				setupFeePercentage = 0;
-			}	
+																
+				
 																
 /*
 			Decimal dtoroTotalSetupFees = 0;
@@ -300,7 +277,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			}
 		}
 */
-		return 	result;
+		return 	quoteItemList;
 	}
 
 	//@future

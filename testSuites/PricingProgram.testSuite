@@ -9,7 +9,6 @@
     <testClassName>ToroCacheManagerTest</testClassName>
     <testClassName>ToroCascadingDeleteTest</testClassName>
     <testClassName>ToroChartABPricingProgramHelperTest</testClassName>
-    <testClassName>ToroChartWithAccessoryDiscountTest</testClassName>
     <testClassName>ToroContractChartPPHelperTest</testClassName>
     <testClassName>ToroContractPriceListPPHelperTest</testClassName>
     <testClassName>ToroContractQuantityPPHelperTest</testClassName>
