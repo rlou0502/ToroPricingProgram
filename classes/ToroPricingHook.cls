@@ -107,7 +107,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 mnQuoteItem.REVVY__FloorPrice__c='+mnQuoteItem.REVVY__FloorPrice__c);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 exchangeRate='+exchangeRate);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 conversionRate='+conversionRate);
-	            	mnQuoteItem.REVVY__Price__c = (mnQuoteItem.REVVY__FloorPrice__c / exchangeRate) * conversionRate;
+	            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
 	            	System.debug('--- ToroPricingHook postQuoteItemsCreationHook  mnQuoteItem.REVVY__QuoteItemSubLine__r = '+ mnQuoteItem.REVVY__QuoteItemSubLine__r);
 	            	if(mnQuoteItem.REVVY__QuoteItemSubLine__r != null && !mnQuoteItem.REVVY__QuoteItemSubLine__r.isEmpty()) {
 			            for(REVVY__MnQuoteItemSubLine__c mnQuoteItemSubLine:mnQuoteItem.REVVY__QuoteItemSubLine__r){
@@ -115,7 +115,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 mnQuoteItemSubLine.REVVY__FloorPrice__c='+mnQuoteItemSubLine.REVVY__FloorPrice__c);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 exchangeRate='+exchangeRate);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 conversionRate='+conversionRate);
-			            	mnQuoteItemSubLine.REVVY__Price__c = (mnQuoteItemSubLine.REVVY__FloorPrice__c / exchangeRate) * conversionRate;
+			            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
 			            }
 	            	}
 	            }
