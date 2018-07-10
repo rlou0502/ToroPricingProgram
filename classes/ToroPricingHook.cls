@@ -134,6 +134,9 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 	        }
 		}
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook FINAL qis='+qis);
+        
+        qt.Is_Dirty__c = true;
+        
         return qis;
     }
      
