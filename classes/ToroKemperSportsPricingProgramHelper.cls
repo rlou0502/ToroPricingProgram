@@ -177,6 +177,7 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 					}
 				}
 				result = calculateExtendedFields(quoteItemList);
+				setupFeePercentage = 0;
 			}	
 																
 																

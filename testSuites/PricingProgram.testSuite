@@ -4,6 +4,7 @@
     <testClassName>FieldSetMemberTest</testClassName>
     <testClassName>PP_UpdateExtensionTest</testClassName>
     <testClassName>QuoteItemTest</testClassName>
+    <testClassName>ToroBaseAwardAccessoryHelperTest</testClassName>
     <testClassName>ToroBaseWithValueDollarHelperTest</testClassName>
     <testClassName>ToroCacheManagerTest</testClassName>
     <testClassName>ToroCascadingDeleteTest</testClassName>

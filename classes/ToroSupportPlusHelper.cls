@@ -1,9 +1,8 @@
 public with sharing class ToroSupportPlusHelper {
 	private static REVVY__MnSequenceGen__c qiSequenceGen;
 
-	//  ExternalId__c => Pricing Program
+	//  Pricing Program ExternalId__c => Pricing Program
 	private static Map<String,REVVY__MnStrategy1__c> pricingProgramMap = new Map<String,REVVY__MnStrategy1__c>();
-
 
 	/**
 	 *
@@ -349,10 +348,10 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static void updateAllowanceAndDistResp(REVVY__MnQuote__c quote, REVVY__MnStrategy1__c pricingProgram) {
-		// update support plus allowance
+	public static Decimal getSupportPlusAllowance(REVVY__MnQuote__c quote, REVVY__MnStrategy1__c pricingProgram) {
 		List<Support_Plus_Plan__c> supportPlusPlans = getSupportPlusPlans(pricingProgram.ExternalId__c);
-		// if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_AWARD) {
+
+		Decimal allowance = 0;
 		if (pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_AWARD) {
 			// this.showDNet      = true;
 			// this.showToroAward = true;
@@ -360,7 +359,7 @@ public with sharing class ToroSupportPlusHelper {
 				if (quote.Toro_Award__c >= plan.Total_DNet_Low__c
 					&& quote.Toro_Award__c < plan.Total_DNet_High__c
 				) {
-					quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					allowance = plan.Maximum_Support__c;
 					break;
 				}
 			}
@@ -374,7 +373,7 @@ public with sharing class ToroSupportPlusHelper {
 				if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
 					&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
 				) {
-					quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					allowance = plan.Maximum_Support__c;
 					break;
 				}
 			}
@@ -390,51 +389,15 @@ public with sharing class ToroSupportPlusHelper {
 					&& quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
 					&& quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
 				) {
-					quote.Toro_Support_Plus_Allowance__c = (quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
+					allowance = (quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
 					break;
 				}
 			}
 		}
 
-		System.debug('\n\n@@quote.Toro_Support_Plus_Allowance__c : ' + quote.Toro_Support_Plus_Allowance__c  + '\n\n');
-
-		// get support plus contributions
-		Decimal defaultDistRespValue = 50.0;
-		Set<Decimal> distRespValueSet = new Set<Decimal>();
-		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(pricingProgram.ExternalId__c);
-		for (Support_Plus_Contribution__c contrib : contribs) {
-			distRespValueSet.add(contrib.Distributor_Contribution__c);
-			if (
-				quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
-				&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
-			) {
-				defaultDistRespValue = contrib.Distributor_Contribution__c;
-			}
-		}
-		// System.debug('\n\n@@quote.Toro_Blended_Percent_of_DN__c: ' + quote.Toro_Blended_Percent_of_DN__c + '\n\n');
-		// System.debug('\n\n@@contribs: ' + contribs + '\n\n');
-		// System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
-		// System.debug('\n\n@@defaultDistRespValue: ' + defaultDistRespValue + '\n\n');
-
-		if (quote.Distributor_Responsibility__c == null) {
-			quote.Distributor_Responsibility__c = defaultDistRespValue;
-		}
-
-		System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
-		// update quote;
-		// System.debug('\n\n@@quote: ' + quote + '\n\n');
+		return allowance;
 	}
 
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public static void calculateSupportPlusTotals(Id quoteId) {
-		ToroSupportPlusData data = new ToroSupportPlusData(quoteId);
-	}
 
 	/**
 	 *

@@ -238,6 +238,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 					}
 				}
 				result = calculateExtendedFields(quoteItemList);
+				setupFeePercentage = 0;
 			}	
 																
 /*

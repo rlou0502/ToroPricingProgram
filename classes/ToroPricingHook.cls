@@ -36,9 +36,10 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 			distSegmentSet.add(dsp.MasterLabel.toLowerCase());							
 		}		
         
+        system.debug('--- ToroPricingHook productSearchPriceHook distSegmentSet =' + distSegmentSet);
+        system.debug('--- ToroPricingHook productSearchPriceHook bcorpAccount =' + bcorpAccount);
         system.debug('--- ToroPricingHook productSearchPriceHook psegment =' + psegment);
         system.debug('--- ToroPricingHook productSearchPriceHook prodsMap.keySet =' + prodsMap.keyset());
-		if(!bcorpAccount && distSegmentSet.contains(psegment.toLowerCase())) {
 			
 			Map<String,REVVY__MnPriceListLine__c> plMap = new Map<String,REVVY__MnPriceListLine__c>();
 			for(REVVY__MnPriceListLine__c pll:[Select REVVY__Id__c, REVVY__PriceList__r.REVVY__Segment__c, REVVY__PriceList__c
@@ -54,13 +55,15 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 	        for (String prodName : prodsMap.keyset()) {
 				if(plMap.containsKey(prodName)) {
 					REVVY__MnPriceListLine__c pll = plMap.get(prodName);
-					Decimal damount = (pll.REVVY__FloorPrice__c / exchangeRate) * conversionRate;
+					Decimal damount = (pll.REVVY__ListedPrice__c / exchangeRate) * conversionRate;
+					if(!bcorpAccount && distSegmentSet.contains(psegment.toLowerCase())) {
+						damount = (pll.REVVY__FloorPrice__c / exchangeRate) * conversionRate;
+					}
 			        system.debug('--- ToroPricingHook productSearchPriceHook damount =' + damount);
 					prodsMap.put(prodName,damount);
 				}	        	
 	        }
 			
-		}
         
         
         return prodsMap;
@@ -100,14 +103,20 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         		}
 	        }
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 bcorpAccount='+bcorpAccount);
-			if (!bcorpAccount && qis != null && !qis.isEmpty()){
+			if (qis != null && !qis.isEmpty()){
 	            for(REVVY__MnQuoteItem__c mnQuoteItem: qis){
 	            	//mnQuoteItem.REVVY__PriceListLine__r.REVVY__FloorPrice__c
 	            	
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 mnQuoteItem.REVVY__FloorPrice__c='+mnQuoteItem.REVVY__FloorPrice__c);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 exchangeRate='+exchangeRate);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 conversionRate='+conversionRate);
-	            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
+
+
+	            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__Price__c) / exchangeRate) * conversionRate;
+					if(!bcorpAccount) {
+		            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
+					}
+
 	            	System.debug('--- ToroPricingHook postQuoteItemsCreationHook  mnQuoteItem.REVVY__QuoteItemSubLine__r = '+ mnQuoteItem.REVVY__QuoteItemSubLine__r);
 	            	if(mnQuoteItem.REVVY__QuoteItemSubLine__r != null && !mnQuoteItem.REVVY__QuoteItemSubLine__r.isEmpty()) {
 			            for(REVVY__MnQuoteItemSubLine__c mnQuoteItemSubLine:mnQuoteItem.REVVY__QuoteItemSubLine__r){
@@ -115,7 +124,10 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 mnQuoteItemSubLine.REVVY__FloorPrice__c='+mnQuoteItemSubLine.REVVY__FloorPrice__c);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 exchangeRate='+exchangeRate);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 conversionRate='+conversionRate);
-			            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
+			            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__Price__c) / exchangeRate) * conversionRate;
+							if(!bcorpAccount) {
+				            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
+							}
 			            }
 	            	}
 	            }

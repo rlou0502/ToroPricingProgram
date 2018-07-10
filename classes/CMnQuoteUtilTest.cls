@@ -39,6 +39,7 @@ private class CMnQuoteUtilTest {
 		];
 		system.debug('-------'+toroQuoteItems);
 		CMnQuoteUtil.checkForOutCrossProducts(toroQuoteItems);
+		//CMnQuoteUtil.checkIfApprovalNeeded();
 	}
 
 	@isTest static void test_default_decimal() {
@@ -49,5 +50,29 @@ private class CMnQuoteUtilTest {
 	@isTest static void test_get_quote_query() {
 		String extraFields = '';
 		System.assert(CMnQuoteUtil.getQuoteQuery(extraFields) != null);
+	}
+	
+	@isTest static void test_checkIfApprovalNeeded() {
+		Test.StartTest();
+		CMnQuoteUtil.getDefaultPriceList();
+	  	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+	  	ToroLargePackagePricingProgramHelper helper = new ToroLargePackagePricingProgramHelper();
+	  	ToroPricingProgramData ppd = new ToroPricingProgramData('MarketSupportChartLargePackage;Large_Package');
+		helper.initialize(quote.Id);
+		helper.quoteItems[0].Product__r.name='OUTCROSS';
+		
+		List<REVVY__MnStrategy1__c> pricngPrograms = [select id from REVVY__MnStrategy1__c ];
+		for(REVVY__MnStrategy1__c l : pricngPrograms) {
+			l.OutCrossThreshold__c = 1000;	
+			l.Blended_DNet_Threshold__c=1000;
+		}
+		update pricngPrograms;
+		ToroCacheManager.refreshAllPricingPrograms();
+		helper.quote.Toro_Total_DNet__c = 200;
+		helper.quote.Toro_Blended_Percent_of_DN__c=200;
+		update helper.quote;
+		
+		CMnQuoteUtil.checkIfApprovalNeeded(helper.quote, 'MarketSupportChartLargePackage', '', helper.quoteItems);	
+	  	Test.stopTest();
 	}
 }

@@ -124,7 +124,7 @@ public with sharing class ToroPricingProgramEligibility {
 		
 		boolean found = true;
 		for(REVVY__MnStrategy1__c pp : pricingPrograms) {
-			system.debug(logginglevel.info, 'retrieveNonEligiblePricingProgramsForQuote pp=' + pp.Name);
+			//system.debug(logginglevel.info, 'retrieveNonEligiblePricingProgramsForQuote pp=' + pp.Name);
 			Set<String> eligibleProducts = new Set<String>();
 			if(String.isNotBlank(pp.ApplicableProductsLong__c) &&  pp.ApplicableProductsLong__c != 'All') {
 				eligibleProducts.addAll(pp.ApplicableProductsLong__c.split(','));

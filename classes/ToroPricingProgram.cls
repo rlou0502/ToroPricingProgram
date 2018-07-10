@@ -181,18 +181,24 @@ public virtual class ToroPricingProgram {
 	public virtual List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 
+		/*
 		System.debug('\n\n@@ToroPricingProgram preSaveCalculateRebateMargin\n\n'); 
 		System.debug('\n\n@@quote: ' + quote + '\n\n');
 		ToroPricingProgramData ppd = new ToroPricingProgramData(priceProgram);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		System.debug('\n\n@@pp_header:' + pp_header + '\n\n'); 
-		if (pp_header != null && pp_header.AllowSupportPlus__c) { 
+		if (pp_header.AllowSupportPlus__c) { 
 			ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header);
 		}
 
 		else {
 			ToroSupportPlusHelper.clearSupportPlusValuesOnQuote(quote);
 		}
+		*/
+
+		// ToroSupportPlusData spData = new ToroSupportPlusData(quoteId);
+		// this.quote.Distributor_Responsibility__c = spData.quote.Distributor_Responsibility__c;
+		// this.quote.Toro_Support_Plus_Allowance__c = spData.quote.Toro_Support_Plus_Allowance__c;
 		
 		quote.Is_Dirty__c = false;
 
