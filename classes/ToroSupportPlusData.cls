@@ -87,6 +87,10 @@ public with sharing class ToroSupportPlusData {
 			// get support plus plans
 			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
+
+			
+
+			
 			List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);
 
 			if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
@@ -155,6 +159,7 @@ public with sharing class ToroSupportPlusData {
 			}
 			// update quote;
 			System.debug('\n\n@@quote: ' + quote + '\n\n');
+			
 
 			// build the responsibility wrappers
 			List<DistRespOption> options = new List<DistRespOption>();

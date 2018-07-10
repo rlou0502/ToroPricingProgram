@@ -59,8 +59,17 @@ private class ToroPricingProgramTest {
 	  @isTest static void unitTestFirstTee() {
 	  	ToroFirstTeePricingProgramHelper helper = new ToroFirstTeePricingProgramHelper();
 		List<Schema.FieldSetMember> fs = helper.getToroQuoteItemDNetFields();
-		
+		helper.getQuoteLevelMSQPDNetEditable();
+		helper.getToroQuoteItemSublineUpdatableFields();
+		helper.getToroQuoteItemUpdatableFields();
+		helper.getToroQuoteItemSummaryUpdatableFields();
 		fs = helper.getToroQuoteItemSublineDNetFields(); 
+		
+		List<REVVY__MnStrategy1__c> pricngPrograms = [select id from REVVY__MnStrategy1__c ];
+		for(REVVY__MnStrategy1__c l : pricngPrograms) {
+			l.DrivenByGP__c = true;	
+		}
+		update pricngPrograms;
 		
 		List<ToroSelectOption> options = helper.retrievePricingMethodOptions();
 		List<String> apiName =helper.getQuoteFieldAPINames();
@@ -107,6 +116,27 @@ private class ToroPricingProgramTest {
 		options.sort();
 	  }
 	  
-	 //
+	  @isTest static void unitTestCanadianCurrencyChange() {
+	  	Test.StartTest();
+	  	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+	  	quote.Currency_Conversion_Rate__c = 1.3;
+	  	quote.Currency2__c='CAD';
+	  	update quote;
+	  	quote.Currency_Conversion_Rate__c = 1.5;
+	  	update quote;	
+	  	Test.stopTest();
+	  }
+	  @isTest static void unitTestCloneQuote() {
+	  	Test.StartTest();
+	  	Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+	  	quote.REVVY__SubPhase__c = 'Cloning in progress...';
+	  	update quote;
+	  	quote.REVVY__SubPhase__c = 'Draft';
+	  	update quote;
+	  	quote.REVVY__SubPhase__c = 'Draft';
+	  	update quote;	
+	  	Test.stopTest();
+	  }
+	 //Currency_Conversion_Rate__c
 	
 }

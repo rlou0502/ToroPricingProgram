@@ -432,8 +432,8 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static void calculateSupportPlusTotals() {
-		
+	public static void calculateSupportPlusTotals(Id quoteId) {
+		ToroSupportPlusData data = new ToroSupportPlusData(quoteId);
 	}
 
 	/**
