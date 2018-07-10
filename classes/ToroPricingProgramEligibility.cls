@@ -112,6 +112,7 @@ public with sharing class ToroPricingProgramEligibility {
 		return returnPricingPrograms;
 	} 
 	public static Set<String> retrieveNonEligiblePricingProgramsForQuote(Id quoteId) {
+		system.debug(logginglevel.info, 'retrieveNonEligiblePricingProgramsForQuote ');
 		Set<String> nonEligiblePricingProgram = new Set<String>();
 		List<Revvy__MnStrategy4__c> quoteItems = [Select Product_Id__c from Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId];
 		List<String> productIds = new List<String>();
@@ -119,9 +120,11 @@ public with sharing class ToroPricingProgramEligibility {
 			productIds.add(quoteItem.Product_Id__c);
 		}
 		Map<String, Set<String>> ppEligibleProduct = new Map<String, Set<String>>();
-		List<REVVY__MnStrategy1__c> pricingPrograms = [SELECT Id, ApplicableProductsLong__c, ExternalId__c FROM REVVY__MnStrategy1__c where Product_Eligibility_Checking__c = true];
+		List<REVVY__MnStrategy1__c> pricingPrograms = [SELECT Id, ApplicableProductsLong__c, ExternalId__c, Model_Eligibility__c FROM REVVY__MnStrategy1__c where Product_Eligibility_Checking__c = true and Model_Eligibility__c = 'Rigid'];
+		
 		boolean found = true;
 		for(REVVY__MnStrategy1__c pp : pricingPrograms) {
+			system.debug(logginglevel.info, 'retrieveNonEligiblePricingProgramsForQuote pp=' + pp.Name);
 			Set<String> eligibleProducts = new Set<String>();
 			if(String.isNotBlank(pp.ApplicableProductsLong__c) &&  pp.ApplicableProductsLong__c != 'All') {
 				eligibleProducts.addAll(pp.ApplicableProductsLong__c.split(','));
@@ -134,6 +137,7 @@ public with sharing class ToroPricingProgramEligibility {
 				}	
 			}
 		}
+		system.debug(logginglevel.info, 'retrieveNonEligiblePricingProgramsForQuote nonEligiblePricingProgram=' + nonEligiblePricingProgram);
 		return nonEligiblePricingProgram;
 	}  
 	public static List<ToroSelectOption> retrievePricingProgramOptions(Id quoteId) {

@@ -63,6 +63,7 @@ public with sharing class ToroFirstTeePricingProgramHelper extends ToroPricingPr
 		system.debug('-----------' + productPricingProgramLineMap);
 		if(quoteItemList != null && quoteItemList.size() != 0) {
 			for(Revvy__MnStrategy4__c qi : quoteItemList) {
+				qi.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c);
 				Revvy__MnStrategy2__c line = productPricingProgramLineMap.get(qi.Product_Id__c);
 				if(line == null) {
 					line = productPricingProgramLineMap.get('All');	
@@ -70,7 +71,7 @@ public with sharing class ToroFirstTeePricingProgramHelper extends ToroPricingPr
 				system.debug('-----------line=' + line);
 				if(line != null) {
 					system.debug(logginglevel.info,'Off_MSRP_Overridden__c =' + qi.Off_MSRP_Overridden__c);				
-						qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
+					qi.Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 					qi.Original_off_MSRP__c = qi.Off_MSRP__c;
 					qi.Award_of_DN__c = line.Award_Price_as_a_Percent_of_DN__c;
 					qi.Selected_Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
@@ -119,6 +120,7 @@ public with sharing class ToroFirstTeePricingProgramHelper extends ToroPricingPr
 				
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c);
 						qis.Percent_of_DNet__c = qi.Award_of_DN__c;
 						qis.Percent_Off_MSRP__c = qi.Off_MSRP__c;	
 						qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);

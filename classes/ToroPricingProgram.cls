@@ -186,7 +186,7 @@ public virtual class ToroPricingProgram {
 		ToroPricingProgramData ppd = new ToroPricingProgramData(priceProgram);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		System.debug('\n\n@@pp_header:' + pp_header + '\n\n'); 
-		if (pp_header.AllowSupportPlus__c) { 
+		if (pp_header != null && pp_header.AllowSupportPlus__c) { 
 			ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header);
 		}
 
