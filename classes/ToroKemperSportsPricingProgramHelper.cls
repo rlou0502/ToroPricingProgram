@@ -165,7 +165,9 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 																
 			List<Revvy__MnStrategy4__c> result = quoteItemList;													
 			Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(priceProgram);
-			if(CMnQuoteUtil.defaultDecimal(quote.Total_Award__c) > CMnQuoteUtil.defaultDecimal(pp_header.Setup_Threshold__c)) {
+			System.debug('--- NationalAccount preSaveCalculateRebateMargin quote.Total_Award__c='+ quote.Total_Award__c);
+			System.debug('--- NationalAccount preSaveCalculateRebateMargin pp_header.Setup_Threshold__c='+ pp_header.Setup_Threshold__c);
+			if(CMnQuoteUtil.defaultDecimal(quote.Toro_Award__c) > CMnQuoteUtil.defaultDecimal(pp_header.Setup_Threshold__c)) {
 
 				for(Revvy__MnStrategy4__c qi : quoteItemList) {
 					qi.Fee_Percentage__c = 0;
