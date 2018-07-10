@@ -62,4 +62,12 @@ private class PP_UpdateExtensionTest {
     	update qisUpdate;
     	Test.StopTest();
     }
+    static testMethod void myUnitTest3() {
+    	ToroTriggerRunOnce.runQiExtensionRunOnce();
+    	ToroTriggerRunOnce.runQiExtensionRunOnce();
+    	ToroTriggerRunOnce.runQisExtensionRunOnce();
+    	ToroTriggerRunOnce.runQisExtensionRunOnce();
+    	ToroTriggerRunOnce.setInCloning(true);
+    	system.assertEquals(true, ToroTriggerRunOnce.getInCloning());
+    }
 }

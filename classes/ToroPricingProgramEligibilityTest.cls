@@ -23,34 +23,6 @@
 private class ToroPricingProgramEligibilityTest {
 
    @testSetup static void setupTestData() {
-	   	/*
-		List<sObject> disti = Test.loadData(Account.sObjectType, 'TestData_PP_Distributor');
-		Id RecordTypeIdDisti = Schema.SObjectType.Account.getRecordTypeInfosByName().get('Channel Partner').getRecordTypeId();
-		List<User_Distributor__c> userDistributors = new List<User_Distributor__c>();
-		for(sObject s : disti) {
-			Account a = (Account) s;
-			a.recordtypeid = RecordTypeIdDisti;
-			userDistributors.add(new User_Distributor__c(User_Name__c=userInfo.getUserId(), Distributor__c=s.Id));
-		}
-		update disti;
-		insert userDistributors;
-
-		List<sObject> corporateAccount = Test.loadData(Account.sObjectType, 'TestData_PP_CorporateAccount');
-		Id RecordTypeIdCorporate = Schema.SObjectType.Account.getRecordTypeInfosByName().get('End User').getRecordTypeId();
-		for(sObject s : corporateAccount) {
-			Account a = (Account) s;
-			a.recordtypeid = RecordTypeIdCorporate;
-		}
-		update corporateAccount;
-		List<sObject> customerAccount = Test.loadData(Account.sObjectType, 'TestData_PP_CustomerAccount');
-		for(sObject s : customerAccount) {
-			Account a = (Account) s;
-			a.recordtypeid = RecordTypeIdCorporate;
-		}
-		update customerAccount;
-		List<sObject> pricingProgram = Test.loadData(Revvy__MnStrategy1__c.sObjectType, 'TestData_PP_PricingProgram');
-		List<sObject> eligilibility = Test.loadData(Revvy__MnStrategy3__c.sObjectType, 'TestData_PP_Eligibility');
-		*/
 		ToroTestData.loadTestData();
 		ToroTestData.loadQuoteTestData();
 
@@ -60,6 +32,15 @@ private class ToroPricingProgramEligibilityTest {
     	account customer = [select id from account where name='Barefoot Bay Golf Course' limit 1];
     	customer.Account_Manager__c = UserInfo.getUserId();
     	system.debug(logginglevel.info, 'customer =' + customer);
+    	List<REVVY__MnStrategy1__c> pricingPrograms = [select id from REVVY__MnStrategy1__c];
+    	for(REVVY__MnStrategy1__c pp : pricingPrograms) {
+    		pp.Product_Eligibility_Checking__c=true;
+    		pp.Model_Eligibility__c='Rigid';	
+    		pp.Status__c='Active';
+    		pp.IsFirstTee__c=false;
+    	}
+    	update pricingPrograms;
+    	
     	List<Revvy__MnStrategy1__c> pps = ToroPricingProgramEligibility.retrievePricingProgramsForCustomerAccountWithId(customer.Id);
 
     	for(Revvy__MnStrategy1__c pp : pps) {

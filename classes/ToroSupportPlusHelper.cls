@@ -69,6 +69,9 @@ public with sharing class ToroSupportPlusHelper {
 		return result;
 	}
 
+	public static REVVY__MnStrategy1__c getPricingProgram(REVVY__MnQuote__c quote) {
+		return getPricingProgram(quote.Pricing_Program_Name__c.split(';')[0]);
+	}
 	public static REVVY__MnStrategy1__c getPricingProgram(String externalId) {
 		if (!pricingProgramMap.containsKey(externalId)) {
 			REVVY__MnStrategy1__c pricingProgram = [
@@ -300,6 +303,9 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
+	public static List<Support_Plus_Contribution__c> getSupportPlusContributions(REVVY__MnQuote__c quote) {
+		return getSupportPlusContributions(quote.Pricing_Program_Name__c.split(';')[0]);
+	}
 	public static List<Support_Plus_Contribution__c> getSupportPlusContributions(String pricingProgramExtId) {
 		return [
 			SELECT
@@ -348,7 +354,8 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static Decimal getSupportPlusAllowance(REVVY__MnQuote__c quote, REVVY__MnStrategy1__c pricingProgram) {
+	public static Decimal getSupportPlusAllowance(REVVY__MnQuote__c quote) {
+		final REVVY__MnStrategy1__c pricingProgram = getPricingProgram(quote);
 		List<Support_Plus_Plan__c> supportPlusPlans = getSupportPlusPlans(pricingProgram.ExternalId__c);
 
 		Decimal allowance = 0;
@@ -398,6 +405,23 @@ public with sharing class ToroSupportPlusHelper {
 		return allowance;
 	}
 
+	public static Decimal getDistributorResponsibility(REVVY__MnQuote__c quote) {
+		Decimal defaultDistRespValue = 50.0;
+		// Set<Decimal> distRespValueSet = new Set<Decimal>();
+		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(quote);
+		for (Support_Plus_Contribution__c contrib : contribs) {
+			if (
+				quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
+				&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
+			) {
+				defaultDistRespValue = contrib.Distributor_Contribution__c;
+			}
+
+			// distRespValueSet.add(contrib.Distributor_Contribution__c);
+		}
+
+		return defaultDistRespValue;
+	}
 
 	/**
 	 *
