@@ -30,6 +30,11 @@
             <apex:facet name="header">Percentage Covered</apex:facet>
             <apex:outputText value="{!IF((IF(ISBLANK(c.NumLinesCovered),0,c.NumLinesCovered) + IF(ISBLANK(c.NumLinesUncovered),0,c.NumLinesUncovered)) > 0,ROUND((IF(ISBLANK(c.NumLinesCovered),0,c.NumLinesCovered)/(IF(ISBLANK(c.NumLinesCovered),0,c.NumLinesCovered) + IF(ISBLANK(c.NumLinesUncovered),0,c.NumLinesUncovered)))*100,0),0)}"/>
           </apex:column>
+          
+          <apex:column >
+            <apex:facet name="header">Developer</apex:facet>
+            <apex:outputText value="{!c.developer}"/>
+          </apex:column>
       </apex:dataTable>
       
       <br/>
