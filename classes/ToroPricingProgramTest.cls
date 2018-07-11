@@ -6,7 +6,9 @@ private class ToroPricingProgramTest {
 	}
 	 @isTest static void unitTest() {
 	 	//@TestVisible
-		ToroDefaultPricingProgramHelper helper = new ToroDefaultPricingProgramHelper();
+		ToroDefaultPricingProgramHelper dHelper = new ToroDefaultPricingProgramHelper();
+		dHelper.getToroQuoteItemSummaryUpdatableFields();
+		ToroPricingProgram helper = new ToroPricingProgram();
 		List<Schema.FieldSetMember> fs = helper.getToroQuoteItemDNetFields();
 		
 		fs = helper.getToroQuoteItemSublineDNetFields(); 
