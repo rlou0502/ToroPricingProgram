@@ -140,42 +140,4 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return	quoteItemList;
 	}
 
-	/**
-	 *
-	 * returns the number of Traction Units in a quote
-	 *
-	 * @param  quoteItemList    the list of Toro Quote Items
-	 * @return count of traction units
-	 */
-	public Integer getNumberOfTractionUnits(List<Revvy__MnStrategy4__c> quoteItemList) {
-		// toro product type = 'Finished Good' (catalog node field) Toro_Product_Type__c
-		Integer count = 0;
-		System.debug('\n\nquoteItemList:\n\n' + quoteItemList + '\n\n');
-		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
-			if (quoteItem.Product__r.Toro_Product_Type__c == 'Finished Good') {
-				count++;
-			}
-		}
-		System.debug('\n\n@@count: ' + count + '\n\n');
-		return count;
-	}
-
-	/**
-	 *
-	 * check if the quote items contain an Out-Cross unit
-	 *
-	 * @param  quoteItemList    the list of Toro Quote Items
-	 * @return true/false
-	 */
-	public Boolean checkForOutCrossProducts(List<Revvy__MnStrategy4__c> quoteItemList) {
-		System.debug('\n\n@@checkForOutCrossProducts quoteItemList: ' + quoteItemList + '\n\n');
-		for (Revvy__MnStrategy4__c quoteItem : quoteItemList) {
-			if (quoteItem.Product_Name__c.startsWithIgnorecase('OUTCROSS')) {
-				System.debug('\n\n@@contains outcross\n\n');
-				return true;
-			}
-		}
-
-		return false;
-	}
 }

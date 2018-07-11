@@ -35,6 +35,12 @@ private class ToroLargePackagePricingProgramHelperTest {
 	@isTest static void test_get_field_methods() {
 		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+		List<Revvy__MnStrategy4__c> qiExtensions = [select id from Revvy__MnStrategy4__c where mn_quote__c = :quote.Id];
+		for(Revvy__MnStrategy4__c qi : qiExtensions) {
+			qi.Off_MSRP_Overridden__c = true;
+			break;		
+		}
+		update qiExtensions;
 		ToroLargePackagePricingProgramHelper tlpp = new ToroLargePackagePricingProgramHelper();
 		tlpp.performancePartFlag=true;
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();

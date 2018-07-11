@@ -24,7 +24,6 @@
     <testClassName>ToroPerformancePartPricingProgramHTest</testClassName>
     <testClassName>ToroPriceProgramFactoryTest</testClassName>
     <testClassName>ToroPricingMethodDataTest</testClassName>
-    <testClassName>ToroPricingMethodHelperTest</testClassName>
     <testClassName>ToroPricingProgramCacheTest</testClassName>
     <testClassName>ToroPricingProgramControllerTest</testClassName>
     <testClassName>ToroPricingProgramDataTest</testClassName>

@@ -5,6 +5,7 @@ private class ToroContractQuantityPPHelperTest {
 		ToroTestData.loadQuoteTestData();
 	}
 	@isTest static void test_helper() {
+		
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroContractQuantityPPHelper tlpp = new ToroContractQuantityPPHelper();
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
@@ -12,6 +13,14 @@ private class ToroContractQuantityPPHelperTest {
 		tlpp.initialize(quote.Id);
 		
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
+		ToroCacheManager.refreshAllPricingPrograms();
+		
+		List<REVVY__MnStrategy1__c> pricngPrograms = [select id from REVVY__MnStrategy1__c ];
+		for(REVVY__MnStrategy1__c l : pricngPrograms) {
+			l.DrivenByGP__c = true;	
+		}
+		update pricngPrograms;
+		tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
 	}
 
 	
