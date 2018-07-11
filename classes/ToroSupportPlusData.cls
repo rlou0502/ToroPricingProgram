@@ -36,42 +36,18 @@ public with sharing class ToroSupportPlusData {
 
 		// this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 		this.distRespIsEditable = Schema.SObjectType.Support_Plus_Contribution__c.fields.Split_Access__c.isAccessible();
-
-		final List<PermissionSetAssignment> permissionSets = [
-			SELECT
-				PermissionSet.Name
-			FROM
-				PermissionSetAssignment
-			WHERE
-				Assignee.Id = :UserInfo.getUserId()
-				AND (PermissionSet.Name = 'Toro CPQ Sales Representatives - No DNet'
-					OR PermissionSet.Name = 'Toro CPQ Sales Representatives')
-			ORDER BY
-				PermissionSet.Name
-		];
-
-		if (permissionSets.isEmpty()) {
-			this.distRespIsEditable = true;
-		}
-
-		else {
-			this.distRespIsEditable = false;
-		}
 	}
 
 	/**
 	 *
-	 * description
+	 * builds support plus data for the passed in quote id. uses the pricing program
+	 * linked to the quote.
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  quoteId    the id of the quote
 	 */
 	public ToroSupportPlusData(Id quoteId) {
 		this();
 		try {
-			// ============================================================================
-			// get the quote and dist resps.
-			// ============================================================================
 			this.quote = ToroSupportPlusHelper.getQuote(quoteId);
 			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
@@ -86,6 +62,14 @@ public with sharing class ToroSupportPlusData {
 		}
 	}
 
+	/**
+	 *
+	 * builds support plus data for the passed in quote id. overrides the quotes
+	 * pricing program and uses the passed in id
+	 *
+	 * @param  quoteId                the id of the quote
+	 * @param  pricingProgramExtId    the ExternalId__c of the pricing program to use
+	 */
 	public ToroSupportPlusData(Id quoteId, String pricingProgramExtId) {
 		this();
 		try {
@@ -236,12 +220,16 @@ public with sharing class ToroSupportPlusData {
 		}
 	}
 
-	public void initializeSupportPlusQuoteTotals() {
-		Decimal dnetTotal = this.quote.Toro_Total_DNet__c;
-		Decimal awardTotal = this.quote.Toro_Award__c;
+	public void initializeSupportPlusQuoteTotals(Decimal dnetTotal, Decimal awardTotal) {
+		// Decimal dnetTotal = this.quote.Toro_Total_DNet__c;
+		// Decimal awardTotal = this.quote.Toro_Award__c;
+
+
+		System.debug('\n\n@@1 dnetTotal: ' + dnetTotal + '\n\n');
+		System.debug('\n\n@@1 awardTotal: ' + awardTotal + '\n\n');
 
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
-			Decimal spQty = quoteItem.spQuantity;
+			Decimal spQty = quoteItem.spQuantity != null ? quoteItem.spQuantity : 0;
 			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
 			Decimal awardPrice = quoteItem.awardPrice != null ? quoteItem.awardPrice : 0;
 
@@ -265,7 +253,7 @@ public with sharing class ToroSupportPlusData {
 		Decimal spSplitDNetTotal = 0;
 		Decimal spSplitAwardTotal = 0;
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
-			Decimal spQty = quoteItem.spQuantity;
+			Decimal spQty = quoteItem.spQuantity != null ? quoteItem.spQuantity : 0;
 			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
 			Decimal awardPrice = quoteItem.awardPrice != null ? quoteItem.awardPrice : 0;
 			spSplitDNetTotal += dnetPrice * spQty;
@@ -284,7 +272,7 @@ public with sharing class ToroSupportPlusData {
 		Decimal spAddNewDNetTotal = 0;
 		Decimal spAddNewAwardTotal = 0;
 		for (ToroSupportPlusItem addNewItem : this.addNewWrappers) {
-			Decimal spQty = addNewItem.spQuantity;
+			Decimal spQty = addNewItem.spQuantity != null ? addNewItem.spQuantity : 0;
 			Decimal dnetPrice = addNewItem.dnetPrice != null ? addNewItem.dnetPrice : 0;
 			Decimal awardPrice = addNewItem.awardPrice != null ? addNewItem.awardPrice : 0;
 			spAddNewDNetTotal += dnetPrice * spQty;

@@ -57,6 +57,7 @@
     </fields>
     <fields>
         <fullName>Allied_Non_Toro_Total__c</fullName>
+        <defaultValue>0.0</defaultValue>
         <description>Sum of all Allied (non-Toro) products in strategy 4 line items extension object</description>
         <externalId>false</externalId>
         <label>Allied (Non-Toro) Total</label>
@@ -538,6 +539,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Service_Contract_Total__c</fullName>
+        <defaultValue>0</defaultValue>
         <externalId>false</externalId>
         <label>Service Contract Total</label>
         <precision>18</precision>
@@ -981,6 +983,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Trade_In_Total__c</fullName>
+        <defaultValue>0.00</defaultValue>
         <description>Sum of all Trade In products</description>
         <externalId>false</externalId>
         <label>Trade In Total</label>

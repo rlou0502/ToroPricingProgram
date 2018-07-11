@@ -59,11 +59,11 @@ public class ExportTestCoverage{
         'ToroNationalAccountArmyHelperTest'=>'Roy',
         'ToroNationalAccountGSAPPHelper'=>'Roy',
         'ToroNationalAccountGSAPPHelperTest'=>'Roy',
-        'ToroNationalAccountPricingProgramHTest'=>'Roy',
-        'ToroNationalAccountPricingProgramHelper'=>'Roy',
+        'ToroNationalAccountPricingProgramHTest'=>'Scott',
+        'ToroNationalAccountPricingProgramHelper'=>'Scott',
         'ToroPerformancePartCache'=>'Roy',
-        'ToroPerformancePartPricingProgramHTest'=>'Roy',
-        'ToroPerformancePartPricingProgramHelper'=>'Roy',
+        'ToroPerformancePartPricingProgramHTest'=>'Scott',
+        'ToroPerformancePartPricingProgramHelper'=>'Scott',
         'ToroPriceProgramFactory'=>'Roy',
         'ToroPriceProgramFactoryTest'=>'Roy',
         'ToroPricingHook'=>'Scott',
@@ -120,7 +120,6 @@ public class ExportTestCoverage{
         'ToroSupportPlusItemTest'=>'Scott',
         'ToroTestData'=>'Scott',
         'ToroTriggerRunOnce'=>'Roy',
-        'Toro_UpdateData'=>'Roy',
         'ToroBaseAwardAccessoryHelperTest'=>'Roy',
         'ToroCacheManagerTest'=>'Roy',
         'ToroExportToExcelMultipleSheetsTest'=>'Roy',
@@ -163,7 +162,12 @@ public class ExportTestCoverage{
         public String developer {get; set;}
         public Integer compareTo(Object compareTo) {
             Records compareToObj = (Records) compareTo;
-            return this.ApexClassOrTrigger.Name.compareTo(compareToObj.ApexClassOrTrigger.Name);
+            if(this.developer.compareTo(compareToObj.developer) == 0){
+            	return this.ApexClassOrTrigger.Name.compareTo(compareToObj.ApexClassOrTrigger.Name);		
+            } else {
+            	return this.developer.compareTo(compareToObj.developer);
+            }
+            
         }
     }
 
