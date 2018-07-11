@@ -154,7 +154,7 @@ public with sharing class ToroSupportPlusData {
 			}
 		}
 
-		if (this.quote.Distributor_Responsibility__c == null) {
+		if (this.quote.Distributor_Responsibility__c == null || this.quote.Is_Dirty__c) {
 			this.quote.Distributor_Responsibility__c = defaultDistRespValue;
 		}
 		

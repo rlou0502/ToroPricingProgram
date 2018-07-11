@@ -116,6 +116,7 @@ public with sharing class ToroSupportPlusHelper {
 				, Distributor_Responsibility__c // (SHOWN) Set on load of Support Plus page. Can be overriden by user.
 				, Pricing_Program_Name__c
 				, DSM_Approved_Amount__c
+				, Is_Dirty__c
 			FROM
 				REVVY__MnQuote__c
 			WHERE

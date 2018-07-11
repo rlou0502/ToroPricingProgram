@@ -113,6 +113,16 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
+        <displayedFields>
+            <field>Rebate_as_of_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Subline_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>DNet Field Set</label>
     </fieldSets>
     <fieldSets>
@@ -922,7 +932,7 @@
         <fullName>MSRP_Price__c</fullName>
         <externalId>false</externalId>
         <label>MSRP</label>
-        <precision>8</precision>
+        <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
         <trackTrending>false</trackTrending>

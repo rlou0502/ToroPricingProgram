@@ -237,7 +237,7 @@ CustomerCurrency_ISOCurrency</description>
         <fullName>Ext_MSRP__c</fullName>
         <externalId>false</externalId>
         <label>Ext MSRP</label>
-        <precision>8</precision>
+        <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
         <trackFeedHistory>false</trackFeedHistory>
