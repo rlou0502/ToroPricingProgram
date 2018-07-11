@@ -18,6 +18,14 @@
 				</aura:if>
 			</p>
 		</li>
+		<aura:renderIf isTrue="{!not(empty(v.quote.DSM_Approved_Amount__c))}">
+			<li class="slds-page-header__detail-block">
+				<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_DSM_Approved_Amount_Tooltip}">{!$Label.c.SP_DSM_Approved_Amount}</p>
+				<p class="slds-text-body_regular" title="{!v.quote.DSM_Approved_Amount__c}">
+					<lightning:formattedNumber value="{!v.quote.DSM_Approved_Amount__c}" style="currency" />
+				</p>
+			</li>
+		</aura:renderIf>
 		<li class="slds-page-header__detail-block">
 			<p class="slds-text-title_caps slds-m-bottom_small" title="{!$Label.c.SP_Allowance_Used_Tooltip}">{!$Label.c.SP_Allowance_Used}</p>
 			<aura:if isTrue="{!greaterthan(v.quote.Toro_Support_Plus_Allowance_Used__c,v.quote.Toro_Support_Plus_Allowance__c)}">

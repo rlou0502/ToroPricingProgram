@@ -115,6 +115,7 @@ public with sharing class ToroSupportPlusHelper {
 				, SP_Total_Extended_DNET__c // (SHOWN) Total DNet AFTER deducting Toro Contribution for Support Plus Items
 				, Distributor_Responsibility__c // (SHOWN) Set on load of Support Plus page. Can be overriden by user.
 				, Pricing_Program_Name__c
+				, DSM_Approved_Amount__c
 			FROM
 				REVVY__MnQuote__c
 			WHERE

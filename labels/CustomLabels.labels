@@ -776,6 +776,22 @@
         <value>All Support Plus claims and packages less than $130,000 at DN, and those outside of the program parameters require a deviation and prior approval by the Toro Regional Business Manager.</value>
     </labels>
     <labels>
+        <fullName>SP_DSM_Approved_Amount</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP DSM Approved Amount</shortDescription>
+        <value>DSM Approved Amount</value>
+    </labels>
+    <labels>
+        <fullName>SP_DSM_Approved_Amount_Tooltip</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP DSM Approved Amount Tooltip</shortDescription>
+        <value>DSM Approved Amount</value>
+    </labels>
+    <labels>
         <fullName>SP_Distributor_Responsibility</fullName>
         <categories>Support_Plus</categories>
         <language>en_US</language>
