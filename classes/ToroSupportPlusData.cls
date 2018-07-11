@@ -30,18 +30,9 @@ public with sharing class ToroSupportPlusData {
 		this.addNewWrappers              = new List<ToroSupportPlusItem>();
 		this.distributorResponsibilities = new List<DistRespOption>();
 		this.success                     = true;
-		/*
-		Profile currentProfile = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()];
-		if (currentProfile.Name == 'Toro - MTI CPQ Sales Representatives'
-			|| currentProfile.Name == 'Toro CPQ Sales Representatives'
-			|| currentProfile.Name == 'Toro CPQ Sales Representatives - INTL'
-		) {
-			this.distRespIsEditable = false;
-		}
 
-		else {
-			this.distRespIsEditable = true;
-		}*/
+		this.showDNet      = true;
+		this.showToroAward = true;
 
 		// this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 		this.distRespIsEditable = Schema.SObjectType.Support_Plus_Contribution__c.fields.Split_Access__c.isAccessible();
@@ -82,96 +73,15 @@ public with sharing class ToroSupportPlusData {
 			// ============================================================================
 			// get the quote and dist resps.
 			// ============================================================================
-			REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
+			this.quote = ToroSupportPlusHelper.getQuote(quoteId);
 
 			// get support plus plans
-			final String pricingProgramExtId = quote.Pricing_Program_Name__c.split(';')[0];
+			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-
-			
-
-			
-			List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);
-
-			if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
-				this.showDNet      = true;
-				this.showToroAward = true;
-				for (Support_Plus_Plan__c plan : supportPlusPlans) {
-					if (quote.Toro_Award__c >= plan.Total_DNet_Low__c
-						&& quote.Toro_Award__c < plan.Total_DNet_High__c
-					) {
-						quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
-						break;
-					}
-				}
-			}
-
-			else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET) {
-				this.showDNet      = true;
-				this.showToroAward = true;
-				for (Support_Plus_Plan__c plan : supportPlusPlans) {
-					if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
-						&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
-					) {
-						quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
-						break;
-					}
-				}
-			}
-
-			else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
-				this.showDNet      = true;
-				this.showToroAward = true;
-				for (Support_Plus_Plan__c plan : supportPlusPlans) {
-					if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
-						&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
-						&& quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
-						&& quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
-					) {
-						quote.Toro_Support_Plus_Allowance__c = (quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
-						break;
-					}
-				}
-			}
-
-			System.debug('\n\n@@supportPlusPlans: ' + supportPlusPlans + '\n\n');
+			initializeSupportPlusAllowance(pricingProgramExtId);
 
 			// get support plus contributions
-			Decimal defaultDistRespValue = 50.0;
-			Set<Decimal> distRespValueSet = new Set<Decimal>();
-			List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(pricingProgramExtId);
-			for (Support_Plus_Contribution__c contrib : contribs) {
-				distRespValueSet.add(contrib.Distributor_Contribution__c);
-				if (
-					quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
-					&& quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
-				) {
-					defaultDistRespValue = contrib.Distributor_Contribution__c;
-				}
-			}
-			System.debug('\n\n@@quote.Toro_Blended_Percent_of_DN__c: ' + quote.Toro_Blended_Percent_of_DN__c + '\n\n');
-			System.debug('\n\n@@contribs: ' + contribs + '\n\n');
-			System.debug('\n\n@@quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c + '\n\n');
-			System.debug('\n\n@@defaultDistRespValue: ' + defaultDistRespValue + '\n\n');
-
-			if (quote.Distributor_Responsibility__c == null) {
-				quote.Distributor_Responsibility__c = defaultDistRespValue;
-			}
-			// update quote;
-			System.debug('\n\n@@quote: ' + quote + '\n\n');
-			
-
-			// build the responsibility wrappers
-			List<DistRespOption> options = new List<DistRespOption>();
-			for (Decimal value : distRespValueSet) {
-				DistRespOption option = new DistRespOption(value);
-				if (value == defaultDistRespValue) option.setAsDefault();
-				if (value == quote.Distributor_Responsibility__c) option.setAsSelected();
-				options.add(option);
-			}
-
-			this.quote = quote;
-			this.distributorResponsibilities = options;
+			initializeDistributorResponsibilities(pricingProgramExtId);
 
 			// get the quote items and support plus items
 			// build a map of the main quote item to its support plus line item
@@ -224,6 +134,87 @@ public with sharing class ToroSupportPlusData {
 		catch (Exception e) {
 			this.success = false;
 			throw e;
+		}
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public void initializeSupportPlusAllowance(String pricingProgramExtId) {
+		List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);
+		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if (this.quote.Toro_Award__c >= plan.Total_DNet_Low__c
+					&& this.quote.Toro_Award__c < plan.Total_DNet_High__c
+				) {
+					this.quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					break;
+				}
+			}
+		}
+
+		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET) {
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if (this.quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
+					&& this.quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
+				) {
+					this.quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					break;
+				}
+			}
+		}
+
+		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if (this.quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
+					&& this.quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
+					&& this.quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
+					&& this.quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
+				) {
+					this.quote.Toro_Support_Plus_Allowance__c = (this.quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
+					break;
+				}
+			}
+		}
+
+		System.debug('\n\n@@supportPlusPlans: ' + supportPlusPlans + '\n\n');
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public void initializeDistributorResponsibilities(String pricingProgramExtId) {
+		Decimal defaultDistRespValue = 50.0;
+		Set<Decimal> distRespValueSet = new Set<Decimal>();
+		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(pricingProgramExtId);
+		for (Support_Plus_Contribution__c contrib : contribs) {
+			distRespValueSet.add(contrib.Distributor_Contribution__c);
+			if (
+				this.quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
+				&& this.quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
+			) {
+				defaultDistRespValue = contrib.Distributor_Contribution__c;
+			}
+		}
+
+		if (this.quote.Distributor_Responsibility__c == null) {
+			this.quote.Distributor_Responsibility__c = defaultDistRespValue;
+		}
+		
+		this.distributorResponsibilities = new List<DistRespOption>();
+		for (Decimal value : distRespValueSet) {
+			DistRespOption option = new DistRespOption(value);
+			if (value == defaultDistRespValue) option.setAsDefault();
+			if (value == this.quote.Distributor_Responsibility__c) option.setAsSelected();
+			this.distributorResponsibilities.add(option);
 		}
 	}
 
