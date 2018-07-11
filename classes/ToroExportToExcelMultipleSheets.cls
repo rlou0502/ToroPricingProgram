@@ -4,8 +4,22 @@ public class ToroExportToExcelMultipleSheets {
     public String generatedDate {get;set;}
     public String effectiveStartDate { get; set; }
     public String effectiveEndDate { get; set; }
-    public Integer socMergeAcross {get; set;}
-    public Integer tabMergeAcross {get; set;}
+    public static final Integer socMergeAcross = 6;
+    public static final Integer tabMergeAcross = 3;
+    public Integer getSOCMergeAcross() {
+    	Integer val = socMergeAcross;
+    	if(!getCanAccessDNet() || displayMSRPOnly) {
+    		val--;	
+    	}
+    	return val;
+    }
+    public Integer getTABMergeAcross() {
+    	Integer val = tabMergeAcross;
+    	if(!getCanAccessDNet() || displayMSRPOnly) {
+    		val--;	
+    	}
+    	return val;
+    }
     public boolean getCanAccessDNet() {
     	return Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
     }
@@ -20,8 +34,6 @@ public class ToroExportToExcelMultipleSheets {
         }
     
     public ToroExportToExcelMultipleSheets(){
-    	socMergeAcross = 6;
-    	tabMergeAcross = 3;
     	displayMSRPOnly = false;
         generatedDate = System.now().format('MM/dd/yyyy HH:mm');
         models = ToroGenModelBOM.genBOM().BOMs;

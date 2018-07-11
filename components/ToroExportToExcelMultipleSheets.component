@@ -63,22 +63,22 @@
 			 	<Column ss:Width="75"/>
 			 	<Column ss:Width="75"/>
 				 <Row>
-				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
 				 </Row>
 				 <Row>
-				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">Commercial Products Stock Order Check List</Data></Cell>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Commercial Products Stock Order Check List</Data></Cell>
 				 </Row>
 				 <Row>
-				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">Effective Date:{!effectiveStartDate}</Data></Cell>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Effective Date:{!effectiveStartDate}</Data></Cell>
 				 </Row>
 				 <Row>
-				 	<Cell ss:MergeAcross="6" ss:StyleID="s3"><Data ss:Type="String">Generated Date:{!generatedDate}</Data></Cell>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Generated Date:{!generatedDate}</Data></Cell>
 				 </Row>
 				 <Row>
-				 	<Cell ss:MergeAcross="6" ><Data ss:Type="String"></Data></Cell> 
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
 				 </Row>
 				 <Row>
-				 	<Cell ss:MergeAcross="6" ><Data ss:Type="String"></Data></Cell> 
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
 				 </Row> 
 				 <Row>
 					 <Cell ss:StyleID="s1"><Data ss:Type="String" >Product Tab</Data></Cell>
@@ -118,22 +118,22 @@
 		  <Column ss:StyleID="s4" ss:Width="75"/>
 		 </apex:outputText>
 		 <Row>
-		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
+		 <Cell ss:MergeAcross="{!TABMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
 		 </Row>
 		 <Row>
-		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">Commercial Price List</Data></Cell>
+		 <Cell ss:MergeAcross="{!TABMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Commercial Price List</Data></Cell>
 		 </Row>
 		 <Row>
-		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">Effective Date:{!effectiveStartDate}</Data></Cell>
+		 <Cell ss:MergeAcross="{!TABMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Effective Date:{!effectiveStartDate}</Data></Cell>
 		 </Row>
 		 <Row>
-		 <Cell ss:MergeAcross="3" ss:StyleID="s3"><Data ss:Type="String">Generated Date:{!generatedDate}</Data></Cell>
+		 <Cell ss:MergeAcross="{!TABMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Generated Date:{!generatedDate}</Data></Cell>
 		 </Row>
 		 <Row>
-		 <Cell ss:MergeAcross="3" ><Data ss:Type="String"></Data></Cell> 
+		 <Cell ss:MergeAcross="{!TABMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
 		 </Row>
 		 <Row>
-		 <Cell ss:MergeAcross="3" ><Data ss:Type="String"></Data></Cell> 
+		 <Cell ss:MergeAcross="{!TABMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
 		 </Row>
 		     
 		 <Row>
@@ -146,7 +146,7 @@
 		 </Row>
 		 <apex:repeat value="{!model.optionGroups}" var="og">
 		 <Row>
-		 <Cell ss:MergeAcross="3" ss:StyleID="s2"><Data ss:Type="String">{!og.optionGroupName}</Data></Cell>		 
+		 <Cell ss:MergeAcross="{!TABMergeAcross}" ss:StyleID="s2"><Data ss:Type="String">{!og.optionGroupName}</Data></Cell>		 
 		 </Row>		 
 		 <apex:repeat value="{!og.options}" var="op">
 		 <Row>

@@ -115,6 +115,7 @@ public class ToroPricingProgramController {
 			
 			if(pp.displaySetupFee()) {
     			system.debug('displaySetupFee -- ' + pp.quote.Setup_Fee__c);
+    			pp.quote.Setup_Fee__c = setupFeePercent;
     			if(pp.quote.Setup_Fee__c == null) {
     				Revvy__MnStrategy1__c program = ToroCacheManager.getPricingProgram(ppd.externalId);	
     				pp.quote.Setup_Fee__c = program.Setup_Fee__c;
@@ -722,7 +723,6 @@ public class ToroPricingProgramController {
     	}			
     	rs.displayPerformancePart = pp.displayPerformancePart();
     	rs.displaySetupFee=pp.displaySetupFee();
-    	
     	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
     	
     	
