@@ -63,7 +63,7 @@
 	                var retResponse = response.getReturnValue();
 	                var retRecords = retResponse.values;
 	                var fields = retResponse.fieldSetMembers;
-
+					var quote = retRecords[0];
 	                component.set('v.fields', fields);
                     component.set('v.pricingProgramOptions', retResponse.pricingProgramOptions);
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
@@ -81,7 +81,9 @@
                     cmpEvent.setParams({
                         "selectedPricingProgram" : selectedProgram,
                         "selectedPricingMethod" : selectedMethod,
-                        "allowSupportPlus" : allowSupportPlus 
+                        "allowSupportPlus" : allowSupportPlus,
+                        "displaysetupFee" : retResponse.displaySetupFee,
+                        "setupFeePercent" : quote.Setup_Fee__c
                     });
                     cmpEvent.fire();
                     if(retResponse.nextAction == 'changeProgramProgram') {

@@ -10,6 +10,7 @@ global class ToroQuoteItemEmailController {
 		List<REVVY__MnQuote__c> qList = [Select Id, Total_Award__c, Pricing_Program__c
 		                                      , Toro_Blended_Percent_of_DN__c, Gross_Profit_Percent__c
 		                                      , Toro_Support_Plus_Allowance__c, SP_Total_Extended_DNET__c
+		                                      , Toro_Total_Quote_Gross_Profit_Percent__c
 		                                	From REVVY__MnQuote__c
 		                                  Where Id = :quoteId
 		                                ];    	

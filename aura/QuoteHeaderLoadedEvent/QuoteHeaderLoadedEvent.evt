@@ -2,5 +2,6 @@
     <aura:attribute name="pricingProgram" type="String"/>
     <aura:attribute name="pricingMethod" type="String"/>
     <aura:attribute name="setupFeePercent" type="decimal" />
+    <aura:attribute name="displaysetupFee" type="boolean" />
     <aura:attribute name="performancePart" type="boolean" />
 </aura:event>

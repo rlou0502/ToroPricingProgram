@@ -50,7 +50,9 @@
         var setupFee = quote.Setup_Fee__c;
         quoteHeaderCmp.set("v.quote", quote);
         quoteHeaderCmp.set("v.contractMessage", null); 
-        quoteHeaderCmp.set("v.displaySetupFee", displaySetupFee);
+        if(displaySetupFee != undefined){
+        	quoteHeaderCmp.set("v.displaySetupFee", displaySetupFee);
+        }
         if(quote.REVVY__NeedsApproval__c) {
         	$A.createComponent(
                 "c:ToroAlertBox",
