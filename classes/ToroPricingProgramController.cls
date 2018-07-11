@@ -3,7 +3,13 @@ public class ToroPricingProgramController {
 	public static final String constCachedQuoteId = 'quoteId';
 	public static final String constCachedSetupFee = 'setupFee';
     public Id quoteId {get; set;}
+    public boolean readOnly {get; set;} 
     public ToroPricingProgramController() {
+    	readOnly = false;
+    	try{
+    		readOnly = boolean.valueOf(ApexPages.currentPage().getParameters().get('readOnly'));	
+    	} catch(Exception e) {    		
+    	}
     	quoteId = ApexPages.currentPage().getParameters().get('id');
     	//if(!Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)){
     		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedQuoteId, quoteId);

@@ -2,6 +2,7 @@
 	<aura:attribute name="quoteId" type="String" />
     <aura:attribute name="fields" type="Object[]" />
     <aura:attribute name="quote" type="SObject" />
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
     <aura:attribute name="pricingProgramOptions" type="List"/>
     <aura:attribute name="selectedPricingProgram" type="String"/>
     <aura:attribute name="pricingMethodOptions" type="List"/>
@@ -53,7 +54,7 @@
 			<td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Programs">Pricing Programs</div>
                 <div class="has-required-field">
-                <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}" required="true">
+                <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}" required="true" disabled="{!v.readOnly}">
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingProgram}" />
                     <aura:iteration items="{!v.pricingProgramOptions}" var="item">
                         <ui:inputSelectOption text="{!item.value}" label="{!item.label}" value="{!item.value==v.selectedPricingProgram}"/>
@@ -67,7 +68,7 @@
             <td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Methods">Pricing Methods</div>
                 <div class="has-required-field">
-                <ui:inputSelect class="slds-select" aura:id="pricingMethod" value="{!v.selectedPricingMethod}" change="{!c.onPricingMethodSelectChange}" required="true">
+                <ui:inputSelect class="slds-select" aura:id="pricingMethod" value="{!v.selectedPricingMethod}" change="{!c.onPricingMethodSelectChange}" required="true" disabled="{!v.readOnly}">
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingMethod}" />
                     <aura:iteration items="{!v.pricingMethodOptions}" var="item2">
                         <ui:inputSelectOption text="{!item2.value}" label="{!item2.label}" value="{!item2.value==v.selectedPricingMethod}"/>
@@ -82,7 +83,7 @@
             	<td scope="col" class="setup-fee">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Setup Fee">Setup Fee %</div>
                     <div>
-                        <ui:inputNumber aura:id="setupFeePercent" value="{!v.quote.Setup_Fee__c}"/>
+                        <ui:inputNumber aura:id="setupFeePercent" value="{!v.quote.Setup_Fee__c}" disabled="{!v.readOnly}"/>
                     </div>
             	</td>
             </aura:if>
@@ -90,7 +91,7 @@
             	<td scope="col" class="performance-part">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Performance Parts">Performance Parts</div>
                     <div>
-                        <ui:inputCheckbox value="{!v.quote.Performance_Part__c}" aura:id="performancePart"/>
+                        <ui:inputCheckbox value="{!v.quote.Performance_Part__c}" aura:id="performancePart" disabled="{!v.readOnly}"/>
                     </div>
             	</td>
             </aura:if>
