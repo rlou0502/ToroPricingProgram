@@ -594,7 +594,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Quote_Item__r.Select_a_Price_Method__c</field>
+            <field>Toro_Quote_Item_2__r.Select_a_Price_Method__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1208,18 +1208,6 @@
         <referenceTo>REVVY__MnStrategy4__c</referenceTo>
         <relationshipLabel>Strategy 5</relationshipLabel>
         <relationshipName>Toro_Quote_Item_Sub_Lines</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
-        <fullName>Toro_Quote_Item__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <externalId>false</externalId>
-        <label>Quote Item</label>
-        <referenceTo>Toro_QuoteItem__c</referenceTo>
-        <relationshipLabel>Toro Quote Item Sub Lines</relationshipLabel>
-        <relationshipName>Toro_Quote_Item_Sub_Lines_2</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
