@@ -68,67 +68,32 @@ public with sharing class ToroSupportPlusData {
 	 */
 	public ToroSupportPlusData(Id quoteId) {
 		this();
-
 		try {
 			// ============================================================================
 			// get the quote and dist resps.
 			// ============================================================================
 			this.quote = ToroSupportPlusHelper.getQuote(quoteId);
-
-			// get support plus plans
 			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
 			initializeSupportPlusAllowance(pricingProgramExtId);
-
-			// get support plus contributions
 			initializeDistributorResponsibilities(pricingProgramExtId);
+			intializeWrappers(quoteId);
+		}
 
-			// get the quote items and support plus items
-			// build a map of the main quote item to its support plus line item
-			// (note that support plus items added by "add new" are not handled here)
-			final List<REVVY__MnQuoteItem__c> allQuoteItems = ToroSupportPlusHelper.getQuoteItems(quoteId);
-			System.debug('\n\n@@allQuoteItems: ' + allQuoteItems + '\n\n');
+		catch (Exception e) {
+			this.success = false;
+			throw e;
+		}
+	}
 
-			final List<REVVY__MnQuoteItem__c> addNewQuoteItems = new List<REVVY__MnQuoteItem__c>();
-
-			final Map<Id,REVVY__MnQuoteItem__c> qItemIdToSpItemObjMAP = new Map<Id,REVVY__MnQuoteItem__c>();
-			for (REVVY__MnQuoteItem__c qiObj : allQuoteItems) {
-				if (qiObj.Support_Plus_Original_Item__c != null) {
-					// this is a support plus item since it points to a main item
-					qItemIdToSpItemObjMAP.put(qiObj.Support_Plus_Original_Item__c, qiObj);
-				}
-			}
-
-			// create wrappers for the main quote items. here, we need to differentiate between main quote items
-			// and support plus items added by "add new".
-			final List<ToroSupportPlusItem> qiWrappers = new List<ToroSupportPlusItem>();
-			final List<ToroSupportPlusItem> addNewWrappers = new List<ToroSupportPlusItem>();
-			for (REVVY__MnQuoteItem__c quoteItem : allQuoteItems) {
-
-				// support plus items added in "add new"
-				if (quoteItem.Support_Plus_From_Add_New__c) {
-					addNewWrappers.add(new ToroSupportPlusItem(quoteItem));
-				}
-
-				else if (quoteItem.Support_Plus_Original_Item__c != null) {
-					// skip
-				}
-				// quote items with support plus
-				else if (qItemIdToSpItemObjMAP.containsKey(quoteItem.Id)) {
-					REVVY__MnQuoteItem__c supportPlusItem = qItemIdToSpItemObjMAP.get(quoteItem.Id);
-					qiWrappers.add(new ToroSupportPlusItem(quoteItem, supportPlusItem));
-					System.debug('\n\n@@quoteItem: ' + quoteItem + '\n\n');
-					System.debug('\n\n@@supportPlusItem: ' + supportPlusItem + '\n\n');
-				}
-
-				// quote items without support plus
-				else {
-					qiWrappers.add(new ToroSupportPlusItem(quoteItem));
-				}
-			}
-
-			this.addNewWrappers = addNewWrappers;
-			this.qiWrappers = qiWrappers;
+	public ToroSupportPlusData(Id quoteId, String pricingProgramExtId) {
+		this();
+		try {
+			this.quote = ToroSupportPlusHelper.getQuote(quoteId);
+			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
+			initializeSupportPlusAllowance(pricingProgramExtId);
+			initializeDistributorResponsibilities(pricingProgramExtId);
+			intializeWrappers(quoteId);
 		}
 
 		catch (Exception e) {
@@ -217,6 +182,130 @@ public with sharing class ToroSupportPlusData {
 			this.distributorResponsibilities.add(option);
 		}
 	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public void intializeWrappers(Id quoteId) {
+		// get the quote items and support plus items
+		// build a map of the main quote item to its support plus line item
+		// (note that support plus items added by "add new" are not handled here)
+		final List<REVVY__MnQuoteItem__c> allQuoteItems = ToroSupportPlusHelper.getQuoteItems(quoteId);
+		System.debug('\n\n@@allQuoteItems: ' + allQuoteItems + '\n\n');
+
+		final List<REVVY__MnQuoteItem__c> addNewQuoteItems = new List<REVVY__MnQuoteItem__c>();
+
+		final Map<Id,REVVY__MnQuoteItem__c> qItemIdToSpItemObjMAP = new Map<Id,REVVY__MnQuoteItem__c>();
+		for (REVVY__MnQuoteItem__c qiObj : allQuoteItems) {
+			if (qiObj.Support_Plus_Original_Item__c != null) {
+				// this is a support plus item since it points to a main item
+				qItemIdToSpItemObjMAP.put(qiObj.Support_Plus_Original_Item__c, qiObj);
+			}
+		}
+
+		// create wrappers for the main quote items. here, we need to differentiate between main quote items
+		// and support plus items added by "add new".
+		this.qiWrappers = new List<ToroSupportPlusItem>();
+		this.addNewWrappers = new List<ToroSupportPlusItem>();
+		for (REVVY__MnQuoteItem__c quoteItem : allQuoteItems) {
+
+			// support plus items added in "add new"
+			if (quoteItem.Support_Plus_From_Add_New__c) {
+				this.addNewWrappers.add(new ToroSupportPlusItem(quoteItem));
+			}
+
+			else if (quoteItem.Support_Plus_Original_Item__c != null) {
+				// skip
+			}
+			// quote items with support plus
+			else if (qItemIdToSpItemObjMAP.containsKey(quoteItem.Id)) {
+				REVVY__MnQuoteItem__c supportPlusItem = qItemIdToSpItemObjMAP.get(quoteItem.Id);
+				this.qiWrappers.add(new ToroSupportPlusItem(quoteItem, supportPlusItem));
+				System.debug('\n\n@@quoteItem: ' + quoteItem + '\n\n');
+				System.debug('\n\n@@supportPlusItem: ' + supportPlusItem + '\n\n');
+			}
+
+			// quote items without support plus
+			else {
+				this.qiWrappers.add(new ToroSupportPlusItem(quoteItem));
+			}
+		}
+	}
+
+	public void initializeSupportPlusQuoteTotals() {
+		Decimal dnetTotal = this.quote.Toro_Total_DNet__c;
+		Decimal awardTotal = this.quote.Toro_Award__c;
+
+		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
+			Decimal spQty = quoteItem.spQuantity;
+			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
+			Decimal awardPrice = quoteItem.awardPrice != null ? quoteItem.awardPrice : 0;
+
+			dnetTotal += dnetPrice * spQty;
+			awardTotal += awardPrice * spQty;
+			if (!quoteItem.sublines.isEmpty()) {
+				for (ToroSupportPlusItem subline : quoteItem.sublines) {
+					Decimal sublineSpQty = subline.spQuantity;
+					Decimal sublineDnetPrice = subline.dnetPrice != null ? subline.dnetPrice : 0;
+					Decimal sublineAwardPrice = subline.awardPrice != null ? subline.awardPrice : 0;
+
+					dnetTotal += sublineDnetPrice * sublineSpQty;
+					awardTotal += sublineAwardPrice * sublineSpQty;
+				}
+			}
+		}
+
+		Decimal distributorResponsibilityPercent = this.quote.Distributor_Responsibility__c * 0.01;
+		Decimal toroResponsibility = (100 - this.quote.Distributor_Responsibility__c) * 0.01;
+
+		Decimal spSplitDNetTotal = 0;
+		Decimal spSplitAwardTotal = 0;
+		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
+			Decimal spQty = quoteItem.spQuantity;
+			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
+			Decimal awardPrice = quoteItem.awardPrice != null ? quoteItem.awardPrice : 0;
+			spSplitDNetTotal += dnetPrice * spQty;
+			spSplitAwardTotal += awardPrice * spQty;
+			if (!quoteItem.sublines.isEmpty()) {
+				for (ToroSupportPlusItem subline : quoteItem.sublines) {
+					Decimal sublineSpQty = subline.spQuantity;
+					Decimal sublineDnetPrice = subline.dnetPrice != null ? subline.dnetPrice : 0;
+					Decimal sublineAwardPrice = subline.awardPrice != null ? subline.awardPrice : 0;
+					spSplitDNetTotal += sublineDnetPrice * sublineSpQty;
+					spSplitAwardTotal += sublineAwardPrice * sublineSpQty;
+				}
+			}
+		}
+
+		Decimal spAddNewDNetTotal = 0;
+		Decimal spAddNewAwardTotal = 0;
+		for (ToroSupportPlusItem addNewItem : this.addNewWrappers) {
+			Decimal spQty = addNewItem.spQuantity;
+			Decimal dnetPrice = addNewItem.dnetPrice != null ? addNewItem.dnetPrice : 0;
+			Decimal awardPrice = addNewItem.awardPrice != null ? addNewItem.awardPrice : 0;
+			spAddNewDNetTotal += dnetPrice * spQty;
+			spAddNewAwardTotal += awardPrice * spQty;
+		}
+
+		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == 'Award Only') {
+			this.quote.Toro_Support_Plus_Allowance_Used__c = spSplitAwardTotal + spAddNewAwardTotal;
+		}
+
+		else {
+			this.quote.Toro_Support_Plus_Allowance_Used__c = spSplitDNetTotal + spAddNewDNetTotal;
+		}
+
+		this.quote.SP_Total_Extended_DNET__c     = dnetTotal - spSplitDNetTotal;
+		this.quote.SP_Adjusted_Toro_Award__c     = awardTotal - spSplitAwardTotal;
+		this.quote.SP_Adjusted_Ext_Award__c      = spSplitAwardTotal;
+		this.quote.SP_Toro_Responsibility__c     = toroResponsibility * (spSplitDNetTotal + spAddNewDNetTotal);
+		this.quote.SP_Ext_Dist_Responsibility__c = (dnetTotal - spSplitDNetTotal) / dnetTotal;
+	}
+
 
 	// ============================================================================
 	// DISTRIBUTOR RESPONSIBILITY OPTIONS FOR DROPDOWN

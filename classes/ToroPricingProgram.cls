@@ -189,9 +189,16 @@ public virtual class ToroPricingProgram {
 		System.debug('\n\n@@pp_header:' + pp_header + '\n\n'); 
 		if (pp_header.AllowSupportPlus__c) { 
 			// ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header);
-			ToroSupportPlusData spData = new ToroSupportPlusData(quoteId);
-			this.quote.Distributor_Responsibility__c = spData.quote.Distributor_Responsibility__c;
-			this.quote.Toro_Support_Plus_Allowance__c = spData.quote.Toro_Support_Plus_Allowance__c;
+			ToroSupportPlusData spData = new ToroSupportPlusData(quoteId, pp_header.ExternalId__c);
+			spData.initializeSupportPlusQuoteTotals();
+			this.quote.Distributor_Responsibility__c       = spData.quote.Distributor_Responsibility__c;
+			this.quote.Toro_Support_Plus_Allowance__c      = spData.quote.Toro_Support_Plus_Allowance__c;
+			this.quote.Toro_Support_Plus_Allowance_Used__c = spData.quote.Toro_Support_Plus_Allowance_Used__c;
+			this.quote.SP_Total_Extended_DNET__c           = spData.quote.SP_Total_Extended_DNET__c;
+			this.quote.SP_Adjusted_Toro_Award__c           = spData.quote.SP_Adjusted_Toro_Award__c;
+			this.quote.SP_Adjusted_Ext_Award__c            = spData.quote.SP_Adjusted_Ext_Award__c;
+			this.quote.SP_Toro_Responsibility__c           = spData.quote.SP_Toro_Responsibility__c;
+			this.quote.SP_Ext_Dist_Responsibility__c       = spData.quote.SP_Ext_Dist_Responsibility__c;
 		}
 
 		else {
