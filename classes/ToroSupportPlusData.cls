@@ -48,7 +48,8 @@ public with sharing class ToroSupportPlusData {
 	public ToroSupportPlusData(Id quoteId) {
 		this();
 		try {
-			this.quote = ToroSupportPlusHelper.getQuote(quoteId);
+			// this.quote = ToroSupportPlusHelper.getQuote(quoteId);
+			this.quote = ToroCacheManager.getQuote(quoteId);
 			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
 			initializeSupportPlusAllowance(pricingProgramExtId);
