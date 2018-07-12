@@ -482,6 +482,14 @@
         <value>Configuration Line</value>
     </labels>
     <labels>
+        <fullName>PP_Dirty_Config_Warning_Message</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP Dirty Config Warning Message</shortDescription>
+        <value>Your configuration has changed. Please click Calculate and Save to update your pricing.</value>
+    </labels>
+    <labels>
         <fullName>PP_Dirty_Warning_Message</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

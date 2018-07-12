@@ -157,7 +157,7 @@
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
-        var readOnly = component.get('v.readOnly');
+        var readOnlyFlag = component.get('v.readOnly');
         var pricingMethod = component.get('v.selectedPricingMethod');
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
@@ -197,8 +197,9 @@
                 if(pricingMethod == "Total Award $") {
                 	sObj["PricingMethodValue__c"]="";
                 }
-            }        
-            if((totalAwardUpdatable && !readOnly && vToroProd && !nonToroPricingMethodValue && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
+            }   
+            console.log('readOnly falg=' + readOnlyFlag);
+            if((totalAwardUpdatable &&  vToroProd && !nonToroPricingMethodValue && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
             || (onlyInCPL && field.fieldPath=="Award_Price__c")
             ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
@@ -207,6 +208,8 @@
                 	tableDataNode.required=true;  
                     cellText.className += " has-required-field ";
                 }
+                
+                //tableDataNode.disabled=readOnlyFlag;    
                 tableDataNode.className += " align-right ";
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 var decimalPoint = 4;

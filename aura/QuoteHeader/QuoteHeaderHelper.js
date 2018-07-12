@@ -95,6 +95,12 @@
                         });
                         cmpEvent.fire();    
                     }
+
+                    if (quote.Is_Dirty__c) {
+                        var msg = $A.get("$Label.c.PP_Dirty_Config_Warning_Message");
+                        alert(msg);
+                        // component.set("v.contractMessage", msg);
+                    }
                     
                     /*
                     var cmpEvent = component.getEvent("pricingProgramEvent");
