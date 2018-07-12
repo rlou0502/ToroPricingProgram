@@ -236,24 +236,33 @@ global class ToroSupportPlusController {
 				SELECT
 					Distributor_Responsibility__c
 					, Toro_Support_Plus_Allowance__c
+					, Toro_Support_Plus_Allowance_Used__c
+
+					, Support_Plus__c
 					, SP_Total_Extended_DNET__c
 					, SP_Adjusted_Toro_Award__c
 					, SP_Adjusted_Ext_Award__c
 					, SP_Toro_Responsibility__c
+					, Toro_Contribution__c
 					, SP_Ext_Dist_Responsibility__c
-					
 				FROM
 					REVVY__MnQuote__c
 				WHERE
 					Id = :quote.Id
 			];
-			quoteObjToUpdate.Distributor_Responsibility__c  = quote.Distributor_Responsibility__c;
-			quoteObjToUpdate.Toro_Support_Plus_Allowance__c = quote.Toro_Support_Plus_Allowance__c;
-			quoteObjToUpdate.SP_Adjusted_Ext_Award__c       = quote.SP_Adjusted_Ext_Award__c;
-			quoteObjToUpdate.SP_Adjusted_Toro_Award__c      = quote.SP_Adjusted_Toro_Award__c;
-			quoteObjToUpdate.SP_Toro_Responsibility__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
-			quoteObjToUpdate.SP_Ext_Dist_Responsibility__c  = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
-			quoteObjToUpdate.SP_Total_Extended_DNET__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
+
+			quoteObjToUpdate.Distributor_Responsibility__c       = quote.Distributor_Responsibility__c;
+			quoteObjToUpdate.Toro_Support_Plus_Allowance__c      = quote.Toro_Support_Plus_Allowance__c;
+			quoteObjToUpdate.Toro_Support_Plus_Allowance_Used__c = quote.Toro_Support_Plus_Allowance_Used__c;
+
+			quoteObjToUpdate.Support_Plus__c               = quote.Toro_Support_Plus_Allowance_Used__c > 0;
+			quoteObjToUpdate.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
+			quoteObjToUpdate.SP_Adjusted_Toro_Award__c     = quote.SP_Adjusted_Toro_Award__c;
+			quoteObjToUpdate.SP_Adjusted_Ext_Award__c      = quote.SP_Adjusted_Ext_Award__c;
+			quoteObjToUpdate.SP_Toro_Responsibility__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
+			quoteObjToUpdate.Toro_Contribution__c          = CMnQuoteUtil.defaultDecimal(quote.SP_Toro_Responsibility__c);
+			quoteObjToUpdate.SP_Ext_Dist_Responsibility__c = CMnQuoteUtil.defaultDecimal(quote.SP_Ext_Dist_Responsibility__c);
+			
 			update quoteObjToUpdate;
 			ToroCacheManager.refreshQuote(quote.Id);
 			System.debug('\n\n@@quoteObjToUpdate: ' + quoteObjToUpdate + '\n\n');

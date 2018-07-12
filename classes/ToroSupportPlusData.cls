@@ -229,7 +229,6 @@ public with sharing class ToroSupportPlusData {
 		System.debug('\n\n@@1 dnetTotal: ' + dnetTotal + '\n\n');
 		System.debug('\n\n@@1 awardTotal: ' + awardTotal + '\n\n');
 
-		Decimal totalSpQty = 0;
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
 			Decimal spQty = quoteItem.spQuantity != null ? quoteItem.spQuantity : 0;
 			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
@@ -245,11 +244,8 @@ public with sharing class ToroSupportPlusData {
 
 					dnetTotal += sublineDnetPrice * sublineSpQty;
 					awardTotal += sublineAwardPrice * sublineSpQty;
-					totalSpQty += sublineSpQty;
 				}
 			}
-
-			totalSpQty += spQty;
 		}
 
 		Decimal distributorResponsibilityPercent = this.quote.Distributor_Responsibility__c * 0.01;
@@ -282,7 +278,6 @@ public with sharing class ToroSupportPlusData {
 			Decimal awardPrice = addNewItem.awardPrice != null ? addNewItem.awardPrice : 0;
 			spAddNewDNetTotal += dnetPrice * spQty;
 			spAddNewAwardTotal += awardPrice * spQty;
-			totalSpQty += spQty;
 		}
 
 		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == 'Award Only') {
@@ -293,7 +288,7 @@ public with sharing class ToroSupportPlusData {
 			this.quote.Toro_Support_Plus_Allowance_Used__c = spSplitDNetTotal + spAddNewDNetTotal;
 		}
 
-		this.quote.Support_Plus__c               = totalSpQty > 0 ? true : false;
+		this.quote.Support_Plus__c               = this.quote.Toro_Support_Plus_Allowance_Used__c > 0;
 		this.quote.SP_Total_Extended_DNET__c     = dnetTotal - spSplitDNetTotal;
 		this.quote.SP_Adjusted_Toro_Award__c     = awardTotal - spSplitAwardTotal;
 		this.quote.SP_Adjusted_Ext_Award__c      = spSplitAwardTotal;

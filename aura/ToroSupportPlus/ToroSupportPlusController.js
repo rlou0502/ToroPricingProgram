@@ -125,12 +125,14 @@
                 }
 
                 if (quoteItems[i].sublines != null) {
-                    var displayStyle = 'display';
-                    if (quoteItems[i].sublines[0].displayStyle == 'display') {
-                        displayStyle = 'display:none;';
-                    }
-                    for (var j = 0; j < quoteItems[i].sublines.length; j++) {
-                        quoteItems[i].sublines[j].displayStyle = displayStyle;
+                    if (quoteItems[i].sublines.length > 0) {
+                        var displayStyle = 'display';
+                        if (quoteItems[i].sublines[0].displayStyle == 'display') {
+                            displayStyle = 'display:none;';
+                        }
+                        for (var j = 0; j < quoteItems[i].sublines.length; j++) {
+                            quoteItems[i].sublines[j].displayStyle = displayStyle;
+                        }
                     }
                 }
             }

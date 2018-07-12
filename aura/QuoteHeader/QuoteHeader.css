@@ -15,9 +15,11 @@
 
 .THIS tr.slds-text-heading--label th {
     background-color : #DCDCDC;
+    font-weight:bold;
 }
 .THIS tr.slds-text-heading--label th div {
     background-color : #DCDCDC;
+    font-weight:bold;
 }
 
 .THIS .validation-error {
@@ -36,6 +38,7 @@
     top: 40px;
     margin-top: 10px;
     width: 98%;
+    font-weight:bold;
 }
 .THIS#pricing_program_selector {
     margin-top: 60px;
