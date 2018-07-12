@@ -3,6 +3,12 @@
     vertical-align:middle;
 }
 
+.THIS .remove-support-plus-help-text {
+ 	margin-left: 5px;   
+    color: red;
+    font-style: italic;
+}
+
 .THIS .choose-pricing-program {
 	width : 50%;    
 }

@@ -4,6 +4,10 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	public static final String PP_PRODUCT_TYPE_TRADE_IN         = 'Trade Ins';
 	public static final String PP_PRODUCT_TYPE_SERVICE_CONTRACT = 'Service Contracts';
 
+	public static final Set<String> PP_PRODUCT_TYPES_TO_EXCLUDE_SET = new Set<String> {
+		'Approved Allied', 'Non-Toro Allied', 'Trade Ins', 'Service Contracts'
+	};
+	
 	@AuraEnabled public List<ToroSupportPlusItem> sublines 			{ get; private set; }
 	// @AuraEnabled public REVVY__MnQuoteItem__c qiObj  				{ get; private set; }
 	// @AuraEnabled public REVVY__MnStrategy4__c qiExtObj 				{ get; private set; }
@@ -51,7 +55,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		// this.qiExtObj        = qi.Quote_Item_Extension__r;
 		this.qiSpObj         = null;
 		this.qiSpExtObj      = null;
-		this.isNonToroProduct = qi.REVVY__Catalog_Node__r.Non_Toro_Product__c;
+		this.isNonToroProduct = qi.REVVY__Catalog_Node__r.Non_Toro_Product__c != null ? qi.REVVY__Catalog_Node__r.Non_Toro_Product__c : false;
 
 		// this.sublineObj      = null;
 		// this.sublineExtObj   = null;
@@ -81,7 +85,15 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		}
 
 		this.eligibleForSupportPlus = true;
-		if (this.isNonToroProduct || this.productId.startsWith('L1')) {
+		/* exclude
+		Approved Allied
+		Non-Toro Allied
+		Trade Ins
+		Service Contracts
+		*/
+		// if (this.isNonToroProduct || this.productId.startsWith('L1')) {
+		if (this.isNonToroProduct == null) this.isNonToroProduct = false;
+		if (this.isNonToroProduct || PP_PRODUCT_TYPES_TO_EXCLUDE_SET.contains(pricingProgramProductType)) {
 			this.eligibleForSupportPlus = false;
 		}
 
@@ -107,7 +119,6 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	 */
 	public ToroSupportPlusItem(REVVY__MnQuoteItem__c qi, REVVY__MnQuoteItem__c spi) {
 		super(qi);
-		system.debug('this.isNonToroProduct=' + this.isNonToroProduct);
 		this.sublines = buildSPSublineWrappers(qi);
 
 		// this.qiObj           = qi;
@@ -145,7 +156,6 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	 */
 	public ToroSupportPlusItem(REVVY__MnQuoteItem__c qi, REVVY__MnQuoteItemSubLine__c subline) {
 		super(qi, subline);
-		system.debug('this.isNonToroProduct=' + this.isNonToroProduct);
 		this.sublines        = null;
 		// this.qiObj           = qi;
 		// this.qiExtObj        = qi.Quote_Item_Extension__r;
@@ -168,10 +178,11 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		this.spQuantity    = 0;
 
 		this.eligibleForSupportPlus = true;
-		if(this.isNonToroProduct != null) {
-			if (this.isNonToroProduct || this.productId.startsWith('L1')) {
-				this.eligibleForSupportPlus = false;
-			}
+		System.debug('\n\n@@this.isNonToroProduct: ' + this.isNonToroProduct + '\n\n');
+		System.debug('\n\n@@this.pricingProgramProductType: ' + this.pricingProgramProductType + '\n\n');
+		if (this.isNonToroProduct == null) this.isNonToroProduct = false; 
+		if (this.isNonToroProduct || PP_PRODUCT_TYPES_TO_EXCLUDE_SET.contains(this.pricingProgramProductType)) {
+			this.eligibleForSupportPlus = false; 
 		}
 
 		this.isFromAddNew = false;

@@ -50,6 +50,7 @@ global class ToroSupportPlusController {
 						, REVVY__Product__r.Name
 						, REVVY__Product__r.REVVY__Description__c
 						, REVVY__Product__r.Non_Toro_Product__c
+						, REVVY__Product__r.Pricing_Program_Product_Type__c
 						, REVVY__SuggestedPrice__c // DNet
 						, REVVY__ListedPrice__c // MSRP
 					FROM
@@ -79,6 +80,7 @@ global class ToroSupportPlusController {
 						, REVVY__Product__r.Name
 						, REVVY__Product__r.REVVY__Description__c
 						, REVVY__Product__r.Non_Toro_Product__c
+						, REVVY__Product__r.Pricing_Program_Product_Type__c
 						, REVVY__SuggestedPrice__c // DNet
 						, REVVY__ListedPrice__c // MSRP
 					FROM
@@ -107,6 +109,7 @@ global class ToroSupportPlusController {
 					, REVVY__Product__r.REVVY__Id__c
 					, REVVY__Product__r.Name
 					, REVVY__Product__r.REVVY__Description__c
+					, REVVY__Product__r.Pricing_Program_Product_Type__c
 					, REVVY__SuggestedPrice__c
 				FROM
 					REVVY__MnPriceListLine__c
@@ -180,6 +183,7 @@ global class ToroSupportPlusController {
 				, REVVY__Product__r.REVVY__Id__c
 				, REVVY__Product__r.Name
 				, REVVY__Product__r.Non_Toro_Product__c
+				, REVVY__Product__r.Pricing_Program_Product_Type__c
 			FROM
 				REVVY__MnPriceListLine__c
 			WHERE

@@ -840,6 +840,14 @@
         <value>from quote</value>
     </labels>
     <labels>
+        <fullName>SP_Remove_SP_Items</fullName>
+        <categories>Support_Plus</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SP Remove SP Items</shortDescription>
+        <value>This quote contains SP+ items. If you wish you to change the primary pricing program, please go to the SP+ page and remove your SP+ items.</value>
+    </labels>
+    <labels>
         <fullName>SP_Return</fullName>
         <categories>Support_Plus</categories>
         <language>en_US</language>
