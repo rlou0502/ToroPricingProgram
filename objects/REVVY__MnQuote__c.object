@@ -153,7 +153,7 @@
 
 CustomerCurrency_ISOCurrency</description>
         <externalId>false</externalId>
-        <label>Currency</label>
+        <label>CURRENCY</label>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
@@ -236,7 +236,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Ext_MSRP__c</fullName>
         <externalId>false</externalId>
-        <label>Ext MSRP</label>
+        <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
