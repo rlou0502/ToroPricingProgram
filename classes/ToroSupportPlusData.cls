@@ -294,7 +294,23 @@ public with sharing class ToroSupportPlusData {
 		this.quote.SP_Ext_Dist_Responsibility__c = (dnetTotal - spSplitDNetTotal) / dnetTotal;
 	}
 
-
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public void updateQuoteValues(REVVY__MnQuote__c targetQuote) {
+			targetQuote.Distributor_Responsibility__c       = this.quote.Distributor_Responsibility__c;
+			targetQuote.Toro_Support_Plus_Allowance__c      = this.quote.Toro_Support_Plus_Allowance__c;
+			targetQuote.Toro_Support_Plus_Allowance_Used__c = this.quote.Toro_Support_Plus_Allowance_Used__c;
+			targetQuote.SP_Total_Extended_DNET__c           = this.quote.SP_Total_Extended_DNET__c;
+			targetQuote.SP_Adjusted_Toro_Award__c           = this.quote.SP_Adjusted_Toro_Award__c;
+			targetQuote.SP_Adjusted_Ext_Award__c            = this.quote.SP_Adjusted_Ext_Award__c;
+			targetQuote.SP_Toro_Responsibility__c           = this.quote.SP_Toro_Responsibility__c;
+			targetQuote.SP_Ext_Dist_Responsibility__c       = this.quote.SP_Ext_Dist_Responsibility__c;
+	}
 	// ============================================================================
 	// DISTRIBUTOR RESPONSIBILITY OPTIONS FOR DROPDOWN
 	// ============================================================================

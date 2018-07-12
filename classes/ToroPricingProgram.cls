@@ -191,6 +191,7 @@ public virtual class ToroPricingProgram {
 			// ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header);
 			ToroSupportPlusData spData = new ToroSupportPlusData(quoteId, pp_header.ExternalId__c);
 			spData.initializeSupportPlusQuoteTotals(this.quote.Toro_Total_DNet__c, this.quote.Toro_Award__c); 
+			/*
 			this.quote.Distributor_Responsibility__c       = spData.quote.Distributor_Responsibility__c;
 			this.quote.Toro_Support_Plus_Allowance__c      = spData.quote.Toro_Support_Plus_Allowance__c;
 			this.quote.Toro_Support_Plus_Allowance_Used__c = spData.quote.Toro_Support_Plus_Allowance_Used__c;
@@ -199,6 +200,8 @@ public virtual class ToroPricingProgram {
 			this.quote.SP_Adjusted_Ext_Award__c            = spData.quote.SP_Adjusted_Ext_Award__c;
 			this.quote.SP_Toro_Responsibility__c           = spData.quote.SP_Toro_Responsibility__c;
 			this.quote.SP_Ext_Dist_Responsibility__c       = spData.quote.SP_Ext_Dist_Responsibility__c;
+			*/
+			spData.updateQuoteValues(this.quote);
 		}
 
 		else {
