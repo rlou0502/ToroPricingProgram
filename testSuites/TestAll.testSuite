@@ -43,6 +43,7 @@
     <testClassName>OrderedCaseCommentsTest</testClassName>
     <testClassName>PartServiceTest</testClassName>
     <testClassName>populateTestData_DCS</testClassName>
+    <testClassName>PP_UpdateExtensionTest</testClassName>
     <testClassName>ProcessBuilderScheduleJobTest</testClassName>
     <testClassName>QuoteItemTest</testClassName>
     <testClassName>searchARA6ControllerTest</testClassName>
@@ -61,12 +62,23 @@
     <testClassName>TestMethodCls3</testClassName>
     <testClassName>TestUtility</testClassName>
     <testClassName>Test_VFFileUpload1</testClassName>
+    <testClassName>ToroBaseAwardAccessoryHelperTest</testClassName>
+    <testClassName>ToroBaseWithValueDollarHelperTest</testClassName>
+    <testClassName>ToroCacheManagerTest</testClassName>
     <testClassName>ToroCascadingDeleteTest</testClassName>
+    <testClassName>ToroChartABPricingProgramHelperTest</testClassName>
     <testClassName>ToroContractChartPPHelperTest</testClassName>
     <testClassName>ToroContractPriceListPPHelperTest</testClassName>
     <testClassName>ToroContractQuantityPPHelperTest</testClassName>
+    <testClassName>ToroExportToExcelMultipleSheetsTest</testClassName>
+    <testClassName>ToroKemperSportsPricingProgramHelperTest</testClassName>
     <testClassName>ToroLargePackagePricingProgramHelperTest</testClassName>
+    <testClassName>ToroNationAccountNAFPPHelperTest</testClassName>
+    <testClassName>ToroNationalAccountArmyHelperTest</testClassName>
+    <testClassName>ToroNationalAccountGSAPPHelperTest</testClassName>
     <testClassName>ToroNationalAccountPricingProgramHTest</testClassName>
+    <testClassName>ToroNTControllerTest</testClassName>
+    <testClassName>ToroNTDataTest</testClassName>
     <testClassName>ToroPerformancePartPricingProgramHTest</testClassName>
     <testClassName>ToroPriceProgramFactoryTest</testClassName>
     <testClassName>ToroPricingMethodDataTest</testClassName>
@@ -75,9 +87,19 @@
     <testClassName>ToroPricingProgramDataTest</testClassName>
     <testClassName>ToroPricingProgramEligibilityTest</testClassName>
     <testClassName>ToroPricingProgramInfoBoxControllerTest</testClassName>
+    <testClassName>ToroPricingProgramLineProdSelTest</testClassName>
+    <testClassName>ToroPricingProgramProdSelTest</testClassName>
     <testClassName>ToroPricingProgramTest</testClassName>
+    <testClassName>ToroPricingProgramUtilTest</testClassName>
     <testClassName>ToroProductEligibilityPluginTest</testClassName>
+    <testClassName>ToroQIBaseTest</testClassName>
+    <testClassName>ToroSouthernDemoPricingProgramHelperTest</testClassName>
     <testClassName>ToroStateContractPricingProgramHTest</testClassName>
+    <testClassName>ToroStateContractQtyModelHelperTest</testClassName>
+    <testClassName>ToroSupportPlusControllerTest</testClassName>
+    <testClassName>ToroSupportPlusDataTest</testClassName>
+    <testClassName>ToroSupportPlusHelperTest</testClassName>
+    <testClassName>ToroSupportPlusItemTest</testClassName>
     <testClassName>Tst_Ctr_ChangePassword</testClassName>
     <testClassName>Tst_Ctr_ForgotPassword</testClassName>
     <testClassName>Tst_Ctr_SiteLogin</testClassName>
