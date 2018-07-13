@@ -2,7 +2,7 @@
     handleSetDirtyFlag: function(component, evt, helper) { 	    
         var msg=evt.getParam("warningMessage");
         var quoteHeaderCmp = component.find("cmpQuoteHeader");
-        quoteHeaderCmp.set("v.contractMessage", msg);
+        quoteHeaderCmp.set("v.dirtyMessage", msg);
         component.set("v.dirtyFlag", true);
     },
     handleQuoteHeaderLoaded : function(component, evt, helper) { 	
@@ -49,7 +49,7 @@
         }
         var setupFee = quote.Setup_Fee__c;
         quoteHeaderCmp.set("v.quote", quote);
-        //quoteHeaderCmp.set("v.contractMessage", null); 
+        quoteHeaderCmp.set("v.dirtyMessage", null); 
         if(displaySetupFee != undefined){
         	quoteHeaderCmp.set("v.displaySetupFee", displaySetupFee);
         }

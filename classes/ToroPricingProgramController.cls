@@ -863,16 +863,16 @@ public class ToroPricingProgramController {
 		system.debug('***************** 2 fieldset size =' + rs.fieldSetSubMembers.size());
 
 		//if ('% off MSRP'.equalsIgnoreCase(pricingMethod))
-		try{
+		
+		if(string.isNotBlank(pricingProgram)){
 			ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 			system.debug('***************** pricing program  =' + ppd.externalId);
 			Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
-			if('State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod) && !pp.skipMSRPRangeCheck()) {
+			if((pp_header != null) && 'State Contract'.equalsIgnoreCase(pp_header.PricingProgramType__c) && '% off MSRP'.equalsIgnoreCase(pricingMethod) && !pp.skipMSRPRangeCheck()) {
 				rs.listenMSRPChange = true;
 			}
-		} catch(Exception e) {
-			system.debug(e);
 		}
+		
 		return rs;
     }
     @AuraEnabled
