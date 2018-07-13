@@ -373,7 +373,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                 <value>
                     <fullName>Base_w_Quantity_Mdl_Pricing</fullName>
                     <default>false</default>
-                    <label>Base_w_Quantity_Mdl_Pricing</label>
+                    <label>Base w qty model pricing</label>
                 </value>
                 <value>
                     <fullName>Performance_Part</fullName>
