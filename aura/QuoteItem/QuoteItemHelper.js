@@ -158,6 +158,9 @@
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
         var readOnlyFlag = component.get('v.readOnly');
+        if(readOnlyFlag == undefined) {
+        	readOnlyFlag=false;    
+        }
         var pricingMethod = component.get('v.selectedPricingMethod');
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
@@ -208,7 +211,11 @@
                 	tableDataNode.required=true;  
                     cellText.className += " has-required-field ";
                 }
-                
+                if(readOnlyFlag) {
+                	tableDataNode.disabled = readOnlyFlag;    
+                } else {
+                    tableDataNode.disabled = false;
+                }
                 //tableDataNode.disabled=readOnlyFlag;    
                 tableDataNode.className += " align-right ";
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';

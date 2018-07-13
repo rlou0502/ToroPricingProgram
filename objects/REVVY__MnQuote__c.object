@@ -119,19 +119,13 @@
     </fields>
     <fields>
         <fullName>Contains_Incomplete_Configurations__c</fullName>
-        <description>Summary of quote items that are incomplete</description>
+        <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Contains Incomplete Configurations</label>
-        <summaryFilterItems>
-            <field>REVVY__MnQuoteItem__c.REVVY__Weekly_Price_Before_Discount_Display_F__c</field>
-            <operation>equals</operation>
-            <value>0</value>
-        </summaryFilterItems>
-        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
-        <summaryOperation>count</summaryOperation>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
-        <type>Summary</type>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Contract_Number__c</fullName>

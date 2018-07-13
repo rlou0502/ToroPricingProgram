@@ -845,7 +845,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SP Remove SP Items</shortDescription>
-        <value>This quote contains SP+ items. If you wish you to change the primary pricing program, please go to the SP+ page and remove your SP+ items.</value>
+        <value>This quote contains SP+ items. Please remove SP+ items before changing the primary pricing program.</value>
     </labels>
     <labels>
         <fullName>SP_Return</fullName>
