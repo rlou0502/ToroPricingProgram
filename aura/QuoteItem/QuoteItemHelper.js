@@ -157,10 +157,8 @@
         var self=this;
         var bFroze = sObj["FreezePricing__c"];
         //var pp = component.get('v.performancePart');
-        var readOnlyFlag = component.get('v.readOnly');
-        if(readOnlyFlag == undefined) {
-        	readOnlyFlag=false;    
-        }
+        var readOnlyFlag = component.get('v.readOnly') == "true" ? true : false; 
+        
         var pricingMethod = component.get('v.selectedPricingMethod');
   		fields.forEach(function(field){
             //console.log('field name' + field.fieldPath);
@@ -202,7 +200,7 @@
                 }
             }   
             console.log('readOnly falg=' + readOnlyFlag);
-            if((totalAwardUpdatable &&  vToroProd && !nonToroPricingMethodValue && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
+            if((totalAwardUpdatable && !readOnlyFlag &&  vToroProd && !nonToroPricingMethodValue && field.updatable && !freeze && !supportPlusFlag &&(!performancePart || (field.fieldPath=="Award_Price__c" || field.fieldPath=="Total_Toro_Award__c") )) 
             || (onlyInCPL && field.fieldPath=="Award_Price__c")
             ){
                 //var tableDataNode = document.createTextNode(sObj[field.fieldPath]);
@@ -211,12 +209,7 @@
                 	tableDataNode.required=true;  
                     cellText.className += " has-required-field ";
                 }
-                if(readOnlyFlag) {
-                	tableDataNode.disabled = readOnlyFlag;    
-                } else {
-                    tableDataNode.disabled = false;
-                }
-                //tableDataNode.disabled=readOnlyFlag;    
+                    
                 tableDataNode.className += " align-right ";
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 var decimalPoint = 4;
@@ -429,17 +422,20 @@
         
 
         // document.getElementById("mySelect").disabled=true;
+        var readOnlyFlag = component.get('v.readOnly') == "true" ? true : false; 
+        if(quoteItem.Has_Support_Plus__c || readOnlyFlag) {
+        	pricingProgramSelect.disabled=true;    
+        } else {
+            pricingProgramSelect.disabled=false;
+        }
         if (quoteItem.Has_Support_Plus__c) {
-            pricingProgramSelect.disabled=true;
             var secondaryProgramHelpText = document.createElement('span');
             secondaryProgramHelpText.innerHTML = $A.get("$Label.c.SP_Secondary_Pricing_Program");
             secondaryProgramHelpText.className += 'secondary-pricing-program-help-text';
             dataRowCellPricingProgram.appendChild(secondaryProgramHelpText);
         }
         
-        else {
-            pricingProgramSelect.disabled=false;
-        }
+        
         
         var secondaryPrograms = component.get('v.secondaryPrograms');
         var selectedPricingProgram = quoteItem['Pricing_Program__c'];

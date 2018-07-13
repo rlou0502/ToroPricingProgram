@@ -10,7 +10,10 @@ global class KMnQuoteLifeCycleSelectPriceProgram extends REVVY.CMnLifeCycleActio
         	hostNameVal = 	hostName.Revvy__Value__c;
         } 
         //hostNameVal=System.URL.getSalesforceBaseUrl().getHost();
-        system.debug('--------' + System.URL.getSalesforceBaseUrl().getHost());
+        String pod = System.URL.getSalesforceBaseUrl().toExternalForm().substringBefore('.visual').substringAfter('.');
+        system.debug('--------' + System.URL.getSalesforceBaseUrl().toExternalForm() + ' rawPrefix = ' + pod);
+        //hostNameVal =  System.URL.getSalesforceBaseUrl().toExternalForm();
+        //pageRefMap.put('PageReference', 'https://'+pod+'.my.salesforce.com/apex/PricingProgramLgtnOut?id='+quoteId);
         pageRefMap.put('PageReference', hostNameVal+'/apex/PricingProgramLgtnOut?id='+quoteId);
         //pageRefMap.put('PageReference', 'https://google.com');
         return pageRefMap;

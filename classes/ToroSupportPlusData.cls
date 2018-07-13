@@ -96,6 +96,7 @@ public with sharing class ToroSupportPlusData {
 	 */
 	public void initializeSupportPlusAllowance(String pricingProgramExtId) {
 		List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);
+		this.quote.Toro_Support_Plus_Allowance__c = 0;
 		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
 				if (this.quote.Toro_Award__c >= plan.Total_DNet_Low__c
