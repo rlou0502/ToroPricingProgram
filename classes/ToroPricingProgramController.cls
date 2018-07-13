@@ -700,6 +700,8 @@ public class ToroPricingProgramController {
     		}
     	}
 
+    	ToroCacheManager.putQuote(pp.quote);
+    		
 		//create the ootb to extension relationship
     	list<Id> quoteItemIds = new list<Id>();
     	list<Id> sublineIds = new list<Id>();
