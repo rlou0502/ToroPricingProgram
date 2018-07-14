@@ -162,7 +162,7 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 
 	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
-																
+			System.debug('--- NationalAccount preSaveCalculateRebateMargin priceProgram='+ priceProgram);													
 			List<Revvy__MnStrategy4__c> result = quoteItemList;													
 			Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(priceProgram);
 			System.debug('--- NationalAccount preSaveCalculateRebateMargin quote.Total_Award__c='+ quote.Total_Award__c);

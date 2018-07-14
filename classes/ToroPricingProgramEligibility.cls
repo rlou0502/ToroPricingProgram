@@ -1,4 +1,4 @@
-public with sharing class ToroPricingProgramEligibility {
+public with sharing class ToroPricingProgramEligibility implements Cache.CacheBuilder {
 	public static final String PricingProgramType_CorporateAccount = 'Corporate Account';
 	private static List<Revvy__MnStrategy1__c> retrieveChartStatePricingProgramsForDistributor(Id distributor) {
 		system.debug(logginglevel.info, ' retrieveChartStatePricingProgramsForDistributor= ' + distributor);
@@ -157,4 +157,8 @@ public with sharing class ToroPricingProgramEligibility {
         ret.sort();
 		return ret;
 	}  
+	public Object doLoad(String quoteId) {        	 
+    	List<ToroSelectOption> pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);  
+    	return pricingProgramOptions;  
+    }     
 }

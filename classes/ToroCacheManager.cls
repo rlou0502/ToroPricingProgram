@@ -14,6 +14,15 @@ public with sharing class ToroCacheManager {
 	public static Map<String,Decimal> getPerformancePartMap() {
 		return (Map<String,Decimal>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPerformancePartCache.class, 'Commercial');		
 	}
+	
+	public static List<ToroSelectOption> getPricingProgramEligibility(String quoteId) {
+		return (List<ToroSelectOption>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramEligibility.class, quoteId);		
+	}
+	public static List<ToroSelectOption> refreshPricingProgramEligibility(String quoteId) {
+		Cache.Session.getPartition(ToroCacheManager.constPartitionName).remove(ToroPricingProgramEligibility.class, quoteId);
+		return (List<ToroSelectOption>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramEligibility.class, quoteId);		
+	}
+	
 	public static Revvy__MnStrategy1__c getPricingProgram(String externalId) {
 		if(String.isBlank(externalId)) {
 			return null;	

@@ -667,10 +667,21 @@ public class ToroPricingProgramController {
     	//}
     	system.debug('quote q=' + q);
     	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
+    	rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(quoteId);
+    	 	
     	if(String.isBlank(pricingProgram)) {
-
 	    	pricingProgram = q.Pricing_Program_Name__c;
     	}
+    	
+    	if(String.isBlank(pricingProgram)) {
+    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
+    			if(opt.defaultSelected) {
+    				pricingProgram = opt.value;
+    				break;	
+    			}	
+    		}	
+    	}
+    	
     	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
     	rs.selectedPricingProgram = pricingProgram;
     	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
@@ -731,22 +742,7 @@ public class ToroPricingProgramController {
     	}			
     	rs.displayPerformancePart = pp.displayPerformancePart();
     	rs.displaySetupFee=pp.displaySetupFee();
-    	rs.pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);
     	
-    	
-    	if(String.isBlank(rs.selectedPricingProgram)) {
-    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
-    			if(opt.defaultSelected) {
-    				rs.selectedPricingProgram = opt.value;
-    				ToroPricingProgramData ppd2 = new ToroPricingProgramData(rs.selectedPricingProgram);
-			    	ToroPricingProgram pp2 = ToroPriceProgramFactory.getPricingProgramHelper(ppd2.subType);
-    				List<ToroSelectOption> options2 = pp2.retrievePricingMethodOptions();
-    				rs.selectedPricingMethod = options2[0].value;
-    				rs.nextAction = 'changeProgramProgram';
-    				break;	
-    			}	
-    		}	
-    	}
     	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
     	
     	system.debug(logginglevel.info,'pricingProgram setup fee pp=' + pp);
@@ -902,7 +898,21 @@ public class ToroPricingProgramController {
 	    	rs.selectedPricingProgram = pricingProgram;
 	    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
 	    	//rs.secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
+    	} else {
+    		rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(objId); 
+    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
+    			if(opt.defaultSelected) {
+    				rs.selectedPricingProgram = opt.value;
+    				pricingProgram=rs.selectedPricingProgram;
+    				ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
+			    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+    				List<ToroSelectOption> options2 = pp.retrievePricingMethodOptions();
+    				rs.selectedPricingMethod = options2[0].value;
+    				break;	
+    			}	
+    		}		
     	}
+    	
     	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
     	pp.initialize(objId);
 		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
