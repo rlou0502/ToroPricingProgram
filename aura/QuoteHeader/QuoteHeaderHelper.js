@@ -87,25 +87,7 @@
                         "setupFeePercent" : quote.Setup_Fee__c
                     });
                     cmpEvent.fire();
-                    if(retResponse.nextAction == 'changeProgramProgram') {
-                        var cmpEvent = component.getEvent("pricingProgramEvent");
-                        cmpEvent.setParams({
-                            "selectedPricingProgram" : selectedProgram,
-                            "selectedPricingMethod" : selectedMethod,
-                            "allowSupportPlus" : allowSupportPlus
-                        });
-                        cmpEvent.fire();    
-                    }
                     
-                    /*
-                    var cmpEvent = component.getEvent("pricingProgramEvent");
-                    cmpEvent.setParams({
-                        "selectedPricingProgram" : selectedProgram,
-                        "selectedPricingMethod" : selectedMethod,
-                        "allowSupportPlus" : allowSupportPlus
-                    });
-                    cmpEvent.fire();
-                    */
 	            }
 	        }
 	    );

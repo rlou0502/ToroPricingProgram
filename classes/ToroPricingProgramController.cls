@@ -884,6 +884,17 @@ public class ToroPricingProgramController {
     	if(String.isBlank(pricingProgram)) {
     		pricingProgram = q.Pricing_Program_Name__c;	
     	}
+    	
+    	if(String.isBlank(pricingProgram)) {
+    		rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(quoteId);
+    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
+    			if(opt.defaultSelected) {
+    				pricingProgram = opt.value;
+    				break;	
+    			}	
+    		}	
+    	}
+    	
     	if(String.isBlank(pricingMethod)) {
     		pricingMethod = q.Price_Method__c;	
     	}
@@ -917,11 +928,18 @@ public class ToroPricingProgramController {
     	pp.initialize(objId);
 		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
 		rs.pricingMethodOptions = options;
+		if(String.isBlank(pricingMethod)) {
+			if(options.size() ==1) {
+				pricingMethod = options[0].value;
+			}
+    			
+    	}
+    	
     	q = pp.quote;
     	//Performance_Part__c
     	pp.performancePartFlag = pp.quote.Performance_Part__c;
     	//String pm = pricingMethod;
-    	String pm = q.Price_Method__c;
+    	String pm = pricingMethod;
     	rs = retrieveFieldSets(rs, pp, pm, pricingProgram);
 
     	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
