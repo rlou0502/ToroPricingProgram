@@ -50,26 +50,10 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		
 		Map<String,Revvy__MnStrategy2__c> ppMapExceptionMap = retrieveNationalAccountException(priceProgramExternalId);
 		System.debug('\n\n@@ppMapExceptionMap: ' + ppMapExceptionMap + '\n\n');
-		/*
-		Set<String> exceptionSkuSet = retrieveNationalAccountException
-		if(tierMap.containsKey('Exception')) {
-			Revvy__MnStrategy2__c ppl = tierMap.get('Exception');
-			if(ppl!=null && !String.isEmpty(ppl.ApplicableProducts__c)) {
-				for(String sku:ppl.ApplicableProducts__c.split(',')) {
-					exceptionSkuSet.add(sku);
-				}
-			}
-		}
-		*/
-		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
+		
 		List<Revvy__MnStrategy4__c> updatedQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for(Revvy__MnStrategy4__c qi : quoteItemWrapperList) {
 			resetQIPercentage(qi);
-
-			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-				//deleteSetupFeeLineItemId.add(qi.Id);
-				deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
-			}
 			Decimal dsetupFeesQIS = 0;
 
 			//Performance Part
@@ -206,126 +190,13 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		return quoteItemWrapperList;
 	}
 
-	public Revvy__MnStrategy4__c retrieveSetupFeeQuoteItem(Id quoteId) {
-		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c,Misc_Style__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ' from  Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId and Product_Id__c = \'S00001\'';
-		system.debug('quoteLineQuery=' + quoteLineQuery);
-		List<Revvy__MnStrategy4__c> quoteItems = Database.query(quoteLineQuery);
-		if(quoteItems.size() > 0) {
-			return quoteItems[0];
-		} else {
-			return null;
-		}
-	}
+	
 	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
-																
-				
-																
-/*
-			Decimal dtoroTotalSetupFees = 0;
-			REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
-			//if(dtoroTotalSetupFees > 0) {
-				//Create Setup Fee Line Item
-				System.debug('>>> +++++++++++++++++ NAT 201 =  dtoroTotalSetupFees='+dtoroTotalSetupFees + ' setupFeePercentage=' + setupFeePercentage);
-
-		    	dtoroTotalSetupFees = 0;
-		    	if(setupFeePercentage!= null && setupFeePercentage >0) {
-		    		dtoroTotalSetupFees = (CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) * setupFeePercentage) / 100;
-		    		System.debug('>>> +++++++++++++++++ NAT 202 =  dtoroTotalSetupFees='+dtoroTotalSetupFees);
-		    		addSetupFeeFuture(quoteId, setupFeeCN.Id, dtoroTotalSetupFees, dtoroTotalSetupFees, 1);
-
-		    		system.debug('exiting addSetupFeeFuture 1');
-		    		//this.initialize(this.quote.Id);
-		    		quoteItemList = this.quoteItems;
-		    		Revvy__MnStrategy4__c setupQi = retrieveSetupFeeQuoteItem(this.quote.Id);
-		    		system.debug('exiting addSetupFeeFuture 2');
-					//Read extended quote item
-					boolean foundSetupFeeQuoteItem = false;
-					for(Revvy__MnStrategy4__c qi : quoteItemList) {
-						System.debug('>>> +++++++++++++++++ SETUP FEE 222 ID='+qi.Product_Id__c);
-						if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-							System.debug('>>> +++++++++++++++++ SETUP FEE 222 found' );
-							qi.Award_Price__c = setupQi.Award_Price__c;
-							qi.Total_Award__c = setupQi.Total_Award__c;
-							qi.Total_Toro_Award__c = setupQi.Total_Toro_Award__c;
-							qi.Extended_Award_Price__c = setupQi.Extended_Award_Price__c;
-							System.debug('>>> +++++++++++++++++ SETUP FEE 222 found qi=' + qi);
-							//qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
-							foundSetupFeeQuoteItem=true;
-							break;
-						}
-					}
-					if(!foundSetupFeeQuoteItem) {
-			    		System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found');
-			    		if(setupQi != null) {
-			    			//setupQi.Award_Price__c = CMnQuoteUtil.defaultDecimal(dtoroTotalSetupFees).setScale(2);
-			    			quoteItemList.add(setupQi);
-			    			System.debug('>>> +++++++++++++++++ SETUP FEE 222 not found = ' + quoteItemList);
-			    		}
-					}
-		    	}
-			//this.chainCall = true;
-			//map<String, Object> payload = new map<String, Object>{ 'quoteId'=>quoteId, 'productId'=>setupFeeCN.Id, 'price'=>dtoroTotalSetupFees,
-				//'unitPrice'=>dtoroTotalSetupFees, 'qty'=>1
-			//};
-			//this.payloadOfChainCall = JSON.serialize(payload, false);
-		//}
-		for(Revvy__MnStrategy4__c qi : quoteItemList) {
-			if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-				System.debug('>>> +++++++++++++++++ SETUP FEE 333 found qi=' + qi);
-			}
-		}
-*/
+																																
 		return 	quoteItemList;
 	}
 
-	//@future
-    public static void addSetupFeeFuture(String quoteId, String productId, decimal price, decimal unitPrice, decimal qty) {
-/*
-    	System.debug('>>> +++++++++++++++++ Setup FEE unitPrice='+ unitPrice + ' - Price='+ price);
-    	List<Revvy__MnQuoteItem__c> setupFees = [select Id from Revvy__MnQuoteItem__c where Revvy__Product_Id_F__c = 'S00001' and revvy__Quote__c = :quoteId];
-    	system.debug('----size =' + setupFees.size());
-    	if(setupFees.size() == 0) {
-    		REVVY__MnQuoteItem__c mnqi = new REVVY__MnQuoteItem__c();
-			mnqi.REVVY__Quote__c=quoteId;
-			mnqi.REVVY__Catalog_Node__c = productId;
-			mnqi.Revvy__Price__c = price;
-			mnqi.REVVY__Unit_Price__c = unitPrice;
-			mnqi.REVVY__Quantity__c = qty;
-			mnqi.Dirty__c = true;
-			Revvy__MnSequenceGen__c sequence = [SELECT Id,  REVVY__CurrentValue__c FROM Revvy__MnSequenceGen__c WHERE Revvy__ObjectName__c='MnQuoteItem__c' limit 1];
-			mnqi.REVVY__Id__c = ++sequence.REVVY__CurrentValue__c;
-			insert mnqi;
-			++sequence.REVVY__CurrentValue__c;
-			update sequence;
-			Revvy__MnStrategy4__c tqi = new Revvy__MnStrategy4__c(External_Id__c = mnqi.Id, award_price__c=mnqi.Revvy__Price__c,
-				extended_award_price__c= mnqi.Revvy__Price__c * qty, Total_Toro_Award__c = mnqi.Revvy__Price__c * qty, Total_Award__c=mnqi.Revvy__Price__c * qty);
-	    	upsert tqi External_Id__c;
-	    	System.debug('>>> +++++++++++++++++ Setup FEE unitPrice='+ unitPrice + ' - Price='+ price + ' id='+ mnqi.Id);
-
-
-    	} else {
-    		List<Revvy__MnStrategy4__c> updateQuoteItems = new List<Revvy__MnStrategy4__c>();
-    		system.debug('check point 1');
-    		for(Revvy__MnQuoteItem__c qi : setupFees) {
-    			qi.Revvy__Price__c = price;
-    			qi.REVVY__Unit_Price__c = unitPrice;
-    			updateQuoteItems.add(new Revvy__MnStrategy4__c(External_Id__c = qi.Id, award_price__c=qi.Revvy__Price__c,
-															extended_award_price__c= qi.Revvy__Price__c * qty,
-															Total_Toro_Award__c = qi.Revvy__Price__c * qty,
-															Total_Award__c=qi.Revvy__Price__c * qty));
-    		}
-    		try {
-    			upsert updateQuoteItems External_Id__c;
-    		} catch (Exception e) {
-    			system.debug('-----' + e);
-    		}
-
-    	}
-    	system.debug('exiting addSetupFeeFuture');
-*/
-    }
 
 	public static Map<String,Revvy__MnStrategy2__c> retrieveNationalAccount(String pricingProgramExternalId) {
 		Map<String,Revvy__MnStrategy2__c> ppMap = new Map<String,Revvy__MnStrategy2__c>();

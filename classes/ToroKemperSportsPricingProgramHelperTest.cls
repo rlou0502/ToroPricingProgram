@@ -35,11 +35,7 @@ private class ToroKemperSportsPricingProgramHelperTest {
 		ToroPricingProgramData ppd = new ToroPricingProgramData('KemperSportsManagementNA;Standard_w_TPP');
 		tlpp.initialize(quote.Id);
 		tlpp.setupFeePercentage=1.5;
-		REVVY__MnCatalogNode__c setupFeeCN = [Select Id From REVVY__MnCatalogNode__c where REVVY__Id__c = 'S00001'];
-		ToroKemperSportsPricingProgramHelper.addSetupFeeFuture(quote.Id, setupFeeCN.Id, 100, 100,1);
-		
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
-		tlpp.retrieveSetupFeeQuoteItem(quote.Id);	
 	}
 	@isTest static void test_method_two() {
 		ToroKemperSportsPricingProgramHelper tlpp = new ToroKemperSportsPricingProgramHelper();

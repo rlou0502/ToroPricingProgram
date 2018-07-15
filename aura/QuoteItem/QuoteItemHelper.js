@@ -619,7 +619,7 @@
         }
         */
     },
-	populateQuoteItems : function(component) {
+	populateQuoteItems : function(component) {  
 		var quoteId = component.get('v.quoteId');
 		var pricingProgram = component.get('v.selectedPricingProgram');
         var pricingMethod = component.get('v.selectedPricingMethod');
@@ -631,6 +631,7 @@
             pricingMethod: pricingMethod,
             objId: quoteId
         });
+        debugger;
 		getAction.setCallback(this, 
 	        function(response) {
 	            var state = response.getState();
@@ -686,6 +687,7 @@
                     //if(qiId){
                     //	self.handleRowClick(component, qiId);
                     //}
+
 	            }
 	        }
 	    );

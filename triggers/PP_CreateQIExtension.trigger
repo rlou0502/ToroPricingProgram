@@ -5,10 +5,6 @@ trigger PP_CreateQIExtension on REVVY__MnQuoteItem__c (after insert) {
         // Decimal dawardPrice = null;
         Decimal dawardPrice = qi.Award_Price__c;
 
-        if('S00001'.equalsIgnoreCase(qi.REVVY__Product_ID_F__c)) {
-            dawardPrice = qi.Revvy__Price__c;
-        }
-
         tQIs.add(new Revvy__MnStrategy4__c(
             External_Id__c       = qi.Id,
             Product__c           = qi.REVVY__Catalog_Node__c,

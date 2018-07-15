@@ -19,7 +19,7 @@
  *
  * See the Apex Language Reference for more information about Testing and Code Coverage.
  */
-@isTest
+@isTest 
 private class ToroCacheManagerTest {
 @testSetup static void setupData() {
 		ToroTestData.loadTestData();
@@ -65,11 +65,13 @@ private class ToroCacheManagerTest {
     	q.Setup_Fee__c = 3;
     	update q;
     	q = ToroCacheManager.getQuote(q.Id);
-    	system.assert(q.Setup_Fee__c == 3);
+    	system.assert(q.Setup_Fee__c == 3); 
     	
     	ToroCacheManager.getPerformancePartMap();
     	system.assert(ToroCacheManager.getPricingProgram(null) == null);
     	ToroCacheManager.setPercentOffMSRP(new Map<Id, decimal>());
+    	ToroCacheManager.getPricingProgramEligibility(q.Id);
+    	ToroCacheManager.refreshPricingProgramEligibility(q.Id);
     	Test.stopTest();
 
     }   

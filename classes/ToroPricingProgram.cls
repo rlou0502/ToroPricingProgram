@@ -227,40 +227,13 @@ public virtual class ToroPricingProgram {
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		return 	quoteItemList;
 	}
-	@future
-	public static void deleteSetupFee(Set<Id> toroQIList, Set<Id> QIList) {
-		delete [Select Id From Revvy__MnStrategy4__c where Id in :toroQIList];
-		delete [Select Id From REVVY__MnQuoteItem__c where Id in :QIList];
-	}
+	
 	public virtual List<Revvy__MnStrategy4__c> calculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList, boolean save ){
 		this.pricingMethod = priceMethod;
 		Long perfStart = System.limits.getCpuTime();
 		performancePartMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
-		if(!displaySetupFee()) {
-			//remove setup fees
-			Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
-			Integer index = 0;
-			List<Integer> itemsToDelete= new List<Integer>();
-			for(Revvy__MnStrategy4__c qi : quoteItemList) {
-				if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-					deleteSetupFeeLineItemId.add(qi.Id);
-					deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
-					itemsToDelete.add(index);
-
-				}
-				index++;
-			}
-			if(itemsToDelete.size() != 0) {
-				for(Integer i=itemsToDelete.size()-1 ; i >= 0; i--) {
-					quoteItemList.remove(itemsToDelete[i]);
-				} 
-
-			}
-			if(deleteSetupFeeLineItemId.size() > 0) {
-				deleteSetupFee(deleteSetupFeeLineItemId, deleteSetupFeeLineItemId);
-			}
-		}
+		
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl quoteId =' + quoteId + ' -- priceProgram' + priceProgram);
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl priceMethod =' + priceMethod + ' -- ' + quoteItemList);

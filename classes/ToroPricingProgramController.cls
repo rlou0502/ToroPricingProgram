@@ -597,28 +597,6 @@ public class ToroPricingProgramController {
     			*/
     		}
 
-    		Set<Id> deleteSetupFeeLineItemId = new Set<Id>();
-			Integer index = 0;
-			List<Integer> itemsToDelete= new List<Integer>();
-			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
-				if('S00001'.equalsIgnoreCase(qi.Product_Id__c)) {
-					deleteSetupFeeLineItemId.add(qi.Id);
-					deleteSetupFeeLineItemId.add(qi.QuoteItem__c);
-					itemsToDelete.add(index);
-
-				}
-				index++;
-			}
-			if(itemsToDelete.size() != 0) {
-				for(Integer i=itemsToDelete.size()-1 ; i >= 0; i--) {
-					pp.quoteItems.remove(itemsToDelete[i]);
-				}
-
-			}
-			if(deleteSetupFeeLineItemId.size() > 0) {
-				ToroPricingProgram.deleteSetupFee(deleteSetupFeeLineItemId, deleteSetupFeeLineItemId);
-			}
-
     		pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     		rs.values =  pp.quoteItems;
     		rs.displaySetupFee=pp.displaySetupFee();
