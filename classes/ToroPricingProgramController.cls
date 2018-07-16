@@ -120,13 +120,13 @@ public class ToroPricingProgramController {
 			pp.quote.Price_Method__c=pricingMethod;
 			
 			if(pp.displaySetupFee()) {
-    			system.debug('displaySetupFee -- ' + pp.quote.Setup_Fee__c);
+    			system.debug('setupfee--displaySetupFee -- ' + pp.quote.Setup_Fee__c);
     			pp.quote.Setup_Fee__c = setupFeePercent;
     			if(pp.quote.Setup_Fee__c == null) {
     				Revvy__MnStrategy1__c program = ToroCacheManager.getPricingProgram(ppd.externalId);	
     				pp.quote.Setup_Fee__c = program.Setup_Fee__c;
-    				system.debug('displaySetupFee --program.Setup_Fee__c ' + program.Setup_Fee__c);
-    				system.debug('displaySetupFee --quote= ' + pp.quote.Setup_Fee__c);
+    				system.debug('setupfee--displaySetupFee --program.Setup_Fee__c ' + program.Setup_Fee__c);
+    				system.debug('setupfee--displaySetupFee --quote= ' + pp.quote.Setup_Fee__c);
     			}
     		}
 	    		
@@ -299,7 +299,12 @@ public class ToroPricingProgramController {
 	    		}
 	    	}
 	    	ToroCacheManager.putQuote(pp.quote);
+	    	
 	    	rs.quote = pp.quote;
+	    	system.debug('setupfee--pp.setupFeePercentage=' + pp.setupFeePercentage);
+	    	system.debug('setupfee--setupFeePercent=' + setupFeePercent);
+	    	system.debug('setupfee--pp.quote.Setup_Fee__c=' + pp.quote.Setup_Fee__c);
+	    	system.debug('setupfee--rs.quote.Setup_Fee__c=' + rs.quote.get('Setup_Fee__c')); 
 	    	rs.values =  pp.quoteItems;
 	    	rs.chainCall = pp.chainCall;
 	    	rs.payload = pp.payloadOfChainCall;
