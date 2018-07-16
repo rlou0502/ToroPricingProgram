@@ -72,6 +72,7 @@ public class ToroPricingProgramController {
 	    	decimal setupFeePercent = null;
 	    	if(values.get('setupFeePercent') != null) {
 	    		setupFeePercent = (Decimal)values.get('setupFeePercent');
+	    		system.debug('setupFeePercent=' + setupFeePercent);
 	    	}
 	    	boolean performancePart = false;
 	    	if(values.get('performancePart') != null) {

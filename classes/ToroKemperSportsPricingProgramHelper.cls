@@ -162,8 +162,10 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 				}
 				result = calculateExtendedFields(quoteItemList);
 				setupFeePercentage = 0;
+				quote.Setup_Fee__c = 0;	
+				ToroCacheManager.putQuote(quote);
 			}	
-																
+															
 																
 		return result;
 	}
