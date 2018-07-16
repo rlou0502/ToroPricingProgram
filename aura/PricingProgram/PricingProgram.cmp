@@ -63,9 +63,9 @@
                     <button class="slds-button slds-button_neutral js-calculate" onclick="{!c.calculate}" disabled="{!v.readOnly}">{!$Label.c.PP_UpdateQuote}</button>
                     <button class="slds-button slds-button_neutral js-saveAndClose" onclick="{!c.saveAndClose}" disabled="{!v.readOnly}">{!$Label.c.PP_SaveAndClose}</button>
                     <!--<button class="slds-button slds-button_neutral" onclick="{!c.manageProduct}">{!$Label.c.PP_ManageProducts}</button>-->
-                    <button class="slds-button slds-button_neutral" onclick="{!c.addNonToroProducts}">{!$Label.c.PP_NonToroProducts}</button>
+                    <button class="slds-button slds-button_neutral" onclick="{!c.addNonToroProducts}" disabled="{!v.readOnly}">{!$Label.c.PP_NonToroProducts}</button>
                     <aura:if isTrue="{!v.allowSupportPlus}">
-                    	<button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}">{!$Label.c.PP_SupportPlus}</button>
+                    	<button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}" disabled="{!v.readOnly}">{!$Label.c.PP_SupportPlus}</button>
                     </aura:if>
                     </div>
 	    </div>
