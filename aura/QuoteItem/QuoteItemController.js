@@ -38,8 +38,8 @@
             var pricingMethod = params.pricingMethod;
             var setupFeePercent = params.setupFeePercent;
             var performancePart = params.performancePart;
-            
-            helper.updateSaveQuote(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, false);
+			var ignoreValidationResult = params.ignoreValidationResult;            
+            helper.updateSaveQuote(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, ignoreValidationResult,false );
         }
         
     },
@@ -53,7 +53,8 @@
             var setupFeePercent = params.setupFeePercent;
             var performancePart = params.performancePart;
             var returnUrl = params.returnUrl;
-            helper.updateSaveQuote(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, true, returnUrl);
+            var ignoreValidationResult = params.ignoreValidationResult;
+            helper.updateSaveQuote(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, ignoreValidationResult, true, returnUrl);
         }
         
     },

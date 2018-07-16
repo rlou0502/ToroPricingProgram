@@ -916,7 +916,7 @@
 		$A.enqueueAction(getAction);
         
     },
-    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save, returnUrl) {
+    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, ignoreValidationResult, save, returnUrl) {
     	//console.log('updateQuote'); 
     	var self = this;
         var invalid = false;
@@ -948,7 +948,7 @@
                 }
             }
     	}
-        if(invalid) {
+        if(invalid && !ignoreValidationResult) {
             self.hideSpinner();
             return false;
         }
