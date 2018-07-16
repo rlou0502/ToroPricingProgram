@@ -254,6 +254,7 @@ global class ToroSupportPlusController {
 			quoteObjToUpdate.Distributor_Responsibility__c       = quote.Distributor_Responsibility__c;
 			quoteObjToUpdate.Toro_Support_Plus_Allowance__c      = quote.Toro_Support_Plus_Allowance__c;
 			quoteObjToUpdate.Toro_Support_Plus_Allowance_Used__c = quote.Toro_Support_Plus_Allowance_Used__c;
+			quoteObjToUpdate.Distributor_Contribution__c         = quote.Distributor_Contribution__c;
 
 			quoteObjToUpdate.Support_Plus__c               = quote.Toro_Support_Plus_Allowance_Used__c > 0;
 			quoteObjToUpdate.SP_Total_Extended_DNET__c     = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);

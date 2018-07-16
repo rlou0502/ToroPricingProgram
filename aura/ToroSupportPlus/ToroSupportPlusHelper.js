@@ -259,7 +259,8 @@
 
 		console.log('quote.SP_Total_Extended_DNET__c: ' + quote.SP_Total_Extended_DNET__c);
 		console.log('quote.SP_Adjusted_Toro_Award__c: ' + quote.SP_Adjusted_Toro_Award__c);
-
+		console.log('quote.Distributor_Contribution__c: ' + quote.Distributor_Contribution__c);
+		
 		return quote;
 	},
 	updateDistributorResponsibility: function(quote, items) {
