@@ -746,12 +746,12 @@
         getAction.setCallback(this, 
 	        function(response) {
                 var retResponse = response.getReturnValue();
-                if(retResponse.nextAction == "calculation") {
-                	var cmpEvent = component.getEvent("calculateEvent");   
-                    cmpEvent.fire();
-                } else {
+                //if(retResponse.nextAction == "calculation") {
+                //	var cmpEvent = component.getEvent("calculateEvent");   
+                //    cmpEvent.fire();
+                //} else {
             		self.renderView(component, response); 
-                }
+                //}
 	        }
 	    );
 		$A.enqueueAction(getAction);
@@ -916,7 +916,7 @@
 		$A.enqueueAction(getAction);
         
     },
-    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, ignoreValidationResult, save, returnUrl) {
+    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save, returnUrl) {
     	//console.log('updateQuote'); 
     	var self = this;
         var invalid = false;
@@ -948,7 +948,7 @@
                 }
             }
     	}
-        if(invalid && !ignoreValidationResult) {
+        if(invalid) {
             self.hideSpinner();
             return false;
         }

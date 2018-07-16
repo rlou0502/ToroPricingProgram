@@ -35,6 +35,13 @@
         }
         helper.closeInfoBox(component);
     },
+    handleCalculateCmd : function(component, event, helper) {
+        var quoteId = component.get('v.quoteId');
+        if (quoteId) {
+            helper.calculateHelper(component, quoteId);
+        }
+        helper.closeInfoBox(component);
+    },
     handleCalculationComplete: function(component, event, helper) {
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
