@@ -292,7 +292,7 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 
 	public static decimal getSetupFeePercentage(decimal dfeePercentageHeader, decimal rbFeePercentage) {
 		decimal result = rbFeePercentage;
-		if (dfeePercentageHeader !=null && dfeePercentageHeader > 0) {
+		if (dfeePercentageHeader !=null && dfeePercentageHeader >= 0) {
 			result = dfeePercentageHeader;
 		}
 
