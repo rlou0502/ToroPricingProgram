@@ -72,7 +72,6 @@ public class ToroPricingProgramController {
 	    	decimal setupFeePercent = null;
 	    	if(values.get('setupFeePercent') != null) {
 	    		setupFeePercent = (Decimal)values.get('setupFeePercent');
-	    		system.debug('setupFeePercent=' + setupFeePercent);
 	    	}
 	    	boolean performancePart = false;
 	    	if(values.get('performancePart') != null) {
@@ -130,11 +129,10 @@ public class ToroPricingProgramController {
     				system.debug('displaySetupFee --quote= ' + pp.quote.Setup_Fee__c);
     			}
     		}
-    		ToroCacheManager.putQuote(pp.quote);
 	    		
 			//pp.quote.Setup_Fee__c = setupFeePercent;
 			pp.quote.Performance_Part__c=performancePart;
-			ToroCacheManager.putQuote(pp.quote);
+			
 			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
 				//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
 				//	qi.FreezeLine__c = true;
@@ -300,6 +298,7 @@ public class ToroPricingProgramController {
 	    			fss.label = rs.selectedPricingMethod;
 	    		}
 	    	}
+	    	ToroCacheManager.putQuote(pp.quote);
 	    	rs.quote = pp.quote;
 	    	rs.values =  pp.quoteItems;
 	    	rs.chainCall = pp.chainCall;
