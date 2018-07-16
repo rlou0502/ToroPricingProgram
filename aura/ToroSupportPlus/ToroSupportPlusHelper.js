@@ -254,6 +254,7 @@
 
 		// quote.SP_Ext_Dist_Responsibility__c       = (quote.Toro_Total_DNet__c - spSplitDNetTotal) / quote.Toro_Total_DNet__c;
 		quote.SP_Ext_Dist_Responsibility__c = (dnetTotal - spSplitDNetTotal) / dnetTotal;
+		quote.Distributor_Contribution__c = distRespPct * (spSplitDNetTotal + spAddNewDNetTotal);
 
 
 		console.log('quote.SP_Total_Extended_DNET__c: ' + quote.SP_Total_Extended_DNET__c);

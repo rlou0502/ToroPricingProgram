@@ -250,7 +250,7 @@ public with sharing class ToroSupportPlusData {
 		}
 
 		Decimal distributorResponsibilityPercent = this.quote.Distributor_Responsibility__c * 0.01;
-		Decimal toroResponsibility = (100 - this.quote.Distributor_Responsibility__c) * 0.01;
+		Decimal toroResponsibilityPercent = (100 - this.quote.Distributor_Responsibility__c) * 0.01;
 
 		Decimal spSplitDNetTotal = 0;
 		Decimal spSplitAwardTotal = 0;
@@ -293,9 +293,10 @@ public with sharing class ToroSupportPlusData {
 		this.quote.SP_Total_Extended_DNET__c     = dnetTotal - spSplitDNetTotal;
 		this.quote.SP_Adjusted_Toro_Award__c     = awardTotal - spSplitAwardTotal;
 		this.quote.SP_Adjusted_Ext_Award__c      = spSplitAwardTotal;
-		this.quote.SP_Toro_Responsibility__c     = toroResponsibility * (spSplitDNetTotal + spAddNewDNetTotal);
-		this.quote.Toro_Contribution__c          = toroResponsibility * (spSplitDNetTotal + spAddNewDNetTotal);
+		this.quote.SP_Toro_Responsibility__c     = toroResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
+		this.quote.Toro_Contribution__c          = toroResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
 		this.quote.SP_Ext_Dist_Responsibility__c = (dnetTotal - spSplitDNetTotal) / dnetTotal;
+		this.quote.Distributor_Contribution__c   = distributorResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
 	}
 
 	/**
