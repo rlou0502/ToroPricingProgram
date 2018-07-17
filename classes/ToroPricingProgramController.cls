@@ -55,6 +55,7 @@ public class ToroPricingProgramController {
     	system.debug('***************** svc_updateQuoteData2' );
     	//Id quoteId, Id qiId, String pricingProgram,
     	//String pricingMethod, decimal setupFeePercent, boolean performancePart,
+		System.debug('values: ' + values); 
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
     	rs.result=true;
     	if(values == null) {

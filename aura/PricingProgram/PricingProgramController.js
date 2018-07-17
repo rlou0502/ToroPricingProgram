@@ -85,7 +85,7 @@
     	var childCmp = component.find("cmpQuoteItem");
         var returnUrl = component.get("v.forwardUrl");
 		childCmp.saveQuote(result.PricingProgram, result.PricingMethod,
-                           result.SetupFeePercent, result.PerformancePart, returnUrl);
+                           result.SetupFeePercent, result.PerformancePart, result.SetupFeeOverride, returnUrl);
         quoteHeaderCmp.savePricingProgramMethod();
     },
     handleProceedToSupportPlus: function(component, event, helper) {
@@ -94,7 +94,7 @@
     	var childCmp = component.find("cmpQuoteItem");
         var returnUrl = component.get("v.forwardUrl");
 		childCmp.saveQuote(result.PricingProgram, result.PricingMethod,
-                           result.SetupFeePercent, result.PerformancePart, returnUrl);
+                           result.SetupFeePercent, result.PerformancePart, result.SetupFeeOverride,returnUrl);
         quoteHeaderCmp.savePricingProgramMethod();
     },
     handleProceedToNonToro: function(component, event, helper) {
@@ -104,7 +104,7 @@
         var quoteId = event.getParam("quoteId");
         var forwardUrl = event.getParam("forwardUrl");
 		childCmp.saveQuote(result.PricingProgram, result.PricingMethod,
-                           result.SetupFeePercent, result.PerformancePart, forwardUrl);
+                           result.SetupFeePercent, result.PerformancePart, result.SetupFeeOverride,forwardUrl);
         quoteHeaderCmp.savePricingProgramMethod();
     },
     addSupportPlus: function(component, event, helper) {
