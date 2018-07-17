@@ -43,7 +43,6 @@ public class ToroPricingProgramController {
 
 		rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
-		system.debug('rs.allowSupportPlus=' + rs.allowSupportPlus);
 		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.displaySetupFee=pp.displaySetupFee();
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
