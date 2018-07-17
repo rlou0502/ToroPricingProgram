@@ -82,7 +82,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>DNet_Field_Set</fullName>
-        <description>Pricing Program</description>
+        <description>Fields which are not accessible if DNet is not visible accessible at Price List Line object.</description>
         <displayedFields>
             <field>Percent_of_DNet__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -184,7 +184,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Commission__c</field>
+            <field>Gross_Profit_Percent__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -207,7 +207,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Large_Package_Price_Program_Quote_SubLin</fullName>
-        <description>Pricing Program</description>
+        <description>Support Chart subline columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -283,11 +283,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Large Package Price Program Quote SubLine Cols</label>
+        <label>Support Chart Price Program Quote SubLine Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>Large_Package_Quote_SubLine_Updatable_Co</fullName>
-        <description>Pricing Program</description>
+        <description>Fields which the user update for Support Charts</description>
         <displayedFields>
             <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -302,7 +302,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>National_Account_Quote_SubLine_Cols</fullName>
-        <description>Price Program</description>
+        <description>Corporate Account subline columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -382,7 +382,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Quote_SubLine_Cols</fullName>
-        <description>Price Program</description>
+        <description>Default subline columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -462,7 +462,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Subline_Info_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>Show Details pop up fields</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -682,7 +682,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>State_Contract_Price_Program_Quote_SubLi</fullName>
-        <description>Pricing Program</description>
+        <description>State Contract subline columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
