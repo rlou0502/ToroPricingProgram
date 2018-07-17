@@ -877,13 +877,15 @@ public class ToroPricingProgramController {
     	}
     	
     	if(String.isBlank(pricingProgram)) {
-    		rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(quoteId);
-    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
-    			if(opt.defaultSelected) {
-    				pricingProgram = opt.value;
-    				break;	
-    			}	
-    		}	
+    		if(q.currencyISOCode == 'CAD') {
+	    		rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(quoteId);
+	    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
+	    			if(opt.defaultSelected) {
+	    				pricingProgram = opt.value;
+	    				break;	
+	    			}	
+	    		}	
+    		}
     	}
     	
     	if(String.isBlank(pricingMethod)) {
@@ -901,18 +903,20 @@ public class ToroPricingProgramController {
 	    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
 	    	//rs.secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
     	} else {
-    		rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(objId); 
-    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
-    			if(opt.defaultSelected) {
-    				rs.selectedPricingProgram = opt.value;
-    				pricingProgram=rs.selectedPricingProgram;
-    				ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
-			    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-    				List<ToroSelectOption> options2 = pp.retrievePricingMethodOptions();
-    				rs.selectedPricingMethod = options2[0].value;
-    				break;	
-    			}	
-    		}		
+    		if(q.currencyISOCode == 'CAD') {
+	    		rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(objId); 
+	    		for(ToroSelectOption opt : rs.pricingProgramOptions) {
+	    			if(opt.defaultSelected) {
+	    				rs.selectedPricingProgram = opt.value;
+	    				pricingProgram=rs.selectedPricingProgram;
+	    				ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
+				    	pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+	    				List<ToroSelectOption> options2 = pp.retrievePricingMethodOptions();
+	    				rs.selectedPricingMethod = options2[0].value;
+	    				break;	
+	    			}	
+	    		}	
+    		}	
     	}
     	
     	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
