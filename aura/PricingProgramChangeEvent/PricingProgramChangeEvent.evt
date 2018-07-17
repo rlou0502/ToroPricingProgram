@@ -2,4 +2,5 @@
     <aura:attribute name="selectedPricingProgram" type="String"/>
     <aura:attribute name="selectedPricingMethod" type="String"/>
     <aura:attribute name="allowSupportPlus" type="Boolean"/>
+    <aura:attribute name="isSupportPlusValueDollars" type="Boolean"/>
 </aura:event>

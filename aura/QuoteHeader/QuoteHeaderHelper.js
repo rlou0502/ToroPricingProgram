@@ -38,7 +38,8 @@
                     cmpEvent.setParams({
                         "selectedPricingProgram" : selectedProgram,
                         "selectedPricingMethod" : selectedMethod,
-                        "allowSupportPlus" : allowSupportPlus
+                        "allowSupportPlus" : allowSupportPlus,
+                        "isSupportPlusValueDollars": retResponse.isSupportPlusValueDollars
                     });
                     cmpEvent.fire();
 	            }

@@ -47,4 +47,6 @@ public with sharing class ToroSObjectResultSet {
     public Map<String, Object> secondaryPrograms { get;set; }
     @AuraEnabled
     public String contractMessage { get; set; }
+    @AuraEnabled
+    public Boolean isSupportPlusValueDollars { get; set; }
 }

@@ -4,6 +4,9 @@ public with sharing class ToroNationalAccountArmyHelper extends ToroGSAPricingPr
 		ret.add(new ToroSelectOption('Federal','Federal'));
 		return ret;
 	} 
+	public override List<Schema.FieldSetMember> getQuoteFields() {
+		return SObjectType.Revvy__MnQuote__c.FieldSets.GSA_Quote_Header.getFields();
+	}
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
 		return SObjectType.Revvy__MnStrategy4__c.FieldSets.GSA_Quote_Line_Cols.getFields();
 		

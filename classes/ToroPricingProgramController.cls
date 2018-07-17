@@ -42,6 +42,7 @@ public class ToroPricingProgramController {
 		system.debug('svc_getPricingMethodOptions pricingProgram=' + pricingProgram);
 
 		rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		system.debug('rs.allowSupportPlus=' + rs.allowSupportPlus);
 		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.displaySetupFee=pp.displaySetupFee();
@@ -315,6 +316,7 @@ public class ToroPricingProgramController {
 	    	rs.payload = pp.payloadOfChainCall;
 	    	rs.displaySetupFee=pp.displaySetupFee();
 	    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+			rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 	    	List<String> spKeys = new List<String>();
 	    	system.debug(logginglevel.info, 'ppd.externalId---calculateRebateMargin' + ppd.externalId);
 			if(String.isNotBlank(ppd.externalId)) {
@@ -680,6 +682,7 @@ public class ToroPricingProgramController {
     	system.debug(logginglevel.info,'pricingProgram ppd=' + ppd);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
     	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
     	system.debug(logginglevel.info,'pricingProgram pp=' + pp);
     	List<Schema.FieldSetMember> fieldSet = pp.getQuoteFields();
@@ -1012,6 +1015,7 @@ public class ToroPricingProgramController {
     	}
     	rs.quote = pp.quote;    	
     	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
 		

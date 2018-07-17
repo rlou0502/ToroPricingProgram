@@ -6,6 +6,7 @@
     <aura:attribute name="fields" type="Object[]" />
     <aura:attribute name="sObject" type="SObject" />
     <aura:attribute name="allowSupportPlus" type="Boolean" />
+    <aura:attribute name="isSupportPlusValueDollars" type="Boolean" />
     <aura:attribute name="dirtyFlag" type="Boolean" default="false"/>
     <aura:attribute name="infoBoxType" type="String" />
     <aura:handler name="pricingProgramEvent" event="c:PricingProgramChangeEvent" action="{!c.handlePricingProgramChange}"/>
@@ -67,9 +68,11 @@
                     <aura:if isTrue="{!v.allowSupportPlus}">
                     	<button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}" disabled="{!v.readOnly}">{!$Label.c.PP_SupportPlus}</button>
                     </aura:if>
+
                     </div>
 	    </div>
-	    </div>
+                    test {!v.isSupportPlusValueDollars} <aura:if isTrue="{!v.isSupportPlusValueDollars}">(test uses value dollars)</aura:if>
+            </div>
 
 		</div>
 	</header>

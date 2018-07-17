@@ -1,4 +1,7 @@
 public with sharing class ToroNationAccountNAFPPHelper extends ToroGSAPricingProgramHelper {
+	public override List<Schema.FieldSetMember> getQuoteFields() {
+		return SObjectType.Revvy__MnQuote__c.FieldSets.GSA_Quote_Header.getFields();
+	}
 	public override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		ret.add(new ToroSelectOption('Federal','Federal'));

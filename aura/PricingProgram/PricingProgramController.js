@@ -204,6 +204,8 @@
         var selectedPricingProgram=event.getParam("selectedPricingProgram");
         var selectedPricingMethod=event.getParam("selectedPricingMethod");
         var allowSupportPlus = event.getParam("allowSupportPlus");
+        var isSupportPlusValueDollars = event.getParam("isSupportPlusValueDollars");
+        component.set("v.isSupportPlusValueDollars", isSupportPlusValueDollars);
         component.set("v.allowSupportPlus", allowSupportPlus);
         //console.log('handlePricingProgramChange :selectedPricingProgram ' + event.getParam("selectedPricingProgram"));
         //console.log('handlePricingProgramChange :selectedPricingMethod ' + event.getParam("selectedPricingMethod"));
