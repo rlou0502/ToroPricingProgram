@@ -398,7 +398,7 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>GSA Quote Summary</label>
+        <label>GSA Traction Unit</label>
     </fieldSets>
     <fieldSets>
         <fullName>Large_Package_QI_Summary_Updatable_Cols</fullName>
@@ -714,7 +714,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Total_Com__c</field>
+            <field>Toro_Com_Dollar__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1975,7 +1975,7 @@
     <fields>
         <fullName>Toro_Com_Dollar__c</fullName>
         <externalId>false</externalId>
-        <label>Toro Com $</label>
+        <label>Com $</label>
         <precision>12</precision>
         <required>false</required>
         <scale>2</scale>

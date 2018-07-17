@@ -322,7 +322,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 			if(qi.Total_Toro_Award__c != 0) {
 				qi.Blended_GP__c = qi.Total_Gross_Profit_Value__c/qi.Total_Toro_Award__c*100;
 			}
-			
+			qi.Toro_Com_Dollar__c = qi.Total_Gross_Profit_Value__c;
 			//system.debug('checking MSRP ext qi.Toro_Total_Extended_MSRP_Price__c=' + qi.Toro_Total_Extended_MSRP_Price__c);
 			system.debug('check total award for each qi -- 1 quoteTotalAward= ' + quoteTotalAward + ' quoteTotalToroAward='+quoteTotalToroAward);
 			quoteTotalAward       		+= qi.Total_Award__c;

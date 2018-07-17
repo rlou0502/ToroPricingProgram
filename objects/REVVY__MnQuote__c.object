@@ -85,7 +85,7 @@
     <fields>
         <fullName>Commission_Dollar__c</fullName>
         <externalId>false</externalId>
-        <label>Commission Dollar</label>
+        <label>Total Commission</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
