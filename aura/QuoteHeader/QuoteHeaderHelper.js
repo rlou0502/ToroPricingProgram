@@ -75,6 +75,8 @@
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
                     component.set('v.contractMessage', retResponse.contractMessage);
+                    component.set('v.setupFeeOverride', quote.Setup_Fee_Overridden__c);
+                    
                     var selectedProgram = component.get("v.selectedPricingProgram");
                     var selectedMethod = component.find("v.selectedPricingMethod");
                     var allowSupportPlus = component.get("v.allowSupportPlus");
