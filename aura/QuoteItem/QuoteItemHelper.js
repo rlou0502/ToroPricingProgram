@@ -916,7 +916,7 @@
 		$A.enqueueAction(getAction);
         
     },
-    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, performancePart, save, returnUrl) {
+    updateSaveQuote: function(component, pricingProgram, pricingMethod, setupFeePercent, setupFeeOverride, performancePart, save, returnUrl) {
     	//console.log('updateQuote'); 
     	var self = this;
         var invalid = false;
@@ -1027,7 +1027,8 @@
                 pricingProgram: pricingProgram,
                 pricingMethod: pricingMethod,
                 setupFeePercent: setupFeePercent, 
-                performancePart: performancePart
+                performancePart: performancePart,
+                setupFeeOverride: setupFeeOverride
             },      
             quoteItemsDataJSON: quoteItemsDataJSON,
             qiSublinesDataJSON : qiSublinesDataJSON,

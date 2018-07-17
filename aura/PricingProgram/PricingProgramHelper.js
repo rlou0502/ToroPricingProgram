@@ -56,7 +56,7 @@
         var result = quoteHeaderCmp.getQuoteInfo();
     	var childCmp = component.find("cmpQuoteItem");
 		childCmp.calculate(result.PricingProgram, result.PricingMethod,
-                           result.SetupFeePercent, result.PerformancePart);    
+                           result.SetupFeePercent, result.PerformancePart, result.SetupFeeOverride);    
     },
     resetQuoteApproval : function(component, quoteId) {
         var action = component.get('c.resetQuoteApproval');

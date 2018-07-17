@@ -3,7 +3,9 @@
         //console.log('QuoteHeader.init');
         helper.populateQuoteHeader(cmp);
     },
-    
+    handleSetupFeeChange: function(cmp, event, helper){
+    	cmp.set("v.setupFeeOverride", "true");    
+    },
     getPricingProgramMethod: function(cmp, event, helper) {
         var pp = cmp.get("v.selectedPricingProgram");
         var pm = cmp.get("v.selectedPricingMethod");
@@ -18,10 +20,12 @@
         var pm = cmp.get("v.selectedPricingMethod");
         var setupFeePercent = cmp.find("setupFeePercent") != null ? cmp.find("setupFeePercent").get("v.value") : 0;
         var performancePart = cmp.find("performancePart") != null ? cmp.find("performancePart").get("v.value") : false;
+        var setupFeeOverride = cmp.get("v.setupFeeOverride");
         return {"PricingProgram" : pp, 
                 "PricingMethod" : pm,
                 "SetupFeePercent" : setupFeePercent,
-                "PerformancePart" : performancePart};
+                "PerformancePart" : performancePart,
+                "SetupFeeOverride" : setupFeeOverride};
     },
     onTotalAwardPriceChange: function(cmp, event, helper) {
         var cal = document.querySelector('.js-calculate').disabled = false; 

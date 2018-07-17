@@ -77,6 +77,10 @@ public class ToroPricingProgramController {
 	    	if(values.get('performancePart') != null) {
 	    		performancePart = (Boolean)values.get('performancePart');
 	    	}
+	    	boolean setupFeeOverride = false;
+	    	if(values.get('setupFeeOverride') != null) {
+	    		setupFeeOverride = (Boolean)values.get('setupFeeOverride');
+	    	}
 	    	ToroPricingProgramData ppd = new ToroPricingProgramData(rs.selectedPricingProgram);
 	    	rs.currentQuoteItem = qiId;
 			ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
@@ -111,7 +115,7 @@ public class ToroPricingProgramController {
 			pp.initialize(quoteId);
 			pp.quote.Pricing_Program_Name__c=pricingProgram;
 			pp.quote.Pricing_Program__c=pricingProgramData.Name;
-			
+			pp.quote.Setup_Fee_Overridden__c=setupFeeOverride;
 			if(pricingProgramData != null) {
 				pp.quote.Contract_Number__c = pricingProgramData.Contract_Number__c;
 				pp.quote.Pricing_Program_Type__c = pricingProgramData.PricingProgramType__c;

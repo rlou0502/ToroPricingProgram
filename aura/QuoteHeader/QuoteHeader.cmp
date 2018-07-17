@@ -12,6 +12,7 @@
     <aura:attribute name="allowSupportPlus" type="Boolean"/>
     <aura:attribute name="contractMessage" type="String"/>
     <aura:attribute name="dirtyMessage" type="String"/>
+    <aura:attribute name="setupFeeOverride" type="Boolean"/>
     <aura:registerEvent name="pricingProgramEvent" type="c:PricingProgramChangeEvent"/>
     <aura:registerEvent name="pricingMethodEvent" type="c:PricingMethodChangeEvent"/>
     <aura:registerEvent name="pricingProgramSetEvent" type="c:PricingProgramSetFromDBEvent"/>
@@ -84,7 +85,7 @@
             	<td scope="col" class="setup-fee">
                     <div class="slds-truncate slds-p-bottom_x-small" title="Setup Fee">Setup Fee %</div>
                     <div>
-                        <ui:inputNumber aura:id="setupFeePercent" value="{!v.quote.Setup_Fee__c}" disabled="{!v.readOnly}"/>
+                        <ui:inputNumber aura:id="setupFeePercent" value="{!v.quote.Setup_Fee__c}" disabled="{!v.readOnly}" change="{!c.handleSetupFeeChange}"/>
                     </div>
             	</td>
             </aura:if>

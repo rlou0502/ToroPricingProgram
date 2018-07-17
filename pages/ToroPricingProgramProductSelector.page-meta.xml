@@ -5,8 +5,8 @@
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <label>ToroPricingProgramProductSelector</label>
     <packageVersions>
-        <majorNumber>30</majorNumber>
-        <minorNumber>16</minorNumber>
+        <majorNumber>31</majorNumber>
+        <minorNumber>9</minorNumber>
         <namespace>REVVY</namespace>
     </packageVersions>
 </ApexPage>

@@ -35,6 +35,8 @@
         <aura:attribute name="pricingMethod" type="String" />
         <aura:attribute name="setupFeePercent" type="decimal" />
         <aura:attribute name="performancePart" type="boolean" />
+        <aura:attribute name="setupFeeOverride" type="boolean" />
+        
     </aura:method>
     <aura:method name="saveQuote"
       description="This method makes an aura call to update quote">
@@ -42,6 +44,7 @@
         <aura:attribute name="pricingMethod" type="String" />
         <aura:attribute name="setupFeePercent" type="decimal" />
         <aura:attribute name="performancePart" type="boolean" />
+        <aura:attribute name="setupFeeOverride" type="boolean" />
         <aura:attribute name="returnUrl" type="String" />
         
     </aura:method>

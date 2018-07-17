@@ -35,12 +35,12 @@
                             </apex:commandbutton>
                         </apex:column>
                         <apex:column >
-                            <apex:facet name="header">Name</apex:facet>
-                            <apex:outputText value="{!selProd.productName}" />
-                        </apex:column>
-                        <apex:column >
                             <apex:facet name="header">Id</apex:facet>
                             <apex:outputText value="{!selProd.revvyId}" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Name</apex:facet>
+                            <apex:outputText value="{!selProd.productName}" />
                         </apex:column>
                     </apex:pageBlockTable>
                 </apex:pageBlockSection>
