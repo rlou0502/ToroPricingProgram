@@ -928,6 +928,9 @@ public class ToroPricingProgramController {
 
     	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
+    		if(String.isBlank(qi.pricing_program__c)) {
+    			qi.pricing_program__c = pricingProgram;	
+    		}
     		if(String.isNotBlank(qi.PricingMethodValue__c)){
     			decimal d = decimal.valueOf(qi.PricingMethodValue__c).setScale(2, roundingMode.HALF_UP);
     			qi.PricingMethodValue__c = String.valueOf(d);
