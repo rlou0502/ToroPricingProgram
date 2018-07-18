@@ -68,9 +68,11 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 			ToroPricingMethodHelper secondaryHelper = new ToroPricingMethodHelper();
 			secondaryHelper.quoteItemList = secondaryPricingProgramQuoteItems;	
 			secondaryHelper.quote=this.quote;	
-			//secondaryHelper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
-		} else {
-		system.debug('inside state calculateRebateMarginImpl quoteItemList=');
+			secondaryHelper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
+		} 
+		system.debug('baseCalculateImplementation.inside state primaryPricingProgramQuoteItems.size=' + primaryPricingProgramQuoteItems.size());
+		if(primaryPricingProgramQuoteItems.size() > 0) {
+		system.debug('baseCalculateImplementation.inside state calculateRebateMarginImpl quoteItemList=');
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};
 		system.debug('inside state calculateRebateMarginImpl--rebate =' + rebates);
 		boolean drivenByGP = false; 
@@ -187,9 +189,9 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					}
 				}	
 			}
-		
+			
 		}	
-		}													
+		}												
 		return quoteItemList;															
 	}
 	public override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgram, 

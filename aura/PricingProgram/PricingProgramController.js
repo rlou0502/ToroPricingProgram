@@ -8,7 +8,7 @@
     handleQuoteHeaderLoaded : function(component, evt, helper) { 	
         console.log('@@handleQuoteHeaderLoaded');
         var allowSupportPlus=evt.getParam("allowSupportPlus");
-        var isSupportPlusValueDollars = evt.getParams("isSupportPlusValueDollars");
+        var isSupportPlusValueDollars = evt.getParam("isSupportPlusValueDollars");
         component.set("v.allowSupportPlus", allowSupportPlus);
         component.set("v.isSupportPlusValueDollars", isSupportPlusValueDollars);
         console.log('isSupportPlusValueDollars: ' + isSupportPlusValueDollars);
@@ -212,6 +212,7 @@
         var isSupportPlusValueDollars = event.getParam("isSupportPlusValueDollars");
         component.set("v.isSupportPlusValueDollars", isSupportPlusValueDollars);
         component.set("v.allowSupportPlus", allowSupportPlus);
+        console.log('isSupportPlusValueDollars: ' + isSupportPlusValueDollars);
         //console.log('handlePricingProgramChange :selectedPricingProgram ' + event.getParam("selectedPricingProgram"));
         //console.log('handlePricingProgramChange :selectedPricingMethod ' + event.getParam("selectedPricingMethod"));
         //component.set("v.appContacts", event.getParam("contacts"));

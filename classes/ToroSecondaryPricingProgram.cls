@@ -10,15 +10,22 @@ public virtual class ToroSecondaryPricingProgram {
 		decimal rebatePercent = 0;
 		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- ppExtId=' + ppExtId);
 		if(!DNetPercentMap.containsKey(ppExtId)) {
+			system.debug(logginglevel.info, 'retrieveRebatePercent.check point 1');
 			Revvy__MnStrategy1__c pp = ToroCacheManager.getPricingProgram(ppExtId);
+			system.debug(logginglevel.info, 'retrieveRebatePercent.check point 2');
 			//Equipment Partnership
 			List<Revvy__MnStrategy2__c> pplList = pp.PricingProgramLines__r;
+			system.debug(logginglevel.info, 'retrieveRebatePercent.check point 3');
 			if(pplList != null && pplList.size() == 1) {
+				system.debug(logginglevel.info, 'retrieveRebatePercent.check point 4');
 				Revvy__MnStrategy2__c ppl = pp.PricingProgramLines__r[0];
+				system.debug(logginglevel.info, 'retrieveRebatePercent.check point 5');
 				if(ppl.Award_Price_as_a_Percent_of_DN__c == null && ppl.Rebate_as_a_Percent_of_DN__c != null) {
+					system.debug(logginglevel.info, 'retrieveRebatePercent.check point 6=' + ppl.Rebate_as_a_Percent_of_DN__c);
 					return ppl.Rebate_as_a_Percent_of_DN__c;	
 				}		
 			}
+			system.debug(logginglevel.info, 'retrieveRebatePercent.check point 7');
 		    Map<decimal, ToroPricingMethodData> dnet2PM = new Map<decimal, ToroPricingMethodData>();
 		    for(Revvy__MnStrategy2__c  ppl : pplList) {
 		    	ToroPricingMethodData pmd = new ToroPricingMethodData();
@@ -26,7 +33,9 @@ public virtual class ToroSecondaryPricingProgram {
 		    	dnet2PM.put((ppl.Award_Price_as_a_Percent_of_DN__c).setScale(5, roundingMode.HALF_UP), new ToroPricingMethodData(ppl.Off_Mfg_Sugg_Ttl__c, ppl.Award_Price_as_a_Percent_of_DN__c,
 									ppl.Rebate_as_a_Percent_of_DN__c, ppl.Distributor_Margin__c, null));	
 		    }
+		    system.debug(logginglevel.info, 'retrieveRebatePercent.check point 8');
 			DNetPercentMap.put(ppExtId, dnet2PM);	
+			system.debug(logginglevel.info, 'retrieveRebatePercent.check point 9');
 		}
 		system.debug(logginglevel.info, 'retrieveRebatePercentBasedOnBlendedDNet-- dnetPercent=' + dnetPercent);	
 		system.debug(logginglevel.info, 'retrievePricingInfoForDNet-- DNetPercentMap=' + DNetPercentMap);	
