@@ -390,6 +390,11 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                     <default>false</default>
                     <label>Base_w_Model_Qty_Pricing</label>
                 </value>
+                <value>
+                    <fullName>Support_Chart</fullName>
+                    <default>false</default>
+                    <label>Support Chart</label>
+                </value>
             </valueSetDefinition>
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
@@ -426,6 +431,10 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
                 <valueName>Equipment_Partnership</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Support_Chart</valueName>
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>Corporate Account</controllingFieldValue>
