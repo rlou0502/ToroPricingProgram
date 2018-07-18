@@ -438,7 +438,6 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Probability_Goes_Toro__c</fullName>
-        <defaultValue>25/100</defaultValue>
         <description>Commercial. Probability that the opportunity closes in Toro&apos;s favor</description>
         <externalId>false</externalId>
         <inlineHelpText>Probability that the opportunity closes in Toro&apos;s favor</inlineHelpText>
@@ -453,7 +452,6 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Project_Probability__c</fullName>
-        <defaultValue>25/100</defaultValue>
         <description>Probability that the project will complete</description>
         <externalId>false</externalId>
         <inlineHelpText>Probability that the project will complete by Close Date</inlineHelpText>

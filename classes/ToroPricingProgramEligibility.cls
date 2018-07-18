@@ -20,6 +20,9 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 			}	
 		}
 		system.debug(logginglevel.info, ' result size= ' + result.size());
+		for(Revvy__MnStrategy1__c prp : result) {
+			System.debug('retrieveChartStatePricingProgramsForDistributor =' + prp.Name);	
+		}
 		return result;
 														
 	}
@@ -67,6 +70,9 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 				result.addAll(otherPricingPrograms);	
 			}
 		}
+		for(Revvy__MnStrategy1__c prp : result) {
+			System.debug('retrieveOtherProgramsForCustomerAccount =' + prp.Name);	
+		}
 		return result;													
 	}
 	
@@ -93,7 +99,9 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 			}
 		}
 		result = retrieveOtherProgramsForCustomerAccount(customer, result);
-		
+		for(Revvy__MnStrategy1__c prp : result) {
+			System.debug('retrieveOtherProgramsForCustomerAccount =' + prp.Name);	
+		}
 		return result;
 														
 	}
@@ -108,7 +116,9 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 				returnPricingPrograms.add(pp);	
 			}	
 		}
-		
+		for(Revvy__MnStrategy1__c prp : result) {
+			System.debug('retrieveOtherProgramsForCustomerAccount =' + prp.Name);	
+		}
 		return returnPricingPrograms;
 	} 
 	public static Set<String> retrieveNonEligiblePricingProgramsForQuote(Id quoteId) {
