@@ -6,8 +6,12 @@
         component.set("v.dirtyFlag", true);
     },
     handleQuoteHeaderLoaded : function(component, evt, helper) { 	
+        console.log('@@handleQuoteHeaderLoaded');
         var allowSupportPlus=evt.getParam("allowSupportPlus");
+        var isSupportPlusValueDollars = evt.getParams("isSupportPlusValueDollars");
         component.set("v.allowSupportPlus", allowSupportPlus);
+        component.set("v.isSupportPlusValueDollars", isSupportPlusValueDollars);
+        console.log('isSupportPlusValueDollars: ' + isSupportPlusValueDollars);
     },
     showDetailInfoBox : function(component, event, helper) {
         helper.retrieveObjectInfo(component, null, null);
@@ -201,6 +205,7 @@
     },
 	//Handle component event c:PricingProgramChangeEvent
     handlePricingProgramChange: function(component, event, helper) {
+        console.log('@@handlePricingProgramChange');
         var selectedPricingProgram=event.getParam("selectedPricingProgram");
         var selectedPricingMethod=event.getParam("selectedPricingMethod");
         var allowSupportPlus = event.getParam("allowSupportPlus");

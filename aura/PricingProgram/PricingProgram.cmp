@@ -66,14 +66,18 @@
                     <!--<button class="slds-button slds-button_neutral" onclick="{!c.manageProduct}">{!$Label.c.PP_ManageProducts}</button>-->
                     <button class="slds-button slds-button_neutral" onclick="{!c.addNonToroProducts}" disabled="{!v.readOnly}">{!$Label.c.PP_NonToroProducts}</button>
                     <aura:if isTrue="{!v.allowSupportPlus}">
-                    	<button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}" disabled="{!v.readOnly}">{!$Label.c.PP_SupportPlus}</button>
+                        <aura:if isTrue="{!v.isSupportPlusValueDollar}">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}" disabled="{!v.readOnly}">Add Value Dollars</button>
+                            <aura:set attribute="else">
+                                <button class="slds-button slds-button_neutral" onclick="{!c.addSupportPlus}" disabled="{!v.readOnly}">{!$Label.c.PP_SupportPlus}</button>
+                            </aura:set>
+                        </aura:if>
                     </aura:if>
 
                     </div>
-	    </div>
-                    test {!v.isSupportPlusValueDollars} <aura:if isTrue="{!v.isSupportPlusValueDollars}">(test uses value dollars)</aura:if>
+        </div>
+ test {!v.isSupportPlusValueDollar}
             </div>
-
 		</div>
 	</header>
 

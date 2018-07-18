@@ -68,7 +68,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 			ToroPricingMethodHelper secondaryHelper = new ToroPricingMethodHelper();
 			secondaryHelper.quoteItemList = secondaryPricingProgramQuoteItems;	
 			secondaryHelper.quote=this.quote;	
-			secondaryHelper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
+			//secondaryHelper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
 		} else {
 		system.debug('inside state calculateRebateMarginImpl quoteItemList=');
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgram)};

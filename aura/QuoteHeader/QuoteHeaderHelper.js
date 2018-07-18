@@ -48,6 +48,7 @@
 		$A.enqueueAction(getAction);
     },
 	populateQuoteHeader : function(component) {
+        console.log('@@populateQuoteHeader');
 		var quoteId = component.get('v.quoteId');
 		var getAction = component.get('c.getQuoteHeaderFields');
 		getAction.setParams({
@@ -66,6 +67,7 @@
 	                var fields = retResponse.fieldSetMembers;
 					var quote = retRecords[0];
                     debugger;
+                    console.log(retResponse);
 	                component.set('v.fields', fields);
                     component.set('v.pricingProgramOptions', retResponse.pricingProgramOptions);
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
@@ -82,13 +84,16 @@
                     var selectedMethod = component.find("v.selectedPricingMethod");
                     var allowSupportPlus = component.get("v.allowSupportPlus");
                     var cmpEvent = component.getEvent("quoteHeaderLoaded");
+                    var isSupportPlusValueDollars = retResponse.isSupportPlusValueDollars;
                     cmpEvent.setParams({
                         "selectedPricingProgram" : selectedProgram,
                         "selectedPricingMethod" : selectedMethod,
                         "allowSupportPlus" : allowSupportPlus,
                         "displaysetupFee" : retResponse.displaySetupFee,
-                        "setupFeePercent" : quote.Setup_Fee__c
+                        "setupFeePercent" : quote.Setup_Fee__c,
+                        "isSupportPlusValueDollars": isSupportPlusValueDollars
                     });
+                    console.log('isSupportPlusValueDollars: ' + isSupportPlusValueDollars);
                     cmpEvent.fire();
                     
 	            }

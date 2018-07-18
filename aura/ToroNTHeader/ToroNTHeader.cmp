@@ -9,7 +9,7 @@
     <aura:attribute name="totalAwardAllied" type="Decimal"/>
     <aura:attribute name="totalAwardTradeIns" type="Decimal"/>
     <aura:attribute name="totalAwardServices" type="Decimal"/>
-
+<b>
 <ul class="slds-grid slds-page-header__detail-row rolling_total" style="margin-top:20px;margin-left:15px;">
     <li class="slds-page-header__detail-block">
         <p class="slds-text-title_caps slds-m-bottom_small" title="Total ADJ Award">Total ADJ Award</p>
@@ -36,5 +36,5 @@
         </p>
     </li>
 </ul>
-
+</b>
 </aura:component>

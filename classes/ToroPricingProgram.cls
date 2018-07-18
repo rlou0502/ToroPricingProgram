@@ -26,7 +26,7 @@ public virtual class ToroPricingProgram {
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		System.debug('\n\n@@pp_header: ' + pp_header + '\n\n');
-		return 'Award Only'.equals(pp_header.Determines_Support_Plus_Allowance__c);
+		return  pp_header.Determines_Support_Plus_Allowance__c == 'Award Only';
 	}
 	public boolean chainCall { get; set;}
 	public string payloadOfChainCall { get; set; }
