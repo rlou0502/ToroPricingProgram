@@ -26,7 +26,7 @@ public virtual class ToroPricingProgram {
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		System.debug('\n\n@@pp_header: ' + pp_header + '\n\n');
-		return  pp_header.Determines_Support_Plus_Allowance__c == 'Award Only';
+		return 'Award Only'.equals(pp_header.Determines_Support_Plus_Allowance__c);
 	}
 	public boolean chainCall { get; set;}
 	public string payloadOfChainCall { get; set; }
@@ -210,6 +210,14 @@ public virtual class ToroPricingProgram {
 			this.quote.SP_Adjusted_Ext_Award__c            = spData.quote.SP_Adjusted_Ext_Award__c;
 			this.quote.SP_Toro_Responsibility__c           = spData.quote.SP_Toro_Responsibility__c;
 			this.quote.SP_Ext_Dist_Responsibility__c       = spData.quote.SP_Ext_Dist_Responsibility__c;
+			//adjust rebate/gp based on support plus distributor cost
+			Decimal disti_cost 							   = CMnQuoteUtil.defaultDecimal(this.quote.Distributor_Contribution__c);
+			quote.Toro_Total_Rebate__c             		   = CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Rebate__c) - disti_cost; 
+			quote.Toro_Total_Quote_Gross_Profit__c         = CMnQuoteUtil.defaultDecimal(quote.Toro_Award__c) - CMnQuoteUtil.defaultDecimal(quote.Toro_Total_DNet__c) + CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Rebate__c);
+			if(quote.Toro_Award__c != null && quote.Toro_Award__c != 0) {
+				quote.Toro_Total_Quote_Gross_Profit_Percent__c = quote.Toro_Total_Quote_Gross_Profit__c/quote.Toro_Award__c * 100;
+			}
+		
 		}
 
 		else {
