@@ -15,7 +15,24 @@ public class ToroPricingProgramController {
     		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedQuoteId, quoteId);
     	//}
     }
-
+	public static ToroSObjectResultSet setPricingMethodValueFieldLabel(ToroSObjectResultSet rs) {
+		for(FieldSetMember fs : rs.fieldSetMembers) {
+    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+    			fs.label = rs.selectedPricingMethod;
+    		}
+    	}
+    	for(FieldSetMember fs : rs.fieldSetSummaryMembers) {
+    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+    			fs.label = rs.selectedPricingMethod;
+    		}
+    	}
+    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
+    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
+    			fss.label = rs.selectedPricingMethod;
+    		}
+    	}	
+    	return rs;
+	}
     @AuraEnabled
     public static void svc_clearDirtyQuoteItem(Id quoteId) {
     	System.debug('>>> svc_clearDirtyQuoteItem 111 quoteId='+quoteId);
@@ -293,16 +310,7 @@ public class ToroPricingProgramController {
 	    		}
 	    	}
 	    	*/
-	    	for(FieldSetMember fs : rs.fieldSetMembers) {
-	    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fs.label = rs.selectedPricingMethod;
-	    		}
-	    	}
-	    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-	    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fss.label = rs.selectedPricingMethod;
-	    		}
-	    	}
+	    	rs = setPricingMethodValueFieldLabel(rs);
 	    	ToroCacheManager.putQuote(pp.quote);
 	    	
 	    	rs.quote = pp.quote;
@@ -360,16 +368,7 @@ public class ToroPricingProgramController {
 		
     	List<Revvy__MnStrategy4__c> qis = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
     	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-    	for(FieldSetMember fs : rs.fieldSetMembers) {
-    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-    			fs.label = rs.selectedPricingMethod;
-    		}
-    	}
-    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-    			fss.label = rs.selectedPricingMethod;
-    		}
-    	}
+    	rs = setPricingMethodValueFieldLabel(rs);
     	rs.values =  pp.quoteItems;
     	rs.displaySetupFee=pp.displaySetupFee();
     	return rs;
@@ -395,16 +394,7 @@ public class ToroPricingProgramController {
 		    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 	
 		    	pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-		    	for(FieldSetMember fs : rs.fieldSetMembers) {
-		    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-		    			fs.label = rs.selectedPricingMethod;
-		    		}
-		    	}
-		    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-		    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-		    			fss.label = rs.selectedPricingMethod;
-		    		}
-		    	}
+		    	rs = setPricingMethodValueFieldLabel(rs);
 		    	pp.quote.Total_Award_Dollars__c = awardPrice;
 		    	ToroCacheManager.putQuote(pp.quote);
 		    	rs.quote = pp.quote;
@@ -452,16 +442,7 @@ public class ToroPricingProgramController {
 		    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
 	
 		    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-		    	for(FieldSetMember fs : rs.fieldSetMembers) {
-		    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-		    			fs.label = rs.selectedPricingMethod;
-		    		}
-		    	}
-		    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-		    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-		    			fss.label = rs.selectedPricingMethod;
-		    		}
-		    	}
+		    	rs = setPricingMethodValueFieldLabel(rs);
 		    	pp.quote.Gross_Profit_Percent__c = gpPercent;
 		    	ToroCacheManager.putQuote(pp.quote);
 		    	rs.quote = pp.quote;
@@ -613,16 +594,7 @@ public class ToroPricingProgramController {
     		rs.values =  pp.quoteItems;
     		rs.displaySetupFee=pp.displaySetupFee();
     		rs.displayPerformancePart = pp.displayPerformancePart();
-    		for(FieldSetMember fs : rs.fieldSetMembers) {
-	    		if(fs.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fs.label = rs.selectedPricingMethod;
-	    		}
-	    	}
-	    	for(FieldSetMember fss : rs.fieldSetSubMembers) {
-	    		if(fss.fieldPath.equalsIgnoreCase('PricingMethodValue__c')) {
-	    			fss.label = rs.selectedPricingMethod;
-	    		}
-	    	}
+    		rs = setPricingMethodValueFieldLabel(rs);
 	    	List<String> spKeys = new List<String>();
 			if(String.isNotBlank(ppd.externalId)) {
 		    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);

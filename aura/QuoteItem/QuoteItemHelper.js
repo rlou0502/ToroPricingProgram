@@ -79,6 +79,12 @@
 	                    	sublines[i].value=newVal;
                         }
 	                }
+                    var tractionLines = document.querySelectorAll(".TractionUnit[data-quoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
+	                for (var i=0; i<tractionLines.length; i++) {
+                        if(tractionLines[i].value == undefined || tractionLines[i].value == "") {
+	                    	tractionLines[i].value=newVal;
+                        }
+	                }
             	}
             	
             	
@@ -210,7 +216,7 @@
                     cellText.className += " has-required-field ";
                 }
                     
-                tableDataNode.className += " align-right ";
+                tableDataNode.className += " align-right "+ lineType + " ";
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 var decimalPoint = 4;
                 if(pricingMethod == "Total Award $" || field.type.toLowerCase() === 'currency') {

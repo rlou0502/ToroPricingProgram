@@ -8,15 +8,15 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         String psegment = pricingParams.qtSegment;
         String quoteId = pricingParams.quoteId;
         
-        Boolean bcorpAccount = false;
+        Boolean bdistriPrice = false;
         Decimal exchangeRate = 1;
         Decimal conversionRate = 1;
         for(REVVY__MnQuote__c mnQuote : [Select Id, Enable_Toro_MSRP_Pricing__c, Currency_Conversion_Rate__c, Exchange_Rate__c
                                               , REVVY__Account__r.Program_ID__c, REVVY__Account__c 
                                            From REVVY__MnQuote__c where Id =:quoteId]) {
         	//if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
-	        if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c) {
-        		bcorpAccount = true;
+	        if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c && 'OakCreek'.equalsIgnoreCase(psegment)) {
+        		bdistriPrice = true;
         	}                                  	
 	        system.debug('--- ToroPricingHook productSearchPriceHook mnQuote.Exchange_Rate__c='+mnQuote.Exchange_Rate__c);
 	        system.debug('--- ToroPricingHook productSearchPriceHook mnQuote.Currency_Conversion_Rate__c='+mnQuote.Currency_Conversion_Rate__c);
@@ -38,7 +38,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 		}		
         
         system.debug('--- ToroPricingHook productSearchPriceHook distSegmentSet =' + distSegmentSet);
-        system.debug('--- ToroPricingHook productSearchPriceHook bcorpAccount =' + bcorpAccount);
+        system.debug('--- ToroPricingHook productSearchPriceHook bdistriPrice =' + bdistriPrice);
         system.debug('--- ToroPricingHook productSearchPriceHook psegment =' + psegment);
         system.debug('--- ToroPricingHook productSearchPriceHook prodsMap.keySet =' + prodsMap.keyset());
 			
@@ -57,7 +57,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 				if(plMap.containsKey(prodName)) {
 					REVVY__MnPriceListLine__c pll = plMap.get(prodName);
 					Decimal damount = (pll.REVVY__ListedPrice__c / exchangeRate) * conversionRate;
-					if(!bcorpAccount && distSegmentSet.contains(psegment.toLowerCase())) {
+					if(bdistriPrice && distSegmentSet.contains(psegment.toLowerCase())) {
 						damount = (pll.REVVY__FloorPrice__c / exchangeRate) * conversionRate;
 					}
 			        system.debug('--- ToroPricingHook productSearchPriceHook damount =' + damount);
@@ -94,7 +94,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 	                                              , REVVY__Account__r.Program_ID__c, REVVY__Account__c 
 	                                           From REVVY__MnQuote__c where Id =:qt.Id]) {
 	        	//if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
-	        	if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c) {
+	        	if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c && 'OakCreek'.equalsIgnoreCase(qtSegment)) {
 	        		bcorpAccount = true;
 	        	}         	
         		if(mnQuote.Exchange_Rate__c != null && mnQuote.Exchange_Rate__c > 0) {

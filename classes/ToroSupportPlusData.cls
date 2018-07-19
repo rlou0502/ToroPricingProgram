@@ -161,6 +161,7 @@ public with sharing class ToroSupportPlusData {
 		this.baseDNet = this.quote.Toro_Total_DNet__c;
 		this.baseAward = this.quote.Toro_Award__c;
 
+		/*
 		// remove secondary program items from base DNet and base Award
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
 			if (
@@ -178,6 +179,7 @@ public with sharing class ToroSupportPlusData {
 				}
 			}
 		}
+		*/
 
 		// re-add SP+ extended totals
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
