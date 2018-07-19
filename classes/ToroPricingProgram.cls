@@ -123,9 +123,22 @@ public virtual class ToroPricingProgram {
 		system.debug('pricingProgramExtId = ' + pricingProgramExtId);
 		Map<String, Object > result = null;
 		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(pricingProgramExtId);
+		List<ToroSelectOption> ppSelectOptions = ToroCacheManager.getPricingProgramEligibility(quote.Id);
+		Set<String> eligiblePricingProgramSet = new Set<String>();
+		for(ToroSelectOption opt : ppSelectOptions) {
+			ToroPricingProgramData ppd = new ToroPricingProgramData(opt.value);
+			eligiblePricingProgramSet.add(ppd.externalId);
+		}
+		system.debug('retrieveSecondaryPrograms=' + eligiblePricingProgramSet);
 		if(String.isNotBlank(pricingProgram.SecondaryProgram__c)) {
 			result = new Map<String, Object >{pricingProgramExtId=>pricingProgram.Name};
-			String[] pps = pricingProgram.SecondaryProgram__c.split(';');
+			String[] ppParts = pricingProgram.SecondaryProgram__c.split(';');
+			List<String> pps=new List<String>();
+			for(String s : ppParts) {
+				if(eligiblePricingProgramSet.contains(s)) {
+					pps.add(s);	
+				}	
+			}
 			Set<String> senondaryPricingProgramSet = new Set<String>();
 			List<Revvy__MnStrategy1__c> rebates = [Select Id, Name, ExternalId__c, Parent_Program__r.ExternalId__c
 					From Revvy__MnStrategy1__c where Status__c = 'Active' AND Parent_Program__r.ExternalId__c  in :pps and Parent_Program__r.Hide_Children__c = FALSE  order by Sequence__c ];
@@ -561,6 +574,7 @@ public virtual class ToroPricingProgram {
 		}
 
 		System.debug('\n\n@@quote: ' + quote + '\n\n');
+		ToroCacheManager.putQuote(quote);
 		return quoteItemList;
 	}
 

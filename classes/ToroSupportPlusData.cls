@@ -74,7 +74,8 @@ public with sharing class ToroSupportPlusData {
 	public ToroSupportPlusData(Id quoteId, String pricingProgramExtId) {
 		this();
 		try {
-			this.quote = ToroSupportPlusHelper.getQuote(quoteId);
+			// this.quote = ToroSupportPlusHelper.getQuote(quoteId);
+			this.quote = ToroCacheManager.getQuote(quoteId);
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
 			initializeSupportPlusAllowance(pricingProgramExtId);
 			initializeDistributorResponsibilities(pricingProgramExtId);
@@ -95,6 +96,8 @@ public with sharing class ToroSupportPlusData {
 	 * @return return_type
 	 */
 	public void initializeSupportPlusAllowance(String pricingProgramExtId) {
+		if (String.isBlank(pricingProgramExtId)) return;
+
 		List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(pricingProgramExtId);
 		this.quote.Toro_Support_Plus_Allowance__c = 0;
 		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
@@ -143,9 +146,14 @@ public with sharing class ToroSupportPlusData {
 	 * @return return_type
 	 */
 	public void initializeDistributorResponsibilities(String pricingProgramExtId) {
+		System.debug('\n\n@@initializeDistributorResponsibilities\n\n');
+		// if (this.quote.Toro_Blended_Percent_of_DN__c == null) return; // don't calculate distributor responsibility if we don't have this value
+		if (String.isBlank(pricingProgramExtId)) return;
+
 		Decimal defaultDistRespValue = 50.0;
 		Set<Decimal> distRespValueSet = new Set<Decimal>();
 		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(pricingProgramExtId);
+		System.debug('\n\n@@this.quote.Toro_Blended_Percent_of_DN__c: ' + this.quote.Toro_Blended_Percent_of_DN__c + '\n\n');
 		for (Support_Plus_Contribution__c contrib : contribs) {
 			distRespValueSet.add(contrib.Distributor_Contribution__c);
 			if (
@@ -155,7 +163,8 @@ public with sharing class ToroSupportPlusData {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
 			}
 		}
-
+		System.debug('\n\n@@defaultDistRespValue: ' + defaultDistRespValue + '\n\n');
+		
 		if (this.quote.Distributor_Responsibility__c == null || this.quote.Is_Dirty__c) {
 			this.quote.Distributor_Responsibility__c = defaultDistRespValue;
 		}
@@ -226,6 +235,7 @@ public with sharing class ToroSupportPlusData {
 		// Decimal dnetTotal = this.quote.Toro_Total_DNet__c;
 		// Decimal awardTotal = this.quote.Toro_Award__c;
 
+		if (this.quote.Distributor_Responsibility__c == null) return;
 
 		System.debug('\n\n@@1 dnetTotal: ' + dnetTotal + '\n\n');
 		System.debug('\n\n@@1 awardTotal: ' + awardTotal + '\n\n');
