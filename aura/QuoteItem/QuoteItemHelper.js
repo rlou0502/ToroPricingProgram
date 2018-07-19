@@ -599,7 +599,15 @@
             
             //console.log('----' + document.querySelector("tr#QuoteItem th.Product_Name__c").offsetWidth);        
         });
-        
+        var chevronStatus = component.get('v.chevronStatus');
+        var chevronList = document.getElementsByClassName("chevron");
+        for(var index=0; index < chevronList.length; index++ ) {
+            var elm = chevronList[index];
+            if(chevronStatus[index]){
+                elm.classList.remove("bottom", "right");
+                elm.classList.add(chevronStatus[index]);
+            }
+        }
         self.hideSpinner();
     },
 	populateQuoteItems : function(component) {  
@@ -614,7 +622,7 @@
             pricingMethod: pricingMethod,
             objId: quoteId
         });
-        debugger;
+        
 		getAction.setCallback(this, 
 	        function(response) {
 	            var state = response.getState();
@@ -997,13 +1005,18 @@
         console.log('populateQuoteItems.pricingProgram =' + pricingProgram);
         console.log('populateQuoteItems.pricingMethod =' + pricingMethod);
         var getAction = component.get('c.svc_updateQuoteData2');
-       
+        var chevronStatus = document.getElementsByClassName("chevron");
+        var chevrons = [];
+        for(var index=0; index < chevronStatus.length; index++ ) {
+            chevrons[index] = chevronStatus[index].classList[1];
+        }
         var nodeList = document.getElementsByClassName("collapsible");
         var collapsibles = [];
         for(var index=0; index < nodeList.length; index++ ) {
             collapsibles[index] = nodeList[index].style.display;
         }
         component.set('v.collapsibles', collapsibles);
+        component.set('v.chevronStatus', chevrons);
         getAction.setParams({
             values: {
                 quoteId: quoteId,

@@ -214,7 +214,7 @@ public virtual class ToroPricingProgram {
 		if (pp_header != null && pp_header.AllowSupportPlus__c) { 
 			// ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header);
 			ToroSupportPlusData spData = new ToroSupportPlusData(quoteId, pp_header.ExternalId__c);
-			spData.initializeSupportPlusQuoteTotals(this.quote.Toro_Total_DNet__c, this.quote.Toro_Award__c); 
+			// spData.initializeSupportPlusQuoteTotals(this.quote.Toro_Total_DNet__c, this.quote.Toro_Award__c); 
 			this.quote.Distributor_Responsibility__c       = spData.quote.Distributor_Responsibility__c;
 			this.quote.Toro_Support_Plus_Allowance__c      = spData.quote.Toro_Support_Plus_Allowance__c;
 			this.quote.Toro_Support_Plus_Allowance_Used__c = spData.quote.Toro_Support_Plus_Allowance_Used__c;

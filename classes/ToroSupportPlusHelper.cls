@@ -173,7 +173,7 @@ public with sharing class ToroSupportPlusHelper {
 				, Quote_Item_Extension__r.External_Id__c
 				, Quote_Item_Extension__r.Adjusted_Quantity__c
 				, Quote_Item_Extension__r.Award_Price__c
-				, Quote_Item_Extension__r.Pricing_Program__c
+				, Quote_Item_Extension__r.Pricing_Program__c // pricing program external Id (String). not a lookup field
 				, Quote_Item_Extension__r.Pricing_Program_Overridden__c // indicates if the pricing program is overridden (DOES NOT RESET ONCE IT IS OVERRIDDEN THE FIRST TIME)
 				, Quote_Item_Extension__r.Has_Support_Plus__c
 				/*
