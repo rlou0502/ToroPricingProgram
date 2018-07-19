@@ -78,6 +78,7 @@ public with sharing class ToroSupportPlusHelper {
 				SELECT
 					Determines_Support_Plus_Allowance__c
 					, Maximum_Support_Value_To_Use__c
+					, ExternalId__c
 				FROM
 					REVVY__MnStrategy1__c
 				WHERE
