@@ -268,7 +268,12 @@ public virtual class ToroPricingProgram {
 		this.pricingMethod = priceMethod;
 		Long perfStart = System.limits.getCpuTime();
 		performancePartMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
-		
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			if(String.isBlank(qi.pricing_Program__c)) {
+				qi.pricing_Program__c = priceProgram; 	
+			}
+			
+		}
 		//call pre
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl quoteId =' + quoteId + ' -- priceProgram' + priceProgram);
 		system.debug(logginglevel.info, 'calling calculateRebateMarginImpl priceMethod =' + priceMethod + ' -- ' + quoteItemList);
