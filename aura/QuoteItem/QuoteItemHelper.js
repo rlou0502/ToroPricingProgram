@@ -552,7 +552,8 @@
         var fields = component.get("v.fields");
         var listenMSRPChange = component.get("v.listenMSRPChange");
         //console.log('----------- fields =' + fields);
-        quoteItems.forEach(function(s) {
+        quoteItems.forEach(function(s,idx) {
+            
             var tableRow = document.createElement('tr');
             tableRow.id = s["Id"];
             tableRow.className += " quoteItem";
@@ -566,6 +567,7 @@
             //tableRow.addEventListener('mouseenter', function(){self.handleQuoteItemInfo(component, tableRow.id);}, false);
             var chevronTd = document.createElement('td');
             var chevronSpan = document.createElement('span');
+            
             chevronSpan.className += " chevron right";
             chevronSpan.addEventListener('click', function(event){
                 if(event.currentTarget.classList.contains('chevron')) {
@@ -595,29 +597,10 @@
                 nodeList[index].style.display=collapsibles[index];
             }            
             
-            //console.log('----' + document.querySelector("tr#QuoteItem th.Product_Name__c").offsetWidth);
-            
-            
-            
- /*           
-            //if(listenMSRPChange) {
-            	var qi = document.querySelectorAll(".sfdcid-"+ qiId );
-                for (var i=0; i<qi.length; i++) {
-                    if(qi[i].dataset.fieldname =="PricingMethodValue__c") {
-                    	//qi[i].addEventListener('change', function(event){ self.onUpdatableValueChange(event, component);}, false);    
-                    }              
-                }    
-            //}
-*/            
+            //console.log('----' + document.querySelector("tr#QuoteItem th.Product_Name__c").offsetWidth);        
         });
         
         self.hideSpinner();
-        /*
-        var qiId = component.get("v.selectedQuoteItem");
-        if(qiId){
-        	self.handleRowClick(component, qiId);
-        }
-        */
     },
 	populateQuoteItems : function(component) {  
 		var quoteId = component.get('v.quoteId');
