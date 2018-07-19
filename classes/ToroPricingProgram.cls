@@ -277,6 +277,7 @@ public virtual class ToroPricingProgram {
 		lQuoteItemList = postCalculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
 		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
+		ToroCacheManager.putQuote(quote);
 		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling preSaveCalculateRebateMargin');
 
@@ -286,9 +287,10 @@ public virtual class ToroPricingProgram {
 		if(save) {
 			lQuoteItemList = saveQuoteItemList(lQuoteItemList);
 			lQuoteItemList = postSaveQuoteItemList(quoteId, priceProgram, priceMethod, lQuoteItemList);
+			ToroCacheManager.refreshQuote(quote.Id);
 		}
 
-		ToroCacheManager.putQuote(quote);
+		// ToroCacheManager.putQuote(quote);
 		system.debug(logginglevel.info,'calling saveQuoteItemList took ' + (System.limits.getCpuTime()-perfStart));
 		return lQuoteItemList;
 	}
@@ -574,7 +576,6 @@ public virtual class ToroPricingProgram {
 		}
 
 		System.debug('\n\n@@quote: ' + quote + '\n\n');
-		ToroCacheManager.putQuote(quote);
 		return quoteItemList;
 	}
 
