@@ -11,10 +11,11 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         Boolean bcorpAccount = false;
         Decimal exchangeRate = 1;
         Decimal conversionRate = 1;
-        for(REVVY__MnQuote__c mnQuote : [Select Id, Currency_Conversion_Rate__c, Exchange_Rate__c
+        for(REVVY__MnQuote__c mnQuote : [Select Id, Enable_Toro_MSRP_Pricing__c, Currency_Conversion_Rate__c, Exchange_Rate__c
                                               , REVVY__Account__r.Program_ID__c, REVVY__Account__c 
                                            From REVVY__MnQuote__c where Id =:quoteId]) {
-        	if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
+        	//if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
+	        if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c) {
         		bcorpAccount = true;
         	}                                  	
 	        system.debug('--- ToroPricingHook productSearchPriceHook mnQuote.Exchange_Rate__c='+mnQuote.Exchange_Rate__c);
@@ -89,10 +90,11 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 	        Boolean bcorpAccount = false;
 	        Decimal exchangeRate = 1;
 	        Decimal conversionRate = 1;
-	        for(REVVY__MnQuote__c mnQuote : [Select Id, Currency_Conversion_Rate__c, Exchange_Rate__c
+	        for(REVVY__MnQuote__c mnQuote : [Select Id, Enable_Toro_MSRP_Pricing__c, Currency_Conversion_Rate__c, Exchange_Rate__c
 	                                              , REVVY__Account__r.Program_ID__c, REVVY__Account__c 
 	                                           From REVVY__MnQuote__c where Id =:qt.Id]) {
-	        	if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
+	        	//if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
+	        	if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c) {
 	        		bcorpAccount = true;
 	        	}         	
         		if(mnQuote.Exchange_Rate__c != null && mnQuote.Exchange_Rate__c > 0) {
