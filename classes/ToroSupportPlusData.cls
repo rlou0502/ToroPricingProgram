@@ -125,7 +125,7 @@ public with sharing class ToroSupportPlusData {
 		final List<REVVY__MnQuoteItem__c> allQuoteItems = ToroSupportPlusHelper.getQuoteItems(quoteId);
 		System.debug('\n\n@@allQuoteItems: ' + allQuoteItems + '\n\n');
 		Map<Id, Revvy__MnStrategy4__c> extensions = new Map<Id, Revvy__MnStrategy4__c>();
-		if(quoteItemList != null) {
+		if (quoteItemList != null) {
 			for(Revvy__MnStrategy4__c qi : quoteItemList) {
 				extensions.put(qi.Id, qi);		
 			}
@@ -139,12 +139,14 @@ public with sharing class ToroSupportPlusData {
 				qItemIdToSpItemObjMAP.put(qiObj.Support_Plus_Original_Item__c, qiObj);
 			}
 			System.debug('qiObj.Quote_Item_Extension__c: ' + qiObj.Quote_Item_Extension__c);
-			if(qiObj.Quote_Item_Extension__c != null) {
-				Revvy__MnStrategy4__c qi = extensions.get(qiObj.Quote_Item_Extension__c);
-				System.debug('qiObj.Quote_Item_Extension__c: qi=' + qi);
-				if(qi != null) {
-					System.debug('qiObj.Quote_Item_Extension__c: Pricing_Program__c=' + qi.Pricing_Program__c);
-					qiObj.Quote_Item_Extension__r.Pricing_Program__c = qi.Pricing_Program__c;	
+			if (qiObj.Quote_Item_Extension__c != null) {
+				if (extensions.containsKey(qiObj.Quote_Item_Extension__c)) {
+					Revvy__MnStrategy4__c qi = extensions.get(qiObj.Quote_Item_Extension__c);
+					System.debug('qiObj.Quote_Item_Extension__c: qi=' + qi);
+					if (qi != null) {
+						System.debug('qiObj.Quote_Item_Extension__c: Pricing_Program__c=' + qi.Pricing_Program__c);
+						qiObj.Quote_Item_Extension__r.Pricing_Program__c = qi.Pricing_Program__c;	
+					}
 				}
 			}
 			
@@ -189,6 +191,8 @@ public with sharing class ToroSupportPlusData {
 	 * @return return_type
 	 */
 	private void recalculateQuoteValues() {
+		System.debug('\n\n@@recalculateQuoteValues\n\n');
+
 		// ============================================================================
 		// calculate base DNet and Award
 		this.baseDNetTotal = this.quote.Toro_Total_DNet__c;
@@ -198,9 +202,11 @@ public with sharing class ToroSupportPlusData {
 
 		
 		// remove secondary program items from base DNet and base Award
+		System.debug('\n\n@@before this.quote: ' + this.quote + '\n\n');
 		ToroPricingProgram tempPricingProgramInstance = ToroSupportPlusHelper.getPricingProgramWithoutSecondaryProgramItems(this.quote.Id, this.pricingProgram.ExternalId__c, this.quoteItemList);
 		this.baseDNetTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Total_DNet__c;
 		this.baseAwardTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Award__c;
+		System.debug('\n\n@@after this.quote: ' + this.quote + '\n\n');
 		/*
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
 			if (

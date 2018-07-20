@@ -8,7 +8,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         String psegment = pricingParams.qtSegment;
         String quoteId = pricingParams.quoteId;
         
-        Boolean bdistriPrice = false;
+        Boolean boakCreekMsrp = false;
         Decimal exchangeRate = 1;
         Decimal conversionRate = 1;
         for(REVVY__MnQuote__c mnQuote : [Select Id, Enable_Toro_MSRP_Pricing__c, Currency_Conversion_Rate__c, Exchange_Rate__c
@@ -16,7 +16,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
                                            From REVVY__MnQuote__c where Id =:quoteId]) {
         	//if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
 	        if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c && 'OakCreek'.equalsIgnoreCase(psegment)) {
-        		bdistriPrice = true;
+        		boakCreekMsrp = true;
         	}                                  	
 	        system.debug('--- ToroPricingHook productSearchPriceHook mnQuote.Exchange_Rate__c='+mnQuote.Exchange_Rate__c);
 	        system.debug('--- ToroPricingHook productSearchPriceHook mnQuote.Currency_Conversion_Rate__c='+mnQuote.Currency_Conversion_Rate__c);
@@ -38,7 +38,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 		}		
         
         system.debug('--- ToroPricingHook productSearchPriceHook distSegmentSet =' + distSegmentSet);
-        system.debug('--- ToroPricingHook productSearchPriceHook bdistriPrice =' + bdistriPrice);
+        system.debug('--- ToroPricingHook productSearchPriceHook boakCreekMsrp =' + boakCreekMsrp);
         system.debug('--- ToroPricingHook productSearchPriceHook psegment =' + psegment);
         system.debug('--- ToroPricingHook productSearchPriceHook prodsMap.keySet =' + prodsMap.keyset());
 			
@@ -57,7 +57,9 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 				if(plMap.containsKey(prodName)) {
 					REVVY__MnPriceListLine__c pll = plMap.get(prodName);
 					Decimal damount = (pll.REVVY__ListedPrice__c / exchangeRate) * conversionRate;
-					if(bdistriPrice && distSegmentSet.contains(psegment.toLowerCase())) {
+					if(boakCreekMsrp && distSegmentSet.contains(psegment.toLowerCase()) && 'OakCreek'.equalsIgnoreCase(psegment)) {
+						damount = (pll.REVVY__ListedPrice__c / exchangeRate) * conversionRate;
+					} else if(!boakCreekMsrp && distSegmentSet.contains(psegment.toLowerCase()) && 'OakCreek'.equalsIgnoreCase(psegment)) {				
 						damount = (pll.REVVY__FloorPrice__c / exchangeRate) * conversionRate;
 					}
 			        system.debug('--- ToroPricingHook productSearchPriceHook damount =' + damount);
@@ -87,7 +89,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook distSegmentSet =' + distSegmentSet);
 		if(distSegmentSet.contains(qtSegment.toLowerCase())) {
 	        system.debug('--- ToroPricingHook postQuoteItemsCreationHook Inside =' + distSegmentSet);
-	        Boolean bdistriPrice = false;
+	        Boolean boakCreekMsrp = false;
 	        Decimal exchangeRate = 1;
 	        Decimal conversionRate = 1;
 	        for(REVVY__MnQuote__c mnQuote : [Select Id, Enable_Toro_MSRP_Pricing__c, Currency_Conversion_Rate__c, Exchange_Rate__c
@@ -95,7 +97,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 	                                           From REVVY__MnQuote__c where Id =:qt.Id]) {
 	        	//if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
 	        	if(mnQuote!=null && mnQuote.Enable_Toro_MSRP_Pricing__c && 'OakCreek'.equalsIgnoreCase(qtSegment)) {
-	        		bdistriPrice = true;
+	        		boakCreekMsrp = true;
 	        	}         	
         		if(mnQuote.Exchange_Rate__c != null && mnQuote.Exchange_Rate__c > 0) {
         			exchangeRate = mnQuote.Exchange_Rate__c;
@@ -104,7 +106,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 	        		}
         		}
 	        }
-        system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 bdistriPrice='+bdistriPrice);
+        system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 boakCreekMsrp='+boakCreekMsrp);
 			if (qis != null && !qis.isEmpty()){
 	            for(REVVY__MnQuoteItem__c mnQuoteItem: qis){
 	            	//mnQuoteItem.REVVY__PriceListLine__r.REVVY__FloorPrice__c
@@ -115,9 +117,15 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 
 
 	            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__Price__c) / exchangeRate) * conversionRate;
-					if(bdistriPrice) {
+					//if(bdistriPrice) {
+		           // 	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
+					//}
+					if(boakCreekMsrp && 'OakCreek'.equalsIgnoreCase(qtSegment)) {
+		            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__Price__c) / exchangeRate) * conversionRate;
+					} else if(!boakCreekMsrp && 'OakCreek'.equalsIgnoreCase(qtSegment)) {				
 		            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
 					}
+					
 
 	            	System.debug('--- ToroPricingHook postQuoteItemsCreationHook  mnQuoteItem.REVVY__QuoteItemSubLine__r = '+ mnQuoteItem.REVVY__QuoteItemSubLine__r);
 	            	if(mnQuoteItem.REVVY__QuoteItemSubLine__r != null && !mnQuoteItem.REVVY__QuoteItemSubLine__r.isEmpty()) {
@@ -127,7 +135,12 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 exchangeRate='+exchangeRate);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 350 conversionRate='+conversionRate);
 			            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__Price__c) / exchangeRate) * conversionRate;
-							if(bdistriPrice) {
+							//if(bdistriPrice) {
+				            //	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
+							//}
+							if(boakCreekMsrp && 'OakCreek'.equalsIgnoreCase(qtSegment)) {
+				            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__Price__c) / exchangeRate) * conversionRate;
+							} else if(!boakCreekMsrp && 'OakCreek'.equalsIgnoreCase(qtSegment)) {				
 				            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
 							}
 			            }

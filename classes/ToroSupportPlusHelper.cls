@@ -443,9 +443,16 @@ public with sharing class ToroSupportPlusHelper {
 		System.debug('\n\n@@getPricingProgramWithoutSecondaryProgramItems\n\n');
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-		pp.initialize(quoteId);
+		REVVY__MnQuote__c newQuote = new REVVY__MnQuote__c(Id = quoteId);
+		pp.quote = newQuote;
 		System.debug('\n\n@@pp.quote: ' +pp.quote + '\n\n');
-		pp.quoteItems = quoteItemList;
+		if (quoteItemList != null) {
+			pp.quoteItems = quoteItemList;
+		}
+
+		else {
+			pp.initializeQuoteItems(quoteId); 
+		}
 		List<Revvy__MnStrategy4__c> filteredQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {
 			if (String.isNotBlank(qi.Pricing_Program__c)) {
