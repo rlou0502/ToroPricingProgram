@@ -243,7 +243,7 @@ public virtual class ToroPricingProgram {
 			ToroSupportPlusHelper.clearSupportPlusValuesOnQuote(quote);
 		}
 		
-		quote.Is_Dirty__c = false;
+		
 		ToroCacheManager.putQuote(quote);
 		return 	quoteItemList;
 	}
@@ -282,6 +282,7 @@ public virtual class ToroPricingProgram {
 		lQuoteItemList = postCalculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
 		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
+		quote.Is_Dirty__c = false;
 		ToroCacheManager.putQuote(quote);
 		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling preSaveCalculateRebateMargin');

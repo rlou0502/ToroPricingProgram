@@ -441,6 +441,7 @@ public with sharing class ToroSupportPlusHelper {
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
 		pp.initialize(quoteId);
+		System.debug('\n\n@@pp.quote: ' +pp.quote + '\n\n');
 
 		List<Revvy__MnStrategy4__c> filteredQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {
