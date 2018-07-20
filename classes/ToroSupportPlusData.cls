@@ -58,7 +58,7 @@ public with sharing class ToroSupportPlusData {
 			this.quote = ToroCacheManager.getQuote(quoteId);
 			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			intializeWrappers(quoteId);
+			intializeWrappers(quoteId, null);
 			recalculateQuoteValues();
 		}
 
@@ -77,13 +77,13 @@ public with sharing class ToroSupportPlusData {
 	 * @param  quoteId                the id of the quote
 	 * @param  pricingProgramExtId    the ExternalId__c of the pricing program to use
 	 */
-	public ToroSupportPlusData(Id quoteId, String pricingProgramExtId) {
+	public ToroSupportPlusData(Id quoteId, String pricingProgramExtId, List<Revvy__MnStrategy4__c> quoteItemList) {
 		this();
 		try {
 			// this.quote = ToroSupportPlusHelper.getQuote(quoteId);
 			this.quote = ToroCacheManager.getQuote(quoteId);
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			intializeWrappers(quoteId);
+			intializeWrappers(quoteId, quoteItemList);
 			recalculateQuoteValues();
 		}
 
@@ -101,13 +101,18 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	private void intializeWrappers(Id quoteId) {
+	private void intializeWrappers(Id quoteId, List<Revvy__MnStrategy4__c> quoteItemList) {
 		// get the quote items and support plus items
 		// build a map of the main quote item to its support plus line item
 		// (note that support plus items added by "add new" are not handled here)
 		final List<REVVY__MnQuoteItem__c> allQuoteItems = ToroSupportPlusHelper.getQuoteItems(quoteId);
 		System.debug('\n\n@@allQuoteItems: ' + allQuoteItems + '\n\n');
-
+		Map<Id, Revvy__MnStrategy4__c> extensions = new Map<Id, Revvy__MnStrategy4__c>();
+		if(quoteItemList != null) {
+			for(Revvy__MnStrategy4__c qi : quoteItemList) {
+				extensions.put(qi.Id, qi);		
+			}
+		}
 		final List<REVVY__MnQuoteItem__c> addNewQuoteItems = new List<REVVY__MnQuoteItem__c>();
 
 		final Map<Id,REVVY__MnQuoteItem__c> qItemIdToSpItemObjMAP = new Map<Id,REVVY__MnQuoteItem__c>();
@@ -116,9 +121,16 @@ public with sharing class ToroSupportPlusData {
 				// this is a support plus item since it points to a main item
 				qItemIdToSpItemObjMAP.put(qiObj.Support_Plus_Original_Item__c, qiObj);
 			}
-			if(qiObj.Quote_Item_Extension__r != null && String.isBlank(qiObj.Quote_Item_Extension__r.Pricing_Program__c)) {
-				qiObj.Quote_Item_Extension__r.Pricing_Program__c = pricingProgram.ExternalId__c;	
+			System.debug('qiObj.Quote_Item_Extension__c: ' + qiObj.Quote_Item_Extension__c);
+			if(qiObj.Quote_Item_Extension__c != null) {
+				Revvy__MnStrategy4__c qi = extensions.get(qiObj.Quote_Item_Extension__c);
+				System.debug('qiObj.Quote_Item_Extension__c: qi=' + qi);
+				if(qi != null) {
+					System.debug('qiObj.Quote_Item_Extension__c: Pricing_Program__c=' + qi.Pricing_Program__c);
+					qiObj.Quote_Item_Extension__r.Pricing_Program__c = qi.Pricing_Program__c;	
+				}
 			}
+			
 			system.debug('intializeWrappers pricing Program =' + qiObj.Quote_Item_Extension__r.Pricing_Program__c);
 		}
 
