@@ -116,6 +116,10 @@ public with sharing class ToroSupportPlusData {
 				// this is a support plus item since it points to a main item
 				qItemIdToSpItemObjMAP.put(qiObj.Support_Plus_Original_Item__c, qiObj);
 			}
+			if(qiObj.Quote_Item_Extension__r != null && String.isBlank(qiObj.Quote_Item_Extension__r.Pricing_Program__c)) {
+				qiObj.Quote_Item_Extension__r.Pricing_Program__c = pricingProgram.ExternalId__c;	
+			}
+			system.debug('intializeWrappers pricing Program =' + qiObj.Quote_Item_Extension__r.Pricing_Program__c);
 		}
 
 		// create wrappers for the main quote items. here, we need to differentiate between main quote items

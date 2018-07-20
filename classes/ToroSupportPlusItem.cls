@@ -187,7 +187,10 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 
 		this.eligibleForSupportPlus = true;
 		this.qiPricingProgramOverridden = qi.Quote_Item_Extension__r.Pricing_Program_Overridden__c;
-		this.qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+		system.debug('qiObj.Quote_Item_Extension__r.Pricing_Program__c =' + qiObj.Quote_Item_Extension__r.Pricing_Program__c);
+		if(String.isNotBlank(qiObj.Quote_Item_Extension__r.Pricing_Program__c)) {
+			this.qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+		}
 
 		System.debug('\n\n@@this.isNonToroProduct: ' + this.isNonToroProduct + '\n\n');
 		System.debug('\n\n@@this.pricingProgramProductType: ' + this.pricingProgramProductType + '\n\n');

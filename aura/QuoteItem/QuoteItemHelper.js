@@ -80,10 +80,8 @@
                         }
 	                }
                     var tractionLines = document.querySelectorAll(".TractionUnit[data-quoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
-	                for (var i=0; i<tractionLines.length; i++) {
-                        if(tractionLines[i].value == undefined || tractionLines[i].value == "") {
-	                    	tractionLines[i].value=newVal;
-                        }
+	                for (var i=0; i<tractionLines.length; i++) {                       
+	                    tractionLines[i].value=newVal;
 	                }
             	}
             	
