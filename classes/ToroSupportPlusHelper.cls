@@ -436,6 +436,33 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
+	public static ToroPricingProgram getPricingProgramWithoutSecondaryProgramItems(Id quoteId, String pricingProgram) {
+		System.debug('\n\n@@getPricingProgramWithoutSecondaryProgramItems\n\n');
+		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+		pp.initialize(quoteId);
+
+		List<Revvy__MnStrategy4__c> filteredQuoteItems = new List<Revvy__MnStrategy4__c>();
+		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {
+			if (String.isNotBlank(qi.Pricing_Program__c)) {
+				ToroPricingProgramData qiPPD = new ToroPricingProgramData(qi.pricing_program__c);
+				if (ppd.externalId.equalsIgnoreCase(qiPPD.externalId)) {
+					filteredQuoteItems.add(qi);
+				}
+			}
+		}
+		System.debug('\n\n@@filteredQuoteItems: ' + filteredQuoteItems + '\n\n');
+		pp.quoteItems = pp.calculateExtendedFields(filteredQuoteItems);
+		return pp;
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
 	public static void clearSupportPlusValuesOnQuote(REVVY__MnQuote__c quote) {
 		quote.Toro_Support_Plus_Allowance__c      = null;
 		quote.Distributor_Responsibility__c       = null;

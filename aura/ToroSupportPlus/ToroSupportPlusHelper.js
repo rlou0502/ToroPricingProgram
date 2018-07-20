@@ -20,6 +20,9 @@
 					var distributorResponsibilities = supportPlusData.distributorResponsibilities;
 
 					// calculate total DNet and total Award WITHOUT SP items
+					cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
+					cmp.set('v.baseAwardTotal', supportPlusData.baseAwardTotal);
+					/*
 					var dnetTotal = supportPlusData.quote.Toro_Total_DNet__c;
 					var awardTotal = supportPlusData.quote.Toro_Award__c;
 					for (var i = 0; i < quoteItems.length; i++) {
@@ -44,6 +47,7 @@
 					console.log('awardTotal: ' + awardTotal);
 					cmp.set('v.dnetTotal', dnetTotal);
 					cmp.set('v.awardTotal', awardTotal);
+					*/
 
 					var recalcQuote = this.recalculateQuoteSupportPlusTotals(cmp, supportPlusData.quote, supportPlusData.qiWrappers, supportPlusData.addNewWrappers, supportPlusData.pricingProgram);
 
@@ -240,20 +244,20 @@
 			quote.Toro_Support_Plus_Allowance_Used__c = spSplitDNetTotal + spAddNewDNetTotal;
 		}
 
-		var dnetTotal = cmp.get('v.dnetTotal'); // total DNet WITHOUT SP
-		var awardTotal = cmp.get('v.awardTotal'); // total Award WITHOUT SP
+		var baseDNetTotal = cmp.get('v.baseDNetTotal'); // total DNet WITHOUT SP
+		var baseAwardwardTotal = cmp.get('v.baseAwardTotal'); // total Award WITHOUT SP
 
 		// quote.SP_Total_Extended_DNET__c           = quote.Toro_Total_DNet__c - spSplitDNetTotal;
-		quote.SP_Total_Extended_DNET__c = dnetTotal - spSplitDNetTotal;
+		quote.SP_Total_Extended_DNET__c = baseDNetTotal - spSplitDNetTotal;
 
 		// quote.SP_Adjusted_Toro_Award__c           = quote.Toro_Award__c - spSplitAwardTotal;
-		quote.SP_Adjusted_Toro_Award__c = awardTotal - spSplitAwardTotal;
+		quote.SP_Adjusted_Toro_Award__c = baseAwardwardTotal - spSplitAwardTotal;
 
 		quote.SP_Adjusted_Ext_Award__c            = spSplitAwardTotal;
 		quote.SP_Toro_Responsibility__c           = toroResp * (spSplitDNetTotal + spAddNewDNetTotal);
 
 		// quote.SP_Ext_Dist_Responsibility__c       = (quote.Toro_Total_DNet__c - spSplitDNetTotal) / quote.Toro_Total_DNet__c;
-		quote.SP_Ext_Dist_Responsibility__c = (dnetTotal - spSplitDNetTotal) / dnetTotal;
+		quote.SP_Ext_Dist_Responsibility__c = (baseDNetTotal - spSplitDNetTotal) / baseDNetTotal;
 		quote.Distributor_Contribution__c = distRespPct * (spSplitDNetTotal + spAddNewDNetTotal);
 
 
