@@ -29,7 +29,7 @@
         });
         toastEvent.fire();
     },
-    onUpdatableValueChange: function( event, component) {
+    onUpdatableValueChange: function( event, component, lineType) {
         var self=this;
         var listenMSRPChange = component.get('v.listenMSRPChange');
         var pricingMethod = component.get('v.selectedPricingMethod');
@@ -72,12 +72,12 @@
                 } 
             } else {
             	var pm = component.get("v.selectedPricingMethod");
-            	if(fieldName == "PricingMethodValue__c" && pm !="Total Award $") {
+            	if(fieldName == "PricingMethodValue__c" && pm !="Total Award $" && lineType == "MainLine") {
 	                var sublines = document.querySelectorAll("[data-parentquoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
 	                for (var i=0; i<sublines.length; i++) {
-                        if(sublines[i].value == undefined || sublines[i].value == "") {
+                        //if(sublines[i].value == undefined || sublines[i].value == "") {
 	                    	sublines[i].value=newVal;
-                        }
+                        //}
 	                }
                     var tractionLines = document.querySelectorAll(".TractionUnit[data-quoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
 	                for (var i=0; i<tractionLines.length; i++) {                       
@@ -221,6 +221,21 @@
                 	decimalPoint=2;    
                 }
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], decimalPoint) : '';
+                if(lineType == "MainLine" && field.fieldPath=="PricingMethodValue__c") {
+                    switch(pricingMethod) {
+                        case "% of DNET":
+                            tableDataNode.value = sObj["Toro_Blend_Of_DN__c"] ? self.formatPercentWithDecimal(sObj["Toro_Blend_Of_DN__c"], decimalPoint) : '';	
+                            break;
+                        case "% off MSRP":
+                            tableDataNode.value = sObj["Blended_MSRP__c"] ? self.formatPercentWithDecimal(sObj["Blended_MSRP__c"], decimalPoint) : '';
+                            break;
+                        case "Gross Profit %":
+                            tableDataNode.value = sObj["Blended_GP__c"] ? self.formatPercentWithDecimal(sObj["Blended_GP__c"], decimalPoint) : '';
+                            break;
+                        default:
+                        	break;    
+                    }
+                }
                 tableDataNode.type='text';
                 tableDataNode.dataset.overridden=sObj['Unit_Award_Overridden__c'];
                 if(quoteItemId) {
@@ -262,7 +277,7 @@
                     }                 
                   
                     tableDataNode.dataset.quoteitem=sObj["Id"];
-                    tableDataNode.addEventListener('change', function(event){this.dataset.overridden =true; self.onUpdatableValueChange(event, component);}, false);
+                    tableDataNode.addEventListener('change', function(event){this.dataset.overridden =true; self.onUpdatableValueChange(event, component, lineType);}, false);
                     tableDataNode.addEventListener('focus', function(event){ this.dataset.oldvalue=this.value;}, false);
                 }
                 tableDataNode.className += " sfdcid-"+sObj["Id"];
