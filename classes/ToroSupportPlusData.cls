@@ -5,9 +5,7 @@
  *
  */
 public with sharing class ToroSupportPlusData {
-	public static final String DETERMINES_SP_ALLOWANCE_DNET = 'Total DNet Only';
-	public static final String DETERMINES_SP_ALLOWANCE_AWARD = 'Award Only';
-	public static final String DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD = 'Total DNet and Award';
+
 
 	@AuraEnabled public Boolean success                             	 { get; private set; }
 	@AuraEnabled public REVVY__MnQuote__c quote 						 { get; set; }
@@ -18,7 +16,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Boolean showDNet 								 { get; private set; }
 	@AuraEnabled public Boolean showToroAward 							 { get; private set; }
 	@AuraEnabled public REVVY__MnStrategy1__c pricingProgram             { get; private set; }
-
+	public List<REVVY__MnStrategy4__c> quoteItemList					 {get; set;}
 	@AuraEnabled public Decimal baseDNetTotal                  { get; private set; } // total dnet with support plus items re-added
 	@AuraEnabled public Decimal baseAwardTotal                 { get; private set; } // total award with support plus items re-added
 	@AuraEnabled public Decimal baseDNetTotalWithoutSecondary  { get; private set; } // total dnet excluding quote items assigned to a secondary program
@@ -60,7 +58,7 @@ public with sharing class ToroSupportPlusData {
 			this.quote = ToroCacheManager.getQuote(quoteId);
 			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			intializeWrappers(quoteId, null);
+			intializeWrappers(quoteId );
 			recalculateQuoteValues();
 		}
 
@@ -101,7 +99,8 @@ public with sharing class ToroSupportPlusData {
 			// this.quote = ToroSupportPlusHelper.getQuote(quoteId);
 			this.quote = ToroCacheManager.getQuote(quoteId);
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			intializeWrappers(quoteId, quoteItemList);
+			this.quoteItemList = quoteItemList;
+			intializeWrappers(quoteId);
 			recalculateQuoteValues();
 		}
 
@@ -119,7 +118,7 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	private void intializeWrappers(Id quoteId, List<Revvy__MnStrategy4__c> quoteItemList) {
+	private void intializeWrappers(Id quoteId) {
 		// get the quote items and support plus items
 		// build a map of the main quote item to its support plus line item
 		// (note that support plus items added by "add new" are not handled here)
@@ -199,7 +198,7 @@ public with sharing class ToroSupportPlusData {
 
 		
 		// remove secondary program items from base DNet and base Award
-		ToroPricingProgram tempPricingProgramInstance = ToroSupportPlusHelper.getPricingProgramWithoutSecondaryProgramItems(this.quote.Id, this.pricingProgram.ExternalId__c);
+		ToroPricingProgram tempPricingProgramInstance = ToroSupportPlusHelper.getPricingProgramWithoutSecondaryProgramItems(this.quote.Id, this.pricingProgram.ExternalId__c, this.quoteItemList);
 		this.baseDNetTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Total_DNet__c;
 		this.baseAwardTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Award__c;
 		/*
@@ -333,7 +332,7 @@ public with sharing class ToroSupportPlusData {
 		// calculate support plus allowance
 		List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(this.pricingProgram.ExternalId__c);
 		this.quote.Toro_Support_Plus_Allowance__c = 0;
-		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
+		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_AWARD) {
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
 				if (this.baseAwardTotalWithoutSecondary >= plan.Total_DNet_Low__c
 					&& this.baseAwardTotalWithoutSecondary < plan.Total_DNet_High__c
@@ -344,7 +343,7 @@ public with sharing class ToroSupportPlusData {
 			}
 		}
 
-		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET) {
+		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_DNET) {
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
 				if (this.baseDNetTotalWithoutSecondary >= plan.Total_DNet_Low__c
 					&& this.baseDNetTotalWithoutSecondary < plan.Total_DNet_High__c
@@ -355,7 +354,7 @@ public with sharing class ToroSupportPlusData {
 			}
 		}
 
-		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) { // STI does not allow secondary programs
+		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) { // STI does not allow secondary programs
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
 				if (this.quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
 					&& this.quote.Toro_Total_DNet__c < plan.Total_DNet_High__c

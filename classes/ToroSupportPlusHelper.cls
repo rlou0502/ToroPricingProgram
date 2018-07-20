@@ -1,4 +1,9 @@
 public with sharing class ToroSupportPlusHelper {
+	public static final String DETERMINES_SP_ALLOWANCE_DNET = 'Total DNet Only';
+	public static final String DETERMINES_SP_ALLOWANCE_AWARD = 'Award Only';
+	public static final String DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD = 'Total DNet and Award';
+
+
 	private static REVVY__MnSequenceGen__c qiSequenceGen;
 
 	//  Pricing Program ExternalId__c => Pricing Program
@@ -365,7 +370,7 @@ public with sharing class ToroSupportPlusHelper {
 		List<Support_Plus_Plan__c> supportPlusPlans = getSupportPlusPlans(pricingProgram.ExternalId__c);
 
 		Decimal allowance = 0;
-		if (pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_AWARD) {
+		if (pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
 			// this.showDNet      = true;
 			// this.showToroAward = true;
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
@@ -378,8 +383,7 @@ public with sharing class ToroSupportPlusHelper {
 			}
 		}
 
-		// else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET) {
-		else if (pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET) {
+		else if (pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET) {
 			// this.showDNet      = true;
 			// this.showToroAward = true;
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
@@ -392,8 +396,7 @@ public with sharing class ToroSupportPlusHelper {
 			}
 		}
 
-		// else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
-		else if (pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusData.DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
+		else if (pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
 			// this.showDNet      = true;
 			// this.showToroAward = true;
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
@@ -436,13 +439,13 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	public static ToroPricingProgram getPricingProgramWithoutSecondaryProgramItems(Id quoteId, String pricingProgram) {
+	public static ToroPricingProgram getPricingProgramWithoutSecondaryProgramItems(Id quoteId, String pricingProgram, List<REVVY__MnStrategy4__c> quoteItemList) {
 		System.debug('\n\n@@getPricingProgramWithoutSecondaryProgramItems\n\n');
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
 		pp.initialize(quoteId);
 		System.debug('\n\n@@pp.quote: ' +pp.quote + '\n\n');
-
+		pp.quoteItems = quoteItemList;
 		List<Revvy__MnStrategy4__c> filteredQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {
 			if (String.isNotBlank(qi.Pricing_Program__c)) {

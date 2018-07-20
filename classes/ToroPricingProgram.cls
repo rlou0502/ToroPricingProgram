@@ -202,7 +202,6 @@ public virtual class ToroPricingProgram {
 	public virtual List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 
-		
 		System.debug('\n\n@@ToroPricingProgram preSaveCalculateRebateMargin\n\n'); 
 		System.debug('\n\n@@quote: ' + quote + '\n\n');
 		System.debug('\n\n@@quote: ' + priceProgram );
@@ -245,6 +244,7 @@ public virtual class ToroPricingProgram {
 		
 		
 		ToroCacheManager.putQuote(quote);
+		
 		return 	quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> postCalculateRebateMarginImpl(Id quoteId, String priceProgram,
