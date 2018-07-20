@@ -81,7 +81,16 @@ public with sharing class ToroSupportPlusData {
 								, String supportPlusItemsJSON
 								, REVVY__MnStrategy1__c pricingProgram
 	) {
+		this();
+		try {
+			this.quote = quote;
+			
+		}
 
+		catch (Exception e) {
+			this.success = false;
+			throw e;
+		}
 	}
 
 

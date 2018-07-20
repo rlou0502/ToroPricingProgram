@@ -22,6 +22,9 @@
 					// calculate total DNet and total Award WITHOUT SP items
 					cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
 					cmp.set('v.baseAwardTotal', supportPlusData.baseAwardTotal);
+					cmp.set('v.baseDNetTotalWithoutSecondary', supportPlusData.baseDNetTotalWithoutSecondary);
+					cmp.set('v.baseAwardTotalWithoutSecondary', supportPlusData.baseAwardTotalWithoutSecondary);
+					
 					/*
 					var dnetTotal = supportPlusData.quote.Toro_Total_DNet__c;
 					var awardTotal = supportPlusData.quote.Toro_Award__c;

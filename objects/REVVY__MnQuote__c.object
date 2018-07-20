@@ -858,7 +858,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_Total_Quote_Rebate__c</fullName>
         <externalId>false</externalId>
-        <label>Total Quote Rebate</label>
+        <label>Total Rebate</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
