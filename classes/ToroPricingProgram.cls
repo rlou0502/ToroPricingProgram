@@ -4,6 +4,8 @@ public virtual class ToroPricingProgram {
 	public boolean performancePartFlag { get; set { performancePartFlag = value; if(quote != null) {quote.Performance_Part__c=value;}}}
 	public decimal setupFeePercentage { get; set; }
 	public String pricingMethod { get; set; }
+	public Boolean blendedPercentOfDnChanged { get; set; }
+
 	public virtual boolean skipMSRPRangeCheck(){
 		return false;
 	}
@@ -572,8 +574,18 @@ public virtual class ToroPricingProgram {
 		quote.Toro_Rollup_DNetWOTPPAllied__c   = quoteTotalDnetWOTppAllied;
 		quote.Toro_Award__c = quoteTotalToroAward;
         quote.Total_Award__c = quoteTotalAward;
+
+		Decimal originalBlendedPercentOfDN = quote.Toro_Blended_Percent_of_DN__c;
 		if(quote.Toro_Rollup_DNET__c != null && quote.Toro_Rollup_DNET__c != 0) {
 			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) / quote.Toro_Rollup_DNET__c*100;
+		}
+
+		if (originalBlendedPercentOfDN == quote.Toro_Blended_Percent_of_DN__c) {
+			this.blendedPercentOfDnChanged = false;
+		}
+
+		else {
+			this.blendedPercentOfDnChanged = true;
 		}
 
 		quote.Toro_Blended_Percent_of_DN__c=CMnQuoteUtil.defaultDecimal(quote.Toro_Blended_Percent_of_DN__c).setScale(2);
