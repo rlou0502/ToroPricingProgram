@@ -1,6 +1,7 @@
 <aura:component controller="ToroPricingProgramInfoBoxController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
 	<aura:attribute name="quoteId" type="String" />
     <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    <aura:attribute name="showSublineHeader" type="Boolean" default="false"/>
     <aura:attribute name="quote" type="REVVY__MnQuote__c" />
     <aura:attribute name="forwardUrl" type="string" />
     <aura:attribute name="fields" type="Object[]" />
@@ -84,7 +85,7 @@
     <div class="slds-grid" id="ppContainer" style="margin-top:50px;">
         <div class="slds-col slds-size--6-of-6">
             <c:QuoteHeader aura:id="cmpQuoteHeader" quoteId="{!v.quoteId}" readOnly="{!v.readOnly}" />
-			<c:QuoteItem aura:id="cmpQuoteItem" quoteId="{!v.quoteId}" readOnly="{!v.readOnly}" />
+			<c:QuoteItem aura:id="cmpQuoteItem" quoteId="{!v.quoteId}" readOnly="{!v.readOnly}" showSublineHeader="{!v.showSublineHeader}"/>
         </div>
     </div>
 

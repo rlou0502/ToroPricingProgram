@@ -1,6 +1,7 @@
 <aura:component controller="ToroPricingProgramController" >
 	<aura:attribute name="quoteId" type="String" />
     <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    <aura:attribute name="showSublineHeader" type="Boolean" default="false"/>
     <aura:attribute name="fields" type="Object[]" />
     <aura:attribute name="fieldsSub" type="Object[]" />
     <aura:attribute name="fieldsSummary" type="Object[]" />

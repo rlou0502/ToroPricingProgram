@@ -4,6 +4,7 @@ public class ToroPricingProgramController {
 	public static final String constCachedSetupFee = 'setupFee';
     public Id quoteId {get; set;}
     public boolean readOnly {get; set;} 
+    
     public ToroPricingProgramController() {
     	readOnly = false;
     	try{
@@ -14,6 +15,16 @@ public class ToroPricingProgramController {
     	//if(!Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).contains(ToroPricingProgramController.constCachedQuoteId)){
     		Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).put(ToroPricingProgramController.constCachedQuoteId, quoteId);
     	//}
+    }
+    public boolean getShowSublineHeader() {
+    	boolean ret = false;
+    	REVVY__MnProperty__c showSublineHeader = REVVY__MnProperty__c.getValues('ToroShowSublineHeader');
+    	try {
+    		ret = Boolean.valueOf(showSublineHeader.Revvy__Value__c);	
+    	} catch (Exception e) {
+    		
+    	}
+        return ret;
     }
 	public static ToroSObjectResultSet setPricingMethodValueFieldLabel(ToroSObjectResultSet rs) {
 		for(FieldSetMember fs : rs.fieldSetMembers) {

@@ -500,6 +500,7 @@
     	target.parentNode.insertBefore(tableRow, target.nextSibling );
     },
     populateQuoteItemSubLine : function(component, sublines, fields, sublineFields,selectedQuoteItem) {
+        var showSublineHeader = component.get('v.showSublineHeader') == "true" ? true : false; 
     	var tableRow = document.createElement('tr'); 
         tableRow.className += " noBorder collapsible "+selectedQuoteItem;
         tableRow.style.display="none";
@@ -528,9 +529,11 @@
             } else if(f.type.toLowerCase() === 'double' || f.type.toLowerCase() === 'currency' || f.type.toLowerCase() === 'percent' ) {
             	hearderRowCell.className += ' align-right';    
             }  
-            
+            if(showSublineHeader) {
+            	cellText.innerHTML = f.label;    
+            }
             //cellText.className += " slds-truncate";
-            cellText.innerHTML = f.label;
+            
             cellText.title=f.label;
             //console.log('---------' + cellText.innerHTML);
             hearderRowCell.appendChild(cellText);
