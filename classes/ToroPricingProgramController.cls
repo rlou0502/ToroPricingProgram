@@ -512,8 +512,8 @@ public class ToroPricingProgramController {
     			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     				qi.Pricing_Program__c = pricingProgram;
     				qi.Select_a_Price_Method__c = rs.selectedPricingMethod;
-    				qi.Off_MSRP__c=0;
-    				qi.Award_of_DN__c=0;
+    				qi.Off_MSRP__c=null;
+    				qi.Award_of_DN__c=null;
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Unit_Award_Overridden__c = false;
     				if(!qi.Unit_Award_Overridden__c) {
@@ -541,7 +541,7 @@ public class ToroPricingProgramController {
     			//List<Revvy__MnStrategy4__c> qis = pp.calculateRebateMargin(objId, ppd.externalId, so.value, pp.quoteItems,false);
     			rs.selectedPricingMethod = so.value;
     			//rs.nextAction = 'calculation';
-    			return ToroPricingProgramCOntroller.getQuoteItemFields(pricingProgram, so.value, objId);
+    			return ToroPricingProgramController.getQuoteItemFields(pricingProgram, so.value, objId, pp.quoteItems);
     		} else {
     			pp.quote.Pricing_Program_Name__c=pricingProgram;
 	    		pp.quote.Pricing_Program_Type__c=pricingProgram;
@@ -837,10 +837,10 @@ public class ToroPricingProgramController {
 		return rs;
     }
     @AuraEnabled
-    public static ToroSObjectResultSet getQuoteItemFields(String pricingProgram, String pricingMethod, ID objId) {
+    public static ToroSObjectResultSet getQuoteItemFields(String pricingProgram, String pricingMethod, ID objId, List<Revvy__MnStrategy4__c> quoteItemList) {
     	ToroSObjectResultSet rs = new ToroSObjectResultSet();
     	rs.result=true;
-    	system.debug(logginglevel.info, '***************** getQuoteItemFields pricingProgram=' +  pricingProgram);
+    	system.debug(logginglevel.info, '***************** getQuoteItemFields pricingProgram=' +  pricingProgram + ' quoteItemList =' + quoteItemList);
     	Id quoteId = objId;
     	if(quoteId == null) {
     		quoteId = (Id) Cache.Session.getPartition(ToroPriceProgramFactory.constPartitionName).get(ToroPricingProgramController.constCachedQuoteId);
@@ -882,6 +882,9 @@ public class ToroPricingProgramController {
     	
     	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
     	pp.initialize(objId);
+    	if(quoteItemList != null && quoteItemList.size() != 0) {
+    		pp.quoteItems = quoteItemList;
+    	}
 		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
 		rs.pricingMethodOptions = options;
 		if(String.isBlank(pricingMethod)) {

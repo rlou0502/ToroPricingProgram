@@ -641,7 +641,8 @@
         getAction.setParams({
             pricingProgram: pricingProgram,
             pricingMethod: pricingMethod,
-            objId: quoteId
+            objId: quoteId,
+            quoteItemList: null
         });
         
 		getAction.setCallback(this, 
