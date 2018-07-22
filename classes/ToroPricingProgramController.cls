@@ -970,8 +970,9 @@ public class ToroPricingProgramController {
 			}
     	}
     	if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) {   			
     			qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);	
+    			system.debug('check--' + qi.Off_MSRP__c + '--' + qi.PricingMethodValue__c);
     			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);	
@@ -1005,7 +1006,7 @@ public class ToroPricingProgramController {
         for (Schema.FieldSetMember f: fieldSet) {
         	FieldSetMember nfsm = new FieldSetMember(f);
         	nfsm.updatable=false;
-        	system.debug('f.fieldPath='+f.fieldPath);
+        	//system.debug('f.fieldPath='+f.fieldPath);
         	if(updatableFields.contains(f.fieldPath.toLowerCase())) {
         		nfsm.updatable=true;
         	}
