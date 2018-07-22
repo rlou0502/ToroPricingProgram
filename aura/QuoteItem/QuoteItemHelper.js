@@ -227,7 +227,9 @@
                             tableDataNode.value = sObj["Toro_Blend_Of_DN__c"] ? self.formatPercentWithDecimal(sObj["Toro_Blend_Of_DN__c"], decimalPoint) : '';	
                             break;
                         case "% off MSRP":
-                            tableDataNode.value = sObj["Blended_MSRP__c"] ? self.formatPercentWithDecimal(sObj["Blended_MSRP__c"], decimalPoint) : '';
+                            if(sObj["Off_MSRP__c"] != undefined) {
+                            	tableDataNode.value = sObj["Blended_MSRP__c"] ? self.formatPercentWithDecimal(sObj["Blended_MSRP__c"], decimalPoint) : '';
+                            }
                             break;
                         case "Gross Profit %":
                             tableDataNode.value = sObj["Blended_GP__c"] ? self.formatPercentWithDecimal(sObj["Blended_GP__c"], decimalPoint) : '';

@@ -555,8 +555,8 @@ public class ToroPricingProgramController {
     			for(Revvy__MnStrategy4__c qi : items) {
     				qi.Pricing_Program__c = pricingProgram;
     				qi.Select_a_Price_Method__c = rs.selectedPricingMethod;
-    				qi.Off_MSRP__c=0;
-    				qi.Award_of_DN__c=0;
+    				qi.Off_MSRP__c=null;    				
+    				qi.Award_of_DN__c=null;	    				
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Unit_Award_Overridden__c = false;
     				if(!qi.Unit_Award_Overridden__c) {
