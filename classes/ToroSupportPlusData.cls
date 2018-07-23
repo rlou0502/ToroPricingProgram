@@ -24,7 +24,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Decimal baseAwardTotalWithoutSecondary { get; private set; } // total award excluding quote items assigned to a secondary program
 	@AuraEnabled public Decimal blendedPercentOfDNWithoutSecondary { get; private set; }
 	@AuraEnabled public Decimal unadjustedAllowance { get; private set; }
-
+	@AuraEnabled public Boolean overrideDistResp { get; private set; }
 	/**
 	 *
 	 * description
@@ -44,6 +44,7 @@ public with sharing class ToroSupportPlusData {
 
 		// this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 		this.distRespIsEditable = Schema.SObjectType.Support_Plus_Contribution__c.fields.Split_Access__c.isAccessible();
+		this.overrideDistResp = true;
 	}
 
 
@@ -322,20 +323,23 @@ public with sharing class ToroSupportPlusData {
 		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(this.pricingProgram.ExternalId__c);
 		for (Support_Plus_Contribution__c contrib : contribs) {
 			distRespValueSet.add(contrib.Distributor_Contribution__c);
+			Decimal blendedDNetPct = ((this.baseAwardTotalWithoutSecondary - spSplitAwardTotal) / (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal)) * 100;
 			if (
-				(this.baseDNetTotalWithoutSecondary - spSplitDNetTotal) >= contrib.Award_Price_Low__c
-				&& (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal) < contrib.Award_Price_High__c
+				blendedDNetPct >= contrib.Award_Price_Low__c
+				&& blendedDNetPct < contrib.Award_Price_High__c
 			) {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
 			}
 		}
 		
-		if (this.quote.Distributor_Responsibility__c == null
-			|| this.quote.Is_Dirty__c
-			|| previousExtDNet != this.baseDNetTotalWithoutSecondary - spSplitDNetTotal
-			|| previousToroAward != this.baseAwardTotalWithoutSecondary - spSplitAwardTotal
-		) {
-			this.quote.Distributor_Responsibility__c = defaultDistRespValue;
+		if (this.overrideDistResp) {
+			if (this.quote.Distributor_Responsibility__c == null
+				|| this.quote.Is_Dirty__c
+				|| previousExtDNet != this.baseDNetTotalWithoutSecondary - spSplitDNetTotal
+				|| previousToroAward != this.baseAwardTotalWithoutSecondary - spSplitAwardTotal
+			) {
+				this.quote.Distributor_Responsibility__c = defaultDistRespValue;
+			}
 		}
 		
 		this.distributorResponsibilities = new List<DistRespOption>();
