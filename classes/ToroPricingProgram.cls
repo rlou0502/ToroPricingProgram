@@ -9,7 +9,7 @@ public virtual class ToroPricingProgram {
 	public virtual boolean skipMSRPRangeCheck(){
 		return false;
 	}
-	public boolean getAllowSupportPlus(String pricingProgram) {
+	public boolean getAllowSupportPlus(String pricingProgram, Id quoteId) {
 		if(String.isBlank(pricingProgram)) {
 			return false;
 		}
@@ -18,8 +18,21 @@ public virtual class ToroPricingProgram {
 		system.debug('getAllowSupportPlus ppd.externalId=' + ppd.externalId);
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		system.debug('getAllowSupportPlus header=' + pp_header);
-		boolean ret = pp_header.AllowSupportPlus__c && Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
-		system.debug('getAllowSupportPlus AllowSupportPlus__c=' + ret);
+
+		Boolean allQuoteItemsAreSecondary = true;
+		for (Revvy__MnStrategy4__c qi : [SELECT Pricing_Program__c FROM Revvy__MnStrategy4__c WHERE Mn_Quote__c = :quoteId]) {
+			if (String.isNotBlank(qi.Pricing_Program__c)) {
+				ToroPricingProgramData qiPPD = new ToroPricingProgramData(qi.pricing_program__c);
+				if (ppd.externalId.equalsIgnoreCase(qiPPD.externalId)) {
+					allQuoteItemsAreSecondary = false;
+					break;
+				}
+			}
+		}
+
+
+
+		boolean ret = pp_header.AllowSupportPlus__c && Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible() && !allQuoteItemsAreSecondary;
 		return ret == null ? false : ret;
 	}
 	public boolean getIsSupportPlusValueDollars(String pricingProgram) {

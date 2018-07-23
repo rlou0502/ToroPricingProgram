@@ -69,7 +69,7 @@ public class ToroPricingProgramController {
 		}
 		system.debug('svc_getPricingMethodOptions pricingProgram=' + pricingProgram);
 
-		rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+		rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, quoteId);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.displaySetupFee=pp.displaySetupFee();
@@ -333,7 +333,7 @@ public class ToroPricingProgramController {
 	    	rs.chainCall = pp.chainCall;
 	    	rs.payload = pp.payloadOfChainCall;
 	    	rs.displaySetupFee=pp.displaySetupFee();
-	    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+	    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, rs.quote.Id);
 			rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 	    	List<String> spKeys = new List<String>();
 	    	system.debug(logginglevel.info, 'ppd.externalId---calculateRebateMargin' + ppd.externalId);
@@ -665,7 +665,7 @@ public class ToroPricingProgramController {
     	system.debug(logginglevel.info,'pricingProgram=' + pricingProgram);
     	system.debug(logginglevel.info,'pricingProgram ppd=' + ppd);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
-    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, quoteId);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
     	system.debug(logginglevel.info,'pricingProgram pp=' + pp);
@@ -996,7 +996,7 @@ public class ToroPricingProgramController {
 			}
     	}
     	rs.quote = pp.quote;    	
-    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram);
+    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, rs.quote.Id);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.displayPerformancePart = pp.displayPerformancePart();
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);

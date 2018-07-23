@@ -323,9 +323,19 @@ public with sharing class ToroSupportPlusData {
 		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(this.pricingProgram.ExternalId__c);
 		for (Support_Plus_Contribution__c contrib : contribs) {
 			distRespValueSet.add(contrib.Distributor_Contribution__c);
-			Decimal blendedDNetPct = ((this.baseAwardTotalWithoutSecondary - spSplitAwardTotal) / (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal)) * 100;
-			if (
-				blendedDNetPct >= contrib.Award_Price_Low__c
+			
+			Decimal blendedDNetPct = 0;
+			Decimal adjAward       = this.baseAwardTotalWithoutSecondary - spSplitAwardTotal;
+			Decimal adjDNet        = this.baseDNetTotalWithoutSecondary - spSplitDNetTotal;
+			
+			System.debug('\n\n@@adjAward: ' + adjAward + '\n\n');
+			System.debug('\n\n@@adjDNet: ' + adjDNet + '\n\n');
+
+			if (adjDNet != 0) {
+				blendedDNetPct = (adjAward / adjDNet) * 100;
+			}
+			
+			if (blendedDNetPct >= contrib.Award_Price_Low__c
 				&& blendedDNetPct < contrib.Award_Price_High__c
 			) {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
