@@ -517,7 +517,9 @@
         headerRow.className += "slds-text-heading--label";
         sublineFields.forEach(function(f) { 
             var hearderRowCell = document.createElement('th');
-            hearderRowCell.className += ' slds-cell-wrap ' + f.fieldPath;
+             
+            if(showSublineHeader) {
+                hearderRowCell.className += ' slds-cell-wrap ' + f.fieldPath;
             if(f.type.toLowerCase() === 'boolean') {
             	hearderRowCell.className += ' type-'+f.type;	    
             }  
@@ -528,15 +530,14 @@
                 
             } else if(f.type.toLowerCase() === 'double' || f.type.toLowerCase() === 'currency' || f.type.toLowerCase() === 'percent' ) {
             	hearderRowCell.className += ' align-right';    
-            }  
-            if(showSublineHeader) {
-            	cellText.innerHTML = f.label;    
-            }
-            //cellText.className += " slds-truncate";
-            
-            cellText.title=f.label;
-            //console.log('---------' + cellText.innerHTML);
+            } 
+            	cellText.innerHTML = f.label; 
+                cellText.title=f.label;
+                //console.log('---------' + cellText.innerHTML);
             hearderRowCell.appendChild(cellText);
+            }
+                      
+            
             headerRow.appendChild(hearderRowCell);
         });
         childTableHeader.appendChild(headerRow);

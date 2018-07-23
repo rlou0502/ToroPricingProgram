@@ -45,6 +45,10 @@
 .THIS #QuoteItemSubLine table th.Product_Id__c {
 	padding-left : 10px;    
 }
+.THIS #QuoteItemSubLine table tr.slds-text-heading--label {
+	height: 1px;    
+    border-collapse: collapse;
+}
 .THIS #QuoteItemSubLine table td.Product_Id__c {
 	padding-left : 10px;    
 }
