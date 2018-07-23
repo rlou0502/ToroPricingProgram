@@ -139,7 +139,7 @@ private class ToroPricingProgramControllerTest {
     	//savePricingProgramMethodRemote
     	ToroPricingProgramController.setPricingProgramMethodRemote(quote.Id, 'MarketSupportChartLargePackage;Large_Package', '% off MSRP');
     	ToroPricingProgramController.getQuoteHeaderFields('MarketSupportChartLargePackage;Large_Package', quote.Id);
-    	ToroPricingProgramController.getQuoteItemFields('MarketSupportChartLargePackage;Large_Package', '% off MSRP', quote.Id);
+    	ToroPricingProgramController.getQuoteItemFields('MarketSupportChartLargePackage;Large_Package', '% off MSRP', quote.Id, null);
     	ToroPricingProgramController.addUpdatableFieldSetMember(SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields(),
     		SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields());
     

@@ -24,6 +24,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Decimal baseAwardTotalWithoutSecondary { get; private set; } // total award excluding quote items assigned to a secondary program
 	@AuraEnabled public Decimal blendedPercentOfDNWithoutSecondary { get; private set; }
 	@AuraEnabled public Decimal unadjustedAllowance { get; private set; }
+
 	/**
 	 *
 	 * description
@@ -265,40 +266,10 @@ public with sharing class ToroSupportPlusData {
 			}
 		}
 
-		// ============================================================================
-		// calculate distributor responsibility
-		Decimal defaultDistRespValue = 50.0;
-		Set<Decimal> distRespValueSet = new Set<Decimal>();
-		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(this.pricingProgram.ExternalId__c);
-		for (Support_Plus_Contribution__c contrib : contribs) {
-			distRespValueSet.add(contrib.Distributor_Contribution__c);
-			if (
-				this.blendedPercentOfDNWithoutSecondary >= contrib.Award_Price_Low__c
-				&& this.blendedPercentOfDNWithoutSecondary < contrib.Award_Price_High__c
-			) {
-				defaultDistRespValue = contrib.Distributor_Contribution__c;
-			}
-		}
-		
-		if (this.quote.Distributor_Responsibility__c == null || this.quote.Is_Dirty__c) {
-			this.quote.Distributor_Responsibility__c = defaultDistRespValue;
-		}
-		
-		this.distributorResponsibilities = new List<DistRespOption>();
-		for (Decimal value : distRespValueSet) {
-			DistRespOption option = new DistRespOption(value);
-			if (value == defaultDistRespValue) option.setAsDefault();
-			if (value == this.quote.Distributor_Responsibility__c) option.setAsSelected();
-			this.distributorResponsibilities.add(option);
-		}
 
-		if (this.quote.Distributor_Responsibility__c == null) return;
 
 		// ============================================================================
 		// calculate quote total values
-		Decimal distributorResponsibilityPercent = this.quote.Distributor_Responsibility__c * 0.01;
-		Decimal toroResponsibilityPercent = (100 - this.quote.Distributor_Responsibility__c) * 0.01;
-
 		Decimal spSplitDNetTotal = 0;
 		Decimal spSplitAwardTotal = 0;
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
@@ -336,15 +307,52 @@ public with sharing class ToroSupportPlusData {
 			this.quote.Toro_Support_Plus_Allowance_Used__c = spSplitDNetTotal + spAddNewDNetTotal;
 		}
 
+		final Decimal previousExtDNet   = this.quote.SP_Total_Extended_DNET__c;
+		final Decimal previousToroAward = this.quote.SP_Adjusted_Toro_Award__c;
+
 		this.quote.Support_Plus__c               = this.quote.Toro_Support_Plus_Allowance_Used__c > 0;
-
-		// this.quote.SP_Total_Extended_DNET__c     = this.baseDNetTotal - spSplitDNetTotal;
 		this.quote.SP_Total_Extended_DNET__c     = this.baseDNetTotalWithoutSecondary - spSplitDNetTotal;
-
-		// this.quote.SP_Adjusted_Toro_Award__c     = this.baseAwardTotal - spSplitAwardTotal;
 		this.quote.SP_Adjusted_Toro_Award__c     = this.baseAwardTotalWithoutSecondary - spSplitAwardTotal;
-		
 		this.quote.SP_Adjusted_Ext_Award__c      = spSplitAwardTotal;
+
+		// ============================================================================
+		// calculate distributor responsibility
+		Decimal defaultDistRespValue = 50.0;
+		Set<Decimal> distRespValueSet = new Set<Decimal>();
+		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(this.pricingProgram.ExternalId__c);
+		for (Support_Plus_Contribution__c contrib : contribs) {
+			distRespValueSet.add(contrib.Distributor_Contribution__c);
+			if (
+				(this.baseDNetTotalWithoutSecondary - spSplitDNetTotal) >= contrib.Award_Price_Low__c
+				&& (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal) < contrib.Award_Price_High__c
+			) {
+				defaultDistRespValue = contrib.Distributor_Contribution__c;
+			}
+		}
+		
+		if (this.quote.Distributor_Responsibility__c == null
+			|| this.quote.Is_Dirty__c
+			|| previousExtDNet != this.baseDNetTotalWithoutSecondary - spSplitDNetTotal
+			|| previousToroAward != this.baseAwardTotalWithoutSecondary - spSplitAwardTotal
+		) {
+			this.quote.Distributor_Responsibility__c = defaultDistRespValue;
+		}
+		
+		this.distributorResponsibilities = new List<DistRespOption>();
+		for (Decimal value : distRespValueSet) {
+			DistRespOption option = new DistRespOption(value);
+			if (value == defaultDistRespValue) option.setAsDefault();
+			if (value == this.quote.Distributor_Responsibility__c) option.setAsSelected();
+			this.distributorResponsibilities.add(option);
+		}
+
+		Decimal distributorResponsibilityPercent = this.quote.Distributor_Responsibility__c * 0.01;
+		Decimal toroResponsibilityPercent = (100 - this.quote.Distributor_Responsibility__c) * 0.01;
+
+		if (this.quote.Distributor_Responsibility__c == null) return;
+
+		// ============================================================================
+		// calcualte quote values dpeendent on distributor responsibility
 		this.quote.SP_Toro_Responsibility__c     = toroResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
 		this.quote.Toro_Contribution__c          = toroResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
 

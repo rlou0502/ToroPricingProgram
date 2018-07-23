@@ -213,7 +213,7 @@ public virtual class ToroPricingProgram {
 		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		System.debug('\n\n@@pp_header:' + pp_header + '\n\n'); 
 		if (pp_header != null && pp_header.AllowSupportPlus__c) { 
-			// ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header);
+			// ToroSupportPlusHelper.updateAllowanceAndDistResp(quote, pp_header); 
 			ToroSupportPlusData spData = new ToroSupportPlusData(quoteId, pp_header.ExternalId__c, quoteItemList);
 			// spData.initializeSupportPlusQuoteTotals(this.quote.Toro_Total_DNet__c, this.quote.Toro_Award__c); 
 			this.quote.Distributor_Responsibility__c       = spData.quote.Distributor_Responsibility__c;
