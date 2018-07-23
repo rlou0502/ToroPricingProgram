@@ -35,6 +35,7 @@
 
         else {
             helper.addProduct(cmp, newItemProductId, newItemDNetPrice, newItemAwardPrice, newItemSPQuantity, newItemDistributorResponsibility);
+            cmp.set('v.isDirty', true);
         }
     },
 
@@ -66,6 +67,7 @@
         cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
         cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
         cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram));
+        cmp.set('v.isDirty', true);
     },
     handleSPDelete: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:handleSPDelete');
@@ -101,6 +103,7 @@
                                 var pricingProgram = cmp.get('v.pricingProgram');
                                 quote = helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram);
                                 cmp.set('v.quote', quote);
+                                cmp.set('v.isDirty', true);
                             }
                         }
                     );
@@ -109,6 +112,7 @@
                 break;
             }
         }
+        
     },
     handleToggleSublines: function(cmp, event, helper) {
         console.log('@ToroSupportPlusController:handleToggleSublines');
@@ -153,10 +157,17 @@
         cmp.set('v.supportPlusItems', supportPlusItems);
 
         cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram));
-
+        cmp.set('v.isDirty', true);
     },
     handleShowAddNewModal: function (cmp, event, helper) {
         cmp.find('cmpAddNew').showModal();
+    },
+    handleCalculate: function (cmp, event, helper) {
+        var quote = cmp.get('v.quote');
+        var quoteItems = cmp.get('v.quoteItems');
+        var supportPlusItems = cmp.get('v.supportPlusItems');
+        var pricingProgram = cmp.get('v.pricingProgram');
+        helper.recalcAura(cmp, quote, quoteItems, supportPlusItems, pricingProgram);
     },
     handleSave: function(cmp, event, helper) {
         var quote = cmp.get('v.quote');

@@ -3,6 +3,9 @@
         var action = cmp.get('c.retrieveSupportPlusData');
 		var qId = cmp.get('v.quoteId');
 		console.log('quoteId: ' + qId);
+		
+		cmp.set('v.isDirty', false);
+
 		action.setParams({ quoteId : qId });
 		action.setCallback(this
 			, function(response) {
@@ -18,6 +21,10 @@
 					quoteItems = this.restoreUiState(cmp.get('v.quoteItems'), quoteItems);
 					var supportPlusItems            = this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.addNewWrappers);
 					var distributorResponsibilities = supportPlusData.distributorResponsibilities;
+					
+					cmp.set('v.supportPlusPlans', supportPlusData.supportPlusPlans);
+					console.log('@@supportPlusPlans: ');
+					console.log(supportPlusData.supportPlusPlans);
 
 					// calculate total DNet and total Award WITHOUT SP items
 					cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
@@ -66,6 +73,62 @@
 	            }
 	        }
 	    );
+		$A.enqueueAction(action);
+	},
+	recalcAura: function(cmp, quote, quoteItems, supportPlusItems, pricingProgram) {
+		console.log('@ToroSupportPlusHelper:recalcAura');
+		var action = cmp.get('c.recalculate');
+		this.showSpinner();
+		// console.log(JSON.stringify(quoteItems));
+		// console.log(JSON.stringify(supportPlusItems));
+		console.log('quoteItems:');
+		console.log(quoteItems);
+		console.log('supportPlusItems:');
+		console.log(supportPlusItems);
+		action.setParams({
+			  quote               : quote
+			, quoteItemsJSON      : JSON.stringify(quoteItems)
+			, supportPlusItemsJSON: JSON.stringify(supportPlusItems)
+			, pricingProgram      : pricingProgram
+		});
+		action.setCallback(this
+			, function(response) {
+				if (cmp.isValid() && response.getState() == 'SUCCESS') {
+					var supportPlusData = response.getReturnValue();
+					// this.initialize(cmp);
+					this.hideSpinner();
+					console.log('supportPlusData:');
+					console.log(supportPlusData);
+					console.log('supportPlusData.quote.Toro_Total_DNet__c: ' + supportPlusData.quote.Toro_Total_DNet__c);
+					console.log('supportPlusData.quote.SP_Adjusted_Toro_Award__c: ' + supportPlusData.quote.SP_Adjusted_Toro_Award__c);
+
+					var quoteItems = this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.qiWrappers);
+					quoteItems = this.restoreUiState(cmp.get('v.quoteItems'), quoteItems);
+					var supportPlusItems = this.updateDistributorResponsibility(supportPlusData.quote, supportPlusData.addNewWrappers);
+					var distributorResponsibilities = supportPlusData.distributorResponsibilities;
+
+					cmp.set('v.supportPlusPlans', supportPlusData.supportPlusPlans);
+					console.log('@@supportPlusPlans: ');
+					console.log(supportPlusData.supportPlusPlans);
+
+					// calculate total DNet and total Award WITHOUT SP items
+					cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
+					cmp.set('v.baseAwardTotal', supportPlusData.baseAwardTotal);
+					cmp.set('v.baseDNetTotalWithoutSecondary', supportPlusData.baseDNetTotalWithoutSecondary);
+					cmp.set('v.baseAwardTotalWithoutSecondary', supportPlusData.baseAwardTotalWithoutSecondary);
+					cmp.set('v.quoteItems', quoteItems);
+					cmp.set('v.supportPlusItems', supportPlusItems);
+					cmp.set('v.distributorResponsibilities', distributorResponsibilities);
+					cmp.set('v.quote', supportPlusData.quote);
+					cmp.set('v.distRespIsEditable', supportPlusData.distRespIsEditable);
+					cmp.set('v.showDNet', supportPlusData.showDNet);
+					cmp.set('v.showToroAward', supportPlusData.showToroAward);
+					cmp.set('v.pricingProgram', supportPlusData.pricingProgram);
+
+					cmp.set('v.isDirty', false);
+				}
+			}
+		);
 		$A.enqueueAction(action);
 	},
 	restoreUiState: function(previousQuoteItems, currentQuoteItems) {
@@ -189,15 +252,21 @@
 					if (goBackToPricingPage) {
 						document.location = '/apex/PricingProgramLgtnOut?Id=' + quote.Id;
 					}
+
+					cmp.set('v.isDirty', false);
 				}
 			}
 		);
 		$A.enqueueAction(action);
 	},
 	recalculateQuoteSupportPlusTotals: function(cmp, quote, quoteItems, supportPlusItems, pricingProgram) {
+		/*
 		console.log('@recalculateQuoteSupportPlusTotals');
 		console.log('quote.Distributor_Responsibility__c: ' + quote.Distributor_Responsibility__c);
 		console.log(pricingProgram);
+		
+		var supportPlusPlans = cmp.get('v.supportPlusPlans');
+
 		var distRespPct = quote.Distributor_Responsibility__c * 0.01;
 		var toroResp = (100 - quote.Distributor_Responsibility__c) * 0.01;
 
@@ -247,27 +316,73 @@
 			quote.Toro_Support_Plus_Allowance_Used__c = spSplitDNetTotal + spAddNewDNetTotal;
 		}
 
-		var baseDNetTotal = cmp.get('v.baseDNetTotal'); // total DNet WITHOUT SP
-		var baseAwardwardTotal = cmp.get('v.baseAwardTotal'); // total Award WITHOUT SP
+		var baseDNetTotal = cmp.get('v.baseDNetTotal'); // total DNet with SP+ DNet total reincluded
+		var baseAwardwardTotal = cmp.get('v.baseAwardTotal'); // total Award with SP+ Award total reincluded
+		
+		var baseDNetTotalWithoutSecondary = cmp.get('v.baseDNetTotalWithoutSecondary');
+		var baseAwardTotalWithoutSecondary = cmp.get('v.baseAwardTotalWithoutSecondary');
 
 		// quote.SP_Total_Extended_DNET__c           = quote.Toro_Total_DNet__c - spSplitDNetTotal;
-		quote.SP_Total_Extended_DNET__c = baseDNetTotal - spSplitDNetTotal;
+		// quote.SP_Total_Extended_DNET__c = baseDNetTotal - spSplitDNetTotal;
+		quote.SP_Total_Extended_DNET__c = baseDNetTotalWithoutSecondary - spSplitDNetTotal;
 
 		// quote.SP_Adjusted_Toro_Award__c           = quote.Toro_Award__c - spSplitAwardTotal;
-		quote.SP_Adjusted_Toro_Award__c = baseAwardwardTotal - spSplitAwardTotal;
+		// quote.SP_Adjusted_Toro_Award__c = baseAwardwardTotal - spSplitAwardTotal;
+		quote.SP_Adjusted_Toro_Award__c = baseAwardTotalWithoutSecondary - spSplitAwardTotal;
 
 		quote.SP_Adjusted_Ext_Award__c            = spSplitAwardTotal;
 		quote.SP_Toro_Responsibility__c           = toroResp * (spSplitDNetTotal + spAddNewDNetTotal);
 
 		// quote.SP_Ext_Dist_Responsibility__c       = (quote.Toro_Total_DNet__c - spSplitDNetTotal) / quote.Toro_Total_DNet__c;
-		quote.SP_Ext_Dist_Responsibility__c = (baseDNetTotal - spSplitDNetTotal) / baseDNetTotal;
-		quote.Distributor_Contribution__c = distRespPct * (spSplitDNetTotal + spAddNewDNetTotal);
+		// quote.SP_Ext_Dist_Responsibility__c = (baseDNetTotal - spSplitDNetTotal) / baseDNetTotal;
+		quote.SP_Ext_Dist_Responsibility__c = (baseDNetTotalWithoutSecondary - spSplitDNetTotal) / baseDNetTotalWithoutSecondary;
 
+		quote.Distributor_Contribution__c = distRespPct * (spSplitDNetTotal + spAddNewDNetTotal);
 
 		console.log('quote.SP_Total_Extended_DNET__c: ' + quote.SP_Total_Extended_DNET__c);
 		console.log('quote.SP_Adjusted_Toro_Award__c: ' + quote.SP_Adjusted_Toro_Award__c);
 		console.log('quote.Distributor_Contribution__c: ' + quote.Distributor_Contribution__c);
 		
+		// ============================================================================
+		// calculate support plus allowance
+		if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Award Only') {
+			for (var i = 0; i < supportPlusPlans.length; i++) {
+				var plan = supportPlusPlans[i];
+				if ((baseAwardTotalWithoutSecondary - spSplitAwardTotal) >= plan.dnetLow
+					&& (baseAwardTotalWithoutSecondary - spSplitAwardTotal) < plan.dnetHigh
+				) {
+					quote.Toro_Support_Plus_Allowance__c = plan.maximumSupport;
+					break;
+				}
+			}
+		}
+
+		else if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Total DNet Only') {
+			for (var i = 0; i < supportPlusPlans.length; i++) {
+				var plan = supportPlusPlans[i];
+				if ((baseDNetTotalWithoutSecondary - spSplitDNetTotal) >= plan.dnetLow
+					&& (baseDNetTotalWithoutSecondary - spSplitDNetTotal) < plan.dnetHigh
+				) {
+					quote.Toro_Support_Plus_Allowance__c = plan.maximumSupport;
+					break;
+				}
+			}
+		}
+
+		else if (pricingProgram.Determines_Support_Plus_Allowance__c == 'Total DNet and Award') {
+			for (var i = 0; i < supportPlusPlans.length; i++) {
+				var plan = supportPlusPlans[i];
+				if ((baseDNetTotalWithoutSecondary - spSplitDNetTotal) >= plan.dnetLow
+					&& (baseDNetTotalWithoutSecondary - spSplitDNetTotal) < plan.dnetHigh
+					&& quote.Toro_Blended_Percent_of_DN__c >= plan.awardPriceasPercentOfDNLow
+					&& quote.Toro_Blended_Percent_of_DN__c < plan.awardPriceasPercentOfDNHigh
+				) {
+					quote.Toro_Support_Plus_Allowance__c = plan.maximumSupport;
+					break;
+				}
+			}
+		}
+		*/
 		return quote;
 	},
 	updateDistributorResponsibility: function(quote, items) {

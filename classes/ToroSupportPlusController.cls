@@ -224,6 +224,22 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
+	public static ToroSupportPlusData recalculate(REVVY__MnQuote__c quote
+										, String quoteItemsJSON
+										, String supportPlusItemsJSON
+										, REVVY__MnStrategy1__c pricingProgram
+	) {
+		return new ToroSupportPlusData(quote, quoteItemsJSON, supportPlusItemsJSON, pricingProgram);
+	}
+
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	@AuraEnabled
 	public static Boolean splitAndSaveItems(REVVY__MnQuote__c quote
 											, String quoteItemsJSON
 											, String supportPlusItemsJSON

@@ -18,11 +18,13 @@
 	<aura:attribute name="supportPlusItems" type="ToroSupportPlusItem[]" />
 	<aura:attribute name="quoteItemMap" type="Map" />
 	<aura:attribute name="distributorResponsibilities" type="Map" />
+	<aura:attribute name="supportPlusPlans" type="List" />
 	<aura:attribute name="distRespIsEditable" type="Boolean" />
 	<aura:attribute name="showDNet" type="Boolean" />
 	<aura:attribute name="showToroAward" type="Boolean" />
 	<aura:attribute name="pricingProgram" type="SObject" />
 
+	<aura:attribute name="isDirty" type="Boolean" />
 
 	<div id="spinner" aura:id="spinnerId" class="slds-spinner_container" style="display:none">
 		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
@@ -61,6 +63,7 @@
 					</div>
 					<div class="slds-button-group" role="group">
 						<button class="slds-button slds-button_neutral" onclick="{!c.returnToPricing}">{!$Label.c.SP_Return}</button>
+						<button class="slds-button slds-button_neutral" onclick="{!c.handleCalculate}">Calculate</button>
 						<button class="slds-button slds-button_neutral" onclick="{!c.handleSave}">{!$Label.c.SP_Save}</button>
 						<button class="slds-button slds-button_neutral" onclick="{!c.handleSaveAndClose}">{!$Label.c.SP_Save_and_Close}</button>
 					</div>
@@ -80,6 +83,19 @@
 								showToroAward="{!v.showToroAward}" />
 	</div>
 	<br/>
+	<aura:if isTrue="{!v.isDirty}">
+		<div style="position:absolute;margin-top:120px;" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+			<span class="slds-assistive-text">info</span>
+			<span class="slds-icon_container slds-icon-utility-user slds-m-right_x-small" title="Description of icon when needed">
+				<lightning:icon iconName="action:info" size="x-small"/>
+			</span>
+			<h2 style="font-size:14px;">Please Click on Calculate or Save Button</h2>
+			<button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+				<span class="slds-assistive-text">Close</span>
+			</button>
+		</div>
+	</aura:if>
+	<br/><br/><br/>
 	<div id="support-plus-quote-item">
 		<c:ToroSPQuoteItem quoteItems="{!v.quoteItems}"
 							distributorResponsibility="{!v.quote.Distributor_Responsibility__c}"
@@ -87,6 +103,7 @@
 							showDNet="{!v.showDNet}"
 							showToroAward="{!v.showToroAward}" />
 	</div>
+	<br/>
     <div id="support-plus-new-item">
 		<c:ToroSPQuoteItem aura:id="cmpSupportPlusItems"
 							quoteItems="{!v.supportPlusItems}"

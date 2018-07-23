@@ -365,6 +365,7 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
+	/*
 	public static Decimal getSupportPlusAllowance(REVVY__MnQuote__c quote) {
 		final REVVY__MnStrategy1__c pricingProgram = getPricingProgram(quote);
 		List<Support_Plus_Plan__c> supportPlusPlans = getSupportPlusPlans(pricingProgram.ExternalId__c);
@@ -413,6 +414,7 @@ public with sharing class ToroSupportPlusHelper {
 
 		return allowance;
 	}
+	*/
 
 	public static Decimal getDistributorResponsibility(REVVY__MnQuote__c quote) {
 		Decimal defaultDistRespValue = 50.0;

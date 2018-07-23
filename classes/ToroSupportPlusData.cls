@@ -12,6 +12,7 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public List<ToroSupportPlusItem> qiWrappers 			 { get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> addNewWrappers 		 { get; set; }
 	@AuraEnabled public List<DistRespOption> distributorResponsibilities { get; private set; }
+	@AuraEnabled public List<SupportPlusPlan> supportPlusPlans           { get; private set; }
 	@AuraEnabled public Boolean distRespIsEditable            			 { get; set; }
 	@AuraEnabled public Boolean showDNet 								 { get; private set; }
 	@AuraEnabled public Boolean showToroAward 							 { get; private set; }
@@ -21,8 +22,8 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Decimal baseAwardTotal                 { get; private set; } // total award with support plus items re-added
 	@AuraEnabled public Decimal baseDNetTotalWithoutSecondary  { get; private set; } // total dnet excluding quote items assigned to a secondary program
 	@AuraEnabled public Decimal baseAwardTotalWithoutSecondary { get; private set; } // total award excluding quote items assigned to a secondary program
-
-
+	@AuraEnabled public Decimal blendedPercentOfDNWithoutSecondary { get; private set; }
+	@AuraEnabled public Decimal unadjustedAllowance { get; private set; }
 	/**
 	 *
 	 * description
@@ -34,6 +35,7 @@ public with sharing class ToroSupportPlusData {
 		this.qiWrappers                  = new List<ToroSupportPlusItem>();
 		this.addNewWrappers              = new List<ToroSupportPlusItem>();
 		this.distributorResponsibilities = new List<DistRespOption>();
+		this.supportPlusPlans            = new List<SupportPlusPlan>();
 		this.success                     = true;
 
 		this.showDNet      = true;
@@ -58,7 +60,7 @@ public with sharing class ToroSupportPlusData {
 			this.quote = ToroCacheManager.getQuote(quoteId);
 			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			intializeWrappers(quoteId );
+			intializeWrappers(quoteId);
 			recalculateQuoteValues();
 		}
 
@@ -84,7 +86,10 @@ public with sharing class ToroSupportPlusData {
 		this();
 		try {
 			this.quote = quote;
-			
+			this.qiWrappers = ToroSupportPlusHelper.buildQuoteItemWrapperMap((List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)).values();
+			this.addNewWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);			
+			this.pricingProgram = pricingProgram;
+			recalculateQuoteValues();
 		}
 
 		catch (Exception e) {
@@ -215,6 +220,7 @@ public with sharing class ToroSupportPlusData {
 		ToroPricingProgram tempPricingProgramInstance = ToroSupportPlusHelper.getPricingProgramWithoutSecondaryProgramItems(this.quote.Id, this.pricingProgram.ExternalId__c, this.quoteItemList);
 		this.baseDNetTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Total_DNet__c;
 		this.baseAwardTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Award__c;
+		this.blendedPercentOfDNWithoutSecondary = tempPricingProgramInstance.quote.Toro_Blended_Percent_of_DN__c;
 		System.debug('\n\n@@after this.quote: ' + this.quote + '\n\n');
 		/*
 		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
@@ -267,8 +273,8 @@ public with sharing class ToroSupportPlusData {
 		for (Support_Plus_Contribution__c contrib : contribs) {
 			distRespValueSet.add(contrib.Distributor_Contribution__c);
 			if (
-				this.quote.Toro_Blended_Percent_of_DN__c >= contrib.Award_Price_Low__c
-				&& this.quote.Toro_Blended_Percent_of_DN__c < contrib.Award_Price_High__c
+				this.blendedPercentOfDNWithoutSecondary >= contrib.Award_Price_Low__c
+				&& this.blendedPercentOfDNWithoutSecondary < contrib.Award_Price_High__c
 			) {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
 			}
@@ -331,14 +337,19 @@ public with sharing class ToroSupportPlusData {
 		}
 
 		this.quote.Support_Plus__c               = this.quote.Toro_Support_Plus_Allowance_Used__c > 0;
-		this.quote.SP_Total_Extended_DNET__c     = this.baseDNetTotal - spSplitDNetTotal;
-		this.quote.SP_Adjusted_Toro_Award__c     = this.baseAwardTotal - spSplitAwardTotal;
+
+		// this.quote.SP_Total_Extended_DNET__c     = this.baseDNetTotal - spSplitDNetTotal;
+		this.quote.SP_Total_Extended_DNET__c     = this.baseDNetTotalWithoutSecondary - spSplitDNetTotal;
+
+		// this.quote.SP_Adjusted_Toro_Award__c     = this.baseAwardTotal - spSplitAwardTotal;
+		this.quote.SP_Adjusted_Toro_Award__c     = this.baseAwardTotalWithoutSecondary - spSplitAwardTotal;
+		
 		this.quote.SP_Adjusted_Ext_Award__c      = spSplitAwardTotal;
 		this.quote.SP_Toro_Responsibility__c     = toroResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
 		this.quote.Toro_Contribution__c          = toroResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
 
-		if (this.baseDNetTotal != null && this.baseDNetTotal != 0) {
-			this.quote.SP_Ext_Dist_Responsibility__c = (this.baseDNetTotal - spSplitDNetTotal) / this.baseDNetTotal;
+		if (this.baseAwardTotalWithoutSecondary != null && this.baseAwardTotalWithoutSecondary != 0) {
+			this.quote.SP_Ext_Dist_Responsibility__c = (this.baseAwardTotalWithoutSecondary - spSplitDNetTotal) / this.baseAwardTotalWithoutSecondary;
 		}
 		
 		this.quote.Distributor_Contribution__c   = distributorResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
@@ -346,13 +357,25 @@ public with sharing class ToroSupportPlusData {
 		// ============================================================================
 		// calculate support plus allowance
 		List<Support_Plus_Plan__c> supportPlusPlans = ToroSupportPlusHelper.getSupportPlusPlans(this.pricingProgram.ExternalId__c);
+		for (Support_Plus_Plan__c planObj : supportPlusPlans) {
+			this.supportPlusPlans.add(new SupportPlusPlan(planObj));
+		}
+
 		this.quote.Toro_Support_Plus_Allowance__c = 0;
 		if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_AWARD) {
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (this.baseAwardTotalWithoutSecondary >= plan.Total_DNet_Low__c
-					&& this.baseAwardTotalWithoutSecondary < plan.Total_DNet_High__c
+				if ( (this.baseAwardTotalWithoutSecondary - spSplitAwardTotal) >= plan.Total_DNet_Low__c
+					&&  (this.baseAwardTotalWithoutSecondary - spSplitAwardTotal) < plan.Total_DNet_High__c
 				) {
 					this.quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					break;
+				}
+			}
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if ( (this.baseAwardTotalWithoutSecondary) >= plan.Total_DNet_Low__c
+					&&  (this.baseAwardTotalWithoutSecondary) < plan.Total_DNet_High__c
+				) {
+					this.unadjustedAllowance = plan.Maximum_Support__c;
 					break;
 				}
 			}
@@ -360,23 +383,43 @@ public with sharing class ToroSupportPlusData {
 
 		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_DNET) {
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (this.baseDNetTotalWithoutSecondary >= plan.Total_DNet_Low__c
-					&& this.baseDNetTotalWithoutSecondary < plan.Total_DNet_High__c
+				if ( (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal) >= plan.Total_DNet_Low__c
+					&&  (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal) < plan.Total_DNet_High__c
 				) {
 					this.quote.Toro_Support_Plus_Allowance__c = plan.Maximum_Support__c;
+					break;
+				}
+			}
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if ( (this.baseDNetTotalWithoutSecondary) >= plan.Total_DNet_Low__c
+					&&  (this.baseDNetTotalWithoutSecondary) < plan.Total_DNet_High__c
+				) {
+					this.unadjustedAllowance = plan.Maximum_Support__c;
 					break;
 				}
 			}
 		}
 
 		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) { // STI does not allow secondary programs
+			Decimal blendedPercentOfDNWithoutSecondaryAndSupportPlus = ((this.baseAwardTotalWithoutSecondary - spSplitAwardTotal) / (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal)) * 100;
+			Decimal baseDNetWithoutSecondaryAndSupportPlus = (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal);
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (this.quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
-					&& this.quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
-					&& this.quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
-					&& this.quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
+				if (baseDNetWithoutSecondaryAndSupportPlus >= plan.Total_DNet_Low__c
+					&& baseDNetWithoutSecondaryAndSupportPlus < plan.Total_DNet_High__c
+					&& blendedPercentOfDNWithoutSecondaryAndSupportPlus >= plan.Award_Price_as_Percent_of_DN_Low__c
+					&& blendedPercentOfDNWithoutSecondaryAndSupportPlus < plan.Award_Price_as_Percent_of_DN_High__c
 				) {
-					this.quote.Toro_Support_Plus_Allowance__c = (this.quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
+					this.quote.Toro_Support_Plus_Allowance__c = (baseDNetWithoutSecondaryAndSupportPlus * plan.Maximum_Support_Percent__c) / 100;
+					break;
+				}
+			}
+			for (Support_Plus_Plan__c plan : supportPlusPlans) {
+				if (baseDNetWithoutSecondaryAndSupportPlus >= plan.Total_DNet_Low__c
+					&& baseDNetWithoutSecondaryAndSupportPlus < plan.Total_DNet_High__c
+					&& blendedPercentOfDNWithoutSecondaryAndSupportPlus >= plan.Award_Price_as_Percent_of_DN_Low__c
+					&& blendedPercentOfDNWithoutSecondaryAndSupportPlus < plan.Award_Price_as_Percent_of_DN_High__c
+				) {
+					this.unadjustedAllowance = (baseDNetWithoutSecondaryAndSupportPlus * plan.Maximum_Support_Percent__c) / 100;
 					break;
 				}
 			}
@@ -404,6 +447,25 @@ public with sharing class ToroSupportPlusData {
 		targetQuote.SP_Ext_Dist_Responsibility__c       = this.quote.SP_Ext_Dist_Responsibility__c;
 	}
 
+
+	// ============================================================================
+	// SUPPORT PLUS PLAN WRAPPER
+	// ============================================================================
+	public class SupportPlusPlan {
+		@AuraEnabled public Decimal maximumSupport;
+		@AuraEnabled public Decimal dnetLow;
+		@AuraEnabled public Decimal dnetHigh;
+		@AuraEnabled public Decimal awardPriceasPercentOfDNLow;
+		@AuraEnabled public Decimal awardPriceasPercentOfDNHigh;
+
+		public SupportPlusPlan(Support_Plus_Plan__c planObj) {
+			this.maximumSupport              = planObj.Maximum_Support__c;
+			this.dnetLow                     = planObj.Total_DNet_Low__c;
+			this.dnetHigh                    = planObj.Total_DNet_High__c;
+			this.awardPriceasPercentOfDNLow  = planObj.Award_Price_as_Percent_of_DN_Low__c;
+			this.awardPriceasPercentOfDNHigh = planObj.Award_Price_as_Percent_of_DN_High__c;
+		}
+	}
 
 	// ============================================================================
 	// DISTRIBUTOR RESPONSIBILITY OPTIONS FOR DROPDOWN
