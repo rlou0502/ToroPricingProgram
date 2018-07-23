@@ -533,12 +533,14 @@ public class ToroPricingProgramController {
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
     				qi.pricing_program__c = pricingProgram;
+    				qi.Fee_Percentage__c=null;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
 	    					qis.Percent_of_DNet__c=0;
 	    					qis.Rebate_as_of_DNet__c=0;
 	    					qis.Unit_Award_Overridden__c=false;
+	    					qis.Fee_Percentage__c=null;
 	    					if(!qis.Unit_Award_Overridden__c) {
 	    						qis.Award_Price__c=0;
 	    					}
@@ -576,6 +578,7 @@ public class ToroPricingProgramController {
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
     				qi.pricing_program__c = pricingProgram;
+    				qi.Fee_Percentage__c=null;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
@@ -588,6 +591,7 @@ public class ToroPricingProgramController {
 	    					qis.PricingMethodValue__c=null;
 	    					//qis.Unit_Award_Overridden__c=false;
 	    					qis.Performance_Part__c = false;
+	    					qis.Fee_Percentage__c=null;
 	    				}
     				}
     			}
@@ -914,6 +918,9 @@ public class ToroPricingProgramController {
 
     	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
     	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
+    		if(!pp.displaySetupFee()) {
+    			qi.Fee_Percentage__c = null;
+    		}
     		if(String.isBlank(qi.pricing_program__c)) {
     			qi.pricing_program__c = pricingProgram;	
     		}
@@ -923,6 +930,9 @@ public class ToroPricingProgramController {
     		}
 			if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!pp.displaySetupFee()) {
+		    			qis.Fee_Percentage__c = null;
+		    		}
 					if(String.isNotBlank(qis.PricingMethodValue__c)){
 		    			decimal d = decimal.valueOf(qis.PricingMethodValue__c).setScale(2, roundingMode.HALF_UP);
 		    			qis.PricingMethodValue__c = String.valueOf(d);

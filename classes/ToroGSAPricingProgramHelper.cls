@@ -40,6 +40,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 						qi.OnlyExistedInCPL__c= true;
 						qi.Rebate_as_a_of_DN__c=0;
 					}
+					
 					system.debug('ToroContractPriceListPPHelper test-- qi product = ' + qi.Product_Id__c + '  --- ' +qi.Award_price__c );
 					
 				} else {
@@ -49,6 +50,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 					qi.OnlyExistedInCPL__c= true;
 					system.debug('ToroContractPriceListPPHelper-- qi not in price list--' + qi.Product_Id__c);
 				}
+				qi.Rebate_as_a_of_DN__c=0;
 				system.debug('ToroContractPriceListPPHelper--product = ' + qi.Product_Name__c + '  -OnlyExistedInCPL__c-- ' + qi.OnlyExistedInCPL__c);
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -77,6 +79,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 							}
 							system.debug('ToroContractPriceListPPHelper test-- qis product = ' + qis.Product_Name__c + '  --- award price ' +qis.Award_price__c );
 						}
+						qis.Rebate_as_of_DNet__c=0;
 						system.debug('ToroContractPriceListPPHelper--product = ' + qis.Product_Name__c + '  -OnlyExistedInCPL__c-- ' + qis.OnlyExistedInCPL__c);			
 					}
 				}	
@@ -118,7 +121,8 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 			}
 			
 			qi.Toro_Com_Dollar__c += qi.Commission_Dollar__c;
-			decimal rebate = qi.DNet_Price__c - qi.award_price__c + qi.Toro_Gross_Profit_Value__c;
+			//decimal rebate = qi.DNet_Price__c - qi.award_price__c + qi.Toro_Gross_Profit_Value__c;
+			decimal rebate=0;
 			system.debug('qi.rebate =' + rebate);
 			if(!qi.OnlyExistedInCPL__c) {
 				qi.Toro_Rebate__c = rebate * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
@@ -166,6 +170,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 						
 					if(!qis.OnlyExistedInCPL__c) {
 						decimal qisRebate = qis.DNet_Price__c * extQty - qis.award_price__c *extQty  + qis.Gross_Profit_Value__c;	
+						qisRebate=0;
 						qis.Toro_Subline_Rebate__c = qisRebate;	
 						try{
 							qis.Rebate_as_of_DNet__c = qisRebate/(qis.dnet_price__c*extQty) *100;	
