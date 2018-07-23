@@ -79,6 +79,7 @@ public with sharing class CMnQuoteUtil {
 		System.debug('\n\n@@approval flag - quote: ' + quote + '\n\n');
 		Boolean containsOutCross = CMnQuoteUtil.checkForOutCrossProducts(quoteItemList);
 		Integer numberOfTractionUnits = CMnQuoteUtil.getNumberOfTractionUnits(quoteItemList);	
+        Boolean containsSupportPlus = CMnQuoteUtil.checkForSupportPlusItems(quoteItemList);
 		Boolean needsApproval = false;
 		String approvalMessage = '';
 
@@ -101,6 +102,11 @@ public with sharing class CMnQuoteUtil {
 			approvalMessage += ' Quote must contain at least ' + pricingProgram.MinimumTractionUnits__c + ' traction unit(s).';
 		}
 
+        if (containsSupportPlus) {
+			needsApproval = true;
+			approvalMessage += ' Quote contains support plus item(s).';
+		}
+                            
 		if (needsApproval) {
 			quote.REVVY__NeedsApproval__c = true;
 			quote.Toro_ApprovalReason__c = approvalMessage;
@@ -149,5 +155,27 @@ public with sharing class CMnQuoteUtil {
 		return false;
 	}
 
-	
+	/**
+	 *
+	 * description
+	 *
+	 * @param  name    description
+	 * @return return_type
+	 */
+	public static Boolean checkForSupportPlusItems(List<REVVY__MnStrategy4__c> quoteItemList) {
+		System.debug('\n\n@@checkForSupportPlusItems quoteItemList: ' + quoteItemList + '\n\n');
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			if (qi.Support_Plus_Item__c) {
+				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						if (qis.Apply_Support_Plus__c) {
+							return true;
+						}
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 }

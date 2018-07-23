@@ -247,6 +247,7 @@ global class ToroSupportPlusController {
 		System.debug('\n\n@@splitAndSaveItems start\n\n');
 		Savepoint sp = Database.setSavepoint();
 		try {
+			/*
 			// UPDATE QUOTE
 			REVVY__MnQuote__c quoteObjToUpdate = [
 				SELECT
@@ -283,6 +284,7 @@ global class ToroSupportPlusController {
 			update quoteObjToUpdate;
 			ToroCacheManager.refreshQuote(quote.Id);
 			System.debug('\n\n@@quoteObjToUpdate: ' + quoteObjToUpdate + '\n\n');
+			*/
 
 			// EXISTING QUOTE ITEM DATA
 			final ToroSupportPlusData existingSpData = new ToroSupportPlusData(quote.Id);
@@ -640,6 +642,10 @@ global class ToroSupportPlusController {
 			update sublineExtensionsToUpdate;
 			delete sublinesToDelete;
 			ToroSupportPlusHelper.saveSequenceGen();
+
+			ToroSupportPlusData newSPData = new ToroSupportPlusData(quote.Id);
+			update(newSPData.quote);
+			ToroCacheManager.refreshQuote(quote.Id);
 		}
 
 		catch (Exception e) {
