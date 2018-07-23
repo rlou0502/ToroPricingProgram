@@ -26,6 +26,7 @@ private class ToroNationalAccountArmyHelperTest {
 		ToroTestData.loadQuoteTestData();
 	}
     static testMethod void myUnitTest() {
+    	Test.startTest();
         ToroNationalAccountArmyHelper naf = new ToroNationalAccountArmyHelper();
         naf.getQuoteFields();
         naf.retrievePricingMethodOptions();
@@ -34,6 +35,6 @@ private class ToroNationalAccountArmyHelperTest {
         Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
         naf.initialize(quote.Id);
         naf.quoteItems = naf.calculateRebateMargin(quote.Id, 'Army', '% off MSRP', naf.quoteItems, true);
-        
+        Test.stopTest();
     }
 }

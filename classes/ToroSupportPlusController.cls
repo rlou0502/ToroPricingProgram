@@ -138,7 +138,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static Boolean deleteQuoteItem(Id quoteItemId) {
+	public static Boolean deleteQuoteItem(Id quoteId, Id quoteItemId) {
 		Boolean wasSuccessful = true;
 		try {
 			REVVY__MnQuoteItem__c quoteItemToDelete = [
@@ -153,6 +153,9 @@ global class ToroSupportPlusController {
 
 			if (quoteItemToDelete != null) {
 				delete quoteItemToDelete;
+				ToroSupportPlusData newSPData = new ToroSupportPlusData(quoteId);
+				update(newSPData.quote);
+				ToroCacheManager.refreshQuote(quoteId);
 			}
 		}
 

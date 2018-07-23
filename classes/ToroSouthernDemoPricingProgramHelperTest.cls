@@ -45,7 +45,9 @@ private class ToroSouthernDemoPricingProgramHelperTest {
 	}
 	@isTest static void test_method_two() {
 		Test.startTest();
+		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroSouthernDemoPricingProgramHelper tlpp = new ToroSouthernDemoPricingProgramHelper();
+		tlpp.initialize(quote.Id);
 		tlpp.displayPerformancePart();
 		System.assert(tlpp.getQuoteFields() != null);
 		System.assert(tlpp.getToroQuoteItemFields() != null);

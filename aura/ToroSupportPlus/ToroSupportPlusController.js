@@ -90,7 +90,8 @@
                     var action = cmp.get('c.deleteQuoteItem');
                     document.getElementById("spinner").style.display = "block";
                     action.setParams({
-                        quoteItemId: supportPlusItems[i].sfid
+                        quoteId: cmp.get('v.quote').Id
+                        , quoteItemId: supportPlusItems[i].sfid
                     });
                     action.setCallback(this
                         , function (response) {

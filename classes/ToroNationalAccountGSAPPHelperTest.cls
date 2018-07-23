@@ -26,6 +26,7 @@ private class ToroNationalAccountGSAPPHelperTest {
 		ToroTestData.loadQuoteTestData();
 	}
     static testMethod void myUnitTest() {
+    	Test.startTest();
         ToroNationalAccountGSAPPHelper naf = new ToroNationalAccountGSAPPHelper();
         naf.getQuoteFields();
         naf.retrievePricingMethodOptions();
@@ -34,6 +35,6 @@ private class ToroNationalAccountGSAPPHelperTest {
         Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
         naf.initialize(quote.Id);
         naf.quoteItems = naf.calculateRebateMargin(quote.Id, 'ContractGSA', '% off MSRP', naf.quoteItems, true);
-        
+        Test.stopTest();
     }
 }

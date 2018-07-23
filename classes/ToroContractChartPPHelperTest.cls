@@ -44,6 +44,7 @@ private class ToroContractChartPPHelperTest {
 	 * @result the key result
 	 */
 	@isTest static void test_calculate_rebate_margin_impl_total_award_percent() {
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroContractChartPPHelper tlpp = new ToroContractChartPPHelper();
 		tlpp.performancePartFlag=true;
@@ -55,7 +56,7 @@ private class ToroContractChartPPHelperTest {
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, 'Total Award $', tlpp.quoteItems, false);
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, 'Gross Profit %', tlpp.quoteItems, false);
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% of DNET', tlpp.quoteItems, true);
-		
+		Test.stopTest();
 	}
 
 	
