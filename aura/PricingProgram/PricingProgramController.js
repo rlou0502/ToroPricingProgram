@@ -47,9 +47,11 @@
         helper.closeInfoBox(component);
     },
     handleCalculationComplete: function(component, event, helper) {
+        console.log('@@handleCalculationComplete');
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var quote=event.getParam("quote");
         var allowSupportPlus = event.getParam("allowSupportPlus");
+        console.log('allowSupportPlus: ' + allowSupportPlus);
         var isSaveOperation = event.getParam("isSaveOperation");
         var displaySetupFee = event.getParam("displaySetupFee");
         component.set("v.allowSupportPlus", allowSupportPlus);

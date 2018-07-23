@@ -2,6 +2,7 @@
 <ApexTestSuite xmlns="http://soap.sforce.com/2006/04/metadata">
     <testClassName>CMnQuoteUtilTest</testClassName>
     <testClassName>FieldSetMemberTest</testClassName>
+    <testClassName>KMnQuoteLifeCycleTest</testClassName>
     <testClassName>PP_UpdateExtensionTest</testClassName>
     <testClassName>QuoteItemTest</testClassName>
     <testClassName>ToroBaseAwardAccessoryHelperTest</testClassName>
