@@ -9,18 +9,23 @@ public virtual class ToroPricingProgram {
 	public virtual boolean skipMSRPRangeCheck(){
 		return false;
 	}
-	public boolean getAllowSupportPlus(String pricingProgram, Id quoteId) {
-		if(String.isBlank(pricingProgram)) {
-			return false;
-		}
-		system.debug('getAllowSupportPlus pricingProgram=' + pricingProgram);
-		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
-		system.debug('getAllowSupportPlus ppd.externalId=' + ppd.externalId);
-		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
-		system.debug('getAllowSupportPlus header=' + pp_header);
 
+	public boolean getAllowSupportPlus(String pricingProgram, Id quoteId) {
+		List<Revvy__MnStrategy4__c> qiExtensions;
+		if (this.quoteItems == null) {
+			qiExtensions = [SELECT Pricing_Program__c FROM Revvy__MnStrategy4__c WHERE Mn_Quote__c = :quoteId];	
+		}
+
+		else {
+			qiExtensions = this.quoteItems;
+		}
+
+		if (String.isBlank(pricingProgram)) return false;
+		
+		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
+		Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(ppd.externalId);
 		Boolean allQuoteItemsAreSecondary = true;
-		for (Revvy__MnStrategy4__c qi : [SELECT Pricing_Program__c FROM Revvy__MnStrategy4__c WHERE Mn_Quote__c = :quoteId]) {
+		for (Revvy__MnStrategy4__c qi : qiExtensions) {
 			if (String.isNotBlank(qi.Pricing_Program__c)) {
 				ToroPricingProgramData qiPPD = new ToroPricingProgramData(qi.pricing_program__c);
 				if (ppd.externalId.equalsIgnoreCase(qiPPD.externalId)) {
@@ -30,11 +35,10 @@ public virtual class ToroPricingProgram {
 			}
 		}
 
-
-
 		boolean ret = pp_header.AllowSupportPlus__c && Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible() && !allQuoteItemsAreSecondary;
 		return ret == null ? false : ret;
 	}
+
 	public boolean getIsSupportPlusValueDollars(String pricingProgram) {
 		System.debug('\n\n@@getIsSupportPlusValueDollars\n\n');
 		if (String.isBlank(pricingProgram)) return false;
