@@ -842,15 +842,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Exclude_from_Rebate__c</fullName>
-        <defaultValue>false</defaultValue>
-        <description>Exclude Sublines from Rebate calculations</description>
-        <externalId>false</externalId>
-        <label>Exc Rbt OLD</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
         <fullName>Extended_Award_Price__c</fullName>
         <externalId>false</externalId>
         <label>EXT AWARD</label>
@@ -1022,16 +1013,6 @@
         <fullName>PricingMethodValue__c</fullName>
         <externalId>false</externalId>
         <label>Pricing Method Value</label>
-        <length>255</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Product_ID2__c</fullName>
-        <externalId>false</externalId>
-        <label>Product ID2</label>
         <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>

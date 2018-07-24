@@ -636,16 +636,6 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <type>Checkbox</type>
     </fields>
     <fields>
-        <fullName>StateProvince__c</fullName>
-        <externalId>false</externalId>
-        <label>StateProvince</label>
-        <length>255</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>UseDesignatedPriceList__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
