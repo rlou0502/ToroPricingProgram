@@ -229,10 +229,10 @@ public with sharing class ToroSupportPlusHelper {
 
 	/**
 	 *
-	 * description
+	 * get sublines for the quote item
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  quoteItemId    the id of the CPQ quote item
+	 * @return list of CPQ sublines
 	 */
 	public static List<REVVY__MnQuoteItemSubline__c> getSublines(Id quoteItemId) {
 		return [
@@ -244,19 +244,13 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__Price__c
 				, Award_Price__c
 				, Description__c
-				// , Distributor_Responsibility__c
-
 				, REVVY__QuoteItem__c
-
-				// , Product_ID2__c // REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__Catalog_Node__c
 				, REVVY__Catalog_Node__r.Name
 				, REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__Catalog_Node__r.Non_Toro_Product__c
 				, REVVY__Catalog_Node__r.Pricing_Program_Product_Type__c
-
 				, REVVY__PricelistLine__c
-
 				, Support_Plus_Original_Price__c
 				, Support_Plus_Original_Award_Price__c
 				, Support_Plus_Original_Item__c

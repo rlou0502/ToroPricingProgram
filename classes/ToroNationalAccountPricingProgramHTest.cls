@@ -13,6 +13,8 @@ private class ToroNationalAccountPricingProgramHTest {
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
 		tlpp.performancePartFlag=true;
+		Boolean dsetupFee = tlpp.displaySetupFee();
+		
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
 		ToroPricingProgramData ppd = new ToroPricingProgramData('Buyboard;Base');
 		tlpp.initialize(quote.Id);
@@ -30,6 +32,13 @@ private class ToroNationalAccountPricingProgramHTest {
 		tlpp.getToroQuoteItemSublineUpdatableFields();
 		System.assert(tlpp.getToroQuoteItemSummaryFields() != null);
 		tlpp.retrieveDemoPricingProgramOptions();
+		
+		Decimal dresult = ToroNationalAccountPricingProgramHelper.getSetupFeePercentage(10, 10);
+		System.assert(dresult >0);
+		
+		//Revvy__MnStrategy5__c qis = [Select Id From Revvy__MnStrategy5__c where ]
+		
+		//applyQISLPercentageTPP(Revvy__MnStrategy5__c qis, Revvy__MnStrategy2__c rb, decimal dsetupFeeHeader)
 	}
 	
 }

@@ -589,11 +589,6 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Misc_Style__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -930,17 +925,6 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>Misc_Style__c</fullName>
-        <description>Misc style to help some operations such as set text of a field to &quot;No Charge&quot; in client side</description>
-        <externalId>false</externalId>
-        <label>Misc Style</label>
-        <length>128</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>OnlyExistedInCPL__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
@@ -1173,7 +1157,7 @@
     <fields>
         <fullName>Toro_Product_Tier__c</fullName>
         <externalId>false</externalId>
-        <formula>Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c</formula>
+        <formula>IF( ISBLANK(Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c), Toro_Quote_Item_2__r.Product__r.Toro_Product_Tier__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c)</formula>
         <label>Tier</label>
         <required>false</required>
         <trackTrending>false</trackTrending>

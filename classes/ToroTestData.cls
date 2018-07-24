@@ -60,6 +60,9 @@ public with sharing class ToroTestData {
 		List<sObject> products           = Test.loadData(Revvy__MnCatalogNode__c.sObjectType, 'TestData_PP_CatalogNode');
 		Test.loadData(REVVY__MnConfigEngineOption__c.sObjectType, 'TestData_PP_ModelOption');
 		Test.loadData(Revvy__MnPriceListLine__c.sObjectType, 'TestData_PP_PriceListLine');
+
+		Test.loadData(Support_Plus_Contribution__c.sObjectType, 'TestData_PP_SupportPlusContributions');
+		Test.loadData(Support_Plus_Plan__c.sObjectType, 'TestData_PP_SupportPlusPlans');
     }
 
 	/**
