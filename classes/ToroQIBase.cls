@@ -5,6 +5,7 @@ public virtual class ToroQIBase {
 	@AuraEnabled public REVVY__MnQuoteItemSubLine__c sublineObj 	{ get; private set; }
 	@AuraEnabled public REVVY__MnStrategy5__c sublineExtObj     	{ get; private set; }
 
+	@AuraEnabled public REVVY__MnCatalogNode__c catalogNodeObj { get; private set; }
 	@AuraEnabled public Id catalogNodeId { get; private set; }
 	@AuraEnabled public Id pricelistLineId { get; private set; }
 
@@ -73,6 +74,7 @@ public virtual class ToroQIBase {
 		this.qiExtObj         = null;
 		this.sublineObj       = null;
 		this.sublineExtObj    = null;
+		this.catalogNodeObj   = catalogNode;
 		this.catalogNodeId    = catalogNode.Id;
 		this.pricelistLineId  = pricelistLine.Id;
 		this.sfid             = null;

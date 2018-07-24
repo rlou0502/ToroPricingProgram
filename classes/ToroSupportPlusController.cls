@@ -187,6 +187,7 @@ global class ToroSupportPlusController {
 				, REVVY__Product__r.Name
 				, REVVY__Product__r.Non_Toro_Product__c
 				, REVVY__Product__r.Pricing_Program_Product_Type__c
+				, REVVY__Product__r.REVVY__Configurable__c
 			FROM
 				REVVY__MnPriceListLine__c
 			WHERE
@@ -419,6 +420,8 @@ global class ToroSupportPlusController {
 						, Support_Plus_Original_Item__c        = wrapper.sfid
 						, Support_Plus_Original_Price__c       = wrapper.dnetPrice
 						, Support_Plus_Original_Award_Price__c = wrapper.awardPrice
+						, Item_Config_ID_Tx__c                 = wrapper.qiObj.Item_Config_ID_Tx__c
+						, REVVY__Is_Configuration_Complete__c  = wrapper.qiObj.REVVY__Is_Configuration_Complete__c
 					);
 					quoteItemsToInsert.add(spItemToInsert);
 					System.debug('\n\n@@spItemToInsert: ' + spItemToInsert + '\n\n');
@@ -515,6 +518,10 @@ global class ToroSupportPlusController {
 						, Description__c                       = addNewWrapper.description
 						, Support_Plus_Original_Item__c        = null
 					);
+
+					if (addNewWrapper.catalogNodeObj.REVVY__Configurable__c) {
+						spItemToInsert.REVVY__Is_Configuration_Complete__c = true;
+					}
 
 					quoteItemsToInsert.add(spItemToInsert);
 				}

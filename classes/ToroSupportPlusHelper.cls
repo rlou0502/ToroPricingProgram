@@ -160,6 +160,8 @@ public with sharing class ToroSupportPlusHelper {
 				, REVVY__Price__c
 				, Award_Price__c
 				, Description__c
+				, Item_Config_ID_Tx__c
+				, REVVY__Is_Configuration_Complete__c
 				, REVVY__Catalog_Node__c
 				, REVVY__Catalog_Node__r.Name
 				, REVVY__Catalog_Node__r.REVVY__Id__c
