@@ -45,6 +45,7 @@ public class ExportTestCoverage{
         'ToroGSAPricingProgramHelper'=>'Roy',
         'ToroGenModelBOM'=>'Roy',
         'ToroPricingHook'=>'Indra',
+        'ToroPostConfigPricingHook'=>'Indra',
         'ToroInfoBoxResultSet'=>'Roy',
         'ToroKemperSportsPricingProgramHelper'=>'Scott',
         'ToroKemperSportsPricingProgramHelperTest'=>'Scott',
