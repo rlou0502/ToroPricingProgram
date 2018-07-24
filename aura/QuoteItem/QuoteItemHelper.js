@@ -322,7 +322,7 @@
                     	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
 						tableData.className += " align-right ";
                     } 
-                    if(dispVal != "NaN") {
+                    if(dispVal != "NaN" && dispVal != undefined) {
                         cellText.innerHTML = dispVal;
                         cellText.title=dispVal;
                     }
@@ -365,7 +365,7 @@
             hearderRowCell.scope="col";
             var cellText = document.createElement('div');
             cellText.className += " slds-truncate slds-cell-wrap";
-            cellText.innerHTML = f.label;
+            cellText.innerHTML = f.label != undefined ? f.label : "";
             cellText.title=f.label;
             hearderRowCell.appendChild(cellText);
             headerRow.appendChild(hearderRowCell);

@@ -4,22 +4,11 @@ public with sharing class ToroSupportPlusHelper {
 	public static final String DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD = 'Total DNet and Award';
 
 
+	// holds sequence gen record for MnQuoteItem__c
 	private static REVVY__MnSequenceGen__c qiSequenceGen;
 
 	//  Pricing Program ExternalId__c => Pricing Program
 	private static Map<String,REVVY__MnStrategy1__c> pricingProgramMap = new Map<String,REVVY__MnStrategy1__c>();
-
-	/**
-	 *
-	 * description
-	 *
-	 * @param  name    description
-	 * @return return_type
-	 */
-	public static Boolean resetSupportPlusItems(List<REVVY__MnQuoteItem__c> quoteItems) {
-
-		return true;
-	}
 
 	/**
 	 *
@@ -53,10 +42,10 @@ public with sharing class ToroSupportPlusHelper {
 
 	/**
 	 *
-	 * description
+	 * builds map of CPQ Quote Item ID to the wrapper
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  wrappers    list of quote item wrappers
+	 * @return map of CPQ Quote Item ID => wrapper
 	 */
 	public static Map<Id,ToroSupportPlusItem> buildQuoteItemWrapperMap(List<ToroSupportPlusItem> wrappers) {
 		Map<Id,ToroSupportPlusItem> result = new Map<Id,ToroSupportPlusItem>();
@@ -66,6 +55,13 @@ public with sharing class ToroSupportPlusHelper {
 		return result;
 	}
 
+	/**
+	 *
+	 * builds map of CPQ subline ID to the wrapper
+	 *
+	 * @param  wrappers    list of subline wrappers
+	 * @return map of CPQ subline ID => wrapper
+	 */
 	public static Map<Id,ToroSupportPlusItem> buildSublineWrapperMap(List<ToroSupportPlusItem> wrappers) {
 		Map<Id,ToroSupportPlusItem> result = new Map<Id,ToroSupportPlusItem>();
 		for (ToroSupportPlusItem wrapper : wrappers) {
@@ -74,6 +70,14 @@ public with sharing class ToroSupportPlusHelper {
 		return result;
 	}
 
+
+	/**
+	 *
+	 * gets the pricing program for the quote
+	 *
+	 * @param  quote    The CPQ quote record
+	 * @return the pricing program record
+	 */
 	public static REVVY__MnStrategy1__c getPricingProgram(REVVY__MnQuote__c quote) {
 		return getPricingProgram(quote.Pricing_Program_Name__c.split(';')[0]);
 	}
@@ -141,33 +145,28 @@ public with sharing class ToroSupportPlusHelper {
 
 	/**
 	 *
-	 * description
+	 * get CPQ quote items with required fields for support plus
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  quoteId
+	 * @return list of CPQ quote items
 	 */
 	public static List<REVVY__MnQuoteItem__c> getQuoteItems(Id quoteId) {
 		return [
 			SELECT
-				Id // sfid
+				Id
 				, REVVY__Id__c
 				, REVVY__Quantity__c
 				, REVVY__SuggestedPrice__c
 				, REVVY__Price__c
 				, Award_Price__c
 				, Description__c
-				// , Distributor_Responsibility__c
-				// , REVVY__Product_Name_F__c // REVVY__Catalog_Node__r.Name
-				// , REVVY__Product_ID_F__c // REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__Catalog_Node__c
 				, REVVY__Catalog_Node__r.Name
 				, REVVY__Catalog_Node__r.REVVY__Id__c
 				, REVVY__Catalog_Node__r.Non_Toro_Product__c
 				, REVVY__Catalog_Node__r.Pricing_Program_Product_Type__c
-
 				, REVVY__PricelistLine__c
 				, REVVY__Quote__r.Pricing_Program_Name__c
-
 				, Support_Plus_From_Add_New__c
 				, Support_Plus_Original_Price__c
 				, Support_Plus_Original_Award_Price__c
@@ -182,42 +181,10 @@ public with sharing class ToroSupportPlusHelper {
 				, Quote_Item_Extension__r.Pricing_Program__c // pricing program external Id (String). not a lookup field
 				, Quote_Item_Extension__r.Pricing_Program_Overridden__c // indicates if the pricing program is overridden (DOES NOT RESET ONCE IT IS OVERRIDDEN THE FIRST TIME)
 				, Quote_Item_Extension__r.Has_Support_Plus__c
-				/*
-				, (SELECT
-						Id
-						, REVVY__Id__c // why is this null for regular quote items?
-						, REVVY__Quantity__c
-						, REVVY__SuggestedPrice__c
-						, Description__c
-						// , Distributor_Responsibility__c
-
-						, REVVY__QuoteItem__c
-
-						// , Product_ID2__c // REVVY__Catalog_Node__r.REVVY__Id__c
-						, REVVY__Catalog_Node__c
-						, REVVY__Catalog_Node__r.Name
-						, REVVY__Catalog_Node__r.REVVY__Id__c
-
-						, REVVY__PricelistLine__c
-
-						, Support_Plus_Original_Price__c
-						, Support_Plus_Original_Award_Price__c
-						, Support_Plus_Original_Item__c
-						, Support_Plus_Original_Item__r.Id
-						, Support_Plus_Original_Item__r.REVVY__Quantity__c
-						, Quote_Item_Subline_Extension__r.Id
-						, Quote_Item_Subline_Extension__r.External_Id__c
-						, Quote_Item_Subline_Extension__r.Adjusted_Quantity__c
-					FROM
-						REVVY__QuoteItemSubLine__r
-					ORDER BY
-						REVVY__Catalog_Node__r.Name)
-					*/
 			FROM
 				REVVY__MnQuoteItem__c
 			WHERE
 				REVVY__Quote__c = :quoteId
-		      //And REVVY__Catalog_Node__r.Non_Toro_Product__c = false
 			ORDER BY
 				Description__c asc
 		];
@@ -225,10 +192,10 @@ public with sharing class ToroSupportPlusHelper {
 
 	/**
 	 *
-	 * description
+	 * get CPQ quote items for non-toro page
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  quoteId
+	 * @return list of CPQ quote items
 	 */
 	public static List<REVVY__MnQuoteItem__c> getNonToroQuoteItems(Id quoteId) {
 		return [
@@ -365,57 +332,6 @@ public with sharing class ToroSupportPlusHelper {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	/*
-	public static Decimal getSupportPlusAllowance(REVVY__MnQuote__c quote) {
-		final REVVY__MnStrategy1__c pricingProgram = getPricingProgram(quote);
-		List<Support_Plus_Plan__c> supportPlusPlans = getSupportPlusPlans(pricingProgram.ExternalId__c);
-
-		Decimal allowance = 0;
-		if (pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_AWARD) {
-			// this.showDNet      = true;
-			// this.showToroAward = true;
-			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (quote.Toro_Award__c >= plan.Total_DNet_Low__c
-					&& quote.Toro_Award__c < plan.Total_DNet_High__c
-				) {
-					allowance = plan.Maximum_Support__c;
-					break;
-				}
-			}
-		}
-
-		else if (pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET) {
-			// this.showDNet      = true;
-			// this.showToroAward = true;
-			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
-					&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
-				) {
-					allowance = plan.Maximum_Support__c;
-					break;
-				}
-			}
-		}
-
-		else if (pricingProgram.Determines_Support_Plus_Allowance__c == DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) {
-			// this.showDNet      = true;
-			// this.showToroAward = true;
-			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (quote.Toro_Total_DNet__c >= plan.Total_DNet_Low__c
-					&& quote.Toro_Total_DNet__c < plan.Total_DNet_High__c
-					&& quote.Toro_Blended_Percent_of_DN__c >= plan.Award_Price_as_Percent_of_DN_Low__c
-					&& quote.Toro_Blended_Percent_of_DN__c < plan.Award_Price_as_Percent_of_DN_High__c
-				) {
-					allowance = (quote.Toro_Total_DNet__c * plan.Maximum_Support_Percent__c) / 100;
-					break;
-				}
-			}
-		}
-
-		return allowance;
-	}
-	*/
-
 	public static Decimal getDistributorResponsibility(REVVY__MnQuote__c quote) {
 		Decimal defaultDistRespValue = 50.0;
 		// Set<Decimal> distRespValueSet = new Set<Decimal>();
@@ -427,8 +343,6 @@ public with sharing class ToroSupportPlusHelper {
 			) {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
 			}
-
-			// distRespValueSet.add(contrib.Distributor_Contribution__c);
 		}
 
 		return defaultDistRespValue;
@@ -471,10 +385,9 @@ public with sharing class ToroSupportPlusHelper {
 
 	/**
 	 *
-	 * description
+	 * clears the SP+ values on the quote
 	 *
-	 * @param  name    description
-	 * @return return_type
+	 * @param  quote    the quote record
 	 */
 	public static void clearSupportPlusValuesOnQuote(REVVY__MnQuote__c quote) {
 		quote.Toro_Support_Plus_Allowance__c      = null;
