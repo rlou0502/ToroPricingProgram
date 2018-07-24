@@ -2035,7 +2035,7 @@
     <fields>
         <fullName>Toro_Product_Tier__c</fullName>
         <externalId>false</externalId>
-        <formula>QuoteItem__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c</formula>
+        <formula>IF( ISBLANK(QuoteItem__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c), &quot;Tier 1&quot;, QuoteItem__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c)</formula>
         <label>Tier</label>
         <required>false</required>
         <trackTrending>false</trackTrending>

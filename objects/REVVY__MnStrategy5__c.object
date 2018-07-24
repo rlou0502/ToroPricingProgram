@@ -1157,7 +1157,7 @@
     <fields>
         <fullName>Toro_Product_Tier__c</fullName>
         <externalId>false</externalId>
-        <formula>IF( ISBLANK(Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c), Toro_Quote_Item_2__r.Product__r.Toro_Product_Tier__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c)</formula>
+        <formula>IF( ISBLANK(Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c), Toro_Quote_Item_2__r.Toro_Product_Tier__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Toro_Product_Tier__c)</formula>
         <label>Tier</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
