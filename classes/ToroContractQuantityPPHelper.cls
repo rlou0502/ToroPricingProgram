@@ -54,7 +54,7 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 				}		
 			}
 		}
-		system.debug('numOfTractionUnits : ' + numOfTractionUnits );
+		system.debug('numOfTractionUnits 1 : ' + numOfTractionUnits );
 		system.debug('line : ' + line );
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			system.debug(logginglevel.info,'baseCalculateImplementation Off_MSRP_Overridden__c =' + qi.Off_MSRP_Overridden__c );

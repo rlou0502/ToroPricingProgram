@@ -97,11 +97,11 @@ global class ToroNTController {
 			final List<REVVY__MnQuoteItem__c> quoteItemsToInsert = new List<REVVY__MnQuoteItem__c>();
 			final List<REVVY__MnQuoteItem__c> quoteItemsToUpdate = new List<REVVY__MnQuoteItem__c>();
 			final List<Revvy__MnStrategy4__c> quoteItemsS4ToUpdate = new List<Revvy__MnStrategy4__c>();
-			
+
             Decimal totalAllied = 0;
             Decimal totalService = 0;
             Decimal totalTradeIn = 0;
-            
+
 			for (ToroQIBase qiw : qiws) {
 				if (qiw.sfid != null) {
 					// update it
@@ -155,15 +155,15 @@ global class ToroNTController {
                                                                    , Unit_Award_Overridden__c = true
                                                                    , Description__c = mnqi.Description__c
                                                                    , Adjusted_Quantity__c = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
-                                                                   , DNet_Price__c  = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__SuggestedPrice__c)  
+                                                                   , DNet_Price__c  = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__SuggestedPrice__c)
                                                                    , Extended_MSRP_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Price__c) * CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
                                                                    , Extended_DNet_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.REVVY__SuggestedPrice__c) * CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
                                                                    , Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
-                                                                   , Total_Toro_Award__c = 0 
+                                                                   , Total_Toro_Award__c = 0
                                                                   ));
-            }            
+            }
 			System.debug('\n\n@@quoteItemsAll: ' + quoteItemsAll + '\n\n');
-            
+
 			// ============================================================================
 			// fix Quote_Item_Extension__c for new Support Plus Quote Items
 			// ============================================================================
@@ -199,25 +199,25 @@ global class ToroNTController {
 			quoteItemsToUpdate.addAll(insertedQuoteItems);
 			System.debug('\n\n@@quoteITemsToUpdate: 222' + quoteITemsToUpdate + '\n\n');
 			update quoteItemsToUpdate;
-            
+
 			for (REVVY__MnStrategy4__c qiExtObj : qiExtObjs) {
 				qiExtObj.Exc_Rbt__c = true;
 			}
 
 			update qiExtObjs;
-			
+
             //Update strategy 4
             if(quoteItemsS4ToUpdate.size() > 0) {
                 upsert quoteItemsS4ToUpdate External_Id__c;
             }
-            
+
             //Update Quote for total Allied, Service, and Trade in
             quote.Trade_In_Total__c = totalTradeIn;
             quote.Allied_Non_Toro_Total__c = totalAllied;
             quote.Service_Contract_Total__c = totalService;
             update quote;
-            
-            
+
+
 			ToroSupportPlusHelper.saveSequenceGen();
 		}
 
@@ -252,7 +252,7 @@ global class ToroNTController {
 			];
 
 			List<Revvy__MnStrategy4__c> delStrategyList = [Select Id From Revvy__MnStrategy4__c where External_Id__c = :quoteItemId];
-            
+
 			if (delStrategyList != null) {
 				delete delStrategyList;
 			}
