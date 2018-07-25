@@ -16,11 +16,12 @@ public with sharing class ToroCacheManager {
 	}
 	
 	public static List<ToroSelectOption> getPricingProgramEligibility(String quoteId) {
-		return (List<ToroSelectOption>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramEligibility.class, quoteId);		
+		system.debug('getPricingProgramEligibility from cache');
+		return (List<ToroSelectOption>) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramEligibility.class, quoteId);		
 	}
 	public static List<ToroSelectOption> refreshPricingProgramEligibility(String quoteId) {
 		Cache.Session.getPartition(ToroCacheManager.constPartitionName).remove(ToroPricingProgramEligibility.class, quoteId);
-		return (List<ToroSelectOption>) Cache.Org.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramEligibility.class, quoteId);		
+		return (List<ToroSelectOption>) Cache.Session.getPartition(ToroCacheManager.constPartitionName).get(ToroPricingProgramEligibility.class, quoteId);		
 	}
 	
 	public static Revvy__MnStrategy1__c getPricingProgram(String externalId) {

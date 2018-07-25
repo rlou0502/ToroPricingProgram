@@ -157,7 +157,8 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
         ret.sort();
 		return ret;
 	}  
-	public Object doLoad(String quoteId) {        	 
+	public Object doLoad(String quoteId) {   
+		system.debug('getPricingProgramEligibility from cache do load');     	 
     	List<ToroSelectOption> pricingProgramOptions = ToroPricingProgramEligibility.retrievePricingProgramOptions(quoteId);  
     	return pricingProgramOptions;  
     }     
