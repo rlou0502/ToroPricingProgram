@@ -18,8 +18,8 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Boolean showToroAward 							 { get; private set; }
 	@AuraEnabled public REVVY__MnStrategy1__c pricingProgram             { get; private set; }
 	public List<REVVY__MnStrategy4__c> quoteItemList					 {get; set;}
-	@AuraEnabled public Decimal baseDNetTotal                  { get; private set; } // total dnet with support plus items re-added
-	@AuraEnabled public Decimal baseAwardTotal                 { get; private set; } // total award with support plus items re-added
+	// @AuraEnabled public Decimal baseDNetTotal                  { get; private set; } // total dnet with support plus items re-added
+	// @AuraEnabled public Decimal baseAwardTotal                 { get; private set; } // total award with support plus items re-added
 	@AuraEnabled public Decimal baseDNetTotalWithoutSecondary  { get; private set; } // total dnet excluding quote items assigned to a secondary program
 	@AuraEnabled public Decimal baseAwardTotalWithoutSecondary { get; private set; } // total award excluding quote items assigned to a secondary program
 	@AuraEnabled public Decimal blendedPercentOfDNWithoutSecondary { get; private set; }
@@ -87,7 +87,8 @@ public with sharing class ToroSupportPlusData {
 	) {
 		this();
 		try {
-			this.quote = quote;
+			// this.quote = quote;
+			this.quote = ToroCacheManager.getQuote(quote.Id);
 			this.qiWrappers = ToroSupportPlusHelper.buildQuoteItemWrapperMap((List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)).values();
 			this.addNewWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);			
 			this.pricingProgram = pricingProgram;
@@ -211,8 +212,6 @@ public with sharing class ToroSupportPlusData {
 
 		// ============================================================================
 		// calculate base DNet and Award
-		this.baseDNetTotal = this.quote.Toro_Total_DNet__c;
-		this.baseAwardTotal = this.quote.Toro_Award__c;
 		this.baseDNetTotalWithoutSecondary = this.quote.Toro_Total_DNet__c;
 		this.baseAwardTotalWithoutSecondary = this.quote.Toro_Award__c;
 
@@ -249,8 +248,8 @@ public with sharing class ToroSupportPlusData {
 			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
 			Decimal awardPrice = quoteItem.awardPrice != null ? quoteItem.awardPrice : 0;
 
-			this.baseDNetTotal += dnetPrice * spQty;
-			this.baseAwardTotal += awardPrice * spQty;
+			// this.baseDNetTotal += dnetPrice * spQty;
+			// this.baseAwardTotal += awardPrice * spQty;
 			// this.baseDNetTotalWithoutSecondary += dnetPrice * spQty;
 			// this.baseAwardTotalWithoutSecondary += awardPrice * spQty;
 			if (!quoteItem.sublines.isEmpty()) {
@@ -259,8 +258,8 @@ public with sharing class ToroSupportPlusData {
 					Decimal sublineDnetPrice = subline.dnetPrice != null ? subline.dnetPrice : 0;
 					Decimal sublineAwardPrice = subline.awardPrice != null ? subline.awardPrice : 0;
 
-					this.baseDNetTotal += sublineDnetPrice * sublineSpQty;
-					this.baseAwardTotal += sublineAwardPrice * sublineSpQty;
+					// this.baseDNetTotal += sublineDnetPrice * sublineSpQty;
+					// this.baseAwardTotal += sublineAwardPrice * sublineSpQty;
 					// this.baseDNetTotalWithoutSecondary += sublineDnetPrice * sublineSpQty;
 					// this.baseAwardTotalWithoutSecondary += sublineAwardPrice * sublineSpQty;
 				}
@@ -446,6 +445,8 @@ public with sharing class ToroSupportPlusData {
 				}
 			}
 		}
+
+		ToroCacheManager.putQuote(quote);
 	}
 
 

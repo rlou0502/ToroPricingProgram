@@ -10,8 +10,8 @@
 	<aura:attribute name="quote" type="SObject" />
 	<aura:attribute name="quoteItems" type="ToroSupportPlusItem[]" />
 
-	<aura:attribute name="baseDNetTotal" type="Decimal" />
-	<aura:attribute name="baseAwardTotal" type="Decimal" />
+	<!-- <aura:attribute name="baseDNetTotal" type="Decimal" /> -->
+	<!-- <aura:attribute name="baseAwardTotal" type="Decimal" /> -->
 	<aura:attribute name="baseDNetTotalWithoutSecondary" type="Decimal" />
 	<aura:attribute name="baseAwardTotalWithoutSecondary" type="Decimal" />
 

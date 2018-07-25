@@ -27,8 +27,8 @@
 					console.log(supportPlusData.supportPlusPlans);
 
 					// calculate total DNet and total Award WITHOUT SP items
-					cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
-					cmp.set('v.baseAwardTotal', supportPlusData.baseAwardTotal);
+					// cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
+					// cmp.set('v.baseAwardTotal', supportPlusData.baseAwardTotal);
 					cmp.set('v.baseDNetTotalWithoutSecondary', supportPlusData.baseDNetTotalWithoutSecondary);
 					cmp.set('v.baseAwardTotalWithoutSecondary', supportPlusData.baseAwardTotalWithoutSecondary);
 					
@@ -112,8 +112,8 @@
 					console.log(supportPlusData.supportPlusPlans);
 
 					// calculate total DNet and total Award WITHOUT SP items
-					cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
-					cmp.set('v.baseAwardTotal', supportPlusData.baseAwardTotal);
+					// cmp.set('v.baseDNetTotal', supportPlusData.baseDNetTotal);
+					// cmp.set('v.baseAwardTotal', supportPlusData.baseAwardTotal);
 					cmp.set('v.baseDNetTotalWithoutSecondary', supportPlusData.baseDNetTotalWithoutSecondary);
 					cmp.set('v.baseAwardTotalWithoutSecondary', supportPlusData.baseAwardTotalWithoutSecondary);
 					cmp.set('v.quoteItems', quoteItems);
