@@ -63,4 +63,15 @@ private class ToroNTControllerTest {
 		Boolean success = ToroNTController.saveChanges(quote, JSON.serialize(data.qiWrappers));
 		Test.stopTest();
 	}
+
+	@isTest static void test_delete() {
+		final Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
+		ToroNTData data = new ToroNTData(quoteId);
+
+		Test.startTest();
+		Boolean success = ToroNTController.deleteQuoteItem(data.qiWrappers[0].qiObj.Id);
+		System.assert(success);
+		Test.stopTest();
+	}
 }

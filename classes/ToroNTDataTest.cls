@@ -42,4 +42,21 @@ private class ToroNTDataTest {
 		Test.stopTest();
 	}
 
+	@isTest static void test_exception() {
+		Test.startTest();
+		final Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		ToroNTData data = new ToroNTData(quoteId);
+
+		Boolean exceptionCaught = false;
+		try {
+			ToroNTData data2 = new ToroNTData(data.qiWrappers[0].qiObj.Id); // will fail
+		}
+
+		catch (Exception e) {
+			exceptionCaught = true;
+		}
+
+		System.assert(exceptionCaught);
+		Test.stopTest();
+	}
 }

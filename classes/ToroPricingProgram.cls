@@ -767,12 +767,14 @@ public virtual class ToroPricingProgram {
 		for(Schema.FieldSetMember fs : getToroQuoteItemSummaryFields()) {
 			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
+		/*
 		for(Schema.FieldSetMember fs : SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Traction_Unit_Info.getFields()) {
 			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
 		for(Schema.FieldSetMember fs : SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Line_Info_Cols.getFields()) {
 			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
+		*/
 		return CombineSelectClauses(fieldNames, extraFields);
 	}
 
@@ -781,9 +783,11 @@ public virtual class ToroPricingProgram {
 		for(Schema.FieldSetMember fs : getToroQuoteItemSublineFields()) {
 			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
+		/*
 		for(Schema.FieldSetMember fs : SObjectType.Revvy__MnStrategy5__c.FieldSets.Price_Program_Subline_Info_Cols.getFields()) {
 			fieldNames.add(fs.getFieldPath().toLowerCase());
 		}
+		*/
 		return CombineSelectClauses(fieldNames, extraFields);
 	}
 
