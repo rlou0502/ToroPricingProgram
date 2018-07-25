@@ -644,6 +644,7 @@ public class ToroPricingProgramController {
     	//}
     	system.debug('quote q=' + q);
     	system.debug(logginglevel.info, 'pricingProgram=' + pricingProgram);
+    	ToroCacheManager.refreshPricingProgramEligibility(quoteId);
     	rs.pricingProgramOptions = ToroCacheManager.getPricingProgramEligibility(quoteId);
     	 	
     	if(String.isBlank(pricingProgram)) {
