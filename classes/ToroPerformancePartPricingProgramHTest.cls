@@ -26,6 +26,7 @@ private class ToroPerformancePartPricingProgramHTest {
 	}
 
 	@isTest static void test_apply_performance_part_for_quote_item() {
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroLargePackagePricingProgramHelper largePackageHelper = new ToroLargePackagePricingProgramHelper();
 		Map<String,Decimal> ppMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
@@ -35,9 +36,15 @@ private class ToroPerformancePartPricingProgramHTest {
 																								, largePackageHelper.quoteItems[0]
 																								, ppMap
 																								, '% off MSRP');
+		result = ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(null
+																								, largePackageHelper.quoteItems[0]
+																								, ppMap
+																								, '% of DNET');
+		Test.StopTest();																						
 	}
 
 	@isTest static void test_apply_performance_part_for_subline() {
+		Test.startTest();
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroLargePackagePricingProgramHelper largePackageHelper = new ToroLargePackagePricingProgramHelper();
 		Map<String,Decimal> ppMap = ToroPerformancePartPricingProgramHelper.retrievePerformancePart();
@@ -48,5 +55,18 @@ private class ToroPerformancePartPricingProgramHTest {
 																						, sublines[0]
 																						, ppMap
 																						, '% off MSRP');
+		ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(true
+																						, sublines[0]
+																						, ppMap
+																						, '% of DNET');
+		ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(false
+																						, sublines[0]
+																						, ppMap
+																						, '% off MSRP');
+		ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(null
+																						, sublines[1]
+																						, ppMap
+																						, '% of DNET');
+		Test.StopTest();																				
 	}
 }

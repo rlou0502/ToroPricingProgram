@@ -45,6 +45,9 @@ public with sharing class ToroBaseAwardAccessoryHelper  extends ToroStateContrac
 				if(line != null) {
 					qi.DrivenByGP__c = drivenByGP;
 					qi.Award_Price__c = line.Award_Price__c;
+					if(qi.Exclude_from_Rebate_F__c) {
+						qi.Award_Price__c = qi.MSRP_Price__c;	
+					}
 					if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
 						qi.Off_MSRP__c = (1-(qi.Award_Price__c/qi.MSRP_Price__c))*100;
 					}
@@ -91,6 +94,9 @@ public with sharing class ToroBaseAwardAccessoryHelper  extends ToroStateContrac
 							qis.Percent_Off_MSRP__c = accesseryLine.Off_Mfg_Sugg_Ttl__c;							
 						}	
 						qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
+						if(qis.Exclude_from_Rebate_F__c) {
+							qis.Award_Price__c = qis.MSRP_Price__c;	
+						}
 						if(qis.Award_Price__c != null && qis.Award_Price__c != 0){
 							qis.Percent_of_DNet__c = qis.DNet_Price__c/qis.Award_Price__c*100;
 						}

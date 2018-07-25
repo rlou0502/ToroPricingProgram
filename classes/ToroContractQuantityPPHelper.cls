@@ -71,6 +71,9 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 				system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;
+					if(qi.Exclude_from_Rebate_F__c) {
+						qi.Award_Price__c = qi.MSRP_Price__c;	
+					}
 				}
 				if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0)
 					qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c*100;
@@ -106,6 +109,9 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 					qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);
 					if(!qis.Unit_Award_Overridden__c) {			
 						qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * (100-CMnQuoteUtil.defaultDecimal(qis.Percent_Off_MSRP__c))/100;
+						if(qis.Exclude_from_Rebate_F__c) {
+							qis.Award_Price__c = qis.MSRP_Price__c;	
+						}
 					}
 					if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0)
 						qis.Percent_of_DNet__c = qis.Award_Price__c/qis.DNet_Price__c*100;

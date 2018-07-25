@@ -32,5 +32,33 @@ private class ToroSupportPlusItemTest {
 	}
 
 
+	@isTest static void test_subline_constructor() {
+		final Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
 
+		ToroSupportPlusData data = ToroSupportPlusController.retrieveSupportPlusData(quoteId);
+
+		data.qiWrappers[0].spQuantity = 1;
+		data.qiWrappers[0].sublines[0].spQuantity = 1;
+
+
+		Boolean success = ToroSupportPlusController.splitAndSaveItems(
+			quote
+			, JSON.serialize(data.qiWrappers)
+			, JSON.serialize(data.addNewWrappers)
+		);
+
+		System.assert(success);
+
+		Test.startTest();
+		data = ToroSupportPlusController.retrieveSupportPlusData(quoteId);
+
+		ToroSupportPlusItem sublineWrapper = new ToroSupportPlusItem(
+			data.qiWrappers[0].qiObj
+			, data.qiWrappers[0].sublines[0].sublineObj
+			, data.qiWrappers[0].sublines[0].sublineSpObj
+		);
+
+		Test.stopTest();
+	}
 }
