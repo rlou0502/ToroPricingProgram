@@ -18,7 +18,7 @@ public virtual class ToroQIBase {
 	@AuraEnabled public String description { get; private set; }
 	@AuraEnabled public Decimal quantity   { get; private set; }
 
-	@AuraEnabled public Boolean isNonToroProduct { get; private set; }
+	@AuraEnabled public Boolean isNonToroProduct { get; set; }
 	@AuraEnabled public String pricingProgramProductType { get; private set; }
 
 	/**
@@ -30,7 +30,7 @@ public virtual class ToroQIBase {
 		this.qiExtObj         = qi.Quote_Item_Extension__r;
 		this.sublineObj       = null;
 		this.sublineExtObj    = null;
-		this.catalogNodeId    = null; 
+		this.catalogNodeId    = null;
 		this.pricelistLineId  = null;
 		this.sfid             = qi.Id;
 		this.productId        = qi.REVVY__Catalog_Node__r.REVVY__Id__c;

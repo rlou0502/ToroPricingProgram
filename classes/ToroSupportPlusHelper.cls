@@ -10,6 +10,8 @@ public with sharing class ToroSupportPlusHelper {
 	//  Pricing Program ExternalId__c => Pricing Program
 	private static Map<String,REVVY__MnStrategy1__c> pricingProgramMap = new Map<String,REVVY__MnStrategy1__c>();
 
+	private static Map<Id,List<REVVY__MnQuoteItemSubline__c>> quoteItemIdToSublinesMap = new  Map<Id, List<REVVY__MnQuoteItemSubline__c>>();
+
 	/**
 	 *
 	 * generates a new sequence number for Quote Items
@@ -140,6 +142,20 @@ public with sharing class ToroSupportPlusHelper {
 		quote.SP_Adjusted_Ext_Award__c       = CMnQuoteUtil.defaultDecimal(quote.SP_Adjusted_Ext_Award__c);
 		quote.SP_Total_Extended_DNET__c      = CMnQuoteUtil.defaultDecimal(quote.SP_Total_Extended_DNET__c);
 		quote.Distributor_Contribution__c    = CMnQUoteUtil.defaultDecimal(quote.Distributor_Contribution__c);
+
+		for (REVVY__MnQuoteItemSubline__c subline : getSublinesForQuote(quoteId)) {
+			if (quoteItemIdToSublinesMap.containsKey(subline.REVVY__QuoteItem__c)) {
+				quoteItemIdToSublinesMap.get(subline.REVVY__QuoteItem__c).add(subline);
+			}
+
+			else {
+				quoteItemIdToSublinesMap.put(
+					subline.REVVY__QuoteItem__c
+					, new List<REVVY__MnQuoteItemSubline__c> { subline }
+				);
+			}
+		}
+
 		return quote;
 	}
 
@@ -237,6 +253,10 @@ public with sharing class ToroSupportPlusHelper {
 	 * @return list of CPQ sublines
 	 */
 	public static List<REVVY__MnQuoteItemSubline__c> getSublines(Id quoteItemId) {
+		if (quoteItemIdToSublinesMap.containsKey(quoteItemId)) {
+			return quoteItemIdToSublinesMap.get(quoteItemId);
+		}
+
 		return [
 			SELECT
 				Id
@@ -247,6 +267,7 @@ public with sharing class ToroSupportPlusHelper {
 				, Award_Price__c
 				, Description__c
 				, REVVY__QuoteItem__c
+				, REVVY__QuoteItem__r.REVVY__Quote__c
 				, REVVY__Catalog_Node__c
 				, REVVY__Catalog_Node__r.Name
 				, REVVY__Catalog_Node__r.REVVY__Id__c
@@ -270,6 +291,40 @@ public with sharing class ToroSupportPlusHelper {
 				REVVY__Catalog_Node__r.Name];
 	}
 
+	public static List<REVVY__MnQuoteItemSubline__c> getSublinesForQuote(Id quoteId) {
+		return [
+			SELECT
+				Id
+				, REVVY__Id__c // why is this null for regular quote items?
+				, REVVY__Quantity__c
+				, REVVY__SuggestedPrice__c
+				, REVVY__Price__c
+				, Award_Price__c
+				, Description__c
+				, REVVY__QuoteItem__c
+				, REVVY__QuoteItem__r.REVVY__Quote__c
+				, REVVY__Catalog_Node__c
+				, REVVY__Catalog_Node__r.Name
+				, REVVY__Catalog_Node__r.REVVY__Id__c
+				, REVVY__Catalog_Node__r.Non_Toro_Product__c
+				, REVVY__Catalog_Node__r.Pricing_Program_Product_Type__c
+				, REVVY__PricelistLine__c
+				, Support_Plus_Original_Price__c
+				, Support_Plus_Original_Award_Price__c
+				, Support_Plus_Original_Item__c
+				, Support_Plus_Original_Item__r.Id
+				, Support_Plus_Original_Item__r.REVVY__Quantity__c
+				, Quote_Item_Subline_Extension__r.Id
+				, Quote_Item_Subline_Extension__r.External_Id__c
+				, Quote_Item_Subline_Extension__r.Adjusted_Quantity__c
+				, Quote_Item_Subline_Extension__r.Award_Price__c
+			FROM
+				REVVY__MnQuoteItemSubLine__c
+			WHERE
+				REVVY__QuoteItem__r.REVVY__Quote__c = :quoteId
+			ORDER BY
+				REVVY__Catalog_Node__r.Name];
+	}
 	/**
 	 *
 	 * description
@@ -363,7 +418,7 @@ public with sharing class ToroSupportPlusHelper {
 		}
 
 		else {
-			pp.initializeQuoteItems(quoteId); 
+			pp.initializeQuoteItems(quoteId);
 		}
 		List<Revvy__MnStrategy4__c> filteredQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for (Revvy__MnStrategy4__c qi : pp.quoteItems) {

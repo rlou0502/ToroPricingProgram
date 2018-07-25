@@ -7,7 +7,7 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	public static final Set<String> PP_PRODUCT_TYPES_TO_EXCLUDE_SET = new Set<String> {
 		'Approved Allied', 'Non-Toro Allied', 'Trade Ins', 'Service Contracts'
 	};
-	
+
 	@AuraEnabled public List<ToroSupportPlusItem> sublines 			{ get; private set; }
 	// @AuraEnabled public REVVY__MnQuoteItem__c qiObj  				{ get; private set; }
 	// @AuraEnabled public REVVY__MnStrategy4__c qiExtObj 				{ get; private set; }
@@ -27,18 +27,18 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 	// @AuraEnabled public Decimal dnetPrice  { get; private set; }
 	// @AuraEnabled public String description { get; private set; }
 	// @AuraEnabled public Decimal quantity   { get; private set; }
-	@AuraEnabled public Decimal spQuantity { get; private set; }
+	@AuraEnabled public Decimal spQuantity { get; set; }
 
 	// values for controlling display
 	@AuraEnabled public Boolean isFromAddNew { get; private set; }
 	@AuraEnabled public String chevronStyle  { get; private set; }
 	@AuraEnabled public String displayStyle  { get; private set; }
-	@AuraEnabled public Boolean isNonToroProduct { get; private set; }
+	// @AuraEnabled public Boolean isNonToroProduct { get; private set; }
 	@AuraEnabled public Boolean eligibleForSupportPlus { get; private set; }
 
 	// this value is not set here. it is a placeholder for displaying the responsibility
 	// based of the quote header
-	@AuraEnabled public Decimal distributorResponsibility { private get; private set; }
+	@AuraEnabled public Decimal distributorResponsibility { public get; private set; }
 
 	@AuraEnabled public Boolean qiPricingProgramOverridden { public get; private set; }
 	@AuraEnabled public String qiPricingProgramExtId 	   { public get; private set; }
@@ -148,7 +148,10 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 		this.spQuantity  = spi.Quote_Item_Extension__r.Adjusted_Quantity__c;
 		this.eligibleForSupportPlus = true;
 		this.qiPricingProgramOverridden = qiObj.Quote_Item_Extension__r.Pricing_Program_Overridden__c;
-		this.qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+
+		if (String.isNotBlank(qiObj.Quote_Item_Extension__r.Pricing_Program__c)) {
+			this.qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+		}
 
 		this.isFromAddNew = false;
 		this.chevronStyle = 'right';
@@ -194,9 +197,9 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 
 		System.debug('\n\n@@this.isNonToroProduct: ' + this.isNonToroProduct + '\n\n');
 		System.debug('\n\n@@this.pricingProgramProductType: ' + this.pricingProgramProductType + '\n\n');
-		if (this.isNonToroProduct == null) this.isNonToroProduct = false; 
+		if (this.isNonToroProduct == null) this.isNonToroProduct = false;
 		if (this.isNonToroProduct || PP_PRODUCT_TYPES_TO_EXCLUDE_SET.contains(this.pricingProgramProductType)) {
-			this.eligibleForSupportPlus = false; 
+			this.eligibleForSupportPlus = false;
 		}
 
 		this.isFromAddNew = false;
@@ -238,7 +241,10 @@ public with sharing class ToroSupportPlusItem extends ToroQIBase {
 
 		this.eligibleForSupportPlus = true;
 		this.qiPricingProgramOverridden = qi.Quote_Item_Extension__r.Pricing_Program_Overridden__c;
-		this.qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+
+		if (String.isNotBlank(qiObj.Quote_Item_Extension__r.Pricing_Program__c)) {
+			this.qiPricingProgramExtId = qiObj.Quote_Item_Extension__r.Pricing_Program__c.split(';')[0];
+		}
 
 		this.isFromAddNew = false;
 		this.chevronStyle = '';

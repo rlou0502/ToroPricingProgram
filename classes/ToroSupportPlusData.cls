@@ -5,8 +5,6 @@
  *
  */
 public with sharing class ToroSupportPlusData {
-
-
 	@AuraEnabled public Boolean success                             	 { get; private set; }
 	@AuraEnabled public REVVY__MnQuote__c quote 						 { get; set; }
 	@AuraEnabled public List<ToroSupportPlusItem> qiWrappers 			 { get; set; }
@@ -17,14 +15,15 @@ public with sharing class ToroSupportPlusData {
 	@AuraEnabled public Boolean showDNet 								 { get; private set; }
 	@AuraEnabled public Boolean showToroAward 							 { get; private set; }
 	@AuraEnabled public REVVY__MnStrategy1__c pricingProgram             { get; private set; }
-	public List<REVVY__MnStrategy4__c> quoteItemList					 {get; set;}
-	// @AuraEnabled public Decimal baseDNetTotal                  { get; private set; } // total dnet with support plus items re-added
-	// @AuraEnabled public Decimal baseAwardTotal                 { get; private set; } // total award with support plus items re-added
-	@AuraEnabled public Decimal baseDNetTotalWithoutSecondary  { get; private set; } // total dnet excluding quote items assigned to a secondary program
-	@AuraEnabled public Decimal baseAwardTotalWithoutSecondary { get; private set; } // total award excluding quote items assigned to a secondary program
-	@AuraEnabled public Decimal blendedPercentOfDNWithoutSecondary { get; private set; }
-	@AuraEnabled public Decimal unadjustedAllowance { get; private set; }
-	@AuraEnabled public Boolean overrideDistResp { get; private set; }
+
+	public List<REVVY__MnStrategy4__c> quoteItemList					 { get; set; }
+
+	@AuraEnabled public Decimal baseDNetTotalWithoutSecondary  			 { get; private set; } // total dnet excluding quote items assigned to a secondary program
+	@AuraEnabled public Decimal baseAwardTotalWithoutSecondary 			 { get; private set; } // total award excluding quote items assigned to a secondary program
+	@AuraEnabled public Decimal blendedPercentOfDNWithoutSecondary 		 { get; private set; }
+
+	@AuraEnabled public Boolean overrideDistResp 						 { get; private set; }
+
 	/**
 	 *
 	 * description
@@ -62,7 +61,8 @@ public with sharing class ToroSupportPlusData {
 			this.quote = ToroCacheManager.getQuote(quoteId);
 			final String pricingProgramExtId = this.quote.Pricing_Program_Name__c.split(';')[0];
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
-			intializeWrappers(quoteId);
+			initializeWrappers(quoteId);
+			initializeBaseTotals();
 			recalculateQuoteValues();
 		}
 
@@ -84,14 +84,19 @@ public with sharing class ToroSupportPlusData {
 								, String quoteItemsJSON
 								, String supportPlusItemsJSON
 								, REVVY__MnStrategy1__c pricingProgram
+								, Decimal baseDNetTotalWithoutSecondary
+								, Decimal baseAwardTotalWithoutSecondary
 	) {
 		this();
 		try {
 			// this.quote = quote;
 			this.quote = ToroCacheManager.getQuote(quote.Id);
 			this.qiWrappers = ToroSupportPlusHelper.buildQuoteItemWrapperMap((List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)).values();
-			this.addNewWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);			
+			this.addNewWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);
 			this.pricingProgram = pricingProgram;
+			this.baseDNetTotalWithoutSecondary = baseDNetTotalWithoutSecondary;
+			this.baseAwardTotalWithoutSecondary = baseAwardTotalWithoutSecondary;
+			// initializeBaseTotals();
 			recalculateQuoteValues();
 		}
 
@@ -110,14 +115,18 @@ public with sharing class ToroSupportPlusData {
 	 * @param  quoteId                the id of the quote
 	 * @param  pricingProgramExtId    the ExternalId__c of the pricing program to use
 	 */
-	public ToroSupportPlusData(Id quoteId, String pricingProgramExtId, List<Revvy__MnStrategy4__c> quoteItemList) {
+	public ToroSupportPlusData(Id quoteId
+								, String pricingProgramExtId
+								, List<Revvy__MnStrategy4__c> quoteItemList
+	) {
 		this();
 		try {
 			// this.quote = ToroSupportPlusHelper.getQuote(quoteId);
 			this.quote = ToroCacheManager.getQuote(quoteId);
 			this.pricingProgram = ToroSupportPlusHelper.getPricingProgram(pricingProgramExtId);
 			this.quoteItemList = quoteItemList;
-			intializeWrappers(quoteId);
+			initializeWrappers(quoteId);
+			initializeBaseTotals();
 			recalculateQuoteValues();
 		}
 
@@ -135,7 +144,7 @@ public with sharing class ToroSupportPlusData {
 	 * @param  name    description
 	 * @return return_type
 	 */
-	private void intializeWrappers(Id quoteId) {
+	private void initializeWrappers(Id quoteId) {
 		// get the quote items and support plus items
 		// build a map of the main quote item to its support plus line item
 		// (note that support plus items added by "add new" are not handled here)
@@ -144,7 +153,7 @@ public with sharing class ToroSupportPlusData {
 		Map<Id, Revvy__MnStrategy4__c> extensions = new Map<Id, Revvy__MnStrategy4__c>();
 		if (quoteItemList != null) {
 			for(Revvy__MnStrategy4__c qi : quoteItemList) {
-				extensions.put(qi.Id, qi);		
+				extensions.put(qi.Id, qi);
 			}
 		}
 		final List<REVVY__MnQuoteItem__c> addNewQuoteItems = new List<REVVY__MnQuoteItem__c>();
@@ -162,12 +171,12 @@ public with sharing class ToroSupportPlusData {
 					System.debug('qiObj.Quote_Item_Extension__c: qi=' + qi);
 					if (qi != null) {
 						System.debug('qiObj.Quote_Item_Extension__c: Pricing_Program__c=' + qi.Pricing_Program__c);
-						qiObj.Quote_Item_Extension__r.Pricing_Program__c = qi.Pricing_Program__c;	
+						qiObj.Quote_Item_Extension__r.Pricing_Program__c = qi.Pricing_Program__c;
 					}
 				}
 			}
-			
-			system.debug('intializeWrappers pricing Program =' + qiObj.Quote_Item_Extension__r.Pricing_Program__c);
+
+			system.debug('initializeWrappers pricing Program =' + qiObj.Quote_Item_Extension__r.Pricing_Program__c);
 		}
 
 		// create wrappers for the main quote items. here, we need to differentiate between main quote items
@@ -200,6 +209,42 @@ public with sharing class ToroSupportPlusData {
 	}
 
 
+	private void initializeBaseTotals() {
+		// ============================================================================
+		// calculate base DNet and Award
+		this.baseDNetTotalWithoutSecondary = this.quote.Toro_Total_DNet__c;
+		this.baseAwardTotalWithoutSecondary = this.quote.Toro_Award__c;
+
+
+		// remove secondary program items from base DNet and base Award
+		System.debug('\n\n@@before this.quote: ' + this.quote + '\n\n');
+		ToroPricingProgram tempPricingProgramInstance = ToroSupportPlusHelper.getPricingProgramWithoutSecondaryProgramItems(this.quote.Id, this.pricingProgram.ExternalId__c, this.quoteItemList);
+		this.baseDNetTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Total_DNet__c;
+		this.baseAwardTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Award__c;
+		this.blendedPercentOfDNWithoutSecondary = tempPricingProgramInstance.quote.Toro_Blended_Percent_of_DN__c;
+		System.debug('\n\n@@after this.quote: ' + this.quote + '\n\n');
+
+		// re-add SP+ extended totals
+		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
+			Decimal spQty = quoteItem.spQuantity != null ? quoteItem.spQuantity : 0;
+			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
+			Decimal awardPrice = quoteItem.awardPrice != null ? quoteItem.awardPrice : 0;
+
+			this.baseDNetTotalWithoutSecondary += dnetPrice * spQty;
+			this.baseAwardTotalWithoutSecondary += awardPrice * spQty;
+			if (!quoteItem.sublines.isEmpty()) {
+				for (ToroSupportPlusItem subline : quoteItem.sublines) {
+					Decimal sublineSpQty = subline.spQuantity;
+					Decimal sublineDnetPrice = subline.dnetPrice != null ? subline.dnetPrice : 0;
+					Decimal sublineAwardPrice = subline.awardPrice != null ? subline.awardPrice : 0;
+
+					this.baseDNetTotalWithoutSecondary += sublineDnetPrice * sublineSpQty;
+					this.baseAwardTotalWithoutSecondary += sublineAwardPrice * sublineSpQty;
+				}
+			}
+		}
+	}
+
 	/**
 	 *
 	 * description
@@ -209,64 +254,6 @@ public with sharing class ToroSupportPlusData {
 	 */
 	private void recalculateQuoteValues() {
 		System.debug('\n\n@@recalculateQuoteValues\n\n');
-
-		// ============================================================================
-		// calculate base DNet and Award
-		this.baseDNetTotalWithoutSecondary = this.quote.Toro_Total_DNet__c;
-		this.baseAwardTotalWithoutSecondary = this.quote.Toro_Award__c;
-
-		
-		// remove secondary program items from base DNet and base Award
-		System.debug('\n\n@@before this.quote: ' + this.quote + '\n\n');
-		ToroPricingProgram tempPricingProgramInstance = ToroSupportPlusHelper.getPricingProgramWithoutSecondaryProgramItems(this.quote.Id, this.pricingProgram.ExternalId__c, this.quoteItemList);
-		this.baseDNetTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Total_DNet__c;
-		this.baseAwardTotalWithoutSecondary = tempPricingProgramInstance.quote.Toro_Award__c;
-		this.blendedPercentOfDNWithoutSecondary = tempPricingProgramInstance.quote.Toro_Blended_Percent_of_DN__c;
-		System.debug('\n\n@@after this.quote: ' + this.quote + '\n\n');
-		/*
-		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
-			if (
-				quoteItem.qiPricingProgramOverridden
-				&& quoteItem.qiPricingProgramExtId != this.pricingProgram.ExternalId__c
-			) {
-				this.baseDNetTotalWithoutSecondary -= quoteItem.dnetPrice * quoteItem.quantity;
-				this.baseAwardTotalWithoutSecondary -= quoteItem.awardPrice * quoteItem.quantity;
-
-				if (!quoteItem.sublines.isEmpty()) {
-					for (ToroSupportPlusItem subline : quoteItem.sublines) {
-						this.baseDNetTotalWithoutSecondary -= subline.dnetPrice * subline.quantity;
-						this.baseAwardTotalWithoutSecondary -= subline.awardPrice * subline.quantity;
-					}
-				}
-			}
-		}
-		*/
-
-		// re-add SP+ extended totals
-		for (ToroSupportPlusItem quoteItem : this.qiWrappers) {
-			Decimal spQty = quoteItem.spQuantity != null ? quoteItem.spQuantity : 0;
-			Decimal dnetPrice = quoteItem.dnetPrice != null ? quoteItem.dnetPrice : 0;
-			Decimal awardPrice = quoteItem.awardPrice != null ? quoteItem.awardPrice : 0;
-
-			// this.baseDNetTotal += dnetPrice * spQty;
-			// this.baseAwardTotal += awardPrice * spQty;
-			// this.baseDNetTotalWithoutSecondary += dnetPrice * spQty;
-			// this.baseAwardTotalWithoutSecondary += awardPrice * spQty;
-			if (!quoteItem.sublines.isEmpty()) {
-				for (ToroSupportPlusItem subline : quoteItem.sublines) {
-					Decimal sublineSpQty = subline.spQuantity;
-					Decimal sublineDnetPrice = subline.dnetPrice != null ? subline.dnetPrice : 0;
-					Decimal sublineAwardPrice = subline.awardPrice != null ? subline.awardPrice : 0;
-
-					// this.baseDNetTotal += sublineDnetPrice * sublineSpQty;
-					// this.baseAwardTotal += sublineAwardPrice * sublineSpQty;
-					// this.baseDNetTotalWithoutSecondary += sublineDnetPrice * sublineSpQty;
-					// this.baseAwardTotalWithoutSecondary += sublineAwardPrice * sublineSpQty;
-				}
-			}
-		}
-
-
 
 		// ============================================================================
 		// calculate quote total values
@@ -322,25 +309,25 @@ public with sharing class ToroSupportPlusData {
 		List<Support_Plus_Contribution__c> contribs = ToroSupportPlusHelper.getSupportPlusContributions(this.pricingProgram.ExternalId__c);
 		for (Support_Plus_Contribution__c contrib : contribs) {
 			distRespValueSet.add(contrib.Distributor_Contribution__c);
-			
+
 			Decimal blendedDNetPct = 0;
 			Decimal adjAward       = this.baseAwardTotalWithoutSecondary - spSplitAwardTotal;
 			Decimal adjDNet        = this.baseDNetTotalWithoutSecondary - spSplitDNetTotal;
-			
+
 			System.debug('\n\n@@adjAward: ' + adjAward + '\n\n');
 			System.debug('\n\n@@adjDNet: ' + adjDNet + '\n\n');
 
 			if (adjDNet != 0) {
 				blendedDNetPct = (adjAward / adjDNet) * 100;
 			}
-			
+
 			if (blendedDNetPct >= contrib.Award_Price_Low__c
 				&& blendedDNetPct < contrib.Award_Price_High__c
 			) {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
 			}
 		}
-		
+
 		if (this.overrideDistResp) {
 			if (this.quote.Distributor_Responsibility__c == null
 				|| this.quote.Is_Dirty__c
@@ -350,7 +337,7 @@ public with sharing class ToroSupportPlusData {
 				this.quote.Distributor_Responsibility__c = defaultDistRespValue;
 			}
 		}
-		
+
 		this.distributorResponsibilities = new List<DistRespOption>();
 		for (Decimal value : distRespValueSet) {
 			DistRespOption option = new DistRespOption(value);
@@ -372,7 +359,7 @@ public with sharing class ToroSupportPlusData {
 		if (this.baseAwardTotalWithoutSecondary != null && this.baseAwardTotalWithoutSecondary != 0) {
 			this.quote.SP_Ext_Dist_Responsibility__c = (this.baseAwardTotalWithoutSecondary - spSplitDNetTotal) / this.baseAwardTotalWithoutSecondary;
 		}
-		
+
 		this.quote.Distributor_Contribution__c   = distributorResponsibilityPercent * (spSplitDNetTotal + spAddNewDNetTotal);
 
 		// ============================================================================
@@ -392,14 +379,6 @@ public with sharing class ToroSupportPlusData {
 					break;
 				}
 			}
-			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if ( (this.baseAwardTotalWithoutSecondary) >= plan.Total_DNet_Low__c
-					&&  (this.baseAwardTotalWithoutSecondary) < plan.Total_DNet_High__c
-				) {
-					this.unadjustedAllowance = plan.Maximum_Support__c;
-					break;
-				}
-			}
 		}
 
 		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_DNET) {
@@ -411,19 +390,18 @@ public with sharing class ToroSupportPlusData {
 					break;
 				}
 			}
-			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if ( (this.baseDNetTotalWithoutSecondary) >= plan.Total_DNet_Low__c
-					&&  (this.baseDNetTotalWithoutSecondary) < plan.Total_DNet_High__c
-				) {
-					this.unadjustedAllowance = plan.Maximum_Support__c;
-					break;
-				}
-			}
 		}
 
 		else if (this.pricingProgram.Determines_Support_Plus_Allowance__c == ToroSupportPlusHelper.DETERMINES_SP_ALLOWANCE_DNET_AND_AWARD) { // STI does not allow secondary programs
-			Decimal blendedPercentOfDNWithoutSecondaryAndSupportPlus = ((this.baseAwardTotalWithoutSecondary - spSplitAwardTotal) / (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal)) * 100;
+			Decimal baseAwardTotalWithoutSecondaryAndSupportPlus = (this.baseAwardTotalWithoutSecondary - spSplitAwardTotal);
 			Decimal baseDNetWithoutSecondaryAndSupportPlus = (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal);
+
+			Decimal blendedPercentOfDNWithoutSecondaryAndSupportPlus = 0;
+
+			if (baseDNetWithoutSecondaryAndSupportPlus != 0) {
+				blendedPercentOfDNWithoutSecondaryAndSupportPlus = (baseAwardTotalWithoutSecondaryAndSupportPlus / baseDNetWithoutSecondaryAndSupportPlus) * 100;
+			}
+
 			for (Support_Plus_Plan__c plan : supportPlusPlans) {
 				if (baseDNetWithoutSecondaryAndSupportPlus >= plan.Total_DNet_Low__c
 					&& baseDNetWithoutSecondaryAndSupportPlus < plan.Total_DNet_High__c
@@ -431,16 +409,6 @@ public with sharing class ToroSupportPlusData {
 					&& blendedPercentOfDNWithoutSecondaryAndSupportPlus < plan.Award_Price_as_Percent_of_DN_High__c
 				) {
 					this.quote.Toro_Support_Plus_Allowance__c = (baseDNetWithoutSecondaryAndSupportPlus * plan.Maximum_Support_Percent__c) / 100;
-					break;
-				}
-			}
-			for (Support_Plus_Plan__c plan : supportPlusPlans) {
-				if (baseDNetWithoutSecondaryAndSupportPlus >= plan.Total_DNet_Low__c
-					&& baseDNetWithoutSecondaryAndSupportPlus < plan.Total_DNet_High__c
-					&& blendedPercentOfDNWithoutSecondaryAndSupportPlus >= plan.Award_Price_as_Percent_of_DN_Low__c
-					&& blendedPercentOfDNWithoutSecondaryAndSupportPlus < plan.Award_Price_as_Percent_of_DN_High__c
-				) {
-					this.unadjustedAllowance = (baseDNetWithoutSecondaryAndSupportPlus * plan.Maximum_Support_Percent__c) / 100;
 					break;
 				}
 			}

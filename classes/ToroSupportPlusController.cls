@@ -174,7 +174,7 @@ global class ToroSupportPlusController {
 	 * @return return_type
 	 */
 	@AuraEnabled
-	public static ToroSupportPlusItem addSupportPlustItem(Id quoteId
+	public static ToroSupportPlusItem addSupportPlusItem(Id quoteId
 															, String productId
 															, Decimal dnetPrice
 															, Decimal awardPrice
@@ -232,8 +232,15 @@ global class ToroSupportPlusController {
 										, String quoteItemsJSON
 										, String supportPlusItemsJSON
 										, REVVY__MnStrategy1__c pricingProgram
+										, Decimal baseDNetTotalWithoutSecondary
+										, Decimal baseAwardTotalWithoutSecondary 
 	) {
-		return new ToroSupportPlusData(quote, quoteItemsJSON, supportPlusItemsJSON, pricingProgram);
+		return new ToroSupportPlusData(quote
+										, quoteItemsJSON
+										, supportPlusItemsJSON
+										, pricingProgram
+										, baseDNetTotalWithoutSecondary
+										, baseAwardTotalWithoutSecondary);
 	}
 
 	/**

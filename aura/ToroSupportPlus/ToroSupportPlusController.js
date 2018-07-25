@@ -66,7 +66,6 @@
 
         cmp.set('v.quoteItems', helper.updateDistributorResponsibility(quote, quoteItems));
         cmp.set('v.supportPlusItems', helper.updateDistributorResponsibility(quote, supportPlusItems));
-        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram));
         cmp.set('v.isDirty', true);
     },
     handleSPDelete: function(cmp, event, helper) {
@@ -79,11 +78,7 @@
                     // just remove it from attribute
                     supportPlusItems.splice(i, 1);
                     cmp.set('v.supportPlusItems', supportPlusItems);
-                    var quote = cmp.get('v.quote');
-                    var quoteItems = cmp.get('v.quoteItems');
-                    var pricingProgram = cmp.get('v.pricingProgram');
-                    quote = helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram);
-                    cmp.set('v.quote', quote);
+                    cmp.set('v.isDirty', true);
                 }
 
                 else {
@@ -99,11 +94,6 @@
                                 document.getElementById("spinner").style.display = "none";
                                 supportPlusItems.splice(i, 1);
                                 cmp.set('v.supportPlusItems', supportPlusItems);
-                                var quote = cmp.get('v.quote');
-                                var quoteItems = cmp.get('v.quoteItems');
-                                var pricingProgram = cmp.get('v.pricingProgram');
-                                quote = helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram);
-                                cmp.set('v.quote', quote);
                                 cmp.set('v.isDirty', true);
                             }
                         }
@@ -156,8 +146,6 @@
         supportPlusItems = helper.updateDistributorResponsibility(quote, supportPlusItems);
         cmp.set('v.quoteItems', quoteItems);
         cmp.set('v.supportPlusItems', supportPlusItems);
-
-        cmp.set('v.quote', helper.recalculateQuoteSupportPlusTotals(cmp, quote, quoteItems, supportPlusItems, pricingProgram));
         cmp.set('v.isDirty', true);
     },
     handleShowAddNewModal: function (cmp, event, helper) {

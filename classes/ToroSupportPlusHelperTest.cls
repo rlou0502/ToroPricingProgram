@@ -25,21 +25,24 @@ private class ToroSupportPlusHelperTest {
 
 	@isTest static void test_support_plus_query_utils() {
 		Test.startTest();
-		REVVY__MnQuote__c quote = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1];
-		List<Support_Plus_Contribution__c> spContribs = ToroSupportPlusHelper.getSupportPlusContributions(quote.Id);
+		final Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
+		System.assert(quote != null);
+
+		List<Support_Plus_Contribution__c> spContribs = ToroSupportPlusHelper.getSupportPlusContributions(quote);
 		System.assert(spContribs != null);
 
 		List<Support_Plus_Plan__c> spPlans = ToroSupportPlusHelper.getSupportPlusPlans('MarketSupportChartLargePackage');
 		System.assert(spPlans != null);
 
+		Decimal distResp = ToroSupportPlusHelper.getDistributorResponsibility(quote);
 		Test.stopTest();
 	}
 
 	@isTest static void test_quote_query_utils() {
 		Test.startTest();
-		REVVY__MnQuote__c tempQuote = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1];
-		
-		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(tempQuote.Id);
+		final Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
+		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
 		System.assert(quote != null);
 		
 		List<REVVY__MnQuoteItem__c> quoteItems = ToroSupportPlusHelper.getQuoteItems(quote.Id);
@@ -51,6 +54,8 @@ private class ToroSupportPlusHelperTest {
 		REVVY__MnStrategy1__c pricingProgram = ToroSupportPlusHelper.getPricingProgram(quote);
 		System.assert(pricingProgram != null);
 
+		ToroSupportPlusHelper.clearSupportPlusValuesOnQuote(quote);
+		System.assert(quote.Toro_Support_Plus_Allowance__c == null);
 		Test.stopTest();
 	}
 
