@@ -51,13 +51,14 @@ private class ToroSupportPlusItemTest {
 
 		System.assert(success);
 
-		
+
 		data = ToroSupportPlusController.retrieveSupportPlusData(quoteId);
+		// data.qiWrappers[0].sublines[0].sublineSpObj = new REVVY__MnStrategy5__c();
 
 		ToroSupportPlusItem sublineWrapper = new ToroSupportPlusItem(
 			data.qiWrappers[0].qiObj
 			, data.qiWrappers[0].sublines[0].sublineObj
-			, data.qiWrappers[0].sublines[0].sublineSpObj
+			// , data.qiWrappers[0].sublines[0].sublineSpObj
 		);
 
 		Test.stopTest();
