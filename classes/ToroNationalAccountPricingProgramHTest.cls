@@ -7,14 +7,25 @@ private class ToroNationalAccountPricingProgramHTest {
 		
 		Revvy__MnSequenceGen__c sequence = new Revvy__MnSequenceGen__c(Revvy__ObjectName__c='MnQuoteItem__c', REVVY__CurrentValue__c=1);
 		insert sequence;
+		
+		List<REVVY__MnCatalogNode__c> products = [select id from REVVY__MnCatalogNode__c];
+		String[] tiers = new String[]{'Tier 1', 'Tier 2', 'Tier 3', 'Parts'};
+		Integer index = 0;
+		for(REVVY__MnCatalogNode__c p: products) {
+			p.Toro_Product_Tier__c = tiers[index++];
+			index = Math.mod(index, tiers.size());	
+		}
+		update products;
+		//Groundsmaster 4500/4700 Series
+		List<REVVY__MnQuoteItem__c> quoteItems = [select id from REVVY__MnQuoteItem__c];
+		quoteItems[0].Traction_Unit__c='Groundsmaster 4500/4700 Series';
+		update quoteItems[0];
 	}
 
 	@isTest static void test_get_field_methods() {
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
 		tlpp.performancePartFlag=true;
-		Boolean dsetupFee = tlpp.displaySetupFee();
-		
 		List<ToroSelectOption> options = tlpp.retrievePricingMethodOptions();
 		ToroPricingProgramData ppd = new ToroPricingProgramData('Buyboard;Base');
 		tlpp.initialize(quote.Id);
@@ -32,13 +43,6 @@ private class ToroNationalAccountPricingProgramHTest {
 		tlpp.getToroQuoteItemSublineUpdatableFields();
 		System.assert(tlpp.getToroQuoteItemSummaryFields() != null);
 		tlpp.retrieveDemoPricingProgramOptions();
-		
-		Decimal dresult = ToroNationalAccountPricingProgramHelper.getSetupFeePercentage(10, 10);
-		System.assert(dresult >0);
-		
-		//Revvy__MnStrategy5__c qis = [Select Id From Revvy__MnStrategy5__c where ]
-		
-		//applyQISLPercentageTPP(Revvy__MnStrategy5__c qis, Revvy__MnStrategy2__c rb, decimal dsetupFeeHeader)
 	}
 	
 }
