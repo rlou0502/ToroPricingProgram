@@ -33,6 +33,7 @@ private class ToroSupportPlusItemTest {
 
 
 	@isTest static void test_subline_constructor() {
+		Test.startTest();
 		final Id quoteId = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1].Id;
 		REVVY__MnQuote__c quote = ToroSupportPlusHelper.getQuote(quoteId);
 
@@ -50,7 +51,7 @@ private class ToroSupportPlusItemTest {
 
 		System.assert(success);
 
-		Test.startTest();
+		
 		data = ToroSupportPlusController.retrieveSupportPlusData(quoteId);
 
 		ToroSupportPlusItem sublineWrapper = new ToroSupportPlusItem(

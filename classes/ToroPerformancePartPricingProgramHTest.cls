@@ -6,6 +6,12 @@ private class ToroPerformancePartPricingProgramHTest {
 		ToroTestData.loadQuoteTestData();
 		Revvy__MnSequenceGen__c sequence = new Revvy__MnSequenceGen__c(Revvy__ObjectName__c='MnQuoteItem__c', REVVY__CurrentValue__c=1);
 		insert sequence;
+		List<REVVY__MnPriceListLine__c> plls = [select id, REVVY__SUGGESTEDPRICE__C, REVVY__PriceField4__c from REVVY__MnPriceListLine__c];
+		for(REVVY__MnPriceListLine__c pll : plls) {
+			pll.REVVY__PriceField4__c = pll.REVVY__SUGGESTEDPRICE__C * 0.8;		
+		}
+		update plls;
+		//REVVY__PriceField3__c
 	}
 
 	@isTest static void test_reset() {
