@@ -20,11 +20,15 @@ private class ToroNationalAccountPricingProgramHTest {
 		for(REVVY__MnCatalogNode__c p: products) {
 			p.Toro_Product_Tier__c = tiers[index++];
 			index = Math.mod(index, tiers.size());
-			p.Toro_Product_Type__c = productTypes[ptIdx++];	
-			ptIdx = Math.mod(ptIdx, productTypes.size());
+			p.Toro_Product_Type__c = 'Semi-Finished Good';	
 		}
 		products[0].Toro_Product_Tier__c='Tier 3';
 		update products;
+		List<REVVY__MnStrategy2__c> ppls = [select id from REVVY__MnStrategy2__c where tier__c = 'Tier 3'];
+		for(REVVY__MnStrategy2__c ppl : ppls) {
+			ppl.tier__c = 'Exception';	
+		}
+		update ppls;
 		//Groundsmaster 4500/4700 Series
 		List<REVVY__MnQuoteItem__c> quoteItems = [select id from REVVY__MnQuoteItem__c];
 		quoteItems[0].Traction_Unit__c='Groundsmaster 4500/4700 Series';
@@ -61,7 +65,7 @@ private class ToroNationalAccountPricingProgramHTest {
 		List<REVVY__MnQuoteItem__c> quoteItems = [select id from REVVY__MnQuoteItem__c];
 		quoteItems[0].Traction_Unit__c='Groundsmaster 4500/4700 Series';
 		update quoteItems[0];
-		
+		delete [select id from REVVY__MnStrategy2__c where tier__c = 'Tier 3'];
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
 		tlpp.performancePartFlag=true;
