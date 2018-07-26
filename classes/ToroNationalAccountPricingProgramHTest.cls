@@ -22,7 +22,7 @@ private class ToroNationalAccountPricingProgramHTest {
 			index = Math.mod(index, tiers.size());
 			p.Toro_Product_Type__c = 'Semi-Finished Good';	
 		}
-		products[0].Toro_Product_Tier__c='Tier 3';
+		products[0].Toro_Product_Tier__c='';
 		update products;
 		List<REVVY__MnStrategy2__c> ppls = [select id from REVVY__MnStrategy2__c where tier__c = 'Tier 3'];
 		for(REVVY__MnStrategy2__c ppl : ppls) {
@@ -31,7 +31,7 @@ private class ToroNationalAccountPricingProgramHTest {
 		update ppls;
 		//Groundsmaster 4500/4700 Series
 		List<REVVY__MnQuoteItem__c> quoteItems = [select id from REVVY__MnQuoteItem__c];
-		quoteItems[0].Traction_Unit__c='Groundsmaster 4500/4700 Series';
+		quoteItems[0].Traction_Unit__c='HoverPro 400/450/550';
 		update quoteItems[0];
 		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
 		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
@@ -61,6 +61,12 @@ private class ToroNationalAccountPricingProgramHTest {
 		}
 		
 		update products;
+		
+		List<REVVY__MnStrategy2__c> ppls = [select id from REVVY__MnStrategy2__c where tier__c = 'Tier 1'];
+		for(REVVY__MnStrategy2__c ppl : ppls) {
+			ppl.tier__c = 'Exception';	
+		}
+		update ppls;
 		//Groundsmaster 4500/4700 Series
 		List<REVVY__MnQuoteItem__c> quoteItems = [select id from REVVY__MnQuoteItem__c];
 		quoteItems[0].Traction_Unit__c='Groundsmaster 4500/4700 Series';
@@ -76,6 +82,14 @@ private class ToroNationalAccountPricingProgramHTest {
 		
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
+		Revvy__MnStrategy1__c pricingProgram = ToroCacheManager.getPricingProgram(ppd.externalId);
+		
+		for(Revvy__MnStrategy2__c l : pricingProgram.PricingProgramLines__r) {
+			for (Revvy__MnStrategy5__c qis : tlpp.quoteItems[0].Toro_Quote_Item_Sub_Lines__r) {
+				tlpp.applyQISLPercentageTPP(qis, l, 0.15);
+			}	
+		}
+		system.assert(ToroNationalAccountPricingProgramHelper.getSetupFeePercentage(0.15,0.15) == 0.15);
 	}
 	@isTest static void test_method_two() {
 		ToroNationalAccountPricingProgramHelper tlpp = new ToroNationalAccountPricingProgramHelper();
