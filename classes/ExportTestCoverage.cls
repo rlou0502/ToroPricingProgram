@@ -24,6 +24,7 @@ public class ExportTestCoverage{
         'QuoteItem'=>'Roy',
         'QuoteItemTest'=>'Roy',
         'SetQuoteCurrencyISOCode'=>'Roy',
+        'SetQuoteCurrencyISOCodeRunOnce'=>'Roy',
         'ToroBaseAwardAccessoryHelper'=>'Roy',
         'ToroBaseWithValueDollarHelper'=>'Scott',
         'ToroBaseWithValueDollarHelperTest'=>'Scott',
@@ -141,7 +142,9 @@ public class ExportTestCoverage{
                 if(cpqClasses.keyset().contains(r.ApexClassOrTrigger.Name)) {
                 	r.developer = cpqClasses.get(r.ApexClassOrTrigger.Name);
                 	rs.add(r);    
-                }    
+                } else {
+                	//rs.add(r);   
+                }   
             }
             cw.records = rs;
             cw.records.sort();
@@ -162,6 +165,12 @@ public class ExportTestCoverage{
         public String developer {get; set;}
         public Integer compareTo(Object compareTo) {
             Records compareToObj = (Records) compareTo;
+            if(String.isBlank(this.developer)) {
+            	this.developer='';	
+            }
+            if(String.isBlank(compareToObj.developer)) {
+            	compareToObj.developer='';	
+            }
             if(this.developer.compareTo(compareToObj.developer) == 0){
             	return this.ApexClassOrTrigger.Name.compareTo(compareToObj.ApexClassOrTrigger.Name);		
             } else {
