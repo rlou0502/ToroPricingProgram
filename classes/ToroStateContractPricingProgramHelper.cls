@@ -179,7 +179,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						if(!qis.Product_Id__c.startsWith('TPP') && !qis.Product_Id__c.startsWith('L')) {
 							if(qi.DrivenByGP__c) {
 								qis.Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Percent__c;
-								qis.Gross_Profit_Value__c = qis.award_price__c * qis.Gross_Profit_Percent__c/100;
+								qis.Gross_Profit_Value__c = CMnQuoteUtil.defaultDecimal(qis.award_price__c) * CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100;
 								
 								//decimal rebate = qi.award_price__c - qi.MSRP_Price__c + qi.Toro_Gross_Profit_Value__c;
 								decimal rebate = qis.DNET_Price__c - qis.award_price__c + qis.Gross_Profit_Value__c;						
