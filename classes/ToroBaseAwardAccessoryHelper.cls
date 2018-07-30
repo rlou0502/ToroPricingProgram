@@ -57,7 +57,7 @@ public with sharing class ToroBaseAwardAccessoryHelper  extends ToroStateContrac
 					//qi.Toro_Gross_Profit_Percent__c = line.Distributor_Margin__c;
 					//qi.Rebate_as_a_of_DN__c = 0;
 					if(drivenByGP) {
-						if(line.Distributor_Margin__c != null && qi.DNET_Price__c != null && qi.DNET_Price__c != 0) {
+						//if(line.Distributor_Margin__c != null && qi.DNET_Price__c != null && qi.DNET_Price__c != 0) {
 							qi.Toro_Gross_Profit_Percent__c = line.Distributor_Margin__c;
 							qi.Toro_Gross_Profit_Value__c = qi.award_price__c * qi.Toro_Gross_Profit_Percent__c/100;
 							system.debug('qi.Toro_Gross_Profit_Percent__c =' + qi.Toro_Gross_Profit_Percent__c);
@@ -72,7 +72,7 @@ public with sharing class ToroBaseAwardAccessoryHelper  extends ToroStateContrac
 							qi.Toro_Gross_Profit_Value__c *= qi.adjusted_quantity__c;
 							system.debug('qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c);
 							
-						}
+						//}
 					} 	
 					
 					//qi.Toro_Gross_Profit_Value__c = qi.award_price__c * qi.Toro_Gross_Profit_Percent__c/100;
