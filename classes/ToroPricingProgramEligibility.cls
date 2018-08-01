@@ -45,11 +45,12 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 													IsFirstTee__c = e.PricingProgram__r.IsFirstTee__c,MinimumTractionUnits__c = e.PricingProgram__r.MinimumTractionUnits__c,
 													OverriddenPriceList__c = e.PricingProgram__r.OverriddenPriceList__c,AllowSupportPlus__c = e.PricingProgram__r.AllowSupportPlus__c,
 													PricingProgramStyle__c = e.PricingProgram__r.PricingProgramStyle__c,ExternalId__c = e.PricingProgram__r.ExternalId__c,
+													PricingProgramType__c=e.PricingProgram__r.PricingProgramType__c,
 													Exclude__c = e.PricingProgram__r.Exclude__c));		
 		}
 		
 		List<String> criteria = new List<String>();
-		String query = 'select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, ExternalId__c, Exclude__c from Revvy__MnStrategy1__c  ';
+		String query = 'select Id, Name, IsTaxSupported__c, IsFirstTee__c, MinimumTractionUnits__c,OverriddenPriceList__c, AllowSupportPlus__c, PricingProgramStyle__c, PricingProgramType__c, ExternalId__c, Exclude__c from Revvy__MnStrategy1__c  ';
 		if(customer.First_Tee__c) {
 			criteria.add(' IsFirstTee__c = true ');
 		}
