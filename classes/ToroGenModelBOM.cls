@@ -6,7 +6,7 @@ public with sharing class ToroGenModelBOM {
 		
 	}
 	static {
-		List<REVVY__MnCatalogNode__c> configurableProducts = [Select REVVY__Model__c,  name, REVVY__Id__c From REVVY__MnCatalogNode__c  where REVVY__Model__c != null];
+		List<REVVY__MnCatalogNode__c> configurableProducts = [Select REVVY__Model__c,  name, REVVY__Id__c From REVVY__MnCatalogNode__c  where REVVY__Model__c != null and REVVY__Status__c='Active'];
 		for(REVVY__MnCatalogNode__c p : configurableProducts) {
 			tractionUnits.add(p.REVVY__Id__c);	
 		}	
@@ -270,8 +270,8 @@ public with sharing class ToroGenModelBOM {
 		
 		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c,  REVVY__Product_Name__c, REVVY__Product__r.REVVY__LocaleName_F__c, REVVY__Product__r.Hierarchy_Code__c, 
 				REVVY__Product__r.Toro_Product_Type__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c 
-				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false 
-					and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good') 
+				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false  
+					and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good') and REVVY__Product__r.REVVY__Status__c='Active' 
 					and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) and  (NOT REVVY__Product__r.REVVY__Id__c like 'L%')  ];
 		
 		Integer count=0;
