@@ -11,7 +11,8 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         Boolean boakCreekMsrp = false;
         Decimal exchangeRate = 1;
         Decimal conversionRate = 1;
-        for(REVVY__MnQuote__c mnQuote : [Select Id, Enable_Toro_MSRP_Pricing__c, Currency_Conversion_Rate__c, Exchange_Rate__c
+        Date dpriceDate = System.today();
+        for(REVVY__MnQuote__c mnQuote : [Select Id, REVVY__Price_Date__c, Enable_Toro_MSRP_Pricing__c, Currency_Conversion_Rate__c, Exchange_Rate__c
                                               , REVVY__Account__r.Program_ID__c, REVVY__Account__c 
                                            From REVVY__MnQuote__c where Id =:quoteId]) {
         	//if(!String.isEmpty(mnQuote.REVVY__Account__r.Program_ID__c)) {
@@ -26,6 +27,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 	    			conversionRate = mnQuote.Currency_Conversion_Rate__c;
 	    		}
     		}
+            dpriceDate = mnQuote.REVVY__Price_Date__c;
         }
         system.debug('--- ToroPricingHook productSearchPriceHook exchangeRate='+exchangeRate);
         system.debug('--- ToroPricingHook productSearchPriceHook conversionRate='+conversionRate);
@@ -52,6 +54,8 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 			             From REVVY__MnPriceListLine__c
 			             where REVVY__Product_Id__c in :prodsMap.KeySet()
 			               And REVVY__PriceList__r.REVVY__Segment__c = :psegment
+                           And REVVY__Start_Date__c >= :dpriceDate
+                           And REVVY__End_Date__c <= :dpriceDate                    
 			             ]) {
 				plMap.put(pll.REVVY__Product_Id__c, pll);
 			}
@@ -80,6 +84,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         return currPrice;
     }
     public static List<Revvy__MnQuoteItem__c> postQuoteItemsCreationHook(Revvy__MnQuote__c qt, List<Revvy__MnQuoteItem__c> qis) {
+        
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook');
 		String qtSegment = qt.REVVY__Segment__c;
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook qtSegment='+qtSegment);
@@ -125,6 +130,8 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 mnQuoteItem.REVVY__FloorPrice__c='+mnQuoteItem.REVVY__FloorPrice__c);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 exchangeRate='+exchangeRate);
         system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 conversionRate='+conversionRate);
+        system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 boakCreekMsrp='+boakCreekMsrp);
+        system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 qtSegment='+qtSegment);
 
 
 	            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__Price__c) / exchangeRate) * conversionRate;

@@ -320,14 +320,22 @@ public with sharing class ToroSupportPlusData {
 			if (adjDNet != 0) {
 				blendedDNetPct = (adjAward / adjDNet) * 100;
 			}
-
+			System.debug('recalculateQuoteValues - blendedDNetPct=' + blendedDNetPct);
+			System.debug('recalculateQuoteValues - contrib.Award_Price_Low__c=' + contrib.Award_Price_Low__c);
+			System.debug('recalculateQuoteValues - contrib.Award_Price_High__c=' + contrib.Award_Price_High__c);
+			System.debug('recalculateQuoteValues - contrib.Distributor_Contribution__c=' + contrib.Distributor_Contribution__c);
 			if (blendedDNetPct >= contrib.Award_Price_Low__c
 				&& blendedDNetPct < contrib.Award_Price_High__c
 			) {
 				defaultDistRespValue = contrib.Distributor_Contribution__c;
 			}
 		}
-
+		System.debug('recalculateQuoteValues - defaultDistRespValue=' + defaultDistRespValue);
+		System.debug('recalculateQuoteValues - overrideDistResp=' + overrideDistResp);
+		System.debug('recalculateQuoteValues - quote.Distributor_Responsibility__c=' + quote.Distributor_Responsibility__c);
+		System.debug('recalculateQuoteValues - quote.Is_Dirty__c=' + quote.Is_Dirty__c);
+		System.debug('recalculateQuoteValues - previousExtDNet=' + previousExtDNet + ' |||='+(this.baseDNetTotalWithoutSecondary - spSplitDNetTotal));
+		System.debug('recalculateQuoteValues - previousToroAward=' + previousToroAward + ' |||='+(this.baseAwardTotalWithoutSecondary - spSplitAwardTotal));
 		if (this.overrideDistResp) {
 			if (this.quote.Distributor_Responsibility__c == null
 				|| this.quote.Is_Dirty__c
