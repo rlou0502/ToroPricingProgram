@@ -713,13 +713,13 @@ public class ToroPricingProgramController {
 			ToroQISLExtensionCreatedBatch b = new ToroQISLExtensionCreatedBatch(sublineIds);
 			Database.executeBatch(b);
 		}
-		pp.quote = q;
+		//pp.quote = q;
     	rs.values =  new List<SObject> {pp.quote};
     	rs.pricingMethodOptions = pp.retrievePricingMethodOptions();
     	if(rs.pricingMethodOptions.size() == 1) {
     		rs.selectedPricingMethod = rs.pricingMethodOptions[0].value;
     	} else {
-    		rs.selectedPricingMethod = q.Price_Method__c;
+    		rs.selectedPricingMethod = pp.quote.Price_Method__c;
     	}			
     	rs.displayPerformancePart = pp.displayPerformancePart();
     	rs.displaySetupFee=pp.displaySetupFee();

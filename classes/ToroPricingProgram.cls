@@ -242,26 +242,17 @@ public virtual class ToroPricingProgram {
 			this.quote.SP_Toro_Responsibility__c           = spData.quote.SP_Toro_Responsibility__c;
 			this.quote.SP_Ext_Dist_Responsibility__c       = spData.quote.SP_Ext_Dist_Responsibility__c;
 			//adjust rebate/gp based on support plus distributor cost
-			this.quote.Toro_Total_Quote_Rebate__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Rebate__c);
-			this.quote.Toro_Award__c = CMnQuoteUtil.defaultDecimal(this.quote.Toro_Award__c);
-			this.quote.Toro_Total_DNet__c = CMnQuoteUtil.defaultDecimal(this.quote.Toro_Total_DNet__c);
-			this.quote.Toro_Total_Quote_Rebate__c = CMnQuoteUtil.defaultDecimal(this.quote.Toro_Total_Quote_Rebate__c);
-			this.quote.Distributor_Contribution__c = CMnQuoteUtil.defaultDecimal(this.quote.Distributor_Contribution__c);
 			
-			System.debug('re-calculate gp% Toro_Award__c =' + this.quote.Toro_Award__c);
-			System.debug('re-calculate gp% Toro_Total_DNet__c =' + this.quote.Toro_Total_DNet__c);
-			System.debug('re-calculate gp% Toro_Total_Quote_Rebate__c =' + this.quote.Toro_Total_Quote_Rebate__c);
-			System.debug('re-calculate gp% Distributor_Contribution__c =' + this.quote.Distributor_Contribution__c);
-			
-			system.debug('preSaveCalculateRebateMargin quote.Toro_Total_Rebate__c = ' + this.quote.Toro_Total_Rebate__c);
-			quote.Toro_Total_Rebate__c             		   = CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Rebate__c) - this.quote.Distributor_Contribution__c;
 			system.debug('preSaveCalculateRebateMargin quote.Toro_Total_Rebate__c = ' + quote.Toro_Total_Rebate__c); 
-			quote.Toro_Total_Quote_Gross_Profit__c         = this.quote.Toro_Award__c - this.quote.Toro_Total_DNet__c + this.quote.Toro_Total_Quote_Rebate__c - this.quote.Distributor_Contribution__c;
-			if( quote.Toro_Award__c != 0) {
+			Decimal disti_cost 							   = CMnQuoteUtil.defaultDecimal(this.quote.Distributor_Contribution__c);
+			system.debug('preSaveCalculateRebateMargin disti_cost = ' + disti_cost);
+			quote.Toro_Total_Rebate__c             		   = CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Rebate__c) - disti_cost;
+			system.debug('preSaveCalculateRebateMargin quote.Toro_Total_Rebate__c = ' + quote.Toro_Total_Rebate__c); 
+			quote.Toro_Total_Quote_Gross_Profit__c         = CMnQuoteUtil.defaultDecimal(quote.Toro_Award__c) - CMnQuoteUtil.defaultDecimal(quote.Toro_Total_DNet__c) + CMnQuoteUtil.defaultDecimal(quote.Toro_Total_Rebate__c);
+			if(quote.Toro_Award__c != null && quote.Toro_Award__c != 0) {
 				quote.Toro_Total_Quote_Gross_Profit_Percent__c = quote.Toro_Total_Quote_Gross_Profit__c/quote.Toro_Award__c * 100;
 			}
-			quote.Toro_Total_Quote_Rebate__c -= quote.Distributor_Contribution__c;
-			quote.Toro_Total_Rebate__c = quote.Toro_Total_Quote_Rebate__c;
+			quote.Toro_Total_Quote_Rebate__c = quote.Toro_Total_Rebate__c;
 			system.debug('preSaveCalculateRebateMargin quote.Toro_Total_Quote_Gross_Profit__c = ' + quote.Toro_Total_Quote_Gross_Profit__c);
 			system.debug('preSaveCalculateRebateMargin quote.Toro_Total_Quote_Gross_Profit_Percent__c = ' + quote.Toro_Total_Quote_Gross_Profit_Percent__c);
 		}
