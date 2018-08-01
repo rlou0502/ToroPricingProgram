@@ -198,22 +198,24 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			Revvy__MnStrategy1__c pp_header = ToroCacheManager.getPricingProgram(priceProgram);
 			System.debug('--- NationalAccount preSaveCalculateRebateMargin quote.Total_Award__c='+ quote.Total_Award__c);
 			System.debug('--- NationalAccount preSaveCalculateRebateMargin pp_header.Setup_Threshold__c='+ pp_header.Setup_Threshold__c);
-			if(CMnQuoteUtil.defaultDecimal(quote.Toro_Award__c) > CMnQuoteUtil.defaultDecimal(pp_header.Setup_Threshold__c)) {
-
-				for(Revvy__MnStrategy4__c qi : quoteItemList) {
-					qi.Fee_Percentage__c = 0;
-
-					if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
-						for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							qis.Fee_Percentage__c = 0;
+			if(pp_header.Setup_Threshold__c != null) {
+				if(CMnQuoteUtil.defaultDecimal(quote.Toro_Award__c) > CMnQuoteUtil.defaultDecimal(pp_header.Setup_Threshold__c)) {
+	
+					for(Revvy__MnStrategy4__c qi : quoteItemList) {
+						qi.Fee_Percentage__c = 0;
+	
+						if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
+							for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+								qis.Fee_Percentage__c = 0;
+							}
 						}
 					}
-				}
-				result = calculateExtendedFields(quoteItemList);
-				setupFeePercentage = 0;
-				quote.Setup_Fee__c = 0;	
-				ToroCacheManager.putQuote(quote);
-			}	
+					result = calculateExtendedFields(quoteItemList);
+					setupFeePercentage = 0;
+					quote.Setup_Fee__c = 0;	
+					ToroCacheManager.putQuote(quote);
+				}	
+			}
 															
 																
 		return result;
