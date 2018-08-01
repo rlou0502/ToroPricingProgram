@@ -106,7 +106,11 @@ public with sharing class CMnQuoteUtil {
 			needsApproval = true;
 			approvalMessage += ' Quote contains support plus item(s).';
 		}
-                            
+       
+       	if(quote.Toro_Support_Plus_Allowance_Used__c > quote.Toro_Support_Plus_Allowance__c) {
+       		needsApproval = true;
+       		approvalMessage += Label.SP_Allowance_Exceeded;	
+       	}                     
 		if (needsApproval) {
 			quote.REVVY__NeedsApproval__c = true;
 			quote.Toro_ApprovalReason__c = approvalMessage;
