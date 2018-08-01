@@ -415,6 +415,15 @@ public with sharing class ToroSupportPlusData {
 		}
 
 		ToroCacheManager.putQuote(quote);
+		
+		if(String.isNotBlank(quote.Pricing_Program_Name__c)) {
+			ToroPricingProgramData ppd = new ToroPricingProgramData(quote.Pricing_Program_Name__c);
+        	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+        	pp.initializeQuoteItems(quote.Id);
+        	CMnQuoteUtil.checkIfApprovalNeeded(quote, quote.Pricing_Program_Name__c, null, pp.quoteItems);
+			ToroCacheManager.putQuote(quote);
+		}
+       	
 	}
 
 
