@@ -165,7 +165,7 @@ public class ToroPricingProgramController {
 	    		
 			//pp.quote.Setup_Fee__c = setupFeePercent;
 			pp.quote.Performance_Part__c=performancePart;
-			Map<String, decimal> pricingProgramLineCountMap = new Map<String, decimal>();
+			Set<String> pricingProgramLineCountSet = new Set<String>();
 			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
 				//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
 				//	qi.FreezeLine__c = true;
@@ -213,7 +213,11 @@ public class ToroPricingProgramController {
 						} else if('Pricing_Program__c'.equalsIgnoreCase(key)) {
 							system.debug('Pricing_Program__c = ' + key + ' value =' + strVal);
 							qi.Pricing_Program__c = strVal;
-							pricingProgramLineCountMap.put(qi.Pricing_Program__c, 0);
+							if(String.isNotBlank(qi.Pricing_Program__c)) {
+								string[] parts = qi.Pricing_Program__c.split(';');
+								pricingProgramLineCountSet.add(parts[0]);	
+							}
+							
 						} else if('Pricing_Program_Overridden__c'.equalsIgnoreCase(key)) {
 							qi.Pricing_Program_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
 						}
@@ -263,80 +267,90 @@ public class ToroPricingProgramController {
 	    		}
 			}
 			//pricingProgramLineCountMap
+			system.debug('pricingProgramLineCountSet='+pricingProgramLineCountSet);
+			boolean allPricingProgramaHaveLines=true;
 			AggregateResult[] groupedResults = [SELECT count(Name), PricingProgram__r.externalId__c 
-				FROM REVVY__MnStrategy2__c where PricingProgram__r.externalId__c in :pricingProgramLineCountMap.keyset()  
+				FROM REVVY__MnStrategy2__c where PricingProgram__r.externalId__c in :pricingProgramLineCountSet  
 				group by PricingProgram__r.externalId__c];
-			for (AggregateResult ar : groupedResults)  {
-			    System.debug('count' + ar.get('expr0'));
-			    System.debug('ar' + ar);
-			    if(pricingProgramLineCountMap.containsKey(String.valueOf(ar.get('PricingProgram__r.externalId__c')))){
-			    	pricingProgramLineCountMap.put(String.valueOf(ar.get('PricingProgram__r.externalId__c')), (Decimal)ar.get('expr0'));		
-			    }
+			system.debug('groupedResults='+groupedResults);
+			if(groupedResults.size() != 0) {
+				for (AggregateResult ar : groupedResults)  {
+				    System.debug('count=' + ar.get('expr0'));
+				    System.debug('ar=' + ar);			   
+			    	decimal lineCount = (Decimal)ar.get('expr0');
+			    	if(lineCount == 0) {
+			    		allPricingProgramaHaveLines=false;	
+			    		break;
+				    }
+				}
+			} else {
+				allPricingProgramaHaveLines = false;	
 			}
-			system.debug('pricingProgramLineCountMap count=' + pricingProgramLineCountMap);
+			system.debug('allPricingProgramaHaveLines =' + allPricingProgramaHaveLines);
 	
 			
 			rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			system.debug(logginglevel.info, 'entering---calculateRebateMargin');
-	    	pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
-	    	system.debug(logginglevel.info, 'pricingMethod =' + pricingMethod);
-	    	if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-	    			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);	
-	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c);	
-						}
-	    			}
-					
-				}
-	    	}
-	    	if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-	    			qi.PricingMethodValue__c = String.valueOf(qi.Toro_Gross_Profit_Percent__c);	
-	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							qis.PricingMethodValue__c = String.valueOf(qis.Gross_Profit_Percent__c);	
-						}
-	    			}
-					
-				}
-	    	}
-	    	if ('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-	    			qi.PricingMethodValue__c = String.valueOf(qi.Award_of_DN__c);	
-	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							qis.PricingMethodValue__c = String.valueOf(qis.Percent_of_DNet__c);	
-						}
-	    			}
-					
-				}
-	    	}
-	    	if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-	    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-	    			qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);	
-	    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);	
-						}
-	    			}
-					
-				}
-	    	}
-	    	system.debug(logginglevel.info, 'exiting---calculateRebateMargin');
-	    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-	    	/*
-	    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
-	    		system.debug('display qi=' + qi.PricingMethodValue__c );
-	    		for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-	    			system.debug('display qis=' + qis.PricingMethodValue__c );
-	    		}
-	    	}
-	    	*/
-	    	rs = setPricingMethodValueFieldLabel(rs);
-	    	ToroCacheManager.putQuote(pp.quote);
-	    	
+			if(allPricingProgramaHaveLines) {
+	    		pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, save);
+		    	system.debug(logginglevel.info, 'pricingMethod =' + pricingMethod);
+		    	if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);	
+		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+								qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c);	
+							}
+		    			}
+						
+					}
+		    	}
+		    	if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Toro_Gross_Profit_Percent__c);	
+		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+								qis.PricingMethodValue__c = String.valueOf(qis.Gross_Profit_Percent__c);	
+							}
+		    			}
+						
+					}
+		    	}
+		    	if ('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Award_of_DN__c);	
+		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+								qis.PricingMethodValue__c = String.valueOf(qis.Percent_of_DNet__c);	
+							}
+		    			}
+						
+					}
+		    	}
+		    	if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);	
+		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+								qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);	
+							}
+		    			}
+						
+					}
+		    	}
+		    	system.debug(logginglevel.info, 'exiting---calculateRebateMargin');
+		    	//pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+		    	/*
+		    	for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
+		    		system.debug('display qi=' + qi.PricingMethodValue__c );
+		    		for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+		    			system.debug('display qis=' + qis.PricingMethodValue__c );
+		    		}
+		    	}
+		    	*/
+		    	rs = setPricingMethodValueFieldLabel(rs);
+		    	ToroCacheManager.putQuote(pp.quote);
+			}
 	    	rs.quote = pp.quote;
 	    	system.debug('setupfee--pp.setupFeePercentage=' + pp.setupFeePercentage);
 	    	system.debug('setupfee--setupFeePercent=' + setupFeePercent);
