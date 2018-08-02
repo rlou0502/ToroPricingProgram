@@ -197,6 +197,13 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 	}
 	
 	public override List<Revvy__MnStrategy4__c> calculateExtendedFields(List<Revvy__MnStrategy4__c> quoteItemList) {
+		quoteItemList = super.calculateExtendedFields(quoteItemList);
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			qi.Toro_Com_Dollar__c = qi.Total_Gross_Profit_Value__c;
+		}
+		quote.Commission_Dollar__c = quote.Toro_Total_Quote_Gross_Profit__c;
+		quote.Commission__c = quote.Toro_Total_Quote_Gross_Profit_Percent__c;
+		/*
 		decimal quoteMSRP=0;
 		decimal quoteTotalAward =0;
 		decimal quoteTotalToroAward=0;
@@ -364,6 +371,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 		quote.Commission_Dollar__c = quote.Toro_Total_Quote_Gross_Profit__c;
 		quote.Commission__c = quote.Toro_Total_Quote_Gross_Profit_Percent__c;
 		System.debug('\n\n@@quote: ' + quote + '\n\n');
+		*/
 		return quoteItemList;
 	}    
 }

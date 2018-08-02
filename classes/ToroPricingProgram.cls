@@ -376,6 +376,10 @@ public virtual class ToroPricingProgram {
 			qi.Total_Toro_MSRP__c=CMnQuoteUtil.defaultDecimal(qi.Total_Toro_MSRP__c);
 			qi.Total_Toro_DNET__c=CMnQuoteUtil.defaultDecimal(qi.Total_Toro_DNET__c);
 			qi.Total_DNET__c=CMnQuoteUtil.defaultDecimal(qi.Total_DNET__c);
+			qi.Total_Toro_Award__c=CMnQuoteUtil.defaultDecimal(qi.Total_Toro_Award__c);
+			qi.Total_Toro_DNET__c=CMnQuoteUtil.defaultDecimal(qi.Total_Toro_DNET__c);
+			qi.Toro_Total_Rebate__c=CMnQuoteUtil.defaultDecimal(qi.Toro_Total_Rebate__c);
+			
 			qi.TPP_Quoteitem_Total__c = 0;
 			system.debug('check total award for each qi -- 1 qi.award price= ' + qi.award_price__c + ' driven by gp=' + qi.DrivenByGP__c);
 
@@ -399,6 +403,9 @@ public virtual class ToroPricingProgram {
 				qi.Extended_Award_Price__c = qiTPPAppliedAward;
 				qi.Extended_DNet_Price__c = qiTPPAppliedDNet;
 				qi.Extended_MSRP_Price__c = qiTPPAppliedMSRP;
+				//copy from ToroGSAPricingProgramHelper
+				//qi.Extended_DNet_Price__c = qiToroDNet;
+				//qi.Extended_MSRP_Price__c = qiToroMSRP;
 			}
 
 
@@ -427,7 +434,7 @@ public virtual class ToroPricingProgram {
 			decimal extFeeAmount = qi.Toro_Fee_Amount__c;
 			qi.Toro_Rebate__c = qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 
-			decimal extRebate = qi.Toro_Rebate__c;
+			decimal extRebate = CMnQuoteUtil.defaultDecimal(qi.Toro_Rebate__c);
 			if(!qi.DrivenByGP__c) {
 				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c - qi.Extended_DNet_Price__c + qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 				if(qi.Extended_Award_Price__c != null && qi.Extended_Award_Price__c != 0) {
@@ -496,7 +503,7 @@ public virtual class ToroPricingProgram {
 							}
 						}
 						qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
-						extRebate += qis.Toro_Subline_Rebate__c;
+						extRebate = extRebate + CMnQuoteUtil.defaultDecimal(qis.Toro_Subline_Rebate__c);
 						//qis.Toro_Extended_Award_Price__c = subExtAward;
 						qis.Toro_Fee_Amount__c = qis.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
 						//uncomment following line
