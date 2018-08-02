@@ -165,7 +165,7 @@ public class ToroPricingProgramController {
 	    		
 			//pp.quote.Setup_Fee__c = setupFeePercent;
 			pp.quote.Performance_Part__c=performancePart;
-			
+			Map<String, decimal> pricingProgramLineCountMap = new Map<String, decimal>();
 			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
 				//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
 				//	qi.FreezeLine__c = true;
@@ -213,6 +213,7 @@ public class ToroPricingProgramController {
 						} else if('Pricing_Program__c'.equalsIgnoreCase(key)) {
 							system.debug('Pricing_Program__c = ' + key + ' value =' + strVal);
 							qi.Pricing_Program__c = strVal;
+							pricingProgramLineCountMap.put(qi.Pricing_Program__c, 0);
 						} else if('Pricing_Program_Overridden__c'.equalsIgnoreCase(key)) {
 							qi.Pricing_Program_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
 						}
@@ -261,6 +262,18 @@ public class ToroPricingProgramController {
 					}
 	    		}
 			}
+			//pricingProgramLineCountMap
+			AggregateResult[] groupedResults = [SELECT count(Name), PricingProgram__r.externalId__c 
+				FROM REVVY__MnStrategy2__c where PricingProgram__r.externalId__c in :pricingProgramLineCountMap.keyset()  
+				group by PricingProgram__r.externalId__c];
+			for (AggregateResult ar : groupedResults)  {
+			    System.debug('count' + ar.get('expr0'));
+			    System.debug('ar' + ar);
+			    if(pricingProgramLineCountMap.containsKey(String.valueOf(ar.get('PricingProgram__r.externalId__c')))){
+			    	pricingProgramLineCountMap.put(String.valueOf(ar.get('PricingProgram__r.externalId__c')), (Decimal)ar.get('expr0'));		
+			    }
+			}
+			system.debug('pricingProgramLineCountMap count=' + pricingProgramLineCountMap);
 	
 			
 			rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
@@ -949,7 +962,6 @@ public class ToroPricingProgramController {
 		List<String> spKeys = new List<String>();
 		ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
 		pp.quoteItems = pp.calculateRebateMargin(quoteId, ppd.externalId, pricingMethod, pp.quoteItems, false);
-		
 		if(String.isNotBlank(ppd.externalId)) {
 	    	Map<String, Object > secondaryPrograms = pp.retrieveSecondaryPrograms(ppd.externalId);
 	    	for(String key : secondaryPrograms.keyset()) {
