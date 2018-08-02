@@ -44,6 +44,7 @@ public with sharing class ToroSupportPlusData {
 		// this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 		this.distRespIsEditable = Schema.SObjectType.Support_Plus_Contribution__c.fields.Split_Access__c.isAccessible();
 		this.overrideDistResp = true;
+		system.debug('ToroSupportPlusData()');
 	}
 
 
@@ -56,6 +57,7 @@ public with sharing class ToroSupportPlusData {
 	 */
 	public ToroSupportPlusData(Id quoteId) {
 		this();
+		system.debug('ToroSupportPlusData(Id quoteId)');
 		try {
 			// this.quote = ToroSupportPlusHelper.getQuote(quoteId);
 			this.quote = ToroCacheManager.getQuote(quoteId);
@@ -88,6 +90,7 @@ public with sharing class ToroSupportPlusData {
 								, Decimal baseAwardTotalWithoutSecondary
 	) {
 		this();
+		system.debug('ToroSupportPlusData(6 params)');
 		try {
 			// this.quote = quote;
 			this.quote = ToroCacheManager.getQuote(quote.Id);
@@ -120,6 +123,7 @@ public with sharing class ToroSupportPlusData {
 								, List<Revvy__MnStrategy4__c> quoteItemList
 	) {
 		this();
+		system.debug('ToroSupportPlusData(3 params)');
 		try {
 			// this.quote = ToroSupportPlusHelper.getQuote(quoteId);
 			this.quote = ToroCacheManager.getQuote(quoteId);
@@ -332,12 +336,15 @@ public with sharing class ToroSupportPlusData {
 				|| previousExtDNet != (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal)
 				|| previousToroAward != (this.baseAwardTotalWithoutSecondary - spSplitAwardTotal)
 			) {
+				system.debug('defaultDistRespValue=' + defaultDistRespValue);				
 				this.quote.Distributor_Responsibility__c = defaultDistRespValue;
+				system.debug('quote.Distributor_Responsibility__c=' + quote.Distributor_Responsibility__c);
 			}
 		}
 
 		this.distributorResponsibilities = new List<DistRespOption>();
 		for (Decimal value : distRespValueSet) {
+			system.debug('defaultDistRespValue=' + defaultDistRespValue + ' value=' + value + ' quote.Distributor_Responsibility__c=' + quote.Distributor_Responsibility__c);
 			DistRespOption option = new DistRespOption(value);
 			if (value == defaultDistRespValue) option.setAsDefault();
 			if (value == this.quote.Distributor_Responsibility__c) option.setAsSelected();
