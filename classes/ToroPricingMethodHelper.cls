@@ -247,6 +247,7 @@ public with sharing class ToroPricingMethodHelper {
 				ToroPricingMethodData topRow = null;
 				ToroPricingMethodData bottomRow = null;
 				Map<decimal, ToroPricingMethodData> gp2Map = GPPercentMap.get(ppExtId);
+                if(gp2Map.values().size() > 0) {
 				ToroPricingMethodData upperBound = gp2Map.values()[0];
 				ToroPricingMethodData lowerBound = gp2Map.values()[gp2Map.values().size()-1];
 				system.debug(logginglevel.info, 'lookupDNetPercentFromGPPercent ---upperBound=' + upperBound);
@@ -285,6 +286,7 @@ public with sharing class ToroPricingMethodHelper {
 					}   
 				}            	
 			}
+		}
 		}
 		return dnetPercent;	
 	}

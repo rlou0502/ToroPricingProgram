@@ -126,10 +126,10 @@ public class ToroPricingProgramController {
 			Map<String, object> quoteItemsData = (Map<String, object>) JSON.deserializeUntyped(quoteItemsDataJSON);
 			for(String key : quoteItemsData.keyset()) {
 				Map<String, Object>	data1 = (Map<String, Object>) quoteItemsData.get(key);
-				system.debug('key =' + key + ' obj =' + data1);
+				//system.debug('key =' + key + ' obj =' + data1);
 				for(String key2 : data1.keyset()) {
 					String	data2 = (String) data1.get(key2);
-					system.debug('key2 =' + key2 + ' obj =' + data2);
+					//system.debug('key2 =' + key2 + ' obj =' + data2);
 				}
 			}
 			Map<String, object> qiSublinesData = (Map<String, object>) JSON.deserializeUntyped(qiSublinesDataJSON);
@@ -176,21 +176,19 @@ public class ToroPricingProgramController {
 				system.debug(logginglevel.info, 'qiUpdateData =' + qiUpdateData);
 				if(qiUpdateData != null) {
 					for(String key : qiUpdateData.keyset()) {
-						system.debug(logginglevel.info, 'key =' + key);
+						//system.debug(logginglevel.info, 'key =' + key);
 						String strVal = (String)qiUpdateData.get(key);
-						system.debug(logginglevel.info, '1 strVal =' + strVal);
+						//system.debug(logginglevel.info, '1 strVal =' + strVal);
 						//qi.PricingMethodValue__c=null;
-						system.debug(logginglevel.info, '2 strVal =' + strVal);
 						if('PricingMethodValue__c'.equalsIgnoreCase(key)){
-							system.debug(logginglevel.info, '3 key =' + key);
 							qi.PricingMethodValue__c = strVal;
-							system.debug(logginglevel.info, '3 pricingMethod =' + pricingMethod);
+							//system.debug(logginglevel.info, '3 pricingMethod =' + pricingMethod);
 							if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
 				    			qi.Award_of_DN__c = string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-				    			system.debug(logginglevel.info, '3 % of DNET =' + qi.Award_of_DN__c);
+				    			//system.debug(logginglevel.info, '3 % of DNET =' + qi.Award_of_DN__c);
 				    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
 				    			qi.Off_MSRP__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-				    			system.debug(logginglevel.info, '3 qi.Off_MSRP__c =' + qi.Off_MSRP__c);
+				    			//system.debug(logginglevel.info, '3 qi.Off_MSRP__c =' + qi.Off_MSRP__c);
 				    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 				    			qi.Toro_Gross_Profit_Percent__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
 				    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
@@ -198,13 +196,13 @@ public class ToroPricingProgramController {
 				    			qi.Total_Toro_Award__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
 				    		}
 						} else if('Award_Price__c'.equalsIgnoreCase(key)){
-							system.debug('---------------Award_Price__c =' + strVal);
+							//system.debug('---------------Award_Price__c =' + strVal);
 	
 							qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
 	
 						} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
 							qi.Unit_Award_Overridden__c=false;
-							system.debug('---------------Unit_Award_Overridden__c =' + strVal);
+							//system.debug('---------------Unit_Award_Overridden__c =' + strVal);
 							qi.Unit_Award_Overridden__c = string.isNotBlank(strVal) ? boolean.valueOf(strVal) : false;
 	
 						} else if('Off_MSRP_Overridden__c'.equalsIgnoreCase(key)){
@@ -228,7 +226,7 @@ public class ToroPricingProgramController {
 				if(!performancePart) {
 					qi.Performance_Parts_Product__c = false;
 				}
-				system.debug('display qi=' + qi.PricingMethodValue__c );
+				//system.debug('display qi=' + qi.PricingMethodValue__c );
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						//if(pp.performancePartFlag && qis.Performance_part__c) {
@@ -259,7 +257,7 @@ public class ToroPricingProgramController {
 								}
 							}
 						}
-						system.debug('display qis=' + qis.PricingMethodValue__c );
+						//system.debug('display qis=' + qis.PricingMethodValue__c );
 						if(!performancePart) {
 							qis.Performance_Part__c = false;
 						}
