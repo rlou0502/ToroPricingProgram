@@ -14,7 +14,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 		system.debug('ToroContractPriceListPPHelper--' +  rebates);
 		for(Revvy__MnStrategy1__c pp : rebates) {
 			system.debug('ToroContractPriceListPPHelper--'+pp);
-			String priceListId = pp.OverriddenPriceList__c;
+			String priceListId = CMnQuoteUtil.getDefaultPriceList();
 			system.debug('ToroContractPriceListPPHelper--priceListId='+priceListId);
 			Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
 			List<revvy__MnPriceListLine__c> plis = [SELECT Id, revvy__ListedPrice__c,revvy__SuggestedPrice__c,revvy__product__c,
