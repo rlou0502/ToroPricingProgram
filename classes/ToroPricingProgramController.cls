@@ -165,7 +165,7 @@ public class ToroPricingProgramController {
 	    		
 			//pp.quote.Setup_Fee__c = setupFeePercent;
 			pp.quote.Performance_Part__c=performancePart;
-			Set<String> pricingProgramLineCountSet = new Set<String>();
+			Map<String, decimal> pricingProgramLineCountMap = new Map<String, decimal>();
 			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
 				//if(pp.performancePartFlag && qi.Performance_Parts_Product__c) {
 				//	qi.FreezeLine__c = true;
@@ -215,7 +215,7 @@ public class ToroPricingProgramController {
 							qi.Pricing_Program__c = strVal;
 							if(String.isNotBlank(qi.Pricing_Program__c)) {
 								string[] parts = qi.Pricing_Program__c.split(';');
-								pricingProgramLineCountSet.add(parts[0]);	
+								pricingProgramLineCountMap.put(parts[0], 0);	
 							}
 							
 						} else if('Pricing_Program_Overridden__c'.equalsIgnoreCase(key)) {
@@ -267,10 +267,10 @@ public class ToroPricingProgramController {
 	    		}
 			}
 			//pricingProgramLineCountMap
-			system.debug('pricingProgramLineCountSet='+pricingProgramLineCountSet);
+			system.debug('pricingProgramLineCountSet='+pricingProgramLineCountMap);
 			boolean allPricingProgramaHaveLines=true;
 			AggregateResult[] groupedResults = [SELECT count(Name), PricingProgram__r.externalId__c 
-				FROM REVVY__MnStrategy2__c where PricingProgram__r.externalId__c in :pricingProgramLineCountSet  
+				FROM REVVY__MnStrategy2__c where PricingProgram__r.externalId__c in :pricingProgramLineCountMap.keySet()  
 				group by PricingProgram__r.externalId__c];
 			system.debug('groupedResults='+groupedResults);
 			if(groupedResults.size() != 0) {
@@ -278,13 +278,15 @@ public class ToroPricingProgramController {
 				    System.debug('count=' + ar.get('expr0'));
 				    System.debug('ar=' + ar);			   
 			    	decimal lineCount = (Decimal)ar.get('expr0');
-			    	if(lineCount == 0) {
-			    		allPricingProgramaHaveLines=false;	
-			    		break;
-				    }
+			    	pricingProgramLineCountMap.put(String.valueOf(ar.get('ExternalId__c')), lineCount);
 				}
-			} else {
-				allPricingProgramaHaveLines = false;	
+			} 
+			
+			for(decimal val : pricingProgramLineCountMap.values()) {
+				if(val == 0) {
+					allPricingProgramaHaveLines=false;
+					break;	
+				}	
 			}
 			system.debug('allPricingProgramaHaveLines =' + allPricingProgramaHaveLines);
 	
@@ -350,6 +352,37 @@ public class ToroPricingProgramController {
 		    	*/
 		    	rs = setPricingMethodValueFieldLabel(rs);
 		    	ToroCacheManager.putQuote(pp.quote);
+			} else {
+				for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+					if(String.isNotBlank(qi.Pricing_Program__c)) {
+						string[] parts = qi.Pricing_Program__c.split(';');
+						if(pricingProgramLineCountMap.get(parts[0]) == null || pricingProgramLineCountMap.get(parts[0]) == 0) {
+			    			qi.PricingMethodValue__c = '';	
+			    			qi.Toro_Blend_Of_DN__c=null;
+			    			qi.Blended_MSRP__c=null;
+			    			qi.Blended_GP__c=null;
+			    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+								for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+									qis.PricingMethodValue__c = '';	
+								}
+			    			}
+						} else {
+							if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+								if(String.isNotBlank(qi.PricingMethodValue__c)){
+									qi.Blended_GP__c = double.valueOf(qi.PricingMethodValue__c)	;
+								}
+							} else if ('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+								if(String.isNotBlank(qi.PricingMethodValue__c)){
+									qi.Toro_Blend_Of_DN__c = double.valueOf(qi.PricingMethodValue__c);
+								}
+							} if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+								if(String.isNotBlank(qi.PricingMethodValue__c)){
+									qi.Blended_MSRP__c = double.valueOf(qi.PricingMethodValue__c);
+								}
+							}
+						} 
+					}
+				}	
 			}
 	    	rs.quote = pp.quote;
 	    	system.debug('setupfee--pp.setupFeePercentage=' + pp.setupFeePercentage);
