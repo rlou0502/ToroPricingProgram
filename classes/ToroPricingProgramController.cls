@@ -2,6 +2,7 @@ public class ToroPricingProgramController {
 	public static final String defaultPricingMethod='% off MSRP';
 	public static final String constCachedQuoteId = 'quoteId';
 	public static final String constCachedSetupFee = 'setupFee';
+	public static final Set<String> marketChartStyles = new Set<String>{'ChartAB','SouthernDemo'};
     public Id quoteId {get; set;}
     public boolean readOnly {get; set;} 
     
@@ -115,7 +116,7 @@ public class ToroPricingProgramController {
 			ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
 			system.debug('ppd =' + ppd); 
 			Revvy__MnStrategy1__c pricingProgramData = ToroCacheManager.getPricingProgram(ppd.externalId);
-			
+			String pricingProgramStyle = pricingProgramData.PricingProgramStyle__c;
 			pp.performancePartFlag = performancePart != null ? performancePart : false;
 			pp.setupFeePercentage = setupFeePercent;
 			System.debug('pricingProgram=' +pricingProgram);
@@ -213,7 +214,10 @@ public class ToroPricingProgramController {
 							qi.Pricing_Program__c = strVal;
 							if(String.isNotBlank(qi.Pricing_Program__c)) {
 								string[] parts = qi.Pricing_Program__c.split(';');
-								pricingProgramLineCountMap.put(parts[0], 0);	
+								pricingProgramLineCountMap.put(parts[0], 0);
+								if(marketChartStyles.contains(parts[0])) {
+									pricingProgramLineCountMap.put(parts[0], 1);	
+								}	
 							}
 							
 						} else if('Pricing_Program_Overridden__c'.equalsIgnoreCase(key)) {
