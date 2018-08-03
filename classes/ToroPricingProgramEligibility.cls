@@ -121,7 +121,8 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 			productIds.add(quoteItem.Product_Id__c);
 		}
 		Map<String, Set<String>> ppEligibleProduct = new Map<String, Set<String>>();
-		List<REVVY__MnStrategy1__c> pricingPrograms = [SELECT Id, ApplicableProductsLong__c, ExternalId__c, Model_Eligibility__c,(Select ApplicableProducts__c From PricingProgramLines__r) FROM REVVY__MnStrategy1__c where Product_Eligibility_Checking__c = true and Model_Eligibility__c = 'Rigid'];
+		List<REVVY__MnStrategy1__c> pricingPrograms = [SELECT Id, ApplicableProductsLong__c, ExternalId__c, Model_Eligibility__c,
+			(Select ApplicableProducts__c From PricingProgramLines__r), (Select ApplicableProductsLong__c From Toro_Pricing_Programs__r)  FROM REVVY__MnStrategy1__c where Product_Eligibility_Checking__c = true and Model_Eligibility__c = 'Rigid'];
 		
 		boolean found = true;
 		for(REVVY__MnStrategy1__c pp : pricingPrograms) {
@@ -133,6 +134,11 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 			for(Revvy__MnStrategy2__c l : pp.PricingProgramLines__r) {
 				if(String.isNotBlank(l.ApplicableProducts__c) &&  l.ApplicableProducts__c != 'All') {
 					eligibleProducts.addAll(l.ApplicableProducts__c.split(','));
+				}	
+			}
+			for(Revvy__MnStrategy1__c l : pp.Toro_Pricing_Programs__r) {
+				if(String.isNotBlank(l.ApplicableProductsLong__c) &&  l.ApplicableProductsLong__c != 'All') {
+					eligibleProducts.addAll(l.ApplicableProductsLong__c.split(','));
 				}	
 			}
 			for(String p : productIds) {

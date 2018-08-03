@@ -595,6 +595,7 @@ public class ToroPricingProgramController {
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
     				qi.pricing_program__c = pricingProgram;
+    				qi.Toro_Blend_Of_DN__c=null;
     				qi.Fee_Percentage__c=null;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -640,6 +641,7 @@ public class ToroPricingProgramController {
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
     				qi.pricing_program__c = pricingProgram;
+    				qi.Toro_Blend_Of_DN__c=null;
     				qi.Fee_Percentage__c=null;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
@@ -666,8 +668,9 @@ public class ToroPricingProgramController {
     			}
     			*/
     		}
-
+			
     		pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
+    		
     		rs.values =  pp.quoteItems;
     		rs.displaySetupFee=pp.displaySetupFee();
     		rs.displayPerformancePart = pp.displayPerformancePart();
