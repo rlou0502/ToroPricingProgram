@@ -2,7 +2,7 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldSets>
         <fullName>CMAS_Contracts_Quote_Line_Cols</fullName>
-        <description>For State Contracts using Federal Pricelist</description>
+        <description>For State Contracts using Federal Pricelist Columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -34,7 +34,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Placeholder2__c</field>
+            <field>Placeholder1_NoDNet__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -78,11 +78,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>CMAS_Contracts_Quote_Line_Cols</label>
+        <label>CMAS Contracts Quote Line Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>CMAS_Contracts_Quote_Line_Summary_Cols</fullName>
-        <description>For State Contracts using Federal GSA price list</description>
+        <description>For State Contracts using Federal GSA price list  Traction Unit Columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -158,11 +158,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>CMAS Contracts Quote Line Summary Cols</label>
+        <label>CMAS Contracts Traction Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>DNet_Field_Set</fullName>
-        <description>Pricing Program</description>
+        <description>Fields which are not accessible when DNet is not accessible</description>
         <displayedFields>
             <field>Extended_DNet_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -284,7 +284,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Placeholder3__c</field>
+            <field>Placeholder1_NoDNet__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -294,7 +294,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Placeholder4__c</field>
+            <field>Placeholder3__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -412,7 +412,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Large_Package_QI_Summary_Updatable_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>Large Package Quote Line Updatable fields</description>
         <displayedFields>
             <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -427,7 +427,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Large_Package_Quote_Line_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>Large Package Quote Line Columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -507,7 +507,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Large_Package_Quote_Line_Summary_Cols</fullName>
-        <description>Large package and State contract Pricing Program</description>
+        <description>Large package Traction Unit Columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -583,11 +583,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Large Package Quote Line Summary Cols</label>
+        <label>Large Package Traction Unit Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>Large_Package_Quote_Line_Updatable_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>Large Package Traction Unit Updatable fields</description>
         <displayedFields>
             <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -603,11 +603,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Large Package Quote Line Updatable Cols</label>
+        <label>Large Package Traction Unit Updatable Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>National_Account_Quote_Line_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>Corporate Account Traction Unit Columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -683,16 +683,16 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>National Account Quote Line Cols</label>
+        <label>National Account Traction Unit Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>National_Account_Quote_Line_Updtbl_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>National Account Quote Line Updatable fields</description>
         <label>National Account Quote Line Updatable Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Line_Info_Cols</fullName>
-        <description>Price_Program_Line_Info_Cols</description>
+        <description>Price Program Show Details Fields</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -757,7 +757,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Quote_Line_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>Default Pricing Program Traction Unit Columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -833,11 +833,11 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>Price Program Quote Line Cols</label>
+        <label>Price Program Traction Unit Cols</label>
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Quote_Line_Updatable_Cols</fullName>
-        <description>Pricing Program</description>
+        <description>Pricing Program Quote Lines Updatable fields</description>
         <displayedFields>
             <field>Award_Price__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -852,7 +852,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Quote_Summary</fullName>
-        <description>Pricing Program</description>
+        <description>Default Price Program Quote Line columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -884,7 +884,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Placeholder2__c</field>
+            <field>Placeholder1_NoDNet__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -932,7 +932,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>Price_Program_Traction_Unit_Info</fullName>
-        <description>Price_Program_Line_Info_Cols</description>
+        <description>Price Program Traction Unit Show Details fields</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -1242,7 +1242,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>State_Contract_Quote_Line_Updatable_Cols</fullName>
-        <description>Pricing Method</description>
+        <description>State Contract Quote Line Updatable fields</description>
         <displayedFields>
             <field>PricingMethodValue__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -1289,7 +1289,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Placeholder2__c</field>
+            <field>Placeholder1_NoDNet__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1337,7 +1337,7 @@
     </fieldSets>
     <fieldSets>
         <fullName>State_Contracts_Quote_Line_Summary_Cols</fullName>
-        <description>State Contracts Quote Line Summary Cols</description>
+        <description>State Contracts Traction Unit Columns</description>
         <displayedFields>
             <field>Product_Id__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -1413,7 +1413,7 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
-        <label>State Contracts Quote Line Summary Cols</label>
+        <label>State Contracts Traction Unit Cols</label>
     </fieldSets>
     <fields>
         <fullName>Adjusted_Quantity__c</fullName>

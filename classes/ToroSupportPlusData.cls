@@ -44,7 +44,6 @@ public with sharing class ToroSupportPlusData {
 		// this.distRespIsEditable = Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 		this.distRespIsEditable = Schema.SObjectType.Support_Plus_Contribution__c.fields.Split_Access__c.isAccessible();
 		this.overrideDistResp = true;
-		system.debug('ToroSupportPlusData()');
 	}
 
 
@@ -94,6 +93,8 @@ public with sharing class ToroSupportPlusData {
 		try {
 			// this.quote = quote;
 			this.quote = ToroCacheManager.getQuote(quote.Id);
+			this.quote.Distributor_Responsibility__c = quote.Distributor_Responsibility__c;
+			ToroCacheManager.putQuote(this.quote);
 			this.qiWrappers = ToroSupportPlusHelper.buildQuoteItemWrapperMap((List<ToroSupportPlusItem>)JSON.deserializeStrict(quoteItemsJSON,List<ToroSupportPlusItem>.class)).values();
 			this.addNewWrappers = (List<ToroSupportPlusItem>)JSON.deserializeStrict(supportPlusItemsJSON,List<ToroSupportPlusItem>.class);
 			this.pricingProgram = pricingProgram;
@@ -335,16 +336,13 @@ public with sharing class ToroSupportPlusData {
 				|| this.quote.Is_Dirty__c
 				|| previousExtDNet != (this.baseDNetTotalWithoutSecondary - spSplitDNetTotal)
 				|| previousToroAward != (this.baseAwardTotalWithoutSecondary - spSplitAwardTotal)
-			) {
-				system.debug('defaultDistRespValue=' + defaultDistRespValue);				
+			) {				
 				this.quote.Distributor_Responsibility__c = defaultDistRespValue;
-				system.debug('quote.Distributor_Responsibility__c=' + quote.Distributor_Responsibility__c);
 			}
 		}
 
 		this.distributorResponsibilities = new List<DistRespOption>();
 		for (Decimal value : distRespValueSet) {
-			system.debug('defaultDistRespValue=' + defaultDistRespValue + ' value=' + value + ' quote.Distributor_Responsibility__c=' + quote.Distributor_Responsibility__c);
 			DistRespOption option = new DistRespOption(value);
 			if (value == defaultDistRespValue) option.setAsDefault();
 			if (value == this.quote.Distributor_Responsibility__c) option.setAsSelected();
