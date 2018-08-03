@@ -224,15 +224,15 @@
                 if(lineType == "MainLine" && field.fieldPath=="PricingMethodValue__c") {
                     switch(pricingMethod) {
                         case "% of DNET":
-                            tableDataNode.value = sObj["Toro_Blend_Of_DN__c"] ? self.formatPercentWithDecimal(sObj["Toro_Blend_Of_DN__c"], decimalPoint) : '';	
+                            tableDataNode.value = sObj["Toro_Blend_Of_DN__c"] != null ? self.formatPercentWithDecimal(sObj["Toro_Blend_Of_DN__c"], decimalPoint) : '';	
                             break;
                         case "% off MSRP":
                             if(sObj["Off_MSRP__c"] != undefined) {
-                            	tableDataNode.value = sObj["Blended_MSRP__c"] ? self.formatPercentWithDecimal(sObj["Blended_MSRP__c"], decimalPoint) : '';
+                            	tableDataNode.value = sObj["Blended_MSRP__c"] != null ? self.formatPercentWithDecimal(sObj["Blended_MSRP__c"], decimalPoint) : '';
                             }
                             break;
                         case "Gross Profit %":
-                            tableDataNode.value = sObj["Blended_GP__c"] ? self.formatPercentWithDecimal(sObj["Blended_GP__c"], decimalPoint) : '';
+                            tableDataNode.value = sObj["Blended_GP__c"] != null ? self.formatPercentWithDecimal(sObj["Blended_GP__c"], decimalPoint) : '';
                             break;
                         default:
                         	break;    
