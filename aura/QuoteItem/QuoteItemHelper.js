@@ -213,7 +213,7 @@
                 	tableDataNode.required=true;  
                     cellText.className += " has-required-field ";
                 }
-                    
+                   
                 tableDataNode.className += " align-right "+ lineType + " ";
                 tableDataNode.value = sObj[field.fieldPath] ? self.formatPercentWithDecimal(sObj[field.fieldPath], 4) : '';
                 var decimalPoint = 4;
@@ -331,6 +331,7 @@
             tableData.appendChild(cellText);
             if(field.required) {
                 var cellErrorMsg = document.createElement('div');
+                cellErrorMsg.id= field.fieldPath+sObj["Id"];
                 cellErrorMsg.className += "  validation-error sfdcid-"+sObj["Id"];
                 var msg = $A.get("$Label.c.PP_Validation_Error_Message");
                 cellErrorMsg.innerHTML = msg;
@@ -807,10 +808,10 @@
 		node.parentNode.removeChild(node);    
     },
     showSpinner : function(component) {
-    	//document.getElementById("spinner").style.display="block";   
+    	document.getElementById("spinner").style.display="block";   
     },
     hideSpinner : function(component) {
-    	//document.getElementById("spinner").style.display="none";   
+    	document.getElementById("spinner").style.display="none";   
     },
     updateQuoteItemView : function(component, response) {
     	console.log("render view" + Date.now());
@@ -948,6 +949,7 @@
             document.querySelector(".pricing-method.validation-error").style.display="none";  
         }
         var requiredFieldlist = document.querySelectorAll("input:required");
+        var loc=null;
     	for(var i=0; i < requiredFieldlist.length; i++) {
     		var elm = requiredFieldlist[i];
     		var clsList = elm.classList;
@@ -956,7 +958,9 @@
                 if(cls.startsWith("sfdcid-")) {
                     if(!elm.value) { 
                         invalid = true;
-                        document.querySelector(".validation-error."+cls).style.display="block"; 
+                        var invalidElm = document.querySelector(".validation-error."+cls);
+                        invalidElm.style.display="block"; 
+                        loc=invalidElm.id;                        
                     } else {
                         document.querySelector(".validation-error."+cls).style.display="none";
                     }
@@ -964,6 +968,7 @@
             }
     	}
         if(invalid) {
+            document.getElementById(loc).scrollIntoView();
             self.hideSpinner();
             return false;
         }

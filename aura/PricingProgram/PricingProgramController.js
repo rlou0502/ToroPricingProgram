@@ -41,7 +41,7 @@
         document.location = '/apex/REVVY__PMnUIShell#mnquote/detail/'+quoteId;
     },
     calculate : function(component, event, helper) {
-        helper.showSpinner(component);
+        //helper.showSpinner(component);
         var quoteId = component.get('v.quoteId');
         if (quoteId) {
             helper.calculateHelper(component, quoteId);
@@ -49,7 +49,7 @@
         //helper.closeInfoBox(component);
     },
     handleCalculateCmd : function(component, event, helper) {
-        helper.showSpinner(component);
+        //helper.showSpinner(component);
         var quoteId = component.get('v.quoteId');
         if (quoteId) {
             helper.calculateHelper(component, quoteId);
@@ -96,7 +96,7 @@
 
     },
     saveAndClose: function(component, event, helper) {
-        helper.showSpinner(component);
+        //helper.showSpinner(component);
         component.set("v.forwardUrl", "/");
     	var quoteHeaderCmp = component.find("cmpQuoteHeader");
         var result = quoteHeaderCmp.getQuoteInfo();
