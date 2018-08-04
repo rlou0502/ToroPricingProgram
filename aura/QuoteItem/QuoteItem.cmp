@@ -24,6 +24,7 @@
     <aura:registerEvent name="calculationCompleteEvent" type="c:ToroCalculationCompleteEvent"/>
     <aura:registerEvent name="calculateEvent" type="c:ToroCalculateEvent"/>
     <aura:registerEvent name="setDirtyFlagEvent" type="c:ToroSetDirtyFlagEvent"/>
+    <aura:registerEvent name="showHideSpinner" type="c:ToroShowHideSpinnerEvent"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
 	<aura:method name="setPricingProgramSvc"

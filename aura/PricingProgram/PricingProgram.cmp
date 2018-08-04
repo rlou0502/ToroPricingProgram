@@ -24,12 +24,20 @@
     <aura:handler name="proceedToNonToroEvent" event="c:ToroProceedToNonToroEvent" action="{!c.handleProceedToNonToro}"/>
     <aura:handler name="setDirtyFlagEvent" event="c:ToroSetDirtyFlagEvent" action="{!c.handleSetDirtyFlag}"/>
     <aura:handler name="quoteHeaderLoaded" event="c:ToroQuoteHeaderLoaded" action="{!c.handleQuoteHeaderLoaded}"/>
+    <aura:handler name="showHideSpinner" event="c:ToroShowHideSpinnerEvent" action="{!c.handleShowHideSpinner}"/>
     <input type="hidden" id="xOffset" />
     <input type="hidden" id="yOffset" />
     <input type="hidden" id="xCurrent" />
     <input type="hidden" id="yCurrent" />
     <lightning:overlayLibrary aura:id="overlayLibParent"/>
     <div aura:id="ModalDialogPlaceholder" />
+    <div id="spinner-1" aura:id="spinnerId-1" class="slds-spinner_container" style="display:none">
+        <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
     <div  id="popover-root" draggable="true" class="slds-float_right slds-box" style="display:none">
         <div id="popover-header">
             <span >{!v.infoBoxType}</span>           

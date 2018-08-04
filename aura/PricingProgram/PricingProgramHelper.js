@@ -272,6 +272,17 @@
     },
     closeInfoBox : function(component) {
     	document.getElementById("popover-root").style.display="none";
-    }
+    },
+    showSpinner : function(node) {
+        if(document.getElementById("spinner-1")) {
+        	document.getElementById("spinner-1").style.display="block";    
+        }   	   
+    },
+    hideSpinner : function(node) {
+        if(document.getElementById("spinner-1")){
+            document.getElementById("spinner-1").style.display="none";
+        }
+    	   
+    },
 
 })

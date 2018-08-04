@@ -1,4 +1,12 @@
-({
+({  
+    handleShowHideSpinner: function(component, evt, helper) { 	    
+        var flag=evt.getParam("showSpinner");
+        if(flag) {
+        	helper.showSpinner(component);    
+        } else {
+            helper.hideSpinner(component);
+        }
+    },
     handleSetDirtyFlag: function(component, evt, helper) { 	    
         var msg=evt.getParam("warningMessage");
         var quoteHeaderCmp = component.find("cmpQuoteHeader");
@@ -82,6 +90,7 @@
                 }
             );    
         }
+        helper.hideSpinner();
 
     },
     saveAndClose: function(component, event, helper) {

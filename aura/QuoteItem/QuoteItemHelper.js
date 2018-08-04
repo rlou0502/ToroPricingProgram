@@ -806,10 +806,24 @@
 		}
 		node.parentNode.removeChild(node);    
     },
-    showSpinner : function(node) {
+    showSpinner : function(component) {
+        /*
+        var cmpEvent = component.getEvent("showHideSpinner");
+        cmpEvent.setParams({
+            "showSpinner" : true
+        });
+        cmpEvent.fire();
+        */
     	document.getElementById("spinner").style.display="block";   
     },
-    hideSpinner : function(node) {
+    hideSpinner : function(component) {
+        /*
+        var cmpEvent = component.getEvent("showHideSpinner");
+        cmpEvent.setParams({
+            "showSpinner" : false
+        });
+        cmpEvent.fire();
+        */
     	document.getElementById("spinner").style.display="none";   
     },
     updateQuoteItemView : function(component, response) {
