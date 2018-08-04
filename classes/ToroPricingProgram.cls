@@ -536,7 +536,7 @@ public virtual class ToroPricingProgram {
 				system.debug('check total award for each qi -- 2 qi.Total_Toro_Award__c= ' + qi.Total_Toro_Award__c + ' qi.Total_Toro_MSRP__c='+qi.Total_Toro_MSRP__c);
 				qi.Blended_MSRP__c = 100 - (qi.Total_Toro_Award__c/qi.Total_Toro_MSRP__c)*100;
 			}
-			if(qi.Total_Toro_DNET__c != 0) {
+			if(qi.Total_Toro_DNET__c != 0 && qi.Award_of_DN__c != null) {
 				qi.Toro_Blend_Of_DN__c = qi.Total_Toro_Award__c/qi.Total_Toro_DNET__c*100;
 				qi.Blended_Rebate__c = qi.Toro_Total_Rebate__c/qi.Total_Toro_DNET__c*100;
 			}
