@@ -36,6 +36,7 @@
       description="This method makes an aura call to set pricing program at quote item">
     </aura:method>
     <div id="docked_quote_header">
+    
     <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
         <thead>
 		<tr class="slds-text-heading--label">

@@ -21,6 +21,7 @@
     <aura:attribute name="secondaryPrograms" type="Map"/>
     <aura:attribute name="secondaryProgramKeys" type="List"/>
     <aura:registerEvent name="refreshInfoBoxEvent" type="c:RefreshInfoBoxEvent"/>
+    <aura:registerEvent name="showHideSpinner" type="c:ToroShowHideSpinnerEvent"/>
     <aura:registerEvent name="calculationCompleteEvent" type="c:ToroCalculationCompleteEvent"/>
     <aura:registerEvent name="calculateEvent" type="c:ToroCalculateEvent"/>
     <aura:registerEvent name="setDirtyFlagEvent" type="c:ToroSetDirtyFlagEvent"/>

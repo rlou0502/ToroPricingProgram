@@ -30,8 +30,6 @@
     <input type="hidden" id="yCurrent" />
     <lightning:overlayLibrary aura:id="overlayLibParent"/>
     <div aura:id="ModalDialogPlaceholder" />
-	<lightning:spinner aura:id="loadingSpinner" variant="brand" size="large" alternativeText="Loading"/>
-    
     <div  id="popover-root" draggable="true" class="slds-float_right slds-box" style="display:none">
         <div id="popover-header">
             <span >{!v.infoBoxType}</span>           

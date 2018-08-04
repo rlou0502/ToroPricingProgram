@@ -648,7 +648,6 @@
             objId: quoteId,
             quoteItemList: null
         });
-        
 		getAction.setCallback(this, 
 	        function(response) {
 	            var state = response.getState();
@@ -704,7 +703,6 @@
                     //if(qiId){
                     //	self.handleRowClick(component, qiId);
                     //}
-
 	            }
 	        }
 	    );
