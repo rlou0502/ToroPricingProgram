@@ -331,7 +331,7 @@
             tableData.appendChild(cellText);
             if(field.required) {
                 var cellErrorMsg = document.createElement('div');
-                cellErrorMsg.id= field.fieldPath+sObj["Id"];
+                cellErrorMsg.id= "sfdcid-"+sObj["Id"];
                 cellErrorMsg.className += "  validation-error sfdcid-"+sObj["Id"];
                 var msg = $A.get("$Label.c.PP_Validation_Error_Message");
                 cellErrorMsg.innerHTML = msg;
@@ -950,6 +950,7 @@
         }
         var requiredFieldlist = document.querySelectorAll("input:required");
         var loc=null;
+        var foundInvalid = false;
     	for(var i=0; i < requiredFieldlist.length; i++) {
     		var elm = requiredFieldlist[i];
     		var clsList = elm.classList;
@@ -960,7 +961,10 @@
                         invalid = true;
                         var invalidElm = document.querySelector(".validation-error."+cls);
                         invalidElm.style.display="block"; 
-                        loc=invalidElm.id;                        
+                        if(!foundInvalid) {
+                        	loc=cls;
+                            foundInvalid=true;
+                        }
                     } else {
                         document.querySelector(".validation-error."+cls).style.display="none";
                     }
@@ -968,7 +972,7 @@
             }
     	}
         if(invalid) {
-            document.getElementById(loc).scrollIntoView();
+            document.getElementById(loc).scrollIntoView(false);
             self.hideSpinner();
             return false;
         }
