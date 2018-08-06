@@ -740,6 +740,7 @@ public class ToroPricingProgramController {
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
     	system.debug(logginglevel.info,'pricingProgram pp=' + pp);
     	List<Schema.FieldSetMember> fieldSet = pp.getQuoteFields();
+        system.debug(logginglevel.info,'fieldSet =' + fieldSet);
     	if(!Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
     		List<Schema.FieldSetMember> dNetfieldSet = pp.getToroQuoteDNetFields();
     		fieldSet = pp.removeDNetFieldsFromSet(fieldSet, dNetfieldSet);

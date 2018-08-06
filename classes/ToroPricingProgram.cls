@@ -53,6 +53,7 @@ public virtual class ToroPricingProgram {
 	//public abstract List<Schema.FieldSetMember> getQuoteItemSublineFields();
 	//public abstract List<Schema.FieldSetMember> getQuoteItemFields();
 	public virtual List<Schema.FieldSetMember> getQuoteFields() {
+        system.debug(logginglevel.info, 'ToroPricingProgram.getQuoteFields');
 		return SObjectType.Revvy__MnQuote__c.FieldSets.Pricing_Program_Quote_Header_Fields.getFields();
 	}
 	public virtual List<Schema.FieldSetMember> getQuoteUpdatableFields() {
@@ -746,6 +747,7 @@ public virtual class ToroPricingProgram {
 	@TestVisible protected virtual List<String> getQuoteFieldAPINames() {
 		List<String> fieldNames = new List<String>();
 		for(Schema.FieldSetMember fs : getQuoteFields()) {
+            system.debug(logginglevel.info, 'getQuoteFieldAPINames =' + fs.getFieldPath());
 			fieldNames.add(fs.getFieldPath());
 		}
 		return fieldNames;
