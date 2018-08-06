@@ -395,6 +395,11 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                     <default>false</default>
                     <label>Standard Support Chart</label>
                 </value>
+                <value>
+                    <fullName>CMAS</fullName>
+                    <default>false</default>
+                    <label>CMAS</label>
+                </value>
             </valueSetDefinition>
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
@@ -506,6 +511,10 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             <valueSettings>
                 <controllingFieldValue>State Contract</controllingFieldValue>
                 <valueName>Base_w_Model_Qty_Pricing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>State Contract</controllingFieldValue>
+                <valueName>CMAS</valueName>
             </valueSettings>
         </valueSet>
     </fields>

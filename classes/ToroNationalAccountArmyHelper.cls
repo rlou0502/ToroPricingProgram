@@ -24,4 +24,7 @@ public with sharing class ToroNationalAccountArmyHelper extends ToroGSAPricingPr
 	public override decimal retrieveAwardPrice(REVVY__MnPriceListLine__c ppl) {
 		return ppl.revvy__PriceField2__c;	
 	} 
+	public override List<Revvy__MnStrategy4__c> overrideCommissions(List<Revvy__MnStrategy4__c> quoteItemList) {
+		return quoteItemList;
+	}  
 }
