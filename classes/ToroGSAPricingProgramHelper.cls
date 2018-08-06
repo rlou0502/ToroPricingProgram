@@ -93,7 +93,9 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 		quoteItems = loadPricesFromPricelist(priceProgramExternalId, quoteItemList);
 		List<Revvy__MnStrategy1__c> rebates = new List<Revvy__MnStrategy1__c>{ToroCacheManager.getPricingProgram(priceProgramExternalId)};
 		decimal gpPercent = 0;
+		boolean drivenByGP = false; 
 		for(Revvy__MnStrategy1__c rh : rebates) {
+			drivenByGP = rh.DrivenByGP__c;
 			if(rh.PricingProgramLines__r != null) {
 				for(Revvy__MnStrategy2__c l : rh.PricingProgramLines__r) {
 					gpPercent = l.Distributor_Margin__c;		
@@ -121,8 +123,8 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 			}
 			
 			qi.Toro_Com_Dollar__c += qi.Commission_Dollar__c;
-			//decimal rebate = qi.DNet_Price__c - qi.award_price__c + qi.Toro_Gross_Profit_Value__c;
-			decimal rebate=0;
+			decimal rebate = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) - CMnQuoteUtil.defaultDecimal(qi.award_price__c) + CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Value__c);
+			//decimal rebate=0;
 			system.debug('qi.rebate =' + rebate);
 			if(!qi.OnlyExistedInCPL__c) {
 				qi.Toro_Rebate__c = rebate * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
