@@ -61,6 +61,7 @@ public class ToroPricingProgramController {
     	system.debug(logginglevel.info, ' to be deleted -- rs.selectedPricingProgram=' + rs.selectedPricingProgram);
     	ToroPricingProgramData ppd = new ToroPricingProgramData(pricingProgram);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+    	pp.initializeQuoteHeader(quoteId);
     	List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
 		rs.pricingMethodOptions = options;
 		if(options.size() == 1) {
@@ -69,7 +70,16 @@ public class ToroPricingProgramController {
 			rs.selectedPricingMethod = '% off MSRP';
 		}
 		system.debug('svc_getPricingMethodOptions pricingProgram=' + pricingProgram);
+		List<Schema.FieldSetMember> fieldSet = pp.getQuoteFields();
+    	system.debug(logginglevel.info,'fieldSet =' + fieldSet);
+    	if(!Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
+    		List<Schema.FieldSetMember> dNetfieldSet = pp.getToroQuoteDNetFields();
+    		fieldSet = pp.removeDNetFieldsFromSet(fieldSet, dNetfieldSet);
+    	}
 
+    	List<Schema.FieldSetMember> updatableFieldSet = pp.getQuoteUpdatableFields();
+    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
+    	rs.quote = pp.quote;
 		rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, quoteId);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.displayPerformancePart = pp.displayPerformancePart();
@@ -740,7 +750,7 @@ public class ToroPricingProgramController {
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
     	system.debug(logginglevel.info,'pricingProgram pp=' + pp);
     	List<Schema.FieldSetMember> fieldSet = pp.getQuoteFields();
-        system.debug(logginglevel.info,'fieldSet =' + fieldSet);
+    	system.debug(logginglevel.info,'fieldSet =' + fieldSet);
     	if(!Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
     		List<Schema.FieldSetMember> dNetfieldSet = pp.getToroQuoteDNetFields();
     		fieldSet = pp.removeDNetFieldsFromSet(fieldSet, dNetfieldSet);
@@ -1071,6 +1081,7 @@ public class ToroPricingProgramController {
 				
 			}
     	}
+    	
     	rs.quote = pp.quote;    	
     	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, rs.quote.Id);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);

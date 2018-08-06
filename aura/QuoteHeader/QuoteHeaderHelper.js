@@ -20,10 +20,14 @@
 	        function(response) {
                 console.log("set pricing Program " + Date.now());
 	            var state = response.getState();
+                debugger;
 	            if (component.isValid() && state === "SUCCESS") {
 	                var data = response.getReturnValue();
 	                var retResponse = response.getReturnValue();
-
+                    var fields = retResponse.fieldSetMembers;
+					var quote = retResponse.quote;
+					component.set('v.fields', fields);
+                    component.set('v.quote', quote);
                     component.set('v.pricingMethodOptions', retResponse.pricingMethodOptions);
 					component.set('v.displayPerformancePart', retResponse.displayPerformancePart);
                     component.set('v.selectedPricingMethod', retResponse.selectedPricingMethod);
