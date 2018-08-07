@@ -972,7 +972,9 @@
             }
     	}
         if(invalid) {
-            document.getElementById(loc).scrollIntoView(false);
+            if(loc != null) {
+            	document.getElementById(loc).scrollIntoView(false);
+            }
             self.hideSpinner();
             return false;
         }
