@@ -223,6 +223,13 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 		quoteItemList = super.calculateExtendedFields(quoteItemList);
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			qi.Toro_Com_Dollar__c = qi.Total_Gross_Profit_Value__c;
+			qi.Commission__c = qi.Toro_Gross_Profit_Percent__c;
+			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					qis.Commission__c = qis.Gross_Profit_Percent__c;
+					qis.Commission_Dollar__c = qis.Gross_Profit_Value__c;		
+				}
+			}
 		}
 		quote.Commission_Dollar__c = quote.Toro_Total_Quote_Gross_Profit__c;
 		quote.Commission__c = quote.Toro_Total_Quote_Gross_Profit_Percent__c;
@@ -232,18 +239,18 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 	public virtual List<Revvy__MnStrategy4__c> overrideCommissions(List<Revvy__MnStrategy4__c> quoteItemList) {
 		quoteItemList = super.calculateExtendedFields(quoteItemList);
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
-			qi.Commission__c = 0;
-			qi.Commission_Dollar__c = 0;
-			qi.Toro_Com_Dollar__c = 0;
+			qi.Commission__c = null;
+			qi.Commission_Dollar__c = null;
+			qi.Toro_Com_Dollar__c = null;
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					qis.Commission__c = 0;
-					qis.Commission_Dollar__c = 0;		
+					qis.Commission__c = null;
+					qis.Commission_Dollar__c = null;		
 				}
 			}
 		}
-		quote.Commission_Dollar__c = 0;
-		quote.Commission__c = 0;
+		quote.Commission_Dollar__c = null;
+		quote.Commission__c = null;
 		
 		return quoteItemList;
 	}    
