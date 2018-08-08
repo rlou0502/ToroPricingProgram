@@ -35,6 +35,20 @@ private class ToroNationalAccountGSAPPHelperTest {
         Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
         naf.initialize(quote.Id);
         naf.quoteItems = naf.calculateRebateMargin(quote.Id, 'ContractGSA', '% off MSRP', naf.quoteItems, true);
+        naf.overrideCommissions(naf.quoteItems);
+        Test.stopTest();
+    }
+    static testMethod void testCMAS() {
+    	Test.startTest();
+        ToroStateContractCMASHelper naf = new ToroStateContractCMASHelper();
+        naf.getQuoteFields();
+        naf.retrievePricingMethodOptions();
+        naf.getToroQuoteItemUpdatableFields();
+        naf.displayPerformancePart();
+        Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+        naf.initialize(quote.Id);
+        naf.quoteItems = naf.calculateRebateMargin(quote.Id, 'ContractGSA', '% off MSRP', naf.quoteItems, true);
+        naf.overrideCommissions(naf.quoteItems);
         Test.stopTest();
     }
 }
