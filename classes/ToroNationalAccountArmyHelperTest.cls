@@ -35,6 +35,7 @@ private class ToroNationalAccountArmyHelperTest {
         Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
         naf.initialize(quote.Id);
         naf.quoteItems = naf.calculateRebateMargin(quote.Id, 'Army', '% off MSRP', naf.quoteItems, true);
+        naf.overrideCommissions(naf.quoteItems);
         Test.stopTest();
     }
 }

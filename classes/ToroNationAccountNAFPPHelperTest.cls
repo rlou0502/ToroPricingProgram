@@ -37,6 +37,7 @@ private class ToroNationAccountNAFPPHelperTest {
         naf.quoteItems = naf.calculateRebateMargin(quote.Id, 'NAF', '% off MSRP', naf.quoteItems, true);
         REVVY__MnStrategy4__c qi = [select id,Product_Id__c, Pricing_Program__c, Rebate_as_a_of_DN__c, Award_of_DN__c,Toro_Gross_Profit_Percent__c, Off_MSRP__c, Toro_Blend_Of_DN__c, Award_Price__c  from REVVY__MnStrategy4__c where Product_Id__c ='04055' limit 1];
         system.assert(qi.Award_Price__c == 7318.74);
+        naf.overrideCommissions(naf.quoteItems);
         Test.stopTest();
     }
 }
