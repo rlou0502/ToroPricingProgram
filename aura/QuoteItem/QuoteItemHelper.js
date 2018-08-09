@@ -173,7 +173,7 @@
             var freeze = sObj["Freeze_Line__c"];
             var prodId = sObj["Product_Id__c"];
             var vToroProd = true;
-            if(prodId != "" && prodId.startsWith("L00")) {
+            if(prodId != "" && prodId.startsWith("L0")) {
                 vToroProd = false;
             }
             var nonToroPricingMethodValue = false;

@@ -55,3 +55,15 @@
 .THIS th.type-PERCENT {
     text-align: right;
 }
+.THIS th.Customer_Name__c {
+    width: 12%;
+}
+.THIS th.REVVY__Id__c {
+    width: 80px;
+}
+.THIS th.Disti_Num__c {
+    width: 85px;
+}
+.THIS th.REVVY__Currency__c {
+    width: 100px;
+}

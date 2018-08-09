@@ -335,6 +335,18 @@ public virtual class ToroPricingProgram {
 		system.debug('inside base calculateRebateMarginImpl');
 		return quoteItemList;
 	}
+	
+	public decimal getDNetPrice(REVVY__MnStrategy5__c qis) {
+		decimal lDNetPrice = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
+		if(qis.TPP_Line_Item__c) {
+			lDNetPrice = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
+		} else {
+			if(qis.Pricing_Program_Product_Type__c != 'Standard') {
+				lDNetPrice=0;		
+			} 
+		}
+		return lDNetPrice;
+	}
 	public virtual List<Revvy__MnStrategy4__c> calculateExtendedFields(List<Revvy__MnStrategy4__c> quoteItemList) {
 		decimal quoteMSRP=0;
 		decimal quoteTotalAward =0;
@@ -483,12 +495,13 @@ public virtual class ToroPricingProgram {
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;							
 					} else {
 						//use TPP_DNet here
-						qisRollupTPPAppliedDNet += qis.TPP_DNet__c * extQty;
+						decimal lDNetPrice = getDNetPrice(qis);
+						qisRollupTPPAppliedDNet += lDNetPrice * extQty;
 						qisRollupTPPAppliedMSRP += qis.MSRP_Price__c * extQty;
 						qisRollupTPPAppliedAward += qis.Award_Price__c * extQty;							
 						qis.Extended_MSRP_Price__c = qis.MSRP_Price__c * extQty;
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;
-						qis.Extended_DNet_Price__c = qis.TPP_DNet__c * extQty;
+						qis.Extended_DNet_Price__c = lDNetPrice * extQty;
 					}
 
 
