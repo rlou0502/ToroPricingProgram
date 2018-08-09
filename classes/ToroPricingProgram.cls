@@ -684,8 +684,8 @@ public virtual class ToroPricingProgram {
 	}
 
 	public virtual void initializeQuoteItems(Id quoteId) {
-		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Support_Plus_From_Add_New_F__c,Has_Support_Plus__c,PricingMethodValue__c,Pricing_Program_Overridden__c, DrivenByGP__c,Adjusted_Quantity__c, OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate_F__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c,  Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
+		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Pricing_Program_Product_Type__c,Support_Plus_From_Add_New_F__c,Has_Support_Plus__c,PricingMethodValue__c,Pricing_Program_Overridden__c, DrivenByGP__c,Adjusted_Quantity__c, OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
+		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Pricing_Program_Product_Type__c,Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate_F__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c,  Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId Order by createdDate asc';
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);
@@ -746,8 +746,8 @@ public virtual class ToroPricingProgram {
 
 	@TestVisible protected virtual List<String> getQuoteFieldAPINames() {
 		List<String> fieldNames = new List<String>();
+		system.debug(logginglevel.info, 'getQuoteFields =' + getQuoteFields());
 		for(Schema.FieldSetMember fs : getQuoteFields()) {
-            system.debug(logginglevel.info, 'getQuoteFieldAPINames =' + fs.getFieldPath());
 			fieldNames.add(fs.getFieldPath());
 		}
 		return fieldNames;
@@ -817,6 +817,7 @@ public virtual class ToroPricingProgram {
 		String[] copyFromFields = null;
 		boolean copyFromMSRP=false;
 		boolean copyFromDNET=false;
+		decimal multiplier = 1;
 		for(Revvy__MnStrategy1__c pp : rebates) {
 			if(pp.UseDesignatedPriceList__c && pp.Previous_Price_Date__c != null && string.isNotBlank(pp.Copy_From_Price_Field__c)) {
 				priceListIds.add(pp.OverriddenPriceList__c);
@@ -830,6 +831,9 @@ public virtual class ToroPricingProgram {
 					}
 				}
 				system.debug('state of FL pp.Copy_From_Price_Field__c=' + pp.Copy_From_Price_Field__c);
+				if(pp.Previous_MSRP_Multiplier__c != null) {
+					multiplier = pp.Previous_MSRP_Multiplier__c;
+				}
 			}
 		}
 		List<Id> productIdList = new List<Id>();
@@ -866,6 +870,7 @@ public virtual class ToroPricingProgram {
 					}
 					//system.debug('ToroContractPriceListPPHelper--product Id='+qi.Product_Id__c + ' msrp = ' + qi.MSRP_Price__c + ' dnet =' + qi.DNet_Price__c);
 				}
+				qi.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * multiplier;
 				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(prodPriceListLineMap.containsKey(qis.Product_Id__c)) {
@@ -880,6 +885,7 @@ public virtual class ToroPricingProgram {
 							}
 							//system.debug('QIS ToroContractPriceListPPHelper--product Id='+qis.Product_Id__c + ' msrp = ' + qis.MSRP_Price__c + ' dnet =' + qis.DNet_Price__c);
 						}
+						qis.MSRP_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * multiplier;
 					}
 				}
 

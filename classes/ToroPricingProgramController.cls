@@ -575,6 +575,7 @@ public class ToroPricingProgramController {
     		rs = retrieveFieldSets(rs, pp, pricingMethod, pricingProgram);
 			
     		if(options.size() ==1) {
+    			
     			//pp.calculateRebateMargin();
     			ToroSelectOption so = options[0];
     			system.debug('setPricingProgramToDB calling calculateRebateMargin');
@@ -607,6 +608,7 @@ public class ToroPricingProgramController {
     				qi.pricing_program__c = pricingProgram;
     				qi.Toro_Blend_Of_DN__c=null;
     				qi.Fee_Percentage__c=null;
+    				qi.MSRP_Price__c = qi.QuoteItem__r.REVVY__Price__c;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
@@ -620,6 +622,7 @@ public class ToroPricingProgramController {
 	    					qis.PricingMethodValue__c=null;
 	    					//qis.Unit_Award_Overridden__c=false;
 	    					qis.Performance_Part__c = false;
+	    					qis.MSRP_Price__c = qis.Quote_Item_Sub_Line__r.REVVY__Price__c;
 	    				}
     				}
 
@@ -653,6 +656,7 @@ public class ToroPricingProgramController {
     				qi.pricing_program__c = pricingProgram;
     				qi.Toro_Blend_Of_DN__c=null;
     				qi.Fee_Percentage__c=null;
+    				qi.MSRP_Price__c = qi.QuoteItem__r.REVVY__Price__c;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 	    					qis.Percent_Off_MSRP__c=0;
@@ -666,6 +670,7 @@ public class ToroPricingProgramController {
 	    					//qis.Unit_Award_Overridden__c=false;
 	    					qis.Performance_Part__c = false;
 	    					qis.Fee_Percentage__c=null;
+	    					qis.MSRP_Price__c = qis.Quote_Item_Sub_Line__r.REVVY__Price__c;
 	    				}
     				}
     			}
