@@ -118,7 +118,7 @@ public virtual class ToroBaseWithValueDollarHelper extends ToroPricingProgram  {
 						qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);
 						if(!qis.Unit_Award_Overridden__c) {			
 							qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
-							if(qis.Exclude_from_Rebate_F__c) {
+							if(qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c != 'Standard') {
 								qis.Award_Price__c = qis.MSRP_Price__c;	
 							}
 						}

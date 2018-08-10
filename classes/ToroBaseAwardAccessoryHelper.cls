@@ -92,9 +92,9 @@ public with sharing class ToroBaseAwardAccessoryHelper  extends ToroStateContrac
 						qis.Gross_Profit_Percent__c=0;
 						if(accesseryLine != null) {
 							qis.Percent_Off_MSRP__c = accesseryLine.Off_Mfg_Sugg_Ttl__c;							
-						}	
+						}
 						qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
-						if(qis.Exclude_from_Rebate_F__c) {
+						if(qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c != 'Standard') {
 							qis.Award_Price__c = qis.MSRP_Price__c;	
 						}
 						if(qis.Award_Price__c != null && qis.Award_Price__c != 0){

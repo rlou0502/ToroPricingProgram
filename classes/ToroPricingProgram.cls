@@ -508,7 +508,7 @@ public virtual class ToroPricingProgram {
 					}
 
 					qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
-					if(!qis.Exclude_from_Rebate_F__c) {
+					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c == 'Standard')) {	
 						if(!qi.DrivenByGP__c) {
 							qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
 							if(qis.Extended_Award_Price__c != 0) {
