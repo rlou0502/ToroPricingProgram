@@ -119,6 +119,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 			qi.Rebate_as_a_of_DN__c = rebatePercent;
 			system.debug('gsa checkpoint gpPercent = ' + gpPercent);
 			system.debug('gsa checkpoint rebatePercent = ' + rebatePercent);
+			system.debug('gsa checkpoint qi.OnlyExistedInCPL__c = ' + qi.OnlyExistedInCPL__c);
 			if(qi.DrivenByGP__c) {
 				if(!qi.OnlyExistedInCPL__c) {
 					qi.Toro_Gross_Profit_Percent__c = gpPercent;
