@@ -6,6 +6,8 @@ public class ExportTestCoverage{
         'FieldSetMemberTest'=>'Roy',
         'KMnQuoteLifeCycleReadOnlyPriceProgram'=>'Roy',
         'KMnQuoteLifeCycleSelectPriceProgram'=>'Roy',
+        'KMnQuoteLifeCycleAbandoned'=>'Indra',
+        'KMnQuoteLifeCycleClosedLost'=>'Indra',
         'PP_UpdateExtensionTest'=>'Roy',
         'PP_CanadianCurrencyChange'=>'Roy',
 		'PP_CreateQIExtension'=>'Roy',
@@ -107,6 +109,7 @@ public class ExportTestCoverage{
         'ToroSouthernDemoPricingProgramHelper'=>'Roy',
         'ToroSouthernDemoPricingProgramHelperTest'=>'Roy',
         'ToroSouthernDemoSecondaryPricingProgram'=>'Roy',
+        'ToroStateContractCMASHelper'=>'Roy',
         'ToroStateContractPricingProgramHTest'=>'Roy',
         'ToroStateContractPricingProgramHelper'=>'Roy',
         'ToroStateContractQtyModelHelper'=>'Roy',
@@ -143,7 +146,7 @@ public class ExportTestCoverage{
                 	r.developer = cpqClasses.get(r.ApexClassOrTrigger.Name);
                 	rs.add(r);    
                 } else {
-                	rs.add(r);   
+                	//rs.add(r);   
                 }   
             }
             cw.records = rs;
