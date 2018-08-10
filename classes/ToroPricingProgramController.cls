@@ -622,7 +622,7 @@ public class ToroPricingProgramController {
 	    					qis.PricingMethodValue__c=null;
 	    					//qis.Unit_Award_Overridden__c=false;
 	    					qis.Performance_Part__c = false;
-	    					qis.MSRP_Price__c = qis.Quote_Item_Sub_Line__r.REVVY__Price__c;
+	    					qis.MSRP_Price__c = qis.Original_MSRP_Price__c;
 	    				}
     				}
 
@@ -670,7 +670,7 @@ public class ToroPricingProgramController {
 	    					//qis.Unit_Award_Overridden__c=false;
 	    					qis.Performance_Part__c = false;
 	    					qis.Fee_Percentage__c=null;
-	    					qis.MSRP_Price__c = qis.Quote_Item_Sub_Line__r.REVVY__Price__c;
+	    					qis.MSRP_Price__c = qis.Original_MSRP_Price__c;
 	    				}
     				}
     			}

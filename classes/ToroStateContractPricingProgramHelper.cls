@@ -166,11 +166,11 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 						qis.Percent_of_DNet__c = qi.Award_of_DN__c;
 						qis.Percent_Off_MSRP__c = qi.Off_MSRP__c;	
 						qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);
-						if(!qis.Unit_Award_Overridden__c) {		
-							if(qis.Exclude_from_Rebate_F__c) {
+						if(!qis.Unit_Award_Overridden__c) {	
+							if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c == 'Standard')) {
+								qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;	
+							} else {
 								qis.Award_Price__c = qis.msrp_Price__c;
-							} else {	
-								qis.Award_Price__c = qis.MSRP_Price__c * (100-qis.Percent_Off_MSRP__c)/100;
 							}
 						}
 						if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0){
