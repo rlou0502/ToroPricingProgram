@@ -507,7 +507,7 @@ public virtual class ToroPricingProgram {
 						qis.Extended_DNet_Price__c = lDNetPrice * extQty;
 					}
 
-
+					qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
 					if(!qis.Exclude_from_Rebate_F__c) {
 						if(!qi.DrivenByGP__c) {
 							qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
@@ -519,7 +519,7 @@ public virtual class ToroPricingProgram {
 								qis.Gross_Profit_Value__c = CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100*CMnQuoteUtil.defaultDecimal(qis.Extended_Award_Price__c);
 							}
 						}
-						qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
+						
 						extRebate = extRebate + CMnQuoteUtil.defaultDecimal(qis.Toro_Subline_Rebate__c);
 						//qis.Toro_Extended_Award_Price__c = subExtAward;
 						qis.Toro_Fee_Amount__c = qis.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
@@ -528,7 +528,7 @@ public virtual class ToroPricingProgram {
 						extFeeAmount += qis.Toro_Fee_Amount__c;
 						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
-					}
+					} 
 					qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
 					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
@@ -746,7 +746,7 @@ public virtual class ToroPricingProgram {
 		boolean ret = false;
 		String productId = string.isNotBlank(qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c) ? qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c : qi.Quote_Item_Sub_Line__r.Product_ID_F__c;
 		//if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') || qi.Performance_Part__c) {
-		if(qi.Exclude_from_Rebate_F__c || qi.Performance_Part__c) {
+		if((qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard') || qi.Performance_Part__c) {
 			ret = true;
 		}
 		return ret;
