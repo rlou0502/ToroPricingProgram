@@ -69,7 +69,7 @@ public virtual class ToroBaseWithValueDollarHelper extends ToroPricingProgram  {
 					system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 					if(!qi.Unit_Award_Overridden__c) {
 						qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;
-						if(qi.Exclude_from_Rebate_F__c) {
+						if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard') {
 							qi.Award_Price__c = qi.MSRP_Price__c;	
 						}
 					} else {

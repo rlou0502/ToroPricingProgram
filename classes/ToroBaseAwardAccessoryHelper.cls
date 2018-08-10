@@ -45,7 +45,7 @@ public with sharing class ToroBaseAwardAccessoryHelper  extends ToroStateContrac
 				if(line != null) {
 					qi.DrivenByGP__c = drivenByGP;
 					qi.Award_Price__c = line.Award_Price__c;
-					if(qi.Exclude_from_Rebate_F__c) {
+					if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard') {
 						qi.Award_Price__c = qi.MSRP_Price__c;	
 					}
 					if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
