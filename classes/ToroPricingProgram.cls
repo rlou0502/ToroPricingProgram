@@ -402,23 +402,23 @@ public virtual class ToroPricingProgram {
                 qi.Rebate_as_a_of_DN__c = 0;
             }
 
-			if(!qi.Exclude_from_Rebate_F__c) {
+			if(!qi.Exclude_from_Rebate_F__c || (qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c == 'Standard')) {
 				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 				qiToroMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
 				qiToroAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
 				qi.Extended_Award_Price__c = qiToroAward;
 				qi.Extended_DNet_Price__c = qiToroDNet;
 				qi.Extended_MSRP_Price__c = qiToroMSRP;
-			} else {
+				if(qi.Exclude_from_Rebate_F__c) {
+					qi.Rebate_as_a_of_DN__c = 0;	
+				}
+			} else {				
 				qiTPPAppliedDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 				qiTPPAppliedMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
 				qiTPPAppliedAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
 				qi.Extended_Award_Price__c = qiTPPAppliedAward;
 				qi.Extended_DNet_Price__c = qiTPPAppliedDNet;
 				qi.Extended_MSRP_Price__c = qiTPPAppliedMSRP;
-				//copy from ToroGSAPricingProgramHelper
-				//qi.Extended_DNet_Price__c = qiToroDNet;
-				//qi.Extended_MSRP_Price__c = qiToroMSRP;
 			}
 
 
@@ -486,13 +486,16 @@ public virtual class ToroPricingProgram {
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					qis.TPP_DNet__c = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
 					qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c);
-					if(!qis.Exclude_from_Rebate_F__c) {						
+					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c == 'Standard')) {						
 						qisRollupToroDNet += qis.DNet_Price__c * extQty;
 						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
 						qisRollupToroAward += qis.Award_Price__c * extQty;													
 						qis.Extended_MSRP_Price__c = qis.MSRP_Price__c * extQty;
 						qis.Extended_DNet_Price__c = qis.DNet_Price__c * extQty;
-						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;							
+						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;	
+						if(qis.Exclude_from_Rebate_F__c) {
+							qis.Rebate_as_of_DNet__c = 0;	
+						}						
 					} else {
 						//use TPP_DNet here
 						decimal lDNetPrice = getDNetPrice(qis);
