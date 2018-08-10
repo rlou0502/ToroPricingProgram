@@ -10,6 +10,7 @@ trigger PP_CreateQIExtension on REVVY__MnQuoteItem__c (after insert) {
             Product__c           = qi.REVVY__Catalog_Node__c,
             QuoteItem__c         = qi.Id,
             MSRP_Price__c        = qi.REVVY__Price__c,
+            Original_MSRP_Price__c=qi.REVVY__Price__c,
             DNet_Price__c        = qi.REVVY__SuggestedPrice__c,
             Mn_Quote__c          = qi.Revvy__Quote__c,
             Adjusted_Quantity__c = qi.REVVY__Quantity__c,

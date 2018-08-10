@@ -23,6 +23,7 @@ trigger PP_CreateQISLExtension on REVVY__MnQuoteItemSubLine__c (after insert) {
             Adjusted_Quantity__c   = isSupportPlus ? qisExt.REVVY__Quantity__c : extQty,
             Quote_Item_Sub_Line__c = qi.Id,
             MSRP_Price__c          = qi.REVVY__Price__c,
+            Original_MSRP_Price__c = qi.REVVY__Price__c,
             DNet_Price__c          = qi.REVVY__SuggestedPrice__c,
             Apply_Support_Plus__c  = isSupportPlus,
             Support_Plus_Original_Price__c = qi.Support_Plus_Original_Price__c,
