@@ -955,8 +955,8 @@ public virtual class ToroPricingProgram {
 		//system.debug('pricing program copyFromMSRP=' + copyFromMSRP);
 		//system.debug('pricing program copyFromDNET=' + copyFromDNET);
 		//system.debug('pricing program copyFromDisti=' + copyFromDisti);
-		//system.debug('pricing program usePriceList=' + usePriceList);
-		//system.debug('pricing program targetDate=' + targetDate);
+		system.debug('pricing program usePriceList=' + usePriceList);
+		system.debug('pricing program targetDate=' + targetDate);
 		//system.debug('pricing program priceListIds=' + priceListIds);
 		if(usePriceList) {
 			Map<String, revvy__MnPriceListLine__c> prodPriceListLineMap = new Map<String, revvy__MnPriceListLine__c>();
@@ -1011,6 +1011,21 @@ public virtual class ToroPricingProgram {
 	
 				}
 			}
+		} else {
+			//reset MSRP price
+			for(REVVY__MnStrategy4__c qi : quoteItemList) {
+				if(qi.Original_MSRP_Price__c != null) {
+					qi.MSRP_Price__c = qi.Original_MSRP_Price__c;
+				}
+				if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						if(qis.Original_MSRP_Price__c != null) {
+							qis.MSRP_Price__c = qis.Original_MSRP_Price__c;
+						}	
+					}	
+				}
+			}
+			
 		}
 		return 	quoteItemList;
 	}

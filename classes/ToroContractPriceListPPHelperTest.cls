@@ -36,6 +36,7 @@ private class ToroContractPriceListPPHelperTest {
 				, Award_of_DN__c
 				, DNet_Price__c
 				, Product_Id__c
+				, Product__c
 				,Unit_Award_Overridden__c
 			FROM
 				Revvy__MnStrategy4__c];

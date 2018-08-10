@@ -23,7 +23,9 @@
     <testClassName>ToroNTControllerTest</testClassName>
     <testClassName>ToroNTDataTest</testClassName>
     <testClassName>ToroPerformancePartPricingProgramHTest</testClassName>
+    <testClassName>ToroPostConfigPricingHookTest</testClassName>
     <testClassName>ToroPriceProgramFactoryTest</testClassName>
+    <testClassName>ToroPricingHookTest</testClassName>
     <testClassName>ToroPricingMethodDataTest</testClassName>
     <testClassName>ToroPricingProgramCacheTest</testClassName>
     <testClassName>ToroPricingProgramControllerTest</testClassName>
@@ -36,6 +38,7 @@
     <testClassName>ToroPricingProgramUtilTest</testClassName>
     <testClassName>ToroProductEligibilityPluginTest</testClassName>
     <testClassName>ToroQIBaseTest</testClassName>
+    <testClassName>ToroQuoteItemEmailControllerTest</testClassName>
     <testClassName>ToroSouthernDemoPricingProgramHelperTest</testClassName>
     <testClassName>ToroStateContractPricingProgramHTest</testClassName>
     <testClassName>ToroStateContractQtyModelHelperTest</testClassName>

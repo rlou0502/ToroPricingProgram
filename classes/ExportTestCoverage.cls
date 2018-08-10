@@ -143,7 +143,7 @@ public class ExportTestCoverage{
                 	r.developer = cpqClasses.get(r.ApexClassOrTrigger.Name);
                 	rs.add(r);    
                 } else {
-                	//rs.add(r);   
+                	rs.add(r);   
                 }   
             }
             cw.records = rs;
