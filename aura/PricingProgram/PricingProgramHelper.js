@@ -143,7 +143,7 @@
                     } 
                 } else if(type === 'string') {
                     var dispVal = sObj[field.fieldPath]; 
-                    if(dispVal != "NaN") {
+                    if(dispVal != "NaN" && dispVal != undefined) {
                         cellValue.innerHTML = dispVal;
                         cellValue.title=dispVal;
                     }
