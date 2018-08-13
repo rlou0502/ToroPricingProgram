@@ -294,6 +294,7 @@
             } else {
                 if(field.fieldPath == "Product_Id__c") {
                 	tableData.addEventListener('mouseenter', function(){self.handleInfoBoxRefresh(component, sObj, lineType);}, false);
+                	tableData.addEventListener('touchstart', function(){self.handleInfoBoxRefresh(component, sObj, lineType);}, false);
                 }
                 if(field.type.toLowerCase() === 'double') {
                     if(sObj[field.fieldPath]!= undefined) {

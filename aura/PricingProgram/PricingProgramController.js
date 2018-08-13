@@ -194,7 +194,6 @@
     	helper.closeInfoBox(component);
     },
     handleRefeshInfoBox : function(component, event, helper) {
-        debugger;
         var dm = document.getElementById("popover-root");
         if(dm.style.display != "none") {
         	var infoBoxData =event.getParam("infoBoxData");

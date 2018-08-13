@@ -90,10 +90,10 @@
 		$A.enqueueAction(getAction);
     },
     renderInfoBox : function(component) {
-        debugger;
         if(document.getElementById("popover-root")) {
             var fields = component.get("v.fields");
             var sObj = component.get("v.sObject");
+            var hasProperties = (Object.values(sObj).length != 0);
             var self = this;
             var items = document.getElementById("popover-body");
             self.cleanInnerNodes(items);
@@ -115,7 +115,8 @@
                 tableColValue.className += " slds-truncate attr-value";
                 var cellValue = document.createElement('span');
                 cellValue.className += " slds-truncate";
-                cellValue.innerHTML = sObj[field.fieldPath];
+                if(hasProperties) {
+                //cellValue.innerHTML = sObj[field.fieldPath];
                 if(type === 'double') {
                     if(sObj[field.fieldPath] != undefined) {
                         cellValue.innerHTML= parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}); 
@@ -129,6 +130,7 @@
                                                    });
                     }
                 } else if(type === 'boolean') {
+                    cellValue.innerHTML = sObj[field.fieldPath];
                     var tableDataNode = document.createElement('input');
                     tableDataNode.type='checkbox'; 
                     tableDataNode.checked = sObj[field.fieldPath];
@@ -148,12 +150,16 @@
                         cellValue.innerHTML = dispVal;
                         cellValue.title=dispVal;
                     }
+                } else {
+                    cellValue.innerHTML = sObj[field.fieldPath];
                 }                           
                 tableColValue.appendChild(cellValue);
+                }
                 tableRow.appendChild(tableColValue);
                 table.appendChild(tableRow);
+                
             });
-
+            
             document.getElementById("popover-body").appendChild(tmp);
             if(document.getElementById("popover-root")) {
             	document.getElementById("popover-root").style.display="block";

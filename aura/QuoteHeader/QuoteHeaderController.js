@@ -73,6 +73,7 @@
         var tableCaptionData = document.createElement('td');
         var cellCaptionText = document.createElement('div');
         tableCaptionData.addEventListener('mouseenter', function(){helper.handleInfoBoxRefresh(cmp, q, "quote");}, false);
+        tableCaptionData.addEventListener('touchstart', function(){helper.handleInfoBoxRefresh(cmp, q, "quote");}, false);
         tableCaptionData.appendChild(cellCaptionText);
         tableRow.appendChild(tableCaptionData);
         fields.forEach(function(field){ 
