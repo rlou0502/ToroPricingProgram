@@ -70,7 +70,7 @@
 	                var retRecords = retResponse.values;
 	                var fields = retResponse.fieldSetMembers;
 					var quote = retRecords[0];
-                    debugger;
+                    //debugger;
                     console.log(retResponse);
 	                component.set('v.fields', fields);
                     component.set('v.pricingProgramOptions', retResponse.pricingProgramOptions);

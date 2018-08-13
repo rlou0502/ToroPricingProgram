@@ -21,7 +21,7 @@
         var setupFeePercent = cmp.find("setupFeePercent") != null ? cmp.find("setupFeePercent").get("v.value") : 0;
         var performancePart = cmp.find("performancePart") != null ? cmp.find("performancePart").get("v.value") : false;
         var setupFeeOverride = cmp.get("v.setupFeeOverride") == "true" ? true : false;
-        debugger;
+        //debugger;
         return {"PricingProgram" : pp, 
                 "PricingMethod" : pm,
                 "SetupFeePercent" : setupFeePercent,
