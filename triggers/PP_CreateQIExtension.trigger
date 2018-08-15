@@ -20,6 +20,8 @@ trigger PP_CreateQIExtension on REVVY__MnQuoteItem__c (after insert) {
             Support_Plus_Original_Award_Price__c = qi.Support_Plus_Original_Award_Price__c,
             Description__c = qi.Description__c,
             Exc_Rbt__c = qi.Support_Plus_From_Add_New__c
+            //TPP_DNET__c            = qi.TPP_DNET__c,
+            //TPP_Line_Item__c       = qi.TPP_Line_Item__c
         ));
     }
 
