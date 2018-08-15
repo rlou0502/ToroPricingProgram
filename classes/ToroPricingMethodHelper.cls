@@ -17,7 +17,7 @@ public with sharing class ToroPricingMethodHelper {
 		if(!qis.Unit_Award_Overridden__c) {
 			system.debug('check point 1');
 			//if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
-			if(qis.Exclude_from_Rebate_F__c) {
+			if(qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c != 'Standard' &&  qis.Pricing_Program_Product_Type__c != 'TPP') {
 				system.debug('check point 2');
 				qis.Award_Price__c = qis.MSRP_Price__c;
 			} else {
@@ -39,7 +39,7 @@ public with sharing class ToroPricingMethodHelper {
 		if(!qis.Unit_Award_Overridden__c) {
 			system.debug('check point 1');
 			//if(qis.Product_Id__c.startsWith('TPP') || qis.Product_Id__c.startsWith('L0') || qis.Product_Id__c.startsWith('L1')) {
-			if(qis.Exclude_from_Rebate_F__c) {
+			if(qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c != 'Standard' &&  qis.Pricing_Program_Product_Type__c != 'TPP') {
 				system.debug('check point 2');
 				qis.Award_Price__c = qis.MSRP_Price__c;
 			} else {

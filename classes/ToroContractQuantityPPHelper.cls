@@ -109,7 +109,7 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 					qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);
 					if(!qis.Unit_Award_Overridden__c) {			
 						qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * (100-CMnQuoteUtil.defaultDecimal(qis.Percent_Off_MSRP__c))/100;
-						if(qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c != 'Standard') {
+						if(qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c != 'Standard' &&  qis.Pricing_Program_Product_Type__c != 'TPP') {
 							qis.Award_Price__c = qis.MSRP_Price__c;	
 						}		
 					}

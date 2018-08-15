@@ -216,13 +216,6 @@ public virtual class ToroPricingProgram {
 		
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			qi.DrivenByGP__c=false;
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(qis.Pricing_Program_Product_Type__c == 'TPP') {
-						qis.DNet_Price__c = qis.TPP_DNet__c;	
-					}
-				}
-			}
 		}
 		return 	quoteItemList;
 	}
@@ -344,14 +337,10 @@ public virtual class ToroPricingProgram {
 	}
 	
 	public decimal getDNetPrice(REVVY__MnStrategy5__c qis) {
-		decimal lDNetPrice = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
-		if(qis.TPP_Line_Item__c) {
-			lDNetPrice = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
-		} else {
-			if(qis.Pricing_Program_Product_Type__c != 'Standard') {
-				lDNetPrice=0;		
-			} 
-		}
+		decimal lDNetPrice = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);	
+		if(qis.Pricing_Program_Product_Type__c != 'Standard' && qis.Pricing_Program_Product_Type__c != 'TPP') {
+			lDNetPrice=0;		
+		} 
 		return lDNetPrice;
 	}
 	public virtual List<Revvy__MnStrategy4__c> calculateExtendedFields(List<Revvy__MnStrategy4__c> quoteItemList) {
