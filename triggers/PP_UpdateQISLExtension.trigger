@@ -5,6 +5,8 @@ trigger PP_UpdateQISLExtension on REVVY__MnQuoteItemSubLine__c (after update) {
 	    for (REVVY__MnQuoteItemSubLine__c qi : qis) {
 	    	if (Trigger.oldMap.get(qi.Id).REVVY__Quantity__c != qi.REVVY__Quantity__c) {
 	    		Ids.add(qi.Id);
+	    	} else if(Trigger.oldMap.get(qi.Id).TPP_DNet__c != qi.TPP_DNet__c) {
+	    		Ids.add(qi.Id);
 	    	}
 	    }
 	
@@ -14,6 +16,7 @@ trigger PP_UpdateQISLExtension on REVVY__MnQuoteItemSubLine__c (after update) {
 					Id
 					, REVVY__Quantity__c
 					, REVVY__QuoteItem__r.REVVY__Quantity__c
+					, TPP_DNet__c
 				FROM
 					REVVY__MnQuoteItemSubLine__c
 				WHERE
@@ -31,6 +34,7 @@ trigger PP_UpdateQISLExtension on REVVY__MnQuoteItemSubLine__c (after update) {
 							  External_Id__c       = qi.Id
 							, Toro_Quantity__c     = qi.REVVY__Quantity__c
 							, Adjusted_Quantity__c = extQty
+							, TPP_DNet__c = qi.TPP_DNet__c
 						)
 					);
 				}

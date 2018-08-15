@@ -215,8 +215,15 @@ public virtual class ToroPricingProgram {
 		system.debug('ToroPricingProgram preCalculateRebateMargin');
 		
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
-				qi.DrivenByGP__c=false;
+			qi.DrivenByGP__c=false;
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(qis.Pricing_Program_Product_Type__c == 'TPP') {
+						qis.DNet_Price__c = qis.TPP_DNet__c;	
+					}
+				}
 			}
+		}
 		return 	quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
