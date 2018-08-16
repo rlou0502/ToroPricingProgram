@@ -49,4 +49,6 @@ public with sharing class ToroSObjectResultSet {
     public String contractMessage { get; set; }
     @AuraEnabled
     public Boolean isSupportPlusValueDollars { get; set; }
+    @AuraEnabled
+    public Boolean allowSupportPlusIgnoreDNetAccess { get; set; }
 }

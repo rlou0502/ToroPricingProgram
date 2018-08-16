@@ -10,7 +10,7 @@ public virtual class ToroPricingProgram {
 		return false;
 	}
 
-	public boolean getAllowSupportPlus(String pricingProgram, Id quoteId) {
+	public boolean getAllowSupportPlusIgnoreDNetAccess(String pricingProgram, Id quoteId) {
 		List<Revvy__MnStrategy4__c> qiExtensions;
 		if (this.quoteItems == null) {
 			qiExtensions = [SELECT Pricing_Program__c FROM Revvy__MnStrategy4__c WHERE Mn_Quote__c = :quoteId];	
@@ -35,8 +35,12 @@ public virtual class ToroPricingProgram {
 			}
 		}
 
-		boolean ret = pp_header.AllowSupportPlus__c && Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible() && !allQuoteItemsAreSecondary;
+		boolean ret = pp_header.AllowSupportPlus__c && !allQuoteItemsAreSecondary;
 		return ret == null ? false : ret;
+	}
+	public boolean getAllowSupportPlus(String pricingProgram, Id quoteId) {
+		boolean ret = getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);
+		return ret && Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
 	}
 
 	public boolean getIsSupportPlusValueDollars(String pricingProgram) {
@@ -216,6 +220,13 @@ public virtual class ToroPricingProgram {
 		
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			qi.DrivenByGP__c=false;
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(qis.Pricing_Program_Product_Type__c == 'TPP') {
+						qis.DNet_Price__c = qis.Quote_Item_Sub_Line__r.TPP_DNet__c;	
+					}
+				}
+			}
 		}
 		return 	quoteItemList;
 	}
@@ -697,7 +708,7 @@ public virtual class ToroPricingProgram {
 
 	public virtual void initializeQuoteItems(Id quoteId) {
 		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Original_MSRP_Price__c,Pricing_Program_Product_Type__c,Support_Plus_From_Add_New_F__c,Has_Support_Plus__c,PricingMethodValue__c,Pricing_Program_Overridden__c, DrivenByGP__c,Adjusted_Quantity__c, OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Original_MSRP_Price__c,Pricing_Program_Product_Type__c,Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate_F__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c,  Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
+		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Quote_Item_Sub_Line__r.TPP_DNet__c,Original_MSRP_Price__c,Pricing_Program_Product_Type__c,Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate_F__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c,  Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId Order by createdDate asc';
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);

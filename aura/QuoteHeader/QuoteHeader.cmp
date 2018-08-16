@@ -10,6 +10,7 @@
     <aura:attribute name="displayPerformancePart" type="Boolean"/>
     <aura:attribute name="displaySetupFee" type="Boolean"/>
     <aura:attribute name="allowSupportPlus" type="Boolean"/>
+    <aura:attribute name="allowSupportPlusIgnoreDNetAccess" type="Boolean" />
     <aura:attribute name="contractMessage" type="String"/>
     <aura:attribute name="dirtyMessage" type="String"/>
     <aura:attribute name="setupFeeOverride" type="Boolean"/>
@@ -57,7 +58,7 @@
 			<td scope="col">
                 <div class="slds-truncate slds-p-bottom_x-small" title="Pricing Programs">Pricing Programs</div>
                 <div class="has-required-field">
-                <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}" required="true" disabled="{! or( and(v.allowSupportPlus,v.quote.Support_Plus__c), v.readOnly)}">
+                <ui:inputSelect class="slds-select" aura:id="pricingProgram" value="{!v.selectedPricingProgram}" change="{!c.onPricingProgramSelectChange}" required="true" disabled="{! or( and(v.allowSupportPlusIgnoreDNetAccess,v.quote.Support_Plus__c), v.readOnly)}">
                     <ui:inputSelectOption text="" label="{!$Label.c.PP_SelectPricingProgram}" /> 
                     <aura:iteration items="{!v.pricingProgramOptions}" var="item">
                         <ui:inputSelectOption text="{!item.value}" label="{!item.label}" value="{!item.value==v.selectedPricingProgram}"/>

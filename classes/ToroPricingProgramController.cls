@@ -80,6 +80,7 @@ public class ToroPricingProgramController {
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getQuoteUpdatableFields();
     	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
     	rs.quote = pp.quote;
+    	rs.allowSupportPlusIgnoreDNetAccess = pp.getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);
 		rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, quoteId);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.displayPerformancePart = pp.displayPerformancePart();
@@ -405,6 +406,7 @@ public class ToroPricingProgramController {
 	    	rs.chainCall = pp.chainCall;
 	    	rs.payload = pp.payloadOfChainCall;
 	    	rs.displaySetupFee=pp.displaySetupFee();
+	    	rs.allowSupportPlusIgnoreDNetAccess = pp.getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);
 	    	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, rs.quote.Id);
 			rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 	    	List<String> spKeys = new List<String>();
@@ -750,6 +752,7 @@ public class ToroPricingProgramController {
     	system.debug(logginglevel.info,'pricingProgram=' + pricingProgram);
     	system.debug(logginglevel.info,'pricingProgram ppd=' + ppd);
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
+    	rs.allowSupportPlusIgnoreDNetAccess = pp.getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);
     	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, quoteId);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
@@ -1087,7 +1090,8 @@ public class ToroPricingProgramController {
 			}
     	}
     	
-    	rs.quote = pp.quote;    	
+    	rs.quote = pp.quote;  
+    	rs.allowSupportPlusIgnoreDNetAccess = pp.getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);  	
     	rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, rs.quote.Id);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.displayPerformancePart = pp.displayPerformancePart();

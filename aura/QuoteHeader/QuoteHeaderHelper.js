@@ -81,6 +81,7 @@
                     component.set('v.quote', retRecords[0]);
                     component.set('v.displaySetupFee', retResponse.displaySetupFee);
                     component.set('v.allowSupportPlus', retResponse.allowSupportPlus);
+                    component.set('v.allowSupportPlusIgnoreDNetAccess', retResponse.allowSupportPlusIgnoreDNetAccess);
                     component.set('v.contractMessage', retResponse.contractMessage);
                     component.set('v.setupFeeOverride', quote.Setup_Fee_Overridden__c);
                     
