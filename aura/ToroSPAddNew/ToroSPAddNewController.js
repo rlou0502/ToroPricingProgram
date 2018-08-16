@@ -84,16 +84,19 @@
     },
     addNewSupportPlusItem: function(cmp, event, helper) {
         console.log('ToroSPAddNewController:addNewSupportPlusItem');
-        var cmpEvent = cmp.getEvent("addNew");
-        cmpEvent.setParams({
-            'newItemProductId'                : cmp.get('v.newItemProductId'),
-            'newItemDNetPrice'                : cmp.get('v.newItemDNetPrice'),
-            'newItemMSRPPrice'                : cmp.get('v.newItemMSRPPrice'),
-            'newItemAwardPrice'               : cmp.get('v.newItemAwardPrice'),
-            'newItemSPQuantity'               : cmp.get('v.newItemSPQuantity'),
-            'newItemDistributorResponsibility': cmp.get('v.newItemDistributorResponsibility'),
-            'newItemDescription'              : cmp.get('v.newItemDescription')
-        });
-        cmpEvent.fire();
+        if(cmp.get('v.newItemProductId') != '' && cmp.get('v.newItemDNetPrice')  != '' && cmp.get('v.newItemMSRPPrice')  != ''
+           && cmp.get('v.newItemAwardPrice') != '') {
+            var cmpEvent = cmp.getEvent("addNew");
+            cmpEvent.setParams({
+                'newItemProductId'                : cmp.get('v.newItemProductId'),
+                'newItemDNetPrice'                : cmp.get('v.newItemDNetPrice'),
+                'newItemMSRPPrice'                : cmp.get('v.newItemMSRPPrice'),
+                'newItemAwardPrice'               : cmp.get('v.newItemAwardPrice'),
+                'newItemSPQuantity'               : cmp.get('v.newItemSPQuantity'),
+                'newItemDistributorResponsibility': cmp.get('v.newItemDistributorResponsibility'),
+                'newItemDescription'              : cmp.get('v.newItemDescription')
+            });
+            cmpEvent.fire();            
+        }
     }
 })
