@@ -21,8 +21,8 @@ public with sharing class ToroPricingMethodHelper {
 				system.debug('check point 2');
 				qis.Award_Price__c = qis.MSRP_Price__c;
 			} else {
-				system.debug('check point 3');
-				qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * (1-(qis.Percent_Off_MSRP__c/100));
+				system.debug('check point 3 qis.Percent_Off_MSRP__c=' + qis.Percent_Off_MSRP__c);
+				qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * (1-(CMnQuoteUtil.defaultDecimal(qis.Percent_Off_MSRP__c)/100));
 			}
 		} else {
 			if(qis.Performance_Part__c != true) {
@@ -99,7 +99,8 @@ public with sharing class ToroPricingMethodHelper {
 							}
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- extDNet = ' + extDNet);			
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- extAward = ' + extAward);							
-						} else {				
+						} else {
+							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromMSRP-- qis = ' + qis);						
 							qis = setMSRPAwardPrice(qis);	
 						}	
 						System.debug(logginglevel.info, 'setMSRPAwardPrice-- subline ' + qis);

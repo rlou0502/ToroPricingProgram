@@ -44,7 +44,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 
 	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 			//Performance Part
-
+		quoteItemList=super.preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper pricing program ='+qi.pricing_program__c  );
 			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Revvy__MnStrategy4__c 222 performancePartFlag='+performancePartFlag  );

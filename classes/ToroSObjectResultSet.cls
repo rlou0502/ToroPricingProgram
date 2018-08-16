@@ -50,5 +50,7 @@ public with sharing class ToroSObjectResultSet {
     @AuraEnabled
     public Boolean isSupportPlusValueDollars { get; set; }
     @AuraEnabled
+    public Boolean allowDNetAccess { get {return Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();} private set; }
+    @AuraEnabled
     public Boolean allowSupportPlusIgnoreDNetAccess { get; set; }
 }

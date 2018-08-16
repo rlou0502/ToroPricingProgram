@@ -38,10 +38,6 @@ public virtual class ToroPricingProgram {
 		boolean ret = pp_header.AllowSupportPlus__c && !allQuoteItemsAreSecondary;
 		return ret == null ? false : ret;
 	}
-	public boolean getAllowSupportPlus(String pricingProgram, Id quoteId) {
-		boolean ret = getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);
-		return ret && Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible();
-	}
 
 	public boolean getIsSupportPlusValueDollars(String pricingProgram) {
 		System.debug('\n\n@@getIsSupportPlusValueDollars\n\n');
@@ -222,7 +218,9 @@ public virtual class ToroPricingProgram {
 			qi.DrivenByGP__c=false;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					system.debug('ToroPricingProgram qis.Pricing_Program_Product_Type__c=' + qis.Pricing_Program_Product_Type__c);
 					if(qis.Pricing_Program_Product_Type__c == 'TPP') {
+						system.debug('ToroPricingProgram qis.Quote_Item_Sub_Line__r.TPP_DNet__c=' + qis.Quote_Item_Sub_Line__r.TPP_DNet__c);
 						qis.DNet_Price__c = qis.Quote_Item_Sub_Line__r.TPP_DNet__c;	
 					}
 				}
@@ -1009,7 +1007,11 @@ public virtual class ToroPricingProgram {
 								} 
 								if(copyFromDNET) {
 									//system.debug('state of FL copyFromDNET=' + copyFromDNET);
-									qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+									if(qis.Pricing_Program_Product_Type__c == 'TPP') {
+										qis.DNet_Price__c = qis.Quote_Item_Sub_Line__r.TPP_DNet__c;	
+									} else {
+										qis.DNet_Price__c = ppl.REVVY__SuggestedPrice__c;
+									}
 								}
 								//system.debug('QIS ToroContractPriceListPPHelper--product Id='+qis.Product_Id__c + ' msrp = ' + qis.MSRP_Price__c + ' dnet =' + qis.DNet_Price__c);
 							}
