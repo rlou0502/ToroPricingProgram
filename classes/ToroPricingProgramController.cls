@@ -756,6 +756,9 @@ public class ToroPricingProgramController {
     	ToroPricingProgram pp = ToroPriceProgramFactory.getPricingProgramHelper(ppd.subType);
     	rs.allowSupportPlusIgnoreDNetAccess = pp.getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);
     	rs.allowSupportPlus = rs.allowSupportPlusIgnoreDNetAccess && rs.allowDNetAccess;
+    	system.debug(logginglevel.info,'allowSupportPlusIgnoreDNetAccess=' + rs.allowSupportPlusIgnoreDNetAccess);
+    	system.debug(logginglevel.info,'allowDNetAccess=' + rs.allowDNetAccess);
+    	system.debug(logginglevel.info,'allowSupportPlus=' + rs.allowSupportPlus);
     	//rs.allowSupportPlus = pp.getAllowSupportPlus(pricingProgram, quoteId);
 		rs.isSupportPlusValueDollars = pp.getIsSupportPlusValueDollars(pricingProgram);
 		rs.contractMessage = pp.displayContractMessage(pricingProgram);
@@ -815,6 +818,7 @@ public class ToroPricingProgramController {
     	
     	system.debug(logginglevel.info,'pricingProgram setup fee pp=' + pp);
     	system.debug(logginglevel.info,'pricingProgram setup fee pp=' + pp.displaySetupFee()); 
+    	system.debug(logginglevel.info,'rs =' + rs);
     	return rs;
     }
 
