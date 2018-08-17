@@ -110,11 +110,13 @@ public virtual class ToroPricingProgram {
 		return new List<ToroSelectOption>();
 	}
 
-	public virtual List<FieldSetMember> addUpdatableFieldSetMember(List<Schema.FieldSetMember> fieldSet, List<Schema.FieldSetMember> updatableFieldSet) {
+	public virtual List<FieldSetMember> addUpdatableFieldSetMember(List<Schema.FieldSetMember> fieldSet, List<Schema.FieldSetMember> updatableFieldSet, Map<String, Schema.SObjectField> fieldMap) {
 		set<String> updatableFields = new set<String>();
 		if(updatableFieldSet != null) {
 	    	for(Schema.FieldSetMember s : updatableFieldSet) {
-	    		updatableFields.add(s.fieldPath.toLowerCase());
+	    		if(fieldMap.get(s.fieldPath).getDescribe().isUpdateable()) {
+	    			updatableFields.add(s.fieldPath.toLowerCase());
+	    		}
 	    	}
 		}
 		system.debug('updatableFields='+updatableFields);

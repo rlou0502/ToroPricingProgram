@@ -34,6 +34,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug('ToroStateContractPricingProgramHelper preCalculateRebateMargin');
+		quoteItemList=super.preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
 		quoteItemList = loadMSRPPriceFromPricelist(priceProgram, quoteItemList);
 		return preCalculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
 	}

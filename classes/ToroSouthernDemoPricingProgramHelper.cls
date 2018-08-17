@@ -62,6 +62,7 @@ public with sharing class ToroSouthernDemoPricingProgramHelper  extends ToroPric
 	}
 	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){		
 		//Performance Part
+		quoteItemList=super.preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
 		Map<String, String> model2pp = loadModelIdChartABPricingProgramMap(priceProgram);
 		
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {

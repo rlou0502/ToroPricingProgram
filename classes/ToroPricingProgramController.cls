@@ -78,7 +78,7 @@ public class ToroPricingProgramController {
     	}
 
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getQuoteUpdatableFields();
-    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
+    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet, SObjectType.Revvy__MnQuote__c.fields.getMap());
     	rs.quote = pp.quote;
     	rs.allowSupportPlusIgnoreDNetAccess = pp.getAllowSupportPlusIgnoreDNetAccess(pricingProgram, quoteId);
     	rs.allowSupportPlus = rs.allowSupportPlusIgnoreDNetAccess && rs.allowDNetAccess;
@@ -771,7 +771,7 @@ public class ToroPricingProgramController {
     	}
 
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getQuoteUpdatableFields();
-    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
+    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet, SObjectType.Revvy__MnQuote__c.fields.getMap());
     	pp.initialize(quoteId);
     	system.debug(logginglevel.info,'pricingProgram setup fee=' + pp.quote.Setup_Fee__c);
     	if(pp.displaySetupFee() && pp.quote.Setup_Fee__c == null) {
@@ -838,11 +838,11 @@ public class ToroPricingProgramController {
     	system.debug('retrieveFieldSets = ' + fieldSet);
     	system.debug('retrieveFieldSets =  fieldSetSummary=' + fieldSetSummary);
     	List<Schema.FieldSetMember> updatableFieldSet = pp.getToroQuoteItemUpdatableFields();
-    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet);
+    	rs.fieldSetMembers = pp.addUpdatableFieldSetMember(fieldSet, updatableFieldSet, SObjectType.Revvy__MnStrategy4__c.fields.getMap());
     	List<Schema.FieldSetMember> updatableFieldSetSub = pp.getToroQuoteItemSublineUpdatableFields();
-    	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub);
+    	rs.fieldSetSubMembers = pp.addUpdatableFieldSetMember(fieldSetSub, updatableFieldSetSub, SObjectType.Revvy__MnStrategy5__c.fields.getMap());
     	List<Schema.FieldSetMember> updatableFieldSetSummary = pp.getToroQuoteItemSummaryUpdatableFields();
-    	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, updatableFieldSetSummary);
+    	rs.fieldSetSummaryMembers = pp.addUpdatableFieldSetMember(fieldSetSummary, updatableFieldSetSummary, SObjectType.Revvy__MnStrategy4__c.fields.getMap());
     	rs.demoPricingProgramOptions = pp.retrieveDemoPricingProgramOptions();
 
     	for ( Integer i = rs.fieldSetMembers.size() - 1; i >= 0; --i ) {
@@ -1111,8 +1111,8 @@ public class ToroPricingProgramController {
     	system.debug(logginglevel.info, 'getQuoteItemFields result=' + rs);
     	return rs;
     }
-
-    public static List<FieldSetMember> addUpdatableFieldSetMember(List<Schema.FieldSetMember> fieldSet, List<Schema.FieldSetMember> updatableFieldSet) {
+ 
+    public static List<FieldSetMember> addUpdatableFieldSetMember(List<Schema.FieldSetMember> fieldSet, List<Schema.FieldSetMember> updatableFieldSet, Map<String, Schema.SObjectField> fieldMap) {
 		set<String> updatableFields = new set<String>();
 		if(updatableFieldSet != null) {
 	    	for(Schema.FieldSetMember s : updatableFieldSet) {
