@@ -121,19 +121,19 @@
 
 							<aura:set attribute="else">
 								<aura:if isTrue="{!v.searchType == 'nontoro'}">
+									<div class="slds-form-element">
+										<div class="slds-form-element__control">
+											<ui:inputNumber class="slds-input has-required-field" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="MSRP" value="{!v.newItemMSRPPrice}" required="true"/>
+                                        </div>
+									</div>
 									<div class="slds-form-element slds-is-required">
 										<div class="slds-form-element__control">
-											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="MSRP" value="{!v.newItemMSRPPrice}" required="true"/>
+											<ui:inputNumber class="slds-input has-required-field" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="DNET" value="{!v.newItemDNetPrice}" required="true"/>
 										</div>
 									</div>
 									<div class="slds-form-element slds-is-required">
 										<div class="slds-form-element__control">
-											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_msrp" label="DNET" value="{!v.newItemDNetPrice}" required="true"/>
-										</div>
-									</div>
-									<div class="slds-form-element slds-is-required">
-										<div class="slds-form-element__control">
-											<ui:inputNumber class="slds-input" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_award" label="Award" value="{!v.newItemAwardPrice}" required="true"/>
+											<ui:inputNumber class="slds-input has-required-field" labelClass="slds-form-element__label slds-text-title_caps" aura:id="sp_award" label="Award" value="{!v.newItemAwardPrice}" required="true"/>
 										</div>
 									</div>
 								</aura:if>

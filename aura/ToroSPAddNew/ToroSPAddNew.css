@@ -1,0 +1,9 @@
+.THIS span.required{
+    color:#c23934;
+}
+
+.THIS .has-required-field {
+    border-left: 2px solid red;
+    padding-right: 2px;
+    padding-left: 2px;
+}

@@ -83,9 +83,9 @@
         cmp.set('v.wasAutoCompleted', true);
     },
     addNewSupportPlusItem: function(cmp, event, helper) {
-        console.log('ToroSPAddNewController:addNewSupportPlusItem');
-        if(cmp.get('v.newItemProductId') != '' && cmp.get('v.newItemDNetPrice')  != '' && cmp.get('v.newItemMSRPPrice')  != ''
-           && cmp.get('v.newItemAwardPrice') != '') {
+        console.log('--- ToroSPAddNewController:addNewSupportPlusItem');
+        if(cmp.get('v.newItemDNetPrice')  != null && cmp.get('v.newItemMSRPPrice')  != null && cmp.get('v.newItemAwardPrice') != null) {
+	        console.log('--- ToroSPAddNewController:addNewSupportPlusItem 222');
             var cmpEvent = cmp.getEvent("addNew");
             cmpEvent.setParams({
                 'newItemProductId'                : cmp.get('v.newItemProductId'),
