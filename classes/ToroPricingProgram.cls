@@ -57,6 +57,7 @@ public virtual class ToroPricingProgram {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.Pricing_Program_Quote_Header_Fields.getFields();
 	}
 	public virtual List<Schema.FieldSetMember> getQuoteUpdatableFields() {
+		Map<String, Schema.SObjectField> fieldMap = SObjectType.Revvy__MnQuote__c.fields.getMap();
 		return SObjectType.Revvy__MnQuote__c.FieldSets.Quote_Header_Updatable_Fields.getFields();
 	}
 /* 	for quote item /subline extensions */
