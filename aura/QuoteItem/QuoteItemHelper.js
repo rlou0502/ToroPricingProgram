@@ -335,7 +335,8 @@
                 cellErrorMsg.id= "sfdcid-"+sObj["Id"];
                 cellErrorMsg.className += "  validation-error sfdcid-"+sObj["Id"];
                 if(lineType == "TractionUnit") {
-                	cellErrorMsg.className += "tu";  
+                	cellErrorMsg.className += "tu"; 
+                    cellErrorMsg.id += "tu";
                 }
                 
                 if(lineType != "MainLine") {
@@ -972,8 +973,11 @@
                             invalidElm.style.display="block";
                         }
                          
-                        if(!foundInvalid) {
+                        if(!foundInvalid) {                         
                         	loc=cls;
+                            if(clsList.contains('TractionUnit')) {
+                            	loc += 'tu';    
+                            }
                             foundInvalid=true;
                         }
                     } else {
