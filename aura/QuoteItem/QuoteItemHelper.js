@@ -334,6 +334,7 @@
                 var cellErrorMsg = document.createElement('div');
                 cellErrorMsg.id= "sfdcid-"+sObj["Id"];
                 cellErrorMsg.className += "  validation-error sfdcid-"+sObj["Id"];
+                cellErrorMsg.dataset.qi = quoteItemId ? quoteItemId : sObj["Id"];
                 var msg = $A.get("$Label.c.PP_Validation_Error_Message");
                 cellErrorMsg.innerHTML = msg;
                 tableData.appendChild(cellErrorMsg);
@@ -977,12 +978,20 @@
                 //document.getElementById(loc).closest('.collapsible').style.display;
                 var elm = document.getElementById(loc);
                 if(elm) {
-                    if(elm.closest('.collapsible').style.display == "none"){
-                    	elm.closest('.collapsible').style.display = "";    
-                    }  
+                    var qi = elm.dataset.qi;
+                    var nodeList = document.querySelectorAll(".collapsible."+qi);
+                    for(var index=0; index < nodeList.length; index++ ) {          
+                        if(nodeList[index].style.display == "none") {
+                            nodeList[index].style.display=""; 
+                        } 
+                    }
                 }
               
-            	document.getElementById(loc).scrollIntoView(false);
+            	document.getElementById(loc).scrollIntoView({
+                        behavior: 'auto',
+                        block: 'center',
+                        inline: 'center'
+                    });
             }
             self.hideSpinner();
             return false;
