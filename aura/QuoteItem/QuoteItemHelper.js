@@ -334,7 +334,13 @@
                 var cellErrorMsg = document.createElement('div');
                 cellErrorMsg.id= "sfdcid-"+sObj["Id"];
                 cellErrorMsg.className += "  validation-error sfdcid-"+sObj["Id"];
-                cellErrorMsg.dataset.qi = quoteItemId ? quoteItemId : sObj["Id"];
+                if(lineType == "TractionUnit") {
+                	cellErrorMsg.className += "tu";  
+                }
+                
+                if(lineType != "MainLine") {
+                	cellErrorMsg.dataset.qi = quoteItemId ? quoteItemId : sObj["Id"];
+                }
                 var msg = $A.get("$Label.c.PP_Validation_Error_Message");
                 cellErrorMsg.innerHTML = msg;
                 tableData.appendChild(cellErrorMsg);
@@ -961,14 +967,21 @@
                 if(cls.startsWith("sfdcid-")) {
                     if(!elm.value) { 
                         invalid = true;
-                        var invalidElm = document.querySelector(".validation-error."+cls);
-                        invalidElm.style.display="block"; 
+                        var invalidElm = elm.closest("td").querySelector(".validation-error");
+                        if(invalidElm) {
+                            invalidElm.style.display="block";
+                        }
+                         
                         if(!foundInvalid) {
                         	loc=cls;
                             foundInvalid=true;
                         }
                     } else {
-                        document.querySelector(".validation-error."+cls).style.display="none";
+                        //document.querySelector(".validation-error."+cls).style.display="none";
+                        var invalidElm = elm.closest("td").querySelector(".validation-error");
+                        if(invalidElm) {
+                            invalidElm.style.display="none";
+                        }
                     }
                 }
             }
@@ -979,11 +992,20 @@
                 var elm = document.getElementById(loc);
                 if(elm) {
                     var qi = elm.dataset.qi;
-                    var nodeList = document.querySelectorAll(".collapsible."+qi);
-                    for(var index=0; index < nodeList.length; index++ ) {          
-                        if(nodeList[index].style.display == "none") {
-                            nodeList[index].style.display=""; 
-                        } 
+                    if(qi) {
+                        //only expand the row if it is not a main line
+                        var parentQi = document.getElementById(qi);
+                        if(parentQi){
+                            if(parentQi.firstChild && parentQi.firstChild.firstChild) {
+                                parentQi.firstChild.firstChild.classList.replace('right','bottom') ;    
+                            }                 	
+                        }
+                        var nodeList = document.querySelectorAll(".collapsible."+qi);
+                        for(var index=0; index < nodeList.length; index++ ) {          
+                            if(nodeList[index].style.display == "none") {
+                                nodeList[index].style.display=""; 
+                            } 
+                        }
                     }
                 }
               
