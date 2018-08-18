@@ -974,6 +974,14 @@
     	}
         if(invalid) {
             if(loc != null) {
+                //document.getElementById(loc).closest('.collapsible').style.display;
+                var elm = document.getElementById(loc);
+                if(elm) {
+                    if(elm.closest('.collapsible').style.display == "none"){
+                    	elm.closest('.collapsible').style.display = "";    
+                    }  
+                }
+              
             	document.getElementById(loc).scrollIntoView(false);
             }
             self.hideSpinner();
