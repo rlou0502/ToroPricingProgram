@@ -19,7 +19,7 @@
  *
  * See the Apex Language Reference for more information about Testing and Code Coverage.
  */
-@isTest
+@isTest 
 private class ToroPricingProgramControllerTest {
 	@testSetup static void setupData() {
 		ToroTestData.loadTestData();
@@ -141,7 +141,7 @@ private class ToroPricingProgramControllerTest {
     	ToroPricingProgramController.getQuoteHeaderFields('MarketSupportChartLargePackage;Large_Package', quote.Id);
     	ToroPricingProgramController.getQuoteItemFields('MarketSupportChartLargePackage;Large_Package', '% off MSRP', quote.Id, null);
     	ToroPricingProgramController.addUpdatableFieldSetMember(SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Summary_Cols.getFields(),
-    		SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields());
+    		SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Updatable_Cols.getFields(), SObjectType.Revvy__MnQuote__c.fields.getMap());
     
     }    
     static testMethod void myUnitTest3() {
