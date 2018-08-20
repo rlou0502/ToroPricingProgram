@@ -84,25 +84,4 @@ private class ToroLargePackagePricingProgramHelperTest {
 		Test.stopTest();
 	}
 	
-	@isTest static void test_method_three() {		
-		Profile p = [SELECT Id FROM Profile WHERE Name='Standard User']; 
-	    User u = new User(Alias = 'standt', Email='standarduser@test-toro.com', 
-	    			EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
-	      			LocaleSidKey='en_US', ProfileId = p.Id, 
-	      			TimeZoneSidKey='America/Los_Angeles', UserName='standarduser@test-toro.com');
-	    insert u;
-	    PermissionSet ps = [SELECT ID From PermissionSet WHERE Name = 'ToroCPQAdministrators'];
-	    system.debug(logginglevel.info, 'user id =' + u.Id);
-	    system.debug(logginglevel.info, 'user ps.Id =' + ps.Id);
-		insert new PermissionSetAssignment(AssigneeId = u.id, PermissionSetId = ps.Id );
-		Test.startTest();
-	    System.runAs(u) {       	
-			Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
-			ToroNonEligiblePricingProgram tlpp = new ToroNonEligiblePricingProgram();
-			ToroPricingProgramData ppd = new ToroPricingProgramData('MarketSupportChartLargePackage;Large_Package');
-			tlpp.initialize(quote.Id);
-			tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
-	    }
-		Test.stopTest();
-	}
 }
