@@ -212,7 +212,9 @@ public virtual class ToroPricingProgram {
 		}
 		return ret;
 	}
-
+	public virtual double defaultValueForReadOnlyField(double value) {
+		return value;
+	} 
 	public virtual List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug('ToroPricingProgram preCalculateRebateMargin');

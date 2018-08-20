@@ -194,27 +194,24 @@ public class ToroPricingProgramController {
 						//system.debug(logginglevel.info, '1 strVal =' + strVal);
 						//qi.PricingMethodValue__c=null;
 						if('PricingMethodValue__c'.equalsIgnoreCase(key)){
-							if(SObjectType.Revvy__MnStrategy4__c.fields.PricingMethodValue__c.isUpdateable()) {
-								qi.PricingMethodValue__c = strVal;
-								//system.debug(logginglevel.info, '3 pricingMethod =' + pricingMethod);
-								if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-					    			qi.Award_of_DN__c = string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-					    			//system.debug(logginglevel.info, '3 % of DNET =' + qi.Award_of_DN__c);
-					    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-					    			qi.Off_MSRP__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-					    			//system.debug(logginglevel.info, '3 qi.Off_MSRP__c =' + qi.Off_MSRP__c);
-					    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-					    			qi.Toro_Gross_Profit_Percent__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
-					    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-					    			//qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
-					    			qi.Total_Toro_Award__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
-					    		}
-							}
+							qi.PricingMethodValue__c = strVal;
+							//system.debug(logginglevel.info, '3 pricingMethod =' + pricingMethod);
+							if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Award_of_DN__c = string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
+				    			//system.debug(logginglevel.info, '3 % of DNET =' + qi.Award_of_DN__c);
+				    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Off_MSRP__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
+				    			//system.debug(logginglevel.info, '3 qi.Off_MSRP__c =' + qi.Off_MSRP__c);
+				    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+				    			qi.Toro_Gross_Profit_Percent__c =  string.isNotBlank(strVal) ? Double.valueOf(strVal) : null;
+				    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+				    			//qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
+				    			qi.Total_Toro_Award__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
+				    		}
 						} else if('Award_Price__c'.equalsIgnoreCase(key)){
 							//system.debug('---------------Award_Price__c =' + strVal);
-							if(SObjectType.Revvy__MnStrategy4__c.fields.Award_Price__c.isUpdateable()) {
-								qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
-							}
+	
+							qi.Award_Price__c = string.isNotBlank(strVal) ? decimal.valueOf(strVal) : null;
 	
 						} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
 							qi.Unit_Award_Overridden__c=false;
@@ -258,22 +255,18 @@ public class ToroPricingProgramController {
 								String strVal = (String)qisUpdateData.get(key);
 								if(string.isNotBlank(strVal)) {
 									if('PricingMethodValue__c'.equalsIgnoreCase(key)){
-										if(SObjectType.Revvy__MnStrategy5__c.fields.PricingMethodValue__c.isUpdateable()) {
-											qis.PricingMethodValue__c = strVal;
-											if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
-								    			qis.Percent_of_DNet__c = Double.valueOf(strVal);
-								    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
-								    			qis.Percent_Off_MSRP__c = Double.valueOf(strVal);
-								    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
-								    			qis.Gross_Profit_Percent__c = Double.valueOf(strVal);
-								    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
-								    			qis.Award_Price__c = decimal.valueOf(strVal);
-								    		}
-										}
+										qis.PricingMethodValue__c = strVal;
+										if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Percent_of_DNet__c = Double.valueOf(strVal);
+							    		} else if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Percent_Off_MSRP__c = Double.valueOf(strVal);
+							    		} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Gross_Profit_Percent__c = Double.valueOf(strVal);
+							    		} else if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+							    			qis.Award_Price__c = decimal.valueOf(strVal);
+							    		}
 									} else if('Award_Price__c'.equalsIgnoreCase(key)){
-										if(SObjectType.Revvy__MnStrategy5__c.fields.Award_Price__c.isUpdateable()) {
-											qis.Award_Price__c = decimal.valueOf(strVal);
-										}
+										qis.Award_Price__c = decimal.valueOf(strVal);
 									} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
 										qis.Unit_Award_Overridden__c = boolean.valueOf(strVal);
 									}

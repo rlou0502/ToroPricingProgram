@@ -322,6 +322,17 @@
                     if(field.fieldPath=="PricingMethodValue__c") {                       
                     	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
 						tableData.className += " align-right ";
+                        var hiddenField = document.createElement("INPUT");
+						hiddenField.type="hidden";
+                        hiddenField.value = sObj[field.fieldPath] != undefined ? sObj[field.fieldPath] : 0.0;
+                        hiddenField.className += " sfdcid-"+sObj["Id"];
+                		hiddenField.dataset.fieldname=field.fieldPath;
+                        if(lineType == "Subline") {
+                            hiddenField.dataset.parentquoteitem=quoteItemId;
+                        } else {
+                            hiddenField.dataset.quoteitem=sObj["Id"];
+                        }
+                        tableData.appendChild(hiddenField);
                     } 
                     if(dispVal != "NaN" && dispVal != undefined) {
                         cellText.innerHTML = dispVal;
@@ -1027,7 +1038,7 @@
         component.set('v.performancePart', performancePart);
         component.set('v.selectedPricingProgram', pricingProgram);
         
-        var quoteItems = document.querySelectorAll(".quoteItem input[type=text]");
+        var quoteItems = document.querySelectorAll(".quoteItem input[type=text],.quoteItem input[type=hidden]");
         for (var i=0; i<quoteItems.length; i++) {
             var qId = quoteItems[i].closest('tr').id;
             var qPricingProgram = quoteItems[i].closest('tr').dataset.pricingprogram;
