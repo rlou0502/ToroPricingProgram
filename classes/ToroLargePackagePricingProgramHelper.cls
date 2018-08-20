@@ -1,4 +1,4 @@
-public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
+public virtual class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 	public override List<Schema.FieldSetMember> getToroQuoteItemFields() {
 		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_Quote_Line_Cols.getFields();
 	}
@@ -42,7 +42,7 @@ public class ToroLargePackagePricingProgramHelper extends ToroPricingProgram {
 		return true;
 	}
 
-	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+	public virtual override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 			//Performance Part
 		quoteItemList=super.preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {

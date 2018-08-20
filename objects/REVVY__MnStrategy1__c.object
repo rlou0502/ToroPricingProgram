@@ -400,6 +400,11 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
                     <default>false</default>
                     <label>CMAS</label>
                 </value>
+                <value>
+                    <fullName>Not_Eligible</fullName>
+                    <default>false</default>
+                    <label>Not Eligible</label>
+                </value>
             </valueSetDefinition>
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
@@ -440,6 +445,10 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
             <valueSettings>
                 <controllingFieldValue>Support Chart</controllingFieldValue>
                 <valueName>Standard_Support_Chart</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Support Chart</controllingFieldValue>
+                <valueName>Not_Eligible</valueName>
             </valueSettings>
             <valueSettings>
                 <controllingFieldValue>Corporate Account</controllingFieldValue>
