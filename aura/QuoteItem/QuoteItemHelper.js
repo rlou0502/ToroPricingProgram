@@ -108,6 +108,10 @@
                 nodeList[index].style.display = "none";
                 
             }
+            if(nodeList[index].id=="QuoteItemSummary") {
+                var d = nodeList[index].style.display;
+                nodeList[++index].style.display = d;
+            }
         }
         
         /*
@@ -1104,6 +1108,10 @@
         var collapsibles = [];
         for(var index=0; index < nodeList.length; index++ ) {
             collapsibles[index] = nodeList[index].style.display;
+            if(nodeList[index].id=="QuoteItemSummary") {
+                var d = nodeList[index].style.display;
+                collapsibles[++index] = d;
+            }
         }
         component.set('v.collapsibles', collapsibles);
         component.set('v.chevronStatus', chevrons);
