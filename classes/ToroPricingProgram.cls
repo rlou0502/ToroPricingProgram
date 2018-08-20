@@ -212,9 +212,7 @@ public virtual class ToroPricingProgram {
 		}
 		return ret;
 	}
-	public virtual double defaultValueForReadOnlyField(double value) {
-		return value;
-	} 
+	
 	public virtual List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug('ToroPricingProgram preCalculateRebateMargin');
@@ -627,8 +625,8 @@ public virtual class ToroPricingProgram {
         quote.Total_Award__c = quoteTotalAward;
 
 		Decimal originalBlendedPercentOfDN = quote.Toro_Blended_Percent_of_DN__c;
-		if(quote.Toro_Rollup_DNET__c != null && quote.Toro_Rollup_DNET__c != 0) {
-			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Rollup_Award_Price__c) / quote.Toro_Rollup_DNET__c*100;
+		if(quote.Toro_Total_DNET__c != null && quote.Toro_Total_DNET__c != 0) {
+			quote.Toro_Blended_Percent_of_DN__c = CMnQuoteUtil.defaultDecimal(quote.Toro_Award__c) / quote.Toro_Total_DNET__c*100;
 		}
 
 		if (originalBlendedPercentOfDN == quote.Toro_Blended_Percent_of_DN__c) {
