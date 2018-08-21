@@ -96,6 +96,7 @@
     </fields>
     <fields>
         <fullName>Commission__c</fullName>
+        <description>Commission %</description>
         <externalId>false</externalId>
         <label>Commission %</label>
         <precision>18</precision>
@@ -694,7 +695,9 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Toro_Blended_Percent_of_DN__c</fullName>
+        <description>Toro Blended Percentage of Distributor Net Price</description>
         <externalId>false</externalId>
+        <inlineHelpText>Toro Blended Percentage of Distributor Net Price</inlineHelpText>
         <label>% of DN</label>
         <precision>18</precision>
         <required>false</required>
