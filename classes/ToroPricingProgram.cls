@@ -503,7 +503,15 @@ public virtual class ToroPricingProgram {
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;	
 						if(qis.Exclude_from_Rebate_F__c) {
 							qis.Rebate_as_of_DNet__c = 0;	
-						}						
+						}
+						
+						//qis.Toro_Extended_Award_Price__c = subExtAward;
+						qis.Toro_Fee_Amount__c = qis.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
+						//uncomment following line
+						qis.Extended_Award_Price__c += qis.Toro_Fee_Amount__c;
+						extFeeAmount += qis.Toro_Fee_Amount__c;
+						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);
+						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;						
 					} else {
 						//use TPP_DNet here
 						decimal lDNetPrice = getDNetPrice(qis);
@@ -513,30 +521,23 @@ public virtual class ToroPricingProgram {
 						qis.Extended_MSRP_Price__c = qis.MSRP_Price__c * extQty;
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;
 						qis.Extended_DNet_Price__c = lDNetPrice * extQty;
+						qis.Rebate_as_of_DNet__c = 0;
 					}
 
 					qis.Toro_Subline_Rebate__c = qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100;
-					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c == 'Standard')) {	
-						if(!qi.DrivenByGP__c) {
-							qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
-							if(qis.Extended_Award_Price__c != 0) {
-								qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;
-							}
-						} else {
-							if(qis.Extended_Award_Price__c != null && qis.Extended_Award_Price__c != 0) {
-								qis.Gross_Profit_Value__c = CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100*CMnQuoteUtil.defaultDecimal(qis.Extended_Award_Price__c);
-							}
+					if(!qi.DrivenByGP__c) {
+						qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
+						if(qis.Extended_Award_Price__c != 0) {
+							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;
 						}
-						
-						extRebate = extRebate + CMnQuoteUtil.defaultDecimal(qis.Toro_Subline_Rebate__c);
-						//qis.Toro_Extended_Award_Price__c = subExtAward;
-						qis.Toro_Fee_Amount__c = qis.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
-						//uncomment following line
-						qis.Extended_Award_Price__c += qis.Toro_Fee_Amount__c;
-						extFeeAmount += qis.Toro_Fee_Amount__c;
-						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);
-						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
-					} 
+					} else {
+						if(qis.Extended_Award_Price__c != null && qis.Extended_Award_Price__c != 0) {
+							qis.Gross_Profit_Value__c = CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100*CMnQuoteUtil.defaultDecimal(qis.Extended_Award_Price__c);
+						}
+					}
+					
+					extRebate = extRebate + CMnQuoteUtil.defaultDecimal(qis.Toro_Subline_Rebate__c);
+					
 					qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
 					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;

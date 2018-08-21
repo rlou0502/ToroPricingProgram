@@ -632,6 +632,7 @@ public class ToroPricingProgramController {
 
     			}
     			//List<Revvy__MnStrategy4__c> qis = pp.calculateRebateMargin(objId, ppd.externalId, so.value, pp.quoteItems,false);
+    			pp.quoteItems = pp.setDefaultFields(pp.quoteItems);
     			rs.selectedPricingMethod = so.value;
     			//rs.nextAction = 'calculation';
     			return ToroPricingProgramController.getQuoteItemFields(pricingProgram, so.value, objId, pp.quoteItems);
