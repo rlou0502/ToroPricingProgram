@@ -645,6 +645,10 @@
             var collapsibles = component.get('v.collapsibles');
             for(var index=0; index < nodeList.length; index++ ) {
                 nodeList[index].style.display=collapsibles[index];
+                if(nodeList[index].id=="QuoteItemSummary") {
+                    var d = nodeList[index].style.display;
+                    nodeList[++index].style.display = d;
+                }
             }            
             
             //console.log('----' + document.querySelector("tr#QuoteItem th.Product_Name__c").offsetWidth);        

@@ -714,7 +714,11 @@ public virtual class ToroPricingProgram {
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);
 	}
-
+	
+	public virtual List<Revvy__MnStrategy4__c> setDefaultFields(List<Revvy__MnStrategy4__c> quoteItemList){
+		return quoteItemList;
+	}
+	
 	public virtual boolean getQuoteLevelMSQPDNetEditable() {
 		return true;
 	}

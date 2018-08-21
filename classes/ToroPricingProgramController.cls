@@ -688,8 +688,9 @@ public class ToroPricingProgramController {
     			*/
     		}
 			
+			pp.quoteItems = pp.setDefaultFields(pp.quoteItems);
     		pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-    		
+    		pp.quoteItems = pp.setDefaultFields(pp.quoteItems);
     		rs.values =  pp.quoteItems;
     		rs.displaySetupFee=pp.displaySetupFee();
     		rs.displayPerformancePart = pp.displayPerformancePart();
