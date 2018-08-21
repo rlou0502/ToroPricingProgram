@@ -1077,7 +1077,7 @@
             console.log("qiData " + i + " =" + JSON.stringify(quoteItemsData));
             //
         }
-        var qiSublines = document.querySelectorAll(".quoteItemSubline  input[type=text]");
+        var qiSublines = document.querySelectorAll(".quoteItemSubline  input[type=text],.quoteItemSubline input[type=hidden]");
         for (var i=0; i<qiSublines.length; i++) {
             console.log(qiSublines[i].closest('tr').id + '---' + qiSublines[i].value);
             console.log("dataset.parentquoteitem =" + qiSublines[i].dataset.parentquoteitem + ' field name=' + qiSublines[i].dataset.fieldname);

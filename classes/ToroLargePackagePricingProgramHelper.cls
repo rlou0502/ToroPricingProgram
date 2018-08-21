@@ -19,7 +19,7 @@ public virtual class ToroLargePackagePricingProgramHelper extends ToroPricingPro
 		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Large_Package_QI_Summary_Updatable_Cols.getFields();
 	}
 //Large_Package_Quote_Line_Cols
-	public override List<ToroSelectOption> retrievePricingMethodOptions() {
+	public virtual override List<ToroSelectOption> retrievePricingMethodOptions() {
 		List<ToroSelectOption> ret = new List<ToroSelectOption>();
 		if (Schema.sObjectType.REVVY__MnPriceListLine__c.fields.REVVY__SuggestedPrice__c.isAccessible()) {
 			ret.add(new ToroSelectOption('% of DNET','% of DNET'));

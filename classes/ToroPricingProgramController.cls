@@ -644,8 +644,7 @@ public class ToroPricingProgramController {
     			system.debug('pricingMethod = ' + pricingMethod);
     			rs.selectedPricingMethod = string.isNotBlank(pricingMethod) ? pricingMethod : defaultPricingMethod;
     			system.debug('rs.selectedPricingMethod = ' + rs.selectedPricingMethod);
-    			list<Revvy__MnStrategy4__c> items = pp.quoteItems;
-    			for(Revvy__MnStrategy4__c qi : items) {
+    			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     				qi.Pricing_Program__c = pricingProgram;
     				qi.Select_a_Price_Method__c = rs.selectedPricingMethod;
     				qi.Off_MSRP__c=null;    				
@@ -678,19 +677,12 @@ public class ToroPricingProgramController {
 	    				}
     				}
     			}
-    			/*
-    			if(sublines.size() > 0) {
-    				update sublines;
-    			}
-    			if(items.size() > 0) {
-    				update items;
-    			}
-    			*/
     		}
 			
 			pp.quoteItems = pp.setDefaultFields(pp.quoteItems);
     		pp.quoteItems = pp.calculateExtendedFields(pp.quoteItems);
-    		pp.quoteItems = pp.setDefaultFields(pp.quoteItems);
+    		//pp.quoteItems = pp.setDefaultFields(pp.quoteItems);
+    		
     		rs.values =  pp.quoteItems;
     		rs.displaySetupFee=pp.displaySetupFee();
     		rs.displayPerformancePart = pp.displayPerformancePart();
