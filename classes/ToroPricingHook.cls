@@ -180,7 +180,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 		}
 		
         update qt;
-        
+        //double t = 3/0;
         return qis;
     }
      
