@@ -62,10 +62,7 @@ public virtual class ToroLargePackagePricingProgramHelper extends ToroPricingPro
 		return 	quoteItemList;
 	}
 
-
-
-
-	public override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,
+	public virtual override List<Revvy__MnStrategy4__c> calculateRebateMarginImpl(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug(logginglevel.info, 'checkpoint 1 pp='+ priceProgram + ' pm=' + priceMethod);
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
