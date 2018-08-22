@@ -204,7 +204,7 @@
             if(!isMainLine && (pricingMethod == "Total Award $")  && field.fieldPath=="PricingMethodValue__c") {
             	totalAwardUpdatable = false;
                 if(pricingMethod == "Total Award $") {
-                	//sObj["PricingMethodValue__c"]="";
+                	sObj["PricingMethodValue__c"]="";
                 }
             }   
             console.log('readOnly falg=' + readOnlyFlag);
@@ -238,7 +238,9 @@
                         case "Gross Profit %":
                             tableDataNode.value = sObj["Blended_GP__c"] != undefined ? self.formatPercentWithDecimal(sObj["Blended_GP__c"], decimalPoint) : '';
                             break;
-                        
+                        case "Total Award $":
+                            tableDataNode.value = sObj["Total_Toro_Award__c"] != undefined ? self.formatPercentWithDecimal(sObj["Total_Toro_Award__c"], decimalPoint) : '';
+                            break;
                         default:
                         	break;    
                     }
@@ -324,20 +326,22 @@
                    } 
                 } else if(field.type.toLowerCase() === 'string') {
                     var dispVal = sObj[field.fieldPath];
-                    if(field.fieldPath=="PricingMethodValue__c") {                       
-                    	dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
-						tableData.className += " align-right ";
-                        var hiddenField = document.createElement("INPUT");
-						hiddenField.type="hidden";
-                        hiddenField.value = sObj[field.fieldPath] != undefined ? sObj[field.fieldPath] : 0.0;
-                        hiddenField.className += " sfdcid-"+sObj["Id"];
-                		hiddenField.dataset.fieldname=field.fieldPath;
-                        if(lineType == "Subline") {
-                            hiddenField.dataset.parentquoteitem=quoteItemId;
-                        } else {
-                            hiddenField.dataset.quoteitem=sObj["Id"];
+                    if(field.fieldPath=="PricingMethodValue__c") {
+                        if(pricingMethod != "Total Award $") {
+                            dispVal = parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 4, maximumFractionDigits: 4});  
+                            tableData.className += " align-right ";
+                            var hiddenField = document.createElement("INPUT");
+                            hiddenField.type="hidden";
+                            hiddenField.value = sObj[field.fieldPath] != undefined ? sObj[field.fieldPath] : 0.0;
+                            hiddenField.className += " sfdcid-"+sObj["Id"];
+                            hiddenField.dataset.fieldname=field.fieldPath;
+                            if(lineType == "Subline") {
+                                hiddenField.dataset.parentquoteitem=quoteItemId;
+                            } else {
+                                hiddenField.dataset.quoteitem=sObj["Id"];
+                            }
+                            tableData.appendChild(hiddenField);
                         }
-                        tableData.appendChild(hiddenField);
                     } 
                     if(dispVal != "NaN" && dispVal != undefined) {
                         cellText.innerHTML = dispVal;
@@ -1061,7 +1065,9 @@
                 quoteItemsData[qId]={};
             }
             var qiData = quoteItemsData[qId];
-            qiData[fieldname] = value;
+            if((value != undefined && value != "") || (quoteItems[i].type == "hidden" && (value != undefined && value != ""))) {
+            	qiData[fieldname] = value;
+            }
             if(qPricingProgram !== undefined) {
             	qiData["Pricing_Program__c"] = qPricingProgram;
             }
