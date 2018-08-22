@@ -26,17 +26,13 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 	public override List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() { 
 		return null;
 	}
-	public virtual List<Revvy__MnStrategy4__c> preCalculateRebateMarginImpl(Id quoteId, String priceProgram,
-															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
-		
-		return 	quoteItemList;
-	}
-	public override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
+	
+	public virtual override List<Revvy__MnStrategy4__c> preCalculateRebateMargin(Id quoteId, String priceProgram,
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 		system.debug('ToroStateContractPricingProgramHelper preCalculateRebateMargin');
 		quoteItemList=super.preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
 		quoteItemList = loadMSRPPriceFromPricelist(priceProgram, quoteItemList);
-		return preCalculateRebateMarginImpl(quoteId, priceProgram, priceMethod, quoteItemList);
+		return quoteItemList;
 	}
 	public virtual List<Revvy__MnStrategy4__c> baseCalculateImplementation(Id quoteId, String priceProgram, 
 															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
