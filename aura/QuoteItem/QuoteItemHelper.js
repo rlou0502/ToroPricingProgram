@@ -238,6 +238,10 @@
                         case "Gross Profit %":
                             tableDataNode.value = sObj["Blended_GP__c"] != undefined ? self.formatPercentWithDecimal(sObj["Blended_GP__c"], decimalPoint) : '';
                             break;
+                        case "Total Award $":
+                            tableDataNode.value = sObj["Total_Award__c"] != undefined ? self.formatPercentWithDecimal(sObj["Total_Award__c"], decimalPoint) : '';
+                            break;
+                            
                         default:
                         	break;    
                     }
