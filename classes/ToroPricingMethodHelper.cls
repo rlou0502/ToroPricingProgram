@@ -407,9 +407,9 @@ public with sharing class ToroPricingMethodHelper {
 				}	
 			}	
 			
-			if(!qi.Off_MSRP_Overridden__c) {
-				continue;	
-			}
+			//if(!qi.Off_MSRP_Overridden__c) {
+			//	continue;	
+			//}
 			system.debug('distributeQuoteItemTotalAwardDollors -----');
 			decimal qiExtDNet = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
 			system.debug('distributeQuoteItemTotalAwardDollors -----');
@@ -436,9 +436,11 @@ public with sharing class ToroPricingMethodHelper {
 		
 		
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
-			if(!qi.Off_MSRP_Overridden__c) {
-				continue;	
-			}
+			//if(!qi.Off_MSRP_Overridden__c) {
+			//	continue;	
+			//}
+			
+			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.Total_Toro_Award__c  =' + qi.Total_Toro_Award__c);
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.PricingMethodValue__c  =' + qi.PricingMethodValue__c);
 			decimal totalAwardPrice = String.isNotBlank(qi.PricingMethodValue__c) ? decimal.valueOf(qi.PricingMethodValue__c) : 0;
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors totalAwardPrice  =' + totalAwardPrice);
