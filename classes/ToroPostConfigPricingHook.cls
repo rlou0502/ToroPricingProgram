@@ -114,6 +114,6 @@ global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConf
 			Revvy__MnQuote__c qt = new Revvy__MnQuote__c(Id=qtId,Is_Dirty__c=true);
 			update qt;
         }
-       
+        //double t = 3/0;
 	}   
 }
