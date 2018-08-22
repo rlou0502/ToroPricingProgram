@@ -1,6 +1,7 @@
 global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin  {
 	public static List<Revvy__MnQuoteItem__c> preQuoteItemsCreationHook(Revvy__MnQuote__c qt, List<Revvy__MnQuoteItem__c> qis) {
         system.debug('--- ToroPricingHook preQuoteItemsCreationHook');
+    
         return qis;
     }
     public static Map<String, Decimal> productSearchPriceHook(Revvy.CMnPricingParams pricingParams, Map<String, Decimal> prodsMap) {
@@ -47,6 +48,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
         system.debug('--- ToroPricingHook productSearchPriceHook boakCreekMsrp =' + boakCreekMsrp);
         system.debug('--- ToroPricingHook productSearchPriceHook psegment =' + psegment);
         system.debug('--- ToroPricingHook productSearchPriceHook prodsMap.keySet =' + prodsMap.keyset());
+        system.debug('--- ToroPricingHook productSearchPriceHook dpriceDate =' + dpriceDate);
 			
 			Map<String,REVVY__MnPriceListLine__c> plMap = new Map<String,REVVY__MnPriceListLine__c>();
 			for(REVVY__MnPriceListLine__c pll:[Select REVVY__Id__c, REVVY__PriceList__r.REVVY__Segment__c, REVVY__PriceList__c
@@ -54,8 +56,8 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 			             From REVVY__MnPriceListLine__c
 			             where REVVY__Product_Id__c in :prodsMap.KeySet()
 			               And REVVY__PriceList__r.REVVY__Segment__c = :psegment
-                           And REVVY__Start_Date__c >= :dpriceDate
-                           And REVVY__End_Date__c <= :dpriceDate                    
+                           And REVVY__Start_Date__c <= :dpriceDate
+                           And REVVY__End_Date__c >= :dpriceDate                    
 			             ]) {
 				plMap.put(pll.REVVY__Product_Id__c, pll);
 			}
@@ -67,16 +69,17 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 					Decimal damount = (pll.REVVY__ListedPrice__c / exchangeRate) * conversionRate;
 					if(boakCreekMsrp && distSegmentSet.contains(psegment.toLowerCase()) && 'OakCreek'.equalsIgnoreCase(psegment)) {
 						damount = (pll.REVVY__ListedPrice__c / exchangeRate) * conversionRate;
+				        system.debug('--- ToroPricingHook 111 productSearchPriceHook damount =' + damount + ' - prodName = '+ prodName);
 					} else if(!boakCreekMsrp && distSegmentSet.contains(psegment.toLowerCase()) && 'OakCreek'.equalsIgnoreCase(psegment)) {				
 						damount = (pll.REVVY__FloorPrice__c / exchangeRate) * conversionRate;
+				        system.debug('--- ToroPricingHook 222 productSearchPriceHook damount =' + damount + ' - prodName = '+ prodName);
 					}
-			        system.debug('--- ToroPricingHook productSearchPriceHook damount =' + damount);
 					prodsMap.put(prodName,damount);
 				}	        	
 	        }
 			
         
-        
+        //system.debug(3/0);
         return prodsMap;
     }
     public static Decimal productDetailPriceHook(Revvy.CMnPricingParams pricingParams, String productId, Decimal currPrice) {
