@@ -159,13 +159,16 @@ public with sharing class ToroPricingMethodHelper {
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);	
 						System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet --DNet=' + qis.DNet_Price__c + ' MSRP=' + qis.MSRP_Price__c);
 						qis.Toro_Extended_Qty__c = extQty;
-						if(!qis.Exclude_from_Rebate_F__c) {
-							if(qis.Percent_of_DNet__c == null) {
-								qis.Percent_of_DNet__c = qi.Award_of_DN__c;
-								//qis.PricingMethodValue__c = string.valueOf(qis.Percent_of_DNet__c);
-							}
+						qis.Toro_DNet_Price__c  = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
+						if(qis.Percent_of_DNet__c == null) {
+							qis.Percent_of_DNet__c = qi.Award_of_DN__c;
+							//qis.PricingMethodValue__c = string.valueOf(qis.Percent_of_DNet__c);
+						}
+						if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
+							
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet --' + qis.Percent_of_DNet__c);
-							qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));
+							//qis.Toro_DNet_Price__c  = (qis.Product_Id__c.startsWith('TPP')) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c)) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c));
+							
 							qis = setDNetAwardPrice(qis);
 							System.debug(logginglevel.info, 'calculateBlendedDNetPercentFromDNet -- qis.Award_Price__c' + (qis.Award_Price__c*extQty) + ' qis.MSRP_Price__c =' + qis.MSRP_Price__c +'-----'+qis.product_Id__c);
 							if(qis.MSRP_Price__c!= null && qis.MSRP_Price__c !=0) {
@@ -339,7 +342,7 @@ public with sharing class ToroPricingMethodHelper {
 				}
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-						if(!qis.Exclude_from_Rebate_F__c && qis.Gross_Profit_Percent__c != null) {
+						if(!qis.Exclude_from_Rebate_F__c && qis.Gross_Profit_Percent__c != null || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
 							qis.Percent_of_DNet__c = lookupDNetPercentFromGPPercent(qi.Pricing_Program__c, qis.Gross_Profit_Percent__c);
 							system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qis.Percent_of_DNet__c=' +qis.Percent_of_DNet__c);
 							qis = setDNetAwardPrice(qis);
@@ -364,7 +367,7 @@ public with sharing class ToroPricingMethodHelper {
 			qi.Extended_DNet_Price__c = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate_F__c) {
+					if(!qis.Exclude_from_Rebate_F__c|| (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
 						if(qis.DNet_Price__c != null && qis.DNet_Price__c != 0) {
 							qis.Percent_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c) / qis.DNet_Price__c * 100;
 						}
@@ -418,7 +421,7 @@ public with sharing class ToroPricingMethodHelper {
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.Total_Toro_DNET__c  =' + qi.Total_Toro_DNET__c);
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate_F__c) {
+					if(!qis.Exclude_from_Rebate_F__c|| (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
 						qis.Toro_Extended_Qty__c = extQty;
@@ -454,7 +457,7 @@ public with sharing class ToroPricingMethodHelper {
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi product   =' + qi.product_name__c + 'qi product id   =' + qi.product_id__c + ' qi.Award_Price__c=' + qi.Award_Price__c);
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate_F__c) {
+					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
 						try {
@@ -484,7 +487,7 @@ public with sharing class ToroPricingMethodHelper {
 			qi.Extended_DNet_Price__c = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate_F__c) {
+					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
 						qis.Toro_Extended_Qty__c = extQty;
@@ -518,7 +521,7 @@ public with sharing class ToroPricingMethodHelper {
 			system.debug(logginglevel.info, 'distributeTotalAwordDollors qi product   =' + qi.product_name__c + 'qi product id   =' + qi.product_id__c + ' qi.Award_Price__c=' + qi.Award_Price__c);
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					if(!qis.Exclude_from_Rebate_F__c) {
+					if(!qis.Exclude_from_Rebate_F__c|| (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
 						
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
