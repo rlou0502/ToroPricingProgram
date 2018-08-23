@@ -477,14 +477,19 @@ public virtual class ToroPricingProgram {
 
                 qi.Total_Toro_Award__c=0;
             }
-
+			decimal qisRollupTPPAppliedDNet = 0;
+			decimal qisRollupToroDNet = 0;
+			decimal qisRollupTPPAppliedMSRP = 0;
+			decimal qisRollupToroMSRP = 0;
+        	decimal qisRollupTPPAppliedAward = 0;
+			decimal qisRollupToroAward = 0;
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				decimal qisRollupTPPAppliedDNet = 0;
-				decimal qisRollupToroDNet = 0;
-				decimal qisRollupTPPAppliedMSRP = 0;
-				decimal qisRollupToroMSRP = 0;
-	        	decimal qisRollupTPPAppliedAward = 0;
-				decimal qisRollupToroAward = 0;
+				qisRollupTPPAppliedDNet = 0;
+				qisRollupToroDNet = 0;
+				qisRollupTPPAppliedMSRP = 0;
+				qisRollupToroMSRP = 0;
+	        	qisRollupTPPAppliedAward = 0;
+				qisRollupToroAward = 0;	
 				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					//final Decimal extQty = CMnQuoteUtil.defaultDecimal(qi.Quantity__c) * CMnQuoteUtil.defaultDecimal(qis.Quantity__c);
 					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
@@ -543,9 +548,8 @@ public virtual class ToroPricingProgram {
 						system.debug(logginglevel.info,'====% off msrp =' +qis.Percent_Off_MSRP__c  + ' qis.Off_MSRP__c=' + qis.PricingMethodValue__c);
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
 					//} 
-					qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
-					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
-					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
+					
+					
 					system.debug('check total award for each qi -- 1 qi.Total_Toro_Award__c= ' + qi.Total_Toro_Award__c + ' qiTPPAppliedAward='+qiTPPAppliedAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_MSRP__c = qiTotalMSRP + qisRollupToroMSRP+ qisRollupTPPAppliedMSRP;
 					qi.Total_Toro_MSRP__c = qi.Total_MSRP__c - qisRollupTPPAppliedMSRP - qiTPPAppliedMSRP;
@@ -556,8 +560,9 @@ public virtual class ToroPricingProgram {
 					}
 				}
 			}
-
-
+			qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
+			system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
+			qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
 			qi.Toro_Total_Setup_Fees__c = extFeeAmount;
 			qi.Toro_Total_Rebate__c = extRebate;
 			//qi.Toro_Total_Extended_Award_Price__c = extAward;
