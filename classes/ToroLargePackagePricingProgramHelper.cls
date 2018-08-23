@@ -88,7 +88,7 @@ public virtual class ToroLargePackagePricingProgramHelper extends ToroPricingPro
 				if(qi.Award_of_DN__c != null) {
 					if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-							decimal dnet = (qis.TPP_Line_Item__c == true) ? CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) : CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
+							decimal dnet =  CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c);
 							if(qis.MSRP_Price__c != null && qis.MSRP_Price__c != 0) {
 								qis.Percent_Off_MSRP__c = ((qis.MSRP_Price__c-qis.Award_Price__c)/qis.MSRP_Price__c)*100;
 							}

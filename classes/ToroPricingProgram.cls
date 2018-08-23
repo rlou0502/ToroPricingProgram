@@ -313,7 +313,28 @@ public virtual class ToroPricingProgram {
 		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		lQuoteItemList = postCalculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			System.debug('check award price - qi.award_price__c=' + qi.award_price__c);
+				
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					System.debug('check award price - qis.award_price__c=' + qis.award_price__c);
+				}
+			}				
+		}
+			
 		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
+		
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			System.debug('check award price - qi.award_price__c=' + qi.award_price__c);
+				
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					System.debug('check award price - qis.award_price__c=' + qis.award_price__c);
+				}
+			}				
+		}
+		
 		quote.Is_Dirty__c = false;
 		ToroCacheManager.putQuote(quote);
 		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
@@ -327,7 +348,16 @@ public virtual class ToroPricingProgram {
 			lQuoteItemList = postSaveQuoteItemList(quoteId, priceProgram, priceMethod, lQuoteItemList);
 			ToroCacheManager.refreshQuote(quote.Id);
 		}
-
+		
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			System.debug('check award price - qi.award_price__c=' + qi.award_price__c + ' PricingMethodValue__c=' + qi.PricingMethodValue__c);
+				
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					System.debug('check award price - qis.award_price__c=' + qis.award_price__c + ' PricingMethodValue__c=' + qis.PricingMethodValue__c);
+				}
+			}				
+		}
 		// ToroCacheManager.putQuote(quote);
 		system.debug(logginglevel.info,'calling saveQuoteItemList took ' + (System.limits.getCpuTime()-perfStart));
 		return lQuoteItemList;
