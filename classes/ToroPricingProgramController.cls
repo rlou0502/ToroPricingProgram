@@ -986,6 +986,18 @@ public class ToroPricingProgramController {
     	if(quoteItemList != null && quoteItemList.size() != 0) {
     		pp.quoteItems = quoteItemList;
     	}
+    	if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
+    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+    			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);	
+    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+						qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c);	
+					}
+    			}
+				
+			}
+    	}
+    	
 		List<ToroSelectOption> options = pp.retrievePricingMethodOptions();
 		rs.pricingMethodOptions = options;
 		if(String.isBlank(pricingMethod)) {
