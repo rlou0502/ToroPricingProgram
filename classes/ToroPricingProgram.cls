@@ -432,7 +432,7 @@ public virtual class ToroPricingProgram {
 
 			qiTotalDNet = qiToroDNet + qiTPPAppliedDNet;
 			qiTotalMSRP = qiToroMSRP + qiTPPAppliedMSRP;
-			qiTotalAward = qiToroAward + qiTPPAppliedAward;
+			qiTotalAward = qiToroAward.setScale(3, System.RoundingMode.HALF_UP) + qiTPPAppliedAward.setScale(3, System.RoundingMode.HALF_UP);
 
 			//Non Toro Indra
             //if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {
@@ -494,10 +494,12 @@ public virtual class ToroPricingProgram {
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					qis.TPP_DNet__c = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
 					qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c);
+					system.debug('check total award for each qi -- 1 qis.Award_Price__c= ' + qis.Award_Price__c);
 					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP')))  {						
 						qisRollupToroDNet += qis.DNet_Price__c * extQty;
 						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
-						qisRollupToroAward += qis.Award_Price__c * extQty;													
+						qisRollupToroAward += qis.Award_Price__c * extQty;	
+						qisRollupToroAward = qisRollupToroAward.setScale(3, System.RoundingMode.HALF_UP);												
 						qis.Extended_MSRP_Price__c = qis.MSRP_Price__c * extQty;
 						qis.Extended_DNet_Price__c = qis.DNet_Price__c * extQty;
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;	
@@ -509,7 +511,8 @@ public virtual class ToroPricingProgram {
 						decimal lDNetPrice = getDNetPrice(qis);
 						qisRollupTPPAppliedDNet += lDNetPrice * extQty;
 						qisRollupTPPAppliedMSRP += qis.MSRP_Price__c * extQty;
-						qisRollupTPPAppliedAward += qis.Award_Price__c * extQty;							
+						qisRollupTPPAppliedAward += qis.Award_Price__c * extQty;
+						qisRollupTPPAppliedAward = qisRollupTPPAppliedAward.setScale(3, System.RoundingMode.HALF_UP);							
 						qis.Extended_MSRP_Price__c = qis.MSRP_Price__c * extQty;
 						qis.Extended_Award_Price__c = qis.Award_Price__c * extQty;
 						qis.Extended_DNet_Price__c = lDNetPrice * extQty;
@@ -543,8 +546,10 @@ public virtual class ToroPricingProgram {
 						//qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * qis.Percent_of_DNet__c/100;
 					//} 
 					qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
+					qi.Total_Award__c = qi.Total_Award__c.setScale(3, System.RoundingMode.HALF_UP);
 					system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
+					qi.Total_Toro_Award__c = qi.Total_Toro_Award__c.setScale(3, System.RoundingMode.HALF_UP);
 					system.debug('check total award for each qi -- 1 qi.Total_Toro_Award__c= ' + qi.Total_Toro_Award__c + ' qiTPPAppliedAward='+qiTPPAppliedAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
 					qi.Total_MSRP__c = qiTotalMSRP + qisRollupToroMSRP+ qisRollupTPPAppliedMSRP;
 					qi.Total_Toro_MSRP__c = qi.Total_MSRP__c - qisRollupTPPAppliedMSRP - qiTPPAppliedMSRP;

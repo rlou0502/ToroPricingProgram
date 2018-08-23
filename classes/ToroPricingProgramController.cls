@@ -312,10 +312,10 @@ public class ToroPricingProgramController {
 		    	system.debug(logginglevel.info, 'pricingMethod =' + pricingMethod);
 		    	if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
 		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-		    			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);	
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c.setScale(2, System.RoundingMode.HALF_UP));	
 		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-								qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c);	
+								qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c.setScale(2, System.RoundingMode.HALF_UP));	
 							}
 		    			}
 						
@@ -323,10 +323,10 @@ public class ToroPricingProgramController {
 		    	}
 		    	if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
 		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-		    			qi.PricingMethodValue__c = String.valueOf(qi.Toro_Gross_Profit_Percent__c);	
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Toro_Gross_Profit_Percent__c.setScale(4, System.RoundingMode.HALF_UP));	
 		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-								qis.PricingMethodValue__c = String.valueOf(qis.Gross_Profit_Percent__c);	
+								qis.PricingMethodValue__c = String.valueOf(qis.Gross_Profit_Percent__c.setScale(4, System.RoundingMode.HALF_UP));	
 							}
 		    			}
 						
@@ -334,10 +334,10 @@ public class ToroPricingProgramController {
 		    	}
 		    	if ('% of DNET'.equalsIgnoreCase(pricingMethod)) {
 		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-		    			qi.PricingMethodValue__c = String.valueOf(qi.Award_of_DN__c);	
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Award_of_DN__c.setScale(4, System.RoundingMode.HALF_UP));	
 		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-								qis.PricingMethodValue__c = String.valueOf(qis.Percent_of_DNet__c);	
+								qis.PricingMethodValue__c = String.valueOf(qis.Percent_of_DNet__c.setScale(4, System.RoundingMode.HALF_UP));	
 							}
 		    			}
 						
@@ -345,10 +345,10 @@ public class ToroPricingProgramController {
 		    	}
 		    	if ('% off MSRP'.equalsIgnoreCase(pricingMethod)) {
 		    		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
-		    			qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);	
+		    			qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c.setScale(4, System.RoundingMode.HALF_UP));	
 		    			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 							for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-								qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c);	
+								qis.PricingMethodValue__c = String.valueOf(qis.Percent_Off_MSRP__c.setScale(4, System.RoundingMode.HALF_UP));	
 							}
 		    			}
 						
