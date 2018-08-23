@@ -988,6 +988,9 @@ public class ToroPricingProgramController {
     	}
     	if ('Total Award $'.equalsIgnoreCase(pricingMethod)) {
     		for(Revvy__MnStrategy4__c qi : pp.quoteItems) { 
+    			system.debug(logginglevel.info, 'getQuoteItemFields award=' + qi.award_price__c);
+    			system.debug(logginglevel.info, 'getQuoteItemFields qi.Total_Toro_Award__c=' + qi.Total_Toro_Award__c);
+    			system.debug(logginglevel.info, 'getQuoteItemFields qi.Total_Award__c=' + qi.Total_Award__c);
     			if(qi.Total_Toro_Award__c != null) {
     				qi.PricingMethodValue__c = String.valueOf(qi.Total_Toro_Award__c);	
     			}
@@ -1060,6 +1063,11 @@ public class ToroPricingProgramController {
 					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c);	
 					}
+    			}
+    			if(pp.isNonToroProduct(qi)) {
+    				system.debug(logginglevel.info, 'getQuoteItemFields award=' + qi.award_price__c);
+    				system.debug(logginglevel.info, 'getQuoteItemFields qi.Total_Toro_Award__c=' + qi.Total_Toro_Award__c);
+    				system.debug(logginglevel.info, 'getQuoteItemFields qi.Total_Award__c=' + qi.Total_Award__c);	
     			}
 				
 			}

@@ -560,9 +560,15 @@ public virtual class ToroPricingProgram {
 					}
 				}
 			}
-			qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
-			system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
-			qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
+			if(isNonToroProduct(qi)) {
+				qi.Total_Award__c = qi.Award_Price__c;
+				qi.Total_Toro_Award__c = 0;
+			} else {
+				qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
+				system.debug('check total award for each qi -- 1 qi.Total_Award__c= ' + qi.Total_Award__c + ' qiTotalAward='+qiTotalAward+' qisRollupToroAward='+qisRollupToroAward + ' qisRollupTPPAppliedAward='+qisRollupTPPAppliedAward);
+				qi.Total_Toro_Award__c = qi.Total_Award__c - qisRollupTPPAppliedAward - qiTPPAppliedAward;
+			}
+			
 			qi.Toro_Total_Setup_Fees__c = extFeeAmount;
 			qi.Toro_Total_Rebate__c = extRebate;
 			//qi.Toro_Total_Extended_Award_Price__c = extAward;

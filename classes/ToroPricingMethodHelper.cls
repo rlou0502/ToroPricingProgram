@@ -441,7 +441,9 @@ public with sharing class ToroPricingMethodHelper {
 			//if(!qi.Off_MSRP_Overridden__c) {
 			//	continue;	
 			//}
-			
+			if(isNonToroProduct(qi)) {
+				continue;
+			}
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.Total_Toro_Award__c  =' + qi.Total_Toro_Award__c);
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.PricingMethodValue__c  =' + qi.PricingMethodValue__c);
 			decimal totalAwardPrice = String.isNotBlank(qi.PricingMethodValue__c) ? decimal.valueOf(qi.PricingMethodValue__c) : 0;
