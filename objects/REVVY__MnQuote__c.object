@@ -121,6 +121,7 @@
     <fields>
         <fullName>Contains_Incomplete_Configurations__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>Denotes whether a quote contains incomplete configurations or not</description>
         <externalId>false</externalId>
         <label>Contains Incomplete Configurations</label>
         <trackFeedHistory>false</trackFeedHistory>
@@ -192,7 +193,9 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>DSM_Approved_Amount__c</fullName>
+        <description>DSM can enter an approved amount for Support Plus</description>
         <externalId>false</externalId>
+        <inlineHelpText>DSM can enter an approved amount for Support Plus</inlineHelpText>
         <label>DSM Approved Amount</label>
         <precision>18</precision>
         <required>false</required>
@@ -204,7 +207,9 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Distributor_Contribution__c</fullName>
+        <description>Distributor Contribution on Support Plus</description>
         <externalId>false</externalId>
+        <inlineHelpText>Distributor Contribution on Support Plus</inlineHelpText>
         <label>Distributor Contribution</label>
         <precision>18</precision>
         <required>false</required>
@@ -230,7 +235,9 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Ext_MSRP__c</fullName>
+        <description>Extended Manufacturer Suggested Retail Price</description>
         <externalId>false</externalId>
+        <inlineHelpText>Extended Manufacturer Suggested Retail Price</inlineHelpText>
         <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
@@ -243,7 +250,9 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Favorite__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>Favorite quote</description>
         <externalId>false</externalId>
+        <inlineHelpText>Favorite quote</inlineHelpText>
         <label>Favorite</label>
         <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
@@ -264,7 +273,9 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Freight_Delivery__c</fullName>
         <defaultValue>0.00</defaultValue>
+        <description>Freight and Delivery Fee</description>
         <externalId>false</externalId>
+        <inlineHelpText>Freight and Delivery Fee</inlineHelpText>
         <label>Freight &amp; Delivery</label>
         <precision>18</precision>
         <required>false</required>
@@ -276,7 +287,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Grand_Total__c</fullName>
-        <description>Total_Award__c + TPP_Total__c - Trade_In_Total__c + Set_Up_Total__c + Freight_Delivery__c + Allied_Non_Toro_Total__c + State_Sales_Tax__c</description>
+        <description>Total_Award__c  + Set_Up_Total__c + Freight_Delivery__c + State_Sales_Tax__c +  Misc__c</description>
         <externalId>false</externalId>
         <formula>Total_Award__c  + Set_Up_Total__c + Freight_Delivery__c + State_Sales_Tax__c +  Misc__c</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
@@ -378,6 +389,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Non_Vehicle_Total__c</fullName>
+        <description>Total Price of Non-vehicle quote items</description>
         <externalId>false</externalId>
         <label>Non-Vehicle Total</label>
         <precision>18</precision>
@@ -391,6 +403,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Performance_Part__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>Performance Parts</description>
         <externalId>false</externalId>
         <label>Performance Part</label>
         <trackFeedHistory>false</trackFeedHistory>
@@ -836,6 +849,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Toro_Total_Quote_Gross_Profit_Percent__c</fullName>
+        <description>Toro Total GP%</description>
         <externalId>false</externalId>
         <label>GP %</label>
         <precision>18</precision>
