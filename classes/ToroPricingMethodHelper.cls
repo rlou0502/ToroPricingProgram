@@ -425,8 +425,7 @@ public with sharing class ToroPricingMethodHelper {
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
 						qis.Toro_Extended_Qty__c = extQty;
-						decimal qisExtDNet = (qis.TPP_Line_Item__c == true) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
-						
+						decimal qisExtDNet =  CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty;					
 						qis.Toro_DNet_Price__c = qisExtDNet;
 						qiExtDNet += qis.Toro_DNet_Price__c;
 						qi.Total_Toro_DNET__c += qis.Toro_DNet_Price__c;
@@ -446,13 +445,14 @@ public with sharing class ToroPricingMethodHelper {
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.Total_Toro_Award__c  =' + qi.Total_Toro_Award__c);
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi.PricingMethodValue__c  =' + qi.PricingMethodValue__c);
 			decimal totalAwardPrice = String.isNotBlank(qi.PricingMethodValue__c) ? decimal.valueOf(qi.PricingMethodValue__c) : 0;
-			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors totalAwardPrice  =' + totalAwardPrice);
+			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors mytest-- totalAwardPrice  =' + totalAwardPrice);
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors ratio  =' + qi.DNet_Price__c * qi.Adjusted_Quantity__c /qi.Total_Toro_DNET__c);
 			try {
 				qi.Award_Price__c = (totalAwardPrice * (qi.DNet_Price__c * qi.Adjusted_Quantity__c /qi.Total_Toro_DNET__c)/qi.Adjusted_Quantity__c); //.setScale(2,roundingMode.HALF_UP);
 			} catch (Exception e) {
 				system.debug(logginglevel.warn, e.getMessage() + e.getStackTraceString());
 			}
+			system.debug(logginglevel.info, 'mytest-- qi.Award_Price__c  =' + qi.Award_Price__c);
 			qi.PricingMethodValue__c = string.valueOf(qi.Award_Price__c.setScale(2, roundingMode.HALF_UP));
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qi product   =' + qi.product_name__c + 'qi product id   =' + qi.product_id__c + ' qi.Award_Price__c=' + qi.Award_Price__c);
 			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
@@ -465,7 +465,7 @@ public with sharing class ToroPricingMethodHelper {
 						} catch (Exception e) {
 							system.debug(logginglevel.warn, e.getMessage() + e.getStackTraceString());
 						}
-						
+						system.debug(logginglevel.info, 'mytest-- qis.Award_Price__c  =' + qis.Award_Price__c);
 						//qis.Award_Price__c = qis.Award_Price__c.setScale(2,roundingMode.HALF_UP);
 						system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors qis product   =' + qis.product_name__c + 'qis product id   =' + qis.product_id__c + ' qis award price =' + qis.Award_Price__c);
 					} else {
@@ -491,7 +491,7 @@ public with sharing class ToroPricingMethodHelper {
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
 						qis.Toro_Extended_Qty__c = extQty;
-						decimal qisExtDNet = (qis.TPP_Line_Item__c == true) ? (CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c) * extQty) : (CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty);
+						decimal qisExtDNet = CMnQuoteUtil.defaultDecimal(qis.DNet_Price__c) * extQty;
 						system.debug(logginglevel.info, 'distributeTotalAwordDollors qis dnet  =' + qisExtDNet);
 						qis.Toro_DNet_Price__c = qisExtDNet;
 						qiExtDNet += qis.Toro_DNet_Price__c;
