@@ -313,28 +313,7 @@ public virtual class ToroPricingProgram {
 		lQuoteItemList = calculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		lQuoteItemList = postCalculateRebateMarginImpl(quoteId, priceProgram, priceMethod, lQuoteItemList);
 		system.debug(logginglevel.info,'calling calculateRebateMarginImpl took ' + (System.limits.getCpuTime()-perfStart));
-		for (Revvy__MnStrategy4__c qi : quoteItemList) {
-			System.debug('check award price - qi.award_price__c=' + qi.award_price__c);
-				
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					System.debug('check award price - qis.award_price__c=' + qis.award_price__c);
-				}
-			}				
-		}
-			
 		lQuoteItemList = calculateExtendedFields(lQuoteItemList);
-		
-		for (Revvy__MnStrategy4__c qi : quoteItemList) {
-			System.debug('check award price - qi.award_price__c=' + qi.award_price__c);
-				
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					System.debug('check award price - qis.award_price__c=' + qis.award_price__c);
-				}
-			}				
-		}
-		
 		quote.Is_Dirty__c = false;
 		ToroCacheManager.putQuote(quote);
 		lQuoteItemList = preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, lQuoteItemList);
@@ -348,16 +327,7 @@ public virtual class ToroPricingProgram {
 			lQuoteItemList = postSaveQuoteItemList(quoteId, priceProgram, priceMethod, lQuoteItemList);
 			ToroCacheManager.refreshQuote(quote.Id);
 		}
-		
-		for (Revvy__MnStrategy4__c qi : quoteItemList) {
-			System.debug('check award price - qi.award_price__c=' + qi.award_price__c + ' PricingMethodValue__c=' + qi.PricingMethodValue__c);
-				
-			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-					System.debug('check award price - qis.award_price__c=' + qis.award_price__c + ' PricingMethodValue__c=' + qis.PricingMethodValue__c);
-				}
-			}				
-		}
+
 		// ToroCacheManager.putQuote(quote);
 		system.debug(logginglevel.info,'calling saveQuoteItemList took ' + (System.limits.getCpuTime()-perfStart));
 		return lQuoteItemList;
@@ -440,7 +410,7 @@ public virtual class ToroPricingProgram {
                 qi.Rebate_as_a_of_DN__c = 0;
             }
 
-			if(!qi.Exclude_from_Rebate_F__c || (qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c == 'Standard')) {
+			if(!qi.Exclude_from_Rebate_F__c || (qi.Exclude_from_Rebate_F__c && (qi.Pricing_Program_Product_Type__c == 'Standard' ||  qi.Pricing_Program_Product_Type__c == 'TPP'))) {
 				qiToroDNet = qi.DNet_Price__c * qi.Adjusted_Quantity__c;
 				qiToroMSRP = qi.MSRP_Price__c * qi.Adjusted_Quantity__c;
 				qiToroAward = qi.Award_Price__c * qi.Adjusted_Quantity__c;
@@ -524,7 +494,7 @@ public virtual class ToroPricingProgram {
 					qis.Award_Price__c = CMnQuoteUtil.defaultDecimal(qis.Award_Price__c);
 					qis.TPP_DNet__c = CMnQuoteUtil.defaultDecimal(qis.TPP_DNet__c);
 					qis.Rebate_as_of_DNet__c = CMnQuoteUtil.defaultDecimal(qis.Rebate_as_of_DNet__c);
-					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c == 'Standard')) {						
+					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP')))  {						
 						qisRollupToroDNet += qis.DNet_Price__c * extQty;
 						qisRollupToroMSRP += qis.MSRP_Price__c * extQty;
 						qisRollupToroAward += qis.Award_Price__c * extQty;													
@@ -564,7 +534,7 @@ public virtual class ToroPricingProgram {
 					
 					//uncomment following line
 					
-					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c == 'Standard')) {
+					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP')))  {
 						qis.Toro_Fee_Amount__c = qis.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qis.Fee_Percentage__c)/100;
 						qis.Extended_Award_Price__c += qis.Toro_Fee_Amount__c;
 						extFeeAmount += qis.Toro_Fee_Amount__c;
