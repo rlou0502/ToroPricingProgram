@@ -561,7 +561,7 @@ public virtual class ToroPricingProgram {
 				}
 			}
 			if(isNonToroProduct(qi)) {
-				qi.Total_Award__c = qi.Award_Price__c;
+				qi.Total_Award__c = qi.Award_Price__c * qi.Adjusted_Quantity__c;
 				qi.Total_Toro_Award__c = 0;
 			} else {
 				qi.Total_Award__c = qiTotalAward + qisRollupToroAward+ qisRollupTPPAppliedAward + extFeeAmount;
