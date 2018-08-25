@@ -316,6 +316,7 @@ public with sharing class ToroGenModelBOM {
     	private Map<String, Integer> productTypeSortCodeMap = new Map<String, Integer>{'Finished Good'=>3, 'Semi-Finished Good'=>2, 'Non-Stock Material'=>1};
      	public StockOrder(String modelNumber, String productTab, String description, decimal distributorNet, 
      		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType, boolean isTractionUnit) {
+     		//this.modelNumber =modelNumber + '-' + modelSortCode;
      		this.modelNumber =modelNumber;
      		//this.productTab =  modelSortCode + '-'+productTab;
      		//this.description = productSortCode + '-'+productType + '-' +description;
@@ -377,7 +378,7 @@ public with sharing class ToroGenModelBOM {
 		            if (string.isBlank(compareToEmp.modelSortCode))
 		            {
 		                return -1;
-		            } else {
+		            } else {		            	
 		            	if(modelSortCode.compareTo(compareToEmp.modelSortCode) == 0) {
 		            		if(productTab.compareTo(compareToEmp.productTab) == 0) {
 		            			if(productTypeSortCode == compareToEmp.productTypeSortCode) {
@@ -397,6 +398,7 @@ public with sharing class ToroGenModelBOM {
 		            	} else {
 		            		return modelSortCode.compareTo(compareToEmp.modelSortCode);
 		            	}
+		            	
 		            }
 		        }
 	    	}
