@@ -533,6 +533,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Sales_Tax_Percent__c</fullName>
+        <description>Sales Tax Percent</description>
         <externalId>false</externalId>
         <label>Sales Tax Percent</label>
         <precision>18</precision>
@@ -546,7 +547,9 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Service_Contract_Total__c</fullName>
         <defaultValue>0</defaultValue>
+        <description>Sum of all Service Contracts</description>
         <externalId>false</externalId>
+        <inlineHelpText>Sum of all Service Contracts</inlineHelpText>
         <label>Service Contract Total</label>
         <precision>18</precision>
         <required>false</required>
@@ -572,6 +575,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Setup_Fee__c</fullName>
+        <description>Set Up Fee</description>
         <externalId>false</externalId>
         <label>Setup Fee</label>
         <precision>5</precision>
