@@ -1,6 +1,7 @@
 global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConfigPricingHookPlugin  {
 	global void preBOMUpdateHook(REVVY.CMnPricingParams pricingParams){
 
+        System.debug('!!!!!!!!!!!!!!!!!!! pricingParams: ' + JSON.serialize(pricingParams));
         Id qtId = pricingParams.quoteId;
         system.debug('--- ToroPostConfigPricingHook qtId =' + qtId);
 		
@@ -108,12 +109,14 @@ global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConf
                     mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(pl.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
                 }
             }
-        }        
+        }    
+
 		
         if(qtId != null) {
 			Revvy__MnQuote__c qt = new Revvy__MnQuote__c(Id=qtId,Is_Dirty__c=true);
 			update qt;
         }
+
         //double t = 3/0;
 	}   
 }
