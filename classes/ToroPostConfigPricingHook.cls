@@ -1,7 +1,7 @@
 global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConfigPricingHookPlugin  {
 	global void preBOMUpdateHook(REVVY.CMnPricingParams pricingParams){
 
-        System.debug('!!!!!!!!!!!!!!!!!!! pricingParams: ' + JSON.serialize(pricingParams));
+        //System.debug('!!!!!!!!!!!!!!!!!!! pricingParams: ' + JSON.serialize(pricingParams));
         Id qtId = pricingParams.quoteId;
         system.debug('--- ToroPostConfigPricingHook qtId =' + qtId);
 		
@@ -105,7 +105,7 @@ global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConf
                 } else if(!boakCreekMsrp && 'OakCreek'.equalsIgnoreCase(psegment) && plMap != null && plMap.containsKey(mnQuoteItemSubLine.REVVY__PriceListLine__c)) {	
                     system.debug('--- ToroPostConfigPricingHook preBOMUpdateHook 351 ');
                     REVVY__MnPriceListLine__c pl = plMap.get(mnQuoteItemSubLine.REVVY__PriceListLine__c);
-                	//system.debug('--- ToroPostConfigPricingHook preBOMUpdateHook 350 pl.REVVY__FloorPrice__c='+pl.REVVY__FloorPrice__c);
+                	system.debug('--- ToroPostConfigPricingHook preBOMUpdateHook 350 pl.REVVY__FloorPrice__c='+pl.REVVY__FloorPrice__c);
                     mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(pl.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
                 }
             }
