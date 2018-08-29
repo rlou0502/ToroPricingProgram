@@ -734,11 +734,6 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Commission__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Fee_Percentage__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
