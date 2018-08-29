@@ -225,6 +225,8 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			qi.Toro_Com_Dollar__c = qi.Total_Gross_Profit_Value__c;
 			qi.Commission__c = qi.Toro_Gross_Profit_Percent__c;
+			qi.Commission_Dollar__c = qi.Toro_Gross_Profit_Value__c;
+			
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					qis.Commission__c = qis.Gross_Profit_Percent__c;
