@@ -231,9 +231,15 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					qis.Commission__c = qis.Gross_Profit_Percent__c;
-					qis.Commission_Dollar__c = qis.Gross_Profit_Value__c;		
+					qis.Commission_Dollar__c = qis.Gross_Profit_Value__c;	
+					qis.Gross_Profit_Percent__c=null;	
+					qis.Gross_Profit_Value__c=null;
 				}
 			}
+			qi.Toro_Gross_Profit_Percent__c=null;
+			qi.Blended_GP__c=null;
+			qi.Total_Gross_Profit_Value__c=null;
+			qi.Toro_Gross_Profit_Value__c=null;
 		}
 		quote.Commission_Dollar__c = quote.Toro_Total_Quote_Gross_Profit__c;
 		quote.Commission__c = quote.Toro_Total_Quote_Gross_Profit_Percent__c;
