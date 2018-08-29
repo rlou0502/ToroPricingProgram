@@ -724,7 +724,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Toro_Gross_Profit_Percent__c</field>
+            <field>Blended_GP__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -734,7 +734,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Commission__c</field>
+            <field>Toro_Commission__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -1490,6 +1490,7 @@
     </fields>
     <fields>
         <fullName>Commission_Dollar__c</fullName>
+        <description>Traction Unit Commission Dollar Amount</description>
         <externalId>false</externalId>
         <label>Com $</label>
         <precision>18</precision>
@@ -1500,6 +1501,7 @@
     </fields>
     <fields>
         <fullName>Commission__c</fullName>
+        <description>Traction Unit Commission %</description>
         <externalId>false</externalId>
         <label>Com %</label>
         <precision>18</precision>
@@ -1974,6 +1976,7 @@
     </fields>
     <fields>
         <fullName>Toro_Com_Dollar__c</fullName>
+        <description>Configuration Commission Dollar Amount</description>
         <externalId>false</externalId>
         <label>Com $</label>
         <precision>12</precision>

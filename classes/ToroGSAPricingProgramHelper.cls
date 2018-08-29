@@ -224,6 +224,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 		quoteItemList = super.calculateExtendedFields(quoteItemList);
 		for (Revvy__MnStrategy4__c qi : quoteItemList) {
 			qi.Toro_Com_Dollar__c = qi.Total_Gross_Profit_Value__c;
+			qi.Toro_Commission__c = qi.Blended_GP__c;
 			qi.Commission__c = qi.Toro_Gross_Profit_Percent__c;
 			qi.Commission_Dollar__c = qi.Toro_Gross_Profit_Value__c;
 			
@@ -245,6 +246,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 			qi.Commission__c = null;
 			qi.Commission_Dollar__c = null;
 			qi.Toro_Com_Dollar__c = null;
+			qi.Toro_Commission__c = null;
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					qis.Commission__c = null;
