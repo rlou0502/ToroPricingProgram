@@ -106,9 +106,13 @@ public with sharing class ToroGenModelBOM {
 					//system.debug('----------------' + mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c);
 					double seq = modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? modelOGOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0;
 					double sectionNumber = optionGroupOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? optionGroupOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0;
-					models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name  , 
+					String ogName = string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name;
+					system.debug('option group name =' + ogName);
+					if(ogName.indexOf('Selection Question') == -1) {
+						models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name  , 
 																		sectionNumber, seq,
 																		OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values(), tractionUnits));
+					}
 				}
 			}
 
@@ -316,8 +320,8 @@ public with sharing class ToroGenModelBOM {
     	private Map<String, Integer> productTypeSortCodeMap = new Map<String, Integer>{'Finished Good'=>3, 'Semi-Finished Good'=>2, 'Non-Stock Material'=>1};
      	public StockOrder(String modelNumber, String productTab, String description, decimal distributorNet, 
      		decimal suggestedRetail, double stockOrder, decimal totalDollors, String modelSortCode, String productSortCode, String productType, boolean isTractionUnit) {
-     		this.modelNumber =modelNumber + '-' + modelSortCode;
-     		//this.modelNumber =modelNumber;
+     		//this.modelNumber =modelNumber + '-' + modelSortCode;
+     		this.modelNumber =modelNumber;
      		//this.productTab =  modelSortCode + '-'+productTab;
      		//this.description = productSortCode + '-'+productType + '-' +description;
      		this.productTab =  productTab;
