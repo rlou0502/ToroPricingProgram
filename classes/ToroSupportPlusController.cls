@@ -353,6 +353,7 @@ global class ToroSupportPlusController {
 							, Support_Plus_Original_Item__c        = wrapper.sublineObj.Id
 							, Support_Plus_Original_Price__c       = wrapper.dnetPrice
 							, Support_Plus_Original_Award_Price__c = wrapper.awardPrice
+							, Award_Price__c                       = 0
 						);
 
 						sublinesToInsert.add(spSublineToInsert);
@@ -429,6 +430,7 @@ global class ToroSupportPlusController {
 						, Support_Plus_Original_Award_Price__c = wrapper.awardPrice
 						, Item_Config_ID_Tx__c                 = wrapper.qiObj.Item_Config_ID_Tx__c
 						, REVVY__Is_Configuration_Complete__c  = wrapper.qiObj.REVVY__Is_Configuration_Complete__c
+						, Award_Price__c                       = 0
 					);
 					quoteItemsToInsert.add(spItemToInsert);
 					System.debug('\n\n@@spItemToInsert: ' + spItemToInsert + '\n\n');
