@@ -187,12 +187,13 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 							qis.Commission_Dollar__c = 0;					
 						}
 						qi.Toro_Com_Dollar__c += qis.Commission_Dollar__c;
+						
 						qis.PricingMethodValue__c='';
 						system.debug('-------qis.Award_Price__c=' + qis.Award_Price__c + ' -- qis.Gross_Profit_Percent__c=' + qis.Gross_Profit_Percent__c);
 							
 						if(!qis.OnlyExistedInCPL__c) {
 							decimal qisRebate = qis.DNet_Price__c * extQty - qis.award_price__c *extQty  + qis.Gross_Profit_Value__c;	
-							qisRebate=0;
+							
 							qis.Toro_Subline_Rebate__c = qisRebate;	
 							try{
 								qis.Rebate_as_of_DNet__c = qisRebate/(qis.dnet_price__c*extQty) *100;	
