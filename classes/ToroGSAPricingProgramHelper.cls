@@ -137,8 +137,8 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 				}
 				
 				qi.Toro_Com_Dollar__c += qi.Commission_Dollar__c;
-				decimal rebate = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) - CMnQuoteUtil.defaultDecimal(qi.award_price__c) + CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Value__c);
-				//decimal rebate=0;
+				//decimal rebate = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) - CMnQuoteUtil.defaultDecimal(qi.award_price__c) + CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Value__c);
+				decimal rebate=0;
 				system.debug('qi.rebate =' + rebate);
 				if(!qi.OnlyExistedInCPL__c) {
 					qi.Toro_Rebate__c = rebate * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
@@ -193,7 +193,7 @@ public virtual class ToroGSAPricingProgramHelper extends ToroPricingProgram {
 							
 						if(!qis.OnlyExistedInCPL__c) {
 							decimal qisRebate = qis.DNet_Price__c * extQty - qis.award_price__c *extQty  + qis.Gross_Profit_Value__c;	
-							
+							qisRebate = 0;
 							qis.Toro_Subline_Rebate__c = qisRebate;	
 							try{
 								qis.Rebate_as_of_DNet__c = qisRebate/(qis.dnet_price__c*extQty) *100;	
