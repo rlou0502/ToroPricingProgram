@@ -83,6 +83,12 @@ public with sharing class ToroGenModelBOM {
 				}
 			}
 		}
+		
+		Toro_Excluded_Option_Group__mdt[] excludedList = [SELECT MasterLabel, QualifiedApiName FROM Toro_Excluded_Option_Group__mdt];
+		set<String> excludedSet = new set<String>();
+		for (Toro_Excluded_Option_Group__mdt excludedItem : excludedList) {
+			excludedSet.add(excludedItem.MasterLabel);	
+		}
 
 		Map<Id, String> optiongroupNameMap = new Map<Id, String>();
 		for(REVVY__MnConfigEngineOGUISectionJunction__c OGUI : [SELECT Name, REVVY__Option_Group_Id__c FROM REVVY__MnConfigEngineOGUISectionJunction__c]) {
@@ -108,7 +114,7 @@ public with sharing class ToroGenModelBOM {
 					double sectionNumber = optionGroupOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) != null ? optionGroupOrder.get(mog.REVVY__Model_Id__c+'_'+mog.REVVY__OptionGroup_Id__c) : 0;
 					String ogName = string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name;
 					system.debug('option group name =' + ogName);
-					if(ogName.indexOf('Selection Question') == -1) {
+					if(!excludedSet.contains(ogName)) {
 						models.get(mog.REVVY__Model_Id__r.name).optionGroups.add(new OptionGroup(string.isNotBlank(optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c)) ? optiongroupNameMap.get(mog.REVVY__OptionGroup_Id__c) : mog.REVVY__OptionGroup_Id__r.Name  , 
 																		sectionNumber, seq,
 																		OGOptionMap.get(mog.REVVY__OptionGroup_Id__c).values(), tractionUnits));
