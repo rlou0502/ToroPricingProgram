@@ -805,7 +805,14 @@
                 //	var cmpEvent = component.getEvent("calculateEvent");   
                 //    cmpEvent.fire();
                 //} else {
-            		self.renderView(component, response); 
+                var cmpEvent = component.getEvent("calculationCompleteEvent");
+                cmpEvent.setParams({
+                    "quote" : retResponse.quote,
+                    "allowSupportPlus" : retResponse.allowSupportPlus,
+                    "isSaveOperation" : "false"
+                });
+                cmpEvent.fire();
+                self.renderView(component, response); 
                 //}
 	        }
 	    );

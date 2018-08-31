@@ -25,6 +25,16 @@ public with sharing class ToroNationAccountNAFPPHelper extends ToroGSAPricingPro
 		return ppl.revvy__PriceField3__c;	
 	} 
 	public override List<Revvy__MnStrategy4__c> overrideCommissions(List<Revvy__MnStrategy4__c> quoteItemList) {
+		for (Revvy__MnStrategy4__c qi : quoteItemList) {
+			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					qis.Rebate_as_of_DNet__c=0;	
+					qis.Toro_Subline_Rebate__c=0;	
+				}
+			}
+			qi.Rebate_as_a_of_DN__c=0;
+			qi.Toro_Rebate__c = 0;
+		}
 		return quoteItemList;
 	}    
 }
