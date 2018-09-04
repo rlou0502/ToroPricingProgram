@@ -603,6 +603,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Support_Plus_Quantity__c</fullName>
+        <description>Support Plus Quantity</description>
         <externalId>false</externalId>
         <label>Support Plus Quantity</label>
         <summaryFilterItems>
@@ -619,6 +620,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Support_Plus__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>Support Plus Applied</description>
         <externalId>false</externalId>
         <label>Support Plus Applied</label>
         <trackFeedHistory>false</trackFeedHistory>
@@ -642,6 +644,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Territory__c</fullName>
         <defaultValue>IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;North_America&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;North_America&quot;,&quot;International&quot;))</defaultValue>
+        <description>Territory</description>
         <externalId>false</externalId>
         <label>Territory</label>
         <required>false</required>
@@ -668,6 +671,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Toro_ApprovalReason__c</fullName>
+        <description>Toro Approval Reason</description>
         <externalId>false</externalId>
         <label>Toro Approval Reason</label>
         <length>255</length>
@@ -681,6 +685,7 @@ CustomerCurrency_ISOCurrency</description>
     <fields>
         <fullName>Toro_ApprovalRequired__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>Toro Approval Required</description>
         <externalId>false</externalId>
         <label>Toro Approval Required</label>
         <trackFeedHistory>false</trackFeedHistory>
@@ -766,6 +771,7 @@ CustomerCurrency_ISOCurrency</description>
     </fields>
     <fields>
         <fullName>Toro_Rollup_Award_Price__c</fullName>
+        <description>Toro Rollup Award Price</description>
         <externalId>false</externalId>
         <label>Toro Award</label>
         <precision>18</precision>
