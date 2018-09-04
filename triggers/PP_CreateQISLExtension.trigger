@@ -11,7 +11,10 @@ trigger PP_CreateQISLExtension on REVVY__MnQuoteItemSubLine__c (after insert) {
     	Decimal extQty = qisExt.REVVY__Quantity__c * qisExt.REVVY__QuoteItem__r.REVVY__Quantity__c;
 
         Boolean isSupportPlus = qi.Support_Plus_Original_Item__c != null;
-
+		decimal award_price = null;
+		if(qi.award_price__c != null) {
+			award_price = qi.award_price__c;	
+		}
     	tQIs.add(new Revvy__MnStrategy5__c(
             External_Id__c         = qi.Id,
             Product__c             = qi.REVVY__Catalog_Node__c,
@@ -28,7 +31,7 @@ trigger PP_CreateQISLExtension on REVVY__MnQuoteItemSubLine__c (after insert) {
             Apply_Support_Plus__c  = isSupportPlus,
             Support_Plus_Original_Price__c = qi.Support_Plus_Original_Price__c,
             Support_Plus_Original_Award_Price__c = qi.Support_Plus_Original_Award_Price__c,
-
+			award_price__c         = award_price,
             Toro_Quote_Item_2__r = new Revvy__MnStrategy4__c(
                 External_Id__c = qi.Revvy__QuoteItem__c)
         ));
