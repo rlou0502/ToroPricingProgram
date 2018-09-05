@@ -775,7 +775,7 @@ public virtual class ToroPricingProgram {
 		boolean ret = false;
 		String productId = string.isNotBlank(qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c) ? qi.Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c : qi.Quote_Item_Sub_Line__r.Product_ID_F__c;
 		//if(productId.startsWith('TPP')  || productId.startsWith('L0') || productId.startsWith('L1') || qi.Performance_Part__c) {
-		if((qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard') || qi.Performance_Part__c) {
+		if((qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' && qi.Pricing_Program_Product_Type__c != 'TPP') || qi.Performance_Part__c) {
 			ret = true;
 		}
 		return ret;
