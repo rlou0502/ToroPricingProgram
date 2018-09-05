@@ -9,7 +9,7 @@ global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConf
         String psegment = pricingParams.qtSegment;
         String quoteId = pricingParams.quoteId;
         
-        /*
+        
         Boolean boakCreekMsrp = false;
         Decimal exchangeRate = 1;
         Decimal conversionRate = 1;
@@ -112,7 +112,7 @@ global with sharing class ToroPostConfigPricingHook implements REVVY.IMnPostConf
             }
         }    
 
-		*/
+		
         if(qtId != null) {
 			Revvy__MnQuote__c qt = new Revvy__MnQuote__c(Id=qtId,Is_Dirty__c=true);
 			update qt;
