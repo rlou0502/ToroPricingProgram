@@ -34,6 +34,7 @@ public with sharing class ToroNationalAccountGSAPPHelper extends ToroGSAPricingP
 			}
 			qi.Rebate_as_a_of_DN__c=0;
 			qi.Toro_Rebate__c = 0;
+			qi.Toro_Total_Rebate__c = 0;
 		}
 		return quoteItemList;
 	}
