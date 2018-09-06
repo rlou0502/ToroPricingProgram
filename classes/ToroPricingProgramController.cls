@@ -1007,6 +1007,11 @@ public class ToroPricingProgramController {
     	}
     	
     	q = pp.quote;
+    	if(pp.displaySetupFee()) {
+			system.debug('displaySetupFee --quote= ' + pp.quote.Setup_Fee__c);
+			pp.setupFeePercentage = pp.quote.Setup_Fee__c;
+		}
+	    		
     	//Performance_Part__c
     	pp.performancePartFlag = pp.quote.Performance_Part__c;
     	//String pm = pricingMethod;
