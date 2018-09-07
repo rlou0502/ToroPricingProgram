@@ -1,7 +1,6 @@
 global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin  {
 	public static List<Revvy__MnQuoteItem__c> preQuoteItemsCreationHook(Revvy__MnQuote__c qt, List<Revvy__MnQuoteItem__c> qis) {
         system.debug('--- ToroPricingHook preQuoteItemsCreationHook');
-    
         return qis;
     }
     public static Map<String, Decimal> productSearchPriceHook(Revvy.CMnPricingParams pricingParams, Map<String, Decimal> prodsMap) {
