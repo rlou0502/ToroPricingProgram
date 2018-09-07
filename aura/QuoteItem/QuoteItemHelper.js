@@ -69,6 +69,10 @@
                         }    
                     }
                     curObj.dataset.overridden="true";
+                    var tractionLines = document.querySelectorAll(".TractionUnit[data-quoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
+	                for (var i=0; i<tractionLines.length; i++) {                       
+	                    tractionLines[i].value=newVal;
+	                }
                 } 
             } else {
             	var pm = component.get("v.selectedPricingMethod");
@@ -336,7 +340,7 @@
                             var hiddenField = document.createElement("INPUT");
                             hiddenField.type="hidden";
                             hiddenField.value = sObj[field.fieldPath] != undefined ? sObj[field.fieldPath] : 0.0;
-                            hiddenField.className += " sfdcid-"+sObj["Id"];
+                            hiddenField.className += " sfdcid-"+sObj["Id"]+ " " + lineType + " ";
                             hiddenField.dataset.fieldname=field.fieldPath;
                             if(lineType == "Subline") {
                                 hiddenField.dataset.parentquoteitem=quoteItemId;
