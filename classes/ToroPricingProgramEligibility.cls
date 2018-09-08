@@ -77,24 +77,25 @@ public with sharing class ToroPricingProgramEligibility implements Cache.CacheBu
 	}
 	public static List<Revvy__MnStrategy1__c> retrievePricingProgramsForCustomerAccount(Account customer) {
 		
-		system.debug(logginglevel.info, 'retrievePricingProgramsForCustomerAccount.Commercial_Distributor__c --' + customer.Commercial_Distributor__c);
+		//system.debug(logginglevel.info, 'retrievePricingProgramsForCustomerAccount.Commercial_Distributor__c --' + customer.Commercial_Distributor__c);
 		List<Revvy__MnStrategy1__c> result = new List<Revvy__MnStrategy1__c>();
-		if(customer.Commercial_Distributor__c != null) {
-			system.debug(logginglevel.info, 'distributor =' + customer.Commercial_Distributor__c);
-			Id disti = customer.Commercial_Distributor__c;
-			result = retrieveChartStatePricingProgramsForDistributor(disti);			
-		} else {
-			Id userId = UserInfo.getUserId();
-			system.debug(logginglevel.info, ' user id=' + userId);
-			List<User_Distributor__c> distis = [SELECT Id, Name, User_Name__c, Distributor__c, Comm_Dist__c FROM User_Distributor__c where User_Name__c = :userId ];
-			system.debug(logginglevel.info, ' disti size= ' + distis.size());
-			for(User_Distributor__c disti : distis) {
-				result = retrieveChartStatePricingProgramsForDistributor(disti.Distributor__c);
-				break;		
+		if(customer != null) {
+			if(customer.Commercial_Distributor__c != null) {
+				system.debug(logginglevel.info, 'distributor =' + customer.Commercial_Distributor__c);
+				Id disti = customer.Commercial_Distributor__c;
+				result = retrieveChartStatePricingProgramsForDistributor(disti);			
+			} else {
+				Id userId = UserInfo.getUserId();
+				system.debug(logginglevel.info, ' user id=' + userId);
+				List<User_Distributor__c> distis = [SELECT Id, Name, User_Name__c, Distributor__c, Comm_Dist__c FROM User_Distributor__c where User_Name__c = :userId ];
+				system.debug(logginglevel.info, ' disti size= ' + distis.size());
+				for(User_Distributor__c disti : distis) {
+					result = retrieveChartStatePricingProgramsForDistributor(disti.Distributor__c);
+					break;		
+				}
 			}
+			result = retrieveOtherProgramsForCustomerAccount(customer, result);
 		}
-		result = retrieveOtherProgramsForCustomerAccount(customer, result);
-		
 		return result;
 														
 	}
