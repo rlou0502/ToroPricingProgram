@@ -72,6 +72,7 @@
                     var tractionLines = document.querySelectorAll(".TractionUnit[data-quoteitem='"+ quoteItemId +"'][data-fieldname='"+fieldName+"']");
 	                for (var i=0; i<tractionLines.length; i++) {                       
 	                    tractionLines[i].value=newVal;
+                        tractionLines[i].dataset.overridden = "true"; 
 	                }
                 } 
             } else {
@@ -342,6 +343,7 @@
                             hiddenField.value = sObj[field.fieldPath] != undefined ? sObj[field.fieldPath] : 0.0;
                             hiddenField.className += " sfdcid-"+sObj["Id"]+ " " + lineType + " ";
                             hiddenField.dataset.fieldname=field.fieldPath;
+                            hiddenField.dataset.overridden=sObj['Off_MSRP_Overridden__c'];
                             if(lineType == "Subline") {
                                 hiddenField.dataset.parentquoteitem=quoteItemId;
                             } else {
