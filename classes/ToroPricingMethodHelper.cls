@@ -345,11 +345,10 @@ public with sharing class ToroPricingMethodHelper {
 				if(!qi.Unit_Award_Overridden__c) {
 					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.DNet_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Award_of_DN__c)/100;
 					system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi qi.Award_Price__c=' + qi.Award_Price__c + ' Unit_Award_Overridden__c= ' + qi.Unit_Award_Overridden__c);
-				}
+				} 
 				if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
 					qi.Off_MSRP__c = (1-qi.Award_Price__c/qi.MSRP_Price__c)*100 ;
 				}
-                system.debug(logginglevel.info, 'qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 				if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 					for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 						if(!qis.Exclude_from_Rebate_F__c && qis.Gross_Profit_Percent__c != null || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {

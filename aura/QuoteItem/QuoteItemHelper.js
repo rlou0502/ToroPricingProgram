@@ -90,7 +90,12 @@
 	                }
             	}
             	
-            	
+            	var elms =event.currentTarget.closest("tr").querySelectorAll("input[type=text]");
+                for(var i = 0; i < elms.length; i++) {
+                    if(elms[i] != event.currentTarget) {
+                        elms[i].dataset.overridden = false;    
+                    }    
+                }
                 curObj.dataset.overridden="true";
             }
         } else {
