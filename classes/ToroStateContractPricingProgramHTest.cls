@@ -82,6 +82,8 @@ private class ToroStateContractPricingProgramHTest {
 		}
 		update quoteItems;
 		tlpp.quoteItems = tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
+		tlpp.quoteItems[0].Total_Toro_Award__c = 1000; 
+		tlpp.calcDistributedTractionUnitAwardPrice(tlpp.quoteItems[0]);
 	}
 
 }
