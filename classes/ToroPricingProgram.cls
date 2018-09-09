@@ -456,21 +456,14 @@ public virtual class ToroPricingProgram {
 			qi.Toro_Rebate__c = qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 
 			decimal extRebate = CMnQuoteUtil.defaultDecimal(qi.Toro_Rebate__c);
-            system.debug('DrivenByGP__c='+ qi.DrivenByGP__c);
 			if(!qi.DrivenByGP__c || qi.Unit_Award_Overridden__c) {
 				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c - qi.Extended_DNet_Price__c + qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
-                system.debug('Toro_Gross_Profit_Value__c='+ qi.Toro_Gross_Profit_Value__c);
-                system.debug('Extended_Award_Price__c='+ qi.Extended_Award_Price__c);
-                system.debug('Extended_DNet_Price__c='+ qi.Extended_DNet_Price__c);
-                system.debug('rebate='+ qi.Extended_DNet_Price__c*qi.Rebate_as_a_of_DN__c/100);
 				if(qi.Extended_Award_Price__c != null && qi.Extended_Award_Price__c != 0) {
 					qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/qi.Extended_Award_Price__c*100;
-                    system.debug('Toro_Gross_Profit_Percent__c='+ qi.Toro_Gross_Profit_Percent__c);
 				}
 			} else {
 				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Percent__c)/100;
 			}
-			system.debug('Toro_Gross_Profit_Percent__c='+ qi.Toro_Gross_Profit_Percent__c);
 			//Non Toro Indra
             if(!String.isEmpty(qi.Product_Id__c) && qi.Product_Id__c.startsWith('L0')) {
                 //qi.Total_Award__c = 0;
