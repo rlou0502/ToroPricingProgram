@@ -614,6 +614,8 @@ public class ToroPricingProgramController {
     				qi.pricing_program__c = pricingProgram;
     				qi.Toro_Blend_Of_DN__c=null;
     				qi.Fee_Percentage__c=null;
+    				qi.Total_Toro_Award__c=null;
+    				qi.Original_Award_Price__c=null;
     				qi.MSRP_Price__c = qi.Original_MSRP_Price__c;
     				if( qi.Toro_Quote_Item_Sub_Lines__r != null) {
 	    				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {

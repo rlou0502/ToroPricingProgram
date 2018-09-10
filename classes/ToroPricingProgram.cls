@@ -626,6 +626,7 @@ public virtual class ToroPricingProgram {
 			quoteTotalDnetWOTppAllied   += qi.Total_Toro_Award__c;
 			quoteTotalSetupFee          += qi.Toro_Total_Setup_Fees__c;
 			system.debug('check total award for each qi --qi.Total_Award__c= ' + qi.Total_Award__c + ' qi.Total_Toro_Award__c='+qi.Total_Toro_Award__c);
+			system.debug('check total award for each qi --qi.Original_Award_Price__c= ' + qi.Original_Award_Price__c );
 			system.debug('check total award for each qi --quoteTotalAward= ' + quoteTotalAward + ' quoteTotalToroAward='+quoteTotalToroAward);
 			if(qi.Original_Award_Price__c == null) {
 				qi.Original_Award_Price__c = qi.Total_Toro_Award__c;
