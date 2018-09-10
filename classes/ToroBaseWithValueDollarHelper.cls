@@ -72,7 +72,8 @@ public virtual class ToroBaseWithValueDollarHelper extends ToroPricingProgram  {
 						if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' && qi.Pricing_Program_Product_Type__c != 'TPP') {
 							qi.Award_Price__c = qi.MSRP_Price__c;	
 						}
-					} else {
+					} else { 
+						qi.Award_Price__c = calcDistributedTractionUnitAwardPrice(qi);
 						if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
 							qi.Off_MSRP__c = (1-(qi.Award_Price__c/qi.MSRP_Price__c))*100;	
 							//qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
