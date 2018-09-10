@@ -611,6 +611,7 @@ public class ToroPricingProgramController {
     				qi.Award_of_DN__c=null;
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Unit_Award_Overridden__c = false;
+    				qi.Off_MSRP_Overridden__c = false;
     				if(!qi.Unit_Award_Overridden__c) {
     					qi.Award_Price__c=0;
     				}
