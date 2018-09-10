@@ -74,6 +74,13 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 					if(qi.Exclude_from_Rebate_F__c) {
 						qi.Award_Price__c = qi.MSRP_Price__c;	
 					}
+				} else {
+					qi.Award_Price__c = calcDistributedTractionUnitAwardPrice(qi);
+					if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
+						qi.Off_MSRP__c = (1-(qi.Award_Price__c/qi.MSRP_Price__c))*100;	
+						qi.Original_off_MSRP__c = qi.Off_MSRP__c;
+						//qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
+					}
 				}
 				if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0)
 					qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c*100;
