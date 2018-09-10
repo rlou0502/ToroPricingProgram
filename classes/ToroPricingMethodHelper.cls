@@ -459,7 +459,9 @@ public with sharing class ToroPricingMethodHelper {
 			system.debug(logginglevel.info, 'distributeQuoteItemTotalAwardDollors mytest-- totalAwardPrice  =' + totalAwardPrice);
 			
 			try {
-				qi.Award_Price__c = (totalAwardPrice * (qi.DNet_Price__c * qi.Adjusted_Quantity__c /qi.Total_Toro_DNET__c)/qi.Adjusted_Quantity__c); //.setScale(2,roundingMode.HALF_UP);
+				if(!qi.Unit_Award_Overridden__c) {
+					qi.Award_Price__c = (totalAwardPrice * (qi.DNet_Price__c * qi.Adjusted_Quantity__c /qi.Total_Toro_DNET__c)/qi.Adjusted_Quantity__c); //.setScale(2,roundingMode.HALF_UP);
+				}
 			} catch (Exception e) {
 				system.debug(logginglevel.warn, e.getMessage() + e.getStackTraceString());
 			}
@@ -472,7 +474,9 @@ public with sharing class ToroPricingMethodHelper {
 						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
 						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
 						try {
-							qis.Award_Price__c = totalAwardPrice * (qis.Toro_DNet_Price__c /qi.Total_Toro_DNET__c)/extQty;
+							if(!qis.Unit_Award_Overridden__c){
+								qis.Award_Price__c = totalAwardPrice * (qis.Toro_DNet_Price__c /qi.Total_Toro_DNET__c)/extQty;
+							}
 						} catch (Exception e) {
 							system.debug(logginglevel.warn, e.getMessage() + e.getStackTraceString());
 						}

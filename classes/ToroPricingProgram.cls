@@ -631,6 +631,10 @@ public virtual class ToroPricingProgram {
 			if(qi.Original_Award_Price__c == null) {
 				qi.Original_Award_Price__c = qi.Total_Toro_Award__c;
 			}
+			if(qi.Total_Toro_MSRP__c != null && qi.Selected_Off_MSRP__c != null) {
+				qi.Original_Award_Price__c  = qi.Total_Toro_MSRP__c*(1-qi.Selected_Off_MSRP__c/100);
+			}
+			system.debug('check total award for each qi --qi.Original_Award_Price__c= ' + qi.Original_Award_Price__c );
 		}
 		quote.Ext_MSRP__c                      = quoteMSRP;
 		quote.Toro_Rollup_Award_Price__c       = quoteTotalToroAward;

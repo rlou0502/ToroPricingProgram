@@ -252,9 +252,11 @@ public class ToroPricingProgramController {
 						//}
 						//qis.PricingMethodValue__c=null;
 						Map<String, Object>  qisUpdateData = (Map<String, Object>) qiSublinesData.get(qis.id);
+						system.debug('qis data =' + qisUpdateData);
 						if(qisUpdateData != null) {
 							for(String key : qisUpdateData.keyset()) {
 								String strVal = (String)qisUpdateData.get(key);
+								system.debug('qis data key =' + key + ' val =' + strVal);
 								if(string.isNotBlank(strVal)) {
 									if('PricingMethodValue__c'.equalsIgnoreCase(key)){
 										qis.PricingMethodValue__c = strVal;
@@ -272,13 +274,16 @@ public class ToroPricingProgramController {
 									} else if('Unit_Award_Overridden__c'.equalsIgnoreCase(key)){
 										qis.Unit_Award_Overridden__c = boolean.valueOf(strVal);
 									}
+									system.debug('roy strVal=' + strVal + 'Award_Price__c=' + qis.Award_Price__c + ' Unit_Award_Overridden__c=' + qis.Unit_Award_Overridden__c);
 								}
+								system.debug('roy strVal=' + strVal + 'Award_Price__c=' + qis.Award_Price__c + ' Unit_Award_Overridden__c=' + qis.Unit_Award_Overridden__c);
 							}
 						}
 						//system.debug('display qis=' + qis.PricingMethodValue__c );
 						if(!performancePart) {
 							qis.Performance_Part__c = false;
 						}
+						system.debug('qid data =' + qis);
 					}
 	    		}
 			}

@@ -36,7 +36,7 @@
         var fieldName = event.currentTarget.dataset.fieldname;
         
         var curObj = event.currentTarget;
-        if(fieldName == "PricingMethodValue__c" || fieldName == "Award_Price__c") {
+        if(fieldName == "PricingMethodValue__c" || fieldName == "Award_Price__c" || fieldName == "Total_Toro_Award__c") {
             var newVal = event.currentTarget.value; 
             var quoteItemId = event.currentTarget.closest('tr').id;
             if(listenMSRPChange) {
@@ -51,7 +51,7 @@
                 if(fieldName == "PricingMethodValue__c"){
                     validAdjustment = newVal >= origVal;
                     msg = 'Please enter a value higher than ';
-                } else if(fieldName == "Award_Price__c") {
+                } else if(fieldName == "Award_Price__c" || fieldName == "Total_Toro_Award__c") {
                     validAdjustment = newVal <= origVal;
                     msg = 'Please enter a value lower than ';
                 }
