@@ -108,8 +108,10 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					//qi.Award_of_DN__c = line.Award_Price_as_a_Percent_of_DN__c;
 					qi.Selected_Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 					system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
+					
 					if(!qi.Unit_Award_Overridden__c) {
 						qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;
+						qi.Original_Award_Price__c = qi.MSRP_Price__c*(1-qi.Selected_Off_MSRP__c/100);
 						if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' &&  qi.Pricing_Program_Product_Type__c != 'TPP') {
 							qi.Award_Price__c = qi.MSRP_Price__c;	
 						}
@@ -119,6 +121,7 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 							qi.Off_MSRP__c = (1-(qi.Award_Price__c/qi.MSRP_Price__c))*100;	
 							//qi.Selected_Off_MSRP__c = qi.Off_MSRP__c;
 						}
+						qi.Original_Award_Price__c = qi.Total_Toro_Award__c;
 					}
 					if(qi.DNet_Price__c != null && qi.DNet_Price__c != 0) {
 						qi.Award_of_DN__c = qi.Award_Price__c/qi.DNet_Price__c*100;
@@ -126,8 +129,8 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					qi.Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Quantity__c);
 					qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c.setScale(4));
 					//qi.Original_Award_Price__c = qi.Award_Price__c ;
-					qi.Original_Award_Price__c = qi.MSRP_Price__c*(1-qi.Selected_Off_MSRP__c/100);
-					system.debug(logginglevel.info,'qi.Original_Award_Price__c =' + qi.Original_Award_Price__c );
+					
+					system.debug(logginglevel.info,'qi.Original_Award_Price__c =' + qi.Original_Award_Price__c + ' qi.Total_Toro_Award__c=' + qi.Total_Toro_Award__c );
 					system.debug(logginglevel.info,'line.Rebate_as_a_Percent_of_DN__c =' + line.Rebate_as_a_Percent_of_DN__c );
 					system.debug(logginglevel.info,'qi.Rebate_as_a_of_DN__c =' + qi.Rebate_as_a_of_DN__c );
 					//qi.Rebate_as_a_of_DN__c = line.Rebate_as_a_Percent_of_DN__c;						

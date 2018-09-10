@@ -189,9 +189,9 @@ public class ToroPricingProgramController {
 				system.debug(logginglevel.info, 'qiUpdateData =' + qiUpdateData);
 				if(qiUpdateData != null) {
 					for(String key : qiUpdateData.keyset()) {
-						//system.debug(logginglevel.info, 'key =' + key);
+						system.debug(logginglevel.info, '1 key =' + key);
 						String strVal = (String)qiUpdateData.get(key);
-						//system.debug(logginglevel.info, '1 strVal =' + strVal);
+						system.debug(logginglevel.info, '1 strVal =' + strVal);
 						//qi.PricingMethodValue__c=null;
 						if('PricingMethodValue__c'.equalsIgnoreCase(key)){
 							qi.PricingMethodValue__c = strVal;
