@@ -2,7 +2,9 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fields>
         <fullName>ApplicableProducts__c</fullName>
+        <description>Products that Pricing Program can apply to</description>
         <externalId>false</externalId>
+        <inlineHelpText>Products that Pricing Program can apply to</inlineHelpText>
         <label>Applicable Products</label>
         <length>255</length>
         <required>false</required>
@@ -12,7 +14,9 @@
     </fields>
     <fields>
         <fullName>Award_Price__c</fullName>
+        <description>Award Price of pricing program line</description>
         <externalId>false</externalId>
+        <inlineHelpText>Award Price of pricing program line</inlineHelpText>
         <label>Award Price</label>
         <precision>18</precision>
         <required>false</required>
@@ -22,7 +26,9 @@
     </fields>
     <fields>
         <fullName>Award_Price_as_a_Percent_of_DN__c</fullName>
+        <description>Award Price as a percentage of Distributor Net Price</description>
         <externalId>false</externalId>
+        <inlineHelpText>Award Price as a percentage of Distributor Net Price</inlineHelpText>
         <label>Award Price as a Percent of DN(%)</label>
         <precision>18</precision>
         <required>false</required>
@@ -32,7 +38,9 @@
     </fields>
     <fields>
         <fullName>Distributor_Margin__c</fullName>
+        <description>Distributor Margin percentage of the pricing program line</description>
         <externalId>false</externalId>
+        <inlineHelpText>Distributor Margin percentage of the pricing program line</inlineHelpText>
         <label>Distributor Margin(%)</label>
         <precision>18</precision>
         <required>false</required>
@@ -54,6 +62,7 @@
         <fullName>Max_Qty__c</fullName>
         <description>Upper bound of a quantity range</description>
         <externalId>false</externalId>
+        <inlineHelpText>Upper bound of a quantity range</inlineHelpText>
         <label>Max Qty</label>
         <precision>18</precision>
         <required>false</required>
@@ -66,6 +75,7 @@
         <fullName>Min_Qty__c</fullName>
         <description>Lower bound of a quantity tier.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Lower bound of a quantity tier.</inlineHelpText>
         <label>Min Qty</label>
         <precision>18</precision>
         <required>false</required>
@@ -76,7 +86,9 @@
     </fields>
     <fields>
         <fullName>Off_Mfg_Sugg_Ttl__c</fullName>
+        <description>Percent Off Manufacturer Suggested Retail Price</description>
         <externalId>false</externalId>
+        <inlineHelpText>Percent Off Manufacturer Suggested Retail Price</inlineHelpText>
         <label>Off Mfg. Sugg. Rtl(%)</label>
         <precision>18</precision>
         <required>false</required>
@@ -99,6 +111,7 @@
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Points to Pricing Program</description>
         <externalId>false</externalId>
+        <inlineHelpText>Points to Pricing Program</inlineHelpText>
         <label>Pricing Program</label>
         <referenceTo>REVVY__MnStrategy1__c</referenceTo>
         <relationshipLabel>Strategy 2</relationshipLabel>
@@ -129,7 +142,9 @@
     </fields>
     <fields>
         <fullName>Rebate_as_a_Percent_of_DN__c</fullName>
+        <description>Rebate as a percentage of Distributor Net Price for pricing program line</description>
         <externalId>false</externalId>
+        <inlineHelpText>Rebate as a percentage of Distributor Net Price for pricing program line</inlineHelpText>
         <label>Rebate as a Percent of DN(%)</label>
         <precision>18</precision>
         <required>false</required>
@@ -141,6 +156,7 @@
         <fullName>Sequence__c</fullName>
         <description>Evaluation Sequence. Used in National Account</description>
         <externalId>false</externalId>
+        <inlineHelpText>Evaluation Sequence. Used in National Account</inlineHelpText>
         <label>Sequence</label>
         <precision>18</precision>
         <required>false</required>

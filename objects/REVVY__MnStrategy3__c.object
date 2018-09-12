@@ -16,6 +16,7 @@
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Toro Pricing Program Eligibilities</description>
         <externalId>false</externalId>
+        <inlineHelpText>Toro Pricing Program Eligibilities</inlineHelpText>
         <label>Distributor</label>
         <lookupFilter>
             <active>true</active>
@@ -51,9 +52,11 @@
     </fields>
     <fields>
         <fullName>Location__c</fullName>
+        <description>Location used to determine pricing program eligibility</description>
         <externalId>false</externalId>
         <formula>Text(Distributor__r.Location__c)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Location used to determine pricing program eligibility</inlineHelpText>
         <label>Location</label>
         <required>false</required>
         <trackTrending>false</trackTrending>

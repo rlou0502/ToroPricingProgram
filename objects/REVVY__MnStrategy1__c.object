@@ -45,6 +45,7 @@
         <fullName>Blended_DNet_Threshold__c</fullName>
         <description>Threshold for blended DNet %</description>
         <externalId>false</externalId>
+        <inlineHelpText>Threshold for blended DNet %</inlineHelpText>
         <label>Blended DNet % Threshold</label>
         <precision>18</precision>
         <required>false</required>
@@ -56,6 +57,7 @@
         <fullName>Contract_Number__c</fullName>
         <description>If the pricing program is based on the contract, this is the contract number</description>
         <externalId>false</externalId>
+        <inlineHelpText>If the pricing program is based on the contract, this is the contract number</inlineHelpText>
         <label>Contract Number</label>
         <length>20</length>
         <required>false</required>
@@ -76,7 +78,9 @@
     <fields>
         <fullName>Corporate_Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <description>Corporate Account</description>
         <externalId>false</externalId>
+        <inlineHelpText>Corporate Account</inlineHelpText>
         <label>Corporate Account</label>
         <referenceTo>Account</referenceTo>
         <relationshipLabel>Toro Pricing Programs</relationshipLabel>
@@ -87,7 +91,9 @@
     </fields>
     <fields>
         <fullName>CurrentDate__c</fullName>
+        <description>Today&apos;s date</description>
         <externalId>false</externalId>
+        <inlineHelpText>Today&apos;s date</inlineHelpText>
         <label>Current Date</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -95,7 +101,9 @@
     </fields>
     <fields>
         <fullName>Determines_Support_Plus_Allowance__c</fullName>
+        <description>Determines Support Plus Allowance based on the pricing method</description>
         <externalId>false</externalId>
+        <inlineHelpText>Determines Support Plus Allowance based on the pricing method</inlineHelpText>
         <label>Determines Support Plus Allowance</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -127,6 +135,7 @@
         <defaultValue>false</defaultValue>
         <description>Pay by GP % and not Rebate %</description>
         <externalId>false</externalId>
+        <inlineHelpText>Pay by GP % and not Rebate %</inlineHelpText>
         <label>DrivenByGP</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -143,6 +152,7 @@
     </fields>
     <fields>
         <fullName>ExternalId__c</fullName>
+        <description>Unique External ID for pricing programs</description>
         <externalId>true</externalId>
         <inlineHelpText>Please enter the unique External ID. Only Alpha-numberical characters are allowed. Ex. You can copy the name of the pricing program and remove all spaces and special characters.</inlineHelpText>
         <label>External Id</label>
@@ -157,6 +167,7 @@
         <defaultValue>false</defaultValue>
         <description>Hide Children Pricing Programs in Secondary Pricing Program Picklist</description>
         <externalId>false</externalId>
+        <inlineHelpText>Hide Children Pricing Programs in Secondary Pricing Program Picklist</inlineHelpText>
         <label>Hide Children from Secondary Program</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -166,6 +177,7 @@
         <defaultValue>false</defaultValue>
         <description>Is this a first tee pricing program?  This flag is used in pricing program eligibility logic.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Is this a first tee pricing program?  This flag is used in pricing program eligibility logic.</inlineHelpText>
         <label>Is First Tee</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -175,6 +187,7 @@
         <defaultValue>false</defaultValue>
         <description>Is this a tax supported pricing program? This flag is used in pricing program eligibility logic.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Is this a tax supported pricing program? This flag is used in pricing program eligibility logic.</inlineHelpText>
         <label>Is Tax Supported</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -183,6 +196,7 @@
         <fullName>MinimumThreshold__c</fullName>
         <description>Minimum threshold for a pricing program to be seen in pricing program pick list.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Minimum threshold for a pricing program to be seen in pricing program pick list.</inlineHelpText>
         <label>Minimum Package Threshold</label>
         <precision>18</precision>
         <required>false</required>
@@ -195,6 +209,8 @@
         <description>Used by Small Package Restriction:
 Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Used by Small Package Restriction:
+Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</inlineHelpText>
         <label>Minimum Traction Units</label>
         <precision>18</precision>
         <required>false</required>
@@ -207,6 +223,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <fullName>OutCrossThreshold__c</fullName>
         <description>Minimum dollar amount threshold for Large Package that has OutCross.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Minimum dollar amount threshold for Large Package that has OutCross.</inlineHelpText>
         <label>OutCross Threshold</label>
         <precision>18</precision>
         <required>false</required>
@@ -217,7 +234,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     <fields>
         <fullName>OverriddenPriceList__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <description>Overridden Price List</description>
         <externalId>false</externalId>
+        <inlineHelpText>Overridden Price List</inlineHelpText>
         <label>Overridden Price List</label>
         <referenceTo>REVVY__MnPriceList__c</referenceTo>
         <relationshipLabel>Toro Pricing Programs</relationshipLabel>
@@ -231,6 +250,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Parent Pricing Program</description>
         <externalId>false</externalId>
+        <inlineHelpText>Parent Pricing Program</inlineHelpText>
         <label>Parent Program</label>
         <referenceTo>REVVY__MnStrategy1__c</referenceTo>
         <relationshipLabel>Toro Pricing Programs</relationshipLabel>
@@ -241,7 +261,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     </fields>
     <fields>
         <fullName>PricingProgramStyle__c</fullName>
+        <description>Select calculation Style of Contracts Price Programs</description>
         <externalId>false</externalId>
+        <inlineHelpText>Select calculation Style of Contracts Price Programs</inlineHelpText>
         <label>Pricing Program Style</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -535,7 +557,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     </fields>
     <fields>
         <fullName>PricingProgramType__c</fullName>
+        <description>Select the type of the contract.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Select the type of the contract.</inlineHelpText>
         <label>Pricing Program Type</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -570,6 +594,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <fullName>SecondaryProgram__c</fullName>
         <description>Copy the External ID of the pricing program to be used as secondary program as a value in this picklist.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Copy the External ID of the pricing program to be used as secondary program as a value in this picklist.</inlineHelpText>
         <label>Secondary Program</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -607,6 +632,7 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
         <deleteConstraint>SetNull</deleteConstraint>
         <description>This field is used to lookup a product</description>
         <externalId>false</externalId>
+        <inlineHelpText>This field is used to lookup a product</inlineHelpText>
         <label>Select Product</label>
         <lookupFilter>
             <active>true</active>
@@ -632,7 +658,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     </fields>
     <fields>
         <fullName>Sequence__c</fullName>
+        <description>Used to sort secondary pricing programs</description>
         <externalId>false</externalId>
+        <inlineHelpText>Used to sort secondary pricing programs</inlineHelpText>
         <label>Sequence</label>
         <precision>18</precision>
         <required>false</required>
@@ -643,7 +671,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     </fields>
     <fields>
         <fullName>Setup_Fee__c</fullName>
+        <description>Enter setup fee percentage for pricing program</description>
         <externalId>false</externalId>
+        <inlineHelpText>Enter setup fee percentage for pricing program</inlineHelpText>
         <label>Setup Fee</label>
         <precision>5</precision>
         <required>false</required>
@@ -654,7 +684,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     <fields>
         <fullName>ShowSecondaryProgram__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>Check to show secondary program</description>
         <externalId>false</externalId>
+        <inlineHelpText>Check to show secondary program</inlineHelpText>
         <label>Show Secondary Program</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -662,7 +694,9 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</descriptio
     <fields>
         <fullName>UseDesignatedPriceList__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>If you want to override the default of current price list, then this needs to be checked and the Previous Price date needs to be filled in.</description>
         <externalId>false</externalId>
+        <inlineHelpText>If you want to override the default of current price list, then this needs to be checked and the Previous Price date needs to be filled in.</inlineHelpText>
         <label>Use Designated Price List</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
