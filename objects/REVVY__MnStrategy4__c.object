@@ -1419,6 +1419,7 @@
         <fullName>Adjusted_Quantity__c</fullName>
         <description>Holds quantity adjusted by Support Plus</description>
         <externalId>false</externalId>
+        <inlineHelpText>Holds quantity adjusted by Support Plus</inlineHelpText>
         <label>QTY</label>
         <precision>18</precision>
         <required>false</required>
@@ -1429,7 +1430,9 @@
     </fields>
     <fields>
         <fullName>Approval_Reason__c</fullName>
+        <description>Reason the quote is approved</description>
         <externalId>false</externalId>
+        <inlineHelpText>Reason the quote is approved</inlineHelpText>
         <label>Approval Reason</label>
         <length>250</length>
         <required>false</required>
@@ -1439,7 +1442,9 @@
     </fields>
     <fields>
         <fullName>Award_Price__c</fullName>
+        <description>Award Price of Toro quote item</description>
         <externalId>false</externalId>
+        <inlineHelpText>Award Price of Toro quote item</inlineHelpText>
         <label>AWARD</label>
         <precision>18</precision>
         <required>false</required>
@@ -1451,6 +1456,7 @@
         <fullName>Award_of_DN__c</fullName>
         <description>Store percentage entered by user. This value will be used in calculating award price when price method is &quot;% of DNet&quot;</description>
         <externalId>false</externalId>
+        <inlineHelpText>Store percentage entered by user. This value will be used in calculating award price when price method is &quot;% of DNet&quot;</inlineHelpText>
         <label>% of DNet</label>
         <precision>18</precision>
         <required>false</required>
@@ -1460,7 +1466,9 @@
     </fields>
     <fields>
         <fullName>Blended_GP__c</fullName>
+        <description>Total blended percentage of Gross Profit</description>
         <externalId>false</externalId>
+        <inlineHelpText>Total blended percentage of Gross Profit</inlineHelpText>
         <label>GP %</label>
         <precision>18</precision>
         <required>false</required>
@@ -1470,7 +1478,9 @@
     </fields>
     <fields>
         <fullName>Blended_MSRP__c</fullName>
+        <description>Total blended percentage off Manufacturer Suggested Retail Price</description>
         <externalId>false</externalId>
+        <inlineHelpText>Total blended percentage off Manufacturer Suggested Retail Price</inlineHelpText>
         <label>% Off MSRP</label>
         <precision>18</precision>
         <required>false</required>
@@ -1480,7 +1490,9 @@
     </fields>
     <fields>
         <fullName>Blended_Rebate__c</fullName>
+        <description>Total blended rebate percentage</description>
         <externalId>false</externalId>
+        <inlineHelpText>Total blended rebate percentage</inlineHelpText>
         <label>Total Rebate %</label>
         <precision>18</precision>
         <required>false</required>
@@ -1492,6 +1504,7 @@
         <fullName>Commission_Dollar__c</fullName>
         <description>Traction Unit Commission Dollar Amount</description>
         <externalId>false</externalId>
+        <inlineHelpText>Traction Unit Commission Dollar Amount</inlineHelpText>
         <label>Com $</label>
         <precision>18</precision>
         <required>false</required>
@@ -1503,6 +1516,7 @@
         <fullName>Commission__c</fullName>
         <description>Traction Unit Commission %</description>
         <externalId>false</externalId>
+        <inlineHelpText>Traction Unit Commission %</inlineHelpText>
         <label>Com %</label>
         <precision>18</precision>
         <required>false</required>
@@ -1533,6 +1547,7 @@
         <fullName>Description__c</fullName>
         <description>Store product name/description during support plus process</description>
         <externalId>false</externalId>
+        <inlineHelpText>Store product name/description during support plus process</inlineHelpText>
         <label>Description</label>
         <length>255</length>
         <required>false</required>
@@ -1560,6 +1575,7 @@
         <fullName>Extended_Award_Price__c</fullName>
         <description>Extended Award Price = Award_price__c * qty</description>
         <externalId>false</externalId>
+        <inlineHelpText>Extended Award Price = Award_price__c * qty</inlineHelpText>
         <label>EXT AWARD</label>
         <precision>18</precision>
         <required>false</required>
@@ -1571,6 +1587,7 @@
         <fullName>Extended_DNet_Price__c</fullName>
         <description>Traction Unit Level DNet</description>
         <externalId>false</externalId>
+        <inlineHelpText>Traction Unit Level DNet</inlineHelpText>
         <label>EXT DNET</label>
         <precision>18</precision>
         <required>false</required>
@@ -1582,6 +1599,7 @@
         <fullName>Extended_MSRP_Price__c</fullName>
         <description>Traction UNit Level MSRP</description>
         <externalId>false</externalId>
+        <inlineHelpText>Traction UNit Level MSRP</inlineHelpText>
         <label>EXT MSRP</label>
         <precision>18</precision>
         <required>false</required>
@@ -1662,7 +1680,9 @@
     <fields>
         <fullName>Off_MSRP_Overridden__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>If checked, Percentage off of Manufacturer Suggested Retail Price Overridden</description>
         <externalId>false</externalId>
+        <inlineHelpText>If checked, Percentage off of Manufacturer Suggested Retail Price Overridden</inlineHelpText>
         <label>% Off MSRP Overridden</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -1671,6 +1691,7 @@
         <fullName>Off_MSRP__c</fullName>
         <description>Store value of &quot;% off MSRP&quot; entered by user in pricing program page.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Store value of &quot;% off MSRP&quot; entered by user in pricing program page.</inlineHelpText>
         <label>% Off MSRP</label>
         <precision>18</precision>
         <required>false</required>
@@ -1978,6 +1999,7 @@
         <fullName>Toro_Com_Dollar__c</fullName>
         <description>Configuration Commission Dollar Amount</description>
         <externalId>false</externalId>
+        <inlineHelpText>Configuration Commission Dollar Amount</inlineHelpText>
         <label>Com $</label>
         <precision>12</precision>
         <required>false</required>
@@ -1987,7 +2009,9 @@
     </fields>
     <fields>
         <fullName>Toro_DNetWOTPPAllied__c</fullName>
+        <description>Distributor Net Price without Toro Protection Plus and Allied Products</description>
         <externalId>false</externalId>
+        <inlineHelpText>Distributor Net Price without Toro Protection Plus and Allied Products</inlineHelpText>
         <label>DNet Without TPP and Allied</label>
         <precision>18</precision>
         <required>false</required>
