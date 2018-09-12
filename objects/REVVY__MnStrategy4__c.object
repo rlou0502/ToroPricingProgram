@@ -1622,6 +1622,7 @@
         <fullName>Fee_Percentage__c</fullName>
         <description>Setup Fee Percentage for National Account</description>
         <externalId>false</externalId>
+        <inlineHelpText>Setup Fee Percentage for National Account</inlineHelpText>
         <label>Setup Fee</label>
         <precision>5</precision>
         <required>false</required>
@@ -1651,6 +1652,7 @@
         <defaultValue>false</defaultValue>
         <description>If sublines have SP checked, then check this box</description>
         <externalId>false</externalId>
+        <inlineHelpText>If sublines have SP checked, then check this box</inlineHelpText>
         <label>Hidden SP for Sublines</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -1704,6 +1706,7 @@
         <defaultValue>false</defaultValue>
         <description>Product not in Commercial Price List</description>
         <externalId>false</externalId>
+        <inlineHelpText>Product not in Commercial Price List</inlineHelpText>
         <label>Only Existed In CPL</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -1722,6 +1725,7 @@
         <fullName>Original_off_MSRP__c</fullName>
         <description>Store the original percent of MSRP</description>
         <externalId>false</externalId>
+        <inlineHelpText>Store the original percent of MSRP</inlineHelpText>
         <label>Original % off MSRP</label>
         <precision>18</precision>
         <required>false</required>
@@ -1733,6 +1737,7 @@
         <fullName>Oroginal_of_DNet__c</fullName>
         <description>Original % of DNet</description>
         <externalId>false</externalId>
+        <inlineHelpText>Original % of DNet</inlineHelpText>
         <label>Oroginal % of DNet</label>
         <precision>18</precision>
         <required>false</required>
@@ -1792,6 +1797,7 @@
         <fullName>PricingMethodValue__c</fullName>
         <description>Store pricing method value user enters. Pricing Method could be one of % off MSRP, % of DNet, Total award price, GP$, and GP%.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Store pricing method value user enters. Pricing Method could be one of % off MSRP, % of DNet, Total award price, GP$, and GP%.</inlineHelpText>
         <label>Pricing Method Value</label>
         <length>255</length>
         <required>false</required>
