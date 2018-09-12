@@ -13,14 +13,18 @@
     <fields>
         <fullName>AllowSupportPlus__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>Allow Support Plus</description>
         <externalId>false</externalId>
+        <inlineHelpText>Allow Support Plus</inlineHelpText>
         <label>Allow Support Plus</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>ApplicableProductsLong__c</fullName>
+        <description>Products that Pricing Program can apply to</description>
         <externalId>false</externalId>
+        <inlineHelpText>Products that Pricing Program can apply to</inlineHelpText>
         <label>Applicable Products</label>
         <length>32768</length>
         <trackTrending>false</trackTrending>
@@ -29,7 +33,9 @@
     </fields>
     <fields>
         <fullName>ApplicableProducts__c</fullName>
+        <description>Products that Pricing Program can apply to</description>
         <externalId>false</externalId>
+        <inlineHelpText>Products that Pricing Program can apply to</inlineHelpText>
         <label>Applicable Products</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
