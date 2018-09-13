@@ -174,8 +174,6 @@ public class ToroPricingProgramController {
     				system.debug('setupfee--displaySetupFee --program.Setup_Fee__c ' + program.Setup_Fee__c);
     				system.debug('setupfee--displaySetupFee --quote= ' + pp.quote.Setup_Fee__c);
     			}
-    		} else {
-    			pp.quote.Setup_Fee__c = null;	
     		}
 	    		
 			//pp.quote.Setup_Fee__c = setupFeePercent;
@@ -604,8 +602,6 @@ public class ToroPricingProgramController {
 	    				system.debug('displaySetupFee --program.Setup_Fee__c ' + program.Setup_Fee__c);
 	    				system.debug('displaySetupFee --quote= ' + pp.quote.Setup_Fee__c);
 	    			//}
-	    		} else {
-	    			pp.quote.Setup_Fee__c = null;	
 	    		}
 	    		ToroCacheManager.putQuote(pp.quote);
     			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
@@ -788,8 +784,6 @@ public class ToroPricingProgramController {
     			pp.quote.Setup_Fee__c = ppi.Setup_Fee__c;
     			system.debug(logginglevel.info,'pricingProgram setup fee=' + pp.quote.Setup_Fee__c);
     		}
-    	} else if(!pp.displaySetupFee()) {
-    		pp.quote.Setup_Fee__c = null;	
     	}
 
     	ToroCacheManager.putQuote(pp.quote);
