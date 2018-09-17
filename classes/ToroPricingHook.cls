@@ -77,6 +77,14 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 				}	        	
 	        }
 			
+         // override product listPrice      
+         if (pricingParams.prodIdToTieredPriceInfo != null) {
+            for (String prodId: pricingParams.prodIdToTieredPriceInfo.keySet()) {
+                if (prodsMap.get(prodId) != null) {
+                    pricingParams.prodIdToTieredPriceInfo.get(prodId).listPrice = prodsMap.get(prodId);
+                }
+            }
+        }        
         
         //system.debug(3/0);
         return prodsMap;
