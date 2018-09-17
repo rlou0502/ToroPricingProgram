@@ -1086,8 +1086,9 @@ public virtual class ToroPricingProgram {
 				}	
 			}	
 		}
-		qi.Award_Price__c = qi.Total_Toro_Award__c * (qi.Extended_MSRP_Price__c /qiExtMSRP)/qi.Adjusted_Quantity__c; //.setScale(2,roundingMode.HALF_UP);
-		
+		if(qiExtMSRP != null && qiExtMSRP != 0 && qi.Adjusted_Quantity__c != null && qi.Adjusted_Quantity__c != 0) {
+			qi.Award_Price__c = qi.Total_Toro_Award__c * (qi.Extended_MSRP_Price__c /qiExtMSRP)/qi.Adjusted_Quantity__c; //.setScale(2,roundingMode.HALF_UP);
+		}
 		return qi.Award_Price__c;	
 	} 
 }
