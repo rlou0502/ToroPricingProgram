@@ -89,7 +89,8 @@ public virtual class ToroPricingProgram {
 		return SObjectType.Revvy__MnQuote__c.FieldSets.DNet_Field_Set.getFields();
 	}
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemFields() {
-		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Quote_Line_Cols.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		//return SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Quote_Line_Cols.getFields();
 	}
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemUpdatableFields() {
 		return null;
@@ -101,7 +102,8 @@ public virtual class ToroPricingProgram {
 		return null;
 	}
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemSummaryFields() {
-		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Quote_Summary.getFields();
+		return SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Quote_Line_Cols.getFields();
+		//return SObjectType.Revvy__MnStrategy4__c.FieldSets.Price_Program_Quote_Summary.getFields();
 	}
 	public virtual List<Schema.FieldSetMember> getToroQuoteItemSummaryUpdatableFields() {
 		return null;
