@@ -238,7 +238,7 @@
                 	decimalPoint=2;    
                 }
                 tableDataNode.value = sObj[field.fieldPath] != undefined ? self.formatPercentWithDecimal(sObj[field.fieldPath], decimalPoint) : '';
-                if(lineType == "MainLine" && field.fieldPath=="PricingMethodValue__c") {
+                if(lineType == "MainLine" && field.fieldPath=="PricingMethodValue__c" && sObj[field.fieldPath] != undefined) {
                     switch(pricingMethod) {
                         case "% of DNET":
                             tableDataNode.value = sObj["Toro_Blend_Of_DN__c"] != undefined  ? self.formatPercentWithDecimal(sObj["Toro_Blend_Of_DN__c"], decimalPoint) : '';	
