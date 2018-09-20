@@ -1,0 +1,205 @@
+<apex:page contentType="txt/xml#QuoteExport.xls" standardController="REVVY__MnQuote__c" extensions="ToroQuoteExport"> 
+	
+	
+	<apex:outputText value="{!xlsHeader}"/>
+	<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+	 xmlns:o="urn:schemas-microsoft-com:office:office"
+	 xmlns:x="urn:schemas-microsoft-com:office:excel"
+	 xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+	 xmlns:html="http://www.w3.org/TR/REC-html40">
+		 <Styles>
+			 <Style ss:ID="s1">
+				 <Alignment/>
+				 <Borders/> 
+				 <Font ss:Bold="1"/>
+				 <Interior/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style>
+			 <Style ss:ID="s2">
+				 <Alignment/>
+				 <Borders/>
+				 <Font ss:Bold="1"/>
+				 <Interior ss:Color="#ddd9d9" ss:Pattern="Solid"/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style>
+			 <Style ss:ID="s3">
+				 <Alignment ss:Horizontal="Right"/>
+				 <Borders/>
+				 <Font ss:Bold="1"/>
+				 <Interior/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style>
+			 <Style ss:ID="s4">
+				 <Alignment ss:Vertical="Bottom"/>
+				 <Borders/>
+				 <Font ss:Size="12" ss:Color="#000000"/>
+				 <Interior/>
+				 <NumberFormat ss:Format="$#,##0.00_);\($#,##0.00\)"/>
+				 <Protection/>
+			 </Style> 
+			 <Style ss:ID="s5">
+				 <Alignment ss:Horizontal="Right"/>
+				 <Borders/> 
+				 <Font ss:Bold="1"/>
+				 <Interior/>
+				 <NumberFormat/>
+				 <Protection/>
+			 </Style> 
+			 <Style ss:ID="s62">
+			   <Borders>
+			    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			   </Borders>
+			   <Font ss:Bold="1"/>
+			   <Interior ss:Color="#969696" ss:Pattern="Solid"/>
+			  </Style>
+			  <Style ss:ID="s66">
+			   <Borders>
+			    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			   </Borders>
+			   <Font ss:FontName="Verdana" ss:Size="9" ss:Bold="1"/>
+			   <NumberFormat ss:Format="$#,##0.00_);\($#,##0.00\)"/>
+			  </Style>
+			 <Style ss:ID="s67">
+			   <Borders>
+			    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			   </Borders>
+			   <Font ss:FontName="Verdana" ss:Size="9" ss:Bold="1"/>
+			  </Style>
+			  <Style ss:ID="s68">
+			   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+			   <Borders>
+			    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			   </Borders>
+			   <Font ss:FontName="Verdana" ss:Size="9"/>
+			   <NumberFormat ss:Format="$#,##0.00_);\($#,##0.00\)"/>
+			  </Style>
+			  <Style ss:ID="s69">
+			   <Borders>
+			    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+			     ss:Color="#000000"/>
+			   </Borders>
+			   <Font ss:FontName="Verdana" ss:Size="9"/>
+			  </Style> 
+			 <Style ss:ID="s72">
+			   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+			   <Font  ss:Size="12" ss:Bold="1"/>
+			  </Style>  
+		 </Styles>	
+		 <Worksheet ss:Name="Quote-{!quote.REVVY__Id__c}">
+			 <Table x:FullColumns="1" x:FullRows="1">
+			 	<Column ss:Width="50"/>
+			 	<Column ss:Width="100"/>
+			 	<Column ss:Width="500"/>			 	
+			  	<Column  ss:Width="200"/>				
+			 	<Column ss:Width="200"/>
+			 	
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">The Toro Company - Confidential</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">{!quote.REVVY__Account__r.Commercial_Distributor__r.Name}</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Expiration Date: {!quote.REVVY__Expiration_Date__c}</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Quote Name: {!quote.Name}</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s3"><Data ss:Type="String">Quote ID: {!quote.REVVY__Id__c}</Data></Cell>
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
+				 </Row>
+				  
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s72"><Data ss:Type="String">{!quote.REVVY__Account__r.Name}</Data></Cell> 
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s72"><Data ss:Type="String">{!quote.REVVY__Account__r.BillingStreet}</Data></Cell> 
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ss:StyleID="s72"><Data ss:Type="String">{!quote.REVVY__Account__r.BillingCity}, {!quote.REVVY__Account__r.BillingStateCode} {!quote.REVVY__Account__r.BillingPostalCode}</Data></Cell> 
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
+				 </Row>
+				 <Row>
+					 <Cell ss:StyleID="s62"><Data ss:Type="String" >Qty</Data></Cell>
+					 <Cell ss:StyleID="s62"><Data ss:Type="String" >Model Number</Data></Cell>
+					 <Cell ss:StyleID="s62"><Data ss:Type="String" >Description</Data></Cell>
+					 <Cell ss:StyleID="s62"><Data ss:Type="String" >Unit Price</Data></Cell>
+					 <Cell ss:StyleID="s62"><Data ss:Type="String" >Extension</Data></Cell> 
+				 </Row>
+				 <apex:repeat value="{!quoteItems}" var="sol">
+				 	<Row>
+						 <Cell><Data ss:Type="Number">{!sol.Adjusted_Quantity__c}</Data></Cell>
+						 <Cell><Data ss:Type="String">{!sol.Product_Id__c}</Data></Cell>
+						 <Cell><Data ss:Type="String">{!sol.Product_Name__c}</Data></Cell>
+						 <Cell ss:StyleID="s4"><Data ss:Type="Number">{!sol.Award_Price__c}</Data></Cell>
+						 <Cell ss:StyleID="s4"><Data ss:Type="Number">{!sol.Extended_Award_Price__c}</Data></Cell>
+					 </Row>
+					 <apex:repeat value="{!sol.Toro_Quote_Item_Sub_Lines__r}" var="so">
+					 	<Row>
+							 <Cell><Data ss:Type="Number">{!so.Adjusted_Quantity__c}</Data></Cell>
+							 <Cell><Data ss:Type="String">{!so.Product_Id__c}</Data></Cell>
+							 <Cell><Data ss:Type="String">{!so.Product_Name__c}</Data></Cell>
+							 <Cell ss:StyleID="s4"><Data ss:Type="Number">{!so.Award_Price__c}</Data></Cell>
+							 <Cell ss:StyleID="s4"><Data ss:Type="Number">{!so.Extended_Award_Price__c}</Data></Cell>
+						 </Row>
+					 </apex:repeat>
+					 <Row>
+				 		<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
+				 	 </Row>
+				 </apex:repeat>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
+				 </Row>
+				 <Row>
+				 	<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
+				 </Row>
+				 <Row ss:Height="13">
+				    <Cell ss:Index="4" ss:MergeAcross="1" ss:StyleID="s62"><Data ss:Type="String">TOTALS</Data></Cell>
+				   </Row>
+				   <Row>
+				    <Cell ss:Index="4" ss:StyleID="s69"><Data ss:Type="String">Equipment Total</Data></Cell>
+				    <Cell ss:StyleID="s68"><Data ss:Type="Number">{!equipmentTotal}</Data></Cell>
+				   </Row>
+				   <Row>
+				    <Cell ss:Index="4" ss:StyleID="s69"><Data ss:Type="String">Toro Protection Plus</Data></Cell>
+				    <Cell ss:StyleID="s68"><Data ss:Type="Number">{!tpp}</Data></Cell>
+				   </Row>
+				   <Row>
+				    <Cell ss:Index="4" ss:StyleID="s69"><Data ss:Type="String">Trade Ins</Data></Cell>
+				    <Cell ss:StyleID="s68"><Data ss:Type="Number">{!tradeIn}</Data></Cell>
+				   </Row>
+				   <Row>
+				    <Cell ss:Index="4" ss:StyleID="s69"><Data ss:Type="String">Estimated Sales/Use Tax</Data></Cell>
+				    <Cell ss:StyleID="s68"><Data ss:Type="Number">0</Data></Cell>
+				   </Row>
+				   <Row>
+				    <Cell ss:Index="4" ss:StyleID="s67"><Data ss:Type="String">Total</Data></Cell>
+				    <Cell ss:StyleID="s66"><Data ss:Type="Number">{!total}</Data></Cell>
+				   </Row>
+  
+			</Table>
+		</Worksheet> 
+	</Workbook>
+</apex:page>

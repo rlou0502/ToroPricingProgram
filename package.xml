@@ -95,6 +95,7 @@
         <members>ToroQIExtensionCreatedBatch</members>
         <members>ToroQISLExtensionCreatedBatch</members>
         <members>ToroQuoteCache</members>
+        <members>ToroQuoteExport</members>
         <members>ToroQuoteItemEmailController</members>
         <members>ToroQuoteItemExtensionHandler</members>
         <members>ToroSObjectResultSet</members>
@@ -132,6 +133,7 @@
         <members>ToroNTLgtnOut</members>
         <members>ToroPricingProgramProductSelector</members>
         <members>ToroPricingProgramProductSelectorLine</members>
+        <members>ToroQuoteExport</members>
         <members>ToroSupportPlusLgtnOut</members>
         <name>ApexPage</name>
     </types>
