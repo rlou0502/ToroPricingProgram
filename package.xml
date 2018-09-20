@@ -96,6 +96,7 @@
         <members>ToroQISLExtensionCreatedBatch</members>
         <members>ToroQuoteCache</members>
         <members>ToroQuoteExport</members>
+        <members>ToroQuoteExportTest</members>
         <members>ToroQuoteItemEmailController</members>
         <members>ToroQuoteItemExtensionHandler</members>
         <members>ToroSObjectResultSet</members>
