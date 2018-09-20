@@ -658,13 +658,12 @@ public class ToroPricingProgramController {
     			for(Revvy__MnStrategy4__c qi : pp.quoteItems) {
     				qi.Pricing_Program__c = pricingProgram;
     				qi.Select_a_Price_Method__c = rs.selectedPricingMethod;
-    				qi.Off_MSRP__c=null;  
-    				qi.Blended_MSRP__c=null;  				
+    				qi.Off_MSRP__c=null;    				
     				qi.Award_of_DN__c=null;	    				
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Unit_Award_Overridden__c = false;
     				if(!qi.Unit_Award_Overridden__c) {
-    					qi.Award_Price__c=qi.MSRP_Price__c;
+    					qi.Award_Price__c=0;
     				}
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
@@ -679,7 +678,7 @@ public class ToroPricingProgramController {
 	    					qis.Rebate_as_of_DNet__c=0;
 	    					qis.Unit_Award_Overridden__c=false;
 	    					if(!qis.Unit_Award_Overridden__c) {
-	    						qis.Award_Price__c=qis.MSRP_Price__c;
+	    						qis.Award_Price__c=0;
 	    					}
 	    					qis.PricingMethodValue__c=null;
 	    					//qis.Unit_Award_Overridden__c=false;
