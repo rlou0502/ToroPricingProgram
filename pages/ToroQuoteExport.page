@@ -132,7 +132,9 @@
 							 <Cell ss:StyleID="s4"><Data ss:Type="Number">{!so.Extended_Award_Price__c}</Data></Cell>
 						 </Row>
 					 </apex:repeat>
-					 
+					 <Row>
+				 		<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
+				 	 </Row>
 				 </apex:repeat>
 			</Table>
 		</Worksheet> 

@@ -153,8 +153,8 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 					} else if(!boakCreekMsrp && 'OakCreek'.equalsIgnoreCase(qtSegment)) {				
 		            	mnQuoteItem.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItem.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
 					}
-					
-
+					//mnQuoteItem.REVVY__IsSystemListPrice__c = false;
+		system.debug('--- ToroPricingHook postQuoteItemsCreationHook 300 msrp price='+mnQuoteItem.REVVY__Price__c);
 	            	System.debug('--- ToroPricingHook postQuoteItemsCreationHook  mnQuoteItem.REVVY__QuoteItemSubLine__r = '+ mnQuoteItem.REVVY__QuoteItemSubLine__r);
 	            	if(mnQuoteItem.REVVY__QuoteItemSubLine__r != null && !mnQuoteItem.REVVY__QuoteItemSubLine__r.isEmpty()) {
 			            for(REVVY__MnQuoteItemSubLine__c mnQuoteItemSubLine:mnQuoteItem.REVVY__QuoteItemSubLine__r){
@@ -171,6 +171,7 @@ global with sharing class ToroPricingHook implements Revvy.IMnPricingHookPlugin 
 							} else if(!boakCreekMsrp && 'OakCreek'.equalsIgnoreCase(qtSegment)) {				
 				            	mnQuoteItemSubLine.REVVY__Price__c = (CMnQuoteUtil.defaultDecimal(mnQuoteItemSubLine.REVVY__FloorPrice__c) / exchangeRate) * conversionRate;
 							}
+							//mnQuoteItemSubLine.REVVY__IsSystemListPrice__c = false;
 			            }
 	            	}
 	            }

@@ -184,6 +184,7 @@
         <members>ToroAlertBox</members>
         <members>ToroCalculateEvent</members>
         <members>ToroCalculationCompleteEvent</members>
+        <members>ToroExportQuote</members>
         <members>ToroNT</members>
         <members>ToroNTApp</members>
         <members>ToroNTHeader</members>

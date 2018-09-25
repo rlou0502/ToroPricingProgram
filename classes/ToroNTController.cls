@@ -113,6 +113,7 @@ global class ToroNTController {
 						, Award_Price__c = qiw.awardPrice
 						, Description__c = qiw.description
 						, REVVY__SuggestedPrice__c  = qiw.dnetPrice
+						
 					);
 					System.debug('>>> NT qiToUpdate='+qiToUpdate);
 					quoteITemsToUpdate.add(qiToUpdate);
@@ -130,6 +131,7 @@ global class ToroNTController {
 						, Award_Price__c            = qiw.awardPrice
 						, Description__c            = qiw.description
 						, REVVY__SuggestedPrice__c  = qiw.dnetPrice // DNet not applicable here
+						
 					);
 
 					quoteItemsToInsert.add(qiToInsert);
@@ -161,9 +163,10 @@ global class ToroNTController {
                                                                    , Extended_Award_Price__c = CMnQuoteUtil.defaultDecimal(mnqi.Award_Price__c) * CMnQuoteUtil.defaultDecimal(mnqi.REVVY__Quantity__c)
                                                                    , Total_Toro_Award__c = 0
                                                                   ));
+            	mnqi.REVVY__IsSystemListPrice__c = false;
             }
 			System.debug('\n\n@@quoteItemsAll: ' + quoteItemsAll + '\n\n');
-
+			update quoteItemsAll;
 			// ============================================================================
 			// fix Quote_Item_Extension__c for new Support Plus Quote Items
 			// ============================================================================
