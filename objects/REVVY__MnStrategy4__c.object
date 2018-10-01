@@ -1572,6 +1572,15 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Exclude_from_Rebate_F__c</fullName>
+        <externalId>false</externalId>
+        <formula>Product__r.Exclude_from_Rebate__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>EXC RBT</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Extended_Award_Price__c</fullName>
         <description>Extended Award Price = Award_price__c * qty</description>
         <externalId>false</externalId>
@@ -1644,6 +1653,16 @@
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
         <label>Freeze Line</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Has_Support_Plus__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates if there is support plus on this quote item or its sublines</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicates if there is support plus on this quote item or its sublines</inlineHelpText>
+        <label>Has Support Plus</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
     </fields>
@@ -1722,6 +1741,17 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Original_MSRP_Price__c</fullName>
+        <description>Store current year&apos;s MSRP price</description>
+        <externalId>false</externalId>
+        <label>Original MSRP Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Original_off_MSRP__c</fullName>
         <description>Store the original percent of MSRP</description>
         <externalId>false</externalId>
@@ -1764,9 +1794,29 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Placeholder1_NoDNet__c</fullName>
+        <externalId>false</externalId>
+        <label>Placeholder1 NoDNet</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Placeholder1__c</fullName>
         <externalId>false</externalId>
         <label>Placeholder1</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Placeholder2_NoDNet__c</fullName>
+        <externalId>false</externalId>
+        <label>Placeholder2 NoDNet</label>
         <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -1794,6 +1844,16 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Placeholder4__c</fullName>
+        <externalId>false</externalId>
+        <label>Placeholder4</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>PricingMethodValue__c</fullName>
         <description>Store pricing method value user enters. Pricing Method could be one of % off MSRP, % of DNet, Total award price, GP$, and GP%.</description>
         <externalId>false</externalId>
@@ -1812,6 +1872,17 @@
         <label>Pricing Program Overridden</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Pricing_Program_Product_Type__c</fullName>
+        <externalId>false</externalId>
+        <formula>Text(Product__r.Pricing_Program_Product_Type__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Pricing Program Product Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Pricing_Program__c</fullName>
@@ -1949,6 +2020,15 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Support_Plus_From_Add_New_F__c</fullName>
+        <externalId>false</externalId>
+        <formula>QuoteItem__r.Support_Plus_From_Add_New__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Support Plus From New</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Support_Plus_Item__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Checks if quote item is applied to support plus</description>
@@ -1956,6 +2036,26 @@
         <label>SP+</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Original_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Support Plus Original Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Original_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Support Plus Original Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>Support_Plus_Quantity__c</fullName>
@@ -1974,6 +2074,29 @@
         <fullName>Support_Price__c</fullName>
         <externalId>false</externalId>
         <label>Support (Price)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>TOTAL_EXT_MSRP__c</fullName>
+        <externalId>false</externalId>
+        <formula>Total_Toro_MSRP__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>TOTAL MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>TPP_DNet__c</fullName>
+        <description>TPP DNet Price</description>
+        <externalId>false</externalId>
+        <label>TPP DNet</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
@@ -2012,6 +2135,18 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Toro_Commission__c</fullName>
+        <description>Configuration Commission %</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Configuration Commission %</inlineHelpText>
+        <label>Com %</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>4</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
     </fields>
     <fields>
         <fullName>Toro_DNetWOTPPAllied__c</fullName>

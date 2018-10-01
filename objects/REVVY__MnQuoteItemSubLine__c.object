@@ -2,6 +2,19 @@
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <enableEnhancedLookup>false</enableEnhancedLookup>
     <fields>
+        <fullName>Adjusted_Quantity_F__c</fullName>
+        <externalId>false</externalId>
+        <formula>Quote_Item_Subline_Extension__r.Adjusted_Quantity__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>QTY</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Apply_Support_Plus__c</fullName>
         <defaultValue>false</defaultValue>
         <externalId>false</externalId>
@@ -73,6 +86,18 @@
         <label>Exclude from Rebate</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Ext_MSRP__c</fullName>
+        <externalId>false</externalId>
+        <formula>Quote_Item_Subline_Extension__r.Adjusted_Quantity__c *  REVVY__Price__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Ext MSRP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>Misc_Style__c</fullName>
@@ -155,6 +180,16 @@
         <precision>18</precision>
         <required>false</required>
         <scale>6</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_Original_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Support Plus Original Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
     </fields>

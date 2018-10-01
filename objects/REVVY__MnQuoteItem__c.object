@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <enableEnhancedLookup>false</enableEnhancedLookup>
+    <fieldSets>
+        <fullName>EmailTemplate</fullName>
+        <description>Email Template Quote Item</description>
+        <displayedFields>
+            <field>REVVY__Product_ID_F__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>REVVY__Catalog_Node__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>REVVY__Quantity__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>EmailTemplate</label>
+    </fieldSets>
     <fields>
         <fullName>Adjusted_Award__c</fullName>
         <externalId>false</externalId>
@@ -118,6 +138,16 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Exclude_from_Rebate__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Exclude line items from Rebate calculations</description>
+        <externalId>false</externalId>
+        <label>Exclude from Rebate</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Extended_Cost__c</fullName>
         <externalId>false</externalId>
         <formula>REVVY__CostPrice__c *  REVVY__Quantity__c</formula>
@@ -141,6 +171,18 @@
         <scale>2</scale>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Item_Config_ID_Tx__c</fullName>
+        <description>Item Configuration Id Text</description>
+        <externalId>false</externalId>
+        <label>Item Config ID Tx</label>
+        <length>25</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Misc_Style__c</fullName>
@@ -246,6 +288,17 @@
         <type>Summary</type>
     </fields>
     <fields>
+        <fullName>Support_Plus_Original_Award_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>Support Plus Original Award Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Support_Plus_Original_Item__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>The Original Item from which the Quantity was split</description>
@@ -297,11 +350,34 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>TPP_Dnet__c</fullName>
+        <externalId>false</externalId>
+        <label>TPP Dnet</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>Total_Award_price__c</fullName>
         <externalId>false</externalId>
         <formula>1</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Total Toro Award price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_Ext_MSRP__c</fullName>
+        <externalId>false</externalId>
+        <formula>REVVY__Quantity__c *REVVY__One_Time_Extended_Price_F__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total MSRP</label>
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>

@@ -104,6 +104,63 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Pricing_Program_Product_Type__c</fullName>
+        <defaultValue>&quot;Standard&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>Pricing Program Product Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Standard</fullName>
+                    <default>true</default>
+                    <label>Standard</label>
+                </value>
+                <value>
+                    <fullName>Approved Allied</fullName>
+                    <default>false</default>
+                    <label>Approved Allied</label>
+                </value>
+                <value>
+                    <fullName>TPP</fullName>
+                    <default>false</default>
+                    <label>TPP</label>
+                </value>
+                <value>
+                    <fullName>Non-Toro Allied</fullName>
+                    <default>false</default>
+                    <label>Non-Toro Allied</label>
+                </value>
+                <value>
+                    <fullName>Trade Ins</fullName>
+                    <default>false</default>
+                    <label>Trade Ins</label>
+                </value>
+                <value>
+                    <fullName>Service Contracts</fullName>
+                    <default>false</default>
+                    <label>Service Contracts</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Product2ID__c</fullName>
+        <description>ID of the Product in the Product2 object</description>
+        <externalId>false</externalId>
+        <inlineHelpText>ID of the Product in the Product2 object</inlineHelpText>
+        <label>Product2ID</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Product_Detail_Code_Level_4__c</fullName>
         <externalId>false</externalId>
         <label>Product Detail Code Level 4</label>
@@ -156,6 +213,16 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Support_Plus_TU__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Support plus traction unit used to determine if the limits are meet before quote approval is needed.  Currently this is for Groundsmasters and Vehicles</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Checked if this TU is validated in Support Plus approvals</inlineHelpText>
+        <label>Support Plus TU</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Toro_Product_Tier__c</fullName>
         <externalId>false</externalId>
         <label>Toro Product Tier</label>
@@ -196,6 +263,17 @@ Semi-Finished Good: Part</description>
                 </value>
             </valueSetDefinition>
         </valueSet>
+    </fields>
+    <fields>
+        <fullName>Trigger_Counter__c</fullName>
+        <externalId>false</externalId>
+        <label>Trigger Counter</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Vehicle__c</fullName>

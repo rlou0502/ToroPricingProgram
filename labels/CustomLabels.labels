@@ -450,6 +450,14 @@
         <value>If you proceed an approval will be necessary.</value>
     </labels>
     <labels>
+        <fullName>PP_Approval_Message_Place_Holder_1</fullName>
+        <categories>Pricing Program</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Approval Message  place holder1</shortDescription>
+        <value>Total Extended DNet must exceed ${0}. (It is ${1} ).</value>
+    </labels>
+    <labels>
         <fullName>PP_Cancel</fullName>
         <categories>Pricing Program</categories>
         <language>en_US</language>

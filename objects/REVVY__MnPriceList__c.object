@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <fields>
+        <fullName>Conversion_Rate__c</fullName>
+        <description>The current Conversion Rate of the Price List</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The current Conversion Rate of the Price List</inlineHelpText>
+        <label>Conversion Rate</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Discount__c</fullName>
+        <description>used for discounting Dnet on Canadian Price Lists</description>
+        <externalId>false</externalId>
+        <inlineHelpText>used for discounting Dnet on Canadian Price Lists</inlineHelpText>
+        <label>Discount</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Freight_Factor__c</fullName>
+        <description>used to calculate the Freight Charge for Canadian Pricing</description>
+        <externalId>false</externalId>
+        <inlineHelpText>used to calculate the Freight Charge for Canadian Pricing</inlineHelpText>
+        <label>Freight Factor</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+</CustomObject>

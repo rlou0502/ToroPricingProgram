@@ -41,8 +41,11 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 		for(Revvy__MnStrategy1__c pp : childrenPricingProgram) {
 			pricingProgramSet.add(pp.ExternalID__c);
 			if(String.isNotBlank(pp.ApplicableProductsLong__c)) {
+				//to be deleted
+				system.debug('chart ' + pp.ExternalID__c + ' =' + pp.ApplicableProductsLong__c);
 				String[] parts = pp.ApplicableProductsLong__c.split(',');
 				for(String p : parts) {
+					system.debug('chart product =' + p + ' pp =' + pp.ExternalID__c);
 					modelIdPricingProgramMap.put(p, pp.ExternalID__c);	
 				}
 			}
@@ -53,10 +56,13 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 		//Performance Part
 		quoteItemList=super.preCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
 		Map<String, String> model2pp = loadModelIdChartABPricingProgramMap(priceProgram);
-		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+		system.debug('chart model2pp = ' + model2pp);
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {			
 			if(!qi.Pricing_Program_Overridden__c) {
 				qi.Pricing_Program__c = model2pp.get(qi.Product_Id__c);
 			} 
+			//to be deleted
+			system.debug('chart overridden = ' + qi.Pricing_Program_Overridden__c + ' qi.Pricing_Program__c =' + qi.Pricing_Program__c + ' pId =' + qi.Product_Id__c);
 			system.debug('+++++++++++++++++ToroLargePackagePricingProgramHelper Performance Part Revvy__MnStrategy4__c 222 performancePartFlag='+performancePartFlag  );
 			ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap, priceMethod);
 				if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
@@ -81,8 +87,15 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 		helper.primaryPricingProgramExtId = priceProgram;
 		helper.quoteItemList = quoteItemList;	
 		helper.quote=this.quote;	
-		for(String ppId : pricingProgramSet) {
-			helper.addPricingProgramExtId(ppId);	
+		//for(String ppId : pricingProgramSet) {
+		//	helper.addPricingProgramExtId(ppId);	
+		//}
+		
+		for(Revvy__MnStrategy4__c qi : quoteItemList) {
+			if(String.isNotBlank(qi.pricing_program__c)) {
+				system.debug('qi.pricing_program__c=' + qi.pricing_program__c);
+				helper.addPricingProgramExtId(qi.pricing_program__c);	
+			}
 		}
 		
 		if('Total Award $'.equalsIgnoreCase(priceMethod)) {
@@ -106,6 +119,33 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
 			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
+			quoteItemList = helper.quoteItemList;			
+			for (Revvy__MnStrategy4__c qi : quoteItemList) {
+				if(String.isBlank(qi.pricing_program__c)) {
+					if((1-CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Percent__c)/100) != 0) {
+						qi.Award_Price__c = qi.DNet_Price__c/(1-CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Percent__c)/100) ;
+					}
+					if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
+						qi.Off_MSRP__c = ((qi.MSRP_Price__c-qi.Award_Price__c)/qi.MSRP_Price__c)*100;	
+					}
+					if(qi.DNET_Price__c != null && qi.DNET_Price__c != 0) {
+						qi.Award_of_DN__c = (qi.Award_Price__c/qi.DNET_Price__c)*100;	
+					}
+					if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+						for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+							if(1-CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100 != 0) {
+								qis.Award_Price__c = qis.DNet_Price__c / (1-CMnQuoteUtil.defaultDecimal(qis.Gross_Profit_Percent__c)/100) ;
+							}	
+							if(qis.MSRP_Price__c != null && qis.MSRP_Price__c != 0) {
+								qis.Percent_Off_MSRP__c = ((qis.MSRP_Price__c-qis.Award_Price__c)/qis.MSRP_Price__c)*100;	
+							}
+							if(qis.DNET_Price__c != null && qis.DNET_Price__c != 0) {
+								qis.Percent_of_DNet__c = (qis.Award_Price__c/qis.DNET_Price__c)*100;	
+							}
+						}
+					}
+				}
+			}
 		} else if('% off MSRP'.equalsIgnoreCase(priceMethod)) {			
 			helper.calculateBlendedDNetPercentFromMSRP().retrieveRebatePercent();
 			

@@ -108,7 +108,9 @@ public virtual class ToroLargePackagePricingProgramHelper extends ToroPricingPro
 		}
 		quote.Toro_Blended_Percent_of_DN__c = helper.quote.Toro_Blended_Percent_of_DN__c;
 		quoteItemList = helper.quoteItemList;
-		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
+		//TCPQ-2528 Support Plus within Program change to Approvals required
+		//Move following line to preSaveCalculateRebateMargin
+		//quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
 		return quoteItemList;
 	}
 
@@ -136,5 +138,13 @@ public virtual class ToroLargePackagePricingProgramHelper extends ToroPricingPro
 
 		return	quoteItemList;
 	}
-
+	
+	//TCPQ-2528 Support Plus within Program change to Approvals required
+	public override List<Revvy__MnStrategy4__c> preSaveCalculateRebateMargin(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
+																
+		quoteItemList = super.preSaveCalculateRebateMargin(quoteId, priceProgram, priceMethod, quoteItemList);
+		quoteItemList = CMnQuoteUtil.checkIfApprovalNeeded(this.quote, priceProgram, priceMethod, quoteItemList );
+		return quoteItemList;
+	}
 }

@@ -22,6 +22,171 @@
         <label>DNet Field Set</label>
     </fieldSets>
     <fieldSets>
+        <fullName>GSA_Quote_Header</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>REVVY__Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Disti_Num__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Customer_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>REVVY__Currency__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Ext_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Total_Award__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Award__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Blended_Percent_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Commission_Dollar__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Quote_Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>GSA Quote Header</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Price_Program_Quote_Info</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>Name</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Ext_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Total_Award__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Award__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Blended_Percent_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Quote_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Quote_Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Price Program Quote Info</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>Pricing_Program_Quote_Header_Fields</fullName>
+        <description>Pricing Program</description>
+        <displayedFields>
+            <field>REVVY__Id__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Disti_Num__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Customer_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>REVVY__Currency__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Ext_MSRP__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_DNet__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Total_Award__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Award__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Blended_Percent_of_DN__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Quote_Rebate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Toro_Total_Quote_Gross_Profit_Percent__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Pricing Program Quote Header Fields</label>
+    </fieldSets>
+    <fieldSets>
         <fullName>Quote_Header_Updatable_Fields</fullName>
         <description>Pricing Program</description>
         <displayedFields>
@@ -70,6 +235,16 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Approval_Reason_Needed__c</fullName>
+        <externalId>false</externalId>
+        <formula>NOT(ISBLANK(Toro_ApprovalReason__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Approval Reason Needed</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Award_Price__c</fullName>
         <description>Quote Award Price equals sum of quote items&apos; total award price</description>
         <externalId>false</externalId>
@@ -109,6 +284,52 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Config_Completed__c</fullName>
+        <externalId>false</externalId>
+        <formula>Config_Total__c =  Config_Items__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Config Completed</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Config_Items__c</fullName>
+        <description>Config Items</description>
+        <externalId>false</externalId>
+        <label>Config Items</label>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItem__c.Item_Config_ID_Tx__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItem__c.REVVY__Is_Configuration_Complete__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Config_Total__c</fullName>
+        <externalId>false</externalId>
+        <label>Config Total</label>
+        <summaryFilterItems>
+            <field>REVVY__MnQuoteItem__c.Item_Config_ID_Tx__c</field>
+            <operation>equals</operation>
+            <value>&quot;Y&quot;</value>
+        </summaryFilterItems>
+        <summaryForeignKey>REVVY__MnQuoteItem__c.REVVY__Quote__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>Contains_Demo_Product__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Denotes whether a quote contains demo products or not</description>
@@ -138,6 +359,29 @@
         <length>20</length>
         <required>false</required>
         <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Corp_Acct_Mgr_Email__c</fullName>
+        <externalId>false</externalId>
+        <label>Corp Acct Mgr Email</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Corporate_Account_Manager__c</fullName>
+        <externalId>false</externalId>
+        <formula>REVVY__Account__r.CPS_Parent_Account__r.Account_Manager__r.Username</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Corporate Account Manager</label>
+        <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -193,6 +437,18 @@ CustomerCurrency_ISOCurrency</description>
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Customer_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>LEFT( REVVY__Account__r.Name,20)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Customer Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>DSM_Approved_Amount__c</fullName>
         <description>DSM can enter an approved amount for Support Plus</description>
         <externalId>false</externalId>
@@ -205,6 +461,18 @@ CustomerCurrency_ISOCurrency</description>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Disti_Num__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(REVVY__Account__r.Comm_Dist__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Dist #</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Distributor_Contribution__c</fullName>
@@ -233,6 +501,33 @@ CustomerCurrency_ISOCurrency</description>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Toro_MSRP_Pricing__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This is for OakCreek pricing. The user will check this flag if Toro MSRP pricing will be used. The default will be using Disti-Award</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This is for OakCreek pricing. The user will check this flag if Toro MSRP pricing will be used. The default will be using Disti-Award</inlineHelpText>
+        <label>Enable Toro MSRP Pricing</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Exchange_Rate__c</fullName>
+        <defaultValue>CURRENCYRATE( IF( $User.REVVY__UserLocale__c == &quot;en_US&quot;, &quot;USD&quot;, If($User.REVVY__UserLocale__c == &quot;en_CA&quot;, &quot;CAD&quot;,&quot;EUR&quot;)) )</defaultValue>
+        <description>This is the Salesforce multi-currency rate (set by Toro or Commercial Finance)</description>
+        <externalId>false</externalId>
+        <label>Exchange Rate</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
     </fields>
     <fields>
         <fullName>Ext_MSRP__c</fullName>
@@ -270,6 +565,50 @@ CustomerCurrency_ISOCurrency</description>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Flow_Time1__c</fullName>
+        <externalId>false</externalId>
+        <formula>LastModifiedDate  - 0.038</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Flow Time1</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Flow_Time2__c</fullName>
+        <externalId>false</externalId>
+        <formula>LastModifiedDate  - 0.03455</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Flow Time2</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Flow_Time3__c</fullName>
+        <externalId>false</externalId>
+        <formula>LastModifiedDate  - 0.03109</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Flow Time3</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Flow_Time4__c</fullName>
+        <externalId>false</externalId>
+        <formula>LastModifiedDate  - 0.02764</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Flow Time4</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
     </fields>
     <fields>
         <fullName>Freight_Delivery__c</fullName>
@@ -375,6 +714,17 @@ CustomerCurrency_ISOCurrency</description>
         </valueSet>
     </fields>
     <fields>
+        <fullName>Is_Dirty__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If the user goes to Manage Lines, this will be set to true. If the user performs a save on the Pricing Program page, this will be cleared (set to false).</description>
+        <externalId>false</externalId>
+        <label>Is Dirty</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Misc__c</fullName>
         <defaultValue>0.00</defaultValue>
         <description>Miscellaneous totals a user can enter in proposal template</description>
@@ -452,6 +802,19 @@ CustomerCurrency_ISOCurrency</description>
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Pricing_Program__c</fullName>
+        <description>Name of Pricing Program</description>
+        <externalId>false</externalId>
+        <label>Pricing Program</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Probability_Goes_Toro__c</fullName>
         <description>Commercial. Probability that the opportunity closes in Toro&apos;s favor</description>
         <externalId>false</externalId>
@@ -478,6 +841,19 @@ CustomerCurrency_ISOCurrency</description>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>SP_Adjusted_Ext_Award__c</fullName>
+        <description>SP Adjusted Ext Award</description>
+        <externalId>false</externalId>
+        <label>SP Adjusted Ext Award</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>SP_Adjusted_Toro_Award__c</fullName>
@@ -575,6 +951,17 @@ CustomerCurrency_ISOCurrency</description>
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Setup_Fee_Overridden__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checkbox for overridng setup fee for Kemper</description>
+        <externalId>false</externalId>
+        <label>Setup Fee Overridden</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Setup_Fee__c</fullName>
         <description>Set Up Fee</description>
         <externalId>false</externalId>
@@ -627,6 +1014,19 @@ CustomerCurrency_ISOCurrency</description>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>TOTAL_COMMISSION__c</fullName>
+        <externalId>false</externalId>
+        <formula>Toro_Total_Quote_Gross_Profit__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>TOTAL COMMISSION</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
     </fields>
     <fields>
         <fullName>TPP_Total__c</fullName>

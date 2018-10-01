@@ -18,6 +18,16 @@ public with sharing class ToroQuoteExport {
             return strHeader;
         }
     }
+    public String hostName {
+        get {
+        	REVVY__MnProperty__c hostName = REVVY__MnProperty__c.getValues('ToroCPQHostName'); 
+            String hostNameVal='enter_your_host_name';
+            if(hostName != null && String.isNotBlank(hostName.Revvy__Value__c)) {
+                hostNameVal = 	hostName.Revvy__Value__c;
+            } 
+            return hostNameVal;
+        }
+    }
     public void initialize(Id quoteId){
     	equipmentTotal=0;
 		tpp=0;

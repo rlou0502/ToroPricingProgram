@@ -20,25 +20,24 @@
  * See the Apex Language Reference for more information about Testing and Code Coverage.
  */
 @isTest
-private class ToroQuoteExportTest {
-	@testSetup static void setup() {
+private class ToroQuoteItemEmailControllerTest {
+
+     @TestSetup static void setupTestData() {
 		ToroTestData.loadTestData();
 		ToroTestData.loadQuoteTestData();
+		
 	}
-    static testMethod void myUnitTest() {
-        REVVY__MnQuote__c q = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1];
 
-		Test.startTest();
-		PageReference pageRef = Page.ToroQuoteExport;
-		pageRef.getParameters().put('Id', q.Id);
-    	Test.setCurrentPage(pageRef);
-		ToroQuoteExport cntrlr = 
-            new ToroQuoteExport(new ApexPages.StandardController(q));
-        cntrlr =  new ToroQuoteExport();
-        cntrlr.getSOCMergeAcross();
-        String header = cntrlr.xlsHeader;    
-        String hostName = cntrlr.hostName;   
-		Test.stopTest();
+    static testMethod void test_getQuoteData() {
+    	Revvy__MnQuote__c qt = [Select Id, Is_Dirty__c, REVVY__Segment__c From Revvy__MnQuote__c limit 1];
+		ToroQuoteItemEmailController controller = new ToroQuoteItemEmailController();
+		controller.quoteId = qt.Id;
+		
+		REVVY__MnQuote__c quote = controller.getQuoteData();
+		System.assert(quote !=null);
+		
+		List<REVVY__MnQuoteItem__c> qis = controller.getRetrieveQuoteItem();
+		System.assert(qis.size()>0); 	
         
     }
 }

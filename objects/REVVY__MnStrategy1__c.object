@@ -76,6 +76,38 @@
         <type>TextArea</type>
     </fields>
     <fields>
+        <fullName>Copy_From_Price_Field__c</fullName>
+        <description>Price field to copy prices from</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Price field to copy prices from</inlineHelpText>
+        <label>Copy From Price Field</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MSRP</fullName>
+                    <default>false</default>
+                    <label>MSRP</label>
+                </value>
+                <value>
+                    <fullName>DNET</fullName>
+                    <default>false</default>
+                    <label>DNET</label>
+                </value>
+                <value>
+                    <fullName>Disti Award</fullName>
+                    <default>false</default>
+                    <label>Disti Award</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>Corporate_Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Corporate Account</description>
@@ -193,6 +225,32 @@
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Maximum_Support_Value_To_Use__c</fullName>
+        <description>Maximum Support Value to Use - Dollar Amount or Percentage of DNet</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Maximum Support Value to Use - Dollar Amount or Percentage of DNet</inlineHelpText>
+        <label>Maximum Support Value To Use</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Dollar Amount</fullName>
+                    <default>false</default>
+                    <label>Dollar Amount</label>
+                </value>
+                <value>
+                    <fullName>Percentage of DNet</fullName>
+                    <default>false</default>
+                    <label>Percentage of DNet</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
         <fullName>MinimumThreshold__c</fullName>
         <description>Minimum threshold for a pricing program to be seen in pricing program pick list.</description>
         <externalId>false</externalId>
@@ -218,6 +276,31 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</inlineHelp
         <trackTrending>false</trackTrending>
         <type>Number</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Model_Eligibility__c</fullName>
+        <description>The default is &quot;Soft&quot; which will allow users so select this pricing program if quoted products are not exclusively listed.  &quot;Rigid&quot; Eligibility means that the pricing program is available if quoted products are exclusively listed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The default is &quot;Soft&quot; which will allow users so select this pricing program if quoted products are not exclusively listed.  &quot;Rigid&quot; Eligibility means that the pricing program is available if quoted products are exclusively listed.</inlineHelpText>
+        <label>Model Eligibility</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Soft</fullName>
+                    <default>true</default>
+                    <label>Soft</label>
+                </value>
+                <value>
+                    <fullName>Rigid</fullName>
+                    <default>false</default>
+                    <label>Rigid</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>OutCrossThreshold__c</fullName>
@@ -258,6 +341,30 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</inlineHelp
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Previous_MSRP_Multiplier__c</fullName>
+        <defaultValue>1.00000</defaultValue>
+        <description>Previous MSRP Multiplier to be used to markup Previous year&apos;s MSRP prices.  Needs to be used with Previous Price Date.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Previous MSRP Multiplier to be used to markup Previous year&apos;s MSRP prices.  Needs to be used with Previous Price Date.</inlineHelpText>
+        <label>Previous MSRP Multiplier</label>
+        <precision>15</precision>
+        <required>false</required>
+        <scale>5</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Previous_Price_Date__c</fullName>
+        <description>Date for previous prices</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Date for previous prices</inlineHelpText>
+        <label>Previous Price Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
     </fields>
     <fields>
         <fullName>PricingProgramStyle__c</fullName>
@@ -591,6 +698,16 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</inlineHelp
         </valueSet>
     </fields>
     <fields>
+        <fullName>Product_Eligibility_Checking__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This needs to be enabled to force product and model search in the Applicable Products selector.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This needs to be enabled to force product and model search in the Applicable Products selector.</inlineHelpText>
+        <label>Product Eligibility Checking</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>SecondaryProgram__c</fullName>
         <description>Copy the External ID of the pricing program to be used as secondary program as a value in this picklist.</description>
         <externalId>false</externalId>
@@ -682,6 +799,16 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</inlineHelp
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Setup_Threshold__c</fullName>
+        <externalId>false</externalId>
+        <label>Setup Threshold $</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
         <fullName>ShowSecondaryProgram__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Check to show secondary program</description>
@@ -690,6 +817,60 @@ Package must be &gt;$50,000 at DN AND a minimum of 2 traction units.</inlineHelp
         <label>Show Secondary Program</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Status of pricing program</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Status of pricing program</inlineHelpText>
+        <label>Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Active</fullName>
+                    <default>false</default>
+                    <label>Active</label>
+                </value>
+                <value>
+                    <fullName>Inactive</fullName>
+                    <default>false</default>
+                    <label>Inactive</label>
+                </value>
+                <value>
+                    <fullName>Draft</fullName>
+                    <default>true</default>
+                    <label>Draft</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_TU_DNet__c</fullName>
+        <description>Support Plus TU Percent used to determine if approval is needed</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Percent of Total TU DNet that is SPTU which will trigger approval needed</inlineHelpText>
+        <label>Support Plus TU DNet%</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Support_Plus_TU_Qty__c</fullName>
+        <description>Support Plus TU Percent used to determine if approval is needed</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Percent of Total TU Qty that is SPTU which will trigger approval needed</inlineHelpText>
+        <label>Support Plus TU Qty%</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
     </fields>
     <fields>
         <fullName>UseDesignatedPriceList__c</fullName>

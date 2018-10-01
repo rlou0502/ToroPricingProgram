@@ -107,6 +107,19 @@
         <type>Percent</type>
     </fields>
     <fields>
+        <fullName>Previous_MSRP_Multiplier__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <description>Multiplier for Previous Price List.  Default is 1.00</description>
+        <externalId>false</externalId>
+        <label>Previous MSRP Multiplier</label>
+        <precision>8</precision>
+        <required>false</required>
+        <scale>5</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>PricingProgram__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <description>Points to Pricing Program</description>

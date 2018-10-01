@@ -20,25 +20,25 @@
  * See the Apex Language Reference for more information about Testing and Code Coverage.
  */
 @isTest
-private class ToroQuoteExportTest {
-	@testSetup static void setup() {
+private class KMnQuoteLifeCycleTest {
+	@TestSetup static void setupTestData() {
 		ToroTestData.loadTestData();
 		ToroTestData.loadQuoteTestData();
 	}
     static testMethod void myUnitTest() {
-        REVVY__MnQuote__c q = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1];
-
-		Test.startTest();
-		PageReference pageRef = Page.ToroQuoteExport;
-		pageRef.getParameters().put('Id', q.Id);
-    	Test.setCurrentPage(pageRef);
-		ToroQuoteExport cntrlr = 
-            new ToroQuoteExport(new ApexPages.StandardController(q));
-        cntrlr =  new ToroQuoteExport();
-        cntrlr.getSOCMergeAcross();
-        String header = cntrlr.xlsHeader;    
-        String hostName = cntrlr.hostName;   
-		Test.stopTest();
+        Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+        REVVY__MnProperty__c prop = new REVVY__MnProperty__c(Name='ToroCPQHostName', REVVY__Value__c='test');
+        insert prop;
+        KMnQuoteLifeCycleSelectPriceProgram p = new KMnQuoteLifeCycleSelectPriceProgram();
+        Map<String,String> values = new Map<String,String>{'objectId'=>quote.Id};
+        p.doAction(values);
+        KMnQuoteLifeCycleReadOnlyPriceProgram p2 = new KMnQuoteLifeCycleReadOnlyPriceProgram();
+        p2.doAction(values);
         
+        KMnQuoteLifeCycleAbandoned  p3 = new KMnQuoteLifeCycleAbandoned ();
+		p3.doAction(values);
+        
+        KMnQuoteLifeCycleClosedLost  p4 = new KMnQuoteLifeCycleClosedLost();
+        p4.doAction(values);
     }
 }

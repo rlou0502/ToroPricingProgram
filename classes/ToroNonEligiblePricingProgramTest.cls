@@ -20,25 +20,20 @@
  * See the Apex Language Reference for more information about Testing and Code Coverage.
  */
 @isTest
-private class ToroQuoteExportTest {
+private class ToroNonEligiblePricingProgramTest { 
 	@testSetup static void setup() {
-		ToroTestData.loadTestData();
-		ToroTestData.loadQuoteTestData();
+		ToroTestData.loadTestData(); 
+	    ToroTestData.loadQuoteTestData();		
 	}
-    static testMethod void myUnitTest() {
-        REVVY__MnQuote__c q = [SELECT Id FROM REVVY__MnQuote__c LIMIT 1];
-
-		Test.startTest();
-		PageReference pageRef = Page.ToroQuoteExport;
-		pageRef.getParameters().put('Id', q.Id);
-    	Test.setCurrentPage(pageRef);
-		ToroQuoteExport cntrlr = 
-            new ToroQuoteExport(new ApexPages.StandardController(q));
-        cntrlr =  new ToroQuoteExport();
-        cntrlr.getSOCMergeAcross();
-        String header = cntrlr.xlsHeader;    
-        String hostName = cntrlr.hostName;   
+    
+    @isTest static void unitTest() {		
+    	Test.startTest();
+		Revvy__MnQuote__c quote = [select Id from Revvy__MnQuote__c limit 1];
+		ToroNonEligiblePricingProgram tlpp = new ToroNonEligiblePricingProgram();
+		tlpp.retrievePricingMethodOptions();
+		ToroPricingProgramData ppd = new ToroPricingProgramData('MarketSupportChartLargePackage;Large_Package');
+		tlpp.initialize(quote.Id);
+		tlpp.calculateRebateMargin(quote.Id, ppd.externalId, '% off MSRP', tlpp.quoteItems, false);
 		Test.stopTest();
-        
-    }
+	}
 }
