@@ -60,6 +60,7 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {			
 			if(!qi.Pricing_Program_Overridden__c) {
 				qi.Pricing_Program__c = model2pp.get(qi.Product_Id__c);
+				system.debug('qi.Pricing_Program__c = ' + qi.Pricing_Program__c);
 			} 
 			//to be deleted
 			system.debug('chart overridden = ' + qi.Pricing_Program_Overridden__c + ' qi.Pricing_Program__c =' + qi.Pricing_Program__c + ' pId =' + qi.Product_Id__c);
@@ -84,7 +85,7 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 		
 		Map<String, decimal> pp2RebateMap = new Map<String, decimal>();
 		ToroPricingMethodHelper helper = new ToroPricingMethodHelper();
-		helper.primaryPricingProgramExtId = priceProgram;
+		//helper.primaryPricingProgramExtId = priceProgram;
 		helper.quoteItemList = quoteItemList;	
 		helper.quote=this.quote;	
 		//for(String ppId : pricingProgramSet) {
@@ -119,6 +120,7 @@ public with sharing class ToroChartABPricingProgramHelper extends ToroPricingPro
 
 		} else if('Gross Profit %'.equalsIgnoreCase(priceMethod)) {
 			helper.convertGPPercentToDNetPercent().calculateBlendedDNetPercentFromDNet().retrieveRebatePercent();
+			
 			quoteItemList = helper.quoteItemList;			
 			for (Revvy__MnStrategy4__c qi : quoteItemList) {
 				if(String.isBlank(qi.pricing_program__c)) {

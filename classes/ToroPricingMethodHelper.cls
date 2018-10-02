@@ -336,9 +336,10 @@ public with sharing class ToroPricingMethodHelper {
 			if(qi.Toro_Gross_Profit_Percent__c != null) {
 				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi gp%=' + qi.Toro_Gross_Profit_Percent__c + ' product = ' + qi.product_Id__c);
 				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi.Pricing_Program__c=' + qi.Pricing_Program__c);
-				if(String.isBlank(qi.Pricing_Program__c)) {
-					qi.Pricing_Program__c=pricingProgramExternalId;
-				}
+				//TCPQ-2526 Standard Market Support Rebate Exclusion when Pricing by GP%
+				//if(String.isBlank(qi.Pricing_Program__c)) {
+					//qi.Pricing_Program__c=pricingProgramExternalId;
+				//}
                 qi.DrivenByGP__c = true;
 				qi.Award_of_DN__c = lookupDNetPercentFromGPPercent(qi.Pricing_Program__c, qi.Toro_Gross_Profit_Percent__c);
 				system.debug(logginglevel.info, 'convertGPPercentToDNetPercent-- qi Award_of_DN__c=' + qi.Award_of_DN__c + ' Unit_Award_Overridden__c= ' + qi.Unit_Award_Overridden__c);
