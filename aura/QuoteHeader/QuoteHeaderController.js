@@ -92,6 +92,11 @@
                 if(data != undefined) {
                     cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
                     tableData.className += " align-right ";
+                    if(parseFloat(data) < 0) {
+                        cellText.className += " negative-number ";
+                        data = data * -1;                       
+                    } 
+                    cellText.innerHTML=	parseFloat(data).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 }
             } else if(field.type.toLowerCase() === 'percent') {
                 if(data != undefined) {

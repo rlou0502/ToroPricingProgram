@@ -67,3 +67,14 @@
 .THIS th.REVVY__Currency__c {
     width: 100px;
 }
+.THIS .negative-number {
+    color : red
+}
+.THIS .negative-number:before {
+    content: "(";
+    color : red
+}
+.THIS .negative-number:after {
+    content: ")";
+    color : red
+}

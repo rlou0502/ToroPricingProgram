@@ -1,2 +1,11 @@
-.THIS {
+.THIS .negative-number {
+    color : red
+}
+.THIS .negative-number:before {
+    content: "(";
+    color : red
+}
+.THIS .negative-number:after {
+    content: ")";
+    color : red
 }

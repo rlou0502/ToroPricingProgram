@@ -21,6 +21,7 @@
     <testClassName>ToroNationalAccountArmyHelperTest</testClassName>
     <testClassName>ToroNationalAccountGSAPPHelperTest</testClassName>
     <testClassName>ToroNationalAccountPricingProgramHTest</testClassName>
+    <testClassName>ToroNonEligiblePricingProgramTest</testClassName>
     <testClassName>ToroNTControllerTest</testClassName>
     <testClassName>ToroNTDataTest</testClassName>
     <testClassName>ToroPerformancePartPricingProgramHTest</testClassName>
@@ -39,6 +40,7 @@
     <testClassName>ToroPricingProgramUtilTest</testClassName>
     <testClassName>ToroProductEligibilityPluginTest</testClassName>
     <testClassName>ToroQIBaseTest</testClassName>
+    <testClassName>ToroQuoteExportTest</testClassName>
     <testClassName>ToroQuoteItemEmailControllerTest</testClassName>
     <testClassName>ToroSouthernDemoPricingProgramHelperTest</testClassName>
     <testClassName>ToroStateContractPricingProgramHTest</testClassName>

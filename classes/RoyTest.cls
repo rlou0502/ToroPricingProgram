@@ -303,5 +303,48 @@ public with sharing class RoyTest {
 		}
 			
 	}
-
+	public class ToroRelatedData {
+		@AuraEnabled public String name	{ get; set; }	
+		@AuraEnabled public String sku	{ get; set; }
+		@AuraEnabled public decimal msrp	{ get; set; }
+		@AuraEnabled public decimal dnet	{ get; set; }
+		@AuraEnabled public Id attachment	{ get; set; }
+		@AuraEnabled public String line1 {get; set;}
+		@AuraEnabled public String line2 {get; set;}
+	}
+	@AuraEnabled
+	public static List<ToroRelatedData> retrieveRelatedData() {
+		List<ToroRelatedData> retData = new List<ToroRelatedData>();
+		List<Support_Plus_Holder__c> phs = [Select Id, Description__c From Support_Plus_Holder__c limit 5];
+		List<String> skus = new List<String>();
+		for(Support_Plus_Holder__c ph : phs) {
+			skus.add(ph.Description__c);	
+		}
+		List<REVVY__MnCatalogNode__c> prods = [Select r.Id, revvy__Id__c, (Select Id From Attachments) From REVVY__MnCatalogNode__c r where revvy__Id__c in :skus];
+		Map<String, Id> sku2Attachment = new Map<String, Id>();
+		for(REVVY__MnCatalogNode__c p : prods) {
+			if(p.Attachments != null) {
+				for(Attachment a : p.Attachments) {
+					sku2Attachment.put(p.revvy__Id__c, a.Id);
+				}		
+			}
+		}
+		List<REVVY__MnPriceListLine__c> plis = [SELECT Name, REVVY__Product_Id__c, REVVY__ListedPrice__c, 
+				REVVY__SuggestedPrice__c, Revvy__Product__r.Name FROM REVVY__MnPriceListLine__c 
+				where revvy__pricelist__r.name = 'Commercial' and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) and revvy__Product__r.REVVY__Id__c in :skus];
+		
+		for(REVVY__MnPriceListLine__c pli : plis) {
+			ToroRelatedData d = new ToroRelatedData();
+			d.Name = pli.Revvy__Product__r.Name;
+			d.sku = pli.REVVY__Product_Id__c;
+			d.msrp = pli.REVVY__ListedPrice__c;
+			d.dnet = pli.REVVY__SuggestedPrice__c;
+			d.attachment = sku2Attachment.get(pli.REVVY__Product_Id__c);
+			d.line1 = pli.Revvy__Product__r.Name + '('+pli.REVVY__Product_Id__c+')';
+			d.line2 = 'MSRP : $' + pli.REVVY__ListedPrice__c.setScale(2).format() + '  /  DNet: $' + pli.REVVY__SuggestedPrice__c.setScale(2).format();
+			retData.add(d);	
+		}
+		
+		return retData;
+	}
 }

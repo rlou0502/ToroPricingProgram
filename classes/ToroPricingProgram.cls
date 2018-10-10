@@ -462,6 +462,8 @@ public virtual class ToroPricingProgram {
 				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c - qi.Extended_DNet_Price__c + qi.Extended_DNet_Price__c * qi.Rebate_as_a_of_DN__c/100;
 				if(qi.Extended_Award_Price__c != null && qi.Extended_Award_Price__c != 0) {
 					qi.Toro_Gross_Profit_Percent__c = qi.Toro_Gross_Profit_Value__c/qi.Extended_Award_Price__c*100;
+				} else {
+					qi.Toro_Gross_Profit_Percent__c = null;
 				}
 			} else {
 				qi.Toro_Gross_Profit_Value__c = qi.Extended_Award_Price__c * CMnQuoteUtil.defaultDecimal(qi.Toro_Gross_Profit_Percent__c)/100;
@@ -529,6 +531,8 @@ public virtual class ToroPricingProgram {
 						qis.Gross_Profit_Value__c = qis.Extended_Award_Price__c - qis.Extended_DNet_Price__c + (qis.Extended_DNet_Price__c * qis.Rebate_as_of_DNet__c/100);
 						if(qis.Extended_Award_Price__c != 0) {
 							qis.Gross_Profit_Percent__c = qis.Gross_Profit_Value__c/qis.Extended_Award_Price__c*100;
+						} else {
+							qis.Gross_Profit_Percent__c = null;
 						}
 					} else {
 						if(qis.Extended_Award_Price__c != null && qis.Extended_Award_Price__c != 0) {

@@ -14,7 +14,12 @@
     <li class="slds-page-header__detail-block">
         <p class="slds-text-title_caps slds-m-bottom_small" title="Total ADJ Award">Total ADJ Award</p>
         <p class="slds-text-body_regular" title="">
-            <lightning:formattedNumber value="{!v.totalAdjAward}" style="currency" />
+            <aura:if isTrue="{!v.totalAdjAward > 0}">
+                <lightning:formattedNumber value="{!v.totalAdjAward}" style="currency" />
+                <aura:set attribute="else">
+                    <lightning:formattedNumber value="{!v.totalAdjAward * -1}" style="currency" class="negative-number"/>
+                </aura:set>
+            </aura:if>
         </p>
     </li>
     <li class="slds-page-header__detail-block">
@@ -26,7 +31,7 @@
     <li class="slds-page-header__detail-block">
         <p class="slds-text-title_caps slds-m-bottom_small" title="Total Award (Trade-Ins)">Total Award (Trade-Ins)</p>
         <p class="slds-text-body_regular" title="">
-            <lightning:formattedNumber value="{!v.totalAwardTradeIns}" style="currency" />
+            <lightning:formattedNumber value="{!v.totalAwardTradeIns}" style="currency" class="negative-number" />
         </p>
     </li>
     <li class="slds-page-header__detail-block">

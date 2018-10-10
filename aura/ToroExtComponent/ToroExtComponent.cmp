@@ -1,0 +1,19 @@
+<aura:component controller="RoyTest" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+	<aura:attribute name="relatedList" type="Object[]" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <lightning:carousel disableAutoRefresh="false" disableAutoScroll="false">
+        <aura:iteration items="{!v.relatedList}" var="item">
+			<lightning:carouselImage
+                src = "{!'/servlet/servlet.FileDownload?file='+item.attachment}"
+                header = "{!item.line1}"
+                description = "{!item.line2}"
+                alternativeText = "{!item.line1}"
+                href = "https://www.salesforce.com"
+                width= "160px"
+                height= "100px">
+            <div class="slds-carousel__content">Hello</div>    
+            </lightning:carouselImage>
+            
+		</aura:iteration>
+    </lightning:carousel>	
+</aura:component>

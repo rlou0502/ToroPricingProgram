@@ -133,7 +133,11 @@
 						 </Row>
 					 </apex:repeat>
 					 <Row>
-				 		<Cell ss:MergeAcross="{!SOCMergeAcross}" ><Data ss:Type="String"></Data></Cell> 
+				 		<Cell ><Data ss:Type="String"></Data></Cell> 
+				 		<Cell ><Data ss:Type="String"></Data></Cell>
+				 		<Cell ><Data ss:Type="String"></Data></Cell>
+				 		<Cell ><Data ss:Type="String"></Data></Cell>
+				 		<Cell ><Data ss:Type="String"></Data></Cell>
 				 	 </Row>
 				 </apex:repeat>
 			</Table>

@@ -7,6 +7,7 @@
         <members>KMnQuoteLifeCycleSelectPriceProgram</members>
         <members>KMnQuoteLifeCycleTest</members>
         <members>PP_UpdateExtensionTest</members>
+        <members>RoyTest</members>
         <members>ToroBaseAwardAccessoryHelper</members>
         <members>ToroBaseAwardAccessoryHelperTest</members>
         <members>ToroBaseWithValueDollarHelper</members>
@@ -178,6 +179,7 @@
         <members>ToroCalculateEvent</members>
         <members>ToroCalculationCompleteEvent</members>
         <members>ToroExportQuote</members>
+        <members>ToroExtComponent</members>
         <members>ToroNT</members>
         <members>ToroNTApp</members>
         <members>ToroNTHeader</members>

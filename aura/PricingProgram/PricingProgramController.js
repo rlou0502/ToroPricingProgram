@@ -149,7 +149,6 @@
         if(quoteId) {
         	helper.loadQuoteHeader(component, quoteId);
         }
-
     },
     handleAwardPriceChange: function(component, event, helper) {
 

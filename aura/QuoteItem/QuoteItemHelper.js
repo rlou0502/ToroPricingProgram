@@ -323,8 +323,19 @@
                     }  
                 } else if(field.type.toLowerCase() === 'currency') {
                     if(sObj[field.fieldPath]!= undefined) {
-                        cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                        
                     	tableData.className += " align-right ";
+                        if(sObj["Product_Id__c"] == "L03_Trade" ) {
+                    		cellText.className += " negative-number ";
+                    	}
+                        var val = sObj[field.fieldPath];
+                        if(parseFloat(sObj[field.fieldPath]) < 0) {
+                    		cellText.className += " negative-number ";
+                            val = val * -1;
+                            cellText.innerHTML=	parseFloat(val).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                        } else {
+                        	cellText.innerHTML=	parseFloat(sObj[field.fieldPath]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                        }
                     }
                 } else if(field.type.toLowerCase() === 'boolean') {
                     var tableDataNode = document.createElement('input');

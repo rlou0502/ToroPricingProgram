@@ -28,7 +28,7 @@ public with sharing class ToroGenModelBOM {
 			}
 		}
 	}
-	public static GenModelBOMResult genBOM() {
+	public static GenModelBOMResult genBOM(Id priceListId) {
 		List<String> modelNames = new List<String> ();
 		Set<String> modelNameSet = new Set<String> ();
 		
@@ -52,7 +52,7 @@ public with sharing class ToroGenModelBOM {
 		
 		system.debug('modelOGOrder---' + modelOGOrder);
 		Map<String, REVVY__MnPriceListLine__c> prodCode2Price = new Map<String, REVVY__MnPriceListLine__c>();
-		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c where revvy__pricelist__r.name = 'Commercial'];
+		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c where revvy__pricelist__c = :priceListId and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today)];
 		for(REVVY__MnPriceListLine__c pli : plis) {
 			prodCode2Price.put(pli.REVVY__Product_Id__c, pli);	
 		}
@@ -244,7 +244,7 @@ public with sharing class ToroGenModelBOM {
     	}
 
     }
-    public static list<list<ToroGenModelBOM.StockOrder>> getStockOrder() {
+    public static list<list<ToroGenModelBOM.StockOrder>> getStockOrder(Id priceListId) {
     	
 		Map<String, Set<String>> prodModelMap = new Map<String, Set<String>>();
 		for(REVVY__MnConfigEngineModel__c model : [Select Id, name, REVVY__Product_IDs__c, (Select Name, Hierarchy_Code__c, Toro_Product_Type__c, REVVY__Id__c From REVVY__Products__r) from REVVY__MnConfigEngineModel__c where id in :modelNameIdMap.values()]) {
@@ -280,7 +280,7 @@ public with sharing class ToroGenModelBOM {
 		
 		List<REVVY__MnPriceListLine__c> plis = [SELECT REVVY__Product_Id__c,  REVVY__Product_Name__c, REVVY__Product__r.REVVY__LocaleName_F__c, REVVY__Product__r.Hierarchy_Code__c, 
 				REVVY__Product__r.Toro_Product_Type__c, REVVY__ListedPrice__c, REVVY__SuggestedPrice__c FROM REVVY__MnPriceListLine__c 
-				where revvy__pricelist__r.name = 'Commercial' and REVVY__Product__r.Exclude_from_CPL__c = false  
+				where revvy__pricelist__c = :priceListId and REVVY__Product__r.Exclude_from_CPL__c = false  
 					and REVVY__Product__r.Toro_Product_Type__c in ('Finished Good') and REVVY__Product__r.REVVY__Status__c='Active' 
 					and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) and  (NOT REVVY__Product__r.REVVY__Id__c like 'L%')  ];
 		

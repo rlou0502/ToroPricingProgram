@@ -463,7 +463,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Approval Message  place holder2</shortDescription>
-        <value>Total extended DNet of the product mix is over {0}%. (It is {1}% )</value>
+        <value>Total extended DNet of either Groundsmasters, Vehicles, or a combination of both is over {0}%. (It is {1}% )</value>
     </labels>
     <labels>
         <fullName>PP_Approval_Message_Place_Holder_3</fullName>
@@ -471,7 +471,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Approval Message  place holder3</shortDescription>
-        <value>Total quantity of the product mix is over {0}%. (It is {1}% )</value>
+        <value>Total quantity of either Groundsmasters, Vehicles, or a combination of both is over {0}%. (It is {1}% )</value>
     </labels>
     <labels>
         <fullName>PP_Cancel</fullName>

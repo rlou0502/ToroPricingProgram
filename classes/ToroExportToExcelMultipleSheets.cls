@@ -1,6 +1,7 @@
 public class ToroExportToExcelMultipleSheets {
 	public boolean displayMSRPOnly {get; set;}
 	public List<ToroGenModelBOM.Model> models { get; set;}
+	public String priceListName { get; set; }
     public String generatedDate {get;set;}
     public String effectiveStartDate { get; set; }
     public String effectiveEndDate { get; set; }
@@ -34,9 +35,19 @@ public class ToroExportToExcelMultipleSheets {
         }
     
     public ToroExportToExcelMultipleSheets(){
+    	List<User_Distributor__c> uds = [Select u.User_Name__c, u.Price_Segment__c From User_Distributor__c u where u.User_Name__c = :userInfo.getUserId() ];
+    	String priceSegment = 'Commercial';
+        for(User_Distributor__c ud : uds) {
+        	if(String.isNotBlank(ud.Price_Segment__c)) {
+        		priceSegment = ud.Price_Segment__c;		
+        	}
+        }
+        REVVY__MnPriceList__c priceList = [Select Id, Name, REVVY__Start_Date__c, REVVY__End_Date__c From REVVY__MnPriceList__c where REVVY__Segment__c = :priceSegment and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) limit 1];
+        effectiveStartDate = priceList.REVVY__Start_Date__c.format()+' - Today';
+        priceListName = priceList.Name; 
     	displayMSRPOnly = false;
         generatedDate = System.now().format('MM/dd/yyyy HH:mm');
-        models = ToroGenModelBOM.genBOM().BOMs;
+        models = ToroGenModelBOM.genBOM(priceList.Id).BOMs;
         Integer j = 0;
 		while (j < models.size())
 		{
@@ -48,9 +59,10 @@ public class ToroExportToExcelMultipleSheets {
 		    j++;
 		  }
 		}
-        stockOrderLists = ToroGenModelBOM.getStockOrder();
-        REVVY__MnPriceList__c priceList = [Select REVVY__Start_Date__c, REVVY__End_Date__c From REVVY__MnPriceList__c where name = 'Commercial' limit 1];
-        effectiveStartDate = priceList.REVVY__Start_Date__c.format()+' - Today';
+		
+        stockOrderLists = ToroGenModelBOM.getStockOrder(priceList.Id);
+        
+        
     }
  
     public Pagereference exportAll(){
