@@ -40,5 +40,14 @@ private class KMnQuoteLifeCycleTest {
         
         KMnQuoteLifeCycleClosedLost  p4 = new KMnQuoteLifeCycleClosedLost();
         p4.doAction(values);
+        
+        KMnQuoteLifeCycleCPLExport  p5 = new KMnQuoteLifeCycleCPLExport();
+        p5.doAction(values);
+        
+        KMnQuoteLifeCycleCPLReadOnlyExport  p6 = new KMnQuoteLifeCycleCPLReadOnlyExport();
+        p6.doAction(values);
+        
+        KMnQuoteLifeCycleQuoteExport  p7 = new KMnQuoteLifeCycleQuoteExport();
+        p7.doAction(values);
     }
 }

@@ -43,7 +43,7 @@ public class ToroExportToExcelMultipleSheets {
         	}
         }
         REVVY__MnPriceList__c priceList = [Select Id, Name, REVVY__Start_Date__c, REVVY__End_Date__c From REVVY__MnPriceList__c where REVVY__Segment__c = :priceSegment and (REVVY__Start_Date__c < Today AND REVVY__End_Date__c > Today) limit 1];
-        effectiveStartDate = priceList.REVVY__Start_Date__c.format()+' - Today';
+        effectiveStartDate = Date.today().format();
         priceListName = priceList.Name; 
     	displayMSRPOnly = false;
         generatedDate = System.now().format('MM/dd/yyyy HH:mm');
