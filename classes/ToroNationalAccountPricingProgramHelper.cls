@@ -53,17 +53,14 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 		
 		List<Revvy__MnStrategy4__c> updatedQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for(Revvy__MnStrategy4__c qi : quoteItemWrapperList) {
-			resetQIPercentage(qi);
-			Decimal dsetupFeesQIS = 0;
 			if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' &&  qi.Pricing_Program_Product_Type__c != 'TPP') {
-                qi.Off_MSRP__c =0;
-                qi.Award_of_DN__c =100;
                 qi.Rebate_as_a_of_DN__c=0;
                 qi.Fee_Percentage__c = 0;
-                qi.Part_Percentage__c=0;
-                qi.Award_Price__c = qi.MSRP_Price__c;	
+                qi.Part_Percentage__c=0;	
                 continue;
             }
+            resetQIPercentage(qi);
+			Decimal dsetupFeesQIS = 0;
 			//Performance Part
 			boolean bqiPP = ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItem(performancePartFlag, qi, performancePartMap, priceMethod);
 			System.debug(logginglevel.info,'>>> NAT qi.REVVY__Product_ID_F__c ='+qi.Product_Id__c + ' performancePartFlag='+performancePartFlag + ' Tier=' + qi.Toro_Product_Tier__c);
@@ -109,15 +106,7 @@ public class ToroNationalAccountPricingProgramHelper extends ToroPricingProgram 
 			if(qi.Toro_Quote_Item_Sub_Lines__r!=null && qi.Toro_Quote_Item_Sub_Lines__r.size()>0) {
 				for(Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
 					resetQISLPercentage(qis);
-					if(qis.Exclude_from_Rebate_F__c && qis.Pricing_Program_Product_Type__c != 'Standard' &&  qis.Pricing_Program_Product_Type__c != 'TPP') {
-                        qis.Award_Price__c = qis.MSRP_Price__c;	
-                        qis.Percent_Off_MSRP__c = 0;
-                        qis.Part_Percentage__c =0;
-                        qis.Fee_Percentage__c = 0;
-                        qis.Percent_of_DNet__c=100;
-                        qis.Rebate_as_of_DNet__c=0;
-                        continue;
-                    }
+					
 					//Performance Part
 					ToroPerformancePartPricingProgramHelper.applyPerformancePartForQuoteItemSubLine(performancePartFlag, qis, performancePartMap, priceMethod);
 					System.debug('>>> +++++++++++++++++ NAT 000');

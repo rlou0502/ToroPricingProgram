@@ -30,13 +30,18 @@ trigger PP_QuoteCloningDone on REVVY__MnQuote__c (after update) {
     		system.debug('cloning --- segment =' + qi.Revvy__Segment__c);
     		system.debug('cloning --- currency =' + qi.revvy__currency__c);
     		system.debug('cloning --- prce date =' + qi.REVVY__Price_Date__c);
-    		qi.Revvy__Segment__c = qi.REVVY__OriginalQuote__r.Revvy__Segment__c;
-    		clonedQuotes.add(qi);	
+    		if(qi.Revvy__Segment__c != qi.REVVY__OriginalQuote__r.Revvy__Segment__c) {
+	    		qi.Revvy__Segment__c = qi.REVVY__OriginalQuote__r.Revvy__Segment__c;
+	    		clonedQuotes.add(qi);
+    		}	
     	}
     	try {
-    		update clonedQuotes;
+    		if(clonedQuotes.size() > 0) {
+    			update clonedQuotes;
+    		}
     	} catch (Exception e) {
     		//ignore this exception
+    		system.debug('cloning --- exception =' + e);
     	}
     	List<REVVY__MnStrategy4__c> qItems = [Select Id, external_Id__c, (Select Id, external_Id__c From Toro_Quote_Item_Sub_Lines__r) From REVVY__MnStrategy4__c where Mn_Quote__c in :quoteIds];
         for(REVVY__MnStrategy4__c qi : qItems) {

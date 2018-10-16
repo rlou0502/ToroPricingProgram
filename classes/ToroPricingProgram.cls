@@ -915,7 +915,10 @@ public virtual class ToroPricingProgram {
 			}
 
 			for(REVVY__MnStrategy4__c qi : quoteItemList) {
-
+				if(CMnQuoteUtil.isNonToroProduct(qi)) {
+	                continue;
+	            }
+			
 				if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
 					REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
 					if(copyFromMSRP) {
@@ -1014,7 +1017,10 @@ public virtual class ToroPricingProgram {
 
 			if(usePriceList) {
 				for(REVVY__MnStrategy4__c qi : quoteItemList) {
-	
+					if(CMnQuoteUtil.isNonToroProduct(qi)) {	
+		                continue;
+		            }
+					
 					if(prodPriceListLineMap.containsKey(qi.Product_Id__c)) {
 						REVVY__MnPriceListLine__c ppl = prodPriceListLineMap.get(qi.Product_Id__c);
 						if(copyFromMSRP) {
@@ -1076,24 +1082,26 @@ public virtual class ToroPricingProgram {
 		return 	quoteItemList;
 	}
 	public decimal calcDistributedTractionUnitAwardPrice(Revvy__MnStrategy4__c qi) {	
-		decimal qiExtMSRP = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
-		system.debug(logginglevel.info, 'distributeTotalAwordDollors qi qiExtMSRP  =' + qiExtMSRP);
-		qi.Extended_MSRP_Price__c = qi.MSRP_Price__c * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
-		if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
-			for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
-				if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
-					//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
-					final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
-					qis.Toro_Extended_Qty__c = extQty;
-					decimal qisExtMSRP = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * extQty;
-					system.debug(logginglevel.info, 'distributeTotalAwordDollors qis qisExtMSRP  =' + qisExtMSRP);
-					qiExtMSRP += qisExtMSRP;
-					system.debug(logginglevel.info, 'distributeTotalAwordDollors qi qiExtMSRP  =' + qiExtMSRP);
+		if(!CMnQuoteUtil.isNonToroProduct(qi)) {
+			decimal qiExtMSRP = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
+			system.debug(logginglevel.info, 'distributeTotalAwordDollors qi qiExtMSRP  =' + qiExtMSRP);
+			qi.Extended_MSRP_Price__c = qi.MSRP_Price__c * CMnQuoteUtil.defaultDecimal(qi.Adjusted_Quantity__c);
+			if (qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
+				for (Revvy__MnStrategy5__c qis : qi.Toro_Quote_Item_Sub_Lines__r) {
+					if(!qis.Exclude_from_Rebate_F__c || (qis.Exclude_from_Rebate_F__c && (qis.Pricing_Program_Product_Type__c == 'Standard' ||  qis.Pricing_Program_Product_Type__c == 'TPP') )) {
+						//final Decimal extQty = qi.Quantity__c * qis.Quantity__c;
+						final Decimal extQty = CMnQuoteUtil.defaultDecimal(qis.Adjusted_Quantity__c);
+						qis.Toro_Extended_Qty__c = extQty;
+						decimal qisExtMSRP = CMnQuoteUtil.defaultDecimal(qis.MSRP_Price__c) * extQty;
+						system.debug(logginglevel.info, 'distributeTotalAwordDollors qis qisExtMSRP  =' + qisExtMSRP);
+						qiExtMSRP += qisExtMSRP;
+						system.debug(logginglevel.info, 'distributeTotalAwordDollors qi qiExtMSRP  =' + qiExtMSRP);
+					}	
 				}	
-			}	
-		}
-		if(qiExtMSRP != null && qiExtMSRP != 0 && qi.Adjusted_Quantity__c != null && qi.Adjusted_Quantity__c != 0) {
-			qi.Award_Price__c = qi.Total_Toro_Award__c * (qi.Extended_MSRP_Price__c /qiExtMSRP)/qi.Adjusted_Quantity__c; //.setScale(2,roundingMode.HALF_UP);
+			}
+			if(qiExtMSRP != null && qiExtMSRP != 0 && qi.Adjusted_Quantity__c != null && qi.Adjusted_Quantity__c != 0) {
+				qi.Award_Price__c = qi.Total_Toro_Award__c * (qi.Extended_MSRP_Price__c /qiExtMSRP)/qi.Adjusted_Quantity__c; //.setScale(2,roundingMode.HALF_UP);
+			}
 		}
 		return qi.Award_Price__c;	
 	} 

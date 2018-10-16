@@ -51,6 +51,12 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 		
 		List<Revvy__MnStrategy4__c> updatedQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for (Revvy__MnStrategy4__c qi : quoteItemWrapperList) {
+			if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' &&  qi.Pricing_Program_Product_Type__c != 'TPP') {
+                qi.Rebate_as_a_of_DN__c=0;
+                qi.Fee_Percentage__c = 0;
+                qi.Part_Percentage__c=0;	
+                continue;
+            }
 			resetQIPercentage(qi);
 
 			Decimal dsetupFeesQIS = 0;

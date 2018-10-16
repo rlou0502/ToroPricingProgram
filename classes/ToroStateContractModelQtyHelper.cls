@@ -81,11 +81,9 @@ public virtual class ToroStateContractModelQtyHelper extends ToroStateContractPr
 					qi.Selected_Off_MSRP__c = line.Off_Mfg_Sugg_Ttl__c;
 					system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 					if(!qi.Unit_Award_Overridden__c) {
-						qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;
-						//qi.Original_Award_Price__c = qi.MSRP_Price__c*(1-qi.Selected_Off_MSRP__c/100);
-						if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' &&  qi.Pricing_Program_Product_Type__c != 'TPP') {
-							qi.Award_Price__c = qi.MSRP_Price__c;	
-						}
+						if(!CMnQuoteUtil.isNonToroProduct(qi)) {
+							qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;	
+						} 
 					} else {
 						qi.Award_Price__c = calcDistributedTractionUnitAwardPrice(qi);
 						if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {

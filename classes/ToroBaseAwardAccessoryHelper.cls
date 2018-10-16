@@ -44,10 +44,10 @@ public with sharing class ToroBaseAwardAccessoryHelper  extends ToroStateContrac
 				system.debug('-----------line=' + line);
 				if(line != null) {
 					qi.DrivenByGP__c = drivenByGP;
-					qi.Award_Price__c = line.Award_Price__c;
-					if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' &&  qi.Pricing_Program_Product_Type__c != 'TPP') {
-						qi.Award_Price__c = qi.MSRP_Price__c;	
-					}
+					
+					if(!CMnQuoteUtil.isNonToroProduct(qi)) {
+						qi.Award_Price__c = line.Award_Price__c;	
+					} 
 					if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {
 						qi.Off_MSRP__c = (1-(qi.Award_Price__c/qi.MSRP_Price__c))*100;
 					}

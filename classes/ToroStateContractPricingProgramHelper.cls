@@ -48,7 +48,6 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 		List<Revvy__MnStrategy4__c> primaryPricingProgramQuoteItems = new List<Revvy__MnStrategy4__c>();
 		List<Revvy__MnStrategy4__c> secondaryPricingProgramQuoteItems = new List<Revvy__MnStrategy4__c>();
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
-			
 			system.debug('baseCalculateImplementation qi.pricing_program__c=' + qi.pricing_program__c + ' priceProgram= ' + priceProgram);
 			if(String.isNotBlank(qi.pricing_program__c)) {
 				ToroPricingProgramData ppd2 = new ToroPricingProgramData(qi.pricing_program__c);
@@ -110,10 +109,8 @@ public virtual class ToroStateContractPricingProgramHelper extends ToroPricingPr
 					system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 					
 					if(!qi.Unit_Award_Overridden__c) {
-						qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.msrp_Price__c) * (100-CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c))/100;
-						//qi.Original_Award_Price__c = qi.MSRP_Price__c*(1-qi.Selected_Off_MSRP__c/100);
-						if(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' &&  qi.Pricing_Program_Product_Type__c != 'TPP') {
-							qi.Award_Price__c = qi.MSRP_Price__c;	
+						if(!CMnQuoteUtil.isNonToroProduct(qi)) {
+							qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.msrp_Price__c) * (100-CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c))/100;	
 						}
 					} else {
 						qi.Award_Price__c = calcDistributedTractionUnitAwardPrice(qi);

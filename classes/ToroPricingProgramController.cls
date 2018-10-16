@@ -612,8 +612,12 @@ public class ToroPricingProgramController {
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Unit_Award_Overridden__c = false;
     				qi.Off_MSRP_Overridden__c = false;
-    				if(!qi.Unit_Award_Overridden__c) {
-    					qi.Award_Price__c=0;
+    				if(!CMnQuoteUtil.isNonToroProduct(qi)) {	
+	    				if(!qi.Unit_Award_Overridden__c) {
+	    					qi.Award_Price__c=0;
+	    				}
+	    			} else {
+    					qi.Unit_Award_Overridden__c = true;
     				}
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
@@ -662,8 +666,12 @@ public class ToroPricingProgramController {
     				qi.Award_of_DN__c=null;	    				
     				qi.Rebate_as_a_of_DN__c=0;
     				qi.Unit_Award_Overridden__c = false;
-    				if(!qi.Unit_Award_Overridden__c) {
-    					qi.Award_Price__c=0;
+    				if(!CMnQuoteUtil.isNonToroProduct(qi)) {
+	    				if(!qi.Unit_Award_Overridden__c) {
+	    					qi.Award_Price__c=0;
+	    				}
+    				} else {
+    					qi.Unit_Award_Overridden__c = true;
     				}
     				qi.PricingMethodValue__c=null;
     				qi.Performance_Parts_Product__c = false;
@@ -1079,7 +1087,7 @@ public class ToroPricingProgramController {
 						qis.PricingMethodValue__c = String.valueOf(qis.Award_Price__c);	
 					}
     			}
-    			if(pp.isNonToroProduct(qi)) {
+    			if(CMnQuoteUtil.isNonToroProduct(qi)) {
     				system.debug(logginglevel.info, 'getQuoteItemFields award=' + qi.award_price__c);
     				system.debug(logginglevel.info, 'getQuoteItemFields qi.Total_Toro_Award__c=' + qi.Total_Toro_Award__c);
     				system.debug(logginglevel.info, 'getQuoteItemFields qi.Total_Award__c=' + qi.Total_Award__c);	
