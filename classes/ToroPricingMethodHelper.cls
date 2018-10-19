@@ -67,7 +67,9 @@ public with sharing class ToroPricingMethodHelper {
 				decimal extDNet = 0;
 				decimal extAward = 0;
 				if(!qi.Unit_Award_Overridden__c) {
-					qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) *(1-CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)/100);
+					if(!(qi.Exclude_from_Rebate_F__c && qi.Pricing_Program_Product_Type__c != 'Standard' &&  qi.Pricing_Program_Product_Type__c != 'TPP')) {
+						qi.Award_Price__c = CMnQuoteUtil.defaultDecimal(qi.MSRP_Price__c) *(1-CMnQuoteUtil.defaultDecimal(qi.Off_MSRP__c)/100);
+					}
                 } else {
                     system.debug('qi.Award_Price__c=' + qi.Award_Price__c);
                 	if(qi.MSRP_Price__c != null && qi.MSRP_Price__c != 0) {

@@ -325,7 +325,7 @@ public virtual class ToroPricingProgram {
 
 
 		if(save) {
-			lQuoteItemList = saveQuoteItemList(lQuoteItemList);
+			lQuoteItemList = saveQuoteItemList(quoteId, priceProgram, priceMethod, lQuoteItemList);
 			lQuoteItemList = postSaveQuoteItemList(quoteId, priceProgram, priceMethod, lQuoteItemList);
 			ToroCacheManager.refreshQuote(quote.Id);
 		}
@@ -684,19 +684,45 @@ public virtual class ToroPricingProgram {
 	}
 
 	//Method saveQuoteItemList is a template method called by calculateRebateMargin
-	public virtual List<Revvy__MnStrategy4__c> saveQuoteItemList(List<Revvy__MnStrategy4__c> quoteItemList ){
+	public virtual List<Revvy__MnStrategy4__c> saveQuoteItemList(Id quoteId, String priceProgram,
+															String priceMethod, List<Revvy__MnStrategy4__c> quoteItemList ){
 
 		system.debug(logginglevel.info,'inside base saveQuoteItemList');
 		//saveToroQuoteItemList(quoteItemList);
 
 		List<Revvy__MnStrategy4__c> updateQuoteItems = new List<Revvy__MnStrategy4__c>();
 		List<Revvy__MnStrategy5__c> updateQuoteItemSublines = new List<Revvy__MnStrategy5__c>();
-
+		List<Id> revvyQuoteItemIds = new List<Id>();
+		List<Id> revvyQuoteItemSublineIds = new List<Id>();
+		List<decimal> qiPricingMethodValue = new List<decimal>();
+		List<decimal> qisPricingMethodValue = new List<decimal>();
+		List<String> pricingProgram = new List<String>();
 		for(Revvy__MnStrategy4__c qi : quoteItemList) {
 			updateQuoteItems.add(qi);
+			revvyQuoteItemIds.add(qi.QuoteItem__c);
+			pricingProgram.add(qi.Pricing_Program__c);
+			if ('Total Award $'.equalsIgnoreCase(priceMethod)){
+				qiPricingMethodValue.add(qi.Total_Toro_Award__c);			
+			} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+				qiPricingMethodValue.add(qi.Toro_Gross_Profit_Percent__c);
+			} else if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+				qiPricingMethodValue.add(qi.Award_of_DN__c);
+			} else  {
+				qiPricingMethodValue.add(qi.Off_MSRP__c);
+			}
 			if(qi.Toro_Quote_Item_Sub_Lines__r != null && qi.Toro_Quote_Item_Sub_Lines__r.size() > 0) {
 				for(Revvy__MnStrategy5__c qiSubline : qi.Toro_Quote_Item_Sub_Lines__r) {
+					revvyQuoteItemSublineIds.add(qiSubline.Quote_Item_Sub_Line__c);
 					updateQuoteItemSublines.add(qiSubline);
+					if ('Total Award $'.equalsIgnoreCase(priceMethod)){
+						qisPricingMethodValue.add(qiSubline.Award_Price__c);			
+					} else if ('Gross Profit %'.equalsIgnoreCase(pricingMethod)) {
+						qisPricingMethodValue.add(qiSubline.Gross_Profit_Percent__c);
+					} else if('% of DNET'.equalsIgnoreCase(pricingMethod)) {
+						qisPricingMethodValue.add(qiSubline.Percent_of_DNet__c);
+					} else  {
+						qisPricingMethodValue.add(qiSubline.Percent_Off_MSRP__c);
+					}
 				}
 			}
 		}
@@ -709,10 +735,32 @@ public virtual class ToroPricingProgram {
 			update updateQuoteItemSublines;
 		}
 		update quote;
-
+		updatePriceMethodValues(priceMethod, revvyQuoteItemIds, qiPricingMethodValue, pricingProgram, revvyQuoteItemSublineIds, qisPricingMethodValue);
 		return quoteItemList;
 	}
-
+	@future
+	public static void updatePriceMethodValues(String priceMethod, List<Id> qiList, List<decimal> qiPriceMethodValues, List<String> pricingPrograms, List<Id> sublineList, List<decimal> qisPriceMethodValues) {
+		List<Revvy__MnQuoteItem__c> quoteItemList = new List<Revvy__MnQuoteItem__c>();
+		List<Revvy__MnQuoteItemSubline__c> quoteItemSublineList = new List<Revvy__MnQuoteItemSubline__c>();
+		for(Integer index = 0; index < qiList.size(); index++) {
+			Revvy__MnQuoteItem__c qi = new Revvy__MnQuoteItem__c(Id = qiList[index], pricing_program__c=pricingPrograms[index]);
+			qi.pricing_method_value__c = qiPriceMethodValues[index];
+			quoteItemList.add(qi);
+		}
+		
+		for(Integer index = 0; index < sublineList.size(); index++) {
+			Revvy__MnQuoteItemSubline__c qis = new Revvy__MnQuoteItemSubline__c(Id = sublineList[index]);
+			qis.pricing_method_value__c = qisPriceMethodValues[index];
+			quoteItemSublineList.add(qis);	
+		}
+		if(quoteItemList.size() > 0) {
+			update quoteItemList;	
+		}
+		if(quoteItemSublineList.size() > 0) {
+			update quoteItemSublineList;	
+		}
+		return;
+	}
 	public ToroPricingProgram() {
 		performancePartFlag = false;
 		quoteFieldMap = Schema.SObjectType.Revvy__MnQuote__c.fields.getMap();
@@ -738,8 +786,8 @@ public virtual class ToroPricingProgram {
 	}
 
 	public virtual void initializeQuoteItems(Id quoteId) {
-		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('Product__r.Support_Plus_TU__c,Original_MSRP_Price__c,Pricing_Program_Product_Type__c,Support_Plus_From_Add_New_F__c,Has_Support_Plus__c,PricingMethodValue__c,Pricing_Program_Overridden__c, DrivenByGP__c,Adjusted_Quantity__c, OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
-		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Quote_Item_Sub_Line__r.TPP_DNet__c,Original_MSRP_Price__c,Pricing_Program_Product_Type__c,Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate_F__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c,  Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
+		String quoteLineQuery = 'Select ' + getToroQuoteItemFieldAPINamesQuery('QuoteItem__c, Product__r.Support_Plus_TU__c,Original_MSRP_Price__c,Pricing_Program_Product_Type__c,Support_Plus_From_Add_New_F__c,Has_Support_Plus__c,PricingMethodValue__c,Pricing_Program_Overridden__c, DrivenByGP__c,Adjusted_Quantity__c, OnlyExistedInCPL__c,Original_Award_Price__c,Off_MSRP_Overridden__c, Product__r.Toro_Product_Type__c,Traction_Unit__c, Off_MSRP__c,Award_Price__c,Rebate_as_a_of_DN__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, MSRP_Price__c, Original_off_MSRP__c, Oroginal_of_DNet__c,Unit_Award_Overridden__c, QuoteItem__r.REVVY__Catalog_Node__r.revvy__id__c, QuoteItem__r.REVVY__Catalog_Node__r.name, Product__r.Hierarchy_Code__c,QuoteItem__r.REVVY__SuggestedPrice__c , DNet_Price__c,QuoteItem__r.REVVY__Price__c,Off_MSRP__c, Selected_Off_MSRP__c, Pricing_Program__c, Select_a_Price_Method__c, Award_of_DN__c, Standard_Price__c');
+		quoteLineQuery += ', (Select ' + getToroQuoteItemSublineFieldAPINamesQuery('Quote_Item_Sub_Line__c, Quote_Item_Sub_Line__r.TPP_DNet__c,Original_MSRP_Price__c,Pricing_Program_Product_Type__c,Adjusted_Quantity__c, Original_off_MSRP__c,OnlyExistedInCPL__c, PricingMethodValue__c, Award_Price__c, Rebate_as_of_DNet__c,Fee_Percentage__c,Part_Percentage__c,Toro_Product_Tier__c, Exclude_from_Rebate_F__c,Unit_Award_Overridden__c, Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.revvy__id__c,DNet_Price_2__c, DNet_Price__c ,Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name, Standard_Price__c, Quote_Item_Sub_Line__r.REVVY__Price__c, Quote_Item_Sub_Line__r.REVVY__SuggestedPrice__c,  Percent_Off_MSRP__c, Percent_of_DNet__c,Quantity__c');
 		quoteLineQuery += ' from Toro_Quote_Item_Sub_Lines__r order by Quote_Item_Sub_Line__r.REVVY__Catalog_Node__r.Name) from  Revvy__MnStrategy4__c where Mn_Quote__c = :quoteId Order by createdDate asc';
 		System.debug('88888888888888888888=' + quoteLineQuery);
 		quoteItems = Database.query(quoteLineQuery);
@@ -752,7 +800,7 @@ public virtual class ToroPricingProgram {
 	public virtual boolean getQuoteLevelMSQPDNetEditable() {
 		return true;
 	}
-
+	
 	public virtual boolean isNonToroProduct(Revvy__MnStrategy4__c qi) {
 		boolean ret = false;
 		String productId = qi.Product_Id__c;

@@ -70,9 +70,8 @@ public with sharing class ToroContractQuantityPPHelper extends ToroStateContract
 				qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);
 				system.debug(logginglevel.info,'basePrice =' + qi.msrp_Price__c + ' qi.Off_MSRP__c=' + qi.Off_MSRP__c);
 				if(!qi.Unit_Award_Overridden__c) {
-					qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;
-					if(qi.Exclude_from_Rebate_F__c) {
-						qi.Award_Price__c = qi.MSRP_Price__c;	
+					if(!CMnQuoteUtil.isNonToroProduct(qi)) {
+						qi.Award_Price__c = qi.msrp_Price__c * (100-qi.Off_MSRP__c)/100;	
 					}
 				} else {
 					qi.Award_Price__c = calcDistributedTractionUnitAwardPrice(qi);

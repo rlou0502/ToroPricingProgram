@@ -257,8 +257,9 @@ public with sharing class ToroKemperSportsPricingProgramHelper extends ToroPrici
 		if (rb.Part_Percentage__c !=null && rb.Part_Percentage__c >0) {
 			qi.Off_MSRP__c = CMnQuoteUtil.defaultDecimal(rb.Part_Percentage__c);
 		}
-
-		qi.Award_Price__c        = qi.MSRP_Price__c * (1-qi.Off_MSRP__c/100);
+		if(!CMnQuoteUtil.isNonToroProduct(qi)) {
+			qi.Award_Price__c        = qi.MSRP_Price__c * (1-qi.Off_MSRP__c/100);
+		}
 		qi.PricingMethodValue__c = String.valueOf(qi.Off_MSRP__c);
 	}
 
